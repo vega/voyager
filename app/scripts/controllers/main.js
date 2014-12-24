@@ -1,17 +1,6 @@
 'use strict';
 
-/**
- * @ngdoc function
- * @name uiApp.controller:MainCtrl
- * @description
- * # MainCtrl
- * Controller of the uiApp
- */
-angular.module('uiApp')
+angular.module('vegaliteEditor')
   .controller('MainCtrl', function ($scope) {
-    $scope.awesomeThings = [
-      'HTML5 Boilerplate',
-      'AngularJS',
-      'Karma'
-    ];
+    $scope.foos = ['Item 1', 'Item 2', 'Item 3'];
   });
