@@ -1,7 +1,7 @@
 'use strict';
 
 angular
-  .module('vle', [
+  .module('vleApp', [
     'ngAnimate',
     'ngCookies',
     'ngSanitize',

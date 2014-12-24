@@ -14,14 +14,30 @@
     <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
   </head>
-  <body ng-app="vle">
+  <body ng-app="vleApp">
     <!-- Add your site or application content here -->
     <div class="container-fluid">
       <div class="header">
         <h3 class="text-muted">Vegalite Editor</h3>
       </div>
 
-      <div ng-include="'views/main.html'" ng-controller="MainCtrl"></div>
+      <div ng-controller="DatasetsCtrl">
+        <form>
+          <div class="form-group">
+            <label for="datasetSelect">Dataset</label>
+            <select id="datasetSelect" ng-model="myDataset" ng-options="dataset.name for dataset in datasets"></select>
+          </div>
+
+          <div class="form-group">
+            <label for="serverCheckbox">Use Server</label>
+            <input id="serverCheckbox" type="checkbox" ng-model="useServer">
+          </div>
+        </form>
+
+        <p ng-show="myDataset">Selected item: {{ myDataset.name }}</p>
+
+        <p>{{ useServer }}</p>
+      </div>
     </div>
 
     <!-- build:js(.) scripts/oldieshim.js -->
@@ -56,7 +72,9 @@
 
         <!-- build:js({.tmp,app}) scripts/scripts.js -->
         <script src="scripts/app.js"></script>
-        <script src="scripts/controllers/main.js"></script>
+        <script src="scripts/controllers/datasets.js"></script>
+        <script src="scripts/services/schema.js"></script>
+        <script src="scripts/services/config.js"></script>
         <!-- endbuild -->
 </body>
 </html>
