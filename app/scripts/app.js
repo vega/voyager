@@ -1,7 +1,7 @@
 'use strict';
 
 angular
-  .module('vegaliteEditor', [
+  .module('vle', [
     'ngAnimate',
     'ngCookies',
     'ngSanitize',
