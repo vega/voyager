@@ -2,7 +2,7 @@
 
 // config service
 angular.module('vleApp')
-  .service('config', function () {
+  .service('configService', function () {
     this.conf = {
       useVegaServer: false
     }

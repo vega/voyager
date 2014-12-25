@@ -1,13 +1,13 @@
 'use strict';
 
-// shcmea service
+// schema service
 angular.module('vleApp')
-  .service('schema', ['config', function(config) {
+  .service('schemaService', ['configService', function(config) {
     this.getSchema = function(dataset) {
       if (config.useVegaServer) {
-        return "server";
+        return [];
       } else {
-        return "client";
+        return [];
       }
     }
   }]);

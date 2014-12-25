@@ -21,7 +21,7 @@
         <h3 class="text-muted">Vegalite Editor</h3>
       </div>
 
-      <div ng-controller="DatasetsCtrl">
+      <div ng-controller="DatasetsCtrl" class="col-md-3">
         <form>
           <div class="form-group">
             <label for="datasetSelect">Dataset</label>
@@ -37,7 +37,17 @@
         <p ng-show="myDataset">Selected item: {{ myDataset.name }}</p>
 
         <p>{{ useServer }}</p>
+
+        <div ng-controller="SchemaCtrl">
+          <h3>Schema</h3>
+          {{ schema }}
+        </div>
       </div>
+
+      <div class="col-md-3">
+        <h3>Mapping</h3>
+      </div>
+
     </div>
 
     <!-- build:js(.) scripts/oldieshim.js -->
@@ -75,6 +85,7 @@
         <script src="scripts/controllers/datasets.js"></script>
         <script src="scripts/services/schema.js"></script>
         <script src="scripts/services/config.js"></script>
+        <script src="scripts/controllers/schema.js"></script>
         <!-- endbuild -->
 </body>
 </html>

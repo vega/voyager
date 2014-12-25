@@ -42,10 +42,10 @@ var datasets = [
 }
 ];
 
-angular.module('vleApp').controller('DatasetsCtrl', function ($scope, config) {
+angular.module('vleApp').controller('DatasetsCtrl', function ($scope, configService) {
   $scope.datasets = datasets;
 
   $scope.myDataset = $scope.datasets[0];
 
-  $scope.useServer = config.conf.useVegaServer;
+  $scope.useServer = configService.conf.useVegaServer;
 });
