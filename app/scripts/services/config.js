@@ -1,9 +1,9 @@
 'use strict';
 
-// config service
 angular.module('vleApp')
-  .service('configService', function () {
-    this.conf = {
-      useVegaServer: false
-    }
+  .factory('Config', function () {
+  	var useVegaServer = false;
+    return {
+      useVegaServer: useVegaServer
+    };
   });

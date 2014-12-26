@@ -1,13 +1,13 @@
 'use strict';
 
-describe('Service: configService', function () {
+describe('Service: Config', function () {
 
   // load the service's module
   beforeEach(module('vleApp'));
 
   // instantiate service
   var config;
-  beforeEach(inject(function (_configService_) {
+  beforeEach(inject(function (_Config_) {
     config = _configService_;
   }));
 
