@@ -16,7 +16,11 @@ describe('Controller: DatasetsCtrl', function () {
     });
   }));
 
-  it('should attach a list of awesomeThings to the scope', function () {
+  it('should attach my dataset', function () {
+    expect(!!scope.myDataset).toBe(true);
+  });
+
+  it('should attach datasets', function () {
     expect(scope.datasets.length).toBe(10);
   });
 });

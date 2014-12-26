@@ -16,7 +16,7 @@ describe('Controller: ConfigCtrl', function () {
     });
   }));
 
-  it('should attach a list of awesomeThings to the scope', function () {
-    expect(scope.awesomeThings.length).toBe(3);
+  it('should attach useServer', function () {
+    expect(!!scope.useServer).toBe(true);
   });
 });

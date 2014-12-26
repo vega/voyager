@@ -8,11 +8,15 @@ describe('Service: Config', function () {
   // instantiate service
   var config;
   beforeEach(inject(function (_Config_) {
-    config = _configService_;
+    config = _Config_;
   }));
 
   it('should do something', function () {
     expect(!!config).toBe(true);
+  });
+
+  it('should have useServer property', function () {
+    expect(!!config.useServer).toBe(true);
   });
 
 });

@@ -16,7 +16,7 @@ describe('Controller: SchemaCtrl', function () {
     });
   }));
 
-  it('initial schema should be empty', function () {
-    expect(scope.schema.length).toBe(0);
+  it('should attach dataset', function () {
+    expect(!!scope.Dataset).toBe(true);
   });
 });
