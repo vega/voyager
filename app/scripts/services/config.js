@@ -2,8 +2,8 @@
 
 angular.module('vleApp')
   .factory('Config', function () {
-  	var useVegaServer = false;
-    return {
-      useVegaServer: useVegaServer
-    };
+  	var service = {}
+  	service.useServer = true;
+
+    return service;
   });

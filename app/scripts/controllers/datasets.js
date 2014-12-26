@@ -2,8 +2,10 @@
 
 angular.module('vleApp')
   .controller('DatasetsCtrl', function ($scope, Config, Dataset) {
-    $scope.datasets = Dataset.getDatasets();
-    $scope.myDataset = Dataset.getMyDataset();
+    $scope.datasets = Dataset.datasets;
+    $scope.myDataset = Dataset.dataset;
 
-    $scope.useServer = Config.useVegaServer;
+    $scope.$watch('myDataset', function (newVal, oldVal) {
+      Dataset.update(newVal);
+    });
 });

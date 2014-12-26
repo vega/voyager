@@ -21,26 +21,28 @@
         <h3 class="text-muted">Vegalite Editor</h3>
       </div>
 
-      <div ng-controller="DatasetsCtrl" class="col-md-3">
-        <form>
+      <div class="col-md-3">
+        <form ng-controller="DatasetsCtrl">
           <div class="form-group">
             <label for="datasetSelect">Dataset</label>
             <select id="datasetSelect" ng-model="myDataset" ng-options="dataset.name for dataset in datasets"></select>
           </div>
 
-          <div class="form-group">
-            <label for="serverCheckbox">Use Server</label>
-            <input id="serverCheckbox" type="checkbox" ng-model="useServer">
-          </div>
+          <p ng-show="myDataset">Selected item: {{ myDataset.name }}</p>
         </form>
 
-        <p ng-show="myDataset">Selected item: {{ myDataset.name }}</p>
+        <form ng-controller="ConfigCtrl">
+          <div class="form-group">
+            <label for="serverCheckbox">Use Server</label>
+            <input id="serverCheckbox" type="checkbox" ng-model="Config.useServer">
+          </div>
 
-        <p>{{ useServer }}</p>
+          <p>{{ Config.useServer }}</p>
+        </form>
 
         <div ng-controller="SchemaCtrl">
           <h3>Schema</h3>
-          {{ schema }}
+          {{ Dataset.schema }}
         </div>
       </div>
 
@@ -86,6 +88,7 @@
         <script src="scripts/controllers/schema.js"></script>
         <script src="scripts/services/config.js"></script>
         <script src="scripts/services/dataset.js"></script>
+        <script src="scripts/controllers/config.js"></script>
         <!-- endbuild -->
 </body>
 </html>

@@ -43,24 +43,26 @@ var datasets = [
 ];
 
 angular.module('vleApp')
-  .factory('Dataset', function ($rootScope) {
-    var myDataset = datasets[0];
-    var mySchema = [myDataset];
+  .factory('Dataset', function ($rootScope, Config) {
+  	var service = {};
 
-    // Public API here
-    return {
-      getMyDataset: function () {
-        return myDataset;
-      },
-      setMyDataset: function(newDataset) {
-      	myDataset = newDataset;
-      	mySchema = [myDataset];
-      },
-      getDatasets: function() {
-      	return datasets;
-      },
-      getSchema: function() {
-      	return mySchema;
-      }
-    };
+    service.datasets = datasets;
+    service.dataset = datasets[0];
+    service.schema = null;
+
+    var getSchema = function(dataset) {
+  		if (Config.useServer) {
+  			return ["server", dataset];
+  		} else {
+  			return ["client", dataset];
+  		}
+  	}
+
+    service.update = function(newDataset) {
+    	console.log('new dataset', newDataset)
+    	service.dataset = newDataset;
+    	service.schema = getSchema(service.dataset);
+    }
+
+    return service;
   });
