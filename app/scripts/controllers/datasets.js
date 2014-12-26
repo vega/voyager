@@ -7,16 +7,7 @@ angular.module('vleApp')
 
     $scope.useServer = Config.useVegaServer;
 
-    var myDataset = $scope.$watchAsProperty('myDataset');
+  $scope.myDataset = $scope.datasets[0];
 
-    myDataset
-      .changes()
-      .onValue(function(v) {
-        console.log(v);
-      })
-
-    myDataset
-      .changes()
-      .toProperty()
-      .digest($scope, 'schema');
-  });
+  $scope.useServer = configService.conf.useVegaServer;
+});
