@@ -5,6 +5,5 @@ angular
     'ngAnimate',
     'ngCookies',
     'ngSanitize',
-    'ngTouch',
-    'angular-bacon'
+    'ngTouch'
   ]);

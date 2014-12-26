@@ -6,8 +6,4 @@ angular.module('vleApp')
     $scope.myDataset = Dataset.getMyDataset();
 
     $scope.useServer = Config.useVegaServer;
-
-  $scope.myDataset = $scope.datasets[0];
-
-  $scope.useServer = configService.conf.useVegaServer;
 });
