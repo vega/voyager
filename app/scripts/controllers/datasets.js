@@ -5,7 +5,9 @@ angular.module('vleApp')
     $scope.datasets = Dataset.datasets;
     $scope.myDataset = Dataset.dataset;
 
-    $scope.$watch('myDataset', function (newVal, oldVal) {
+    $scope.Dataset = Dataset;
+
+    $scope.$watch('myDataset', function(newVal, oldVal) {
       Dataset.update(newVal);
     });
 });

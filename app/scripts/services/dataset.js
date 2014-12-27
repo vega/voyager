@@ -46,7 +46,7 @@ angular.module('vleApp')
 
     service.datasets = datasets;
     service.dataset = datasets[0];
-    service.schema = [];
+    service.schema = null;
 
     var getSchema = function(dataset) {
   		if (Config.useServer) {
