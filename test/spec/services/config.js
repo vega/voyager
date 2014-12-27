@@ -11,12 +11,8 @@ describe('Service: Config', function () {
     config = _Config_;
   }));
 
-  it('should do something', function () {
-    expect(!!config).toBe(true);
-  });
-
   it('should have useServer property', function () {
-    expect(!!config.useServer).toBe(true);
+    expect(config.useServer).toBeDefined();
   });
 
 });

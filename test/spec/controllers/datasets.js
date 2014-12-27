@@ -21,10 +21,10 @@ describe('Controller: DatasetsCtrl', function () {
   });
 
   it('should attach datasets', function () {
-    expect(scope.datasets.length).toBe(10);
+    expect(scope.datasets.length).toBe(9);
   });
 
-  it('should attach schema', function () {
-    expect(!!scope.schma).toBe(true);
+  it('should attach dataset service', function () {
+    expect(!!scope.Dataset).toBe(true);
   });
 });

@@ -11,12 +11,8 @@ describe('Service: Dataset', function () {
     dataset = _Dataset_;
   }));
 
-  it('should do something', function () {
-    expect(!!dataset).toBe(true);
-  });
-
   it('datasets should be there', function () {
-    expect(!!dataset.datasets).toBe(true);
-    expect(dataset.datasets.length).toBe(10);
+    expect(dataset.datasets).toBeDefined();
+    expect(dataset.datasets.length).toBe(9);
   });
 });

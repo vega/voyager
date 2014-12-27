@@ -24,13 +24,14 @@ module.exports = function(config) {
       'bower_components/angular-cookies/angular-cookies.js',
       'bower_components/angular-sanitize/angular-sanitize.js',
       'bower_components/angular-touch/angular-touch.js',
+      'bower_components/d3/d3.js',
       'app/scripts/**/*.js',
       'test/mock/**/*.js',
       'test/spec/**/*.js'
     ],
 
     // list of files / patterns to exclude
-    exclude: [],
+    exclude: ['app/scripts/vendor/bin.js'],
 
     // web server port
     port: 8080,
@@ -44,8 +45,8 @@ module.exports = function(config) {
     // - PhantomJS
     // - IE (only Windows)
     browsers: [
-      'PhantomJS',
-      'Chrome'
+      'PhantomJS'
+      //, 'Chrome'
     ],
 
     // Which plugins to enable
