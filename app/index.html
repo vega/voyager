@@ -34,15 +34,17 @@
         <form ng-controller="ConfigCtrl">
           <div class="form-group">
             <label for="serverCheckbox">Use Server</label>
-            <input id="serverCheckbox" type="checkbox" ng-model="useServer">
+            <input id="serverCheckbox" type="checkbox" ng-model="Config.useServer">
           </div>
 
-          <p>{{ useServer }}</p>
+          <p>{{ Config }}</p>
         </form>
 
         <div ng-controller="SchemaCtrl">
           <h3>Schema</h3>
-          {{ Dataset.schema }}
+          <ul>
+            <li ng-repeat="(name, field) in Dataset.schema">{{ name }} {{field.type}}</li>
+          </ul>
         </div>
       </div>
 
@@ -81,6 +83,8 @@
     <script src="bower_components/angular-touch/angular-touch.js"></script>
     <script src="bower_components/d3/d3.js"></script>
     <script src="bower_components/topojson/topojson.js"></script>
+    <script src="bower_components/papaparse/papaparse.js"></script>
+    <script src="bower_components/lodash/dist/lodash.compat.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 

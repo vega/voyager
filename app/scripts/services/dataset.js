@@ -2,8 +2,6 @@
 
 var datasets = [
 {
-  name: "-"
-},{
   name: "Barley",
   url: "data/barley.json",
   table: "barley_json"
@@ -14,7 +12,7 @@ var datasets = [
 },{
   name: "Crimea",
   url: "data/crimea.json",
-  table: "crimea"
+  table: "crimea_json"
 },{
   name: "Driving",
   url: "data/driving.json",
@@ -43,25 +41,42 @@ var datasets = [
 ];
 
 angular.module('vleApp')
-  .factory('Dataset', function ($rootScope, Config) {
+  .factory('Dataset', function ($http, Config) {
   	var service = {};
 
     service.datasets = datasets;
     service.dataset = datasets[0];
-    service.schema = null;
+    service.schema = [];
 
     var getSchema = function(dataset) {
   		if (Config.useServer) {
-  			return ["server", dataset];
+  			var url = Config.serverUrl + "/stats/?name=" + dataset.table;
+  			return $http.get(url, {cache: true}).then(function(response) {
+  				var parsed = Papa.parse(response.data, {header: true});
+  				var stats = {}
+  				_.each(_.filter(parsed.data, function(d) {return d.name}), function(row) {
+		        var stat = {};
+		        stat.min = +row.min;
+		        stat.max = +row.max;
+		        stat.cardinality = +row.cardinality;
+		        stat.type = row.type === "integer" || row.type === "real" ? vl.dataTypes.Q : vl.dataTypes.O;
+		        stats[row.name] = stat;
+		      });
+		      return stats;
+  			});
   		} else {
-  			return ["client", dataset];
+  			return $http.get(dataset.url, {cache: true}).then(function(response) {
+  				return vl.getStats(response.data);
+  			});
   		}
   	}
 
     service.update = function(newDataset) {
-    	console.log('new dataset', newDataset)
     	service.dataset = newDataset;
-    	service.schema = getSchema(service.dataset);
+    	getSchema(service.dataset).then(function(schema) {
+    		console.log(schema)
+    		service.schema = schema;
+    	});
     }
 
     return service;

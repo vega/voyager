@@ -16,7 +16,7 @@ describe('Controller: ConfigCtrl', function () {
     });
   }));
 
-  it('should attach useServer', function () {
-    expect(!!scope.useServer).toBe(true);
+  it('should attach config', function () {
+    expect(!!scope.Config).toBe(true);
   });
 });
