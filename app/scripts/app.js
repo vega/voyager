@@ -5,5 +5,6 @@ angular
     'ngAnimate',
     'ngCookies',
     'ngSanitize',
-    'ngTouch'
+    'ngTouch',
+    'mm.foundation'
   ]);

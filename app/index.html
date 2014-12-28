@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <title></title>
     <meta name="description" content="">
-    <meta name="viewport" content="width=device-width">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <!-- build:css(.) styles/vendor.css -->
     <!-- bower:css -->
@@ -15,71 +15,83 @@
     <!-- endbuild -->
   </head>
   <body ng-app="vleApp">
-    <!-- Add your site or application content here -->
-    <div class="container-fluid">
-      <div class="header">
-        <h3 class="text-muted">Vegalite Editor</h3>
-      </div>
+    <nav class="top-bar" data-topbar>
+      <ul class="title-area">
+        <li class="name">
+          <h1>
+            Vegalite Editor
+          </h1>
+        </li>
+      </ul>
+    </nav>
 
-      <div class="col-md-3" ng-controller="DatasetsCtrl">
-        <form class="form-inline">
-          <div class="form-group">
-            <label for="datasetSelect">Dataset</label>
-            <select id="datasetSelect" class="form-control" ng-model="myDataset" ng-options="dataset.name for dataset in datasets"></select>
-          </div>
+    <div class="row full-width">
+      <div class="small-3 columns">
+        <form ng-controller="DatasetsCtrl">
+          <label for="datasetSelect">Dataset
+            <select ng-model="myDataset" ng-options="dataset.name for dataset in datasets"></select>
+          </label>
         </form>
 
-        <form class="form-inline" ng-controller="ConfigCtrl">
-          <div class="form-group">
-            <label>
-              <input class="form-control" type="checkbox" ng-model="Config.useServer"> use server
-            </label>
-          </div>
+        <form ng-controller="ConfigCtrl">
+          <label>
+            <input class="form-control" type="checkbox" ng-model="Config.useServer"> use server
+          </label>
 
           <p>{{ Config }}</p>
         </form>
 
-        <div>
-          <h3>Schema</h3>
-          <ul>
+        <h3>Schema</h3>
+        <div class="panel">
+          <ul class="no-bullet" ng-controller="DatasetsCtrl">
             <li ng-repeat="(name, field) in Dataset.schema">{{ name }} {{field.type}}</li>
           </ul>
         </div>
       </div>
 
-      <div class="col-md-3" ng-controller="EncodingCtrl">
+      <div class="small-3 columns" ng-controller="EncodingCtrl">
         <h3>Mapping</h3>
+
         <div ng-repeat="mapping in encoding">
           <h4>{{mapping.name}}</h4>
           <div>drop here</div>
 
-          <form class="form-inline">
-            <div class="form-group">
-              <label class="radio-inline" ng-repeat="(type, _) in mapping.config">
-                <input type="radio" name="typeRadio" ng-model="mapping.type" value="{{type}}">
-                {{ type }}
-              </label>
-            </div>
+          <form>
+            <label>Choose Type</label>
+            <span ng-repeat="(type, _) in mapping.config" ng-init="id = type + $index">
+              <input id="{{id}}" type="radio" name="typeRadio" ng-model="mapping.type" value="{{type}}">
+              <label for="{{ id }}">{{ type }}</label>
+            </span>
           </form>
 
-          <div ng-repeat="(group, configs) in mapping.config[mapping.type]">
-            <h5>{{ group }}</h5>
-            <form class="form-horizontal">
-              <div class="form-group form-group-sm" ng-repeat="config in configs" ng-init="id = mapping.name + type + group + $index">
-                <label class="col-sm-2 control-label" for="{{ id }}">{{ config.name }}</label>
-                <div class="col-sm-10" ng-switch="config.type">
-                  <input id="{{ id }}" class="form-control" type="checkbox" ng-switch-when="bool" ng-model="config.value"></input>
-                  <select id="{{ id }}" class="form-control" ng-model="myDataset" ng-switch-when="choice" ng-options="choice for choice in config.choices track by choice" ng-model="config.value"></select>
-                  <input id="{{ id }}" class="form-control" type="number" ng-switch-when="integer" ng-model="config.value"></input>
-                  <input id="{{ id }}" class="form-control" type="text" ng-switch-when="string" ng-model="config.value"></input>
+          <form>
+            <fieldset ng-repeat="(group, configs) in mapping.config[mapping.type]">
+              <legend>{{ group }}</legend>
+              <div class="row" ng-repeat="config in configs" ng-init="id = mapping.name + type + group + $index">
+                <div class="small-3 columns" ng-hide="config.type === 'bool'">
+                  <label class="right inline" for="{{ id }}">{{ config.name }}</label>
+                </div>
+                <div class="small-9 columns" ng-switch="config.type">
+                  <span ng-switch-when="bool">
+                    <input id="{{ id }}" type="checkbox" ng-model="config.value"></input>
+                    <label for="{{ id }}">{{ config.name }}</label>
+                  </span>
+                  <select id="{{ id }}" ng-model="myDataset" ng-switch-when="choice" ng-options="choice for choice in config.choices track by choice" ng-model="config.value"></select>
+                  <input id="{{ id }}" type="number" ng-switch-when="integer" ng-model="config.value"></input>
+                  <input id="{{ id }}" type="text" ng-switch-when="string" ng-model="config.value"></input>
                 </div>
               </div>
-            </form>
-          </div>
+            </fieldset>
+          </form>
+
         </div>
       </div>
 
-    </div>
+      <div class="small-6 columns">
+        image
+      </div>
+
+    </div>  <!-- end full width -->
 
     <!-- build:js(.) scripts/oldieshim.js -->
     <!--[if lt IE 9]>
@@ -90,20 +102,7 @@
 
     <!-- build:js(.) scripts/vendor.js -->
     <!-- bower:js -->
-    <script src="bower_components/jquery/dist/jquery.js"></script>
     <script src="bower_components/angular/angular.js"></script>
-    <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/affix.js"></script>
-    <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/alert.js"></script>
-    <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/button.js"></script>
-    <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/carousel.js"></script>
-    <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/collapse.js"></script>
-    <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/dropdown.js"></script>
-    <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/tab.js"></script>
-    <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/transition.js"></script>
-    <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/scrollspy.js"></script>
-    <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/modal.js"></script>
-    <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/tooltip.js"></script>
-    <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/popover.js"></script>
     <script src="bower_components/angular-animate/angular-animate.js"></script>
     <script src="bower_components/angular-cookies/angular-cookies.js"></script>
     <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
@@ -112,6 +111,7 @@
     <script src="bower_components/topojson/topojson.js"></script>
     <script src="bower_components/papaparse/papaparse.js"></script>
     <script src="bower_components/lodash/dist/lodash.compat.js"></script>
+    <script src="bower_components/angular-foundation/mm-foundation-tpls.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
