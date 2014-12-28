@@ -2,6 +2,7 @@
   "name": "vle",
   "version": "0.0.0",
   "dependencies": {},
+  "repository": "git@github.com:uwdata/vegalite-ui.git",
   "devDependencies": {
     "grunt": "^0.4.1",
     "grunt-autoprefixer": "^0.7.3",
