@@ -3,39 +3,45 @@
 var includeZero = {
 	name: 'zero',
 	default: false,
-	type: 'bool'
+	type: 'bool',
+	property: 'scale'
 }
 
 var reverse = {
 	name: 'reverse',
 	default: false,
-	type: 'bool'
+	type: 'bool',
+	property: 'scale'
 }
 
-var scale = {
+var scaleType = {
 	name: 'scale',
 	default: 'linear',
 	type: 'choice',
-	choices: ['linear', 'logarithmic']
+	choices: ['linear', 'logarithmic', 'power', 'quantile'],
+	property: 'scale'
 }
 
 var weight = {
-	name: 'fontWeight',
+	name: 'weight',
 	default: 'normal',
 	type: 'choice',
-	choices: ['normal', 'bold']
+	choices: ['normal', 'bold'],
+	property: 'text'
 }
 
 var size = {
-	name: 'fontSize',
+	name: 'size',
 	default: 10,
-	type: 'integer'
+	type: 'integer',
+	property: 'font'
 }
 
 var font = {
-	name: 'font',
+	name: 'name',
 	default: 'Halvetica Neue',
-	type: 'string'
+	type: 'string',
+	property: 'font'
 }
 
 var marks = [
@@ -44,20 +50,20 @@ var marks = [
 		config: {
 			Q: [includeZero,
 				reverse,
-				scale],
+				scaleType],
 			O: [reverse],
 			T: [reverse,
-				scale]
+				scaleType]
 		}
 	},{
 		name: 'y',
 		config: {
 			Q: [includeZero,
 				reverse,
-				scale],
+				scaleType],
 			O: [reverse],
 			T: [reverse,
-				scale]
+				scaleType]
 		}
 	},{
 		name: 'row',
@@ -74,30 +80,30 @@ var marks = [
 		config: {
 			Q: [includeZero,
 				reverse,
-				scale],
+				scaleType],
 			O: [reverse],
 			T: [reverse,
-				scale]
+				scaleType]
 		}
 	},{
 		name: 'color',
 		config: {
 			Q: [includeZero,
 				reverse,
-				scale],
+				scaleType],
 			O: [reverse],
 			T: [reverse,
-				scale]
+				scaleType]
 		}
 	},{
 		name: 'alpha',
 		config: {
 			Q: [includeZero,
 				reverse,
-				scale],
+				scaleType],
 			O: [reverse],
 			T: [reverse,
-				scale]
+				scaleType]
 		}
 	},{
 		name: 'shape',
