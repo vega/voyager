@@ -45,7 +45,7 @@ angular.module('vleApp')
   	var service = {};
 
     service.datasets = datasets;
-    service.dataset = datasets[0];
+    service.dataset = datasets[1];
     service.schema = null;
 
     var getSchema = function(dataset) {

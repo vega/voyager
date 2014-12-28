@@ -1,22 +1,22 @@
 'use strict';
 
-describe('Controller: ConfigCtrl', function () {
+describe('Controller: EncodingCtrl', function () {
 
   // load the controller's module
   beforeEach(module('vleApp'));
 
-  var ConfigCtrl,
+  var EncodingCtrl,
     scope;
 
   // Initialize the controller and a mock scope
   beforeEach(inject(function ($controller, $rootScope) {
     scope = $rootScope.$new();
-    ConfigCtrl = $controller('ConfigCtrl', {
+    EncodingCtrl = $controller('EncodingCtrl', {
       $scope: scope
     });
   }));
 
-  it('should attach config', function () {
-    expect(scope.Config).toBeDefined();
+  it('should attach a list of awesomeThings to the scope', function () {
+    expect(scope.marks).toBeDefined();
   });
 });

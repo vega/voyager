@@ -22,19 +22,18 @@
       </div>
 
       <div class="col-md-3" ng-controller="DatasetsCtrl">
-        <form>
+        <form class="form-inline">
           <div class="form-group">
             <label for="datasetSelect">Dataset</label>
-            <select id="datasetSelect" ng-model="myDataset" ng-options="dataset.name for dataset in datasets"></select>
+            <select id="datasetSelect" class="form-control" ng-model="myDataset" ng-options="dataset.name for dataset in datasets"></select>
           </div>
-
-          <p ng-show="myDataset">Selected item: {{ myDataset.name }}</p>
         </form>
 
-        <form ng-controller="ConfigCtrl">
+        <form class="form-inline" ng-controller="ConfigCtrl">
           <div class="form-group">
-            <label for="serverCheckbox">Use Server</label>
-            <input id="serverCheckbox" type="checkbox" ng-model="Config.useServer">
+            <label>
+              <input class="form-control" type="checkbox" ng-model="Config.useServer"> use server
+            </label>
           </div>
 
           <p>{{ Config }}</p>
@@ -48,8 +47,36 @@
         </div>
       </div>
 
-      <div class="col-md-3">
+      <div class="col-md-3" ng-controller="EncodingCtrl">
         <h3>Mapping</h3>
+        <div ng-repeat="mapping in encoding">
+          <h4>{{mapping.name}}</h4>
+          <div>drop here</div>
+
+          <form class="form-inline">
+            <div class="form-group">
+              <label class="radio-inline" ng-repeat="(type, _) in mapping.config">
+                <input type="radio" name="typeRadio" ng-model="mapping.type" value="{{type}}">
+                {{ type }}
+              </label>
+            </div>
+          </form>
+
+          <div ng-repeat="(group, configs) in mapping.config[mapping.type]">
+            <h5>{{ group }}</h5>
+            <form class="form-horizontal">
+              <div class="form-group form-group-sm" ng-repeat="config in configs" ng-init="id = mapping.name + type + group + $index">
+                <label class="col-sm-2 control-label" for="{{ id }}">{{ config.name }}</label>
+                <div class="col-sm-10" ng-switch="config.type">
+                  <input id="{{ id }}" class="form-control" type="checkbox" ng-switch-when="bool" ng-model="config.value"></input>
+                  <select id="{{ id }}" class="form-control" ng-model="myDataset" ng-switch-when="choice" ng-options="choice for choice in config.choices track by choice" ng-model="config.value"></select>
+                  <input id="{{ id }}" class="form-control" type="number" ng-switch-when="integer" ng-model="config.value"></input>
+                  <input id="{{ id }}" class="form-control" type="text" ng-switch-when="string" ng-model="config.value"></input>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
       </div>
 
     </div>
@@ -98,6 +125,8 @@
     <script src="scripts/services/dataset.js"></script>
     <script src="scripts/controllers/config.js"></script>
     <script src="scripts/services/marks.js"></script>
+    <script src="scripts/controllers/encoding.js"></script>
+    <script src="scripts/services/encoding.js"></script>
     <!-- endbuild -->
 </body>
 </html>
