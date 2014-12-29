@@ -12,7 +12,9 @@ angular.module('vleApp')
 	      	});
       	});
       });
-      return _.assign(mark, {type: _.has(mark.config, 'Q') ? 'Q' : 'O'})
+      mark.types = _.keys(mark.config),
+      mark.type = _.has(mark.config, 'Q') ? 'Q' : 'O';
+      return mark;
     });
 
     console.log(service)

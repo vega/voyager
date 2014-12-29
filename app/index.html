@@ -63,19 +63,34 @@
 
       <div class="small-3 columns" ng-controller="EncodingCtrl">
         <div class="card" ng-repeat="mapping in encoding">
-          <h4>{{mapping.name}}</h4>
-          <div class="field-drop" ng-model="mapping.field" data-drop="true" jqyoui-droppable>
-            <div class="field" ng-show="mapping.field" ng-model="mapping.field" data-drag="false">{{ mapping.field.name }}</div>
-            <span class="placeholder" ng-hide="mapping.field">drop here</span>
+
+          <div class="row">
+            <div class="small-2 column">
+              <h4 class="right">{{mapping.name}}</h4>
+            </div>
+
+            <div class="small-4 column">
+              <div class="field-drop" ng-model="mapping.field" data-drop="true" jqyoui-droppable>
+                <div class="field" ng-show="mapping.field" ng-model="mapping.field" data-drag="false">{{ mapping.field.name }}</div>
+                <span class="placeholder" ng-hide="mapping.field">drop a field here</span>
+              </div>
+            </div>
+
+            <div class="small-6 column">
+              <form>
+                <div class="row" ng-init="id = mapping.name + 'type'">
+                  <div class="small-6 columns">
+                  <label for="{{ id }}" class="right inline">Choose Type</label>
+                  </div>
+                  <div class="small-6 columns">
+                    <select id="{{ id }}" ng-model="mapping.type" ng-options="types[type].name for type in mapping.types track by type"></select>
+                  </div>
+                </div>
+              </form>
+            </div>
           </div>
 
-          <form>
-            <label>Choose Type</label>
-            <span ng-repeat="(type, _) in mapping.config" ng-init="id = type + $index">
-              <input id="{{id}}" type="radio" name="typeRadio" ng-model="mapping.type" value="{{type}}">
-              <label for="{{ id }}">{{ type }}</label>
-            </span>
-          </form>
+          <select ng-model="myDataset" ng-options="func for func in functions[mapping.type]"></select>
 
           <form>
             <fieldset ng-repeat="(group, configs) in mapping.config[mapping.type]">
