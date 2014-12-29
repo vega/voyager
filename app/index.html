@@ -55,16 +55,19 @@
 
         <div class="card">
           <h4>Schema</h4>
-          <ul class="no-bullet" ng-controller="DatasetsCtrl">
-            <li ng-repeat="(name, field) in Dataset.schema">{{ name }} {{field.type}}</li>
-          </ul>
+          <div class="schema" ng-controller="DatasetsCtrl">
+            <div class="field" ng-repeat="field in Dataset.schema" ng-model="field" data-drag="true" jqyoui-draggable="{placeholder: 'keep'}" data-jqyoui-options="{revert: 'invalid', helper: 'clone'}">{{ field.name }} {{field.type}}</div>
+          </div>
         </div>
       </div>
 
       <div class="small-3 columns" ng-controller="EncodingCtrl">
         <div class="card" ng-repeat="mapping in encoding">
           <h4>{{mapping.name}}</h4>
-          <div>drop here</div>
+          <div class="field-drop" ng-model="mapping.field" data-drop="true" jqyoui-droppable>
+            <div class="field" ng-show="mapping.field" ng-model="mapping.field" data-drag="false">{{ mapping.field.name }}</div>
+            <span class="placeholder" ng-hide="mapping.field">drop here</span>
+          </div>
 
           <form>
             <label>Choose Type</label>
@@ -112,6 +115,7 @@
 
     <!-- build:js(.) scripts/vendor.js -->
     <!-- bower:js -->
+    <script src="bower_components/jquery/dist/jquery.js"></script>
     <script src="bower_components/angular/angular.js"></script>
     <script src="bower_components/angular-animate/angular-animate.js"></script>
     <script src="bower_components/angular-cookies/angular-cookies.js"></script>
@@ -122,6 +126,8 @@
     <script src="bower_components/papaparse/papaparse.js"></script>
     <script src="bower_components/lodash/dist/lodash.compat.js"></script>
     <script src="bower_components/angular-foundation/mm-foundation-tpls.js"></script>
+    <script src="bower_components/jquery-ui/jquery-ui.js"></script>
+    <script src="bower_components/angular-dragdrop/src/angular-dragdrop.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 

@@ -6,5 +6,6 @@ angular
     'ngCookies',
     'ngSanitize',
     'ngTouch',
+    'ngDragDrop',
     'mm.foundation'
   ]);
