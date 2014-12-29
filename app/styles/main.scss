@@ -1,9 +1,11 @@
-@import "settings";
-
 // bower:scss
 @import "foundation-sass/scss/normalize.scss";
 @import "foundation-sass/scss/foundation.scss";
 // endbower
+
+body {
+	background-color: $silver;
+}
 
 .full-width {
    width: 100%;
@@ -12,9 +14,24 @@
    max-width: initial;
 }
 
+input[type="file"],
+input[type="checkbox"],
+input[type="radio"],
+select {
+  margin: 0 0 0.5rem 0;
+}
+
+fieldset {
+	padding: 0 0.5rem;
+	.legend {
+		padding-left: 1.25rem;
+	}
+}
+
 .card {
-	margin-bottom: 1.25rem;
-	padding: 0;
+	margin-top: 1rem;
+	padding: 1rem;
 	background: $white;
 	border-style: none;
+	box-shadow: 3px 3px 10px 2px rgba(0,0,0,0.2);
 }

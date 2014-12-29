@@ -19,7 +19,9 @@
       <ul class="title-area">
         <li class="name">
           <h1>
-            Vegalite Editor
+            <a href="#">
+              Vegalite Editor
+            </a>
           </h1>
         </li>
       </ul>
@@ -27,22 +29,32 @@
 
     <div class="row full-width">
       <div class="small-3 columns">
-        <form ng-controller="DatasetsCtrl">
-          <label for="datasetSelect">Dataset
-            <select ng-model="myDataset" ng-options="dataset.name for dataset in datasets"></select>
-          </label>
-        </form>
 
-        <form ng-controller="ConfigCtrl">
-          <label>
-            <input class="form-control" type="checkbox" ng-model="Config.useServer"> use server
-          </label>
+        <div class="card">
+          <form ng-controller="DatasetsCtrl">
+            <div class="row">
+              <div class="small-3 columns">
+                <label class="right inline" for="datasetSelect">Dataset</label>
+              </div>
+              <div class="small-9 columns">
+                <select ng-model="myDataset" ng-options="dataset.name for dataset in datasets"></select>
+              </div>
+            </div>
+          </form>
+        </div>
 
-          <p>{{ Config }}</p>
-        </form>
+        <div class="card">
+          <form ng-controller="ConfigCtrl">
+            <label>
+              <input class="form-control" type="checkbox" ng-model="Config.useServer"> use server
+            </label>
 
-        <h3>Schema</h3>
-        <div class="panel">
+            <p>{{ Config }}</p>
+          </form>
+        </div>
+
+        <div class="card">
+          <h4>Schema</h4>
           <ul class="no-bullet" ng-controller="DatasetsCtrl">
             <li ng-repeat="(name, field) in Dataset.schema">{{ name }} {{field.type}}</li>
           </ul>
@@ -50,9 +62,7 @@
       </div>
 
       <div class="small-3 columns" ng-controller="EncodingCtrl">
-        <h3>Mapping</h3>
-
-        <div ng-repeat="mapping in encoding">
+        <div class="card" ng-repeat="mapping in encoding">
           <h4>{{mapping.name}}</h4>
           <div>drop here</div>
 
