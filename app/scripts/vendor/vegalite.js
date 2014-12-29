@@ -45,6 +45,7 @@ vl.dataTypeNames = ["O","Q","T"].reduce(function(r,x) {
 
 vl.quantAggTypes = ["avg", "sum", "min", "max", "count"];
 vl.timeFuncs = ["month", "year", "day", "date", "hour", "minute", "second"];
+vl.quantScales = ["-", "log","pow", "sqrt", "quantile"];
 
 vl.DEFAULTS = {
   // template
@@ -210,6 +211,10 @@ vl.Encoding = (function() {
 
   proto.fieldName = function(x){
     return this._enc[x].name;
+  }
+
+  proto.scale = function(x){
+    return this._enc[x].scale;
   }
 
   proto.aggr = function(x){
@@ -520,17 +525,17 @@ vl.toVegaSpec = function(encoding, stats) {
 
   // Small Multiples
   if (hasRow || hasCol) {
-    spec = facet(group, encoding, cellHeight, cellWidth, spec, mdef, stack);
+    spec = facet(group, encoding, cellHeight, cellWidth, spec, mdef, stack, stats);
   } else {
     group.scales = vl.scale.defs(scale_names(mdef.properties.update), encoding,
-      {stack: stack});
+      {stack: stack, stats: stats});
     group.axes = vl.axis.defs(axis_names(mdef.properties.update), encoding);
   }
 
   return spec;
 }
 
-function facet(group, encoding, cellHeight, cellWidth, spec, mdef, stack) {
+function facet(group, encoding, cellHeight, cellWidth, spec, mdef, stack, stats) {
     var enter = group.properties.enter;
     var facetKeys = [], cellAxes = [];
 
@@ -624,7 +629,7 @@ function facet(group, encoding, cellHeight, cellWidth, spec, mdef, stack) {
     spec.scales = vl.scale.defs(
       scale_names(enter).concat(scale_names(mdef.properties.update)),
       encoding,
-      {cellWidth: cellWidth, cellHeight: cellHeight, stack: stack, facet:true}
+      {cellWidth: cellWidth, cellHeight: cellHeight, stack: stack, facet:true, stats: stats}
     ); // row/col scales + cell scales
 
     if (cellAxes.length > 0) {
@@ -879,8 +884,12 @@ function scale_type(name, encoding) {
       if(encoding.fn(name)){
         return "linear";
       }
-      return "time;"
-    case Q: return "linear";
+      return "time";
+    case Q:
+      if(encoding.bin(name)){
+        return "ordinal";
+      }
+      return encoding.scale(name) || "linear";
   }
 }
 
@@ -893,6 +902,19 @@ function scale_domain(name, encoding, opt) {
       case "day": return [0, 6];
       case "date": return [1, 31];
       case "month": return [0, 11];
+    }
+  }
+
+  if (encoding.bin(name)) {
+    // TODO: add includeEmptyConfig here
+    if (opt.stats) {
+      var bins = vg.data.bin().bins(opt.stats[encoding.fieldName(name)], {maxbins: 20});
+      var domain = [];
+      console.log(bins)
+      for (var i = bins.start; i < bins.stop; i+=bins.step) {
+        domain.push(i);
+      }
+      return domain;
     }
   }
 
@@ -984,7 +1006,7 @@ function scale_range(s, encoding, opt) {
       s.outerPadding = 0;
       break;
     default:
-      if (encoding.isType(s.name, O) ) { //&& !s.bandWidth
+      if (encoding.isType(s.name, O) || encoding.bin(s.name) ) { //&& !s.bandWidth
         s.points = true;
         s.padding = encoding.config("bandPadding");
       }
