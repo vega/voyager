@@ -367,22 +367,23 @@ vl.error = function(msg){
   console.error("[VL Error]", msg);
 }
 
-// Returns the stats for the dataset.
-// Stats is a map from each field name to an object with min, max, count, cardinality and type.
-vl.getStats = function(data){ // hack
-  var stats = {};
+// Returns the schema with stats for the dataset.
+// Stats is an array with field name and min, max, count, cardinality and type.
+vl.schemaWithStats = function(data){ // hack
+  var schema = [];
   var fields = vl.keys(data[0]);
 
   fields.forEach(function(k) {
-    var stat = minmax(data, k);
-    stat.cardinality = uniq(data, k);
+    var field = minmax(data, k);
+    field.name = k;
+    field.cardinality = uniq(data, k);
     //TODO(kanitw): better type inference here
-    stat.type = (typeof data[0][k] === "number") ? vl.dataTypes.Q :
+    field.type = (typeof data[0][k] === "number") ? vl.dataTypes.Q :
       isNaN(Date.parse(data[0][k])) ? vl.dataTypes.O : vl.dataTypes.T;
-    stat.count = data.length;
-    stats[k] = stat;
+    field.count = data.length;
+    schema.push(field);
   });
-  return stats;
+  return schema;
 }
 
 function getCardinality(encoding, encType, stats){

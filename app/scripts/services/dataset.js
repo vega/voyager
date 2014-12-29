@@ -53,20 +53,21 @@ angular.module('vleApp')
   			var url = Config.serverUrl + "/stats/?name=" + dataset.table;
   			return $http.get(url, {cache: true}).then(function(response) {
   				var parsed = Papa.parse(response.data, {header: true});
-  				var stats = {}
+  				var schema = [];
   				_.each(_.filter(parsed.data, function(d) {return d.name}), function(row) {
-		        var stat = {};
-		        stat.min = +row.min;
-		        stat.max = +row.max;
-		        stat.cardinality = +row.cardinality;
-		        stat.type = row.type === "integer" || row.type === "real" ? vl.dataTypes.Q : vl.dataTypes.O;
-		        stats[row.name] = stat;
+		        var field = {};
+            field.name = row.name;
+		        field.min = +row.min;
+		        field.max = +row.max;
+		        field.cardinality = +row.cardinality;
+		        field.type = row.type === "integer" || row.type === "real" ? vl.dataTypes.Q : vl.dataTypes.O;
+		        schema.push(field);
 		      });
-		      return stats;
+		      return schema;
   			});
   		} else {
   			return $http.get(dataset.url, {cache: true}).then(function(response) {
-  				return vl.getStats(response.data);
+  				return vl.schemaWithStats(response.data);
   			});
   		}
   	}
