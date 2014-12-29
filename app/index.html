@@ -86,7 +86,7 @@
                     <input id="{{ id }}" type="checkbox" ng-model="config.value"></input>
                     <label for="{{ id }}">{{ config.name }}</label>
                   </span>
-                  <select id="{{ id }}" ng-model="myDataset" ng-switch-when="choice" ng-options="choice for choice in config.choices track by choice" ng-model="config.value"></select>
+                  <select id="{{ id }}" ng-switch-when="choice" ng-model="config.value" ng-options="choice for choice in config.choices track by choice"></select>
                   <input id="{{ id }}" type="number" ng-switch-when="integer" ng-model="config.value"></input>
                   <input id="{{ id }}" type="text" ng-switch-when="string" ng-model="config.value"></input>
                 </div>
