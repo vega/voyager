@@ -17,14 +17,16 @@ body {
 input[type="file"],
 input[type="checkbox"],
 input[type="radio"],
+label.inline,
 select {
   margin: 0 0 0.5rem 0;
 }
 
 fieldset {
-	padding: 0 0.5rem;
+	padding: 0 0.75rem 0.5rem 0;
+	margin: 0.75rem 0;
 	.legend {
-		padding-left: 1.25rem;
+		padding-left: 1.5rem;
 	}
 }
 
