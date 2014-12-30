@@ -20,7 +20,7 @@ angular.module('vleApp')
 					field.aggr = mapping.func;
 
 					return field;
-				});
+				})
 				.value();
 
 			var vegalite = new vl.Encoding($scope.marktype, encoding, {"dataFormatType": "json","dataUrl": Dataset.dataset.url});
