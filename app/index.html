@@ -87,7 +87,7 @@
                   <label for="{{ id }}" class="right inline">Type</label>
                   </div>
                   <div class="small-6 columns">
-                    <select id="{{ id }}" ng-model="mapping.type" ng-options="types[type].name for type in mapping.types track by type"></select>
+                    <select id="{{ id }}" ng-model="mapping.type" ng-options="type | scaleType for type in mapping.types track by type"></select>
                   </div>
                 </div>
               </form>
@@ -165,6 +165,7 @@
     <script src="scripts/services/marks.js"></script>
     <script src="scripts/controllers/encoding.js"></script>
     <script src="scripts/services/encoding.js"></script>
+    <script src="scripts/filters/scaletype.js"></script>
     <!-- endbuild -->
 </body>
 </html>

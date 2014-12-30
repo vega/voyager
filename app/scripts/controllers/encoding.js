@@ -37,18 +37,6 @@ angular.module('vleApp')
 			});
 		}, true);
 
-		$scope.types = {
-			Q: {
-				name: "Quantitative"
-			},
-			O: {
-				name: "Ordinal"
-			},
-			T: {
-				name: "Time"
-			}
-		}
-
 	  // TODO: get functions from
 	  $scope.functions = {
 	  	Q: vl.quantAggTypes,
