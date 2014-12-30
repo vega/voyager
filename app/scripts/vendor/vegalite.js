@@ -45,7 +45,7 @@ vl.dataTypeNames = ["O","Q","T"].reduce(function(r,x) {
 
 vl.quantAggTypes = ["avg", "sum", "min", "max", "count"];
 vl.timeFuncs = ["month", "year", "day", "date", "hour", "minute", "second"];
-vl.quantScales = ["-", "log","pow", "sqrt", "quantile"];
+vl.quantScales = ["log","pow", "sqrt", "quantile"];
 
 vl.DEFAULTS = {
   // template
@@ -229,6 +229,19 @@ vl.Encoding = (function() {
     return this._enc[x].fn;
   }
 
+  // TODO: stats are a hack right now
+  proto.cardinality = function(x) {
+    return this._enc[x].cardinality;
+  }
+
+  proto.min = function(x) {
+    return this._enc[x].min;
+  }
+
+  proto.max = function(x) {
+    return this._enc[x].max;
+  }
+
   proto.any = function(f){
     return vl.any(this._enc, f);
   }
@@ -386,12 +399,7 @@ vl.schemaWithStats = function(data){ // hack
   return schema;
 }
 
-function getCardinality(encoding, encType, stats){
-  var field = encoding.fieldName(encType);
-  return stats[field].cardinality;
-}
-
-function setSize(encoding, stats) {
+function setSize(encoding) {
   var hasRow = encoding.has(ROW),
     hasCol = encoding.has(COL),
     hasX = encoding.has(X),
@@ -402,8 +410,8 @@ function setSize(encoding, stats) {
   // One solution is to update Vega to support auto-sizing
   // In the meantime, auto-padding (mostly) does the trick
   //
-  var colCardinality = hasCol ? getCardinality(encoding, COL, stats) : 1,
-    rowCardinality = hasRow ? getCardinality(encoding, ROW, stats) : 1;
+  var colCardinality = hasCol ? encoding.cardinality(COL) : 1,
+    rowCardinality = hasRow ? encoding.cardinality(ROW) : 1;
 
   var cellWidth = !hasX ? +encoding.config("bandSize") :
       +encoding.config("cellWidth") || encoding.config("width") * 1.0 / colCardinality,
@@ -416,7 +424,7 @@ function setSize(encoding, stats) {
 
   if (hasX && encoding.isType(X, O)) { //ordinal field will override parent
     // bands within cell use rangePoints()
-    var xCardinality = getCardinality(encoding, X, stats);
+    var xCardinality = encoding.cardinality(X);
     cellWidth = (xCardinality + bandPadding) * encoding.config("bandSize");
   }
   // Cell bands use rangeBands(). There are n-1 padding.  Outerpadding = 0 for cells
@@ -424,7 +432,7 @@ function setSize(encoding, stats) {
 
   if (hasY && encoding.isType(Y, O)) {
     // bands within cell use rangePoint()
-    var yCardinality = getCardinality(encoding, Y, stats);
+    var yCardinality = encoding.cardinality(Y);
     cellHeight = (yCardinality + bandPadding) *  encoding.config("bandSize");
   }
   // Cell bands use rangeBands(). There are n-1 padding.  Outerpadding = 0 for cells
@@ -437,7 +445,7 @@ function setSize(encoding, stats) {
   };
 }
 
-vl.getDataUrl = function getDataUrl(encoding, stats) {
+vl.getDataUrl = function getDataUrl(encoding) {
   if (!encoding.config("useVegaServer")) {
     // don't use vega server
     return encoding.config("dataUrl");
@@ -458,7 +466,11 @@ vl.getDataUrl = function getDataUrl(encoding, stats) {
       obj.aggr = field.aggr
     }
     if (field.bin) {
-      obj.binSize = vg.data.bin().bins(stats[field.name], {maxbins: 20}).step;
+      obj.binSize = vg.data.bin().bins({
+        min: field.min,
+        max: field.max,
+        cardinality: field.cardinality
+      }, {maxbins: 20}).step;
     }
     fields.push(obj);
   });
@@ -471,8 +483,8 @@ vl.getDataUrl = function getDataUrl(encoding, stats) {
   return encoding.config("vegaServerUrl") + "/query/?q=" + JSON.stringify(query)
 }
 
-vl.toVegaSpec = function(encoding, stats) {
-  var size = setSize(encoding, stats),
+vl.toVegaSpec = function(encoding) {
+  var size = setSize(encoding),
     cellWidth = size.cellWidth,
     cellHeight = size.cellHeight;
 
@@ -480,7 +492,7 @@ vl.toVegaSpec = function(encoding, stats) {
     return v.aggr !== undefined;
   });
 
-  var spec = template(encoding, size, stats),
+  var spec = template(encoding, size),
     group = spec.marks[0],
     mark = marks[encoding.marktype()],
     mdef = markdef(mark, encoding, {
@@ -526,17 +538,17 @@ vl.toVegaSpec = function(encoding, stats) {
 
   // Small Multiples
   if (hasRow || hasCol) {
-    spec = facet(group, encoding, cellHeight, cellWidth, spec, mdef, stack, stats);
+    spec = facet(group, encoding, cellHeight, cellWidth, spec, mdef, stack);
   } else {
     group.scales = vl.scale.defs(scale_names(mdef.properties.update), encoding,
-      {stack: stack, stats: stats});
+      {stack: stack});
     group.axes = vl.axis.defs(axis_names(mdef.properties.update), encoding);
   }
 
   return spec;
 }
 
-function facet(group, encoding, cellHeight, cellWidth, spec, mdef, stack, stats) {
+function facet(group, encoding, cellHeight, cellWidth, spec, mdef, stack) {
     var enter = group.properties.enter;
     var facetKeys = [], cellAxes = [];
 
@@ -630,7 +642,7 @@ function facet(group, encoding, cellHeight, cellWidth, spec, mdef, stack, stats)
     spec.scales = vl.scale.defs(
       scale_names(enter).concat(scale_names(mdef.properties.update)),
       encoding,
-      {cellWidth: cellWidth, cellHeight: cellHeight, stack: stack, facet:true, stats: stats}
+      {cellWidth: cellWidth, cellHeight: cellHeight, stack: stack, facet:true}
     ); // row/col scales + cell scales
 
     if (cellAxes.length > 0) {
@@ -908,15 +920,16 @@ function scale_domain(name, encoding, opt) {
 
   if (encoding.bin(name)) {
     // TODO: add includeEmptyConfig here
-    if (opt.stats) {
-      var bins = vg.data.bin().bins(opt.stats[encoding.fieldName(name)], {maxbins: 20});
-      var domain = [];
-      console.log(bins)
-      for (var i = bins.start; i < bins.stop; i+=bins.step) {
-        domain.push(i);
-      }
-      return domain;
+    var bins = vg.data.bin().bins({
+      min: encoding.min(name),
+      max: encoding.max(name),
+      cardinality: encoding.cardinality(name)
+    }, {maxbins: 20});
+    var domain = [];
+    for (var i = bins.start; i < bins.stop; i+=bins.step) {
+      domain.push(i);
     }
+    return domain;
   }
 
   return name == opt.stack ?
@@ -1046,10 +1059,10 @@ function groupdef(name, opt) {
   };
 }
 
-function template(encoding, size, stats) { //hack use stats
+function template(encoding, size) {
 
   var data = {name:TABLE, format: {type: encoding.config("dataFormatType")}},
-    dataUrl = vl.getDataUrl(encoding, stats);
+    dataUrl = vl.getDataUrl(encoding);
   if(dataUrl) data.url = dataUrl;
 
   var preaggregatedData = encoding.config("useVegaServer");

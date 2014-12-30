@@ -62,6 +62,10 @@
       </div>
 
       <div class="small-3 columns" ng-controller="EncodingCtrl">
+        <div class="card">
+          <select ng-model="marktype" ng-options="type for type in marktypes"></select>
+        </div>
+
         <div class="card" ng-repeat="mapping in encoding">
 
           <div class="row">
@@ -80,7 +84,7 @@
               <form>
                 <div class="row" ng-init="id = mapping.name + 'type'">
                   <div class="small-6 columns">
-                  <label for="{{ id }}" class="right inline">Choose Type</label>
+                  <label for="{{ id }}" class="right inline">Type</label>
                   </div>
                   <div class="small-6 columns">
                     <select id="{{ id }}" ng-model="mapping.type" ng-options="types[type].name for type in mapping.types track by type"></select>
@@ -88,9 +92,10 @@
                 </div>
               </form>
             </div>
+
           </div>
 
-          <select ng-model="myDataset" ng-options="func for func in functions[mapping.type]"></select>
+          <select ng-model="mapping.func" ng-options="func for func in functions[mapping.type]"></select>
 
           <form>
             <fieldset ng-repeat="(group, configs) in mapping.config[mapping.type]">
@@ -116,7 +121,7 @@
       </div>
 
       <div class="small-6 columns">
-        image
+        <div id="vis"></div>
       </div>
 
     </div>  <!-- end full width -->

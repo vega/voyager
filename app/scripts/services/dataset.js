@@ -75,7 +75,6 @@ angular.module('vleApp')
     service.update = function(newDataset) {
     	service.dataset = newDataset;
     	getSchema(service.dataset).then(function(schema) {
-    		console.log(schema)
     		service.schema = schema;
     	});
     }

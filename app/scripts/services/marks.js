@@ -25,7 +25,7 @@ angular.module('vleApp')
 			name: 'type',
 			default: 'linear',
 			type: 'choice',
-			choices: ['linear', 'logarithmic', 'power', 'quantile'],
+			choices: vl.quantScales,
 			property: 'scale'
 		}
 	};

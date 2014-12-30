@@ -3,7 +3,7 @@
 angular.module('vleApp')
   .factory('Encoding', function (Marks) {
     var service = _.map(Marks, function(mark) {
-      // add a default type to the encoding
+      // add a value that's the default to the encoding
       mark.field = null;
       mark.config = _.mapValues(mark.config, function(type) {
       	return _.mapValues(type, function(property) {
@@ -16,8 +16,6 @@ angular.module('vleApp')
       mark.type = _.has(mark.config, 'Q') ? 'Q' : 'O';
       return mark;
     });
-
-    console.log(service)
 
     return service;
   });
