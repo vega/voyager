@@ -37,7 +37,7 @@
                 <label class="right inline" for="datasetSelect">Dataset</label>
               </div>
               <div class="small-9 columns">
-                <select ng-model="myDataset" ng-options="dataset.name for dataset in datasets"></select>
+                <select ng-model="dataset" ng-options="dataset.name for dataset in datasets"></select>
               </div>
             </div>
           </form>
@@ -56,7 +56,7 @@
         <div class="card">
           <h4>Schema</h4>
           <div class="schema" ng-controller="DatasetsCtrl">
-            <div class="field" ng-repeat="field in Dataset.schema" ng-model="field" data-drag="true" jqyoui-draggable="{placeholder: 'keep'}" data-jqyoui-options="{revert: 'invalid', helper: 'clone'}">{{ field.name }} {{field.type}}</div>
+            <div class="field" ng-repeat="field in Dataset.schema" ng-model="field" data-drag="true" jqyoui-draggable="{placeholder: 'keep'}" data-jqyoui-options="{revert: 'invalid', helper: 'clone'}">{{ field }}</div>
           </div>
         </div>
       </div>
@@ -74,9 +74,9 @@
             </div>
 
             <div class="small-4 column">
-              <div class="field-drop" ng-model="encoding.enc[encType].field" data-drop="true" jqyoui-droppable>
-                <div class="field" ng-if="encoding.enc[encType].field.name" ng-model="encoding.enc[encType].field" data-drag="false">{{ encoding.enc[encType].field.name }}</div>
-                <span class="placeholder" ng-if="!encoding.enc[encType].field.name">drop a field here</span>
+              <div class="field-drop" ng-model="encoding.enc[encType].name" data-drop="true" jqyoui-droppable>
+                <div class="field" ng-if="encoding.enc[encType].name" ng-model="encoding.enc[encType].name" data-drag="false">{{ encoding.enc[encType].name }}</div>
+                <span class="placeholder" ng-if="!encoding.enc[encType].name">drop a field here</span>
               </div>
             </div>
 
@@ -95,24 +95,24 @@
 
           </div>
 
-          <!-- TODO: everything below here doesn't work -->
-          <select ng-model="encoding.enc[encType].agg" ng-options="func for func in  schema.properties.enc.properties[encType].properties.aggr.enum"></select>
+          <!-- TODO: Binning doesn't work -->
+          <select ng-model="encoding.enc[encType].agg" ng-options="func for func in schema.properties.enc.properties[encType].properties.aggr.supportedEnums[encoding.enc[encType].type]"></select>
 
           <form>
-            <fieldset ng-repeat="(group, configs) in mapping.config[mapping.type]">
+            <fieldset ng-repeat="group in ['scale', 'text']" ng-show="schema.properties.enc.properties[encType].properties[group]">
               <legend>{{ group }}</legend>
-              <div class="row" ng-repeat="config in configs" ng-init="id = mapping.name + type + group + $index">
-                <div class="small-3 columns" ng-hide="config.type === 'bool'">
-                  <label class="right inline" for="{{ id }}">{{ config.name }}</label>
+              <div class="row" ng-repeat="(propName, scaleProp) in schema.properties.enc.properties[encType].properties[group].properties" ng-init="id = mapping.name + type + group + $index">
+                <div class="small-3 columns" ng-hide="scaleProp.type === 'boolean'">
+                  <label class="right inline" for="{{ id }}">{{ propName }}</label>
                 </div>
-                <div class="small-9 columns" ng-switch="config.type">
-                  <span ng-switch-when="bool">
-                    <input id="{{ id }}" type="checkbox" ng-model="config.value"></input>
-                    <label for="{{ id }}">{{ config.name }}</label>
+                <div class="small-9 columns" ng-switch="scaleProp.type + (scaleProp.enum !== undefined ? 'list' : '') ">
+                  <span ng-switch-when="boolean">
+                    <input id="{{ id }}" type="checkbox" ng-model="encoding.enc[encType][group][propName]"></input>
+                    <label for="{{ id }}">{{ propName }}</label>
                   </span>
-                  <select id="{{ id }}" ng-switch-when="choice" ng-model="config.value" ng-options="choice for choice in config.choices track by choice"></select>
-                  <input id="{{ id }}" type="number" ng-switch-when="integer" ng-model="config.value"></input>
-                  <input id="{{ id }}" type="text" ng-switch-when="string" ng-model="config.value"></input>
+                  <select id="{{ id }}" ng-switch-when="stringlist" ng-model="encoding.enc[encType][group][propName]" ng-options="choice for choice in scaleProp.enum track by choice"></select>
+                  <input id="{{ id }}" type="number" ng-switch-when="integer" ng-model="encoding.enc[encType][group][propName]"></input>
+                  <input id="{{ id }}" type="string" ng-switch-when="string" ng-model="encoding.enc[encType][group][propName]"></input>
                 </div>
               </div>
             </fieldset>

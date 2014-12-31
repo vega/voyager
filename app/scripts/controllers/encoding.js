@@ -16,34 +16,48 @@ angular.module('vleApp')
 		// define order
 		$scope.encTypes = ['x', 'y', 'row', 'col', 'size', 'color', 'alpha', 'shape', 'text'];
 
-		$scope.$watch('encoding', function(newVal, oldVal) {
-			console.log(newVal);
-			// var encoding = _.chain(newVal)
-			// 	.filter(function(mapping) {
-			// 		return mapping.field;
-			// 	})
-			// 	.indexBy('name')
-			// 	.mapValues(function(mapping) {
-			// 		// TODO: this is hacky
-			// 		var field = mapping.field;
-			// 		field.type = mapping.type;
-			// 		field.aggr = mapping.func;
+		$scope.$watch('encoding', function(newEncoding, oldEncoding) {
+			if (!newEncoding) {
+				return;
+			}
 
-			// 		return field;
-			// 	})
-			// 	.value();
+			var removeEmptyFieldDefs = function(enc) {
+				enc.enc = _.omit(enc.enc, function(fieldDef) {
+					return fieldDef.name === null;
+				});
+			}
 
-			// var vegalite = new vl.Encoding($scope.marktype, encoding, {"dataFormatType": "json","dataUrl": Dataset.dataset.url});
+			var deleteNulls = function(enc) {
+				for (var i in enc) {
+					if (_.isObject(enc[i])) {
+						deleteNulls(enc[i]);
+					}
+					console.log(i, enc[i])
+					// This is why I hate js
+					if (enc[i] === null || (_.isObject(enc[i]) && Object.keys(enc[i]).length === 0) || enc[i] === []) {
+						delete enc[i];
+					}
+				}
+			}
 
-			// console.log("new enc", vegalite);
+			var cleanEncoding = _.cloneDeep(newEncoding);
+			removeEmptyFieldDefs(cleanEncoding)
+			deleteNulls(cleanEncoding);
 
-			// var spec = vl.toVegaSpec(vegalite);
+			if (!cleanEncoding.enc) {
+				// empty
+				return;
+			}
 
-			// vg.parse.spec(spec, function(chart) {
-			// 	vis = null;
-			// 	vis = chart({el:"#vis", renderer: "svg"});
+			var vegalite = new vl.Encoding(cleanEncoding.marktype, cleanEncoding.enc, {"dataFormatType": "json","dataUrl": Dataset.dataset.url});
 
-			// 	vis.update();
-			// });
+			var spec = vl.toVegaSpec(vegalite, Dataset.stats);
+
+			vg.parse.spec(spec, function(chart) {
+				vis = null;
+				vis = chart({el:"#vis", renderer: "svg"});
+
+				vis.update();
+			});
 		}, true);
 	});

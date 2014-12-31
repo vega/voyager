@@ -45,38 +45,40 @@ angular.module('vleApp')
   	var service = {};
 
     service.datasets = datasets;
+
     service.dataset = datasets[1];
     service.schema = null;
+    service.stats = null;
 
-    var getSchema = function(dataset) {
+    var setSchemaAndStats = function(dataset) {
   		if (Config.useServer) {
   			var url = Config.serverUrl + '/stats/?name=' + dataset.table;
   			return $http.get(url, {cache: true}).then(function(response) {
   				var parsed = Papa.parse(response.data, {header: true});
-  				var schema = [];
+  				var stats = {};
   				_.each(_.filter(parsed.data, function(d) {return d.name}), function(row) {
 		        var field = {};
-            field.name = row.name;
 		        field.min = +row.min;
 		        field.max = +row.max;
 		        field.cardinality = +row.cardinality;
 		        field.type = row.type === 'integer' || row.type === 'real' ? vl.dataTypes.Q : vl.dataTypes.O;
-		        schema.push(field);
+		        stats[name] = field;
 		      });
-		      return schema;
+          service.schema = _.keys(stats);
+          service.stats = stats;
   			});
   		} else {
   			return $http.get(dataset.url, {cache: true}).then(function(response) {
-  				return vl.schemaWithStats(response.data);
+          service.schema = _.keys(response.data[0]);
+  				service.stats = vl.getStats(response.data);
   			});
   		}
   	}
 
     service.update = function(newDataset) {
     	service.dataset = newDataset;
-    	getSchema(service.dataset).then(function(schema) {
-    		service.schema = schema;
-    	});
+    	setSchemaAndStats(service.dataset);
+      console.log(service.stats)
     }
 
     return service;
