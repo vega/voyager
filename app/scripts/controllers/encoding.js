@@ -49,7 +49,12 @@ angular.module('vleApp')
 				return;
 			}
 
+			console.log(cleanEncoding);
+
 			var vegalite = new vl.Encoding(cleanEncoding.marktype, cleanEncoding.enc, {"dataFormatType": "json","dataUrl": Dataset.dataset.url});
+
+			// Hack
+			$('#vlspec').text(JSON.stringify(vegalite));
 
 			var spec = vl.toVegaSpec(vegalite, Dataset.stats);
 
