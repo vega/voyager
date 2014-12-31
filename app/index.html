@@ -63,31 +63,31 @@
 
       <div class="small-3 columns" ng-controller="EncodingCtrl">
         <div class="card">
-          <select ng-model="marktype" ng-options="type for type in marktypes"></select>
+          <select ng-model="encoding.marktype" ng-options="type for type in schema.properties.marktype.enum"></select>
         </div>
 
-        <div class="card" ng-repeat="mapping in encoding">
-
+        <!-- FIXME: can angular sort objects? -->
+        <div class="card" ng-repeat="encType in encTypes" ng-init="fieldDef=schema.properties.enc.properties[encType]">
           <div class="row">
             <div class="small-2 column">
-              <h4 class="right">{{mapping.name}}</h4>
+              <h4 class="right">{{ encType }}</h4>
             </div>
 
             <div class="small-4 column">
-              <div class="field-drop" ng-model="mapping.field" data-drop="true" jqyoui-droppable>
-                <div class="field" ng-show="mapping.field" ng-model="mapping.field" data-drag="false">{{ mapping.field.name }}</div>
-                <span class="placeholder" ng-hide="mapping.field">drop a field here</span>
+              <div class="field-drop" ng-model="encoding.enc[encType].field" data-drop="true" jqyoui-droppable>
+                <div class="field" ng-if="encoding.enc[encType].field.name" ng-model="encoding.enc[encType].field" data-drag="false">{{ encoding.enc[encType].field.name }}</div>
+                <span class="placeholder" ng-if="!encoding.enc[encType].field.name">drop a field here</span>
               </div>
             </div>
 
             <div class="small-6 column">
               <form>
-                <div class="row" ng-init="id = mapping.name + 'type'">
+                <div class="row" ng-init="id = encType + 'type'">
                   <div class="small-6 columns">
                   <label for="{{ id }}" class="right inline">Type</label>
                   </div>
                   <div class="small-6 columns">
-                    <select id="{{ id }}" ng-model="mapping.type" ng-options="type | scaleType for type in mapping.types track by type"></select>
+                    <select id="{{ id }}" ng-model="encoding.enc[encType].type" ng-options="type for type in schema.properties.enc.properties[encType].properties.type.enum track by type"></select>
                   </div>
                 </div>
               </form>
@@ -95,7 +95,8 @@
 
           </div>
 
-          <select ng-model="mapping.func" ng-options="func for func in functions[mapping.type]"></select>
+          <!-- TODO: everything below here doesn't work -->
+          <select ng-model="encoding.enc[encType].agg" ng-options="func for func in  schema.properties.enc.properties[encType].properties.aggr.enum"></select>
 
           <form>
             <fieldset ng-repeat="(group, configs) in mapping.config[mapping.type]">
@@ -162,7 +163,6 @@
     <script src="scripts/services/config.js"></script>
     <script src="scripts/services/dataset.js"></script>
     <script src="scripts/controllers/config.js"></script>
-    <script src="scripts/services/marks.js"></script>
     <script src="scripts/controllers/encoding.js"></script>
     <script src="scripts/services/encoding.js"></script>
     <script src="scripts/filters/scaletype.js"></script>

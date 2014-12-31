@@ -31,7 +31,7 @@ module.exports = function(config) {
     ],
 
     // list of files / patterns to exclude
-    exclude: ['app/scripts/vendor/bin.js'],
+    exclude: ['app/scripts/vendor/vegalite.js', 'app/scripts/vendor/bin.js'],
 
     // web server port
     port: 8080,
