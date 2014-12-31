@@ -2,7 +2,7 @@
 
 angular.module('vleApp')
   .factory('Config', function () {
-  	var service = {}
+  	var service = {};
 
   	service.useServer = false;
   	service.serverUrl =  vl.DEFAULTS.vegaServerUrl;

@@ -4,7 +4,7 @@ angular.module('vleApp')
   .factory('Encoding', function ($http) {
     // generates a json from a json schema
     var JSONFromSchema = function(schema) {
-      if (schema.type === "object") {
+      if (schema.type === 'object') {
         return _.mapValues(schema.properties, JSONFromSchema);
       } else if (schema.default) {
         return schema.default;
@@ -13,7 +13,7 @@ angular.module('vleApp')
       } else {
         return null;
       }
-    }
+    };
 
     var url = 'data/encoding.json';
 
