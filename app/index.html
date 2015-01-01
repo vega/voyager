@@ -31,16 +31,7 @@
       <div class="small-3 columns">
 
         <div class="card">
-          <form ng-controller="DatasetsCtrl">
-            <div class="row">
-              <div class="small-3 columns">
-                <label class="right inline" for="datasetSelect">Dataset</label>
-              </div>
-              <div class="small-9 columns">
-                <select ng-model="dataset" ng-options="dataset.name for dataset in datasets"></select>
-              </div>
-            </div>
-          </form>
+          <dataset-selector></dataset-selector>
         </div>
 
         <div class="card">
@@ -169,6 +160,7 @@
     <script src="scripts/controllers/encoding.js"></script>
     <script src="scripts/services/encoding.js"></script>
     <script src="scripts/filters/scaletype.js"></script>
+    <script src="scripts/directives/datasetselector.js"></script>
     <!-- endbuild -->
 </body>
 </html>

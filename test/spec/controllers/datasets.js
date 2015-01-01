@@ -16,8 +16,8 @@ describe('Controller: DatasetsCtrl', function () {
     });
   }));
 
-  it('should attach my dataset', function () {
-    expect(scope.myDataset).toBeDefined();
+  it('should attach dataset', function () {
+    expect(scope.dataset).toBeDefined();
   });
 
   it('should attach datasets', function () {

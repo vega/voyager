@@ -16,6 +16,11 @@ module.exports = function(config) {
     // testing framework to use (jasmine/mocha/qunit/...)
     frameworks: ['jasmine'],
 
+    // generate js files from html templates
+    preprocessors: {
+      'app/templates/*.html': 'ng-html2js'
+    },
+
     // list of files / patterns to load in the browser
     files: [
       'bower_components/angular/angular.js',
@@ -24,14 +29,25 @@ module.exports = function(config) {
       'bower_components/angular-cookies/angular-cookies.js',
       'bower_components/angular-sanitize/angular-sanitize.js',
       'bower_components/angular-touch/angular-touch.js',
+      'bower_components/angular-dragdrop/src/angular-dragdrop.js',
+      'bower_components/angular-foundation/mm-foundation-tpls.js',
       'bower_components/d3/d3.js',
+      'bower_components/jquery/dist/jquery.js',
       'app/scripts/**/*.js',
       'test/mock/**/*.js',
-      'test/spec/**/*.js'
+      'test/spec/**/*.js',
+
+      //include the directory where directive templates are stored.
+      'app/templates/*.html'
     ],
 
+    ngHtml2JsPreprocessor: {
+      stripPrefix: 'app/',
+      moduleName: 'templates'
+    },
+
     // list of files / patterns to exclude
-    exclude: ['app/scripts/vendor/vegalite.js', 'app/scripts/vendor/bin.js'],
+    exclude: ['app/scripts/vendor/bin.js'],
 
     // web server port
     port: 8080,
@@ -53,7 +69,8 @@ module.exports = function(config) {
     plugins: [
       'karma-phantomjs-launcher',
       'karma-chrome-launcher',
-      'karma-jasmine'
+      'karma-jasmine',
+      'karma-ng-html2js-preprocessor'
     ],
 
     // Continuous Integration mode

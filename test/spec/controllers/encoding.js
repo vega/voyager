@@ -16,7 +16,8 @@ describe('Controller: EncodingCtrl', function () {
     });
   }));
 
-  it('should attach a list of awesomeThings to the scope', function () {
-    expect(scope.marks).toBeDefined();
+  it('should attach encoding and schema to the scope', function () {
+    expect(scope.encoding).toBeDefined();
+    expect(scope.schema).toBeDefined();
   });
 });

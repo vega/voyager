@@ -6,13 +6,18 @@ describe('Service: Encoding', function () {
   beforeEach(module('vleApp'));
 
   // instantiate service
-  var Encoding;
+  var encoding;
   beforeEach(inject(function (_Encoding_) {
-    Encoding = _Encoding_;
+    encoding = _Encoding_;
   }));
 
   it('should do something', function () {
-    expect(Encoding).toBeDefined();
+    expect(encoding).toBeDefined();
+  });
+
+  it('functions should be defined', function () {
+    expect(encoding.getEncoding).toBeDefined();
+    expect(encoding.getEncodingSchema).toBeDefined();
   });
 
 });

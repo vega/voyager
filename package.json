@@ -31,6 +31,7 @@
     "karma": "^0.12.28",
     "karma-chrome-launcher": "^0.1.7",
     "karma-jasmine": "^0.3.3",
+    "karma-ng-html2js-preprocessor": "^0.1.2",
     "karma-phantomjs-launcher": "^0.1.4",
     "load-grunt-tasks": "^0.4.0",
     "time-grunt": "^0.3.1"

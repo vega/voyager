@@ -2,12 +2,15 @@
 
 angular.module('vleApp')
 	.controller('EncodingCtrl', function ($scope, Encoding, Dataset) {
+
+		$scope.encoding = null;
 		Encoding.getEncoding().then(function(encoding) {
 		  $scope.encoding = encoding;
 		});
 
+		$scope.schema = null;
 		Encoding.getEncodingSchema().then(function(schema) {
-			console.log(schema)
+		  console.log(schema)
 		  $scope.schema = schema;
 		});
 
@@ -32,7 +35,6 @@ angular.module('vleApp')
 					if (_.isObject(enc[i])) {
 						deleteNulls(enc[i]);
 					}
-					console.log(i, enc[i])
 					// This is why I hate js
 					if (enc[i] === null || (_.isObject(enc[i]) && Object.keys(enc[i]).length === 0) || enc[i] === []) {
 						delete enc[i];

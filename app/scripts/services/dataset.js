@@ -78,7 +78,6 @@ angular.module('vleApp')
     service.update = function(newDataset) {
     	service.dataset = newDataset;
     	setSchemaAndStats(service.dataset);
-      console.log(service.stats)
     }
 
     return service;
