@@ -8,6 +8,13 @@ describe('Directive: schemaList', function () {
   var element,
     scope;
 
+  beforeEach(module('vleApp', function ($provide) {
+    var mock = {
+      schema: ['foo', 'bar', 'baz']
+    }
+    $provide.value('Dataset', mock);
+  }));
+
   beforeEach(inject(function ($rootScope) {
     scope = $rootScope.$new();
   }));
@@ -15,6 +22,8 @@ describe('Directive: schemaList', function () {
   it('should make hidden element visible', inject(function ($compile) {
     element = angular.element('<schema-list></schema-list>');
     element = $compile(element)(scope);
-    expect(element.text()).toBe('this is the schemaList directive');
+    scope.$digest();
+
+    expect($(element).find('.field').length).toBe(3);
   }));
 });
