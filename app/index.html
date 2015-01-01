@@ -46,9 +46,7 @@
 
         <div class="card">
           <h4>Schema</h4>
-          <div class="schema" ng-controller="DatasetsCtrl">
-            <div class="field" ng-repeat="field in Dataset.schema" ng-model="field" data-drag="true" jqyoui-draggable="{placeholder: 'keep'}" data-jqyoui-options="{revert: 'invalid', helper: 'clone'}">{{ field }}</div>
-          </div>
+          <schema-list></schema-list>
         </div>
       </div>
 
@@ -161,6 +159,7 @@
     <script src="scripts/services/encoding.js"></script>
     <script src="scripts/filters/scaletype.js"></script>
     <script src="scripts/directives/datasetselector.js"></script>
+    <script src="scripts/directives/schemalist.js"></script>
     <!-- endbuild -->
 </body>
 </html>
