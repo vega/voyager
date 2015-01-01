@@ -53,7 +53,7 @@ angular.module('vleApp')
 
 			console.log(cleanEncoding);
 
-			var vegalite = vl.Encoding.parseJSON(cleanEncoding, {"dataFormatType": "json","dataUrl": Dataset.dataset.url});
+			var vegalite = vl.Encoding.parseJSON(cleanEncoding, {'dataFormatType': 'json','dataUrl': Dataset.dataset.url});
 
 			// Hack
 			$('#vlspec').text(JSON.stringify(vegalite));
@@ -62,7 +62,7 @@ angular.module('vleApp')
 
 			vg.parse.spec(spec, function(chart) {
 				vis = null;
-				vis = chart({el:"#vis", renderer: "svg"});
+				vis = chart({el:'#vis', renderer: 'svg'});
 
 				vis.update();
 			});
