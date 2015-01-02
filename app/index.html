@@ -35,6 +35,11 @@
         </div>
 
         <div class="card">
+          <h4>Schema</h4>
+          <schema-list></schema-list>
+        </div>
+
+        <div class="card">
           <form ng-controller="ConfigCtrl">
             <label>
               <input type="checkbox" ng-model="config.useVegaServer"></input> Use server
@@ -54,10 +59,6 @@
           </form>
         </div>
 
-        <div class="card">
-          <h4>Schema</h4>
-          <schema-list></schema-list>
-        </div>
       </div>
 
       <div class="small-3 columns" ng-controller="EncodingCtrl">

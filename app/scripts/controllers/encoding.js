@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('vleApp')
-	.controller('EncodingCtrl', function ($scope, Encoding, Dataset) {
+	.controller('EncodingCtrl', function ($scope, Encoding, Dataset, Config) {
 
 		$scope.encoding = null;
 		Encoding.getEncoding().then(function(encoding) {
@@ -19,6 +19,7 @@ angular.module('vleApp')
 		// define order
 		$scope.encTypes = ['x', 'y', 'row', 'col', 'size', 'color', 'alpha', 'shape', 'text'];
 
+    // TODO: move vegalite to service
 		$scope.$watch('encoding', function(newEncoding, oldEncoding) {
 			if (!newEncoding) {
 				return;
@@ -53,7 +54,7 @@ angular.module('vleApp')
 
 			console.log(cleanEncoding);
 
-			var vegalite = vl.Encoding.fromEncoding(cleanEncoding, {'dataFormatType': 'json','dataUrl': Dataset.dataset.url});
+			var vegalite = vl.Encoding.fromEncoding(cleanEncoding, Config.config);
 
 			// Hack
 			$('#vlspec').text(JSON.stringify(vegalite));
