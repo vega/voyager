@@ -1,17 +1,17 @@
 'use strict';
 
 angular.module('vleApp')
-  .directive('schemaList', function () {
+  .directive('schemaList', function (Dataset) {
     return {
       templateUrl: 'templates/schemalist.html',
       restrict: 'E',
-      controller: function ($scope, Dataset) {
-		    $scope.schema = Dataset.schema;
+      link: function (scope, element, attrs) {
+		    scope.schema = Dataset.schema;
 
-		    $scope.$watch(
+		    scope.$watch(
 	        function(){ return Dataset.schema },
 	        function(newSchema) {
-	          $scope.schema = newSchema;
+	          scope.schema = newSchema;
 	        }
 	      );
     	}
