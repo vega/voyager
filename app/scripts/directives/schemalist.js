@@ -6,14 +6,14 @@ angular.module('vleApp')
       templateUrl: 'templates/schemalist.html',
       restrict: 'E',
       controller: function ($scope) {
-		    $scope.schema = Dataset.schema;
+        $scope.schema = Dataset.schema;
 
-		    $scope.$watch(
-	        function(){ return Dataset.schema },
-	        function(newSchema) {
-	          $scope.schema = newSchema;
-	        }
-	      );
-    	}
+        $scope.$watch(
+          function(){ return Dataset.schema },
+          function(newSchema) {
+            $scope.schema = newSchema;
+          }
+        );
+      }
     };
   });

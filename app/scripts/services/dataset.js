@@ -42,7 +42,7 @@ var datasets = [
 
 angular.module('vleApp')
   .factory('Dataset', function ($http, Config) {
-  	var service = {};
+    var service = {};
 
     service.datasets = datasets;
 
@@ -51,34 +51,34 @@ angular.module('vleApp')
     service.stats = null;
 
     var setSchemaAndStats = function(dataset) {
-  		if (Config.useServer) {
-  			var url = Config.serverUrl + '/stats/?name=' + dataset.table;
-  			return $http.get(url, {cache: true}).then(function(response) {
-  				var parsed = Papa.parse(response.data, {header: true});
-  				var stats = {};
-  				_.each(_.filter(parsed.data, function(d) {return d.name}), function(row) {
-		        var field = {};
-		        field.min = +row.min;
-		        field.max = +row.max;
-		        field.cardinality = +row.cardinality;
-		        field.type = row.type === 'integer' || row.type === 'real' ? "Q" : "O";
-		        stats[name] = field;
-		      });
+      if (Config.useServer) {
+        var url = Config.serverUrl + '/stats/?name=' + dataset.table;
+        return $http.get(url, {cache: true}).then(function(response) {
+          var parsed = Papa.parse(response.data, {header: true});
+          var stats = {};
+          _.each(_.filter(parsed.data, function(d) {return d.name}), function(row) {
+            var field = {};
+            field.min = +row.min;
+            field.max = +row.max;
+            field.cardinality = +row.cardinality;
+            field.type = row.type === 'integer' || row.type === 'real' ? "Q" : "O";
+            stats[name] = field;
+          });
           service.schema = _.keys(stats);
           service.stats = stats;
-  			});
-  		} else {
-  			return $http.get(dataset.url, {cache: true}).then(function(response) {
+        });
+      } else {
+        return $http.get(dataset.url, {cache: true}).then(function(response) {
           service.schema = _.keys(response.data[0]);
-  				service.stats = vl.getStats(response.data);
-  			});
-  		}
-  	}
+          service.stats = vl.getStats(response.data);
+        });
+      }
+    }
 
     service.update = function(newDataset) {
-    	service.dataset = newDataset;
+      service.dataset = newDataset;
       Config.updateDataset(service.dataset);
-    	setSchemaAndStats(service.dataset);
+      setSchemaAndStats(service.dataset);
     }
 
     return service;
