@@ -59,41 +59,8 @@
         </div>
 
         <!-- FIXME: can angular sort objects? -->
-        <div class="card" ng-repeat="encType in encTypes" ng-init="fieldDef=schema.properties.enc.properties[encType]">
-          <div class="row">
-            <div class="small-2 column">
-              <h4 class="right">{{ encType }}</h4>
-            </div>
-
-            <div class="small-10 column">
-              <field-drop field="encoding.enc[encType]" types="schema.properties.enc.properties[encType].properties.type.enum"></field-drop>
-            </div>
-
-          </div>
-
-          <!-- TODO: Binning doesn't work -->
-          <select ng-model="encoding.enc[encType].agg" ng-options="func for func in schema.properties.enc.properties[encType].properties.aggr.supportedEnums[encoding.enc[encType].type]"></select>
-
-          <form>
-            <fieldset ng-repeat="group in ['scale', 'text']" ng-show="schema.properties.enc.properties[encType].properties[group]">
-              <legend>{{ group }}</legend>
-              <div class="row" ng-repeat="(propName, scaleProp) in schema.properties.enc.properties[encType].properties[group].properties" ng-init="id = mapping.name + type + group + $index">
-                <div class="small-3 columns" ng-hide="scaleProp.type === 'boolean'">
-                  <label class="right inline" for="{{ id }}">{{ propName }}</label>
-                </div>
-                <div class="small-9 columns" ng-switch="scaleProp.type + (scaleProp.enum !== undefined ? 'list' : '') ">
-                  <span ng-switch-when="boolean">
-                    <input id="{{ id }}" type="checkbox" ng-model="encoding.enc[encType][group][propName]"></input>
-                    <label for="{{ id }}">{{ propName }}</label>
-                  </span>
-                  <select id="{{ id }}" ng-switch-when="stringlist" ng-model="encoding.enc[encType][group][propName]" ng-options="choice for choice in scaleProp.enum track by choice"></select>
-                  <input id="{{ id }}" type="number" ng-switch-when="integer" ng-model="encoding.enc[encType][group][propName]"></input>
-                  <input id="{{ id }}" type="string" ng-switch-when="string" ng-model="encoding.enc[encType][group][propName]"></input>
-                </div>
-              </div>
-            </fieldset>
-          </form>
-
+        <div class="card" ng-repeat="encType in encTypes">
+          <field-def-editor name="encType" field-def="encoding.enc[encType]" schema="schema.properties.enc.properties[encType]"></field-def-editor>
         </div>
       </div>
 
@@ -147,6 +114,8 @@
     <script src="scripts/directives/datasetselector.js"></script>
     <script src="scripts/directives/schemalist.js"></script>
     <script src="scripts/directives/fielddrop.js"></script>
+    <script src="scripts/directives/functionselect.js"></script>
+    <script src="scripts/directives/fielddefeditor.js"></script>
     <!-- endbuild -->
 </body>
 </html>

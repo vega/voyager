@@ -9,14 +9,14 @@ angular.module('vleApp')
         field: '=',
         types: '='
       },
-      link: function (scope, element, attrs) {
-        scope.removeField = function() {
-          scope.field.name = null;
+      controller: function ($scope) {
+        $scope.removeField = function() {
+          $scope.field.name = null;
+          $scope.field.type = null;
         };
 
-        scope.fieldDropped = function() {
-          console.log("dropped");
-          scope.field.type = Dataset.stats[scope.field.name].type;
+        $scope.fieldDropped = function() {
+          $scope.field.type = Dataset.stats[$scope.field.name].type;
         }
       }
     };

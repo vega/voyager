@@ -5,13 +5,13 @@ angular.module('vleApp')
     return {
       templateUrl: 'templates/schemalist.html',
       restrict: 'E',
-      link: function (scope, element, attrs) {
-		    scope.schema = Dataset.schema;
+      controller: function ($scope) {
+		    $scope.schema = Dataset.schema;
 
-		    scope.$watch(
+		    $scope.$watch(
 	        function(){ return Dataset.schema },
 	        function(newSchema) {
-	          scope.schema = newSchema;
+	          $scope.schema = newSchema;
 	        }
 	      );
     	}

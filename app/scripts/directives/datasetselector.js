@@ -5,11 +5,13 @@ angular.module('vleApp')
     return {
       templateUrl: 'templates/datasetselector.html',
       restrict: 'E',
-      link: function (scope, element, attrs) {
-		    scope.datasets = Dataset.datasets;
-		    scope.dataset = Dataset.dataset;
+      replace: true,
+      scope: true,
+      controller: function ($scope) {
+		    $scope.datasets = Dataset.datasets;
+		    $scope.dataset = Dataset.dataset;
 
-		    scope.$watch('dataset', function(newVal, oldVal) {
+		    $scope.$watch('dataset', function(newVal, oldVal) {
 		      Dataset.update(newVal);
 		    });
     	}
