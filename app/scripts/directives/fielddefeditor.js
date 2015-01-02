@@ -5,8 +5,10 @@ angular.module('vleApp')
     return {
       templateUrl: 'templates/fielddefeditor.html',
       restrict: 'E',
-      link: function(scope, element, attrs) {
-        // TODO
+      scope: {
+        encType: '=',
+        fieldDef: '=',
+        schema: '=fieldDefSchema'
       }
     };
   });

@@ -55,7 +55,7 @@
               <input ng-model="config.vegaServerUrl" type="text"></input>
             </label>
 
-            <p>{{ config | json:4 }}</p>
+            <pre>{{ config | json:4 }}</pre>
           </form>
         </div>
 
@@ -71,7 +71,7 @@
 
         <!-- FIXME: can angular sort objects? -->
         <div class="card" ng-repeat="encType in encTypes">
-          <field-def-editor name="encType" field-def="encoding.enc[encType]" schema="schema.properties.enc.properties[encType]"></field-def-editor>
+          <field-def-editor enc-type="encType" field-def="encoding.enc[encType]" field-def-schema="schema.properties.enc.properties[encType]"></field-def-editor>
         </div>
       </div>
 
