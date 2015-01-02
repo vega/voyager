@@ -53,7 +53,7 @@ angular.module('vleApp')
 
 			console.log(cleanEncoding);
 
-			var vegalite = vl.Encoding.parseJSON(cleanEncoding, {'dataFormatType': 'json','dataUrl': Dataset.dataset.url});
+			var vegalite = vl.Encoding.fromEncoding(cleanEncoding, {'dataFormatType': 'json','dataUrl': Dataset.dataset.url});
 
 			// Hack
 			$('#vlspec').text(JSON.stringify(vegalite));

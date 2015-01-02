@@ -177,14 +177,6 @@ vl.Encoding = (function() {
 
   function Encoding(marktype, enc, config) {
     this._marktype = marktype;
-
-    // replace type strings with numbers
-    for (encType in enc) {
-      // http://stackoverflow.com/a/9436948
-      if (typeof enc[encType].type == 'string' || enc[encType].type instanceof String) {
-        enc[encType].type = vl.dataTypes[enc[encType].type];
-      }
-    }
     this._enc = enc; // {encType1:field1, ...}
 
     this._cfg = vl.merge(Object.create(vl.DEFAULTS), config);
@@ -364,7 +356,7 @@ vl.Encoding = (function() {
     return new Encoding(marktype, enc, cfg);
   }
 
-  Encoding.parseJSON = function(json, extraCfg) {
+  Encoding.fromEncoding = function(json, extraCfg) {
     var enc = vl.duplicate(json.enc);
 
     //convert type from string to bitcode (e.g, O=1)

@@ -61,7 +61,7 @@ angular.module('vleApp')
           var functions = [{name: ""}];
 
           // set aggregation functions
-          if (schema.aggr && (!schema.aggr.supportedEnums || type in schema.aggr.supportedEnums)) {
+          if (schema.aggr && schema.aggr.supportedTypes[type]) {
             var aggFunctions = schema.aggr.supportedEnums ? schema.aggr.supportedEnums[type] : schema.aggr.enum;
             // console.log($scope.fieldDefSchema)
 
@@ -74,7 +74,7 @@ angular.module('vleApp')
           }
 
           // add binning function
-          if (schema.bin && _.contains(schema.bin.supportedTypes, type)) {
+          if (schema.bin && schema.bin.supportedTypes[type]) {
             functions.push({
               name: 'bin',
               group: 'Binning'

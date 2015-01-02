@@ -1,11 +1,19 @@
 'use strict';
 
 angular.module('vleApp')
-  .factory('Config', function () {
-  	var service = {};
+  .factory('Config', function ($q, Encoding) {
+    var service = $q.defer();
 
-  	service.useServer = false;
-  	service.serverUrl =  vl.DEFAULTS.vegaServerUrl;
+    Encoding.getEncodingSchema().then(function(schema) {
+      var cfgSchema = schema.properties.cfg;
+      var cfg = Encoding.instanceFromSchema(cfgSchema);
+      service.resolve({
+        schema: cfgSchema,
+        cfg: cfg
+      });
+    }, function(reason) {
+      console.warn(reason);
+    });
 
-    return service;
+    return service.promise;
   });
