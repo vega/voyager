@@ -52,7 +52,10 @@
 
       <div class="small-3 columns" ng-controller="EncodingCtrl">
         <div class="card">
-          <select ng-model="encoding.marktype" ng-options="type for type in schema.properties.marktype.enum"></select>
+          <label>
+            Marktype
+            <select ng-model="encoding.marktype" ng-options="type for type in schema.properties.marktype.enum"></select>
+          </label>
         </div>
 
         <!-- FIXME: can angular sort objects? -->
@@ -62,24 +65,8 @@
               <h4 class="right">{{ encType }}</h4>
             </div>
 
-            <div class="small-4 column">
-              <div class="field-drop" ng-model="encoding.enc[encType].name" data-drop="true" jqyoui-droppable>
-                <div class="field" ng-if="encoding.enc[encType].name" ng-model="encoding.enc[encType].name" data-drag="false">{{ encoding.enc[encType].name }}</div>
-                <span class="placeholder" ng-if="!encoding.enc[encType].name">drop a field here</span>
-              </div>
-            </div>
-
-            <div class="small-6 column">
-              <form>
-                <div class="row" ng-init="id = encType + 'type'">
-                  <div class="small-6 columns">
-                  <label for="{{ id }}" class="right inline">Type</label>
-                  </div>
-                  <div class="small-6 columns">
-                    <select id="{{ id }}" ng-model="encoding.enc[encType].type" ng-options="type for type in schema.properties.enc.properties[encType].properties.type.enum track by type"></select>
-                  </div>
-                </div>
-              </form>
+            <div class="small-10 column">
+              <field-drop field="encoding.enc[encType]" types="schema.properties.enc.properties[encType].properties.type.enum"></field-drop>
             </div>
 
           </div>
@@ -159,6 +146,7 @@
     <script src="scripts/filters/scaletype.js"></script>
     <script src="scripts/directives/datasetselector.js"></script>
     <script src="scripts/directives/schemalist.js"></script>
+    <script src="scripts/directives/fielddroparea.js"></script>
     <!-- endbuild -->
 </body>
 </html>

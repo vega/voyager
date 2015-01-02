@@ -1,3 +1,6 @@
+$rem-base: 16px;
+$base-font-size: 90%;
+
 // bower:scss
 @import "foundation-sass/scss/normalize.scss";
 @import "foundation-sass/scss/foundation.scss";
@@ -19,39 +22,44 @@ input[type="checkbox"],
 input[type="radio"],
 label.inline,
 select {
-  margin: 0 0 0.5rem 0;
+  margin: rem-calc(0 0 10 0);
 }
 
 fieldset {
-	padding: 0 0.75rem 0.5rem 0;
-	margin: 0.75rem 0;
+	padding: rem-calc(0 10 10 0);
+	margin: rem-calc(0 10);
 	legend {
-		margin-left: 0.75rem;
+		margin-left: rem-calc(10);
 	}
 }
 
 .card {
-	margin-top: 1rem;
-	padding: 1rem;
+	margin-top: rem-calc(10);
+	padding: rem-calc(15);
 	background: $white;
 	border-style: none;
 	box-shadow: 3px 3px 10px 2px rgba(0,0,0,0.2);
 }
 
-$field-width: 8rem;
+$field-width: rem-calc(150);
 
 .field {
-	cursor: move;
 	display: block;
 	width: $field-width;
 	background-color: $button-bg-color;
 	color: $button-font-color;
-    margin: 0 0 0.4rem;
+    margin: rem-calc(0 0 10);
     text-decoration: none;
     text-align: center;
-    padding: 0.3rem;
+    padding: rem-calc(6.5);
 
     box-shadow: 2px 2px 6px 0px rgba(0,0,0,0.3);
+
+    .remove-field {
+    	float: right;
+    	margin-right: rem-calc(10);
+    	color: $white;
+    }
 }
 
 .field-drop {
@@ -64,8 +72,24 @@ $field-width: 8rem;
 	.placeholder {
 		width: $field-width;
 		display: block;
-		padding: 0.3rem;
+		padding: rem-calc(6.5);
 		font-weight: normal;
 		color: $aluminum;
 	}
+}
+
+.draggable {
+	cursor: move;
+}
+
+.drop-active {
+	border: 1px dashed red;
+	background-color: #ffe4e1;
+	.field {
+		opacity: 0.5;
+	}
+}
+
+.type-select {
+	width: rem-calc(60);
 }
