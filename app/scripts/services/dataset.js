@@ -61,7 +61,7 @@ angular.module('vleApp')
 		        field.min = +row.min;
 		        field.max = +row.max;
 		        field.cardinality = +row.cardinality;
-		        field.type = row.type === 'integer' || row.type === 'real' ? vl.dataTypes.Q : vl.dataTypes.O;
+		        field.type = row.type === 'integer' || row.type === 'real' ? "Q" : "O";
 		        stats[name] = field;
 		      });
           service.schema = _.keys(stats);
