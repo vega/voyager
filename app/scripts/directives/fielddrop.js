@@ -6,17 +6,17 @@ angular.module('vleApp')
       templateUrl: 'templates/fielddrop.html',
       restrict: 'E',
       scope: {
-        field: '=',
+        fieldDef: '=',
         types: '='
       },
       controller: function ($scope) {
         $scope.removeField = function() {
-          $scope.field.name = null;
-          $scope.field.type = null;
+          $scope.fieldDef.name = null;
+          $scope.fieldDef.type = null;
         };
 
         $scope.fieldDropped = function() {
-          $scope.field.type = Dataset.stats[$scope.field.name].type;
+          $scope.fieldDef.type = Dataset.stats[$scope.fieldDef.name].type;
         }
       }
     };

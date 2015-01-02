@@ -6,7 +6,7 @@ angular.module('vleApp')
       templateUrl: 'templates/fielddefeditor.html',
       restrict: 'E',
       link: function(scope, element, attrs) {
-        console.log("field def")
+        // TODO
       }
     };
   });
