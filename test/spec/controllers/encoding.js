@@ -1,6 +1,6 @@
 'use strict';
 
-describe('Controller: EncodingCtrl', function () {
+describe('Controller: VegaliteSpecCtrl', function () {
 
   // load the controller's module
   beforeEach(module('vleApp'));
@@ -16,8 +16,8 @@ describe('Controller: EncodingCtrl', function () {
     });
   }));
 
-  it('should attach encoding and schema to the scope', function () {
-    expect(scope.encoding).toBeDefined();
+  it('should attach spec and schema to the scope', function () {
+    expect(scope.spec).toBeDefined();
     expect(scope.schema).toBeDefined();
   });
 });

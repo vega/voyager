@@ -6,16 +6,15 @@ angular.module('vleApp')
     return {
       templateUrl: 'templates/vegaliteplot.html',
       restrict: 'E',
-      controller: function ($scope, Vegalite, Encoding) {
+      controller: function ($scope, Vegalite, VegaliteSpec) {
         var update = function() {
           $scope.vegaSpec = Vegalite.vegaSpec;
-          $scope.encoding = Vegalite.encoding;
+          $scope.spec = Vegalite.spec;
           $scope.shorthand = Vegalite.shorthand;
         };
 
         $scope.parseShorthand = function(shorthand) {
-          Encoding.parseShorthand(shorthand)
-          // TODO
+          VegaliteSpec.parseShorthand(shorthand)
         }
 
         var vis;

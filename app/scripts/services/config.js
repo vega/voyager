@@ -1,17 +1,17 @@
 'use strict';
 
-// Service for the encoding config.
-// We keep this separate so that changes are kept even if the encoding changes.
+// Service for the spec config.
+// We keep this separate so that changes are kept even if the spec changes.
 angular.module('vleApp')
-  .factory('Config', function (EncodingSchema) {
+  .factory('Config', function (VegaliteSpecSchema) {
     var service = {};
 
     service.config = null;
     service.schema = null;
 
-    EncodingSchema.getEncodingSchema().then(function(schema) {
+    VegaliteSpecSchema.getSchema().then(function(schema) {
       service.schema = schema.properties.cfg;
-      service.config = EncodingSchema.instanceFromSchema(service.schema);
+      service.config = VegaliteSpecSchema.instanceFromSchema(service.schema);
     }, function(reason) {
       console.warn(reason);
     });

@@ -1,6 +1,6 @@
 'use strict';
 
-describe('Service: EncodingSchema', function () {
+describe('Service: VegaliteSpecSchema', function () {
 
   // load the service's module
   beforeEach(module('vleApp'));

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('vleApp')
-  .service('EncodingSchema', function ($http) {
+  .service('VegaliteSpecSchema', function ($http) {
     var service = {};
 
     // generates a js object instance from a json schema
@@ -15,8 +15,8 @@ angular.module('vleApp')
       }
     };
 
-    service.getEncodingSchema = function() {
-      return $http.get('data/encoding.json', {cache: true}).then(function(response) {
+    service.getSchema = function() {
+      return $http.get('data/spec.json', {cache: true}).then(function(response) {
         return response.data;
       });
     };
