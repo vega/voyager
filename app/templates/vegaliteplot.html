@@ -3,18 +3,22 @@
 </div>
 
 <div class="card">
+  <form>
+    <input type="text" ng-model="shorthand"></input>
+    <button type="submit" ng-click="parseShorthand(shorthand)" value="Save">Load</button>
+  </form>
   <accordion close-others="false">
     <accordion-group>
       <accordion-heading>
-        Vegalite spec <i class="right" ng-class="{'fa fa-chevron-down': isopen, 'fa fa-chevron-right': !isopen}"></i>
+        Vegalite specification <i class="right" ng-class="{'fa fa-chevron-down': isopen, 'fa fa-chevron-right': !isopen}"></i>
       </accordion-heading>
-      <pre>{{ Vegalite.vlSpec | compactJSON }}</pre>
+      <textarea msd-elastic json-input type="text" ng-model="encoding"></textarea>
     </accordion-group>
     <accordion-group>
       <accordion-heading>
-        Vega spec <i class="right" ng-class="{'fa fa-chevron-down': isopen, 'fa fa-chevron-right': !isopen}"></i>
+        Vega specification <i class="right" ng-class="{'fa fa-chevron-down': isopen, 'fa fa-chevron-right': !isopen}"></i>
       </accordion-heading>
-      <pre>{{ Vegalite.vegaSpec | compactJSON }}</pre>
+      <textarea msd-elastic json-input disabled="disabled" type="text" ng-model="vegaSpec"></textarea>
     </accordion-group>
   </accordion>
 </div>

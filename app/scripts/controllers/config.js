@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('vleApp')
-  .controller('ConfigCtrl', function ($scope, Config, Encoding) {
+  .controller('ConfigCtrl', function ($scope, Config) {
     $scope.config = Config.config;
     $scope.schema = Config.schema;
 
@@ -14,8 +14,10 @@ angular.module('vleApp')
       }
     );
 
-    $scope.schema = null;
-    Encoding.getEncodingSchema().then(function(schema) {
-      $scope.schema = schema.properties.cfg;
-    });
+    $scope.$watch(
+      function(){ return Config.schema },
+      function(newSchema) {
+         $scope.schema= newSchema;
+      }
+    );
   });

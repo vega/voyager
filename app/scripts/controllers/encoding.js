@@ -1,24 +1,29 @@
 'use strict';
 
+// TODO: rename to vegalite spec
 angular.module('vleApp')
-  .controller('EncodingCtrl', function ($scope, Encoding, Vegalite) {
+  .controller('EncodingCtrl', function ($scope, Encoding, EncodingSchema, Vegalite) {
 
     $scope.encoding = null;
-    Encoding.getEncoding().then(function(encoding) {
-      $scope.encoding = encoding;
-    });
+    $scope.$watch(
+      function(){ return Encoding.encoding },
+      function(newEncoding) {
+        $scope.encoding = newEncoding;
+      }
+    );
 
     $scope.schema = null;
-    Encoding.getEncodingSchema().then(function(schema) {
-      console.log(schema)
+    EncodingSchema.getEncodingSchema().then(function(schema) {
       $scope.schema = schema;
+    }, function(reason) {
+      console.warn(reason);
     });
 
-    $scope.$watch('encoding', function(newEncoding, oldEncoding) {
-      if (!newEncoding) {
+    $scope.$watch('encoding', function(newSpec, oldSpec) {
+      if (!newSpec) {
         return;
       }
 
-      Vegalite.update(newEncoding);
+      Vegalite.updateVegaliteSpec(newSpec);
     }, true); // TODO: is this needed?
   });

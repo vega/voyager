@@ -3,13 +3,15 @@
 // Service for the encoding config.
 // We keep this separate so that changes are kept even if the encoding changes.
 angular.module('vleApp')
-  .factory('Config', function (Encoding) {
+  .factory('Config', function (EncodingSchema) {
     var service = {};
 
     service.config = null;
+    service.schema = null;
 
-    Encoding.getEncodingSchema().then(function(schema) {
-      service.config = Encoding.instanceFromSchema(schema.properties.cfg);
+    EncodingSchema.getEncodingSchema().then(function(schema) {
+      service.schema = schema.properties.cfg;
+      service.config = EncodingSchema.instanceFromSchema(service.schema);
     }, function(reason) {
       console.warn(reason);
     });

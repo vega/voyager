@@ -48,7 +48,7 @@
 
             <label>
               Data format
-              <select ng-options="format for format in schema.properties.dataFormatType.enum track by format" ng-model="config.dataFormatType"></select>
+              <select required ng-options="format for format in schema.properties.dataFormatType.enum track by format" ng-model="config.dataFormatType"></select>
             </label>
 
             <label>
@@ -114,6 +114,9 @@
     <!-- endbower -->
     <!-- endbuild -->
 
+   <!-- this module doesn't specify sources -->
+    <script src="bower_components/angular-elastic/elastic.js"></script>
+
     <script src="scripts/vendor/vega.js"></script>
     <script src="scripts/vendor/vegalite.js"></script>
     <script src="scripts/vendor/json3-compactstringify.js"></script>
@@ -134,6 +137,8 @@
     <script src="scripts/services/vegalite.js"></script>
     <script src="scripts/directives/vegaliteplot.js"></script>
     <script src="scripts/filters/compactjson.js"></script>
+    <script src="scripts/directives/jsoninput.js"></script>
+    <script src="scripts/services/encodingschema.js"></script>
     <!-- endbuild -->
 </body>
 </html>

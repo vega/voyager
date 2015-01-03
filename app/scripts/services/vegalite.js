@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('vleApp')
-  .service('Vegalite', function (Encoding, Dataset, Config) {
+  .service('Vegalite', function (Dataset, Config) {
     var service = {};
 
     var removeEmptyFieldDefs = function(enc) {
@@ -22,23 +22,26 @@ angular.module('vleApp')
       }
     };
 
-    service.encoding = null;
     service.vlSpec = null;
+    service.encoding = null;
+    service.shorthand = null;
     service.vegaSpec = null;
 
-    service.update = function(newEncoding) {
-      var cleanEncoding = _.cloneDeep(newEncoding);
-      removeEmptyFieldDefs(cleanEncoding)
-      deleteNulls(cleanEncoding);
+    service.updateVegaliteSpec = function(newSpec) {
+      var cleanSpec = _.cloneDeep(newSpec);
+
+      removeEmptyFieldDefs(cleanSpec)
+      deleteNulls(cleanSpec);
 
       // we may have removed enc
-      if (!('enc' in cleanEncoding)) {
-        cleanEncoding.enc = {}
+      if (!('enc' in cleanSpec)) {
+        cleanSpec.enc = {}
       }
 
-      service.encoding = cleanEncoding;
-      service.vlSpec = vl.Encoding.fromEncoding(cleanEncoding, Config.config);
-      service.vegaSpec = vl.toVegaSpec(service.vlSpec, Dataset.stats);
+      service.vlSpec = cleanSpec;
+      service.encoding = vl.Encoding.fromEncoding(cleanSpec, Config.config);
+      service.shorthand = service.encoding.toShorthand();
+      service.vegaSpec = vl.toVegaSpec(service.encoding, Dataset.stats);
     };
 
     return service;

@@ -1,31 +1,25 @@
 'use strict';
 
 angular.module('vleApp')
-  .factory('Encoding', function ($http) {
-    // generates a js object instance from a json schema
-    var instanceFromSchema = function(schema) {
-      if (schema.type === 'object') {
-        return _.mapValues(schema.properties, instanceFromSchema);
-      } else if (_.has(schema, 'default')) {
-        return schema.default;
-      } else {
-        return null;
-      }
+  .factory('Encoding', function ($http, Config, EncodingSchema) {
+    var service = {};
+
+    service.encoding = null;
+
+    service.parseShorthand = function(newShorthand) {
+      service.encoding = vl.Encoding.parseShorthand(newShorthand, Config.config).toJSON();
+    }
+
+    service.updateEncoding = function() {
+      EncodingSchema.getEncodingSchema().then(function(schema) {
+        service.encoding = EncodingSchema.instanceFromSchema(schema);
+      }, function(reason) {
+        console.warn(reason);
+      });
     };
 
-    var url = 'data/encoding.json';
+    // initially set encoding
+    service.updateEncoding();
 
-    return {
-      getEncoding: function() {
-        return $http.get(url, {cache: true}).then(function(response) {
-          return instanceFromSchema(response.data);
-        });
-      },
-      getEncodingSchema: function() {
-        return $http.get(url, {cache: true}).then(function(response) {
-          return response.data;
-        });
-      },
-      instanceFromSchema: instanceFromSchema
-    }
+    return service;
   });

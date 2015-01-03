@@ -5,6 +5,4 @@
   <span class="placeholder" ng-if="!fieldDef.name">drop a field here</span>
 </div>
 
-<form>
-  <select ng-if="fieldDef.name" class="type-select" ng-model="fieldDef.type" ng-options="type for type in types track by type"></select>
-</form>
+<select ng-if="fieldDef.name" class="type-select" ng-model="fieldDef.type" ng-options="type for type in types track by type"></select>
