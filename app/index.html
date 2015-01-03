@@ -56,7 +56,7 @@
               <input ng-model="config.vegaServerUrl" type="text"></input>
             </label>
 
-            <pre>{{ config | json:4 }}</pre>
+            <pre>{{ config | compactJSON }}</pre>
           </form>
         </div>
 
@@ -116,6 +116,7 @@
 
     <script src="scripts/vendor/vega.js"></script>
     <script src="scripts/vendor/vegalite.js"></script>
+    <script src="scripts/vendor/json3-compactstringify.js"></script>
 
     <!-- build:js({.tmp,app}) scripts/scripts.js -->
     <script src="scripts/app.js"></script>
@@ -132,6 +133,7 @@
     <script src="scripts/directives/fielddefeditor.js"></script>
     <script src="scripts/services/vegalite.js"></script>
     <script src="scripts/directives/vegaliteplot.js"></script>
+    <script src="scripts/filters/compactjson.js"></script>
     <!-- endbuild -->
 </body>
 </html>

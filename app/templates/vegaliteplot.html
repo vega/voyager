@@ -8,13 +8,13 @@
       <accordion-heading>
         Vegalite spec <i class="right" ng-class="{'fa fa-chevron-down': isopen, 'fa fa-chevron-right': !isopen}"></i>
       </accordion-heading>
-      <pre>{{ Vegalite.vlSpec | json }}</pre>
+      <pre>{{ Vegalite.vlSpec | compactJSON }}</pre>
     </accordion-group>
     <accordion-group>
       <accordion-heading>
         Vega spec <i class="right" ng-class="{'fa fa-chevron-down': isopen, 'fa fa-chevron-right': !isopen}"></i>
       </accordion-heading>
-      <pre>{{ Vegalite.vegaSpec | json }}</pre>
+      <pre>{{ Vegalite.vegaSpec | compactJSON }}</pre>
     </accordion-group>
   </accordion>
 </div>
