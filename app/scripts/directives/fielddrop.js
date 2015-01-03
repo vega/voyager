@@ -16,7 +16,12 @@ angular.module('vleApp')
         };
 
         $scope.fieldDropped = function() {
-          $scope.fieldDef.type = Dataset.stats[$scope.fieldDef.name].type;
+          var fieldType = Dataset.stats[$scope.fieldDef.name].type;
+          if (_.contains($scope.types, fieldType)) {
+            $scope.fieldDef.type = fieldType;
+          } else if (!$scope.fieldDef.type) {
+            $scope.fieldDef.type = $scope.types[0];
+          }
         }
       }
     };
