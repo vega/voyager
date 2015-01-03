@@ -8,8 +8,6 @@ angular.module('vleApp')
         return _.mapValues(schema.properties, instanceFromSchema);
       } else if (_.has(schema, 'default')) {
         return schema.default;
-      } else if (schema.enum && !_.has(schema.enum, null)) {
-        return schema.enum[0];
       } else {
         return null;
       }

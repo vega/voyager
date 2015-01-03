@@ -1,6 +1,20 @@
 <div class="card">
-  <pre>{{ Vegalite.vlSpec | json }}</pre>
-</div>
-<div class="card">
   <div id="vis"></div>
+</div>
+
+<div class="card">
+  <accordion close-others="false">
+    <accordion-group>
+      <accordion-heading>
+        Vegalite spec <i class="right" ng-class="{'fa fa-chevron-down': isopen, 'fa fa-chevron-right': !isopen}"></i>
+      </accordion-heading>
+      <pre>{{ Vegalite.vlSpec | json }}</pre>
+    </accordion-group>
+    <accordion-group>
+      <accordion-heading>
+        Vega spec <i class="right" ng-class="{'fa fa-chevron-down': isopen, 'fa fa-chevron-right': !isopen}"></i>
+      </accordion-heading>
+      <pre>{{ Vegalite.vegaSpec | json }}</pre>
+    </accordion-group>
+  </accordion>
 </div>
