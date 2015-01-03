@@ -22,6 +22,10 @@ angular.module('vleApp')
         $scope.$watch(
           function(){ return Vegalite.vegaSpec },
           function(newSpec) {
+            if (!newSpec) {
+              return;
+            }
+
             update();
             vg.parse.spec(newSpec, function(chart) {
               vis = null;

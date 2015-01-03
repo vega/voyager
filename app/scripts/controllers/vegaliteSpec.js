@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('vleApp')
-  .controller('VegaliteSpecCtrl', function ($scope, VegaliteSpec, VegaliteSpecSchema, Vegalite) {
+  .controller('VegaliteSpecCtrl', function ($scope, VegaliteSpec, VegaliteSpecSchema, Vegalite, Alerts) {
 
     $scope.spec = null;
     $scope.$watch(
@@ -19,10 +19,14 @@ angular.module('vleApp')
     });
 
     $scope.$watch('spec', function(newSpec, oldSpec) {
-      if (!newSpec || !newSpec.marktype) {
+      if (!newSpec || !newSpec.marktype || !newSpec.cfg) {
         return;
       }
 
-      Vegalite.updateVegaliteSpec(newSpec);
+      Vegalite.updateVegaliteSpec(newSpec).then(function() {}, function(errors) {
+        _.each(errors, function(error) {
+          Alerts.add({msg: error});
+        });
+      });
     }, true); // TODO: is this needed?
   });

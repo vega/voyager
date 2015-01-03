@@ -1,0 +1,6 @@
+<div class="row">
+  <div data-alert class="alert-box alert radius" ng-repeat="alert in Alerts.alerts">
+    {{ alert.msg }}
+    <a href="#" class="close" ng-click="Alerts.closeAlert($index)">&times;</a>
+  </div>
+</div>
