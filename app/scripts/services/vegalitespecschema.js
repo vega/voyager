@@ -5,11 +5,16 @@ angular.module('vleApp')
     var service = {};
 
     // generates a js object instance from a json schema
-    service.instanceFromSchema = function(schema) {
+    service.instanceFromSchema = function(schema, required) {
       if (schema.type === 'object') {
-        return _.mapValues(schema.properties, service.instanceFromSchema);
+        schema.required = schema.required ? schema.required : [];
+        return _.mapValues(schema.properties, function(child, name) {
+          return service.instanceFromSchema(child, _.contains(schema.required , name));
+        });
       } else if (_.has(schema, 'default')) {
         return schema.default;
+      } else if (schema.enum && required) {
+        return schema.enum[0];
       } else {
         return null;
       }

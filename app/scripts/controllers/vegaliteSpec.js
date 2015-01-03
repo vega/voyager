@@ -19,7 +19,7 @@ angular.module('vleApp')
     });
 
     $scope.$watch('spec', function(newSpec, oldSpec) {
-      if (!newSpec) {
+      if (!newSpec || !newSpec.marktype) {
         return;
       }
 
