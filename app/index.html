@@ -70,9 +70,16 @@
           </label>
         </div>
 
-        <!-- FIXME: can angular sort objects? -->
-        <div class="card" ng-repeat="encType in encTypes">
-          <field-def-editor enc-type="encType" field-def="encoding.enc[encType]" field-def-schema="schema.properties.enc.properties[encType]"></field-def-editor>
+        <div ng-init="prop = schema.properties.enc.properties">
+          <field-def-editor enc-type="'x'" field-def="encoding.enc['x']" field-def-schema="prop['x']"></field-def-editor>
+          <field-def-editor enc-type="'y'" field-def="encoding.enc['y']" field-def-schema="prop['y']"></field-def-editor>
+          <field-def-editor enc-type="'row'" field-def="encoding.enc['row']" field-def-schema="prop['row']"></field-def-editor>
+          <field-def-editor enc-type="'col'" field-def="encoding.enc['col']" field-def-schema="prop['col']"></field-def-editor>
+          <field-def-editor enc-type="'size'" field-def="encoding.enc['size']" field-def-schema="prop['size']"></field-def-editor>
+          <field-def-editor enc-type="'color'" field-def="encoding.enc['color']" field-def-schema="prop['color']"></field-def-editor>
+          <field-def-editor enc-type="'alpha'" field-def="encoding.enc['alpha']" field-def-schema="prop['alpha']"></field-def-editor>
+          <field-def-editor enc-type="'shape'" field-def="encoding.enc['shape']" field-def-schema="prop['shape']"></field-def-editor>
+          <field-def-editor enc-type="'text'" field-def="encoding.enc['text']" field-def-schema="prop['text']"></field-def-editor>
         </div>
       </div>
 

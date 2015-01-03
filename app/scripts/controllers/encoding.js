@@ -14,9 +14,6 @@ angular.module('vleApp')
       $scope.schema = schema;
     });
 
-    // define order
-    $scope.encTypes = ['x', 'y', 'row', 'col', 'size', 'color', 'alpha', 'shape', 'text'];
-
     $scope.$watch('encoding', function(newEncoding, oldEncoding) {
       if (!newEncoding) {
         return;
