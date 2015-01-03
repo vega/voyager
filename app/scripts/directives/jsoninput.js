@@ -7,8 +7,8 @@ angular.module('vleApp')
       require: 'ngModel',
       link: function(scope, element, attrs, modelCtrl) {
         var format = function(inputValue) {
-          return JSON.stringify(inputValue, null, "  ", 80);
-        }
+          return JSON.stringify(inputValue, null, '  ', 80);
+        };
         modelCtrl.$formatters.push(format);
       }
     };

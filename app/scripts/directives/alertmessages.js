@@ -5,7 +5,7 @@ angular.module('vleApp')
     return {
       templateUrl: 'templates/alertMessages.html',
       restrict: 'E',
-      link: function postLink(scope, element, attrs) {
+      link: function(scope, element, attrs) {
         scope.Alerts = Alerts;
       }
     };

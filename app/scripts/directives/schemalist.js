@@ -9,7 +9,7 @@ angular.module('vleApp')
         $scope.schema = Dataset.schema;
 
         $scope.$watch(
-          function(){ return Dataset.schema },
+          function(){ return Dataset.schema; },
           function(newSchema) {
             $scope.schema = newSchema;
           }

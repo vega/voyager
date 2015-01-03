@@ -3,18 +3,23 @@
 describe('Directive: fieldDefEditor', function () {
 
   // load the directive's module
-  beforeEach(module('vleApp'));
+  beforeEach(module('vleApp', 'templates'));
 
   var element,
     scope;
 
   beforeEach(inject(function ($rootScope) {
     scope = $rootScope.$new();
+    scope.encType = 'foobar';
+    scope.fieldDef = {};
+    scope.schema = {};
   }));
 
-  it('should make hidden element visible', inject(function ($compile) {
+  it('should show title', inject(function ($compile) {
     element = angular.element('<field-def-editor></field-def-editor>');
     element = $compile(element)(scope);
-    expect(element.text()).toBe('this is the fieldDefEditor directive');
+    scope.$digest();
+
+    expect($(element).find('h4').text()).toBe('foobar');
   }));
 });

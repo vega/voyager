@@ -7,7 +7,6 @@ angular.module('vleApp')
     service.alerts = [];
 
     service.add = function(msg) {
-      console.warn(msg)
       service.alerts.push({'msg': msg});
     };
 

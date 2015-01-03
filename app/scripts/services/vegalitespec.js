@@ -8,7 +8,7 @@ angular.module('vleApp')
 
     service.parseShorthand = function(newShorthand) {
       service.spec = vl.Encoding.parseShorthand(newShorthand, Config.config).toSpec();
-    }
+    };
 
     service.updateSpec = function() {
       VegaliteSpecSchema.getSchema().then(function(schema) {

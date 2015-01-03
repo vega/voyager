@@ -12,8 +12,8 @@ describe('Filter: compactJSON', function () {
   }));
 
   it('should return the input prefixed with "compactJSON filter:"', function () {
-    var text = 'angularjs';
-    expect(compactJSON(text)).toBe('compactJSON filter: ' + text);
+    var obj = {foo: 'bar'};
+    expect(compactJSON(obj)).toBe('{"foo": "bar"}');
   });
 
 });

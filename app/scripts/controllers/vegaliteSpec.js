@@ -5,7 +5,7 @@ angular.module('vleApp')
 
     $scope.spec = null;
     $scope.$watch(
-      function(){ return VegaliteSpec.spec },
+      function(){ return VegaliteSpec.spec; },
       function(newSpec) {
         $scope.spec = newSpec;
       }
@@ -18,7 +18,7 @@ angular.module('vleApp')
       console.warn(reason);
     });
 
-    $scope.$watch('spec', function(newSpec, oldSpec) {
+    $scope.$watch('spec', function(newSpec) {
       if (!newSpec || !newSpec.marktype || !newSpec.cfg) {
         return;
       }

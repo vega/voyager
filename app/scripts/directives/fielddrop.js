@@ -22,7 +22,7 @@ angular.module('vleApp')
           } else if (!$scope.fieldDef.type) {
             $scope.fieldDef.type = $scope.types[0];
           }
-        }
+        };
       }
     };
   });

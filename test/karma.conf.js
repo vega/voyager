@@ -32,6 +32,8 @@ module.exports = function(config) {
       'bower_components/angular-touch/angular-touch.js',
       'bower_components/angular-dragdrop/src/angular-dragdrop.js',
       'bower_components/angular-foundation/mm-foundation-tpls.js',
+      'bower_components/angular-elastic/elastic.js',
+      'bower_components/tv4/tv4.js',
       'bower_components/d3/d3.js',
       'bower_components/jquery-ui/jquery-ui.js',
       'app/scripts/**/*.js',

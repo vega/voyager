@@ -8,14 +8,14 @@ angular.module('vleApp')
     $scope.Config = Config;
 
     $scope.$watch(
-      function(){ return Config.config },
+      function(){ return Config.config; },
       function(newConfig) {
         $scope.config = newConfig;
       }
     );
 
     $scope.$watch(
-      function(){ return Config.schema },
+      function(){ return Config.schema; },
       function(newSchema) {
          $scope.schema= newSchema;
       }

@@ -14,13 +14,13 @@ angular.module('vleApp')
         };
 
         $scope.parseShorthand = function(shorthand) {
-          VegaliteSpec.parseShorthand(shorthand)
-        }
+          VegaliteSpec.parseShorthand(shorthand);
+        };
 
         var vis;
 
         $scope.$watch(
-          function(){ return Vegalite.vegaSpec },
+          function(){ return Vegalite.vegaSpec; },
           function(newSpec) {
             if (!newSpec) {
               return;
