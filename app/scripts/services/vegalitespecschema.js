@@ -15,9 +15,8 @@ angular.module('vleApp')
         return schema.default;
       } else if (schema.enum && required) {
         return schema.enum[0];
-      } else {
-        return null;
       }
+      return null;
     };
 
     service.getSchema = function() {

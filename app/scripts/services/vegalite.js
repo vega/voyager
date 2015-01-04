@@ -24,7 +24,7 @@ angular.module('vleApp')
     };
 
     service.vlSpec = null;
-    service.spec = null;
+    service.encoding = null;
     service.shorthand = null;
     service.vegaSpec = null;
 
@@ -39,6 +39,8 @@ angular.module('vleApp')
         cleanSpec.enc = {}
       }
 
+      // TODO: remove defaults
+
       var response = $q.defer();
       var vegaSpecDeferred = $q.defer();
 
@@ -50,9 +52,9 @@ angular.module('vleApp')
           response.reject(result.errors);
         } else {
           service.vlSpec = cleanSpec;
-          service.spec = vl.Encoding.fromSpec(cleanSpec, Config.config);
-          service.shorthand = service.spec.toShorthand();
-          service.vegaSpec = vl.toVegaSpec(service.spec, Dataset.stats);
+          service.encoding = vl.Encoding.fromSpec(cleanSpec, Config.config);
+          service.shorthand = service.encoding.toShorthand();
+          service.vegaSpec = vl.toVegaSpec(service.encoding, Dataset.stats);
         }
       });
 

@@ -9,7 +9,7 @@ angular.module('vleApp')
       controller: function ($scope, Vegalite, VegaliteSpec) {
         var update = function() {
           $scope.vegaSpec = Vegalite.vegaSpec;
-          $scope.spec = Vegalite.spec;
+          $scope.vlSpec = Vegalite.vlSpec;
           $scope.shorthand = Vegalite.shorthand;
         };
 
