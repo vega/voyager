@@ -16,7 +16,7 @@ describe('Service: VegaliteSpec', function () {
   });
 
   it('functions should be defined', function () {
-    expect(spec.updateSpec).toBeDefined();
+    expect(spec.resetSpec).toBeDefined();
     expect(spec.parseShorthand).toBeDefined();
   });
 

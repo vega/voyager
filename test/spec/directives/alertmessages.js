@@ -15,7 +15,7 @@ describe('Directive: alertMessages', function () {
         {name: "bar"}
       ]
     }
-    $provide.value('Alert', mock);
+    $provide.value('Alerts', mock);
   }));
 
   beforeEach(inject(function ($rootScope) {

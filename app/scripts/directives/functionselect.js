@@ -60,7 +60,7 @@ angular.module('vleApp')
           var functions = [{name: ""}];
 
           // set aggregation functions
-          if (schema.aggr && schema.aggr.supportedTypes[type]) {
+          if (schema.aggr && (!schema.aggr.supportedTypes || schema.aggr.supportedTypes[type])) {
             var aggFunctions = schema.aggr.supportedEnums ? schema.aggr.supportedEnums[type] : schema.aggr.enum;
 
             _.each(aggFunctions, function(aggFunc) {

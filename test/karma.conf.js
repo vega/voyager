@@ -21,6 +21,11 @@ module.exports = function(config) {
       'app/templates/*.html': 'ng-html2js'
     },
 
+    ngHtml2JsPreprocessor: {
+      stripPrefix: 'app/',
+      moduleName: 'templates'
+    },
+
     // list of files / patterns to load in the browser
     files: [
       'bower_components/jquery/dist/jquery.js',
@@ -36,6 +41,7 @@ module.exports = function(config) {
       'bower_components/tv4/tv4.js',
       'bower_components/d3/d3.js',
       'bower_components/jquery-ui/jquery-ui.js',
+      'bower_components/lodash/dist/lodash.js',
       'app/scripts/**/*.js',
       'test/mock/**/*.js',
       'test/spec/**/*.js',
@@ -43,11 +49,6 @@ module.exports = function(config) {
       //include the directory where directive templates are stored.
       'app/templates/*.html'
     ],
-
-    ngHtml2JsPreprocessor: {
-      stripPrefix: 'app/',
-      moduleName: 'templates'
-    },
 
     // list of files / patterns to exclude
     exclude: ['app/scripts/vendor/bin.js'],

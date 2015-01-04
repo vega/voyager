@@ -15,7 +15,7 @@ describe('Directive: fieldDrop', function () {
   it('should initially have placeholder', inject(function ($compile) {
     element = angular.element('<field-drop></field-drop>');
     element = $compile(element)(scope);
-     scope.$digest();
+    scope.$digest();
 
     expect($(element).find('.placeholder').length).toBe(1);
   }));

@@ -3,18 +3,21 @@
 describe('Directive: jsonInput', function () {
 
   // load the directive's module
-  beforeEach(module('vleApp'));
+  beforeEach(module('vleApp', 'templates'));
 
   var element,
     scope;
 
   beforeEach(inject(function ($rootScope) {
     scope = $rootScope.$new();
+    scope.foo = {foo: 'bar'}
   }));
 
   it('should make hidden element visible', inject(function ($compile) {
-    element = angular.element('<json-input></json-input>');
+    element = angular.element('<textarea json-input ng-model="foo"></textarea>');
     element = $compile(element)(scope);
-    expect(element.text()).toBe('this is the jsonInput directive');
+    scope.$digest();
+
+    expect($(element).val()).toBe('{"foo": "bar"}');
   }));
 });
