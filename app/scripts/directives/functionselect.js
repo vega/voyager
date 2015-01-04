@@ -10,22 +10,7 @@ angular.module('vleApp')
         fieldDef: '='
       },
       controller: function($scope) {
-        // TODO: no propagation from model to ui (for aggr and bin in fieldDef)
         $scope.selectedAggFunc = {name: ""};
-
-        // $scope.$watchCollection(
-        //   function(){ return $scope.fieldDefSchema },
-        //   function(schema) {
-        //     update();
-        //   }
-        // );
-
-        $scope.$watchCollection(
-          function(){ return $scope.fieldDef },
-          function(fieldDef) {
-            update();
-          }
-        );
 
         $scope.$watch('selectedAggFunc', function(aggFunc) {
           if (!aggFunc) {
@@ -48,6 +33,20 @@ angular.module('vleApp')
           }
         });
 
+        // $scope.$watchCollection(
+        //   function(){ return $scope.fieldDefSchema },
+        //   function(schema) {
+        //     update();
+        //   }
+        // );
+
+        $scope.$watchCollection(
+          function(){ return $scope.fieldDef },
+          function(fieldDef) {
+            update();
+          }
+        );
+
         var update = function() {
           // only run this if schema is not null
           if (!$scope.fieldDefSchema || !$scope.fieldDef) {
@@ -63,22 +62,30 @@ angular.module('vleApp')
           // set aggregation functions
           if (schema.aggr && schema.aggr.supportedTypes[type]) {
             var aggFunctions = schema.aggr.supportedEnums ? schema.aggr.supportedEnums[type] : schema.aggr.enum;
-            // console.log($scope.fieldDefSchema)
 
             _.each(aggFunctions, function(aggFunc) {
               functions.push({
                 name: aggFunc,
                 group: 'Aggregation'
               });
+
+              if ($scope.fieldDef.aggr) {
+                $scope.selectedAggFunc = {name: $scope.fieldDef.aggr, group: 'Aggregation'};
+              }
             });
           }
 
           // add binning function
           if (schema.bin && schema.bin.supportedTypes[type]) {
-            functions.push({
+            var bin = {
               name: 'bin',
               group: 'Binning'
-            });
+            }
+            functions.push(bin);
+
+            if ($scope.fieldDef.bin === true) {
+              $scope.selectedAggFunc = bin;
+            }
           };
 
           // omit nulls
