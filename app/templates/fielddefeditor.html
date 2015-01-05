@@ -12,7 +12,7 @@
   </div>
 
   <function-select field-def="fieldDef" field-def-schema="schema"></function-select>
-  <fieldset ng-repeat="group in ['scale', 'text']" ng-show="schema.properties[group]">
+  <fieldset ng-repeat="group in ['scale', 'text', 'axis']" ng-show="schema.properties[group]">
     <legend>{{ group }}</legend>
     <div class="row" ng-repeat="(propName, scaleProp) in schema.properties[group].properties" ng-init="id = mapping.name + type + group + $index">
       <div class="small-3 columns" ng-hide="scaleProp.type === 'boolean'">

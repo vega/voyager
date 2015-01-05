@@ -49,6 +49,10 @@
          "supportedTypes": {"Q": true}
         }
        }
+      },
+      "axis": {
+       "type": "object",
+       "properties": {"grid": {"type": "boolean","default": false}}
       }
      }
     },
@@ -91,6 +95,10 @@
          "supportedTypes": {"Q": true}
         }
        }
+      },
+      "axis": {
+       "type": "object",
+       "properties": {"grid": {"type": "boolean","default": false}}
       }
      }
     },
@@ -318,8 +326,9 @@
   },
   "cfg": {
    "type": "object",
+   "required": ["dataFormatType"],
    "properties": {
-    "dataFormatType": {"type": "string","enum": ["json","csv"],"default": "json"},
+    "dataFormatType": {"type": "string","enum": ["json","csv"]},
     "useVegaServer": {"type": "boolean","default": false},
     "dataUrl": {"type": "string"},
     "vegaServerTable": {"type": "string"},
