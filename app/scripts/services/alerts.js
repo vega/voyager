@@ -1,13 +1,20 @@
 'use strict';
 
 angular.module('vleApp')
-  .service('Alerts', function () {
+  .service('Alerts', function ($timeout) {
     var service = {};
 
     service.alerts = [];
 
-    service.add = function(msg) {
-      service.alerts.push({'msg': msg});
+    service.add = function(msg, dismiss) {
+      var message = {msg: msg};
+      service.alerts.push(message);
+      if (dismiss) {
+        $timeout(function() {
+          var index = _.findIndex(service.alerts, message);
+          service.closeAlert(index);
+        }, dismiss);
+      };
     };
 
     service.closeAlert = function(index) {
