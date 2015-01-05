@@ -51,7 +51,7 @@ angular.module('vleApp')
     service.stats = null;
 
     var setSchemaAndStats = function(dataset) {
-      if (Config.useServer) {
+      if (Config.useVegaServer) {
         var url = Config.serverUrl + '/stats/?name=' + dataset.table;
         return $http.get(url, {cache: true}).then(function(response) {
           var parsed = Papa.parse(response.data, {header: true});
