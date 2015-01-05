@@ -1,6 +1,5 @@
 'use strict';
 
-
 angular.module('vleApp')
   .directive('vegalitePlot', function () {
     return {
