@@ -6,13 +6,13 @@ describe('Service: Vegalite', function () {
   beforeEach(module('vleApp'));
 
   // instantiate service
-  var Vegalite;
+  var vl;
   beforeEach(inject(function (_Vegalite_) {
-    Vegalite = _Vegalite_;
+    vl = _Vegalite_;
   }));
 
   it('should do something', function () {
-    expect(!!Vegalite).toBe(true);
+    expect(vl).toBeDefined();
   });
 
 });

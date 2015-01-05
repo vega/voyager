@@ -1,4 +1,4 @@
-'use strict';
+// 'use strict';
 
 describe('Directive: vegalitePlot', function () {
 
@@ -15,7 +15,16 @@ describe('Directive: vegalitePlot', function () {
       shorthand: 'foobar'
     }
     $provide.value('Vegalite', mock);
-    $provide.value('VegaliteSpec', {})
+    $provide.value('VegaliteSpec', {});
+
+    // need to mock global vega
+    vg = {
+      parse: {
+        spec: function() {
+          return {}
+        }
+      }
+    }
   }));
 
   beforeEach(inject(function ($rootScope) {

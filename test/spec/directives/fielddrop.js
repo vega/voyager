@@ -8,6 +8,10 @@ describe('Directive: fieldDrop', function () {
   var element,
     scope;
 
+  beforeEach(module('vleApp', function ($provide) {
+    $provide.value('Dataset', {});
+  }));
+
   beforeEach(inject(function ($rootScope) {
     scope = $rootScope.$new();
   }));

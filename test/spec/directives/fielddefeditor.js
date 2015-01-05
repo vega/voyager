@@ -8,6 +8,10 @@ describe('Directive: fieldDefEditor', function () {
   var element,
     scope;
 
+  beforeEach(module('vleApp', function ($provide) {
+    $provide.value('Dataset', {});
+  }));
+
   beforeEach(inject(function ($rootScope) {
     scope = $rootScope.$new();
     scope.encType = 'foobar';
@@ -16,7 +20,7 @@ describe('Directive: fieldDefEditor', function () {
   }));
 
   it('should show title', inject(function ($compile) {
-    element = angular.element('<field-def-editor></field-def-editor>');
+    element = angular.element('<field-def-editor enc-type="encType" field-def="fieldDef" schema="schema"></field-def-editor>');
     element = $compile(element)(scope);
     scope.$digest();
 
