@@ -12,6 +12,10 @@ angular.module('vleApp')
             Alerts.add('No vega spec present.');
           }
 
+          // Hack needed. See https://github.com/uwdata/lyra/issues/214
+          vegaSpec.marks[0]['lyra.groupType'] = 'layer';
+          console.log(vegaSpec)
+
           var lyraURL = 'http://idl.cs.washington.edu/projects/lyra/app/';
           var lyraWindow = window.open(lyraURL, '_blank');
 
