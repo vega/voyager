@@ -43,23 +43,7 @@
         </div>
 
         <div class="card">
-          <form ng-controller="ConfigCtrl">
-            <label>
-              <input type="checkbox" ng-model="config.useVegaServer"></input> Use server
-            </label>
-
-            <label>
-              Data format
-              <select required ng-options="format for format in schema.properties.dataFormatType.enum track by format" ng-model="config.dataFormatType"></select>
-            </label>
-
-            <label>
-              Vega Server URL
-              <input ng-model="config.vegaServerUrl" type="text"></input>
-            </label>
-
-            <pre>{{ config | compactJSON }}</pre>
-          </form>
+          <configuration-editor></configuration-editor>
         </div>
 
       </div>
@@ -147,6 +131,7 @@
     <script src="scripts/services/alerts.js"></script>
     <script src="scripts/directives/alertmessages.js"></script>
     <script src="scripts/directives/lyraexport.js"></script>
+    <script src="scripts/directives/configurationeditor.js"></script>
     <!-- endbuild -->
 </body>
 </html>
