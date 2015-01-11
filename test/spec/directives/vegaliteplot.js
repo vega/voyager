@@ -36,6 +36,6 @@ describe('Directive: vegalitePlot', function () {
     element = $compile(element)(scope);
     scope.$digest();
 
-    expect($(element).find('#vis').length).toBe(1);
+    expect(element.find('#vis').length).toBe(1);
   }));
 });

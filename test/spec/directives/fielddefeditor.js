@@ -24,6 +24,6 @@ describe('Directive: fieldDefEditor', function () {
     element = $compile(element)(scope);
     scope.$digest();
 
-    expect($(element).find('h4').text()).toBe('foobar');
+    expect(element.find('h4').text()).toBe('foobar');
   }));
 });
