@@ -15,6 +15,6 @@ describe('Directive: lyraExport', function () {
   it('should make hidden element visible', inject(function ($compile) {
     element = angular.element('<lyra-export></lyra-export>');
     element = $compile(element)(scope);
-    expect(element.text()).toBe('export to lyra...');
+    expect(element.text()).toBe('Export to lyra');
   }));
 });

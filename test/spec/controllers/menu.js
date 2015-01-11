@@ -10,13 +10,17 @@ describe('Controller: MenuCtrl', function () {
 
   // Initialize the controller and a mock scope
   beforeEach(inject(function ($controller, $rootScope) {
-    scope = $rootScope.$new();
+    scope = {};
     MenuCtrl = $controller('MenuCtrl', {
       $scope: scope
     });
   }));
 
-  it('should attach a list of awesomeThings to the scope', function () {
-    expect(scope.awesomeThings.length).toBe(3);
+  it('should attach showVgSpec()', function () {
+    expect(scope.showVgSpec).not.toBe(null);
+  });
+
+  it('should attach showVlSpec()', function () {
+    expect(scope.showVlSpec).not.toBe(null);
   });
 });
