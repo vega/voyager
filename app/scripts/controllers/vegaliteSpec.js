@@ -1,22 +1,23 @@
 'use strict';
 
 angular.module('vleApp')
-  .controller('VegaliteSpecCtrl', function ($scope, VegaliteSpec, VegaliteSpecSchema, Vegalite, Alerts) {
+  .controller('VegaliteSpecCtrl', function ($scope, $modal, VegaliteSpec, VegaliteSpecSchema, Vegalite, Alerts) {
 
     $scope.spec = null;
+    $scope.schema = null;
+
+    VegaliteSpecSchema.getSchema().then(function(schema) {
+      $scope.schema = schema;
+    }, function(reason) {
+      console.warn(reason);
+    });
+
     $scope.$watch(
       function(){ return VegaliteSpec.spec; },
       function(newSpec) {
         $scope.spec = newSpec;
       }
     );
-
-    $scope.schema = null;
-    VegaliteSpecSchema.getSchema().then(function(schema) {
-      $scope.schema = schema;
-    }, function(reason) {
-      console.warn(reason);
-    });
 
     $scope.$watch('spec', function(newSpec) {
       if (!newSpec || !newSpec.marktype || !newSpec.cfg) {

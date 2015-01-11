@@ -15,8 +15,8 @@
     <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
   </head>
-  <body ng-app="vleApp">
-    <nav class="top-bar" data-topbar>
+  <body ng-app="vleApp"  >
+    <nav class="top-bar" data-topbar ng-controller="MenuCtrl">
       <ul class="title-area">
         <li class="name">
           <h1>
@@ -26,7 +26,42 @@
           </h1>
         </li>
       </ul>
+
+      <section class="top-bar-section">
+        <!-- Right Nav Section -->
+        <ul class="right">
+          <li><a href="#" ng-click="showVlSpec()">Vegalite Spec</a></li>
+          <li><a href="#" ng-click="showVgSpec()">Vega Spec</a></li>
+          <li><lyra-export></lyra-export></li>
+          <!-- <li class="has-dropdown">
+            <a href="#">Right Button Dropdown</a>
+            <ul class="dropdown">
+              <li><a href="#">First link in dropdown</a></li>
+              <li class="active"><a href="#">Active link in dropdown</a></li>
+            </ul>
+          </li> -->
+        </ul>
+
+        <!-- Left Nav Section -->
+        <!--<ul class="left">
+          <li><a href="#">Left Nav Button</a></li>
+        </ul> -->
+      </section>
+
+      <script type="text/ng-template" id="vlSpecTemplate">
+        <h2>Vegalite Specification</h2>
+        <form>
+          <input type="text" ng-model="shorthand"></input>
+          <button type="submit" ng-click="parseShorthand(shorthand)" value="Save">Load</button>
+        </form>
+        <textarea class="vlspec" json-input type="text" ng-model="vlSpec"></textarea>
+      </script>
+      <script type="text/ng-template" id="vgSpecTemplate">
+        <h2>Vega Specification</h2>
+        <textarea class="vgspec" json-input disabled="disabled" type="text" ng-model="vegaSpec"></textarea>
+      </script>
     </nav>
+
 
     <alert-messages></alert-messages>
 
@@ -147,6 +182,7 @@
     <script src="scripts/services/alerts.js"></script>
     <script src="scripts/directives/alertmessages.js"></script>
     <script src="scripts/directives/lyraexport.js"></script>
+    <script src="scripts/controllers/menu.js"></script>
     <!-- endbuild -->
 </body>
 </html>

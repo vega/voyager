@@ -89,3 +89,7 @@ $field-width: rem-calc(150);
 .type-select {
 	width: rem-calc(60);
 }
+
+.vgspec, .vlspec {
+  min-height: 450px;
+}

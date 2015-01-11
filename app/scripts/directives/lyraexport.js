@@ -3,8 +3,9 @@
 angular.module('vleApp')
   .directive('lyraExport', function () {
     return {
-      template: '<a href="#" ng-click="export()">export to lyra...</a>',
+      template: '<a href="#" ng-click="export()">Export to lyra</a>',
       restrict: 'E',
+      replace: true,
       controller: function ($scope, $timeout, Vegalite, Alerts) {
         $scope.export = function() {
           var vegaSpec = Vegalite.vegaSpec;
