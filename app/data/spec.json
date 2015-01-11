@@ -326,7 +326,6 @@
   },
   "cfg": {
    "type": "object",
-   "required": ["dataFormatType"],
    "properties": {
     "dataFormatType": {"type": "string","enum": ["json","csv"]},
     "useVegaServer": {"type": "boolean","default": false},
