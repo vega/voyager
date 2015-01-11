@@ -1,0 +1,17 @@
+<form>
+  <label>
+    <input type="checkbox" ng-model="config.useVegaServer"></input> Use server
+  </label>
+
+  <label>
+    Data format
+    <select required ng-options="format for format in schema.properties.dataFormatType.enum track by format" ng-model="config.dataFormatType"></select>
+  </label>
+
+  <label>
+    Vega Server URL
+    <input ng-model="config.vegaServerUrl" type="text"></input>
+  </label>
+
+  <pre>{{ config | compactJSON }}</pre>
+</form>

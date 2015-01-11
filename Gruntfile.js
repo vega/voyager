@@ -66,6 +66,10 @@ module.exports = function (grunt) {
         // TODO change to vegalite/vegalite.js after splitting files
         files: ['../vegalite/src/vegalite.js'],
         tasks: ['copy:vegalite']
+      },
+      vegalitespec: {
+        files: ['../vegalite/schema/spec.json'],
+        tasks: ['copy:vegalitespec']
       }
     },
 
@@ -377,6 +381,10 @@ module.exports = function (grunt) {
       vegalite: {
         src: '../vegalite/src/vegalite.js',
         dest: '<%= yeoman.app %>/scripts/vendor/vegalite.js'
+      },
+      vegalitespec: {
+        src: '../vegalite/schema/spec.json',
+        dest: '<%= yeoman.app %>/data/spec.json'
       }
     },
 

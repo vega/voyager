@@ -6,6 +6,7 @@ angular.module('vleApp')
       template: '<a href="#" ng-click="export()">Export to lyra</a>',
       restrict: 'E',
       replace: true,
+      scope: {},
       controller: function ($scope, $timeout, Vegalite, Alerts) {
         $scope.export = function() {
           var vegaSpec = Vegalite.vegaSpec;
@@ -15,7 +16,6 @@ angular.module('vleApp')
 
           // Hack needed. See https://github.com/uwdata/lyra/issues/214
           vegaSpec.marks[0]['lyra.groupType'] = 'layer';
-          console.log(vegaSpec)
 
           var lyraURL = 'http://idl.cs.washington.edu/projects/lyra/app/';
           var lyraWindow = window.open(lyraURL, '_blank');
@@ -26,7 +26,7 @@ angular.module('vleApp')
             Alerts.add('Please check whether lyra loaded the vega spec correctly. This feature is experimental and may not work.', 5000);
             lyraWindow.postMessage({spec: vegaSpec}, lyraURL);
           }, 5000);
-        }
+        };
       }
     };
   });

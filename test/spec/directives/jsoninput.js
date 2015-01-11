@@ -18,6 +18,6 @@ describe('Directive: jsonInput', function () {
     element = $compile(element)(scope);
     scope.$digest();
 
-    expect($(element).val()).toBe('{"foo": "bar"}');
+    expect(element.val()).toBe('{"foo": "bar"}');
   }));
 });

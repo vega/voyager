@@ -14,7 +14,7 @@ angular.module('vleApp')
           var index = _.findIndex(service.alerts, message);
           service.closeAlert(index);
         }, dismiss);
-      };
+      }
     };
 
     service.closeAlert = function(index) {

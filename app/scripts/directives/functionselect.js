@@ -10,7 +10,7 @@ angular.module('vleApp')
         fieldDef: '='
       },
       controller: function($scope) {
-        $scope.selectedAggFunc = {name: ""};
+        $scope.selectedAggFunc = {name: ''};
 
         $scope.$watch('selectedAggFunc', function(aggFunc) {
           if (!aggFunc) {

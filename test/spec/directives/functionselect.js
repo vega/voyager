@@ -30,6 +30,6 @@ describe('Directive: functionSelect', function () {
     element = $compile(element)(scope);
     scope.$digest();
 
-    expect($(element).find('option').length).toBe(3);
+    expect(element.find('option').length).toBe(3);
   }));
 });

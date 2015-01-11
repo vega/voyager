@@ -21,6 +21,6 @@ describe('Directive: fieldDrop', function () {
     element = $compile(element)(scope);
     scope.$digest();
 
-    expect($(element).find('.placeholder').length).toBe(1);
+    expect(element.find('.placeholder').length).toBe(1);
   }));
 });

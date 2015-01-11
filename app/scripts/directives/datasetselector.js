@@ -6,7 +6,7 @@ angular.module('vleApp')
       templateUrl: 'templates/datasetselector.html',
       restrict: 'E',
       replace: true,
-      scope: true,
+      scope: {},
       controller: function ($scope) {
         $scope.datasets = Dataset.datasets;
         $scope.dataset = Dataset.dataset;

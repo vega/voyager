@@ -78,46 +78,12 @@
         </div>
 
         <div class="card">
-          <form ng-controller="ConfigCtrl">
-            <label>
-              <input type="checkbox" ng-model="config.useVegaServer"></input> Use server
-            </label>
-
-            <label>
-              Data format
-              <select required ng-options="format for format in schema.properties.dataFormatType.enum track by format" ng-model="config.dataFormatType"></select>
-            </label>
-
-            <label>
-              Vega Server URL
-              <input ng-model="config.vegaServerUrl" type="text"></input>
-            </label>
-
-            <pre>{{ config | compactJSON }}</pre>
-          </form>
+          <configuration-editor></configuration-editor>
         </div>
 
       </div>
-
-      <div class="small-2 columns" ng-controller="VegaliteSpecCtrl">
-        <div class="card">
-          <label>
-            Marktype
-            <select ng-model="spec.marktype" ng-options="type for type in schema.properties.marktype.enum"></select>
-          </label>
-        </div>
-
-        <div>
-          <field-def-editor enc-type="'x'" field-def="spec.enc['x']" field-def-schema="schema.properties.enc.properties['x']"></field-def-editor>
-          <field-def-editor enc-type="'y'" field-def="spec.enc['y']" field-def-schema="schema.properties.enc.properties['y']"></field-def-editor>
-          <field-def-editor enc-type="'row'" field-def="spec.enc['row']" field-def-schema="schema.properties.enc.properties['row']"></field-def-editor>
-          <field-def-editor enc-type="'col'" field-def="spec.enc['col']" field-def-schema="schema.properties.enc.properties['col']"></field-def-editor>
-          <field-def-editor enc-type="'size'" field-def="spec.enc['size']" field-def-schema="schema.properties.enc.properties['size']"></field-def-editor>
-          <field-def-editor enc-type="'color'" field-def="spec.enc['color']" field-def-schema="schema.properties.enc.properties['color']"></field-def-editor>
-          <field-def-editor enc-type="'alpha'" field-def="spec.enc['alpha']" field-def-schema="schema.properties.enc.properties['alpha']"></field-def-editor>
-          <field-def-editor enc-type="'shape'" field-def="spec.enc['shape']" field-def-schema="schema.properties.enc.properties['shape']"></field-def-editor>
-          <field-def-editor enc-type="'text'" field-def="spec.enc['text']" field-def-schema="schema.properties.enc.properties['text']"></field-def-editor>
-        </div>
+      <div class="small-2 columns">
+        <spec-editor></spec-editor>
       </div>
 
       <div class="small-8 columns">
@@ -165,8 +131,6 @@
     <script src="scripts/app.js"></script>
     <script src="scripts/services/config.js"></script>
     <script src="scripts/services/dataset.js"></script>
-    <script src="scripts/controllers/config.js"></script>
-    <script src="scripts/controllers/vegaliteSpec.js"></script>
     <script src="scripts/services/vegalitespec.js"></script>
     <script src="scripts/filters/scaletype.js"></script>
     <script src="scripts/directives/datasetselector.js"></script>
@@ -183,6 +147,8 @@
     <script src="scripts/directives/alertmessages.js"></script>
     <script src="scripts/directives/lyraexport.js"></script>
     <script src="scripts/controllers/menu.js"></script>
+    <script src="scripts/directives/configurationeditor.js"></script>
+    <script src="scripts/directives/speceditor.js"></script>
     <!-- endbuild -->
 </body>
 </html>
