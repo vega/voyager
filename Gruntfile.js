@@ -60,6 +60,12 @@ module.exports = function (grunt) {
           '.tmp/styles/{,*/}*.css',
           '<%= yeoman.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
         ]
+      },
+      // assuming the dev environment has
+      vegalite: {
+        // TODO change to vegalite/vegalite.js after splitting files
+        files: ['../vegalite/src/vegalite.js'],
+        tasks: ['copy:vegalite']
       }
     },
 
@@ -367,6 +373,10 @@ module.exports = function (grunt) {
         cwd: '<%= yeoman.app %>/styles',
         dest: '.tmp/styles/',
         src: '{,*/}*.css'
+      },
+      vegalite: {
+        src: '../vegalite/src/vegalite.js',
+        dest: '<%= yeoman.app %>/scripts/vendor/vegalite.js'
       }
     },
 
@@ -440,4 +450,8 @@ module.exports = function (grunt) {
     'test',
     'build'
   ]);
+
+  grunt.registerTask('watchvl',[
+    'watch:vegalite'
+  ])
 };
