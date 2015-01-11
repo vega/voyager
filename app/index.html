@@ -49,16 +49,10 @@
       </section>
 
       <script type="text/ng-template" id="vlSpecTemplate">
-        <h2>Vegalite Specification</h2>
-        <form>
-          <input type="text" ng-model="shorthand"></input>
-          <button type="submit" ng-click="parseShorthand(shorthand)" value="Save">Load</button>
-        </form>
-        <textarea class="vlspec" json-input type="text" ng-model="vlSpec"></textarea>
+        <vl-spec-editor></vl-spec-editor>
       </script>
       <script type="text/ng-template" id="vgSpecTemplate">
-        <h2>Vega Specification</h2>
-        <textarea class="vgspec" json-input disabled="disabled" type="text" ng-model="vegaSpec"></textarea>
+        <vg-spec-editor></vg-spec-editor>
       </script>
     </nav>
 
@@ -149,6 +143,8 @@
     <script src="scripts/controllers/menu.js"></script>
     <script src="scripts/directives/configurationeditor.js"></script>
     <script src="scripts/directives/speceditor.js"></script>
+    <script src="scripts/directives/vlSpecEditor.js"></script>
+    <script src="scripts/directives/vgSpecEditor.js"></script>
     <!-- endbuild -->
 </body>
 </html>
