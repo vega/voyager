@@ -12,7 +12,6 @@ describe('Service: Config', function () {
     $provide.factory('VegaliteSpecSchema', function($q) {
       return {
         getSchema: function() {
-          console.log("defer", $q)
           deferred = $q.defer();
           return deferred.promise;
         },
