@@ -5,6 +5,7 @@ angular.module('vleApp')
     return {
       templateUrl: 'templates/schemalist.html',
       restrict: 'E',
+      scope: {},
       controller: function ($scope) {
         $scope.schema = Dataset.schema;
 

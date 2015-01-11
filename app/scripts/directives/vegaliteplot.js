@@ -5,6 +5,7 @@ angular.module('vleApp')
     return {
       templateUrl: 'templates/vegaliteplot.html',
       restrict: 'E',
+      scope: {},
       controller: function ($scope, Vegalite, VegaliteSpec) {
         var update = function() {
           $scope.vegaSpec = Vegalite.vegaSpec;

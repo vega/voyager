@@ -5,6 +5,7 @@ angular.module('vleApp')
     return {
       template: '<a href="#" ng-click="export()">export to lyra...</a>',
       restrict: 'E',
+      scope: {},
       controller: function ($scope, $timeout, Vegalite, Alerts) {
         $scope.export = function() {
           var vegaSpec = Vegalite.vegaSpec;

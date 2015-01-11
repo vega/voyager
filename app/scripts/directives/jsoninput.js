@@ -5,6 +5,7 @@ angular.module('vleApp')
     return {
       restrict: 'A',
       require: 'ngModel',
+      scope: {},
       link: function(scope, element, attrs, modelCtrl) {
         var format = function(inputValue) {
           return JSON.stringify(inputValue, null, '  ', 80);
