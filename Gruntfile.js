@@ -61,7 +61,7 @@ module.exports = function (grunt) {
           '<%= yeoman.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
         ]
       },
-      // assuming the dev environment has
+      // assuming the dev environment has vegalite repo in the same folder as vegalite-ui
       vegalite: {
         // TODO change to vegalite/vegalite.js after splitting files
         files: ['../vegalite/src/vegalite.js'],
