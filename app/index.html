@@ -48,25 +48,8 @@
 
       </div>
 
-      <div class="small-3 columns" ng-controller="VegaliteSpecCtrl">
-        <div class="card">
-          <label>
-            Marktype
-            <select ng-model="spec.marktype" ng-options="type for type in schema.properties.marktype.enum"></select>
-          </label>
-        </div>
-
-        <div>
-          <field-def-editor enc-type="'x'" field-def="spec.enc['x']" field-def-schema="schema.properties.enc.properties['x']"></field-def-editor>
-          <field-def-editor enc-type="'y'" field-def="spec.enc['y']" field-def-schema="schema.properties.enc.properties['y']"></field-def-editor>
-          <field-def-editor enc-type="'row'" field-def="spec.enc['row']" field-def-schema="schema.properties.enc.properties['row']"></field-def-editor>
-          <field-def-editor enc-type="'col'" field-def="spec.enc['col']" field-def-schema="schema.properties.enc.properties['col']"></field-def-editor>
-          <field-def-editor enc-type="'size'" field-def="spec.enc['size']" field-def-schema="schema.properties.enc.properties['size']"></field-def-editor>
-          <field-def-editor enc-type="'color'" field-def="spec.enc['color']" field-def-schema="schema.properties.enc.properties['color']"></field-def-editor>
-          <field-def-editor enc-type="'alpha'" field-def="spec.enc['alpha']" field-def-schema="schema.properties.enc.properties['alpha']"></field-def-editor>
-          <field-def-editor enc-type="'shape'" field-def="spec.enc['shape']" field-def-schema="schema.properties.enc.properties['shape']"></field-def-editor>
-          <field-def-editor enc-type="'text'" field-def="spec.enc['text']" field-def-schema="schema.properties.enc.properties['text']"></field-def-editor>
-        </div>
+      <div class="small-3 columns">
+        <spec-editor></spec-editor>
       </div>
 
       <div class="small-6 columns">
@@ -114,8 +97,6 @@
     <script src="scripts/app.js"></script>
     <script src="scripts/services/config.js"></script>
     <script src="scripts/services/dataset.js"></script>
-    <script src="scripts/controllers/config.js"></script>
-    <script src="scripts/controllers/vegaliteSpec.js"></script>
     <script src="scripts/services/vegalitespec.js"></script>
     <script src="scripts/filters/scaletype.js"></script>
     <script src="scripts/directives/datasetselector.js"></script>
@@ -132,6 +113,7 @@
     <script src="scripts/directives/alertmessages.js"></script>
     <script src="scripts/directives/lyraexport.js"></script>
     <script src="scripts/directives/configurationeditor.js"></script>
+    <script src="scripts/directives/speceditor.js"></script>
     <!-- endbuild -->
 </body>
 </html>
