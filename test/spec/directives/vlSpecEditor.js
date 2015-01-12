@@ -3,7 +3,7 @@
 describe('Directive: vlSpecEditor', function () {
 
   // load the directive's module
-  beforeEach(module('vleApp'));
+  beforeEach(module('vleApp', 'templates'));
 
   var element,
     scope;
@@ -18,6 +18,8 @@ describe('Directive: vlSpecEditor', function () {
   it('should make hidden element visible', inject(function ($compile) {
     element = angular.element('<vl-spec-editor></vl-spec-editor>');
     element = $compile(element)(scope);
+    scope.$digest();
+
     expect(scope.vlSpec).toBe('{}');
     expect(scope.shorthand).toBe('point.');
   }));

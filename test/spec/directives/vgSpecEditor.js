@@ -3,7 +3,7 @@
 describe('Directive: vgSpecEditor', function () {
 
   // load the directive's module
-  beforeEach(module('vleApp'));
+  beforeEach(module('vleApp', 'templates'));
 
   var element,
     scope;
@@ -17,6 +17,8 @@ describe('Directive: vgSpecEditor', function () {
   it('should make hidden element visible', inject(function ($compile) {
     element = angular.element('<vg-spec-editor></vg-spec-editor>');
     element = $compile(element)(scope);
+    scope.$digest();
+
     expect(scope.vgSpec).toBe("{}");
   }));
 });
