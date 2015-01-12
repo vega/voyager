@@ -64,8 +64,12 @@ module.exports = function (grunt) {
       // assuming the dev environment has vegalite repo in the same folder as vegalite-ui
       vegalite: {
         // TODO change to vegalite/vegalite.js after splitting files
-        files: ['../vegalite/src/vegalite.js', '../vegalite/schema/spec.json'],
-        tasks: ['copy:vegalite', 'copy:vegalitespec']
+        files: ['../vegalite/src/vegalite.js'],
+        tasks: ['copy:vegalite']
+      },
+      vegalitespec: {
+        files: ['../vegalite/schema/spec.json'],
+        tasks: ['copy:vegalitespec']
       }
     },
 

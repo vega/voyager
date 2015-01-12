@@ -1,5 +1,5 @@
 $rem-base: 16px;
-$base-font-size: 90%;
+$base-font-size: 12px;
 
 // bower:scss
 @import "foundation-sass/scss/normalize.scss";
@@ -38,7 +38,6 @@ fieldset {
 	padding: rem-calc(15);
 	background: $white;
 	border-style: none;
-	box-shadow: 3px 3px 10px 2px rgba(0,0,0,0.2);
 }
 
 $field-width: rem-calc(150);
@@ -53,8 +52,6 @@ $field-width: rem-calc(150);
     text-align: center;
     padding: rem-calc(6.5);
 
-    box-shadow: 2px 2px 6px 0px rgba(0,0,0,0.3);
-
     .remove-field {
     	float: right;
     	margin-right: rem-calc(10);
@@ -65,7 +62,6 @@ $field-width: rem-calc(150);
 .field-drop {
 	width: $field-width;
 	border: 1px solid $iron;
-	box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
 	.field {
 		margin: 0;
 	}
@@ -92,4 +88,8 @@ $field-width: rem-calc(150);
 
 .type-select {
 	width: rem-calc(60);
+}
+
+.vgspec, .vlspec {
+  min-height: 450px;
 }
