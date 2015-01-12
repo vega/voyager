@@ -8,19 +8,27 @@ describe('Directive: vlSpecEditor', function () {
   var element,
     scope;
 
-  beforeEach(inject(function ($rootScope) {
-    scope = {
-      vlSpec: "{}",
-      shorthand: "point."
+  beforeEach(module('vleApp', function ($provide) {
+    var mock = {
+      vlSpec: {},
+      shorthand: 'point.'
     };
+    $provide.value('Vegalite', mock);
+    $provide.value('VegaliteSpec', {
+      parseShorthand: function(){}
+    });
   }));
 
-  it('should make hidden element visible', inject(function ($compile) {
+  beforeEach(inject(function ($rootScope) {
+    scope = $rootScope.$new();
+  }));
+
+  it('should show source code', inject(function ($compile) {
     element = angular.element('<vl-spec-editor></vl-spec-editor>');
     element = $compile(element)(scope);
     scope.$digest();
 
-    expect(scope.vlSpec).toBe('{}');
-    expect(scope.shorthand).toBe('point.');
+    expect(element.find(".vlspec").val()).toBe("{}");
+    expect(element.find(".shorthand").val()).toBe("point.");
   }));
 });

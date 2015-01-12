@@ -8,17 +8,22 @@ describe('Directive: vgSpecEditor', function () {
   var element,
     scope;
 
-  beforeEach(inject(function ($rootScope) {
-    scope = {
-      vgSpec: "{}"
+  beforeEach(module('vleApp', function ($provide) {
+    var mock = {
+      vgSpec: {}
     };
+    $provide.value('Vegalite', mock);
   }));
 
-  it('should make hidden element visible', inject(function ($compile) {
+  beforeEach(inject(function ($rootScope) {
+    scope = $rootScope.$new();
+  }));
+
+  it('should show source code', inject(function ($compile) {
     element = angular.element('<vg-spec-editor></vg-spec-editor>');
     element = $compile(element)(scope);
     scope.$digest();
 
-    expect(scope.vgSpec).toBe("{}");
+    expect(element.find(".vgspec").val()).toBe("{}");
   }));
 });
