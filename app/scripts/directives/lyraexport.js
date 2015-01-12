@@ -9,7 +9,7 @@ angular.module('vleApp')
       scope: {},
       controller: function ($scope, $timeout, Vegalite, Alerts) {
         $scope.export = function() {
-          var vegaSpec = Vegalite.vegaSpec;
+          var vegaSpec = Vegalite.vgSpec;
           if (!vegaSpec) {
             Alerts.add('No vega spec present.');
           }

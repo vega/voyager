@@ -1,6 +1,6 @@
 'use strict';
 
-// watch for changes to vegaSpec
+// watch for changes to vgSpec
 angular.module('vleApp')
   .service('Vegalite', function ($q, Dataset, Config, VegaliteSpecSchema) {
     var service = {};
@@ -26,7 +26,7 @@ angular.module('vleApp')
     service.vlSpec = null;
     service.encoding = null;
     service.shorthand = null;
-    service.vegaSpec = null;
+    service.vgSpec = null;
 
     service.updateVegaliteSpec = function(newSpec) {
       var cleanSpec = _.cloneDeep(newSpec);
@@ -54,7 +54,7 @@ angular.module('vleApp')
           service.vlSpec = cleanSpec;
           service.encoding = vl.Encoding.fromSpec(cleanSpec, Config.config);
           service.shorthand = service.encoding.toShorthand();
-          service.vegaSpec = vl.toVegaSpec(service.encoding, Dataset.stats);
+          service.vgSpec = vl.toVegaSpec(service.encoding, Dataset.stats);
         }
       });
 
