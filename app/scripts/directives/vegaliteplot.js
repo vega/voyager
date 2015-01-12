@@ -8,7 +8,7 @@ angular.module('vleApp')
       scope: {},
       controller: function ($scope, Vegalite, VegaliteSpec) {
         var update = function() {
-          $scope.vegaSpec = Vegalite.vegaSpec;
+          $scope.vgSpec = Vegalite.vgSpec;
           $scope.vlSpec = Vegalite.vlSpec;
           $scope.shorthand = Vegalite.shorthand;
         };
@@ -20,7 +20,7 @@ angular.module('vleApp')
         var vis;
 
         $scope.$watch(
-          function(){ return Vegalite.vegaSpec; },
+          function(){ return Vegalite.vgSpec; },
           function(newSpec) {
             if (!newSpec) {
               return;

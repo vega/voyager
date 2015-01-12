@@ -5,7 +5,7 @@
 
 <div class="card">
   <form>
-    <input type="text" ng-model="shorthand"></input>
+    <input type="text" ng-model="shorthand">
     <button type="submit" ng-click="parseShorthand(shorthand)" value="Save">Load</button>
   </form>
   <accordion close-others="false">
@@ -19,7 +19,7 @@
       <accordion-heading>
         Vega specification <i class="right" ng-class="{'fa fa-chevron-down': isopen, 'fa fa-chevron-right': !isopen}"></i>
       </accordion-heading>
-      <textarea msd-elastic json-input disabled="disabled" type="text" ng-model="vegaSpec"></textarea>
+      <textarea msd-elastic json-input disabled="disabled" type="text" ng-model="vgSpec"></textarea>
     </accordion-group>
   </accordion>
 </div>

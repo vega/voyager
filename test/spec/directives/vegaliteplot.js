@@ -10,7 +10,7 @@ describe('Directive: vegalitePlot', function () {
 
   beforeEach(module('vleApp', function ($provide) {
     var mock = {
-      vegaSpec: {},
+      vgSpec: {},
       vlSpec: {},
       shorthand: 'foobar'
     }
