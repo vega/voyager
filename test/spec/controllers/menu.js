@@ -17,10 +17,10 @@ describe('Controller: MenuCtrl', function () {
   }));
 
   it('should attach showVgSpec()', function () {
-    expect(scope.showVgSpec).not.toBe(null);
+    expect(scope.showVgSpec).toBeDefined();
   });
 
   it('should attach showVlSpec()', function () {
-    expect(scope.showVlSpec).not.toBe(null);
+    expect(scope.showVlSpec).toBeDefined();
   });
 });
