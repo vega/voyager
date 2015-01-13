@@ -1,15 +1,14 @@
 <div class="card">
-  <label>
-    Marktype
-    <select class="markselect" ng-model="spec.marktype" ng-options="type for type in schema.properties.marktype.enum"></select>
-  </label>
-</div>
-
-<div>
+  <h2>Encoding</h2>
+  <h3>Positional</h3>
   <field-def-editor enc-type="'x'" field-def="spec.enc['x']" field-def-schema="schema.properties.enc.properties['x']"></field-def-editor>
   <field-def-editor enc-type="'y'" field-def="spec.enc['y']" field-def-schema="schema.properties.enc.properties['y']"></field-def-editor>
   <field-def-editor enc-type="'row'" field-def="spec.enc['row']" field-def-schema="schema.properties.enc.properties['row']"></field-def-editor>
   <field-def-editor enc-type="'col'" field-def="spec.enc['col']" field-def-schema="schema.properties.enc.properties['col']"></field-def-editor>
+
+  <h3>Marks</h3>
+  <select class="markselect" ng-model="spec.marktype" ng-options="type for type in schema.properties.marktype.enum"></select>
+
   <field-def-editor enc-type="'size'" field-def="spec.enc['size']" field-def-schema="schema.properties.enc.properties['size']"></field-def-editor>
   <field-def-editor enc-type="'color'" field-def="spec.enc['color']" field-def-schema="schema.properties.enc.properties['color']"></field-def-editor>
   <field-def-editor enc-type="'alpha'" field-def="spec.enc['alpha']" field-def-schema="schema.properties.enc.properties['alpha']"></field-def-editor>

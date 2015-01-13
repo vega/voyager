@@ -3,3 +3,5 @@ dist
 .tmp
 .sass-cache
 bower_components
+vegalite-ui.sublime-project
+vegalite-ui.sublime-workspace

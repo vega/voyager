@@ -59,15 +59,12 @@
 
     <alert-messages></alert-messages>
 
-    <div class="row full-width">
-      <div class="small-2 columns">
+    <div class="hflex full-width">
+      <div class="pane data-pane">
 
         <div class="card">
+          <h2>Data</h2>
           <dataset-selector></dataset-selector>
-        </div>
-
-        <div class="card">
-          <h4>Schema</h4>
           <schema-list></schema-list>
         </div>
 
@@ -76,11 +73,11 @@
         </div>
 
       </div>
-      <div class="small-2 columns">
+      <div class="pane encoding-pane">
         <spec-editor></spec-editor>
       </div>
 
-      <div class="small-8 columns">
+      <div class="pane vis-pane">
         <vegalite-plot></vegalite-plot>
       </div>
 

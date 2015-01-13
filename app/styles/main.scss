@@ -5,17 +5,12 @@ $base-font-size: 12px;
 @import "foundation-sass/scss/normalize.scss";
 @import "foundation-sass/scss/foundation.scss";
 // endbower
+@import "vlui-common.scss";
 
 body {
 	background-color: $silver;
 }
 
-.full-width {
-   width: 100%;
-   margin-left: auto;
-   margin-right: auto;
-   max-width: initial;
-}
 
 input[type="file"],
 input[type="checkbox"],
@@ -41,23 +36,6 @@ fieldset {
 }
 
 $field-width: rem-calc(150);
-
-.field {
-	display: block;
-	width: $field-width;
-	background-color: $button-bg-color;
-	color: $button-font-color;
-    margin: rem-calc(0 0 10);
-    text-decoration: none;
-    text-align: center;
-    padding: rem-calc(6.5);
-
-    .remove-field {
-    	float: right;
-    	margin-right: rem-calc(10);
-    	color: $white;
-    }
-}
 
 .field-drop {
 	width: $field-width;
@@ -92,4 +70,28 @@ $field-width: rem-calc(150);
 
 .vgspec, .vlspec {
   min-height: 450px;
+}
+
+/** panes **/
+
+.pane {
+  padding: 10px;
+}
+
+.pane.data-pane {
+  width: 200px;
+  flex-shrink: 0;
+}
+
+.pane.encoding-pane {
+  width: 200px;
+  flex-shrink: 0;
+}
+
+.pane.vis-pane {
+  flex-grow: 1;
+}
+
+#vis {
+  overflow: scroll;
 }
