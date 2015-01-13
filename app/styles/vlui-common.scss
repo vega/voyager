@@ -29,7 +29,7 @@ h2 {
 }
 
 h3 {
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 550;
 }
 
@@ -89,7 +89,10 @@ $pill-bg-color: #eee;
   margin: 0;
   text-decoration: none;
   padding: 0 0.5em;
+
+  overflow-x: hidden;
   text-overflow: ellipsis;
+  
   border-radius: 3px;
   height: $pill-height;
 
