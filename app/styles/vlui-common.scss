@@ -1,7 +1,44 @@
 $pill-radius: 3px;
+$pill-height: 20px;
+$pill-min-width: 150px;
 
+$white         : #FFFFFF !default;
+$ghost         : #FAFAFA !default;
+$snow          : #F9F9F9 !default;
+$vapor         : #F6F6F6 !default;
+$white-smoke   : #F5F5F5 !default;
+$silver        : #EFEFEF !default;
+$smoke         : #EEEEEE !default;
+$gainsboro     : #DDDDDD !default;
+$iron          : #CCCCCC !default;
+$base          : #AAAAAA !default;
+$aluminum      : #999999 !default;
+$jumbo         : #888888 !default;
+$monsoon       : #777777 !default;
+$steel         : #666666 !default;
+$charcoal      : #555555 !default;
+$tuatara       : #444444 !default;
+$oil           : #333333 !default;
+$jet           : #222222 !default;
+$black         : #000000 !default;
 
+h2 {
+  font-size: 16px;
+  text-transform: uppercase;
+  font-weight: 700;
+}
 
+h3 {
+  font-size: 16px;
+  font-weight: 550;
+}
+
+h4 {
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* UTILITIES */
 
 .full-width {
   width: 100%;
@@ -10,7 +47,10 @@ $pill-radius: 3px;
   max-width: initial;
 }
 
-/* main columns */
+.inline-block {
+  display: inline-block;
+}
+
 .hflex {
   display: flex;
   flex-direction: row;
@@ -19,24 +59,50 @@ $pill-radius: 3px;
 
 
 
-/* fields */
-
-
-$field-bg-color: #eee;
+/**** FIELD & FIELD-PILLS ****/
 
 .field {
-  display: block;
-  width: auto;
-  background-color: $field-bg-color;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: $pill-height;
+  margin-bottom: 3px;
+
+  .type{
+    font-size: 0.8rem;
+    margin-right: 3px;
+  }
+  .field-pill{
+    flex-grow: 1;
+
+  }
+}
+
+
+
+$pill-bg-color: #eee;
+
+/* draggable component of the field */
+.field-pill {
+  background-color: $pill-bg-color;
   color: black;
-  margin: 0 0.5rem 0.2rem;
+  margin: 0;
   text-decoration: none;
-  text-align: center;
+  padding: 0 0.5em;
+  text-overflow: ellipsis;
   border-radius: 3px;
+  height: $pill-height;
+
+  .dragging{
+    min-width: $pill-min-width;
+  }
 
   .remove-field {
     float: right;
-    margin-right: 10rem;
-    color: white;
   }
+}
+
+
+.draggable {
+  cursor: move;
 }

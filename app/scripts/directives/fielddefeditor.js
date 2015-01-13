@@ -9,6 +9,14 @@ angular.module('vleApp')
         encType: '=',
         fieldDef: '=',
         schema: '=fieldDefSchema'
+      },
+      link: function(scope, element, attrs){
+        scope.expanded = false;
+
+        scope.toggleExpand = function(){
+          scope.expanded = !scope.expanded;
+          console.log("toggle expand", scope.expanded);
+        };
       }
     };
   });

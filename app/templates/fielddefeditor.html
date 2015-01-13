@@ -1,32 +1,25 @@
-<div class="card">
-  <div class="row">
-
-    <div class="small-2 column">
-      <h4 class="right">{{ encType }}</h4>
-    </div>
-
-    <div class="small-10 column">
-      <field-drop field-def="fieldDef" types="schema.properties.type.enum"></field-drop>
-    </div>
-
+<div class="shelf-group">
+  <div class="shelf">
+    <div class="shelf-label" ng-click="toggleExpand()">{{ encType }}</div>
+    <field-drop field-def="fieldDef" types="schema.properties.type.enum"></field-drop>
   </div>
+  <!--<function-select field-def="fieldDef" field-def-schema="schema"></function-select>-->
+  <div class="shelf-properties" ng-show="expanded">
+    <div ng-repeat="group in ['scale', 'text', 'axis']"
+         ng-show="schema.properties[group]">
+      <h4>{{ group }}</h4>
+      <div ng-repeat="(propName, scaleProp) in schema.properties[group].properties"
+           ng-init="id = encType + group + $index"
+           ng-show="scaleProp.supportedTypes ? scaleProp.supportedTypes[fieldDef.type] : true">
+        <label class="prop-label" for="{{ id }}">{{ propName }}</label>
+        <div class="inline-block" ng-switch="scaleProp.type + (scaleProp.enum !== undefined ? 'list' : '') ">
 
-  <function-select field-def="fieldDef" field-def-schema="schema"></function-select>
-  <fieldset ng-repeat="group in ['scale', 'text', 'axis']" ng-show="schema.properties[group]">
-    <legend>{{ group }}</legend>
-    <div class="row" ng-repeat="(propName, scaleProp) in schema.properties[group].properties" ng-init="id = encType + group + $index" ng-show="scaleProp.supportedTypes ? scaleProp.supportedTypes[fieldDef.type] : true">
-      <div class="small-3 columns" ng-hide="scaleProp.type === 'boolean'">
-        <label class="right inline" for="{{ id }}">{{ propName }}</label>
-      </div>
-      <div class="small-9 columns" ng-switch="scaleProp.type + (scaleProp.enum !== undefined ? 'list' : '') ">
-        <span ng-switch-when="boolean">
-          <input id="{{ id }}" type="checkbox" ng-model="fieldDef[group][propName]"></input>
-          <label for="{{ id }}">{{ propName }}</label>
-        </span>
-        <select id="{{ id }}" ng-switch-when="stringlist" ng-model="fieldDef[group][propName]" ng-options="choice for choice in scaleProp.enum track by choice"></select>
-        <input id="{{ id }}" type="number" ng-switch-when="integer" ng-model="fieldDef[group][propName]"></input>
-        <input id="{{ id }}" type="string" ng-switch-when="string" ng-model="fieldDef[group][propName]"></input>
+          <input id="{{ id }}" ng-switch-when="boolean" type="checkbox" ng-model="fieldDef[group][propName]"></input>
+          <select id="{{ id }}" ng-switch-when="stringlist" ng-model="fieldDef[group][propName]" ng-options="choice for choice in scaleProp.enum track by choice"></select>
+          <input id="{{ id }}" type="number" ng-switch-when="integer" ng-model="fieldDef[group][propName]"></input>
+          <input id="{{ id }}" type="string" ng-switch-when="string" ng-model="fieldDef[group][propName]"></input>
+        </div>
       </div>
     </div>
-  </fieldset>
+  </div>
 </div>

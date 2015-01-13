@@ -5,6 +5,7 @@ angular.module('vleApp')
     return {
       templateUrl: 'templates/fielddrop.html',
       restrict: 'E',
+      replace: true,
       scope: {
         fieldDef: '=',
         types: '='
