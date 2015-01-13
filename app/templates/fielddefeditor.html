@@ -13,7 +13,6 @@
            ng-show="scaleProp.supportedTypes ? scaleProp.supportedTypes[fieldDef.type] : true">
         <label class="prop-label" for="{{ id }}">{{ propName }}</label>
         <div class="inline-block" ng-switch="scaleProp.type + (scaleProp.enum !== undefined ? 'list' : '') ">
-
           <input id="{{ id }}" ng-switch-when="boolean" type="checkbox" ng-model="fieldDef[group][propName]"></input>
           <select id="{{ id }}" ng-switch-when="stringlist" ng-model="fieldDef[group][propName]" ng-options="choice for choice in scaleProp.enum track by choice"></select>
           <input id="{{ id }}" type="number" ng-switch-when="integer" ng-model="fieldDef[group][propName]"></input>
