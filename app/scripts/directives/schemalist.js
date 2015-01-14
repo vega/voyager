@@ -11,12 +11,8 @@ angular.module('vleApp')
         scope.fieldDragStart = function(){
           var pill = element.find('.field-pill');
           pill.css('width', pill.width()+"px");
-        }
+        };
 
-        scope.fieldDragStop = function(){
-          var pill = element.find('.field-pill');
-          pill.css('width', null);
-        }
       },
       controller: function ($scope) {
         $scope.schema = null;
