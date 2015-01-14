@@ -30,10 +30,11 @@ angular.module('vleApp')
 
         scope.fieldDropped = function() {
           var fieldType = Dataset.stats[scope.fieldDef.name].type;
-          if (_.contains(scope.types, fieldType)) {
+          var types = scope.schema.properties.type.enum;
+          if (_.contains(types, fieldType)) {
+            // if existing type is supported
             scope.fieldDef.type = fieldType;
           } else if (!scope.fieldDef.type) {
-            var types = scope.schema.properties.type.enum;
             scope.fieldDef.type = types[0];
           }
         };
