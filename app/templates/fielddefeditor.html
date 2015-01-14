@@ -1,10 +1,28 @@
 <div class="shelf-group">
   <div class="shelf">
-    <div class="shelf-label" ng-click="toggleExpand()">{{ encType }}</div>
-    <field-drop field-def="fieldDef" types="schema.properties.type.enum"></field-drop>
+    <div class="shelf-label" ng-click="togglePropsExpand()">{{ encType }}</div>
+    <!--<field-drop field-def="fieldDef" types="schema.properties.type.enum"></field-drop>-->
+    <div class="field-drop"
+         ng-model="fieldDef.name"
+
+         data-drop="true"
+         jqyoui-droppable="{onDrop:'fieldDropped'}"
+         data-jqyoui-options="{activeClass: 'drop-active'}">
+      <div class="field-pill"
+           ng-if="fieldDef.name"
+           ng-model="fieldDef.name"
+           ng-click="toggleFuncsExpand()"
+           >
+        <span class="field-name">{{ fieldDef.name }}</span>
+        <!--<span class="caret"></span>-->
+        <a href="#" class="remove-field" ng-click="removeField()">×</a>
+      </div>
+
+      <span class="placeholder" ng-if="!fieldDef.name">drop a field here</span>
   </div>
-  <!--<function-select field-def="fieldDef" field-def-schema="schema"></function-select>-->
-  <div class="shelf-properties" ng-show="expanded">
+  </div>
+
+  <div class="shelf-properties" ng-show="propsExpanded">
     <div ng-repeat="group in ['scale', 'text', 'axis']"
          ng-show="schema.properties[group]">
       <h4>{{ group }}</h4>
@@ -20,5 +38,13 @@
         </div>
       </div>
     </div>
+  </div>
+  <div class="shelf-functions" ng-show="funcsExpanded">
+    <h4>Functions</h4>
+    <function-select field-def="fieldDef" field-def-schema="schema"></function-select>
+    <h4>Types</h4>
+    <select ng-if="fieldDef.name" class="type-select" ng-model="fieldDef.type"
+            ng-options="type for type in schema.properties.type.enum track by type"></select>
+
   </div>
 </div>
