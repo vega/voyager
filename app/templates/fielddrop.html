@@ -3,8 +3,14 @@
      data-drop="true"
      jqyoui-droppable="{onDrop:'fieldDropped'}"
      data-jqyoui-options="{activeClass: 'drop-active'}">
-  <div class="field-pill" ng-if="fieldDef.name" ng-model="fieldDef.name">{{ fieldDef.name }}
+  <div class="field-pill" ng-if="fieldDef.name" ng-model="fieldDef.name"
+       data-drag="true"
+       jqyoui-draggable="{placeholder: 'keep', onStart: 'fieldDragStart', onStop: 'fieldDragStop'}"
+       data-jqyoui-options="{revert: 'invalid', helper: 'clone'}">
+    <span class="field-name">{{ fieldDef.name }}</span>
+    <span class="caret"></span>
     <a href="#" class="remove-field" ng-click="removeField()">×</a>
+
   </div>
   <!--<select ng-if="fieldDef.name" class="type-select" ng-model="fieldDef.type" ng-options="type for type in types track by type"></select>-->
   <span class="placeholder" ng-if="!fieldDef.name">drop a field here</span>
