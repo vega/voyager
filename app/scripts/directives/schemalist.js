@@ -7,7 +7,7 @@ angular.module('vleApp')
       restrict: 'E',
       scope: {},
       link: function postLink(scope, element, attrs) {
-        // Only drag, copy static value of the dynamically set width to the dragged ghost. 
+        // On drag, copy static value of the dynamically set width to the dragged ghost. 
         scope.fieldDragStart = function(){
           var pill = element.find('.field-pill');
           pill.css('width', pill.width()+"px");
