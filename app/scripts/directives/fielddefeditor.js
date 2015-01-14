@@ -18,7 +18,6 @@ angular.module('vleApp')
           scope.propsExpanded = !scope.propsExpanded;
         };
 
-
         scope.toggleFuncsExpand = function(){
           scope.funcsExpanded = !scope.funcsExpanded;
         };
@@ -28,7 +27,14 @@ angular.module('vleApp')
           scope.fieldDef.type = null;
         };
 
+        scope.fieldDragStart = function(){
+          var pill = element.find('.field-drop');
+          pill.css('width', pill.width()+"px");
+        };
+
+
         scope.fieldDropped = function() {
+          // need to clone so that original fieldDef in the schemalist is not mutated.
           scope.fieldDef = _.clone(scope.fieldDef);
 
           var types = scope.schema.properties.type.enum;
@@ -37,6 +43,13 @@ angular.module('vleApp')
             scope.fieldDef.type = types[0];
           }
         };
+
+        scope.$watch('fieldDef', function(fieldDef){
+          if(!fieldDef){
+            // when a field is dragged to another
+            scope.removeField();
+          }
+        });
       }
     };
   });

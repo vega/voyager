@@ -9,8 +9,11 @@
          data-jqyoui-options="{activeClass: 'drop-active'}">
       <div class="field-pill"
            ng-if="fieldDef.name"
-           ng-model="fieldDef.name"
            ng-click="toggleFuncsExpand()"
+           data-drag="true"
+           ng-model="fieldDef"
+           jqyoui-draggable="{onStart: 'fieldDragStart'}"
+           data-jqyoui-options="{revert: 'invalid', helper: 'clone'}"
            >
         <span class="field-name">
           <!-- empty comments between lines are for removing spaces between spans-->
