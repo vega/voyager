@@ -29,12 +29,11 @@ angular.module('vleApp')
         };
 
         scope.fieldDropped = function() {
-          var fieldType = Dataset.stats[scope.fieldDef.name].type;
+          scope.fieldDef = _.clone(scope.fieldDef);
+
           var types = scope.schema.properties.type.enum;
-          if (_.contains(types, fieldType)) {
-            // if existing type is supported
-            scope.fieldDef.type = fieldType;
-          } else if (!scope.fieldDef.type) {
+          if (!_.contains(types, scope.fieldDef.type)) {
+            // if existing type is not supported
             scope.fieldDef.type = types[0];
           }
         };
