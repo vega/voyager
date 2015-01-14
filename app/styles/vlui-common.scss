@@ -137,6 +137,10 @@ $pill-bg-color: #eee;
 
   cursor: default;
 
+  .field-func{
+    text-transform: uppercase;
+  }
+
   .field-name{
     overflow-x: hidden;
     text-overflow: ellipsis;

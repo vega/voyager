@@ -13,7 +13,16 @@
            ng-model="fieldDef.name"
            ng-click="toggleFuncsExpand()"
            >
-        <span class="field-name">{{ fieldDef.name }}</span>
+        <span class="field-name">
+          <!-- empty comments between lines are for removing spaces between spans-->
+          <span class="field-func" ng-if="fieldDef.aggr">{{ fieldDef.aggr }}</span><!--
+          --><span class="field-func" ng-if="fieldDef.fn">{{ fieldDef.fn }}</span><!--
+          --><span class="field-func" ng-if="fieldDef.bin">bin</span><!--
+
+          --><span class="field-func-pl" ng-if="fieldDef.aggr || fieldDef.fn || fieldDef.bin">(</span><!--
+          -->{{ fieldDef.name }}<!--
+          --><span class="field-func-pr" ng-if="fieldDef.aggr || fieldDef.fn || fieldDef.bin">)</span>
+        </span>
         <!--<span class="caret"></span>-->
         <a href="#" class="remove-field" ng-click="removeField()">×</a>
       </div>
