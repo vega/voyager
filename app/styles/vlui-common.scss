@@ -56,63 +56,6 @@ h4 {
   flex-direction: row;
 }
 
-
-
-
-/**** FIELD & FIELD-PILLS ****/
-
-.field {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  height: $pill-height;
-  margin-bottom: 3px;
-
-  .type{
-    font-size: 0.8rem;
-    margin-right: 3px;
-  }
-  .field-pill{
-    flex-grow: 1;
-
-  }
-}
-
-
-
-$pill-bg-color: #eee;
-
-/* draggable component of the field */
-.field-pill {
-  @extend .noselect;
-  background-color: $pill-bg-color;
-  color: black;
-  margin: 0;
-  text-decoration: none;
-  padding: 0 0.5em;
-
-  overflow-x: hidden;
-  text-overflow: ellipsis;
-  
-  border-radius: 3px;
-  height: $pill-height;
-
-  cursor: default;
-
-  .dragging{
-    min-width: $pill-min-width;
-  }
-
-  .remove-field {
-    float: right;
-  }
-}
-
-
-.draggable {
-  cursor: move;
-}
-
 .persist-scroll{
 
   &::-webkit-scrollbar {
@@ -137,4 +80,69 @@ $pill-bg-color: #eee;
     background-color: #fff;
     border-radius: 8px;
   }
+}
+
+/* http://stackoverflow.com/questions/826782 */
+.noselect {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+
+/**** FIELD & FIELD-PILLS ****/
+
+.field {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: $pill-height;
+  margin-bottom: 3px;
+
+  .type{
+    font-size: 0.8rem;
+    margin-right: 3px;
+    flex-shrink: 0;
+  }
+  .field-pill{
+    flex-grow: 1;
+  }
+}
+
+
+
+$pill-bg-color: #eee;
+
+/* draggable component of the field */
+.field-pill {
+  @extend .noselect;
+  background-color: $pill-bg-color;
+  color: black;
+  margin: 0;
+  text-decoration: none;
+  padding: 0 0.5em;
+
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+
+  border-radius: 3px;
+  height: $pill-height;
+
+  cursor: default;
+
+  .dragging{
+    min-width: $pill-min-width;
+  }
+
+  .remove-field {
+    float: right;
+  }
+}
+
+
+.draggable {
+  cursor: move;
 }
