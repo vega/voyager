@@ -84,6 +84,7 @@ $pill-bg-color: #eee;
 
 /* draggable component of the field */
 .field-pill {
+  @extend .noselect;
   background-color: $pill-bg-color;
   color: black;
   margin: 0;
@@ -95,6 +96,8 @@ $pill-bg-color: #eee;
   
   border-radius: 3px;
   height: $pill-height;
+
+  cursor: default;
 
   .dragging{
     min-width: $pill-min-width;
