@@ -1,7 +1,10 @@
 <div class="card">
+  <a class="right small">Clear</a>
   <h2>Encoding</h2>
 
-  <div class="encoding-group"><h3>Positional</h3>
+  <div class="encoding-group">
+    <a class="right small">Transpose</a>
+    <h3>Positional</h3>
     <field-def-editor enc-type="'x'" field-def="spec.enc['x']"
                       field-def-schema="schema.properties.enc.properties['x']"></field-def-editor>
     <field-def-editor enc-type="'y'" field-def="spec.enc['y']"
@@ -11,7 +14,8 @@
     <field-def-editor enc-type="'col'" field-def="spec.enc['col']"
                       field-def-schema="schema.properties.enc.properties['col']"></field-def-editor>
   </div>
-  <div class="" encoding-group><h3>Marks</h3>
+  <div class="marks-group">
+    <h3>Marks</h3>
     <select class="markselect" ng-model="spec.marktype"
             ng-options="type for type in schema.properties.marktype.enum"></select>
 
