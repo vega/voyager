@@ -10,25 +10,9 @@ $base-font-size: 12px;
 body {
 	background-color: #eee;
 }
-//
-//input[type="file"],
-//input[type="checkbox"],
-//input[type="radio"],
-//label.inline,
-//select {
-//  margin: rem-calc(0 0 10 0);
-//}
-//
-//fieldset {
-//	padding: rem-calc(0 10 10 0);
-//	margin: rem-calc(0 10);
-//	legend {
-//		margin-left: rem-calc(10);
-//	}
-//}
 
 .card {
-	margin-top: 15px;
+	margin: 1px 1px 0 0 ;
 	padding: 10px;
 	background: white;
 	border-style: none;
@@ -45,7 +29,7 @@ body {
 /** panes **/
 
 .pane {
-  padding: 10px;
+  padding: 0px;
 }
 
 .pane.data-pane {
@@ -129,8 +113,12 @@ body {
   }
 
   .drop-active {
-    border: 1px dashed red;
-    background-color: #ffe4e1;
+    border: 1px dashed #4CAF50;
+    background-color: #C8E6C9;
+    .placeholder {
+      background-color: #C8E6C9;
+      color: $text-color;
+    }
     .field-pill {
       opacity: 0.5;
     }
