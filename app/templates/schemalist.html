@@ -1,8 +1,9 @@
 <div class="schema">
-  <div class="field" ng-repeat="field in schema">
+  <div class="field"
+       ng-repeat="field in schema"
+       ng-init="fieldType = stats[field].type;">
     <div class="type">
-      Q/O
-      <!--TODO make this inferred type-->
+      {{fieldType}}
     </div>
     <div class="field-pill draggable"
          ng-model="field"
