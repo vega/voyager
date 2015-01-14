@@ -1,6 +1,15 @@
 <div class="schema">
-	<div class="field draggable" ng-repeat="field in schema" ng-model="field"
-		data-drag="true" jqyoui-draggable="{placeholder: 'keep'}" data-jqyoui-options="{revert: 'invalid', helper: 'clone'}">
-		{{ field }}
-	</div>
+  <div class="field" ng-repeat="field in schema">
+    <div class="type">
+      Q/O
+      <!--TODO make this inferred type-->
+    </div>
+    <div class="field-pill draggable"
+         ng-model="field"
+         data-drag="true"
+         jqyoui-draggable="{placeholder: 'keep', onStart: 'fieldDragStart', onStop: 'fieldDragStop'}"
+         data-jqyoui-options="{revert: 'invalid', helper: 'clone'}">
+      <span class="field-name">{{ field }}</span>
+    </div>
+  </div>
 </div>

@@ -25,11 +25,16 @@
             </a>
           </h1>
         </li>
+
       </ul>
 
       <section class="top-bar-section">
+        <ul>
+          <li><a href="#" ng-click="showConfig()">Config</a></li>
+        </ul>
         <!-- Right Nav Section -->
         <ul class="right">
+
           <li><a href="#" ng-click="showVlSpec()">Vegalite Spec</a></li>
           <li><a href="#" ng-click="showVgSpec()">Vega Spec</a></li>
           <li><lyra-export></lyra-export></li>
@@ -54,33 +59,28 @@
       <script type="text/ng-template" id="vgSpecTemplate">
         <vg-spec-editor></vg-spec-editor>
       </script>
+      <script type="text/ng-template" id="configTemplate">
+        <configuration-editor></configuration-editor>
+      </script>
     </nav>
 
 
     <alert-messages></alert-messages>
 
-    <div class="row full-width">
-      <div class="small-2 columns">
+    <div class="hflex full-width">
+      <div class="pane data-pane">
 
         <div class="card">
+          <h2>Data</h2>
           <dataset-selector></dataset-selector>
-        </div>
-
-        <div class="card">
-          <h4>Schema</h4>
           <schema-list></schema-list>
         </div>
-
-        <div class="card">
-          <configuration-editor></configuration-editor>
-        </div>
-
       </div>
-      <div class="small-2 columns">
+      <div class="pane encoding-pane">
         <spec-editor></spec-editor>
       </div>
 
-      <div class="small-8 columns">
+      <div class="pane vis-pane">
         <vegalite-plot></vegalite-plot>
       </div>
 
@@ -131,7 +131,6 @@
     <script src="scripts/filters/scaletype.js"></script>
     <script src="scripts/directives/datasetselector.js"></script>
     <script src="scripts/directives/schemalist.js"></script>
-    <script src="scripts/directives/fielddrop.js"></script>
     <script src="scripts/directives/functionselect.js"></script>
     <script src="scripts/directives/fielddefeditor.js"></script>
     <script src="scripts/services/vegalite.js"></script>

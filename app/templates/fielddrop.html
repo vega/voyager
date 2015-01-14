@@ -1,8 +1,0 @@
-<div class="left field-drop" ng-model="fieldDef.name" data-drop="true" jqyoui-droppable="{onDrop:'fieldDropped'}" data-jqyoui-options="{activeClass: 'drop-active'}">
-  <div class="field" ng-if="fieldDef.name" ng-model="fieldDef.name">{{ fieldDef.name }}
-    <a href="#" class="remove-field" ng-click="removeField()">×</a>
-  </div>
-  <span class="placeholder" ng-if="!fieldDef.name">drop a field here</span>
-</div>
-
-<select ng-if="fieldDef.name" class="type-select" ng-model="fieldDef.type" ng-options="type for type in types track by type"></select>

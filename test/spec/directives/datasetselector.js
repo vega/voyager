@@ -27,8 +27,8 @@ describe('Directive: datasetSelector', function () {
     element = $compile(element)(scope);
     scope.$digest();
 
-    expect(element.find('#datasetSelect option').length).toBe(2);
-    expect(element.find('#datasetSelect option:first').attr('label')).toBe('foo');
-    expect(element.find('#datasetSelect option:nth-child(2)').attr('label')).toBe('bar');
+    expect(element.find('option').length).toBe(2);
+    expect(element.find('option:first').attr('label')).toBe('foo');
+    expect(element.find('option:nth-child(2)').attr('label')).toBe('bar');
   }));
 });

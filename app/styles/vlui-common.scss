@@ -1,0 +1,149 @@
+$pill-radius: 3px;
+$pill-height: 20px;
+$pill-min-width: 150px;
+
+$text-color: #212121;
+
+h2 {
+  @extend .noselect;
+  font-size: 16px;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+h3 {
+  @extend .noselect;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+h4 {
+  @extend .noselect;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* UTILITIES */
+
+.full-width {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: initial;
+}
+
+.inline-block {
+  display: inline-block;
+}
+
+.hflex {
+  display: flex;
+  flex-direction: row;
+}
+
+.persist-scroll{
+
+  &::-webkit-scrollbar {
+    -webkit-appearance: none;
+  }
+
+  &::-webkit-scrollbar:vertical {
+    width: 11px;
+  }
+
+  &::-webkit-scrollbar:horizontal {
+    height: 11px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 8px;
+    border: 2px solid white; /* should match background, can't be transparent */
+    background-color: rgba(0, 0, 0, .5);
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: #fff;
+    border-radius: 8px;
+  }
+}
+
+.small {
+  font-size: 10px;
+}
+
+/* http://stackoverflow.com/questions/826782 */
+.noselect {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+
+/**** FIELD & FIELD-PILLS ****/
+
+.field {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: $pill-height;
+  margin-bottom: 3px;
+
+  .type{
+    font-size: 0.8rem;
+    margin-right: 3px;
+    flex-shrink: 0;
+  }
+  .field-pill{
+    flex-grow: 1;
+  }
+}
+
+$pill-bg-color: #eee;
+
+/* draggable component of the field */
+.field-pill {
+  @extend .noselect;
+  display: flex;
+
+  background-color: $pill-bg-color;
+  color: $text-color;
+  margin: 0;
+  text-decoration: none;
+  padding: 0 0.5em;
+
+  border-radius: 3px;
+  height: $pill-height;
+
+  cursor: default;
+
+  .field-func{
+    text-transform: uppercase;
+  }
+
+  .field-name{
+    overflow-x: hidden;
+    text-overflow: ellipsis;
+    flex-grow: 1;
+  }
+
+  .dragging{
+    min-width: $pill-min-width;
+  }
+
+  .remove-field {
+    flex-grow: 0;
+  }
+
+  .caret {
+    flex-grow: 0;
+    margin: auto 0;
+  }
+}
+
+
+.draggable {
+  cursor: move;
+}
