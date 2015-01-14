@@ -5,20 +5,23 @@ angular.module('vleApp')
   .service('Vegalite', function ($q, Dataset, Config, VegaliteSpecSchema) {
     var service = {};
 
-    var removeEmptyFieldDefs = function(enc) {
-      enc.enc = _.omit(enc.enc, function(fieldDef) {
-        return fieldDef.name === null;
+    var removeEmptyFieldDefs = function(spec) {
+      spec.enc = _.omit(spec.enc, function(fieldDef) {
+        return !fieldDef || fieldDef.name === null;
       });
     };
 
-    var deleteNulls = function(enc) {
-      for (var i in enc) {
-        if (_.isObject(enc[i])) {
-          deleteNulls(enc[i]);
+    var deleteNulls = function(spec) {
+      for (var i in spec) {
+        if (_.isObject(spec[i])) {
+          deleteNulls(spec[i]);
         }
         // This is why I hate js
-        if (enc[i] === null || enc[i] === undefined || (_.isObject(enc[i]) && Object.keys(enc[i]).length === 0) || enc[i] === []) {
-          delete enc[i];
+        if (spec[i] === null ||
+          spec[i] === undefined ||
+          (_.isObject(spec[i]) && Object.keys(spec[i]).length === 0) ||
+          spec[i] === []) {
+          delete spec[i];
         }
       }
     };

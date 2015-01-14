@@ -1,13 +1,14 @@
 <div class="schema">
-  <div class="field" ng-repeat="field in schema">
+  <div class="field"
+       ng-repeat="field in schema"
+       ng-init="fieldType = stats[field].type; fieldDef = {name:field, type: fieldType};">
     <div class="type">
-      Q/O
-      <!--TODO make this inferred type-->
+      {{fieldType}}
     </div>
     <div class="field-pill draggable"
-         ng-model="field"
+         ng-model="fieldDef"
          data-drag="true"
-         jqyoui-draggable="{placeholder: 'keep', onStart: 'fieldDragStart', onStop: 'fieldDragStop'}"
+         jqyoui-draggable="{placeholder: 'keep', onStart: 'fieldDragStart'}"
          data-jqyoui-options="{revert: 'invalid', helper: 'clone'}">
       <span class="field-name">{{ field }}</span>
     </div>
