@@ -23,17 +23,20 @@ $jet           : #222222 !default;
 $black         : #000000 !default;
 
 h2 {
+  @extend .noselect;
   font-size: 16px;
   text-transform: uppercase;
   font-weight: 700;
 }
 
 h3 {
+  @extend .noselect;
   font-size: 14px;
-  font-weight: 550;
+  font-weight: 700;
 }
 
 h4 {
+  @extend .noselect;
   font-size: 12px;
   font-weight: 700;
 }

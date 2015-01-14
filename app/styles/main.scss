@@ -96,6 +96,7 @@ body {
   display: flex;
 
   .shelf-label{
+    @extend .noselect;
     display: block;
     width: 30px;
     margin: 0 0.5rem;
