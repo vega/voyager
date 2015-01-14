@@ -14,7 +14,7 @@
            ng-model="fieldDef"
            jqyoui-draggable="{onStart: 'fieldDragStart'}"
            data-jqyoui-options="{revert: 'invalid', helper: 'clone'}"
-           >
+        >
         <span class="field-name">
           <!-- empty comments between lines are for removing spaces between spans-->
           <span class="field-func" ng-if="fieldDef.aggr">{{ fieldDef.aggr }}</span><!--
@@ -33,7 +33,7 @@
   </div>
   </div>
 
-  <div class="shelf-properties" ng-show="propsExpanded">
+  <div class="shelf-properties" ng-show="propsExpanded" ng-if="fieldDef.name">
     <div ng-repeat="group in ['scale', 'text', 'axis']"
          ng-show="schema.properties[group]">
       <h4>{{ group }}</h4>
@@ -50,12 +50,13 @@
       </div>
     </div>
   </div>
-  <div class="shelf-functions" ng-show="funcsExpanded">
+  <div class="shelf-functions" ng-show="funcsExpanded" ng-if="fieldDef.name">
     <h4>Functions</h4>
     <function-select field-def="fieldDef" field-def-schema="schema"></function-select>
     <h4>Types</h4>
-    <select ng-if="fieldDef.name" class="type-select" ng-model="fieldDef.type"
-            ng-options="type for type in schema.properties.type.enum track by type"></select>
+    <select class="type-select" ng-model="fieldDef.type"
+            ng-options="type for type in schema.properties.type.enum track by type">
+    </select>
 
   </div>
 </div>
