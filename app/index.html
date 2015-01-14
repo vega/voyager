@@ -25,11 +25,16 @@
             </a>
           </h1>
         </li>
+
       </ul>
 
       <section class="top-bar-section">
+        <ul>
+          <li><a href="#" ng-click="showConfig()">Config</a></li>
+        </ul>
         <!-- Right Nav Section -->
         <ul class="right">
+
           <li><a href="#" ng-click="showVlSpec()">Vegalite Spec</a></li>
           <li><a href="#" ng-click="showVgSpec()">Vega Spec</a></li>
           <li><lyra-export></lyra-export></li>
@@ -54,6 +59,9 @@
       <script type="text/ng-template" id="vgSpecTemplate">
         <vg-spec-editor></vg-spec-editor>
       </script>
+      <script type="text/ng-template" id="configTemplate">
+        <configuration-editor></configuration-editor>
+      </script>
     </nav>
 
 
@@ -67,11 +75,6 @@
           <dataset-selector></dataset-selector>
           <schema-list></schema-list>
         </div>
-
-        <div class="card">
-          <configuration-editor></configuration-editor>
-        </div>
-
       </div>
       <div class="pane encoding-pane">
         <spec-editor></spec-editor>
