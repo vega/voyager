@@ -2,25 +2,7 @@ $pill-radius: 3px;
 $pill-height: 20px;
 $pill-min-width: 150px;
 
-$white         : #FFFFFF !default;
-$ghost         : #FAFAFA !default;
-$snow          : #F9F9F9 !default;
-$vapor         : #F6F6F6 !default;
-$white-smoke   : #F5F5F5 !default;
-$silver        : #EFEFEF !default;
-$smoke         : #EEEEEE !default;
-$gainsboro     : #DDDDDD !default;
-$iron          : #CCCCCC !default;
-$base          : #AAAAAA !default;
-$aluminum      : #999999 !default;
-$jumbo         : #888888 !default;
-$monsoon       : #777777 !default;
-$steel         : #666666 !default;
-$charcoal      : #555555 !default;
-$tuatara       : #444444 !default;
-$oil           : #333333 !default;
-$jet           : #222222 !default;
-$black         : #000000 !default;
+$text-color: #212121;
 
 h2 {
   @extend .noselect;
@@ -127,7 +109,7 @@ $pill-bg-color: #eee;
   display: flex;
 
   background-color: $pill-bg-color;
-  color: black;
+  color: $text-color;
   margin: 0;
   text-decoration: none;
   padding: 0 0.5em;
