@@ -112,7 +112,7 @@ h4 {
 
 /* prevent element from being selected http://stackoverflow.com/questions/826782 */
 .noselect {
-  @include user-select: none;
+  @include user-select(none);
 }
 
 
