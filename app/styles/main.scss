@@ -12,7 +12,8 @@ body {
 }
 
 .card {
-	margin: 1px 1px 0 0 ;
+  height: 100%;
+	margin: 1px 1px 0 0;
 	padding: 10px;
 	background: white;
 	border-style: none;
@@ -23,10 +24,15 @@ body {
 }
 
 .vgspec, .vlspec {
-  min-height: 450px;
+  min-height: 200px;
 }
 
 /** panes **/
+
+.dev-panel {
+  height: 300px;
+  flex-shrink: 0;
+}
 
 .pane {
   padding: 0px;
@@ -42,8 +48,16 @@ body {
   flex-shrink: 0;
 }
 
-.pane.vis-pane {
+.pane.vis-pane{
   flex-grow: 1;
+}
+
+.pane.vl-pane {
+  flex-grow: 1;
+}
+
+.pane.vg-pane {
+  flex-grow: 1.2;
 }
 
 #vis {
