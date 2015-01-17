@@ -58,7 +58,10 @@
       },
       "axis": {
        "type": "object",
-       "properties": {"grid": {"type": "boolean","default": false}}
+       "properties": {
+        "grid": {"type": "boolean","default": false},
+        "title": {"type": "boolean","default": true}
+       }
       }
      }
     },
@@ -110,7 +113,10 @@
       },
       "axis": {
        "type": "object",
-       "properties": {"grid": {"type": "boolean","default": false}}
+       "properties": {
+        "grid": {"type": "boolean","default": false},
+        "title": {"type": "boolean","default": true}
+       }
       }
      }
     },
@@ -179,7 +185,8 @@
          "supportedTypes": {"T": true}
         }
        }
-      }
+      },
+      "legend": {"type": "boolean","default": true}
      }
     },
     "color": {
@@ -227,7 +234,8 @@
          "supportedTypes": {"T": true}
         }
        }
-      }
+      },
+      "legend": {"type": "boolean","default": true}
      }
     },
     "alpha": {
@@ -285,7 +293,8 @@
       "name": {"type": "string"},
       "type": {"type": "string","enum": ["O"]},
       "bin": {"type": "boolean","supportedTypes": {"O": true}},
-      "aggr": {"type": "string","enum": ["count"],"supportedTypes": {"O": true}}
+      "aggr": {"type": "string","enum": ["count"],"supportedTypes": {"O": true}},
+      "legend": {"type": "boolean","default": true}
      }
     },
     "text": {
