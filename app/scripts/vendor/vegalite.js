@@ -103,6 +103,8 @@ vl.DEFAULTS = {
   timeScaleNice: "day"
 };
 
+var MAX_BINS = 20;
+
 vl.keys = function (obj) {
   var k = [], x;
   for (x in obj) k.push(x);
@@ -115,6 +117,20 @@ vl.vals = function (obj) {
   return v;
 }
 
+function range(start, stop, step) {
+  if (arguments.length < 3) {
+    step = 1;
+    if (arguments.length < 2) {
+      stop = start;
+      start = 0;
+    }
+  }
+  if ((stop - start) / step == Infinity) throw new Error("infinite range");
+  var range = [], i = -1, j;
+  if (step < 0) while ((j = start + step * ++i) > stop) range.push(j);
+  else while ((j = start + step * ++i) < stop) range.push(j);
+  return range;
+}
 
 function find(list, pattern) {
   var l = list.filter(function(x) {
@@ -171,6 +187,14 @@ vl.merge = function(dest, src){
     return c;
   }, dest);
 };
+
+function getbins(stats) {
+  return vg.bins({
+    min: stats.min,
+    max: stats.max,
+    maxbins: MAX_BINS
+  });
+}
 
 // ----
 vl.Encoding = (function() {
@@ -237,6 +261,10 @@ vl.Encoding = (function() {
 
   proto.bin = function(x){
     return this._enc[x].bin;
+  }
+
+  proto.legend = function(x){
+    return this._enc[x].legend;
   }
 
   proto.fn = function(x){
@@ -403,17 +431,17 @@ vl.getStats = function(data){ // hack
 function getCardinality(encoding, encType, stats){
   var field = encoding.fieldName(encType);
   if (encoding.bin(encType)) {
-    var bins = vg.data.bin().bins(stats[field], {maxbins: 20});
-    return (bins.stop-bins.start)/bins.step;
+    var bins = getbins(stats[field]);
+    return (bins.stop - bins.start) / bins.step;
   }
   return stats[field].cardinality;
 }
 
 function setSize(encoding, stats) {
   var hasRow = encoding.has(ROW),
-    hasCol = encoding.has(COL),
-    hasX = encoding.has(X),
-    hasY = encoding.has(Y);
+      hasCol = encoding.has(COL),
+      hasX = encoding.has(X),
+      hasY = encoding.has(Y);
 
   // HACK to set chart size
   // NOTE: this fails for plots driven by derived values (e.g., aggregates)
@@ -451,6 +479,7 @@ function setSize(encoding, stats) {
   }
   // Cell bands use rangeBands(). There are n-1 padding.  Outerpadding = 0 for cells
   height = cellHeight * ((1 + cellPadding) * (rowCardinality-1) + 1);
+
   return {
     cellWidth: cellWidth,
     cellHeight: cellHeight,
@@ -480,7 +509,7 @@ vl.getDataUrl = function getDataUrl(encoding, stats) {
       obj.aggr = field.aggr
     }
     if (field.bin) {
-      obj.binSize = vg.data.bin().bins(stats[field.name], {maxbins: 20}).step;
+      obj.binSize = getbins(stats[field.name]).step;
     }
     fields.push(obj);
   });
@@ -553,6 +582,7 @@ vl.toVegaSpec = function(encoding, stats) {
     group.scales = vl.scale.defs(scale_names(mdef.properties.update), encoding,
       {stack: stack, stats: stats});
     group.axes = vl.axis.defs(axis_names(mdef.properties.update), encoding);
+    group.legends = vl.legends.defs(encoding);
   }
 
   return spec;
@@ -728,7 +758,8 @@ function binning(spec, encoding, opt) {
     spec.transform.push({
       type: "bin",
       field: "data." + d,
-      output: "bin_" + d
+      output: "data.bin_" + d,
+      maxbins: MAX_BINS
     });
   });
   return bins;
@@ -869,6 +900,12 @@ function axis_def(name, encoding, opt){
     axis.layer = "back";
   }
 
+  if (encoding.axis(name).title) {
+    axis.title = name;
+    // TODO: set appropriate titleOffset
+    // maybe based on some string length from stats
+  }
+
   if(isRow || isCol){
     axis.properties = {
       ticks: { opacity: {value: 0} },
@@ -915,7 +952,7 @@ vl.scale.defs = function (names, encoding, opt) {
       type: scale_type(name, encoding),
       domain: scale_domain(name, encoding, opt)
     };
-    if (s.type === "ordinal") {
+    if (s.type === "ordinal" && !encoding.bin(name)) {
       s.sort = true;
     }
 
@@ -956,13 +993,9 @@ function scale_domain(name, encoding, opt) {
   if (encoding.bin(name)) {
     // TODO: add includeEmptyConfig here
     if (opt.stats) {
-      var bins = vg.data.bin().bins(opt.stats[encoding.fieldName(name)], {maxbins: 20});
-      var domain = [];
-      console.log(bins)
-      for (var i = bins.start; i < bins.stop; i+=bins.step) {
-        domain.push(i);
-      }
-      return domain;
+      var bins = getbins(opt.stats[encoding.fieldName(name)]);
+      var domain = range(bins.start, bins.stop, bins.step);
+      return name===Y ? domain.reverse() : domain;
     }
   }
 
@@ -1497,8 +1530,50 @@ function text_props(e) {
   return p;
 }
 
-return vl;
-
 // END MARKS
+
+// BEGIN LEGENDS
+
+vl.legends = {};
+vl.legends.defs = function(encoding) {
+  var legends = [];
+
+  // TODO: support alpha
+
+  if (encoding.has("color") && encoding.legend("color")) {
+    legends.push({
+      fill: "color",
+      title: encoding.fieldName("color"),
+      orient: "right"
+    });
+  }
+
+  if (encoding.has("size") && encoding.legend("size")) {
+    legends.push({
+      size: "size",
+      title: encoding.fieldName("size"),
+      orient: legends.length === 1 ? "left" : "right"
+    });
+  }
+
+  if (encoding.has("shape") && encoding.legend("shape")) {
+    if (legends.length === 2) {
+      // TODO: fix this
+      console.error("Vegalite currently only supports two legends");
+      return legends;
+    }
+    legends.push({
+      shape: "shape",
+      title: encoding.fieldName("shape"),
+      orient: legends.length === 1 ? "left" : "right"
+    });
+  }
+
+  return legends;
+}
+
+// END LEGENDS
+
+return vl;
 // END OF THIS MODULE
 }));
