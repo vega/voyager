@@ -2,7 +2,7 @@
   <div class="field"
        ng-repeat="field in schema"
        ng-init="fieldType = stats[field].type; fieldDef = {name:field, type: fieldType};">
-    <div class="type">
+    <div class="type icon-type-{{fieldType}}">
       {{fieldType}}
     </div>
     <div class="field-pill draggable"

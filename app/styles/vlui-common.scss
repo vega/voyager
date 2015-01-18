@@ -115,6 +115,34 @@ h4 {
   @include user-select(none);
 }
 
+/** ICONS FOR DATA TYPES */
+
+.icon-type{
+  @include inline-block;
+  width: 22px;
+  height: 15px;
+  color: transparent;
+}
+
+.icon-type-G{
+  @extend .icon-type;
+  background: url("../images/field_geo.png") no-repeat;
+}
+
+.icon-type-O{
+  @extend .icon-type;
+  background: url("../images/field_text.png") no-repeat;
+}
+
+.icon-type-Q{
+  @extend .icon-type;
+  background: url("../images/field_number.png") no-repeat;
+}
+
+.icon-type-T{
+  @extend .icon-type;
+  background: url("../images/field_time.png") no-repeat;
+}
 
 /**** FIELD & FIELD-PILLS ****/
 
