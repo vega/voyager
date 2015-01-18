@@ -13,6 +13,7 @@ angular.module('vleApp')
       link: function(scope, element, attrs){
         scope.propsExpanded = false;
         scope.funcsExpanded = false;
+        scope.field = null;
 
         scope.togglePropsExpand = function(){
           scope.propsExpanded = !scope.propsExpanded;
@@ -25,6 +26,7 @@ angular.module('vleApp')
         scope.removeField = function() {
           scope.fieldDef.name = null;
           scope.fieldDef.type = null;
+          scope.field = null;
         };
 
         scope.fieldDragStart = function(){
@@ -35,21 +37,34 @@ angular.module('vleApp')
 
         scope.fieldDropped = function() {
           // need to clone so that original fieldDef in the schemalist is not mutated.
-          scope.fieldDef = _.clone(scope.fieldDef);
+          scope.field = _.clone(scope.field);
+
+          scope.fieldDef.name = scope.field.name;
 
           var types = scope.schema.properties.type.enum;
-          if (!_.contains(types, scope.fieldDef.type)) {
+          if (!_.contains(types, scope.field.type)) {
             // if existing type is not supported
             scope.fieldDef.type = types[0];
+          }else {
+            scope.fieldDef.type = scope.field.type;
           }
         };
 
         scope.$watch('fieldDef', function(fieldDef){
-          if(!fieldDef){
-            // when a field is dragged to another
-            scope.removeField();
-          }
+          console.log('fieldDef updated', scope.encType, fieldDef);
+          scope.field = {
+            name: fieldDef.name,
+            type: fieldDef.type
+          };
         });
+
+        scope.$watch('field', function(field){
+          if(!field){
+            // after a field has been dragged to another field
+            scope.fieldDef.name = null;
+            scope.fieldDef.type = null;
+          }
+        })
       }
     };
   });
