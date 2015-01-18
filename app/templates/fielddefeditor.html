@@ -3,7 +3,7 @@
     <div class="shelf-label" ng-click="togglePropsExpand()">{{ encType }}</div>
     <!--<field-drop field-def="fieldDef" types="schema.properties.type.enum"></field-drop>-->
     <div class="field-drop"
-         ng-model="fieldDef"
+         ng-model="field"
          data-drop="true"
          jqyoui-droppable="{onDrop:'fieldDropped'}"
          data-jqyoui-options="{activeClass: 'drop-active'}">
@@ -11,7 +11,7 @@
            ng-if="fieldDef.name"
            ng-click="toggleFuncsExpand()"
            data-drag="true"
-           ng-model="fieldDef"
+           ng-model="field"
            jqyoui-draggable="{onStart: 'fieldDragStart'}"
            data-jqyoui-options="{revert: 'invalid', helper: 'clone'}"
         >
