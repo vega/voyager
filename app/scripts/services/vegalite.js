@@ -57,7 +57,7 @@ angular.module('vleApp')
           service.vlSpec = cleanSpec;
           service.encoding = vl.Encoding.fromSpec(cleanSpec, Config.config);
           service.shorthand = service.encoding.toShorthand();
-          service.vgSpec = vl.toVegaSpec(service.encoding, Dataset.stats);
+          service.vgSpec = vl.compile(service.encoding, Dataset.stats);
         }
       });
 
