@@ -25,7 +25,6 @@
           -->{{ fieldDef.name }}<!--
           --><span class="field-func-pr" ng-if="fieldDef.aggr || fieldDef.fn || fieldDef.bin">)</span>
         </span>
-        <!--<span class="caret"></span>-->
         <a href="#" class="remove-field" ng-click="removeField()">×</a>
       </div>
 
@@ -34,6 +33,11 @@
   </div>
 
   <div class="shelf-properties" ng-show="propsExpanded">
+    <div ng-if="schema.properties.legend">
+      <label>
+        <input type="checkbox" ng-model="fieldDef.legend"> Legend
+      </label>
+    </div>
     <div ng-repeat="group in ['scale', 'text', 'axis']"
          ng-show="schema.properties[group]">
       <h4>{{ group }}</h4>

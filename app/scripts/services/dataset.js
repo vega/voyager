@@ -70,7 +70,7 @@ angular.module('vleApp')
       } else {
         return $http.get(dataset.url, {cache: true}).then(function(response) {
           service.schema = _.keys(response.data[0]);
-          service.stats = vl.getStats(response.data);
+          service.stats = vl.data.getStats(response.data);
         });
       }
     }
