@@ -65,6 +65,8 @@ angular.module('vleApp')
             stats[name] = field;
           });
           service.schema = _.keys(stats);
+
+          //TODO @domoritz revise "stats" name (is "type" a part of stats)?
           service.stats = stats;
         });
       } else {
