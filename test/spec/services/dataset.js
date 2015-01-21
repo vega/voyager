@@ -1,7 +1,6 @@
 'use strict';
 
 describe('Service: Dataset', function () {
-
   // load the service's module
   beforeEach(module('vleApp'));
 
