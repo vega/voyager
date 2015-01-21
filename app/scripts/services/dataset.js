@@ -41,7 +41,7 @@ var datasets = [
 ];
 
 angular.module('vleApp')
-  .factory('Dataset', function ($http, Config) {
+  .factory('Dataset', function ($http, Config, _, Papa) {
     var service = {};
 
     service.datasets = datasets;

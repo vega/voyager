@@ -9,4 +9,6 @@ angular
     'ngDragDrop',
     'mm.foundation',
     'monospaced.elastic'
-  ]);
+  ])
+  .constant('_', window._)
+  .constant('Papa', window.Papa);
