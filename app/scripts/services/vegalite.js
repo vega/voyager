@@ -2,7 +2,7 @@
 
 // watch for changes to vgSpec
 angular.module('vleApp')
-  .service('Vegalite', function ($q, Dataset, Config, VegaliteSpecSchema) {
+  .service('Vegalite', function ($q, vl, Dataset, Config, VegaliteSpecSchema) {
     var service = {};
 
     var removeEmptyFieldDefs = function(spec) {
@@ -55,9 +55,11 @@ angular.module('vleApp')
           response.reject(result.errors);
         } else {
           service.vlSpec = cleanSpec;
+          service.vlSpecJson = JSON.stringify(service.vlSpec, null, "  ", 80);
           service.encoding = vl.Encoding.fromSpec(cleanSpec, Config.config);
           service.shorthand = service.encoding.toShorthand();
           service.vgSpec = vl.compile(service.encoding, Dataset.stats);
+          service.vgSpecJson = JSON.stringify(service.vgSpec, null, "  ", 80);
         }
       });
 
