@@ -1,16 +1,16 @@
 <div class="schema">
   <div class="field"
-       ng-repeat="field in schema"
-       ng-init="fieldType = stats[field].type; fieldDef = {name:field, type: fieldType};">
-    <div class="type icon-type-{{fieldType}}">
-      {{fieldType}}
+       ng-repeat="field in dataschema"
+       ng-init="fieldDef = {name:field.name, type: fieldType};">
+    <div class="type icon-type-{{field.type}}">
+      {{field.type}}
     </div>
     <div class="field-pill draggable"
          ng-model="fieldDef"
          data-drag="true"
          jqyoui-draggable="{placeholder: 'keep', onStart: 'fieldDragStart'}"
          data-jqyoui-options="{revert: 'invalid', helper: 'clone'}">
-      <span class="field-name">{{ field }}</span>
+      <span class="field-name">{{ field.name }}</span>
     </div>
   </div>
 </div>

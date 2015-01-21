@@ -1,7 +1,6 @@
 'use strict';
 
-var datasets = [
-{
+var datasets = [{
   name: 'Barley',
   url: 'data/barley.json',
   table: 'barley_json'
@@ -37,8 +36,7 @@ var datasets = [
   name: 'Birdstrikes',
   url: 'data/birdstrikes.json',
   table: 'birdstrikes_json'
-}
-];
+}];
 
 angular.module('vleApp')
   .factory('Dataset', function ($http, Config) {
@@ -47,7 +45,7 @@ angular.module('vleApp')
     service.datasets = datasets;
 
     service.dataset = datasets[1];
-    service.schema = null;
+    service.dataschema = [];
     service.stats = null;
 
     var setSchemaAndStats = function(dataset) {
@@ -61,17 +59,21 @@ angular.module('vleApp')
             field.min = +row.min;
             field.max = +row.max;
             field.cardinality = +row.cardinality;
-            field.type = row.type === 'integer' || row.type === 'real' ? "Q" : "O";
             stats[name] = field;
+
+            // TODO add "geo" and "time"
+            var type = row.type === 'integer' || row.type === 'real' ? "number" : "text";
+
+            service.dataschema.push({name: name, type: type});
           });
-          service.schema = _.keys(stats);
+          service.dataschema = _.keys(stats);
 
           //TODO @domoritz revise "stats" name (is "type" a part of stats)?
           service.stats = stats;
         });
       } else {
         return $http.get(dataset.url, {cache: true}).then(function(response) {
-          service.schema = _.keys(response.data[0]);
+          service.dataschema = vl.data.getSchema(response.data);
           service.stats = vl.data.getStats(response.data);
         });
       }
