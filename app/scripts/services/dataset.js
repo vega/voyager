@@ -46,7 +46,7 @@ angular.module('vleApp')
 
     service.datasets = datasets;
 
-    service.dataset = datasets[1];
+    service.dataset = datasets[7]; //Movies
     service.schema = null;
     service.stats = null;
 
