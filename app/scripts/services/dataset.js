@@ -39,12 +39,12 @@ var datasets = [{
 }];
 
 angular.module('vleApp')
-  .factory('Dataset', function ($http, Config) {
+  .factory('Dataset', function ($http, Config, _, Papa) {
     var service = {};
 
     service.datasets = datasets;
 
-    service.dataset = datasets[1];
+    service.dataset = datasets[7]; //Movies
     service.dataschema = [];
     service.stats = null;
 
