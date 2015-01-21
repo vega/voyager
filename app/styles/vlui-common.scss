@@ -1,7 +1,3 @@
-@import "compass";
-@import "compass/css3";
-
-
 $pill-radius: 3px;
 $pill-height: 20px;
 $pill-min-width: 150px;
@@ -59,7 +55,7 @@ h4 {
 }
 
 .inline-block {
-  @include inline-block;
+  display: inline-block;
 }
 
 .grow-1{
@@ -112,9 +108,8 @@ h4 {
 
 /* prevent element from being selected http://stackoverflow.com/questions/826782 */
 .noselect {
-  @include user-select(none);
+  user-select: none;
 }
-
 
 /**** FIELD & FIELD-PILLS ****/
 
