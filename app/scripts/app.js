@@ -8,7 +8,17 @@ angular
     'ngTouch',
     'ngDragDrop',
     'mm.foundation',
-    'monospaced.elastic'
+    'monospaced.elastic',
+    'zeroclipboard'
   ])
   .constant('_', window._)
-  .constant('Papa', window.Papa);
+  .constant('Papa', window.Papa)
+  .constant('vl', window.vl)
+  .constant('tv4', window.tv4)
+  .config(['uiZeroclipConfigProvider', function(uiZeroclipConfigProvider) {
+
+    // config ZeroClipboard
+    uiZeroclipConfigProvider.setZcConf({
+      swfPath: '../bower_components/zeroclipboard/dist/ZeroClipboard.swf'
+    });
+  }]);

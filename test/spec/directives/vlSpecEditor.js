@@ -1,9 +1,17 @@
 'use strict';
 
 describe('Directive: vlSpecEditor', function () {
-
   // load the directive's module
   beforeEach(module('vleApp', 'templates'));
+
+  beforeEach(module('vleApp', function ($provide) {
+    $provide.constant('vl', vl); // vl is loaded by karma
+
+    // mock directive (trodrigues's answer in http://stackoverflow.com/questions/17533052)
+    $provide.factory('uiZeroclipDirective', function () {return {};});
+  }));
+
+
 
   var element,
     scope;
@@ -13,10 +21,7 @@ describe('Directive: vlSpecEditor', function () {
       vlSpec: {},
       shorthand: 'point.'
     };
-    $provide.value('Vegalite', mock);
-    $provide.value('VegaliteSpec', {
-      parseShorthand: function(){}
-    });
+    $provide.value('Spec', mock);
   }));
 
   beforeEach(inject(function ($rootScope) {

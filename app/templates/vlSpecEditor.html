@@ -1,6 +1,14 @@
-<h2>Vegalite Specification</h2>
 
-<a href="" ng-click="parseShorthand(Vegalite.shorthand)" class="right">Load</a>
-<input class="shorthand" type="text" ng-model="Vegalite.shorthand"></input>
+<a ng-click="parseShorthand(Spec.shorthand)" class="right command">Load</a>
+<div class="right command">
+  <a ui-zeroclip zeroclip-model="Spec.shorthand">Copy</a>
+</div>
 
-<textarea class="vlspec" json-input type="text" ng-model="Vegalite.vlSpec"></textarea>
+<h3>Vegalite Shorthand</h3>
+<input class="shorthand" type="text" ng-model="Spec.shorthand"></input>
+
+<div class="right command">
+  <a ui-zeroclip zeroclip-model="Spec.vlSpecJson">Copy</a>
+</div>
+<h3>Vegalite Encoding</h3>
+<textarea class="vlspec" json-input type="text" ng-model="Spec.vlSpec"></textarea>

@@ -58,7 +58,6 @@
         </div>
         <div class="pane vg-pane full-height">
           <div class="card">
-            <div class="right"><lyra-export></lyra-export></div>
             <vg-spec-editor></vg-spec-editor>
           </div>
         </div>
@@ -90,6 +89,8 @@
     <script src="bower_components/angular-elastic/elastic.js"></script>
     <script src="bower_components/jquery-ui/jquery-ui.js"></script>
     <script src="bower_components/angular-dragdrop/src/angular-dragdrop.js"></script>
+    <script src="bower_components/zeroclipboard/dist/ZeroClipboard.js"></script>
+    <script src="bower_components/angular-zeroclipboard/src/angular-zeroclipboard.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -105,23 +106,20 @@
     <!-- build:js({.tmp,app}) scripts/scripts.js -->
 
     <script src="scripts/app.js"></script>
+    <script src="scripts/services/alerts.js"></script>
     <script src="scripts/services/config.js"></script>
     <script src="scripts/services/dataset.js"></script>
-    <script src="scripts/services/vegalitespec.js"></script>
+    <script src="scripts/services/spec.js"></script>
     <script src="scripts/filters/scaletype.js"></script>
+    <script src="scripts/filters/compactjson.js"></script>
     <script src="scripts/directives/datasetselector.js"></script>
     <script src="scripts/directives/schemalist.js"></script>
     <script src="scripts/directives/functionselect.js"></script>
     <script src="scripts/directives/fielddefeditor.js"></script>
-    <script src="scripts/services/vegalite.js"></script>
     <script src="scripts/directives/vegaliteplot.js"></script>
-    <script src="scripts/filters/compactjson.js"></script>
     <script src="scripts/directives/jsoninput.js"></script>
-    <script src="scripts/services/vegalitespecschema.js"></script>
-    <script src="scripts/services/alerts.js"></script>
     <script src="scripts/directives/alertmessages.js"></script>
     <script src="scripts/directives/lyraexport.js"></script>
-    <script src="scripts/controllers/menu.js"></script>
     <script src="scripts/directives/configurationeditor.js"></script>
     <script src="scripts/directives/speceditor.js"></script>
     <script src="scripts/directives/vlSpecEditor.js"></script>

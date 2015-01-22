@@ -2,37 +2,27 @@
 
 describe('Service: Config', function () {
 
-  var deferred, config, scope;
+  var deferred, Config, scope;
 
   // load the service's module
   beforeEach(module('vleApp'));
 
-
   beforeEach(module('vleApp', function ($provide) {
-    $provide.factory('VegaliteSpecSchema', function($q) {
-      return {
-        getSchema: function() {
-          deferred = $q.defer();
-          return deferred.promise;
-        },
-        instanceFromSchema: function() {
-          return 'OK'
-        }
-      };
-    });
+    $provide.constant('vl', vl); // vl is loaded by karma
   }));
 
   // instantiate service
   beforeEach(inject(function ($rootScope, _Config_) {
     scope = $rootScope.$new();
-    config = _Config_;
+    Config = _Config_;
   }));
 
-  it('should have useVegaServer property', function () {
-    deferred.resolve({properties: {cfg: {}}});
-    scope.$digest();
+  it('should have correct schema and config ', function () {
+    var schema = vl.schema.schema.properties.cfg,
+      config = vl.schema.util.instantiate(Config.schema);
 
-    expect(config.config).toBe('OK');
+    expect(Config.schema).toEqual(schema);
+    expect(Config.config).toEqual(config);
   });
 
 });
