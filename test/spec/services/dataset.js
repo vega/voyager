@@ -4,6 +4,14 @@ describe('Service: Dataset', function () {
   // load the service's module
   beforeEach(module('vleApp'));
 
+  beforeEach(module('vleApp', function ($provide) {
+    $provide.constant('vl', vl); // vl is loaded by karma
+  }));
+
+  beforeEach(module('vleApp', function ($provide) {
+    $provide.constant('vl', vl); // vl is loaded by karma
+  }));
+
   // instantiate service
   var dataset;
   beforeEach(inject(function (_Dataset_) {

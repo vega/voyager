@@ -5,6 +5,13 @@ describe('Directive: lyraExport', function () {
   // load the directive's module
   beforeEach(module('vleApp'));
 
+  beforeEach(module('vleApp', function ($provide) {
+    var mock = {
+      vgSpec: {}
+    };
+    $provide.value('Spec', mock);
+  }));
+
   var element,
     scope;
 
