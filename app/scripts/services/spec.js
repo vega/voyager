@@ -8,7 +8,7 @@
  * Service in the vleApp.
  */
 angular.module('vleApp')
-  .service('Spec', function (_, vl, tv4, Config, Dataset) {
+  .service('Spec', function (_, vl, tv4, Alerts, Config, Dataset) {
     var Spec = {
       /** @type {Object} verbose spec edited by the UI */
       spec: vl.schema.instantiate(),
@@ -70,13 +70,15 @@ angular.module('vleApp')
       }
 
       // TODO: remove defaults
-
       var schema = vl.schema.schema;
       // now validate the spec
       var result = tv4.validateMultiple(cleanSpec, schema);
 
       if (result.errors.length > 0) {
-        console.error(cleanSpec, result.errors);
+        //FIXME: move this dependency to directive/controller layer
+        Alerts.add({
+          msg: result.errors
+        });
       } else {
         Spec.vlSpec = cleanSpec;
         Spec.vlSpecJson = JSON.stringify(Spec.vlSpec, null, '  ', 80);
