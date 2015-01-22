@@ -6,7 +6,10 @@ describe('Directive: lyraExport', function () {
   beforeEach(module('vleApp'));
 
   beforeEach(module('vleApp', function ($provide) {
-    $provide.constant('vl', vl); // vl is loaded by karma
+    var mock = {
+      vgSpec: {}
+    };
+    $provide.value('Spec', mock);
   }));
 
   var element,

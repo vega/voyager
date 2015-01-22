@@ -1,13 +1,6 @@
 'use strict';
 
 describe('Directive: vlSpecEditor', function () {
-  // angular.module('zeroclipboard',[])
-  //   .directive('uiZeroclip', function(){
-  //     return {
-  //       link: function(){} // do nothing
-  //     }
-  //   });
-
   // load the directive's module
   beforeEach(module('vleApp', 'templates'));
 
@@ -15,7 +8,7 @@ describe('Directive: vlSpecEditor', function () {
     $provide.constant('vl', vl); // vl is loaded by karma
 
     // mock directive (trodrigues's answer in http://stackoverflow.com/questions/17533052)
-    $provide.factory('uiZeroclipDirective', function(){return {};});
+    $provide.factory('uiZeroclipDirective', function () {return {};});
   }));
 
 
