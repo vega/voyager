@@ -6,21 +6,19 @@ angular.module('vleApp')
       templateUrl: 'templates/vegaliteplot.html',
       restrict: 'E',
       scope: {},
-      controller: function ($scope, Vegalite, VegaliteSpec) {
+      controller: function ($scope, Spec) {
         var update = function() {
-          $scope.vgSpec = Vegalite.vgSpec;
-          $scope.vlSpec = Vegalite.vlSpec;
-          $scope.shorthand = Vegalite.shorthand;
+          $scope.vgSpec = Spec.vgSpec;
+          $scope.vlSpec = Spec.vlSpec;
+          $scope.shorthand = Spec.shorthand;
         };
 
-        $scope.parseShorthand = function(shorthand) {
-          VegaliteSpec.parseShorthand(shorthand);
-        };
+        $scope.parseShorthand = Spec.parseShorthand;
 
         var vis;
 
         $scope.$watch(
-          function(){ return Vegalite.vgSpec; },
+          function(){ return Spec.vgSpec; },
           function(newSpec) {
             if (!newSpec) {
               return;

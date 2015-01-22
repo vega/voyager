@@ -5,6 +5,10 @@ describe('Directive: lyraExport', function () {
   // load the directive's module
   beforeEach(module('vleApp'));
 
+  beforeEach(module('vleApp', function ($provide) {
+    $provide.constant('vl', vl); // vl is loaded by karma
+  }));
+
   var element,
     scope;
 
