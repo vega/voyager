@@ -2,24 +2,24 @@
 
 angular.module('vleApp')
   .service('Alerts', function ($timeout) {
-    var service = {};
+    var Alerts = {};
 
-    service.alerts = [];
+    Alerts.alerts = [];
 
-    service.add = function(msg, dismiss) {
+    Alerts.add = function(msg, dismiss) {
       var message = {msg: msg};
-      service.alerts.push(message);
+      Alerts.alerts.push(message);
       if (dismiss) {
         $timeout(function() {
-          var index = _.findIndex(service.alerts, message);
-          service.closeAlert(index);
+          var index = _.findIndex(Alerts.alerts, message);
+          Alerts.closeAlert(index);
         }, dismiss);
       }
     };
 
-    service.closeAlert = function(index) {
-      service.alerts.splice(index, 1);
+    Alerts.closeAlert = function(index) {
+      Alerts.alerts.splice(index, 1);
     };
 
-    return service;
+    return Alerts;
   });
