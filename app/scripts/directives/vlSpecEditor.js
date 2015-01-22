@@ -6,7 +6,7 @@ angular.module('vleApp')
       templateUrl: 'templates/vlSpecEditor.html',
       restrict: 'E',
       scope: {},
-      link: function postLink(scope, element, attrs) {
+      link: function postLink(scope /*, element, attrs*/) {
         scope.Spec = Spec;
 
         scope.parseShorthand = Spec.parseShorthand;

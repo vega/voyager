@@ -6,7 +6,7 @@ angular.module('vleApp')
       templateUrl: 'templates/speceditor.html',
       restrict: 'E',
       scope: {},
-      controller: function ($scope, vl, Spec, Alerts) {
+      controller: function ($scope, vl, Spec) {
         $scope.spec = null;
         $scope.$watch(
           function(){ return Spec.spec; },

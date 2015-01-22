@@ -6,7 +6,7 @@ angular.module('vleApp')
       templateUrl: 'templates/alertmessages.html',
       restrict: 'E',
       scope: {},
-      link: function(scope, element, attrs) {
+      link: function(scope /*,element, attrs*/) {
         scope.Alerts = Alerts;
       }
     };

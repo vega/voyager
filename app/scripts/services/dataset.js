@@ -50,13 +50,13 @@ angular.module('vleApp')
     Dataset.schema = null;
     Dataset.stats = null;
 
-    var setSchemaAndStats = function(dataset) {
+    function setSchemaAndStats(dataset) {
       if (Config.useVegaServer) {
         var url = Config.serverUrl + '/stats/?name=' + dataset.table;
         return $http.get(url, {cache: true}).then(function(response) {
           var parsed = Papa.parse(response.data, {header: true});
           var stats = {};
-          _.each(_.filter(parsed.data, function(d) {return d.name}), function(row) {
+          _.each(_.filter(parsed.data, function(d) {return d.name;}), function(row) {
             var field = {};
             field.min = +row.min;
             field.max = +row.max;
@@ -79,7 +79,7 @@ angular.module('vleApp')
       Dataset.dataset = newDataset;
       Config.updateDataset(Dataset.dataset);
       setSchemaAndStats(Dataset.dataset);
-    }
+    };
 
     return Dataset;
   });
