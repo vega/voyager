@@ -9,6 +9,7 @@
     <!-- build:css(.) styles/vendor.css -->
     <!-- bower:css -->
     <link rel="stylesheet" href="bower_components/fontawesome/css/font-awesome.css" />
+    <link rel="stylesheet" href="bower_components/normalize.css/normalize.css" />
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css(.tmp) styles/main.css -->
@@ -32,8 +33,10 @@
         <div class="pane data-pane full-height">
 
           <div class="card">
+            <div class="right">
+              <dataset-selector></dataset-selector>
+            </div>
             <h2>Data</h2>
-            <dataset-selector></dataset-selector>
             <schema-list></schema-list>
           </div>
         </div>
@@ -84,7 +87,6 @@
     <script src="bower_components/topojson/topojson.js"></script>
     <script src="bower_components/papaparse/papaparse.js"></script>
     <script src="bower_components/lodash/dist/lodash.compat.js"></script>
-    <script src="bower_components/angular-foundation/mm-foundation-tpls.js"></script>
     <script src="bower_components/tv4/tv4.js"></script>
     <script src="bower_components/angular-elastic/elastic.js"></script>
     <script src="bower_components/jquery-ui/jquery-ui.js"></script>
@@ -99,7 +101,6 @@
     <!-- build:js scripts/local-vendor.js -->
     <script src="scripts/vendor/vega.js"></script>
     <script src="scripts/vendor/vegalite.js"></script>
-    <script src="scripts/vendor/bin.js"></script>
     <script src="scripts/vendor/json3-compactstringify.js"></script>
     <!-- endbuild -->
 

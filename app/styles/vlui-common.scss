@@ -7,11 +7,42 @@ $text-color: #212121;
 body{
   width:100%;
   height:100%;
+  background-color: #eee;
+  font-size: 12px;
+  line-height: 18px;
+}
+
+a:hover, a:focus {
+  color: #0078a0;
+}
+a:hover {
+  cursor: pointer;
+}
+a:active, a:hover {
+outline: 0;
+}
+a {
+  color: #008CBA;
+  text-decoration: none;
+  line-height: inherit;
+}
+
+.right {
+  float:right;
+}
+
+.card {
+  height: 100%;
+  margin: 1px 1px 0 0;
+  padding: 10px;
+  background: white;
+  border-style: none;
 }
 
 h1 {
   @extend .noselect;
   font-size: 24px;
+  line-height:36px;
   font-weight: 700;
   margin: 0;
 }
@@ -19,8 +50,10 @@ h1 {
 h2 {
   @extend .noselect;
   font-size: 16px;
+  line-height: 24px;
   text-transform: uppercase;
   font-weight: 700;
+  margin: 0 0 15px;
 }
 
 h3 {
@@ -122,6 +155,7 @@ h4 {
   flex-direction: row;
   width: 100%;
   height: $pill-height;
+  line-height: $pill-height;
   margin-bottom: 3px;
 
   .type{
@@ -149,6 +183,7 @@ $pill-bg-color: #eee;
 
   border-radius: 3px;
   height: $pill-height;
+  line-height: $pill-height;
 
   cursor: default;
 
