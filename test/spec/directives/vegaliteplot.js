@@ -5,10 +5,6 @@ describe('Directive: vegalitePlot', function () {
   // load the directive's module
   beforeEach(module('vleApp', 'templates'));
 
-  beforeEach(module('vleApp', function ($provide) {
-    $provide.constant('vl', vl); // vl is loaded by karma
-  }));
-
   var element,
     scope;
 
@@ -17,18 +13,21 @@ describe('Directive: vegalitePlot', function () {
       vgSpec: {},
       vlSpec: {},
       shorthand: 'foobar'
-    }
-    $provide.value('Vegalite', mock);
-    $provide.value('VegaliteSpec', {});
+      };
 
-    // need to mock global vega
-    vg = {
+    $provide.value('Spec', mock);
+
+    // mock vega
+    $provide.constant('vg', {
       parse: {
-        spec: function() {
-          return {}
+        spec: function(spec, callback) {
+          callback(function(opt){
+            element.find(opt.el).append("<div></div>");
+            return {update: function () {}};
+          });
         }
       }
-    }
+    });
   }));
 
   beforeEach(inject(function ($rootScope) {

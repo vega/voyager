@@ -6,7 +6,7 @@ angular.module('vleApp')
       templateUrl: 'templates/vegaliteplot.html',
       restrict: 'E',
       scope: {},
-      controller: function ($scope, Spec) {
+      controller: function ($scope, vg, Spec) {
         var update = function() {
           $scope.vgSpec = Spec.vgSpec;
           $scope.vlSpec = Spec.vlSpec;
@@ -25,6 +25,7 @@ angular.module('vleApp')
             }
 
             update();
+            console.log(Spec, vg);
             vg.parse.spec(newSpec, function(chart) {
               vis = null;
               vis = chart({el:'#vis', renderer: 'svg'});

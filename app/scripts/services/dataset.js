@@ -42,21 +42,21 @@ var datasets = [
 
 angular.module('vleApp')
   .factory('Dataset', function ($http, Config, _, Papa) {
-    var service = {};
+    var Dataset = {};
 
-    service.datasets = datasets;
+    Dataset.datasets = datasets;
 
-    service.dataset = datasets[7]; //Movies
-    service.schema = null;
-    service.stats = null;
+    Dataset.dataset = datasets[7]; //Movies
+    Dataset.schema = null;
+    Dataset.stats = null;
 
-    var setSchemaAndStats = function(dataset) {
+    function setSchemaAndStats(dataset) {
       if (Config.useVegaServer) {
         var url = Config.serverUrl + '/stats/?name=' + dataset.table;
         return $http.get(url, {cache: true}).then(function(response) {
           var parsed = Papa.parse(response.data, {header: true});
           var stats = {};
-          _.each(_.filter(parsed.data, function(d) {return d.name}), function(row) {
+          _.each(_.filter(parsed.data, function(d) {return d.name;}), function(row) {
             var field = {};
             field.min = +row.min;
             field.max = +row.max;
@@ -64,22 +64,22 @@ angular.module('vleApp')
             field.type = row.type === 'integer' || row.type === 'real' ? "Q" : "O";
             stats[name] = field;
           });
-          service.schema = _.keys(stats);
-          service.stats = stats;
+          Dataset.schema = _.keys(stats);
+          Dataset.stats = stats;
         });
       } else {
         return $http.get(dataset.url, {cache: true}).then(function(response) {
-          service.schema = _.keys(response.data[0]);
-          service.stats = vl.data.getStats(response.data);
+          Dataset.schema = _.keys(response.data[0]);
+          Dataset.stats = vl.data.getStats(response.data);
         });
       }
     }
 
-    service.update = function(newDataset) {
-      service.dataset = newDataset;
-      Config.updateDataset(service.dataset);
-      setSchemaAndStats(service.dataset);
-    }
+    Dataset.update = function(newDataset) {
+      Dataset.dataset = newDataset;
+      Config.updateDataset(Dataset.dataset);
+      setSchemaAndStats(Dataset.dataset);
+    };
 
-    return service;
+    return Dataset;
   });
