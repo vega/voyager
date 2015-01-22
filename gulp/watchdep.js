@@ -8,6 +8,7 @@ var paths = gulp.paths,
   vendorPath = paths.src+'/vendor/';
 
 gulp.task('watchdep', ['watchvl', 'watchvlui', 'watchvr']);
+gulp.task('copydep', ['copyvl', 'copyvlui', 'copyvr']);
 
 // Vegalite
 var vlPath = '../vegalite/';
@@ -43,10 +44,7 @@ gulp.task('copyvlui', function(){
 // Visrec
 
 var vrPath = '../visrec/',
-  vrWatchList = [
-    "src/visgen.js",
-    "src/visrank.js"
-  ];
+  vrWatchList = ["visrec.js"];
 
 gulp.task('watchvr', function(){
   gulp.watch(vrWatchList.map(function(f){return vrPath+f;}), ['copyvr']);

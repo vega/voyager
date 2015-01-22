@@ -6,7 +6,7 @@ var paths = gulp.paths;
 
 var $ = require('gulp-load-plugins')();
 
-gulp.task('styles', function () {
+gulp.task('styles', ['copyvlui'], function () {
 
   var sassOptions = {
     style: 'expanded'
@@ -38,9 +38,14 @@ gulp.task('styles', function () {
     .pipe(indexFilter)
     .pipe($.inject(injectFiles, injectOptions))
     .pipe(indexFilter.restore())
+    // TODO make compass work
+    // .pipe($.compass({
+    //   project: paths.src +'/app/',
+    //   css: paths.tmp + '/serve/app/'
+    // }))
     .pipe($.sass(sassOptions))
 
-  .pipe($.autoprefixer())
+    .pipe($.autoprefixer())
     .on('error', function handleError(err) {
       console.error(err.toString());
       this.emit('end');

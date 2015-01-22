@@ -1,7 +1,3 @@
-@import "compass";
-@import "compass/css3";
-
-
 $pill-radius: 3px;
 $pill-height: 20px;
 $pill-min-width: 150px;
@@ -11,6 +7,21 @@ $text-color: #212121;
 body{
   width:100%;
   height:100%;
+  background-color: #eee;
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.right {
+  float:right;
+}
+
+.card {
+  height: 100%;
+  margin: 1px 1px 0 0;
+  padding: 10px;
+  background: white;
+  border-style: none;
 }
 
 h1 {
@@ -59,7 +70,7 @@ h4 {
 }
 
 .inline-block {
-  @include inline-block;
+  display: inline-block;
 }
 
 .grow-1{
@@ -110,38 +121,13 @@ h4 {
   font-size: 10px;
 }
 
+.command {
+  margin-left: 10px;
+}
+
 /* prevent element from being selected http://stackoverflow.com/questions/826782 */
 .noselect {
-  @include user-select(none);
-}
-
-/** ICONS FOR DATA TYPES */
-
-.icon-type{
-  @include inline-block;
-  width: 22px;
-  height: 15px;
-  color: transparent;
-}
-
-.icon-type-location{
-  @extend .icon-type;
-  background: url("../images/field_geo.png") no-repeat;
-}
-
-.icon-type-text{
-  @extend .icon-type;
-  background: url("../images/field_text.png") no-repeat;
-}
-
-.icon-type-number{
-  @extend .icon-type;
-  background: url("../images/field_number.png") no-repeat;
-}
-
-.icon-type-time{
-  @extend .icon-type;
-  background: url("../images/field_time.png") no-repeat;
+  user-select: none;
 }
 
 /**** FIELD & FIELD-PILLS ****/

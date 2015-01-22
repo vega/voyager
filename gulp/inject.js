@@ -6,7 +6,8 @@ var paths = gulp.paths;
 
 var $ = require('gulp-load-plugins')();
 
-var wiredep = require('wiredep').stream;
+var wiredep = require('wiredep').stream,
+  series = require('stream-series');
 
 gulp.task('inject', ['styles'], function () {
 
@@ -14,6 +15,10 @@ gulp.task('inject', ['styles'], function () {
     paths.tmp + '/serve/{app,components}/**/*.css',
     '!' + paths.tmp + '/serve/app/vendor.css'
   ], { read: false });
+
+  var injectVendor = gulp.src([
+    paths.src + '/vendor/**/*.js'
+    ], { read: false });
 
   var injectScripts = gulp.src([
     paths.src + '/{app,components}/**/*.js',
@@ -33,7 +38,7 @@ gulp.task('inject', ['styles'], function () {
 
   return gulp.src(paths.src + '/*.html')
     .pipe($.inject(injectStyles, injectOptions))
-    .pipe($.inject(injectScripts, injectOptions))
+    .pipe($.inject(series(injectVendor, injectScripts), injectOptions))
     .pipe(wiredep(wiredepOptions))
     .pipe(gulp.dest(paths.tmp + '/serve'));
 
