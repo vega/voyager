@@ -13,16 +13,18 @@ describe('Directive: vegalitePlot', function () {
       vgSpec: {},
       vlSpec: {},
       shorthand: 'foobar'
-    }
+      };
+
     $provide.value('Spec', mock);
 
-    // mock global vega
-    $provide.value('vg', {
+    // mock vega
+    $provide.constant('vg', {
       parse: {
         spec: function(spec, callback) {
           callback(function(opt){
             element.find(opt.el).append("<div></div>");
-          })
+            return {update: function () {}};
+          });
         }
       }
     });

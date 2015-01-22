@@ -25,6 +25,7 @@ angular.module('vleApp')
             }
 
             update();
+            console.log(Spec, vg);
             vg.parse.spec(newSpec, function(chart) {
               vis = null;
               vis = chart({el:'#vis', renderer: 'svg'});
