@@ -20,6 +20,7 @@ angular.module('vleApp')
           // reset field def
           $scope.fieldDef.bin = undefined;
           $scope.fieldDef.aggr = undefined;
+          $scope.fieldDef.fn = undefined;
 
           var group = aggFunc.group,
             name = aggFunc.name;
@@ -28,6 +29,8 @@ angular.module('vleApp')
             $scope.fieldDef.bin = true;
           } else if (group === 'Aggregation') {
             $scope.fieldDef.aggr = name;
+          } else if (group === 'Function') {
+            $scope.fieldDef.fn = name;
           } else if (group !== undefined) {
             console.warn('Undefined group', aggFunc);
           }
