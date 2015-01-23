@@ -2,7 +2,7 @@
   <div class="field"
        ng-repeat="field in dataschema"
        ng-init="fieldDef = {name:field.name, type: field.type};">
-    <div class="type icon-type-{{typeNames[field.type]}}">
+    <div class="type icon-type-{{typeNames[field.type]}}" title="{{typeNames[field.type]}}">
       {{field.type}}
     </div>
     <div class="field-pill draggable"
