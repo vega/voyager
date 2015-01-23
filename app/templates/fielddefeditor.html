@@ -59,7 +59,7 @@
     <function-select field-def="fieldDef" field-def-schema="schema"></function-select>
     <h4>Types</h4>
     <select class="type-select" ng-model="fieldDef.type"
-            ng-options="type for type in schema.properties.type.enum track by type">
+            ng-options="type as typeNames[type] for type in schema.properties.type.enum track by type">
     </select>
 
   </div>

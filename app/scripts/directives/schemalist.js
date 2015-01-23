@@ -17,6 +17,7 @@ angular.module('vleApp')
       controller: function ($scope) {
         $scope.dataschema = null;
         $scope.stats = null;
+        $scope.typeNames = Dataset.typeNames;
 
         $scope.$watch(
           function(){ return Dataset.dataschema; },
