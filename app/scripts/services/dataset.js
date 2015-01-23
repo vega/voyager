@@ -47,6 +47,19 @@ angular.module('vleApp')
     Dataset.dataschema = [];
     Dataset.stats = null;
 
+    // TODO move these to constant to a universal vlui constant file
+    Dataset.typesFromVl = {
+      O: "text",
+      Q: "number",
+      T: "time",
+      G: "geo"
+    };
+
+    Dataset.typesToVl = _.reduce(Dataset.typesFromVl, function(r, type, vlType){
+      r[type] = vlType;
+      return r;
+    }, {});
+
     function setSchemaAndStats(dataset) {
       if (Config.useVegaServer) {
         var url = Config.serverUrl + '/stats/?name=' + dataset.table;
@@ -70,7 +83,12 @@ angular.module('vleApp')
         });
       } else {
         return $http.get(dataset.url, {cache: true}).then(function(response) {
-          Dataset.dataschema = vl.data.getSchema(response.data);
+          Dataset.dataschema = vl.data.getSchema(response.data)
+            .map(function(field){ //convert vl type to vlui type
+              field.type = Dataset.typesFromVl[field.type];
+              return field;
+            });
+
           Dataset.stats = vl.data.getStats(response.data);
         });
       }
