@@ -1,25 +1,12 @@
 $rem-base: 16px;
 $base-font-size: 12px;
 
+@import "../../bower_components/normalize.css/normalize.css";
 // bower:scss
-@import "foundation-sass/scss/normalize.scss";
-@import "foundation-sass/scss/foundation.scss";
 // endbower
 @import "vlui-common.scss";
 
 $iron: #ccc;
-
-body {
-	background-color: #eee;
-}
-
-.card {
-  	height: 100%;
-	margin: 1px 1px 0 0;
-	padding: 10px;
-	background: white;
-	border-style: none;
-}
 
 .type-select {
 	width: 60px;

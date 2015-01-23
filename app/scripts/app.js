@@ -7,7 +7,6 @@ angular
     'ngSanitize',
     'ngTouch',
     'ngDragDrop',
-    'mm.foundation',
     'monospaced.elastic',
     'zeroclipboard'
   ])
