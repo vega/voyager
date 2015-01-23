@@ -15,13 +15,14 @@ angular.module('vleApp')
 
       },
       controller: function ($scope) {
-        $scope.schema = null;
+        $scope.dataschema = null;
         $scope.stats = null;
+        $scope.typeNames = Dataset.typeNames;
 
         $scope.$watch(
-          function(){ return Dataset.schema; },
+          function(){ return Dataset.dataschema; },
           function(newSchema) {
-            $scope.schema = newSchema;
+            $scope.dataschema = newSchema;
             $scope.stats = Dataset.stats;
           }
         );

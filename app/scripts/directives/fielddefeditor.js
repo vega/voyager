@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('vleApp')
-  .directive('fieldDefEditor', function () {
+  .directive('fieldDefEditor', function (Dataset) {
     return {
       templateUrl: 'templates/fielddefeditor.html',
       restrict: 'E',
@@ -14,6 +14,7 @@ angular.module('vleApp')
         scope.propsExpanded = false;
         scope.funcsExpanded = false;
         scope.field = null;
+        scope.typeNames = Dataset.typeNames;
 
         scope.togglePropsExpand = function(){
           scope.propsExpanded = !scope.propsExpanded;

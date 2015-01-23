@@ -1,7 +1,6 @@
 'use strict';
 
-var datasets = [
-{
+var datasets = [{
   name: 'Barley',
   url: 'data/barley.json',
   table: 'barley_json'
@@ -37,18 +36,24 @@ var datasets = [
   name: 'Birdstrikes',
   url: 'data/birdstrikes.json',
   table: 'birdstrikes_json'
-}
-];
+}];
 
 angular.module('vleApp')
   .factory('Dataset', function ($http, Config, _, Papa) {
     var Dataset = {};
 
     Dataset.datasets = datasets;
-
     Dataset.dataset = datasets[7]; //Movies
-    Dataset.schema = null;
+    Dataset.dataschema = [];
     Dataset.stats = null;
+
+    // TODO move these to constant to a universal vlui constant file
+    Dataset.typeNames = {
+      O: "text",
+      Q: "number",
+      T: "time",
+      G: "geo"
+    };
 
     function setSchemaAndStats(dataset) {
       if (Config.useVegaServer) {
@@ -61,15 +66,19 @@ angular.module('vleApp')
             field.min = +row.min;
             field.max = +row.max;
             field.cardinality = +row.cardinality;
-            field.type = row.type === 'integer' || row.type === 'real' ? "Q" : "O";
             stats[name] = field;
+
+            // TODO add "geo" and "time"
+            var type = row.type === 'integer' || row.type === 'real' ? "Q" : "O";
+
+            Dataset.dataschema.push({name: name, type: type});
           });
-          Dataset.schema = _.keys(stats);
+          Dataset.dataschema = _.keys(stats);
           Dataset.stats = stats;
         });
       } else {
         return $http.get(dataset.url, {cache: true}).then(function(response) {
-          Dataset.schema = _.keys(response.data[0]);
+          Dataset.dataschema = vl.data.getSchema(response.data);
           Dataset.stats = vl.data.getStats(response.data);
         });
       }
