@@ -6,7 +6,7 @@ angular.module('vleApp')
       templateUrl: 'templates/vgSpecEditor.html',
       restrict: 'E',
       scope: {},
-      link: function postLink(scope, element, attrs) {
+      link: function postLink(scope /*, element, attrs*/) {
         scope.Spec = Spec;
       }
     };

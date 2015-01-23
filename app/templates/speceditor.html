@@ -15,9 +15,12 @@
                       field-def-schema="schema.properties.enc.properties['col']"></field-def-editor>
   </div>
   <div class="marks-group">
+    <div class="right">
+      <select class="markselect" ng-model="spec.marktype"
+              ng-options="type for type in schema.properties.marktype.enum"></select>
+
+    </div>
     <h3>Marks</h3>
-    <select class="markselect" ng-model="spec.marktype"
-            ng-options="type for type in schema.properties.marktype.enum"></select>
 
     <field-def-editor enc-type="'size'" field-def="spec.enc['size']"
                       field-def-schema="schema.properties.enc.properties['size']"></field-def-editor>

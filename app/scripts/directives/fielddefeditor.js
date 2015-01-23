@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('vleApp')
-  .directive('fieldDefEditor', function (Dataset) {
+  .directive('fieldDefEditor', function () {
     return {
       templateUrl: 'templates/fielddefeditor.html',
       restrict: 'E',
@@ -10,7 +10,7 @@ angular.module('vleApp')
         fieldDef: '=',
         schema: '=fieldDefSchema'
       },
-      link: function(scope, element, attrs){
+      link: function(scope, element /*, attrs*/){
         scope.propsExpanded = false;
         scope.funcsExpanded = false;
         scope.field = null;
@@ -24,8 +24,8 @@ angular.module('vleApp')
         };
 
         scope.removeField = function() {
-          scope.fieldDef.name = null;
-          scope.fieldDef.type = null;
+          scope.fieldDef.name = undefined;
+          scope.fieldDef.type = undefined;
           scope.field = null;
         };
 
@@ -61,10 +61,10 @@ angular.module('vleApp')
         scope.$watch('field', function(field){
           if(!field){
             // after a field has been dragged to another field
-            scope.fieldDef.name = null;
-            scope.fieldDef.type = null;
+            scope.fieldDef.name = undefined;
+            scope.fieldDef.type = undefined;
           }
-        })
+        });
       }
     };
   });

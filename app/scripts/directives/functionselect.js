@@ -41,10 +41,8 @@ angular.module('vleApp')
         // );
 
         $scope.$watchCollection(
-          function(){ return $scope.fieldDef },
-          function(fieldDef) {
-            update();
-          }
+          function(){ return $scope.fieldDef; },
+          function() { update(); }
         );
 
         var update = function() {
@@ -80,13 +78,13 @@ angular.module('vleApp')
             var bin = {
               name: 'bin',
               group: 'Binning'
-            }
+            };
             functions.push(bin);
 
             if ($scope.fieldDef.bin === true) {
               $scope.selectedAggFunc = bin;
             }
-          };
+          }
 
           // omit nulls
           functions = _.filter(functions, function(f) {
@@ -95,7 +93,7 @@ angular.module('vleApp')
 
           // console.log(functions, schema, $scope.fieldDef, $scope.selectedAggFunc)
           $scope.functions = functions;
-        }
+        };
       }
     };
   });

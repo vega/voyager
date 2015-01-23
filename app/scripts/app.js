@@ -7,13 +7,13 @@ angular
     'ngSanitize',
     'ngTouch',
     'ngDragDrop',
-    'mm.foundation',
     'monospaced.elastic',
     'zeroclipboard'
   ])
   .constant('_', window._)
   .constant('Papa', window.Papa)
   .constant('vl', window.vl)
+  .constant('vg', window.vg)
   .constant('tv4', window.tv4)
   .config(['uiZeroclipConfigProvider', function(uiZeroclipConfigProvider) {
 

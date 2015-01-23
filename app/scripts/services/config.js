@@ -4,15 +4,15 @@
 // We keep this separate so that changes are kept even if the spec changes.
 angular.module('vleApp')
   .factory('Config', function (vl) {
-    var service = {};
+    var Config = {};
 
-    service.schema = vl.schema.schema.properties.cfg;
-    service.config = vl.schema.util.instantiate(service.schema);
+    Config.schema = vl.schema.schema.properties.cfg;
+    Config.config = vl.schema.util.instantiate(Config.schema);
 
-    service.updateDataset = function(dataset) {
-      service.config.dataUrl = dataset.url;
-      service.config.vegaServerTable = dataset.table;
+    Config.updateDataset = function(dataset) {
+      Config.config.dataUrl = dataset.url;
+      Config.config.vegaServerTable = dataset.table;
     };
 
-    return service;
+    return Config;
   });
