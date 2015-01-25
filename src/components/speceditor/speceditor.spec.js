@@ -1,11 +1,11 @@
 'use strict';
 
-describe('Directive: specEditor', function () {
+describe('Directive: specEditor', function() {
 
   // load the directive's module
   beforeEach(module('vleApp', 'templates'));
 
-  beforeEach(module('vleApp', function ($provide) {
+  beforeEach(module('vleApp', function($provide) {
     $provide.constant('vl', vl); // vl is loaded by karma
   }));
 
@@ -13,7 +13,7 @@ describe('Directive: specEditor', function () {
     scope,
     deferred;
 
-  beforeEach(module('vleApp', function ($provide) {
+  beforeEach(module('vleApp', function($provide) {
     // add Directive suffix to mock directives
     $provide.value('fieldDefEditorDirective', {});
     $provide.value('functionSelectDirective', {});
@@ -27,7 +27,7 @@ describe('Directive: specEditor', function () {
     });
   }));
 
-  beforeEach(inject(function ($rootScope, $compile) {
+  beforeEach(inject(function($rootScope, $compile) {
     scope = $rootScope.$new();
 
     element = angular.element('<spec-editor></spec-editor>');
@@ -39,7 +39,7 @@ describe('Directive: specEditor', function () {
     expect(element.find('.markselect').length).toBe(1);
   });
 
-  it('should attach config to scope', function () {
+  it('should attach config to scope', function() {
     var isolateScope = element.isolateScope();
     expect(isolateScope.spec).toBeDefined();
     expect(isolateScope.schema).toBeDefined();

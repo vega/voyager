@@ -8,7 +8,7 @@
  * Service in the vleApp.
  */
 angular.module('vleApp')
-  .service('Spec', function (_, vl, tv4, Alerts, Config, Dataset) {
+  .service('Spec', function(_, vl, tv4, Alerts, Config, Dataset) {
     var Spec = {
       /** @type {Object} verbose spec edited by the UI */
       spec: vl.schema.instantiate(),
@@ -17,13 +17,13 @@ angular.module('vleApp')
       /** @type {String} jsonify-ed vlSpec */
       vlSpecJson: '',
       /** @type {Encoding} encoding object from the spec */
-      encoding:null,
+      encoding: null,
       /** @type {String} generated vl shorthand */
-      shorthand:null,
+      shorthand: null,
       /** @type {Object} generated vega spec */
-      vgSpec:null,
+      vgSpec: null,
       /** @type {String} jsonify-ed vgSpec */
-      vgSpecJson:null
+      vgSpecJson: null
     };
 
     Spec._removeEmptyFieldDefs = function(spec) {

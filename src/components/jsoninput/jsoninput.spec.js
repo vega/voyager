@@ -1,6 +1,6 @@
 'use strict';
 
-describe('Directive: jsonInput', function () {
+describe('Directive: jsonInput', function() {
 
   // load the directive's module
   beforeEach(module('vleApp', 'templates'));
@@ -8,12 +8,12 @@ describe('Directive: jsonInput', function () {
   var element,
     scope;
 
-  beforeEach(inject(function ($rootScope) {
+  beforeEach(inject(function($rootScope) {
     scope = $rootScope.$new();
-    scope.foo = {foo: 'bar'}
+    scope.foo = {foo: 'bar'};
   }));
 
-  it('should make hidden element visible', inject(function ($compile) {
+  it('should make hidden element visible', inject(function($compile) {
     element = angular.element('<textarea json-input ng-model="foo"></textarea>');
     element = $compile(element)(scope);
     scope.$digest();

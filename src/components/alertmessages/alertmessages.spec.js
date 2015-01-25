@@ -1,6 +1,6 @@
 'use strict';
 
-describe('Directive: alertMessages', function () {
+describe('Directive: alertMessages', function() {
 
   // load the directive's module
   beforeEach(module('vleApp', 'templates'));
@@ -8,21 +8,21 @@ describe('Directive: alertMessages', function () {
   var element,
     scope;
 
-  beforeEach(module('vleApp', function ($provide) {
+  beforeEach(module('vleApp', function($provide) {
     var mock = {
       alerts: [
-        {name: "foo"},
-        {name: "bar"}
+        {name: 'foo'},
+        {name: 'bar'}
       ]
-    }
+    };
     $provide.value('Alerts', mock);
   }));
 
-  beforeEach(inject(function ($rootScope) {
+  beforeEach(inject(function($rootScope) {
     scope = $rootScope.$new();
   }));
 
-  it('should show alert messages', inject(function ($compile) {
+  it('should show alert messages', inject(function($compile) {
     element = angular.element('<alert-messages></alert-messages>');
     element = $compile(element)(scope);
     scope.$digest();

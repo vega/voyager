@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('vleApp')
-  .directive('jsonInput', function () {
+  .directive('jsonInput', function() {
     return {
       restrict: 'A',
       require: 'ngModel',

@@ -22,7 +22,7 @@ angular.module('vleApp', [
       swfPath: '../bower_components/zeroclipboard/dist/ZeroClipboard.swf'
     });
   }])
-  .config(function ($stateProvider, $urlRouterProvider) {
+  .config(function($stateProvider, $urlRouterProvider) {
     $stateProvider
       .state('home', {
         url: '/',
@@ -31,5 +31,4 @@ angular.module('vleApp', [
       });
 
     $urlRouterProvider.otherwise('/');
-  })
-;
+  });

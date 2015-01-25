@@ -1,6 +1,6 @@
 'use strict';
 
-describe('Directive: functionSelect', function () {
+describe('Directive: functionSelect', function() {
 
   // load the directive's module
   beforeEach(module('vleApp', 'templates'));
@@ -8,7 +8,7 @@ describe('Directive: functionSelect', function () {
   var element,
     scope;
 
-  beforeEach(inject(function ($rootScope) {
+  beforeEach(inject(function($rootScope) {
     scope = $rootScope.$new();
     scope.fieldDefSchema = {
       properties: {
@@ -25,7 +25,7 @@ describe('Directive: functionSelect', function () {
     };
   }));
 
-  it('should have correct number of options', inject(function ($compile) {
+  it('should have correct number of options', inject(function($compile) {
     element = angular.element('<function-select field-def="fieldDef", field-def-schema="fieldDefSchema"></function-select>');
     element = $compile(element)(scope);
     scope.$digest();
@@ -33,15 +33,15 @@ describe('Directive: functionSelect', function () {
     expect(element.find('option').length).toBe(3);
   }));
 
-  it('should correctly add aggr', function () {
+  it('should correctly add aggr', function() {
     // TODO(kanitw): write test (I don't write it now because I expect functionselect.js to change from function to radio and the logic will change)
   });
 
-  it('should correctly add fn', function () {
+  it('should correctly add fn', function() {
     // TODO(kanitw): write test (I don't write it now because I expect functionselect.js to change from function to radio and the logic will change)
   });
 
-  it('should correctly add bin', function () {
+  it('should correctly add bin', function() {
     // TODO(kanitw): write test (I don't write it now because I expect functionselect.js to change from function to radio and the logic will change)
   });
 });

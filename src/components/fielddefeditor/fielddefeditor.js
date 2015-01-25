@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('vleApp')
-  .directive('fieldDefEditor', function (Dataset) {
+  .directive('fieldDefEditor', function(Dataset) {
     return {
       templateUrl: 'components/fielddefeditor/fielddefeditor.html',
       restrict: 'E',
@@ -10,17 +10,17 @@ angular.module('vleApp')
         fieldDef: '=',
         schema: '=fieldDefSchema'
       },
-      link: function(scope, element /*, attrs*/){
+      link: function(scope, element /*, attrs*/) {
         scope.propsExpanded = false;
         scope.funcsExpanded = false;
         scope.field = null;
         scope.typeNames = Dataset.typeNames;
 
-        scope.togglePropsExpand = function(){
+        scope.togglePropsExpand = function() {
           scope.propsExpanded = !scope.propsExpanded;
         };
 
-        scope.toggleFuncsExpand = function(){
+        scope.toggleFuncsExpand = function() {
           scope.funcsExpanded = !scope.funcsExpanded;
         };
 
@@ -30,9 +30,9 @@ angular.module('vleApp')
           scope.field = null;
         };
 
-        scope.fieldDragStart = function(){
+        scope.fieldDragStart = function() {
           var pill = element.find('.field-drop');
-          pill.css('width', pill.width()+"px");
+          pill.css('width', pill.width() + 'px');
         };
 
 
@@ -51,7 +51,7 @@ angular.module('vleApp')
           }
         };
 
-        scope.$watch('fieldDef', function(fieldDef){
+        scope.$watch('fieldDef', function(fieldDef) {
           console.log('fieldDef updated', scope.encType, fieldDef);
           scope.field = {
             name: fieldDef.name,
@@ -59,8 +59,8 @@ angular.module('vleApp')
           };
         });
 
-        scope.$watch('field', function(field){
-          if(!field){
+        scope.$watch('field', function(field) {
+          if (!field) {
             // after a field has been dragged to another field
             scope.fieldDef.name = undefined;
             scope.fieldDef.type = undefined;

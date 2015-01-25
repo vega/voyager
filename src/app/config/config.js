@@ -3,7 +3,7 @@
 // Service for the spec config.
 // We keep this separate so that changes are kept even if the spec changes.
 angular.module('vleApp')
-  .factory('Config', function (vl) {
+  .factory('Config', function(vl) {
     var Config = {};
 
     Config.schema = vl.schema.schema.properties.cfg;

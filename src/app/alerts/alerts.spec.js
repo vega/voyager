@@ -1,18 +1,18 @@
 'use strict';
 
-describe('Service: Alerts', function () {
+describe('Service: Alerts', function() {
 
   // load the service's module
   beforeEach(module('vleApp'));
 
   // instantiate service
   var alerts, $timeout;
-  beforeEach(inject(function (_Alerts_, _$timeout_) {
+  beforeEach(inject(function(_Alerts_, _$timeout_) {
     alerts = _Alerts_;
     $timeout = _$timeout_;
   }));
 
-  it('should add alerts', function () {
+  it('should add alerts', function() {
     expect(alerts.alerts).toEqual([]);
     alerts.add('foo');
     expect(alerts.alerts).toEqual([{msg: 'foo'}]);
@@ -22,7 +22,7 @@ describe('Service: Alerts', function () {
     expect(alerts.alerts).toEqual([{msg: 'bar'}]);
   });
 
-  it('alerts should close themselves', function () {
+  it('alerts should close themselves', function() {
     expect(alerts.alerts).toEqual([]);
     alerts.add('foo', 100);
     expect(alerts.alerts).toEqual([{msg: 'foo'}]);

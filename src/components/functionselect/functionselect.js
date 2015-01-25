@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('vleApp')
-  .directive('functionSelect', function () {
+  .directive('functionSelect', function() {
     return {
       templateUrl: 'components/functionselect/functionselect.html',
       restrict: 'E',
@@ -44,7 +44,7 @@ angular.module('vleApp')
         // );
 
         $scope.$watchCollection(
-          function(){ return $scope.fieldDef; },
+          function() { return $scope.fieldDef; },
           function() { update(); }
         );
 
@@ -55,17 +55,17 @@ angular.module('vleApp')
           }
 
           // if the fieldDef doesn't have a name set, we still want to allow count
-          var type = $scope.fieldDef.name ? $scope.fieldDef.type : "";
+          var type = $scope.fieldDef.name ? $scope.fieldDef.type : '';
           var schema = $scope.fieldDefSchema.properties;
 
-          var functions = [{name: ""}];
+          var functions = [{name: ''}];
 
-          if(schema.fn && (!schema.fn.supportedTypes || schema.fn.supportedTypes[type])){
+          if (schema.fn && (!schema.fn.supportedTypes || schema.fn.supportedTypes[type])) {
             var fns = schema.fn.enum;
-            fns.forEach(function(fn){
+            fns.forEach(function(fn) {
               functions.push({
                 'name': fn,
-                'group': "Function"
+                'group': 'Function'
               });
             });
           }

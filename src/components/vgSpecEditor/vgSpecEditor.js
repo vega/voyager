@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('vleApp')
-  .directive('vgSpecEditor', function (Spec) {
+  .directive('vgSpecEditor', function(Spec) {
     return {
       templateUrl: 'components/vgSpecEditor/vgSpecEditor.html',
       restrict: 'E',

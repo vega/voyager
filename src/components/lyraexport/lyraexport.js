@@ -1,13 +1,13 @@
 'use strict';
 
 angular.module('vleApp')
-  .directive('lyraExport', function () {
+  .directive('lyraExport', function() {
     return {
       template: '<a href="#" ng-click="export()">Export to lyra</a>',
       restrict: 'E',
       replace: true,
       scope: {},
-      controller: function ($scope, $timeout, Spec, Alerts) {
+      controller: function($scope, $timeout, Spec, Alerts) {
         $scope.export = function() {
           var vgSpec = Spec.vgSpec;
           if (!vgSpec) {

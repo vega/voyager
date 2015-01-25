@@ -39,7 +39,7 @@ var datasets = [{
 }];
 
 angular.module('vleApp')
-  .factory('Dataset', function ($http, Config, _, Papa) {
+  .factory('Dataset', function($http, Config, _, Papa) {
     var Dataset = {};
 
     Dataset.datasets = datasets;
@@ -49,10 +49,10 @@ angular.module('vleApp')
 
     // TODO move these to constant to a universal vlui constant file
     Dataset.typeNames = {
-      O: "text",
-      Q: "number",
-      T: "time",
-      G: "geo"
+      O: 'text',
+      Q: 'number',
+      T: 'time',
+      G: 'geo'
     };
 
     function setSchemaAndStats(dataset) {
@@ -69,7 +69,7 @@ angular.module('vleApp')
             stats[name] = field;
 
             // TODO add "geo" and "time"
-            var type = row.type === 'integer' || row.type === 'real' ? "Q" : "O";
+            var type = row.type === 'integer' || row.type === 'real' ? 'Q' : 'O';
 
             Dataset.dataschema.push({name: name, type: type});
           });

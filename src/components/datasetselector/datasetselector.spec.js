@@ -1,6 +1,6 @@
 'use strict';
 
-describe('Directive: datasetSelector', function () {
+describe('Directive: datasetSelector', function() {
 
   // load the directive's module
   beforeEach(module('vleApp', 'templates'));
@@ -8,21 +8,21 @@ describe('Directive: datasetSelector', function () {
   var element,
     scope;
 
-  beforeEach(module('vleApp', function ($provide) {
+  beforeEach(module('vleApp', function($provide) {
     var mock = {
       datasets: [{name: 'foo'}, {name: 'bar'}],
       dataset: null,
       update: function(dataset) {}
-    }
+    };
     mock.dataset = mock.datasets[0];
     $provide.value('Dataset', mock);
   }));
 
-  beforeEach(inject(function ($templateCache, $rootScope) {
+  beforeEach(inject(function($templateCache, $rootScope) {
     scope = $rootScope.$new();
   }));
 
-  it('should make hidden element visible', inject(function ($compile) {
+  it('should make hidden element visible', inject(function($compile) {
     element = angular.element('<dataset-selector></dataset-selector>');
     element = $compile(element)(scope);
     scope.$digest();

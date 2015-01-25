@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('vleApp')
-  .service('Alerts', function ($timeout) {
+  .service('Alerts', function($timeout) {
     var Alerts = {};
 
     Alerts.alerts = [];

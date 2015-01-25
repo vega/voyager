@@ -1,15 +1,15 @@
 'use strict';
 
 angular.module('vleApp')
-  .directive('specEditor', function () {
+  .directive('specEditor', function() {
     return {
       templateUrl: 'components/speceditor/speceditor.html',
       restrict: 'E',
       scope: {},
-      controller: function ($scope, vl, Spec) {
+      controller: function($scope, vl, Spec) {
         $scope.spec = null;
         $scope.$watch(
-          function(){ return Spec.spec; },
+          function() { return Spec.spec; },
           function(newSpec) {
             $scope.spec = newSpec;
           }

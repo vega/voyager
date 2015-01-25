@@ -1,6 +1,6 @@
 // 'use strict';
 
-describe('Directive: vegalitePlot', function () {
+describe('Directive: vegalitePlot', function() {
 
   // load the directive's module
   beforeEach(module('vleApp', 'templates'));
@@ -8,7 +8,7 @@ describe('Directive: vegalitePlot', function () {
   var element,
     scope;
 
-  beforeEach(module('vleApp', function ($provide) {
+  beforeEach(module('vleApp', function($provide) {
     var mock = {
       vgSpec: {},
       vlSpec: {},
@@ -21,20 +21,20 @@ describe('Directive: vegalitePlot', function () {
     $provide.constant('vg', {
       parse: {
         spec: function(spec, callback) {
-          callback(function(opt){
-            element.find(opt.el).append("<div></div>");
-            return {update: function () {}};
+          callback(function(opt) {
+            element.find(opt.el).append('<div></div>');
+            return {update: function() {}};
           });
         }
       }
     });
   }));
 
-  beforeEach(inject(function ($rootScope) {
+  beforeEach(inject(function($rootScope) {
     scope = $rootScope.$new();
   }));
 
-  it('should attach visualization', inject(function ($compile) {
+  it('should attach visualization', inject(function($compile) {
     element = angular.element('<vegalite-plot></vegalite-plot>');
     element = $compile(element)(scope);
     scope.$digest();
