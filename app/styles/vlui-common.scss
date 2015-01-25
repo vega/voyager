@@ -148,6 +148,35 @@ h4 {
   user-select: none;
 }
 
+/** ICONS FOR DATA TYPES */
+
+.icon-type{
+  @extend .inline-block;
+  width: 22px;
+  height: 15px;
+  color: transparent;
+}
+
+.icon-type-location{
+  @extend .icon-type;
+  background: url("../images/field_geo.png") no-repeat;
+}
+
+.icon-type-text{
+  @extend .icon-type;
+  background: url("../images/field_text.png") no-repeat;
+}
+
+.icon-type-number{
+  @extend .icon-type;
+  background: url("../images/field_number.png") no-repeat;
+}
+
+.icon-type-time{
+  @extend .icon-type;
+  background: url("../images/field_time.png") no-repeat;
+}
+
 /**** FIELD & FIELD-PILLS ****/
 
 .field {

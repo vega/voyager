@@ -57,6 +57,16 @@ angular.module('vleApp')
 
           var functions = [{name: ""}];
 
+          if(schema.fn && (!schema.fn.supportedTypes || schema.fn.supportedTypes[type])){
+            var fns = schema.fn.enum;
+            fns.forEach(function(fn){
+              functions.push({
+                'name': fn,
+                'group': "Function"
+              });
+            });
+          }
+
           // set aggregation functions
           if (schema.aggr && (!schema.aggr.supportedTypes || schema.aggr.supportedTypes[type])) {
             var aggFunctions = schema.aggr.supportedEnums ? schema.aggr.supportedEnums[type] : schema.aggr.enum;
@@ -72,6 +82,7 @@ angular.module('vleApp')
               }
             });
           }
+
 
           // add binning function
           if (schema.bin && schema.bin.supportedTypes[type]) {
