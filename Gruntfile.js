@@ -63,13 +63,8 @@ module.exports = function (grunt) {
       },
       // assuming the dev environment has vegalite repo in the same folder as vegalite-ui
       vegalite: {
-        // TODO change to vegalite/vegalite.js after splitting files
         files: ['../vegalite/vegalite.js'],
         tasks: ['copy:vegalite']
-      },
-      vegalitespec: {
-        files: ['../vegalite/schema/spec.json'],
-        tasks: ['copy:vegalitespec']
       }
     },
 
@@ -381,10 +376,6 @@ module.exports = function (grunt) {
       vegalite: {
         src: '../vegalite/vegalite.js',
         dest: '<%= yeoman.app %>/scripts/vendor/vegalite.js'
-      },
-      vegalitespec: {
-        src: '../vegalite/schema/spec.json',
-        dest: '<%= yeoman.app %>/data/spec.json'
       }
     },
 
@@ -465,7 +456,6 @@ module.exports = function (grunt) {
   ]);
 
   grunt.registerTask('copyvl', [
-    'copy:vegalite',
-    'copy:vegalitespec'
+    'copy:vegalite'
   ]);
 };
