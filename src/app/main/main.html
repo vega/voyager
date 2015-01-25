@@ -1,0 +1,49 @@
+<div class="flex-root vflex full-width full-height">
+  <div class="full-width">
+    <div class="card full-height">
+      <div class="right">
+        <a href="#" ng-click="showDevPanel = !showDevPanel">Dev Pane</a>
+      </div>
+      <h1>ShelfViz</h1>
+    </div>
+  </div>
+  <div class="full-width">
+    <alert-messages></alert-messages>
+  </div>
+  <div class="hflex full-width main-panel grow-1">
+    <div class="pane data-pane full-height">
+
+      <div class="card">
+        <div class="right">
+          <dataset-selector></dataset-selector>
+        </div>
+        <h2>Data</h2>
+        <schema-list></schema-list>
+      </div>
+    </div>
+    <div class="pane encoding-pane full-height">
+      <spec-editor></spec-editor>
+    </div>
+
+    <div class="pane vis-pane full-height">
+      <vegalite-plot></vegalite-plot>
+    </div>
+  </div>
+  <div class="hflex full-width dev-panel" ng-show="showDevPanel">
+    <div class="pane config-pane full-height">
+      <div class="card">
+        <configuration-editor></configuration-editor>
+      </div>
+    </div>
+    <div class="pane vl-pane full-height">
+      <div class="card">
+        <vl-spec-editor></vl-spec-editor>
+      </div>
+    </div>
+    <div class="pane vg-pane full-height">
+      <div class="card">
+        <vg-spec-editor></vg-spec-editor>
+      </div>
+    </div>
+  </div>
+</div>

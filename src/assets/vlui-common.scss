@@ -1,0 +1,246 @@
+$pill-radius: 3px;
+$pill-height: 20px;
+$pill-min-width: 150px;
+
+$text-color: #212121;
+
+body{
+  width:100%;
+  height:100%;
+  background-color: #eee;
+  font-size: 12px;
+  line-height: 18px;
+}
+
+a:hover, a:focus {
+  color: #0078a0;
+}
+a:hover {
+  cursor: pointer;
+}
+a:active, a:hover {
+outline: 0;
+}
+a {
+  color: #008CBA;
+  text-decoration: none;
+  line-height: inherit;
+}
+
+.right {
+  float:right;
+}
+
+.card {
+  height: 100%;
+  margin: 1px 1px 0 0;
+  padding: 10px;
+  background: white;
+  border-style: none;
+}
+
+h1 {
+  @extend .noselect;
+  font-size: 24px;
+  line-height:36px;
+  font-weight: 700;
+  margin: 0;
+}
+
+h2 {
+  @extend .noselect;
+  font-size: 16px;
+  line-height: 24px;
+  text-transform: uppercase;
+  font-weight: 700;
+  margin: 0 0 15px;
+}
+
+h3 {
+  @extend .noselect;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+h4 {
+  @extend .noselect;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+
+.flex-root{
+  overflow: scroll;
+}
+
+/* UTILITIES */
+
+
+.full-width {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: initial;
+}
+
+.full-height{
+  height: 100%;
+}
+
+.inline-block {
+  display: inline-block;
+}
+
+.grow-1{
+  flex-grow:1;
+}
+
+.hflex {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+}
+
+.persist-scroll{
+  /*
+    Prevent scroll bars from being hidden for OS X.
+    http://stackoverflow.com/questions/7855590/how-can-i-prevent-scroll-bars-from-being-hidden-for-os-x-trackpad-users-in-webkit
+  */
+  &::-webkit-scrollbar {
+    -webkit-appearance: none;
+  }
+
+  &::-webkit-scrollbar:vertical {
+    width: 11px;
+  }
+
+  &::-webkit-scrollbar:horizontal {
+    height: 11px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 8px;
+    border: 2px solid white; /* should match background, can't be transparent */
+    background-color: rgba(0, 0, 0, .5);
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: #fff;
+    border-radius: 8px;
+  }
+}
+
+.scroll-y{
+  @extend .persist-scroll;
+  overflow-y: scroll;
+}
+
+.small {
+  font-size: 10px;
+}
+
+.command {
+  margin-left: 10px;
+}
+
+/* prevent element from being selected http://stackoverflow.com/questions/826782 */
+.noselect {
+  user-select: none;
+}
+
+/** ICONS FOR DATA TYPES */
+
+.icon-type{
+  @extend .inline-block;
+  width: 22px;
+  height: 15px;
+  color: transparent;
+}
+
+.icon-type-location{
+  @extend .icon-type;
+  background: url("/assets/images/field_geo.png") no-repeat;
+}
+
+.icon-type-text{
+  @extend .icon-type;
+  background: url("/assets/images/field_text.png") no-repeat;
+}
+
+.icon-type-number{
+  @extend .icon-type;
+  background: url("/assets/images/field_number.png") no-repeat;
+}
+
+.icon-type-time{
+  @extend .icon-type;
+  background: url("/assets/images/field_time.png") no-repeat;
+}
+
+/**** FIELD & FIELD-PILLS ****/
+
+.field {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: $pill-height;
+  line-height: $pill-height;
+  margin-bottom: 3px;
+
+  .type{
+    font-size: 0.8rem;
+    margin-right: 3px;
+    flex-shrink: 0;
+  }
+  .field-pill{
+    flex-grow: 1;
+  }
+}
+
+$pill-bg-color: #eee;
+
+/* draggable component of the field */
+.field-pill {
+  @extend .noselect;
+  display: flex;
+
+  background-color: $pill-bg-color;
+  color: $text-color;
+  margin: 0;
+  text-decoration: none;
+  padding: 0 0.5em;
+
+  border-radius: 3px;
+  height: $pill-height;
+  line-height: $pill-height;
+
+  cursor: default;
+
+  .field-func{
+    text-transform: uppercase;
+  }
+
+  .field-name{
+    overflow-x: hidden;
+    text-overflow: ellipsis;
+    flex-grow: 1;
+  }
+
+  .dragging{
+    min-width: $pill-min-width;
+  }
+
+  .remove-field {
+    flex-grow: 0;
+  }
+
+  .caret {
+    flex-grow: 0;
+    margin: auto 0;
+  }
+}
+
+
+.draggable {
+  cursor: move;
+}
