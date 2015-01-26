@@ -9,7 +9,22 @@ body{
   height:100%;
   background-color: #eee;
   font-size: 12px;
-  line-height: 16px;
+  line-height: 18px;
+}
+
+a:hover, a:focus {
+  color: #0078a0;
+}
+a:hover {
+  cursor: pointer;
+}
+a:active, a:hover {
+outline: 0;
+}
+a {
+  color: #008CBA;
+  text-decoration: none;
+  line-height: inherit;
 }
 
 .right {
@@ -27,6 +42,7 @@ body{
 h1 {
   @extend .noselect;
   font-size: 24px;
+  line-height:36px;
   font-weight: 700;
   margin: 0;
 }
@@ -34,8 +50,10 @@ h1 {
 h2 {
   @extend .noselect;
   font-size: 16px;
+  line-height: 24px;
   text-transform: uppercase;
   font-weight: 700;
+  margin: 0 0 15px;
 }
 
 h3 {
@@ -130,6 +148,35 @@ h4 {
   user-select: none;
 }
 
+/** ICONS FOR DATA TYPES */
+
+.icon-type{
+  @extend .inline-block;
+  width: 22px;
+  height: 15px;
+  color: transparent;
+}
+
+.icon-type-location{
+  @extend .icon-type;
+  background: url("/assets/images/field_geo.png") no-repeat;
+}
+
+.icon-type-text{
+  @extend .icon-type;
+  background: url("/assets/images/field_text.png") no-repeat;
+}
+
+.icon-type-number{
+  @extend .icon-type;
+  background: url("/assets/images/field_number.png") no-repeat;
+}
+
+.icon-type-time{
+  @extend .icon-type;
+  background: url("/assets/images/field_time.png") no-repeat;
+}
+
 /**** FIELD & FIELD-PILLS ****/
 
 .field {
@@ -137,6 +184,7 @@ h4 {
   flex-direction: row;
   width: 100%;
   height: $pill-height;
+  line-height: $pill-height;
   margin-bottom: 3px;
 
   .type{
@@ -164,6 +212,7 @@ $pill-bg-color: #eee;
 
   border-radius: 3px;
   height: $pill-height;
+  line-height: $pill-height;
 
   cursor: default;
 
