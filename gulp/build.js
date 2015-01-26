@@ -67,6 +67,12 @@ gulp.task('images', function () {
     .pipe(gulp.dest(paths.dist + '/assets/images/'));
 });
 
+gulp.task('data', function () {
+  return gulp.src(paths.src + '/data/*')
+    .pipe(gulp.dest(paths.dist + '/data/'));
+});
+
+
 gulp.task('fonts', function () {
   return gulp.src($.mainBowerFiles())
     .pipe($.filter('**/*.{eot,svg,ttf,woff}'))
@@ -79,8 +85,14 @@ gulp.task('misc', function () {
     .pipe(gulp.dest(paths.dist + '/'));
 });
 
+gulp.task('zeroclipboard', function () {
+  return gulp.src('bower_components/zeroclipboard/dist/ZeroClipboard.swf')
+    .pipe(gulp.dest(paths.dist + '/bower_components/zeroclipboard/dist/'));
+});
+
+
 gulp.task('clean', function (done) {
   $.del([paths.dist + '/', paths.tmp + '/'], done);
 });
 
-gulp.task('build', ['copydep', 'html', 'images', 'fonts', 'misc', 'watchdep']);
+gulp.task('build', ['copydep', 'html', 'images', 'data', 'fonts', 'misc', 'watchdep', 'zeroclipboard']);

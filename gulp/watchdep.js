@@ -25,7 +25,7 @@ gulp.task('copyvl', function(){
 
 var vluiPath = '../vegalite-ui/',
   uiWatchList = [
-    ["app/styles/vlui-common.scss", "src/assets"]
+    ["src/assets/vlui-common.scss", "src/assets"]
   ];
 
 
