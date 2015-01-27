@@ -52,7 +52,6 @@ angular.module('vleApp')
         };
 
         scope.$watch('fieldDef', function(fieldDef) {
-          console.log('fieldDef updated', scope.encType, fieldDef);
           scope.field = {
             name: fieldDef.name,
             type: fieldDef.type
