@@ -1,18 +1,18 @@
 <form>
   <div>
     <label class="inline-label"> Use server </label>
-    <input type="checkbox" ng-model="config.useVegaServer"></input>
+    <input type="checkbox" ng-model="Config.config.useVegaServer"></input>
   </div>
 
   <div>
     <label class="inline-label"> Data format </label>
-    <select required ng-options="format for format in schema.properties.dataFormatType.enum track by format" ng-model="config.dataFormatType"></select>
+    <select required ng-options="format for format in Config.schema.properties.dataFormatType.enum track by format" ng-model="Config.config.dataFormatType"></select>
   </div>
 
   <div>
     <label class="inline-label"> Vega Server URL </label>
-    <input ng-model="config.vegaServerUrl" type="text"></input>
+    <input ng-model="Config.config.vegaServerUrl" type="text"></input>
   </div>
 
-  <pre>{{ config | compactJSON }}</pre>
+  <pre>{{ Config.config | compactJSON }}</pre>
 </form>
