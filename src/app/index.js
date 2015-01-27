@@ -11,6 +11,7 @@ angular.module('facetedviz', ['vleApp', 'ngAnimate', 'ngCookies', 'ngTouch', 'ng
   .constant('_', window._)
   .constant('vl', window.vl)
   .constant('vg', window.vg)
+  .constant('vr', window.vr)
   .constant('Papa', window.Papa)
   .config(function ($stateProvider, $urlRouterProvider) {
     $stateProvider
