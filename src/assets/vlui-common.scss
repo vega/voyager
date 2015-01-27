@@ -107,6 +107,12 @@ h4 {
   height: 100%;
 }
 
+.inline-label {
+  display: inline-block;
+  min-width: 100px;
+  font-weight: bold;
+}
+
 .inline-block {
   display: inline-block;
 }
