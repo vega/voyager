@@ -8,10 +8,6 @@ describe('Service: Dataset', function() {
     $provide.constant('vl', vl); // vl is loaded by karma
   }));
 
-  beforeEach(module('vleApp', function($provide) {
-    $provide.constant('vl', vl); // vl is loaded by karma
-  }));
-
   // instantiate service
   var dataset;
   beforeEach(inject(function(_Dataset_) {
