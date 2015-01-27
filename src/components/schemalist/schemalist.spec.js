@@ -3,14 +3,14 @@
 describe('Directive: schemaList', function() {
 
   // load the directive's module
-  beforeEach(module('vleApp', 'templates'));
+  beforeEach(module('vleApp'));
 
   var element,
     scope;
 
   beforeEach(module('vleApp', function($provide) {
     var mock = {
-      schema: ['foo', 'bar', 'baz']
+      dataschema: ['foo', 'bar', 'baz']
     };
     $provide.value('Dataset', mock);
   }));
@@ -19,7 +19,7 @@ describe('Directive: schemaList', function() {
     scope = $rootScope.$new();
   }));
 
-  it('should make hidden element visible', inject(function($compile) {
+  it('should have field', inject(function($compile) {
     element = angular.element('<schema-list></schema-list>');
     element = $compile(element)(scope);
     scope.$digest();
