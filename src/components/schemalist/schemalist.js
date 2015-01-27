@@ -15,18 +15,8 @@ angular.module('vleApp')
 
       },
       controller: function($scope) {
-        $scope.dataschema = null;
-        $scope.stats = null;
+        $scope.Dataset = Dataset;
         $scope.typeNames = Dataset.typeNames;
-
-        $scope.$watch(
-          function() { return Dataset.dataschema; },
-          function(newSchema) {
-            $scope.dataschema = newSchema;
-            $scope.stats = Dataset.stats;
-          }
-        );
-
       }
     };
   });
