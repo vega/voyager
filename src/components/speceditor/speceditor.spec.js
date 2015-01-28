@@ -39,9 +39,9 @@ describe('Directive: specEditor', function() {
     expect(element.find('.markselect').length).toBe(1);
   });
 
-  it('should attach config to scope', function() {
+  it('should attach Spec and schema to scope', function() {
     var isolateScope = element.isolateScope();
-    expect(isolateScope.spec).toBeDefined();
+    expect(isolateScope.Spec).toBeDefined();
     expect(isolateScope.schema).toBeDefined();
   });
 });

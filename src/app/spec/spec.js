@@ -43,19 +43,16 @@ angular.module('vleApp')
       }
     }
 
-
     Spec.parseShorthand = function(newShorthand) {
       Spec.spec = vl.Encoding.parseShorthand(newShorthand, Config.config).toSpec();
-      Spec.updateSpec(Spec.spec);
     };
 
     Spec.resetSpec = function() {
       Spec.spec = vl.schema.instantiate();
     };
 
-    // TODO: should we call this `specChanged` ?
-    Spec.updateSpec = function(newSpec) {
-      var cleanSpec = _.cloneDeep(newSpec);
+    Spec.update = function(spec) {
+      var cleanSpec = _.cloneDeep(spec);
 
       Spec._removeEmptyFieldDefs(cleanSpec);
       deleteNulls(cleanSpec);
@@ -81,8 +78,6 @@ angular.module('vleApp')
         Spec.vgSpec = vl.compile(Spec.encoding, Dataset.stats);
       }
     };
-
-    Spec.updateSpec(Spec.spec);
 
     return Spec;
   });
