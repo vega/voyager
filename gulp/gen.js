@@ -8,7 +8,6 @@
  * gulp gen --fa factoryName (or --factory)
  */
 
-
 'use strict';
 
 var gulp = require('gulp'),
@@ -28,7 +27,7 @@ function createFile(path){
 }
 
 function fetchUrl(url, callback){
-  //console.log(url);
+  // console.log(url);
   request.get(url, function (error, response, body) {
     if (!error && response.statusCode === 200) {
       callback(body);
@@ -75,22 +74,25 @@ function genDirective(dir){
 
 }
 
-function genItem(rootpath, item, fileurl, specurl, itemtype, filename){
-  var dirpath = rootpath + filename +'/',
+function genItem(rootpath, item, fileurl, specurl, itemtype){
+  var filename = item.toLowerCase(),
+    dirpath = rootpath + filename +'/',
     template = { __appname__: APP_NAME };
 
-  filename = filename || item.toLowerCase();
+  if(! fs.existsSync(dirpath)){
+    fs.mkdirSync(dirpath);
+  }
 
   template['__'+itemtype+'__'] = item;
 
   // create directive file
   fetchUrl(fileurl, function(str) {
-    fs.writeFileSync(dirpath + filename + '.js' , replace(str, template));
+    fs.writeFileSync(dirpath + filename + '.' + itemtype + '.js' , replace(str, template));
   });
 
   // create spec file
   fetchUrl(specurl, function(str) {
-    fs.writeFileSync(dirpath + filename + '.spec.js' , replace(str, template));
+    fs.writeFileSync(dirpath + filename + '.' + itemtype + '.spec.js' , replace(str, template));
   });
 }
 
@@ -108,7 +110,7 @@ function genFactory(f){
 }
 
 function genController(c){
-  genItem(APP_PATH, c, GIST_URL + 'controller.js', GIST_URL + 'controller.spec.js', 'controller', c.toLowerCase() +'.ctrl.js');
+  genItem(APP_PATH, c, GIST_URL + 'controller.js', GIST_URL + 'controller.spec.js', 'controller');
 }
 
 gulp.task('gen', function() {
