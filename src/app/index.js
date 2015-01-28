@@ -26,8 +26,7 @@ angular.module('vleApp', [
     $stateProvider
       .state('home', {
         url: '/',
-        templateUrl: 'app/main/main.html',
-        controller: 'MainCtrl'
+        templateUrl: 'app/main/main.html'
       });
 
     $urlRouterProvider.otherwise('/');
