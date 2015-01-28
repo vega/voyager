@@ -17,7 +17,9 @@ function runTests (singleRun, done) {
   });
 
   var testFiles = bowerDeps.js.concat([
-    paths.src + '/{app,components}/**/*.js'
+    paths.src + '/{app,components}/**/*.js',
+    paths.src + '/vendor/*.js',
+    paths.src + '/partials/templateCacheHtml.js'
   ]);
 
   gulp.src(testFiles)
@@ -29,7 +31,14 @@ function runTests (singleRun, done) {
       // Make sure failed tests cause gulp to exit non-zero
       throw err;
     });
+
+  done();
 }
 
-gulp.task('test', function (done) { runTests(true /* singleRun */, done) });
-gulp.task('test:auto', function (done) { runTests(false /* singleRun */, done) });
+gulp.task('test', ['partials'], function (done) {
+  runTests(true /* singleRun */, done);
+});
+
+gulp.task('test:auto', ['partials'], function (done) {
+  runTests(false /* singleRun */, done);
+});
