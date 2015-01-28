@@ -16,8 +16,6 @@ function runTests (singleRun, done) {
     devDependencies: true
   });
 
-  var partialsInjectFile = gulp.src(paths.tmp + '/partials/templateCacheHtml.js', { read: false });
-
   var testFiles = bowerDeps.js.concat([
     paths.src + '/{app,components}/**/*.js',
     paths.src + '/vendor/*.js',
@@ -35,9 +33,9 @@ function runTests (singleRun, done) {
     });
 }
 
-gulp.task('test', ['partials'], function (done) { 
-  runTests(true /* singleRun */, done); 
+gulp.task('test', ['partials'], function (done) {
+  runTests(true /* singleRun */, done);
 });
-gulp.task('test:auto', ['partials'], function (done) { 
-  runTests(false /* singleRun */, done); 
+gulp.task('test:auto', ['partials'], function (done) {
+  runTests(false /* singleRun */, done);
 });
