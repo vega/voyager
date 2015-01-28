@@ -27,7 +27,7 @@ function createFile(path){
 }
 
 function fetchUrl(url, callback){
-  // console.log(url);
+  console.log('fetching', url);
   request.get(url, function (error, response, body) {
     if (!error && response.statusCode === 200) {
       callback(body);
@@ -124,5 +124,7 @@ gulp.task('gen', function() {
     genFilter(argv.fi || argv.filter);
   } else if (argv.fa || argv.factory) {
     genFactory(argv.fa || argv.factory);
+  } else {
+    console.log("please supply flag to generate an angular object you want");
   }
 });
