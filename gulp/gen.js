@@ -1,3 +1,13 @@
+/**
+ * script for generating angular primitives
+ *
+ * gulp gen -d directiveName (or --directive)
+ * gulp gen -s serviceName   (or --service)
+ * gulp gen -c controllerName (or --controller)
+ * gulp gen --fi filterName  (or --filter)
+ * gulp gen --fa factoryName (or --factory)
+ */
+
 'use strict';
 
 var gulp = require('gulp'),
@@ -7,21 +17,17 @@ var gulp = require('gulp'),
   pack = require('../package.json');
 
 var APP_NAME = pack.name;
+var APP_PATH = 'src/app/';
 var COMP_PATH = 'src/components/';
 
 var GIST_URL = 'https://gist.githubusercontent.com/kanitw/15256571933310366d00/raw/';
-
-var DIRECTIVE_URL = GIST_URL + 'directive.js';
-var DIRECTIVE_TEST_URL = GIST_URL + 'directive.spec.js';
-var SERVICE_URL = GIST_URL + 'service.js';
-var SERVICE_TEST_URL = GIST_URL + 'service.spec.js';
 
 function createFile(path){
   fs.closeSync(fs.openSync(path, 'w'));
 }
 
 function fetchUrl(url, callback){
-  //console.log(url);
+  console.log('fetching', url);
   request.get(url, function (error, response, body) {
     if (!error && response.statusCode === 200) {
       callback(body);
@@ -51,7 +57,7 @@ function genDirective(dir){
   fs.writeFileSync(dirpath + ldir + '.html' , '<div></div>');
 
   // create directive file
-  fetchUrl(DIRECTIVE_URL, function(str) {
+  fetchUrl(GIST_URL + 'directive.js', function(str) {
     fs.writeFileSync(dirpath + ldir + '.js' , replace(str, {
       __appname__: APP_NAME,
       __directive__: dir
@@ -59,7 +65,7 @@ function genDirective(dir){
   });
 
   // create spec file
-  fetchUrl(DIRECTIVE_TEST_URL, function(str) {
+  fetchUrl(GIST_URL + 'directive.spec.js', function(str) {
     fs.writeFileSync(dirpath + ldir + '.spec.js' , replace(str, {
       __appname__: APP_NAME,
       __directive__: dir
@@ -68,31 +74,60 @@ function genDirective(dir){
 
 }
 
-function genService(srv){
-  var lsrv = srv.toLowerCase(),
-    dirpath = COMP_PATH + lsrv +'/';
+function genItem(rootpath, item, fileurl, specurl, itemtype){
+  var filename = item.toLowerCase(),
+    dirpath = rootpath + filename +'/',
+    template = { __appname__: APP_NAME };
+
+  if(! fs.existsSync(dirpath)){
+    fs.mkdirSync(dirpath);
+  }
+
+  template['__'+itemtype+'__'] = item;
 
   // create directive file
-  fetchUrl(SERVICE_URL, function(str) {
-    fs.writeFileSync(dirpath + lsrv + '.js' , replace(str, {
-      __appname__: APP_NAME,
-      __service__: srv
-    }));
+  fetchUrl(fileurl, function(str) {
+    fs.writeFileSync(dirpath + filename + '.' + itemtype + '.js' , replace(str, template));
   });
 
   // create spec file
-  fetchUrl(SERVICE_TEST_URL, function(str) {
-    fs.writeFileSync(dirpath + lsrv + '.spec.js' , replace(str, {
-      __appname__: APP_NAME,
-      __service__: srv
-    }));
+  fetchUrl(specurl, function(str) {
+    fs.writeFileSync(dirpath + filename + '.' + itemtype + '.spec.js' , replace(str, template));
   });
+}
+
+function genService(srv){
+  genItem(APP_PATH, srv, GIST_URL + 'service.js',
+    GIST_URL + 'service.spec.js', 'service');
+}
+
+function genFilter(f){
+  genItem(COMP_PATH, f, GIST_URL + 'filter.js', GIST_URL + 'filter.spec.js', 'filter');
+}
+
+function genFactory(f){
+  genItem(APP_PATH, f, GIST_URL + 'factory.js', GIST_URL + 'factory.spec.js', 'factory');
+}
+
+function genController(c){
+  // controller name should be title case (Ctrl suffix is already appended in the template)
+  var Cc = c.substr(0,1).toUpperCase() + c.substr(1);
+
+  genItem(APP_PATH, Cc, GIST_URL + 'controller.js', GIST_URL + 'controller.spec.js', 'controller');
 }
 
 gulp.task('gen', function() {
   if (argv.d || argv.directive) {
     genDirective(argv.d || argv.directive);
-  }else if (argv.s || argv.service) {
+  } else if (argv.s || argv.service) {
     genService(argv.s || argv.service);
+  } else if (argv.c || argv.controller) {
+    genController(argv.c || argv.controller);
+  } else if (argv.fi || argv.filter) {
+    genFilter(argv.fi || argv.filter);
+  } else if (argv.fa || argv.factory) {
+    genFactory(argv.fa || argv.factory);
+  } else {
+    console.log('please supply flag to generate an angular object you want');
   }
 });

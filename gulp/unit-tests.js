@@ -31,6 +31,7 @@ function runTests (singleRun, done) {
       // Make sure failed tests cause gulp to exit non-zero
       throw err;
     });
+  done();
 }
 
 gulp.task('test', ['partials'], function (done) {
