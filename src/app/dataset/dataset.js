@@ -39,7 +39,7 @@ var datasets = [{
 }];
 
 angular.module('vleApp')
-  .factory('Dataset', function($http, Config, _, Papa) {
+  .factory('Dataset', function($http, Config, _, Papa, vl) {
     var Dataset = {};
 
     Dataset.datasets = datasets;
@@ -66,12 +66,12 @@ angular.module('vleApp')
             field.min = +row.min;
             field.max = +row.max;
             field.cardinality = +row.cardinality;
-            stats[name] = field;
+            stats[row.name] = field;
 
             // TODO add "geo" and "time"
             var type = row.type === 'integer' || row.type === 'real' ? 'Q' : 'O';
 
-            Dataset.dataschema.push({name: name, type: type});
+            Dataset.dataschema.push({name: row.name, type: type});
           });
           Dataset.dataschema = _.keys(stats);
           Dataset.stats = stats;
