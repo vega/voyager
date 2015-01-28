@@ -2,7 +2,7 @@
 
 describe('Directive: vlSpecEditor', function() {
   // load the directive's module
-  beforeEach(module('vleApp', 'templates'));
+  beforeEach(module('vleApp'));
 
   beforeEach(module('vleApp', function($provide) {
     $provide.constant('vl', vl); // vl is loaded by karma

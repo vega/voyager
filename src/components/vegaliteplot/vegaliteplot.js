@@ -30,7 +30,6 @@ angular.module('vleApp')
               vis = chart({el: '#vis', renderer: 'svg'});
 
               vis.update();
-              vis.on('mouseover', function(event, item) { console.log(item, item.datum.data); });
             });
           }
         );

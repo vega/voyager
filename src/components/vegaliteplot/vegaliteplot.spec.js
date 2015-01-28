@@ -3,7 +3,7 @@
 describe('Directive: vegalitePlot', function() {
 
   // load the directive's module
-  beforeEach(module('vleApp', 'templates'));
+  beforeEach(module('vleApp'));
 
   var element,
     scope;
