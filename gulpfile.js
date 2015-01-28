@@ -15,4 +15,4 @@ gulp.task('default', ['clean'], function () {
     gulp.start('build');
 });
 
-gulp.task('develop', ['test:auto', 'serve']);
+gulp.task('dev', ['test:auto', 'serve']);
