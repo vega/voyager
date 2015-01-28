@@ -110,7 +110,10 @@ function genFactory(f){
 }
 
 function genController(c){
-  genItem(APP_PATH, c, GIST_URL + 'controller.js', GIST_URL + 'controller.spec.js', 'controller');
+  // controller name should be title case (Ctrl suffix is already appended in the template)
+  var Cc = c.substr(0,1).toUpperCase() + c.substr(1);
+
+  genItem(APP_PATH, Cc, GIST_URL + 'controller.js', GIST_URL + 'controller.spec.js', 'controller');
 }
 
 gulp.task('gen', function() {
@@ -125,6 +128,6 @@ gulp.task('gen', function() {
   } else if (argv.fa || argv.factory) {
     genFactory(argv.fa || argv.factory);
   } else {
-    console.log("please supply flag to generate an angular object you want");
+    console.log('please supply flag to generate an angular object you want');
   }
 });
