@@ -14,16 +14,12 @@ angular.module('vleApp')
       spec: vl.schema.instantiate(),
       /** @type {Object} concise spec generated */
       vlSpec: null,
-      /** @type {String} jsonify-ed vlSpec */
-      vlSpecJson: '',
       /** @type {Encoding} encoding object from the spec */
       encoding: null,
       /** @type {String} generated vl shorthand */
       shorthand: null,
       /** @type {Object} generated vega spec */
-      vgSpec: null,
-      /** @type {String} jsonify-ed vgSpec */
-      vgSpecJson: null
+      vgSpec: null
     };
 
     Spec._removeEmptyFieldDefs = function(spec) {
@@ -69,7 +65,6 @@ angular.module('vleApp')
         cleanSpec.enc = {};
       }
 
-      // TODO: remove defaults
       var schema = vl.schema.schema;
       // now validate the spec
       var result = tv4.validateMultiple(cleanSpec, schema);
@@ -80,12 +75,10 @@ angular.module('vleApp')
           msg: result.errors
         });
       } else {
-        Spec.vlSpec = cleanSpec;
-        Spec.vlSpecJson = JSON.stringify(Spec.vlSpec, null, '  ', 80);
         Spec.encoding = vl.Encoding.fromSpec(cleanSpec, Config.config);
+        Spec.vlSpec = Spec.encoding.toSpec();
         Spec.shorthand = Spec.encoding.toShorthand();
         Spec.vgSpec = vl.compile(Spec.encoding, Dataset.stats);
-        Spec.vgSpecJson = JSON.stringify(Spec.vgSpec, null, '  ', 80);
       }
     };
 
