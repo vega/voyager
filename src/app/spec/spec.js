@@ -47,7 +47,7 @@ angular.module('vleApp')
       Spec.spec = vl.Encoding.parseShorthand(newShorthand, Config.config).toSpec();
     };
 
-    Spec.resetSpec = function() {
+    Spec.reset = function() {
       Spec.spec = vl.schema.instantiate();
 
       // we need to set the marktype because it doesn't have a default.
@@ -84,7 +84,7 @@ angular.module('vleApp')
       }
     };
 
-    Spec.resetSpec();
+    Spec.reset();
 
     return Spec;
   });
