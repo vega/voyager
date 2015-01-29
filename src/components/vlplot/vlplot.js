@@ -1,9 +1,9 @@
 'use strict';
 
 angular.module('vleApp')
-  .directive('vegalitePlot', function() {
+  .directive('vlPlot', function() {
     return {
-      templateUrl: 'components/vegaliteplot/vegaliteplot.html',
+      templateUrl: 'components/vlplot/vlplot.html',
       restrict: 'E',
       scope: {},
       controller: function($scope, vg, Spec) {

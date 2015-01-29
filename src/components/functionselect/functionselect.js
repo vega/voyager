@@ -1,64 +1,69 @@
 'use strict';
 
 angular.module('vleApp')
-  .directive('functionSelect', function() {
+  .directive('functionSelect', function(_) {
     return {
       templateUrl: 'components/functionselect/functionselect.html',
       restrict: 'E',
       scope: {
-        fieldDefSchema: '=',
-        fieldDef: '='
+        encType: '=',
+        pills: '=',
+        schema: '='
       },
-      controller: function($scope) {
-        $scope.selectedAggFunc = {name: ''};
+      link: function(scope /*,element, attrs*/) {
+        scope.selectedAggFunc = {name: ''};
 
-        $scope.$watch('selectedAggFunc', function(aggFunc) {
-          if (!aggFunc) {
-            return;
+        function fieldPill(){
+          return scope.pills ? scope.pills[scope.encType] : null;
+        }
+
+        // when the function select is updated, propagates change the parent
+        scope.$watch('selectedAggFunc', function(aggFunc) {
+          var oldPill = fieldPill(),
+            pill = _.clone(oldPill);
+
+          if(!pill){
+            return; // not ready
           }
 
           // reset field def
-          $scope.fieldDef.bin = undefined;
-          $scope.fieldDef.aggr = undefined;
-          $scope.fieldDef.fn = undefined;
+          pill.bin = undefined;
+          pill.aggr = undefined;
+          pill.fn = undefined;
 
           var group = aggFunc.group,
             name = aggFunc.name;
 
           if (group === 'Binning') {
-            $scope.fieldDef.bin = true;
+            pill.bin = true;
           } else if (group === 'Aggregation') {
-            $scope.fieldDef.aggr = name;
+            pill.aggr = name;
           } else if (group === 'Function') {
-            $scope.fieldDef.fn = name;
-          } else if (group !== undefined) {
-            console.warn('Undefined group', aggFunc);
+            pill.fn = name;
+          }
+          if(!_.isEqual(oldPill, pill)){
+            scope.pills[scope.encType] = pill;
+            // console.log('selectedAggFunc updated', pill);
+            scope.pills.update(scope.encType);
           }
         });
 
-        // $scope.$watchCollection(
-        //   function(){ return $scope.fieldDefSchema },
-        //   function(schema) {
-        //     update();
-        //   }
-        // );
+        // when parent objects modify the pill
+        scope.$watch('pills[encType]', pillUpdated, true);
 
-        $scope.$watchCollection(
-          function() { return $scope.fieldDef; },
-          function() { update(); }
-        );
-
-        var update = function() {
+        function pillUpdated() {
           // only run this if schema is not null
-          if (!$scope.fieldDefSchema || !$scope.fieldDef) {
+          var pill = fieldPill();
+
+          if (!scope.schema || !pill) {
+            // console.log('schema', scope.schema, 'pill', pill, 'pills', scope.pills, 'encType', scope.encType);
             return;
           }
 
-          // if the fieldDef doesn't have a name set, we still want to allow count
-          var type = $scope.fieldDef.name ? $scope.fieldDef.type : '';
-          var schema = $scope.fieldDefSchema.properties;
+          var type = pill.name ? pill.type : '';
+          var schema = scope.schema.properties;
 
-          var functions = [{name: ''}];
+          var functions = [{name: ''}], selectedAggFunc={};
 
           if (schema.fn && (!schema.fn.supportedTypes || schema.fn.supportedTypes[type])) {
             var fns = schema.fn.enum;
@@ -68,6 +73,10 @@ angular.module('vleApp')
                 'group': 'Function'
               });
             });
+
+            if (pill.fn) {
+              selectedAggFunc = {name: pill.fn, group: 'Aggregation'};
+            }
           }
 
           // set aggregation functions
@@ -80,12 +89,11 @@ angular.module('vleApp')
                 group: 'Aggregation'
               });
 
-              if ($scope.fieldDef.aggr) {
-                $scope.selectedAggFunc = {name: $scope.fieldDef.aggr, group: 'Aggregation'};
+              if (pill.aggr) {
+                selectedAggFunc = {name: pill.aggr, group: 'Aggregation'};
               }
             });
           }
-
 
           // add binning function
           if (schema.bin && schema.bin.supportedTypes[type]) {
@@ -95,8 +103,8 @@ angular.module('vleApp')
             };
             functions.push(bin);
 
-            if ($scope.fieldDef.bin === true) {
-              $scope.selectedAggFunc = bin;
+            if (pill.bin === true) {
+              selectedAggFunc = bin;
             }
           }
 
@@ -105,9 +113,10 @@ angular.module('vleApp')
             return f.name !== null;
           });
 
-          // console.log(functions, schema, $scope.fieldDef, $scope.selectedAggFunc)
-          $scope.functions = functions;
-        };
+          scope.functions = functions;
+          // console.log('pillUpdated', pill, selectedAggFunc);
+          scope.selectedAggFunc = selectedAggFunc;
+        }
       }
     };
   });

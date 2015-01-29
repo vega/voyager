@@ -1,6 +1,6 @@
 // 'use strict';
 
-describe('Directive: vegalitePlot', function() {
+describe('Directive: vlPlot', function() {
 
   // load the directive's module
   beforeEach(module('vleApp'));
@@ -35,7 +35,7 @@ describe('Directive: vegalitePlot', function() {
   }));
 
   it('should attach visualization', inject(function($compile) {
-    element = angular.element('<vegalite-plot></vegalite-plot>');
+    element = angular.element('<vl-plot></vl-plot>');
     element = $compile(element)(scope);
     scope.$digest();
 
