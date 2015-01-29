@@ -13,32 +13,41 @@ angular.module('vleApp')
 
         var etDragFrom = null;
 
-        pills.remove = function (encName) {
-          pills[encName] = null;
-          pills.updated(Spec.spec.enc[encName], {}); // remove all pill detail from the fieldDef
-        };
-
         /** copy value from the pill to the fieldDef */
-        pills.updated = function(fieldDef, pill){
+        function updateFieldDef(fieldDef, pill){
+          // console.log('updateFieldDef', JSON.stringify(pill, null, '  ', 80));
           fieldDef.name = pill.name;
           fieldDef.type = pill.type;
           fieldDef.aggr = pill.aggr;
           fieldDef.fn = pill.fn;
           fieldDef.bin = pill.bin;
+        }
+
+        pills.remove = function (encType) {
+          pills[encType] = null;
+          updateFieldDef(Spec.spec.enc[encType], {}); // remove all pill detail from the fieldDef
         };
 
-        pills.dragStart = function(encType){
+        pills.update = function (encType) {
+          updateFieldDef(Spec.spec.enc[encType], pills[encType]);
+        };
+
+        pills.dragStart = function (encType) {
           etDragFrom = encType;
         };
 
-        pills.dragDrop = function(etDragTo){
+        pills.dragDrop = function (etDragTo) {
           var enc = _.clone(Spec.spec.enc);
           // update the clone of the enc
           if(etDragFrom){
             // if pill is dragged from another shelf, not the schemalist
-            pills.updated(enc[etDragFrom], pills[etDragFrom] || {});
+            updateFieldDef(enc[etDragFrom], pills[etDragFrom] || {});
           }
-          pills.updated(enc[etDragTo], pills[etDragTo] || {});
+          updateFieldDef(enc[etDragTo], pills[etDragTo] || {});
+
+          // console.log('pills.dragDrop',
+          //   'from:', etDragFrom, pills[etDragFrom], enc[etDragFrom],
+          //   'to:', etDragTo, pills[etDragTo], enc[etDragTo]);
 
           // Finally, update the enc only once to prevent glitches
           Spec.spec.enc = enc;
