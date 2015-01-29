@@ -12,7 +12,6 @@
   </div>
   <div class="hflex full-width main-panel grow-1">
     <div class="pane data-pane full-height">
-
       <div class="card">
         <div class="right">
           <dataset-selector></dataset-selector>
@@ -22,11 +21,13 @@
       </div>
     </div>
     <div class="pane vis-list-pane full-height">
-      <vis-list></vis-list>
+      <div class="card">
+        <vis-list></vis-list>
+      </div>
     </div>
 
     <div class="pane vis-pane full-height">
-
+      <vl-plot></vl-plot>
     </div>
   </div>
   <div class="hflex full-width dev-panel" ng-show="showDevPanel">
