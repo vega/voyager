@@ -11,7 +11,7 @@ angular.module('vleApp')
   .service('Spec', function(_, vl, tv4, Alerts, Config, Dataset) {
     var Spec = {
       /** @type {Object} verbose spec edited by the UI */
-      spec: vl.schema.instantiate(),
+      spec: null,
       /** @type {Object} concise spec generated */
       vlSpec: null,
       /** @type {Encoding} encoding object from the spec */
@@ -47,8 +47,11 @@ angular.module('vleApp')
       Spec.spec = vl.Encoding.parseShorthand(newShorthand, Config.config).toSpec();
     };
 
-    Spec.resetSpec = function() {
+    Spec.reset = function() {
       Spec.spec = vl.schema.instantiate();
+
+      // we need to set the marktype because it doesn't have a default.
+      Spec.spec.marktype = vl.schema.schema.properties.marktype.enum[0];
     };
 
     Spec.update = function(spec) {
@@ -76,8 +79,12 @@ angular.module('vleApp')
         Spec.vlSpec = Spec.encoding.toSpec();
         Spec.shorthand = Spec.encoding.toShorthand();
         Spec.vgSpec = vl.compile(Spec.encoding, Dataset.stats);
+
+        // console.log('Spec.update() enc:', Spec.vlSpec.enc);
       }
     };
+
+    Spec.reset();
 
     return Spec;
   });
