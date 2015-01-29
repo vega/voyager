@@ -63,7 +63,7 @@ angular.module('vleApp')
           var type = pill.name ? pill.type : '';
           var schema = scope.schema.properties;
 
-          var functions = [{name: ''}], selectedAggFunc={};
+          var functions = [{name: ''}], selectedAggFunc={name:''};
 
           if (schema.fn && (!schema.fn.supportedTypes || schema.fn.supportedTypes[type])) {
             var fns = schema.fn.enum;
@@ -89,10 +89,11 @@ angular.module('vleApp')
                 group: 'Aggregation'
               });
 
-              if (pill.aggr) {
-                selectedAggFunc = {name: pill.aggr, group: 'Aggregation'};
-              }
             });
+
+            if (pill.aggr) {
+              selectedAggFunc = {name: pill.aggr, group: 'Aggregation'};
+            }
           }
 
           // add binning function
