@@ -1,0 +1,9 @@
+<div>
+  <!-- <div><b>{{Fields.fields}}</b></div> -->
+
+  <div ng-repeat='projection in Visrec.projections'>
+    <span class='pill' ng-repeat='field in projection'>
+      {{field.name}}
+    </span>
+  </div>
+</div>
