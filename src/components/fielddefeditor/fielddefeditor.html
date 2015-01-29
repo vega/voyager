@@ -1,41 +1,41 @@
 <div class="shelf-group">
   <div class="shelf">
     <div class="shelf-label" ng-click="togglePropsExpand()">{{ encType }}</div>
-    <!--<field-drop field-def="fieldDef" types="schema.properties.type.enum"></field-drop>-->
+    <!--<field-drop field-def="enc[encType]" types="schema.properties.type.enum"></field-drop>-->
     <div class="field-drop"
-         ng-model="field"
+         ng-model="pills[encType]"
          data-drop="true"
          jqyoui-droppable="{onDrop:'fieldDropped'}"
          data-jqyoui-options="{activeClass: 'drop-active'}">
       <div class="field-pill"
-           ng-if="fieldDef.name"
+           ng-if="enc[encType].name"
            ng-click="toggleFuncsExpand()"
            data-drag="true"
-           ng-model="field"
+           ng-model="pills[encType]"
            jqyoui-draggable="{onStart: 'fieldDragStart'}"
            data-jqyoui-options="{revert: 'invalid', helper: 'clone'}"
         >
         <span class="field-name">
           <!-- empty comments between lines are for removing spaces between spans-->
-          <span class="field-func" ng-if="fieldDef.aggr">{{ fieldDef.aggr }}</span><!--
-          --><span class="field-func" ng-if="fieldDef.fn">{{ fieldDef.fn }}</span><!--
-          --><span class="field-func" ng-if="fieldDef.bin">bin</span><!--
+          <span class="field-func" ng-if="enc[encType].aggr">{{ enc[encType].aggr }}</span><!--
+          --><span class="field-func" ng-if="enc[encType].fn">{{ enc[encType].fn }}</span><!--
+          --><span class="field-func" ng-if="enc[encType].bin">bin</span><!--
 
-          --><span class="field-func-pl" ng-if="fieldDef.aggr || fieldDef.fn || fieldDef.bin">(</span><!--
-          -->{{ fieldDef.name }}<!--
-          --><span class="field-func-pr" ng-if="fieldDef.aggr || fieldDef.fn || fieldDef.bin">)</span>
+          --><span class="field-func-pl" ng-if="enc[encType].aggr || enc[encType].fn || enc[encType].bin">(</span><!--
+          -->{{ enc[encType].name }}<!--
+          --><span class="field-func-pr" ng-if="enc[encType].aggr || enc[encType].fn || enc[encType].bin">)</span>
         </span>
         <a href="#" class="remove-field" ng-click="removeField()">×</a>
       </div>
 
-      <span class="placeholder" ng-if="!fieldDef.name">drop a field here</span>
+      <span class="placeholder" ng-if="!enc[encType].name">drop a field here</span>
   </div>
   </div>
 
   <div class="shelf-properties" ng-show="propsExpanded">
     <div ng-if="schema.properties.legend">
       <label>
-        <input type="checkbox" ng-model="fieldDef.legend"> Legend
+        <input type="checkbox" ng-model="enc[encType].legend"> Legend
       </label>
     </div>
     <div ng-repeat="group in ['scale', 'text', 'axis']"
@@ -43,22 +43,22 @@
       <h4>{{ group }}</h4>
       <div ng-repeat="(propName, scaleProp) in schema.properties[group].properties"
            ng-init="id = encType + group + $index"
-           ng-show="scaleProp.supportedTypes ? scaleProp.supportedTypes[fieldDef.type] : true">
+           ng-show="scaleProp.supportedTypes ? scaleProp.supportedTypes[enc[encType].type] : true">
         <label class="prop-label" for="{{ id }}">{{ propName }}</label>
         <div class="inline-block" ng-switch="scaleProp.type + (scaleProp.enum !== undefined ? 'list' : '') ">
-          <input id="{{ id }}" ng-switch-when="boolean" type="checkbox" ng-model="fieldDef[group][propName]"></input>
-          <select id="{{ id }}" ng-switch-when="stringlist" ng-model="fieldDef[group][propName]" ng-options="choice for choice in scaleProp.enum track by choice"></select>
-          <input id="{{ id }}" type="number" ng-switch-when="integer" ng-model="fieldDef[group][propName]"></input>
-          <input id="{{ id }}" type="string" ng-switch-when="string" ng-model="fieldDef[group][propName]"></input>
+          <input id="{{ id }}" ng-switch-when="boolean" type="checkbox" ng-model="enc[encType][group][propName]"></input>
+          <select id="{{ id }}" ng-switch-when="stringlist" ng-model="enc[encType][group][propName]" ng-options="choice for choice in scaleProp.enum track by choice"></select>
+          <input id="{{ id }}" type="number" ng-switch-when="integer" ng-model="enc[encType][group][propName]"></input>
+          <input id="{{ id }}" type="string" ng-switch-when="string" ng-model="enc[encType][group][propName]"></input>
         </div>
       </div>
     </div>
   </div>
-  <div class="shelf-functions" ng-show="funcsExpanded" ng-if="fieldDef.name">
+  <div class="shelf-functions" ng-show="funcsExpanded" ng-if="enc[encType].name">
     <h4>Functions</h4>
-    <function-select field-def="fieldDef" field-def-schema="schema"></function-select>
+    <function-select field-def="enc[encType]" field-def-schema="schema"></function-select>
     <h4>Types</h4>
-    <select class="type-select" ng-model="fieldDef.type"
+    <select class="type-select" ng-model="enc[encType].type"
             ng-options="type as typeNames[type] for type in schema.properties.type.enum track by type">
     </select>
 

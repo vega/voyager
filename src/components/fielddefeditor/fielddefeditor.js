@@ -7,14 +7,19 @@ angular.module('vleApp')
       restrict: 'E',
       scope: {
         encType: '=',
-        fieldDef: '=',
+        enc: '=',
+        pills: '=',
         schema: '=fieldDefSchema'
       },
       link: function(scope, element /*, attrs*/) {
         scope.propsExpanded = false;
         scope.funcsExpanded = false;
-        scope.field = null;
+
         scope.typeNames = Dataset.typeNames;
+
+        function fieldPill(){
+          return scope.pills ? scope.pills[scope.encType] : null;
+        }
 
         scope.togglePropsExpand = function() {
           scope.propsExpanded = !scope.propsExpanded;
@@ -25,46 +30,41 @@ angular.module('vleApp')
         };
 
         scope.removeField = function() {
-          scope.fieldDef.name = undefined;
-          scope.fieldDef.type = undefined;
-          scope.field = null;
+          scope.pills.remove(scope.encType);
         };
 
         scope.fieldDragStart = function() {
-          var pill = element.find('.field-drop');
-          pill.css('width', pill.width() + 'px');
-        };
+          var pillElem = element.find('.field-drop');
+          pillElem.css('width', pillElem.width() + 'px');
 
+          scope.pills.dragStart(scope.encType);
+        };
 
         scope.fieldDropped = function() {
-          // need to clone so that original fieldDef in the schemalist is not mutated.
-          scope.field = _.clone(scope.field);
-
-          scope.fieldDef.name = scope.field.name;
-
+          var pill = fieldPill();
+          // validate type
           var types = scope.schema.properties.type.enum;
-          if (!_.contains(types, scope.field.type)) {
+          if (!_.contains(types, pill.type)) {
             // if existing type is not supported
-            scope.fieldDef.type = types[0];
-          }else {
-            scope.fieldDef.type = scope.field.type;
+            pill.type = types[0];
           }
+
+          // TODO validate fn / aggr
+
+          scope.pills.dragDrop(scope.encType);
         };
 
-        scope.$watch('fieldDef', function(fieldDef) {
-          scope.field = {
-            name: fieldDef.name,
-            type: fieldDef.type
-          };
+        // when each of the fieldPill property in fieldDef changes, update the pill
+        ['name', 'type', 'aggr', 'bin', 'fn'].forEach( function(prop) {
+          scope.$watch('enc[encType].'+prop, function(val){
+            var pill = fieldPill();
+            if(pill && val !== pill[prop]){
+              pill[prop] = val;
+            }
+          }, true);
         });
 
-        scope.$watch('field', function(field) {
-          if (!field) {
-            // after a field has been dragged to another field
-            scope.fieldDef.name = undefined;
-            scope.fieldDef.type = undefined;
-          }
-        });
+
       }
     };
   });
