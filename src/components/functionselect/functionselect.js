@@ -43,7 +43,7 @@ angular.module('vleApp')
           }
           if(!_.isEqual(oldPill, pill)){
             scope.pills[scope.encType] = pill;
-            console.log('selectedAggFunc updated', pill);
+            // console.log('selectedAggFunc updated', pill);
             scope.pills.update(scope.encType);
           }
         });
