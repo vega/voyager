@@ -3,8 +3,7 @@
 var gulp = require('gulp'),
   fs = require('fs'),
   argv = require('yargs').argv,
-  shell = require('gulp-shell'),
-  gutil = require('gulp-util');
+  shell = require('gulp-shell');
 
 var paths = gulp.paths;
 
@@ -31,8 +30,8 @@ function fixjsstyle(){
 
   if(argv.f){
     var path = find(argv.f);
+    console.log(path +'.*');
     gulp.src(path +'.*')
-      // .pipe(gutil.log('fixjsstyle <%= file.path%>'))
       .pipe(shell(fixcmd));
   } else {
     gulp.src([
@@ -43,7 +42,6 @@ function fixjsstyle(){
         'karma.conf.js',
         'protractor.conf.js'
       ])
-      .pipe(gutil.log('fixjsstyle <%= file.path%>'))
       .pipe(shell([fixcmd, gjslintcmd]));
   }
 
