@@ -61,7 +61,7 @@ angular.module('vleApp')
         var url = Config.serverUrl + '/stats/?name=' + dataset.table;
         return $http.get(url, {cache: true}).then(function(response) {
           var parsed = Papa.parse(response.data, {header: true});
-          var dataschema={}, stats = {};
+          var dataschema=[], stats = {};
           _.each(_.filter(parsed.data, function(d) {return d.name;}), function(row) {
             var field = {};
             field.min = +row.min;
