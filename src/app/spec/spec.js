@@ -76,6 +76,8 @@ angular.module('vleApp')
         Spec.vlSpec = Spec.encoding.toSpec();
         Spec.shorthand = Spec.encoding.toShorthand();
         Spec.vgSpec = vl.compile(Spec.encoding, Dataset.stats);
+
+        // console.log('Spec.update() enc:', Spec.vlSpec.enc);
       }
     };
 
