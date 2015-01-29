@@ -13,6 +13,7 @@ angular.module('vleApp')
         $scope.$watch('Dataset.dataset', function(dataset) {
           Dataset.update(dataset);
           Config.updateDataset(dataset);
+          Spec.resetSpec();
         });
       }
     };
