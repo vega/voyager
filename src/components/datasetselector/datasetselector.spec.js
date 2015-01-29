@@ -9,13 +9,19 @@ describe('Directive: datasetSelector', function() {
     scope;
 
   beforeEach(module('vleApp', function($provide) {
-    var mock = {
+    var mockDataset = {
       datasets: [{name: 'foo'}, {name: 'bar'}],
       dataset: null,
       update: function(dataset) {}
     };
-    mock.dataset = mock.datasets[0];
-    $provide.value('Dataset', mock);
+    mockDataset.dataset = mockDataset.datasets[0];
+
+    var mockConfig =
+
+    $provide.value('Dataset', mockDataset);
+    $provide.value('Config', {
+      updateDataset: function(dataset) {}
+    });
   }));
 
   beforeEach(inject(function($templateCache, $rootScope) {
