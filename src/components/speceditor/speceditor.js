@@ -14,7 +14,7 @@ angular.module('vleApp')
         var etDragFrom = null;
 
         pills.remove = function (encName) {
-          pills[encName] = null;
+          delete pills[encName];
           pills.updated(Spec.spec.enc[encName], {}); // remove all pill detail from the fieldDef
         };
 
