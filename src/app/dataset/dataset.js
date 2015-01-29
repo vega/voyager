@@ -55,7 +55,8 @@ angular.module('vleApp')
       G: 'geo'
     };
 
-    function setSchemaAndStats(dataset) {
+    Dataset.update = function (dataset) {
+      //set schema and stats
       if (Config.useVegaServer) {
         var url = Config.serverUrl + '/stats/?name=' + dataset.table;
         return $http.get(url, {cache: true}).then(function(response) {
@@ -82,12 +83,6 @@ angular.module('vleApp')
           Dataset.stats = vl.data.getStats(response.data);
         });
       }
-    }
-
-    Dataset.update = function(newDataset) {
-      Dataset.dataset = newDataset;
-      Config.updateDataset(Dataset.dataset);
-      setSchemaAndStats(Dataset.dataset);
     };
 
     return Dataset;
