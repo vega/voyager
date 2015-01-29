@@ -18,25 +18,23 @@ gulp.task('watchvl', function(){
 
 gulp.task('copyvl', function(){
   gulp.src(vlPath+'vegalite.js')
-    .pipe(gulp.dest(vendorPath))
+    .pipe(gulp.dest(vendorPath));
 });
 
 // Vegalite-ui
 
-var vluiPath = '../vegalite-ui/',
-  uiWatchList = [
-    ["src/assets/vlui-common.scss", "src/assets"]
+var uiWatchList = [
+    ['src/assets/vlui-common.scss', 'src/assets']
   ];
 
-
 gulp.task('watchvlui', function(){
-  gulp.watch(uiWatchList.map(function(f){ return vluiPath+f[0];}), ['copyvlui']);
+  gulp.watch(uiWatchList.map(function(f){ return paths.vlui+f[0];}), ['copyvlui']);
 });
 
-gulp.task('copyvlui', function(){
-  uiWatchList.forEach(function(f){
+gulp.task('copyvlui', function() {
+  uiWatchList.forEach(function(f) {
     // console.log('copying', vluiPath+f[0], f[1]);
-    gulp.src(vluiPath+f[0])
+    gulp.src(paths.vlui+f[0])
       .pipe(gulp.dest(f[1]));
   });
 });
@@ -44,7 +42,7 @@ gulp.task('copyvlui', function(){
 // Visrec
 
 var vrPath = '../visrec/',
-  vrWatchList = ["visrec.js"];
+  vrWatchList = ['visrec.js'];
 
 gulp.task('watchvr', function(){
   gulp.watch(vrWatchList.map(function(f){return vrPath+f;}), ['copyvr']);
