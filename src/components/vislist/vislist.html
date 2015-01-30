@@ -23,6 +23,11 @@
             vl-spec="cluster[0][0].vlSpec"
             vg-spec="cluster[0][0].vgSpec"></vl-plot>
         </div>
+        <div>
+          &nbsp;
+          <a ng-click='select(cluster)' class="right command">Select</a>
+          <a class="right command" ui-zeroclip zeroclip-model="cluster[0][0].vlSpec | compactJSON">Copy</a>
+        </div>
       </div>
     </div>
   </div>

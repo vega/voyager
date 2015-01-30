@@ -16,6 +16,8 @@ angular.module('facetedviz')
       aggregates: {},
       // chartClusters[pkey][akey]
       chartClusters: {},
+
+      selectedCluster: null,
       update: {}
     };
 

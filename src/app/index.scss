@@ -42,4 +42,9 @@
   width: 100%;
   max-height: 350px;
   overflow: scroll;
+
+  .field-name{
+    overflow-x: hidden;
+    text-overflow: ellipsis;
+  }
 }
