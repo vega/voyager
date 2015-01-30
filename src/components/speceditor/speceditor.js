@@ -54,7 +54,7 @@ angular.module('vleApp')
           etDragFrom = null;
         };
 
-        $scope.tranpose = function(){
+        $scope.transpose = function(){
           var oldenc = Spec.spec.enc,
             enc = _.clone(Spec.spec.enc);
           enc.x = oldenc.y;
