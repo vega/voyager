@@ -55,6 +55,8 @@ angular.module('vleApp')
       G: 'geo'
     };
 
+    Dataset.fieldOrder = vl.field.order.typeThenName;
+
     Dataset.update = function (dataset) {
       //set schema and stats
       if (Config.useVegaServer) {
@@ -63,11 +65,11 @@ angular.module('vleApp')
           var parsed = Papa.parse(response.data, {header: true});
           var dataschema=[], stats = {};
           _.each(_.filter(parsed.data, function(d) {return d.name;}), function(row) {
-            var field = {};
-            field.min = +row.min;
-            field.max = +row.max;
-            field.cardinality = +row.cardinality;
-            stats[row.name] = field;
+            var fieldStats = {};
+            fieldStats.min = +row.min;
+            fieldStats.max = +row.max;
+            fieldStats.cardinality = +row.cardinality;
+            stats[row.name] = fieldStats;
 
             // TODO add "geo" and "time"
             var type = row.type === 'integer' || row.type === 'real' ? 'Q' : 'O';
@@ -84,6 +86,8 @@ angular.module('vleApp')
         });
       }
     };
+
+
 
     return Dataset;
   });

@@ -12,7 +12,6 @@ angular.module('vleApp')
           var pill = element.find('.field-pill');
           pill.css('width', pill.width() + 'px');
         };
-
       },
       controller: function($scope) {
         $scope.Dataset = Dataset;
