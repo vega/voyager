@@ -12,18 +12,6 @@ angular.module('vleApp')
           var pill = element.find('.field-pill');
           pill.css('width', pill.width() + 'px');
         };
-
-        var typeOrder = {
-          text: 0,
-          geo: 1,
-          time: 2,
-          numbers: 3
-        }
-
-        scope.fieldOrder = function(field) {
-          return typeOrder[Dataset.typeNames[field.type]] + "_" + field.name;
-        }
-
       },
       controller: function($scope) {
         $scope.Dataset = Dataset;

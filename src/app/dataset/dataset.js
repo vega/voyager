@@ -55,6 +55,17 @@ angular.module('vleApp')
       G: 'geo'
     };
 
+    var typeOrder = {
+      text: 0,
+      geo: 1,
+      time: 2,
+      numbers: 3
+    };
+
+    Dataset.fieldOrder = function(field) {
+      return typeOrder[Dataset.typeNames[field.type]] + '_' + field.name;
+    };
+
     Dataset.update = function (dataset) {
       //set schema and stats
       if (Config.useVegaServer) {
@@ -84,6 +95,8 @@ angular.module('vleApp')
         });
       }
     };
+
+
 
     return Dataset;
   });
