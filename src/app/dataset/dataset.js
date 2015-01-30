@@ -38,6 +38,13 @@ var datasets = [{
   table: 'birdstrikes_json'
 }];
 
+function getNameMap(dataschema) {
+  return dataschema.reduce(function(m, field) {
+    m[field.name] = field;
+    return m;
+  }, {});
+}
+
 angular.module('vleApp')
   .factory('Dataset', function($http, Config, _, Papa, vl) {
     var Dataset = {};
@@ -45,6 +52,7 @@ angular.module('vleApp')
     Dataset.datasets = datasets;
     Dataset.dataset = datasets[7]; //Movies
     Dataset.dataschema = [];
+    Dataset.dataschema.byName = {};
     Dataset.stats = null;
 
     // TODO move these to constant to a universal vlui constant file
@@ -77,17 +85,18 @@ angular.module('vleApp')
             dataschema.push({name: row.name, type: type});
           });
           Dataset.dataschema = dataschema;
+          Dataset.dataschema.byName = getNameMap(Dataset.dataschema);
           Dataset.stats = stats;
         });
       } else {
         return $http.get(dataset.url, {cache: true}).then(function(response) {
           Dataset.dataschema = vl.data.getSchema(response.data);
+          Dataset.dataschema.byName = getNameMap(Dataset.dataschema);
+          console.log('Dataset.dataschema.byName', Dataset.dataschema.byName);
           Dataset.stats = vl.data.getStats(response.data);
         });
       }
     };
-
-
 
     return Dataset;
   });
