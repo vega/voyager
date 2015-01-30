@@ -13,10 +13,16 @@
 
     <!-- <div>{{projection.key}}</div> -->
     <div ng-repeat="fieldSet in Visrec.aggregates[pkey]"
-      ng-init="akey=fieldSet.key">
-      <div class="aggregate-header">{{ fieldSet.key }}</div>
-      <div ng-repeat='encoding in Visrec.chartClusters[pkey][akey]'>
-        {{encoding | compactJSON }}
+      ng-init="akey=fieldSet.key; cluster=Visrec.chartClusters[pkey][akey]">
+      <div ng-if="cluster && cluster[0]">
+        <div class="aggregate-header">{{ fieldSet.key }}</div>
+        <div class='vis-{{pkey}}-{{akey}} vis-list-item'>
+          {{pkey}}-{{akey}}
+          <!-- {{cluster[0][0] | compactJSON }} -->
+          <vl-plot vis-class="vis-list" show-copy='true'
+            vl-spec="cluster[0][0].vlSpec"
+            vg-spec="cluster[0][0].vgSpec"></vl-plot>
+        </div>
       </div>
     </div>
   </div>
