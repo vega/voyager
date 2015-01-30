@@ -1,11 +1,18 @@
 'use strict';
 /* globals window */
 
-angular.module('vleApp', [])
+angular.module('vleApp', ['zeroclipboard'])
   .constant('_', window._)
   .constant('vl', window.vl)
   .constant('vg', window.vg)
-  .constant('Papa', window.Papa);
+  .constant('Papa', window.Papa)
+  .config(['uiZeroclipConfigProvider', function(uiZeroclipConfigProvider) {
+
+    // config ZeroClipboard
+    uiZeroclipConfigProvider.setZcConf({
+      swfPath: '../bower_components/zeroclipboard/dist/ZeroClipboard.swf'
+    });
+  }])
 
 angular.module('facetedviz', ['vleApp', 'ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', 'ui.router'])
   .constant('_', window._)

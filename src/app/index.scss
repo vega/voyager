@@ -11,6 +11,20 @@
   flex-shrink: 0;
 }
 
+.top{
+  z-index: 100;
+}
+
+.absolute-top-right {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.relative{
+  position: relative;
+}
+
 .pill {
   font-weight: bold;
 }
@@ -21,4 +35,11 @@
 
 .aggregate-header {
   background: #eee;
+}
+
+.vis-list-item {
+  @extend .persist-scroll;
+  width: 100%;
+  max-height: 350px;
+  overflow: scroll;
 }

@@ -2,37 +2,30 @@
 
 angular.module('vleApp')
   .directive('vlPlot', function() {
+    var counter = 0 ;
+
     return {
       templateUrl: 'components/vlplot/vlplot.html',
       restrict: 'E',
-      scope: {},
-      controller: function($scope, vg, Spec) {
-        var update = function() {
-          $scope.vgSpec = Spec.vgSpec;
-          $scope.vlSpec = Spec.vlSpec;
-          $scope.shorthand = Spec.shorthand;
-        };
-
-        $scope.parseShorthand = Spec.parseShorthand;
-
+      scope: {
+        'vlSpec':'=',
+        'vgSpec':'=',
+        'visClass': '=',
+        'showCopy': '='
+      },
+      controller: function($scope, vg) {
+        $scope.visId = (counter++);
         var vis;
-
-        $scope.$watch(
-          function() { return Spec.vgSpec; },
-          function(newSpec) {
-            if (!newSpec) {
-              return;
-            }
-
-            update();
-            vg.parse.spec(newSpec, function(chart) {
-              vis = null;
-              vis = chart({el: '#vis', renderer: 'svg'});
-
-              vis.update();
-            });
+        $scope.$watch('vgSpec',function(spec) {
+          if (!spec) {
+            return;
           }
-        );
+          vg.parse.spec(spec, function(chart) {
+            vis = null;
+            vis = chart({el: '#vis-'+$scope.visId, renderer: 'canvas'});
+            vis.update();
+          });
+        });
       }
     };
   });
