@@ -5,5 +5,7 @@
     <span class='pill' ng-repeat='field in projection'>
       [{{field.type}}] {{field.name}}
     </span>
+    <div>{{projection.key}}</div>
+    <div>{{Visrec.aggregates[projection.key]}}</div>
   </div>
 </div>
