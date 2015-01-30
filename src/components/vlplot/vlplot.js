@@ -8,10 +8,7 @@ angular.module('vleApp')
       templateUrl: 'components/vlplot/vlplot.html',
       restrict: 'E',
       scope: {
-        'vlSpec':'=',
-        'vgSpec':'=',
-        'visClass': '=',
-        'showCopy': '='
+        'vgSpec':'='
       },
       controller: function($scope, vg) {
         $scope.visId = (counter++);
