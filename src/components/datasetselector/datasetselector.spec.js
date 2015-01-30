@@ -22,6 +22,8 @@ describe('Directive: datasetSelector', function() {
     $provide.value('Config', {
       updateDataset: function(dataset) {}
     });
+
+    $provide.constant('vl', vl); // vl is loaded by karma
   }));
 
   beforeEach(inject(function($templateCache, $rootScope) {

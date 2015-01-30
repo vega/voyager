@@ -1,6 +1,6 @@
 # vegalite-ui
 
-Tableau-style User Interface for visual analysis, building on top of vegalite. Try our [demo](http://uwdata.github.io/vegalite-ui/dist/).
+Tableau-style User Interface for visual analysis, building on top of vegalite. Try our [demo](http://uwdata.github.io/vegalite-ui/).
 
 
 ## Development Setup Instruction

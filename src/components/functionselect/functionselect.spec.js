@@ -19,17 +19,17 @@ describe('Directive: functionSelect', function() {
         }
       }
     };
-    scope.fieldDef = {
-      type: 'Q',
-      name: 'x'
+    scope.pills = {
+      x: { type: 'Q', name: 'x'},
+      update: function() {}
     };
+    scope.encType = 'x';
   }));
 
   it('should have correct number of options', inject(function($compile) {
-    element = angular.element('<function-select field-def="fieldDef", field-def-schema="fieldDefSchema"></function-select>');
+    element = angular.element('<function-select enc-type="encType" pills="pills" schema="fieldDefSchema"></function-select>');
     element = $compile(element)(scope);
     scope.$digest();
-
     expect(element.find('option').length).toBe(3);
   }));
 

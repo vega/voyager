@@ -21,7 +21,7 @@ describe('Service: Spec', function() {
   });
 
   it('functions should be defined', function() {
-    expect(Spec.resetSpec).toBeDefined();
+    expect(Spec.reset).toBeDefined();
     expect(Spec.parseShorthand).toBeDefined();
   });
 
