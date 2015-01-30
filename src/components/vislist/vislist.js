@@ -7,7 +7,7 @@
  * # visList
  */
 angular.module('facetedviz')
-  .directive('visList', function (Fields, Visrec) {
+  .directive('visList', function (Fields, Visrec, vl) {
     return {
       templateUrl: 'components/visList/visList.html',
       restrict: 'E',
@@ -15,6 +15,7 @@ angular.module('facetedviz')
       link: function postLink(scope /*, element, attrs*/) {
         scope.Fields = Fields;
         scope.Visrec = Visrec;
+        scope.shorthands = vl.field.shorthands;
 
         scope.$watch('Fields.fields', function(){
           var fieldList = Fields.getList();

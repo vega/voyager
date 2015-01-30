@@ -1,11 +1,23 @@
 <div>
   <!-- <div><b>{{Fields.fields}}</b></div> -->
 
-  <div ng-repeat='projection in Visrec.projections'>
-    <span class='pill' ng-repeat='field in projection'>
-      [{{field.type}}] {{field.name}}
-    </span>
-    <div>{{projection.key}}</div>
-    <div>{{Visrec.aggregates[projection.key]}}</div>
+  <div class='projection-group'
+    ng-repeat='projection in Visrec.projections'
+    ng-init="pkey=projection.key"
+    >
+    <div class="projection-header">
+      <span class='pill' ng-repeat='field in projection'>
+        == [{{field.type}}] {{field.name}} ==
+      </span>
+    </div>
+
+    <!-- <div>{{projection.key}}</div> -->
+    <div ng-repeat="fieldSet in Visrec.aggregates[pkey]"
+      ng-init="akey=fieldSet.key">
+      <div class="aggregate-header">{{ fieldSet.key }}</div>
+      <div ng-repeat='encoding in Visrec.chartClusters[pkey][akey]'>
+        {{encoding | compactJSON }}
+      </div>
+    </div>
   </div>
 </div>
