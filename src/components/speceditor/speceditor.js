@@ -54,6 +54,20 @@ angular.module('vleApp')
           etDragFrom = null;
         };
 
+        $scope.transpose = function(){
+          var oldenc = Spec.spec.enc,
+            enc = _.clone(Spec.spec.enc);
+          enc.x = oldenc.y;
+          enc.y = oldenc.x;
+          enc.row = oldenc.col;
+          enc.col = oldenc.row;
+          Spec.spec.enc = enc;
+        };
+
+        $scope.clear = function(){
+          Spec.reset();
+        };
+
         $scope.$watch('Spec.spec', function(spec) {
           Spec.update(spec);
         }, true /* watch equality rather than reference */);
