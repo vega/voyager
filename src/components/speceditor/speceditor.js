@@ -65,7 +65,7 @@ angular.module('vleApp')
         };
 
         $scope.clear = function(){
-          Spec.resetSpec();
+          Spec.reset();
         };
 
         $scope.$watch('Spec.spec', function(spec) {
