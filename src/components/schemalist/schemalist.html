@@ -1,6 +1,6 @@
 <div class="schema">
   <div class="field"
-       ng-repeat="field in Dataset.dataschema"
+       ng-repeat="field in Dataset.dataschema | orderBy : fieldOrder"
        ng-init="pill = {name:field.name, type: field.type};">
     <div class="type icon-type-{{typeNames[field.type]}}" title="{{typeNames[field.type]}}">
       {{field.type}}
