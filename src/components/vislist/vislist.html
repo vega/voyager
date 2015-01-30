@@ -3,7 +3,7 @@
 
   <div ng-repeat='projection in Visrec.projections'>
     <span class='pill' ng-repeat='field in projection'>
-      {{field.name}}
+      [{{field.type}}] {{field.name}}
     </span>
   </div>
 </div>

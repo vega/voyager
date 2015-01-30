@@ -11,18 +11,19 @@ angular.module('facetedviz')
   .service('Visrec', function (vr, _) {
     var Visrec = {
       projections: [],
-      tables: [],
+      aggregates: {},
       chartClusters: [],
       update: {}
     };
 
-    function projectionKey(projection){
-      return _.pluck(projection, 'name').join(',');
-    }
-
     Visrec.update.projections = function(fieldList) {
       Visrec.projections = vr.gen.projections(fieldList);
-      console.log('Visrec.gen.projections', Visrec.projections);
+      Visrec.aggregates = Visrec.projections.reduce(function(a, p) {
+        var key = p.key;
+        a[key] = vr.gen.aggregates([], p);
+        return a;
+      });
+
     };
 
 
