@@ -68,6 +68,12 @@ $iron: #ccc;
     margin-right: 3px;
   }
 
+  label.func-label {
+    display: inline-block;
+    min-width: 50px;
+    margin-right: 5px;
+  }
+
   label.type-label {
     margin-right: 5px;
   }
