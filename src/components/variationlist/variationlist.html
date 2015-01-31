@@ -1,6 +1,6 @@
 <h3>Variations Within Cluster</h3>
-<div ng-repeat="subcluster in Visrec.selectedCluster.subarray(1)" class="vis-list-item">
-  <vl-plot vis-class="vis-list" show-copy='true'
-    vl-spec="subcluster[0].vlSpec"
-    vg-spec="subcluster[0].vgSpec"></vl-plot>
+<div ng-repeat="subcluster in Visrec.selectedCluster[0]" class="vis-list-item">
+  <vl-plot vis-class="vis-list" show-copy="true"
+    vl-spec="subcluster.vlSpec"
+    vg-spec="subcluster.vgSpec"></vl-plot>
 </div>

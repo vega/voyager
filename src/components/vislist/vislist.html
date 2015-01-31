@@ -1,34 +1,20 @@
-<div>
-  <!-- <div><b>{{Fields.fields}}</b></div> -->
-
-  <div class='projection-group'
-    ng-repeat='projection in Visrec.projections'
-    ng-init="pkey=projection.key"
-    >
-    <div class="projection-header">
-      <span class='pill' ng-repeat='field in projection'>
-        == [{{field.type}}] {{field.name}} ==
-      </span>
+<!-- <div>{{projection.key}}</div> -->
+<div ng-repeat="(akey, cluster) in Visrec.chartClusters" class="vis-list-item card">
+  <div ng-if="cluster && cluster[0]">
+    <div class="aggregate-header">{{ fieldSet.key }}</div>
+    <div class="vis-{{akey}}">
+      {{pkey}}-{{akey}}
+      <!-- {{cluster[0][0] | compactJSON }} -->
+      <vl-plot vis-class="vis-list" show-copy="true"
+        vl-spec="cluster[0][0].vlSpec"
+        vg-spec="cluster[0][0].vgSpec"></vl-plot>
     </div>
-
-    <!-- <div>{{projection.key}}</div> -->
-    <div ng-repeat="fieldSet in Visrec.aggregates[pkey]"
-      ng-init="akey=fieldSet.key; cluster=Visrec.chartClusters[pkey][akey]">
-      <div ng-if="cluster && cluster[0]">
-        <div class="aggregate-header">{{ fieldSet.key }}</div>
-        <div class='vis-{{pkey}}-{{akey}} vis-list-item'>
-          {{pkey}}-{{akey}}
-          <!-- {{cluster[0][0] | compactJSON }} -->
-          <vl-plot vis-class="vis-list" show-copy='true'
-            vl-spec="cluster[0][0].vlSpec"
-            vg-spec="cluster[0][0].vgSpec"></vl-plot>
-        </div>
-        <div>
-          &nbsp;
-          <a ng-click='select(cluster)' class="right command">Select</a>
-          <a class="right command" ui-zeroclip zeroclip-model="cluster[0][0].vlSpec | compactJSON">Copy</a>
-        </div>
-      </div>
+    <div>
+      &nbsp;
+      <a ng-click="select(cluster, $index)" class="right command">Select</a>
+      <a class="right command" ui-zeroclip zeroclip-model="cluster[0][0].vlSpec | compactJSON">Copy</a>
     </div>
   </div>
 </div>
+
+<encoding-variations></encoding-variations>

@@ -7,19 +7,41 @@
  * # visList
  */
 angular.module('facetedviz')
-  .directive('visList', function (Fields, Visrec, Spec, vl) {
+  .directive('visList', function (Fields, Visrec, vl, jQuery) {
     return {
       templateUrl: 'components/visList/visList.html',
       restrict: 'E',
       scope: {},
-      link: function postLink(scope /*, element, attrs*/) {
+      link: function postLink(scope , element /*, attrs*/) {
         scope.Fields = Fields;
         scope.Visrec = Visrec;
         scope.shorthands = vl.field.shorthands;
 
-        scope.select = function(cluster) {
-          Spec.update(cluster[0][0].vlSpec);
+        var element = element;
+
+        scope.select = function(cluster, $index) {
           Visrec.selectedCluster = cluster;
+
+          var ev = jQuery(element).find('.encoding-variations').detach();
+
+          var getChild = function(i) {
+            return jQuery('.vis-list-item:nth-child(' + i + ')');
+          }
+
+          // off by one
+          var index = $index + 1;
+
+          var dist = getChild(index).offset().top;
+
+          // find index of last in row
+          while (getChild(index).length == 1 && getChild(index).offset().top === dist) {
+            index++;
+          }
+
+          // TODO: fix location when the window is resized. We could use flexbox order to do this.
+
+          // TODO: animate
+          getChild(index-1).after(ev);
         };
 
         scope.$watch('Fields.fields', function(){

@@ -1,6 +1,8 @@
 'use strict';
 /* globals window */
 
+$.noConflict();
+
 angular.module('vleApp', ['zeroclipboard'])
   .constant('_', window._)
   .constant('vl', window.vl)
@@ -16,6 +18,7 @@ angular.module('vleApp', ['zeroclipboard'])
 
 angular.module('facetedviz', ['vleApp', 'ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', 'ui.router'])
   .constant('_', window._)
+  .constant('jQuery', window.jQuery)
   .constant('vl', window.vl)
   .constant('vg', window.vg)
   .constant('vr', window.vr)
