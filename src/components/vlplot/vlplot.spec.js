@@ -9,14 +9,6 @@ describe('Directive: vlPlot', function() {
     scope;
 
   beforeEach(module('vleApp', function($provide) {
-    var mock = {
-      vgSpec: {},
-      vlSpec: {},
-      shorthand: 'foobar'
-      };
-
-    $provide.value('Spec', mock);
-
     // mock vega
     $provide.constant('vg', {
       parse: {
@@ -35,10 +27,10 @@ describe('Directive: vlPlot', function() {
   }));
 
   it('should attach visualization', inject(function($compile) {
-    element = angular.element('<vl-plot></vl-plot>');
+    element = angular.element('<vl-plot vg-spec="{}"></vl-plot>');
     element = $compile(element)(scope);
     scope.$digest();
 
-    expect(element.find('#vis').length).toBe(1);
+    expect(element.find('.vis').length).toBe(1);
   }));
 });
