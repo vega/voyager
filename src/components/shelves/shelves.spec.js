@@ -1,6 +1,6 @@
 'use strict';
 
-describe('Directive: specEditor', function() {
+describe('Directive: shelves', function() {
 
   // load the directive's module
   beforeEach(module('vleApp'));
@@ -30,7 +30,7 @@ describe('Directive: specEditor', function() {
   beforeEach(inject(function($rootScope, $compile) {
     scope = $rootScope.$new();
 
-    element = angular.element('<spec-editor></spec-editor>');
+    element = angular.element('<shelves></shelves>');
     element = $compile(element)(scope);
     scope.$digest();
   }));
