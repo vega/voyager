@@ -70,10 +70,9 @@
               ng-options="type as typeNames[type] for type in schema.properties.type.enum track by type">
       </select> -->
     </div>
-    <div class="mb5">
-      <h4>Functions</h4>
-      <function-select pills="pills" enc-type="encType" schema="schema"></function-select>
-    </div>
+
+    <function-select pills="pills" enc-type="encType" schema="schema"></function-select>
+
 
   </div>
 </div>
