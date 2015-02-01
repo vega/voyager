@@ -92,7 +92,6 @@ angular.module('vleApp')
         return $http.get(dataset.url, {cache: true}).then(function(response) {
           Dataset.dataschema = vl.data.getSchema(response.data);
           Dataset.dataschema.byName = getNameMap(Dataset.dataschema);
-          console.log('Dataset.dataschema.byName', Dataset.dataschema.byName);
           Dataset.stats = vl.data.getStats(response.data);
         });
       }
