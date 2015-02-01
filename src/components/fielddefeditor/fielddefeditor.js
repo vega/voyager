@@ -18,7 +18,7 @@ angular.module('vleApp')
         scope.funcsExpanded = false;
 
         scope.allowedCasting = {
-          Q: ['Q', 'O', 'T'],
+          Q: ['Q', 'O'],
           O: ['O'],
           T: ['T', 'O'],
           G: ['G', 'O']
@@ -74,8 +74,9 @@ angular.module('vleApp')
           }, true);
         });
 
-        scope.$watch('allowedCasting[Dataset.dataschema.byName[enc[encType].name].type]', function(allowedTypes){
-          scope.allowedTypes = allowedTypes;
+        scope.$watchGroup(['allowedCasting[Dataset.dataschema.byName[enc[encType].name].type]', 'enc[encType].aggr'], function(arr){
+          var allowedTypes = arr[0], aggr=arr[1];
+          scope.allowedTypes = aggr === 'count' ? ['Q'] : allowedTypes;
         });
       }
     };

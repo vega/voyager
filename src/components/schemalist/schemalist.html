@@ -1,7 +1,7 @@
 <div class="schema">
   <div class="field"
        ng-repeat="field in Dataset.dataschema | orderBy : Dataset.fieldOrder"
-       ng-init="pill = {name:field.name, type: field.type};">
+       ng-init="pill = {name:field.name, type: field.type, aggr: field.aggr};">
     <div class="type icon-type-{{typeNames[field.type]}}" title="{{typeNames[field.type]}}">
       {{field.type}}
     </div>
@@ -10,7 +10,9 @@
          data-drag="true"
          jqyoui-draggable="{placeholder: 'keep', onStart: 'fieldDragStart'}"
          data-jqyoui-options="{revert: 'invalid', helper: 'clone'}">
-      <span class="field-name">{{ field.name }}</span>
+      <span class="field-name">
+        {{ field.displayName || field.name}}
+      </span>
     </div>
   </div>
 </div>

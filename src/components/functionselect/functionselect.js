@@ -11,7 +11,7 @@ angular.module('vleApp')
         schema: '='
       },
       link: function(scope /*,element, attrs*/) {
-        var BIN='bin', RAW='';
+        var BIN='bin', RAW='', COUNT='count';
 
         scope.func = {
           selected: RAW,
@@ -68,14 +68,20 @@ angular.module('vleApp')
 
           var isQonOrdinalOnlyShelf = ['row','col','shape'].indexOf(scope.encType) !== -1 && type==='Q';
 
-          scope.func.list = (isQonOrdinalOnlyShelf ? [] : [''])
-            .concat(getFns(type))
-            .concat(getAggrs(type))
-            .concat(schema.bin && schema.bin.supportedTypes[type] ? ['bin'] : []);
+          if(pill.name==='*' && pill.aggr===COUNT){
+            scope.func.list=[COUNT];
+            scope.func.selected = COUNT;
+          } else {
+            scope.func.list = (isQonOrdinalOnlyShelf ? [] : [''])
+              .concat(getFns(type))
+              .concat(getAggrs(type).filter(function(x) { return x !== COUNT; }))
+              .concat(schema.bin && schema.bin.supportedTypes[type] ? ['bin'] : []);
 
-          scope.func.selected = pill.bin ? 'bin' :
-            pill.aggr || pill.fn ||
-            (isQonOrdinalOnlyShelf ? BIN : RAW);
+            scope.func.selected = pill.bin ? 'bin' :
+              pill.aggr || pill.fn ||
+              (isQonOrdinalOnlyShelf ? BIN : RAW);
+          }
+
         }, true);
       }
     };

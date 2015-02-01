@@ -49,6 +49,8 @@ angular.module('vleApp')
   .factory('Dataset', function($http, Config, _, Papa, vl) {
     var Dataset = {};
 
+    var countField = {name:'*', aggr: 'count', type:'Q', displayName:"COUNT"};
+
     Dataset.datasets = datasets;
     Dataset.dataset = datasets[7]; //Movies
     Dataset.dataschema = [];
@@ -84,13 +86,16 @@ angular.module('vleApp')
 
             dataschema.push({name: row.name, type: type});
           });
+          dataschema.push(countField);
           Dataset.dataschema = dataschema;
           Dataset.dataschema.byName = getNameMap(Dataset.dataschema);
           Dataset.stats = stats;
         });
       } else {
         return $http.get(dataset.url, {cache: true}).then(function(response) {
-          Dataset.dataschema = vl.data.getSchema(response.data);
+          var dataschema = vl.data.getSchema(response.data);
+          dataschema.push(countField);
+          Dataset.dataschema = dataschema;
           Dataset.dataschema.byName = getNameMap(Dataset.dataschema);
           Dataset.stats = vl.data.getStats(response.data);
         });
