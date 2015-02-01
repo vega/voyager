@@ -25,7 +25,8 @@ function runTests (singleRun, done) {
   gulp.src(testFiles)
     .pipe($.karma({
       configFile: 'karma.conf.js',
-      action: (singleRun)? 'run': 'watch'
+      action: (singleRun)? 'run': 'watch',
+      debounceDelay: 1000
     }))
     .on('error', function (err) {
       // Make sure failed tests cause gulp to exit non-zero
