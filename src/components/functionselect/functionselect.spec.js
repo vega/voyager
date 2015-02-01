@@ -10,11 +10,19 @@ describe('Directive: functionSelect', function() {
 
   beforeEach(inject(function($rootScope) {
     scope = $rootScope.$new();
-    scope.fieldDefSchema = {
+    scope.schema = {
       properties: {
         aggr: {
           supportedEnums: {
             Q: ['a', 'b']
+          }
+        },
+        fn: {
+          enum: ['f1','f2']
+        },
+        bin: {
+          supportedTypes: {
+            Q: true
           }
         }
       }
@@ -26,22 +34,12 @@ describe('Directive: functionSelect', function() {
     scope.encType = 'x';
   }));
 
-  it('should have correct number of options', inject(function($compile) {
-    element = angular.element('<function-select enc-type="encType" pills="pills" schema="fieldDefSchema"></function-select>');
+  it('should have correct number of radio', inject(function($compile) {
+    element = angular.element('<function-select enc-type="encType" pills="pills" schema="schema"></function-select>');
     element = $compile(element)(scope);
     scope.$digest();
-    expect(element.find('option').length).toBe(3);
+    console.log('element', element);
+    console.log('scope.func', scope.func);
+    expect(element.find('input').length).toBe(6);
   }));
-
-  it('should correctly add aggr', function() {
-    // TODO(kanitw): write test (I don't write it now because I expect functionselect.js to change from function to radio and the logic will change)
-  });
-
-  it('should correctly add fn', function() {
-    // TODO(kanitw): write test (I don't write it now because I expect functionselect.js to change from function to radio and the logic will change)
-  });
-
-  it('should correctly add bin', function() {
-    // TODO(kanitw): write test (I don't write it now because I expect functionselect.js to change from function to radio and the logic will change)
-  });
 });

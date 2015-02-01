@@ -65,12 +65,11 @@ angular.module('vleApp')
 
           var type = pill.name ? pill.type : '';
           var schema = scope.schema.properties;
-          if(!oldPill || pill.type !== oldPill.type){
-            scope.func.list = [''].concat(getFns(type))
-              .concat(getAggrs(type))
-              .concat(schema.bin && schema.bin.supportedTypes[type] ? ['bin'] : []);
 
-          }
+          scope.func.list = [''].concat(getFns(type))
+            .concat(getAggrs(type))
+            .concat(schema.bin && schema.bin.supportedTypes[type] ? ['bin'] : []);
+
           scope.func.selected = pill.bin ? 'bin' :
             pill.aggr || pill.fn || RAW;
         }, true);
