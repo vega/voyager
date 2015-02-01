@@ -11,7 +11,7 @@ angular.module('vleApp')
         schema: '='
       },
       link: function(scope /*,element, attrs*/) {
-        var BIN='bin', RAW='';
+        var BIN='bin', RAW='', COUNT='count';
 
         scope.func = {
           selected: RAW,
@@ -24,13 +24,16 @@ angular.module('vleApp')
 
         function getFns(type) {
           var schema = scope.schema.properties;
-          return schema.fn && (!schema.fn.supportedTypes || schema.fn.supportedTypes[type]) ? schema.fn.enum : [];
+          if (schema.fn && (!schema.fn.supportedTypes || schema.fn.supportedTypes[type])) {
+            return (schema.fn.supportedEnums ? schema.fn.supportedEnums[type] : schema.fn.enum) || [];
+          }
+          return [];
         }
 
         function getAggrs(type) {
           var schema = scope.schema.properties;
           if (schema.aggr && (!schema.aggr.supportedTypes || schema.aggr.supportedTypes[type])){
-            return schema.aggr.supportedEnums ? schema.aggr.supportedEnums[type] : schema.aggr.enum;
+            return (schema.aggr.supportedEnums ? schema.aggr.supportedEnums[type] : schema.aggr.enum) || [];
           }
           return [];
         }
@@ -68,14 +71,20 @@ angular.module('vleApp')
 
           var isQonOrdinalOnlyShelf = ['row','col','shape'].indexOf(scope.encType) !== -1 && type==='Q';
 
-          scope.func.list = (isQonOrdinalOnlyShelf ? [] : [''])
-            .concat(getFns(type))
-            .concat(getAggrs(type))
-            .concat(schema.bin && schema.bin.supportedTypes[type] ? ['bin'] : []);
+          if(pill.name==='*' && pill.aggr===COUNT){
+            scope.func.list=[COUNT];
+            scope.func.selected = COUNT;
+          } else {
+            scope.func.list = (isQonOrdinalOnlyShelf ? [] : [''])
+              .concat(getFns(type))
+              .concat(getAggrs(type).filter(function(x) { return x !== COUNT; }))
+              .concat(schema.bin && schema.bin.supportedTypes[type] ? ['bin'] : []);
 
-          scope.func.selected = pill.bin ? 'bin' :
-            pill.aggr || pill.fn ||
-            (isQonOrdinalOnlyShelf ? BIN : RAW);
+            scope.func.selected = pill.bin ? 'bin' :
+              pill.aggr || pill.fn ||
+              (isQonOrdinalOnlyShelf ? BIN : RAW);
+          }
+
         }, true);
       }
     };
