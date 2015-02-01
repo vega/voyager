@@ -14,11 +14,14 @@ describe('Directive: functionSelect', function() {
       properties: {
         aggr: {
           supportedEnums: {
-            Q: ['a', 'b']
+            Q: ['a', 'b'],
+            undefined: []
           }
         },
         fn: {
-          enum: ['f1','f2']
+          supportedEnums: {
+            T: ['f1','f2']
+          }
         },
         bin: {
           supportedTypes: {
@@ -29,17 +32,37 @@ describe('Directive: functionSelect', function() {
     };
     scope.pills = {
       x: { type: 'Q', name: 'x'},
+      y: { aggr:'count', name: '*'},
+
+      color: { type: 'T', name: 'c'},
       update: function() {}
     };
     scope.encType = 'x';
+    scope.encType2 = 'y';
+    scope.encType3 = 'color';
   }));
 
   it('should have correct number of radio', inject(function($compile) {
     element = angular.element('<function-select enc-type="encType" pills="pills" schema="schema"></function-select>');
     element = $compile(element)(scope);
     scope.$digest();
-    console.log('element', element);
-    console.log('scope.func', scope.func);
-    expect(element.find('input').length).toBe(6);
+    expect(element.find('input').length).toBe(4);
   }));
+
+  it('should have correct number of radio', inject(function($compile) {
+    element = angular.element('<function-select enc-type="encType3" pills="pills" schema="schema"></function-select>');
+    element = $compile(element)(scope);
+    scope.$digest();
+    expect(element.find('input').length).toBe(3);
+  }));
+
+  it('should not show other options for count field', inject(function($compile) {
+    element = angular.element('<function-select enc-type="encType2" pills="pills" schema="schema"></function-select>');
+    element = $compile(element)(scope);
+    scope.$digest();
+    console.log(element.find('input'));
+
+    expect(element.find('input').length).toBe(1);
+  }));
+
 });

@@ -24,13 +24,16 @@ angular.module('vleApp')
 
         function getFns(type) {
           var schema = scope.schema.properties;
-          return schema.fn && (!schema.fn.supportedTypes || schema.fn.supportedTypes[type]) ? schema.fn.enum : [];
+          if (schema.fn && (!schema.fn.supportedTypes || schema.fn.supportedTypes[type])) {
+            return (schema.fn.supportedEnums ? schema.fn.supportedEnums[type] : schema.fn.enum) || [];
+          }
+          return [];
         }
 
         function getAggrs(type) {
           var schema = scope.schema.properties;
           if (schema.aggr && (!schema.aggr.supportedTypes || schema.aggr.supportedTypes[type])){
-            return schema.aggr.supportedEnums ? schema.aggr.supportedEnums[type] : schema.aggr.enum;
+            return (schema.aggr.supportedEnums ? schema.aggr.supportedEnums[type] : schema.aggr.enum) || [];
           }
           return [];
         }
