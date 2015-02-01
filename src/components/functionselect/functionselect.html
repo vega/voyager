@@ -1,4 +1,7 @@
-<select ng-model="selectedAggFunc"
-        ng-options="func.name group by func.group for func in functions track by func.name">
-</select>
-
+<div class="mb5" ng-if="func.list.length > 1 || func.list[0] !== ''">
+  <h4>Functions</h4>
+  <label class="func-label" ng-repeat="f in func.list">
+    <input type="radio" ng-value="f" ng-model="func.selected">
+    {{f || '-'}}
+  </label>
+</div>

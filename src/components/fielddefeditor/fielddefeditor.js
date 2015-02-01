@@ -2,6 +2,8 @@
 
 angular.module('vleApp')
   .directive('fieldDefEditor', function(Dataset, _) {
+
+
     return {
       templateUrl: 'components/fielddefeditor/fielddefeditor.html',
       restrict: 'E',
@@ -15,6 +17,14 @@ angular.module('vleApp')
         scope.propsExpanded = false;
         scope.funcsExpanded = false;
 
+        scope.allowedCasting = {
+          Q: ['Q', 'O', 'T'],
+          O: ['O'],
+          T: ['T', 'O'],
+          G: ['G', 'O']
+        };
+
+        scope.Dataset = Dataset;
         scope.typeNames = Dataset.typeNames;
 
         function fieldPill(){
@@ -64,7 +74,9 @@ angular.module('vleApp')
           }, true);
         });
 
-
+        scope.$watch('allowedCasting[Dataset.dataschema.byName[enc[encType].name].type]', function(allowedTypes){
+          scope.allowedTypes = allowedTypes;
+        });
       }
     };
   });

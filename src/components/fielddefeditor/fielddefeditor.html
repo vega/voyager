@@ -55,12 +55,24 @@
     </div>
   </div>
   <div class="shelf-functions" ng-show="funcsExpanded && enc[encType].name">
-    <h4>Functions</h4>
+    <div class="mb5">
+      <h4>Types</h4>
+      <span ng-if="allowedTypes.length<=1">
+        {{typeNames[enc[encType].type]}}
+      </span>
+      <label class="type-label"
+        ng-if="allowedTypes.length>1"
+        ng-repeat="type in allowedTypes">
+        <input type="radio" ng-value="type" ng-model="enc[encType].type">
+        {{typeNames[type]}}
+      </label>
+      <!-- <select class="type-select" ng-model="enc[encType].type"
+              ng-options="type as typeNames[type] for type in schema.properties.type.enum track by type">
+      </select> -->
+    </div>
+
     <function-select pills="pills" enc-type="encType" schema="schema"></function-select>
-    <h4>Types</h4>
-    <select class="type-select" ng-model="enc[encType].type"
-            ng-options="type as typeNames[type] for type in schema.properties.type.enum track by type">
-    </select>
+
 
   </div>
 </div>
