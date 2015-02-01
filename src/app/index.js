@@ -16,6 +16,7 @@ angular.module('vleApp', ['zeroclipboard'])
 
 angular.module('facetedviz', ['vleApp', 'ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', 'ui.router'])
   .constant('_', window._)
+  .constant('jQuery', window.$)
   .constant('vl', window.vl)
   .constant('vg', window.vg)
   .constant('vr', window.vr)

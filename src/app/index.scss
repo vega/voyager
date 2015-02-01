@@ -6,11 +6,6 @@
 // injector
 // endinjector
 
-.pane.vis-list-pane {
-  width: 400px;
-  flex-shrink: 0;
-}
-
 .top{
   z-index: 100;
 }
@@ -37,14 +32,55 @@
   background: #eee;
 }
 
-.vis-list-item {
+.pane.vis-list-pane {
+  flex-grow: 1;
+}
+
+vl-plot {
+  background-color: white;
+}
+
+vis-list {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: flex-start;
+}
+
+vis-list .vis-list-item {
   @extend .persist-scroll;
-  width: 100%;
-  max-height: 350px;
+
+  max-width: 520px;
+  max-height: 250px;
   overflow: scroll;
+
+  flex-grow: 1;
+  display: flex;
 
   .field-name{
     overflow-x: hidden;
     text-overflow: ellipsis;
+  }
+}
+
+vis-list .encoding-variations {
+  width: 100%;
+  max-width: 100%;
+  flex-grow: 1;
+
+  margin: 3px 3px 0 0;
+  padding: 8px;
+  border: 2px solid #666;
+  background-color: white;
+
+  max-height: 500px;
+
+  position: relative;
+
+  .close {
+    position: absolute;
+    color: red;
+    top: 10px;
+    right: 10px;
   }
 }

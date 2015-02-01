@@ -14,7 +14,9 @@ angular.module('facetedviz')
       projections: [],
       // aggregates[pkey] = [ fieldSet ]
       aggregates: {},
-      // chartClusters[pkey][akey]
+      aggregateKeys: [],
+
+      // chartClusters[akey]
       chartClusters: {},
 
       selectedCluster: null,
@@ -45,11 +47,11 @@ angular.module('facetedviz')
         a[key] = vr.gen.aggregates([], p, Visrec.opt);
         return a;
       }, {});
-      // console.log('aggregates', Visrec.aggregates);
+
 
       Visrec.chartClusters = _.reduce(Visrec.aggregates, function(c, fieldSets, pkey) {
 
-        c[pkey] = fieldSets.reduce(function(cp, fieldSet) {
+        c = fieldSets.reduce(function(cp, fieldSet) {
 
           // FIXME restructure this part of code
 
@@ -79,10 +81,12 @@ angular.module('facetedviz')
             });
           });
           return cp;
-        }, {});
+        }, c);
 
         return c;
       }, {});
+      Visrec.aggregateKeys = _.keys(Visrec.chartClusters);
+
       // console.log(Visrec.chartClusters);
     };
 
