@@ -19,7 +19,7 @@ angular.module('vleApp')
 
         scope.allowedCasting = {
           Q: ['Q', 'O', 'T'],
-          O: ['O', 'Q'],
+          O: ['O'],
           T: ['T', 'O'],
           G: ['G', 'O']
         };
