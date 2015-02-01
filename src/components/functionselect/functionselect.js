@@ -57,7 +57,7 @@ angular.module('vleApp')
         });
 
         // when parent objects modify the pill
-        scope.$watch('pills[encType]', function (pill, oldPill) {
+        scope.$watch('pills[encType]', function (pill) {
           // only run this if schema is not null
           if (!scope.schema || !pill) {
             return;
@@ -66,12 +66,16 @@ angular.module('vleApp')
           var type = pill.name ? pill.type : '';
           var schema = scope.schema.properties;
 
-          scope.func.list = [''].concat(getFns(type))
+          var isQonOrdinalOnlyShelf = ['row','col','shape'].indexOf(scope.encType) !== -1 && type==='Q';
+
+          scope.func.list = (isQonOrdinalOnlyShelf ? [] : [''])
+            .concat(getFns(type))
             .concat(getAggrs(type))
             .concat(schema.bin && schema.bin.supportedTypes[type] ? ['bin'] : []);
 
           scope.func.selected = pill.bin ? 'bin' :
-            pill.aggr || pill.fn || RAW;
+            pill.aggr || pill.fn ||
+            (isQonOrdinalOnlyShelf ? BIN : RAW);
         }, true);
       }
     };

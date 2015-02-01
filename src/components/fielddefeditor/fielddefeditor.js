@@ -19,7 +19,7 @@ angular.module('vleApp')
 
         scope.allowedCasting = {
           Q: ['Q', 'O', 'T'],
-          O: ['O'],
+          O: ['O', 'Q'],
           T: ['T', 'O'],
           G: ['G', 'O']
         };
@@ -76,9 +76,7 @@ angular.module('vleApp')
 
         scope.$watch('allowedCasting[Dataset.dataschema.byName[enc[encType].name].type]', function(allowedTypes){
           scope.allowedTypes = allowedTypes;
-        })
-
-
+        });
       }
     };
   });
