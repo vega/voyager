@@ -1,9 +1,9 @@
 'use strict';
 
 angular.module('vleApp')
-  .directive('specEditor', function() {
+  .directive('shelves', function() {
     return {
-      templateUrl: 'components/speceditor/speceditor.html',
+      templateUrl: 'components/shelves/shelves.html',
       restrict: 'E',
       scope: {},
       controller: function($scope, vl, _, Spec) {
