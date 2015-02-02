@@ -52,6 +52,10 @@ textarea {
   margin-right: 0;
 }
 
+.no-top-margin {
+  margin-top:0;
+}
+
 h1 {
   @extend .noselect;
   font-size: 24px;
