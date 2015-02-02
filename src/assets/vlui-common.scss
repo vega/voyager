@@ -4,9 +4,15 @@ $pill-min-width: 150px;
 
 $text-color: #212121;
 
+html {
+  height: 100%;
+}
+
 body{
   width:100%;
   height:100%;
+  overflow: hidden;
+  margin: 0;
   background-color: #eee;
   font-size: 12px;
   line-height: 18px;
@@ -82,6 +88,7 @@ h4 {
 
 .pane {
   padding: 0px;
+  position: relative;
 }
 
 .pane.data-pane {
@@ -97,6 +104,23 @@ h4 {
   margin-bottom: 20px;
 }
 
+.pane .subpane:last-child {
+  margin-bottom: 0px;
+}
+
+.main-panel {
+  min-height: 250px;
+  height: 450px;
+  flex-grow: 1.5;
+}
+
+.dev-panel {
+  min-height: 150px;
+  height: 300px;
+  flex-grow: 0.5;
+}
+
+
 .mb5{
   margin-bottom: 5px;
 }
@@ -111,7 +135,7 @@ h4 {
   max-width: initial;
 }
 
-.full-height{
+.full-height {
   height: 100%;
 }
 
@@ -137,6 +161,41 @@ h4 {
   display: flex;
   flex-direction: row;
   align-items: stretch;
+  position: relative;
+}
+
+.vflex {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.flex-grow-1 {
+  flex-grow: 1;
+}
+
+.no-shrink {
+  flex-shrink: 0;
+}
+
+.abs-w100 {
+  position: absolute;
+  left: 0;
+  right: 0;
+}
+
+.abs-h100 {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+}
+
+.abs-100 {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
 }
 
 .persist-scroll{
@@ -171,6 +230,17 @@ h4 {
 .scroll-y{
   @extend .persist-scroll;
   overflow-y: scroll;
+}
+
+.scroll-x{
+  @extend .persist-scroll;
+  overflow-x: scroll;
+}
+
+.scroll-xy{
+  @extend .persist-scroll;
+  overflow-y: scroll;
+  overflow-x: scroll;
 }
 
 .small {

@@ -14,16 +14,10 @@ $iron: #ccc;
 }
 
 .vgspec, .vlspec {
-  min-height: 200px;
+  min-height: 100px;
 }
 
 /** panes **/
-
-.dev-panel {
-  height: 300px;
-  flex-shrink: 0;
-}
-
 
 .pane.encoding-pane {
   width: 200px;
@@ -32,6 +26,10 @@ $iron: #ccc;
 
 .pane.vis-pane{
   flex-grow: 1;
+}
+
+.pane.config-pane {
+  flex-grow: 0.6;
 }
 
 .pane.vl-pane {
