@@ -1,6 +1,10 @@
-<div class="right command"><lyra-export></lyra-export></div>
-<div class="right command">
-  <a ui-zeroclip zeroclip-model="Spec.vgSpec | compactJSON">Copy</a>
+<div class="card scroll-y abs-100 vflex">
+  <div>
+    <div class="right command"><lyra-export></lyra-export></div>
+    <div class="right command">
+      <a ui-zeroclip zeroclip-model="Spec.vgSpec | compactJSON">Copy</a>
+    </div>
+    <h3>Vega Specification</h3>
+  </div>
+  <textarea class="vgspec flex-grow-1" json-input disabled="disabled" type="text" ng-model="Spec.vgSpec"></textarea>
 </div>
-<h3>Vega Specification</h3>
-<textarea class="vgspec" json-input disabled="disabled" type="text" ng-model="Spec.vgSpec"></textarea>
