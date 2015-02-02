@@ -120,12 +120,37 @@ h4 {
   flex-grow: 0.5;
 }
 
+.alert-box {
+  z-index: 1;
+  position: absolute;
+  top: 5px;
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0;
+  width: 300px;
+}
+
+.alert-item {
+  color: #a94442;
+  background-color: #f2dede;
+  border-color: #ebccd1;
+  padding: 5px;
+  margin-bottom: 5px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  a.close {
+    float: right;
+    color: #a94442;
+    font-weight: bold;
+  }
+}
+
+/* UTILITIES */
 
 .mb5{
   margin-bottom: 5px;
 }
-
-/* UTILITIES */
 
 
 .full-width {
