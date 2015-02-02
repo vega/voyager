@@ -1,17 +1,17 @@
 <div class="flex-root vflex full-width full-height">
-  <div class="full-width">
-    <div class="card full-height">
-      <!-- <div class="right">
+  <div class="full-width no-shrink">
+    <div class="card no-right-margin no-top-margin">
+      <div class="right">
+        <a href="http://bit.ly/visrecissues" class="command">Known Issues</a>
+        <a href=""  class="command">Report an issue</a>
         <a href="#" ng-click="showDevPanel = !showDevPanel">Dev Pane</a>
-      </div> -->
+      </div>
       <h1>FacetedViz</h1>
     </div>
-  </div>
-  <div class="full-width">
     <alert-messages></alert-messages>
   </div>
   <div class="hflex full-width main-panel grow-1">
-    <div class="pane data-pane full-height">
+    <div class="pane data-pane">
       <div class="card">
         <div class="right">
           <dataset-selector></dataset-selector>
@@ -23,7 +23,7 @@
         <vr-config></vr-config>
       </div>
     </div>
-    <div class="pane vis-list-pane full-width">
+    <div class="pane vis-list-pane no-right-margin">
       <vis-list></vis-list>
     </div>
   </div>
