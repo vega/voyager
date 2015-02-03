@@ -8,24 +8,34 @@ var $ = require('gulp-load-plugins')({
   pattern: ['gulp-*', 'main-bower-files', 'uglify-save-license', 'del']
 });
 
-gulp.task('partials', function () {
-  return gulp.src([
-    paths.src + '/{app,components}/**/*.html',
-    paths.tmp + '/{app,components}/**/*.html'
-  ])
-    .pipe($.minifyHtml({
-      empty: true,
-      spare: true,
-      quotes: true
-    }))
-    .pipe($.angularTemplatecache('templateCacheHtml.js', {
-      module: 'facetedviz'
-    }))
-    .pipe(gulp.dest(paths.tmp + '/partials/'));
-});
+
+function partials(module) {
+  return function () {
+    return gulp.src([
+      paths.src + '/{app,components}/**/*.html',
+      paths.tmp + '/{app,components}/**/*.html'
+    ])
+      .pipe($.minifyHtml({
+        empty: true,
+        spare: true,
+        quotes: true
+      }))
+      .pipe($.angularTemplatecache('templateCacheHtml-'+module+'.js', {
+        module: module
+      }))
+      .pipe(gulp.dest(paths.tmp + '/partials/'));
+  };
+}
+
+gulp.task('partials', ['partials-vlui', 'partials-fv']);
+gulp.task('partials-vlui', partials('vleApp'));
+gulp.task('partials-fv', partials('facetedviz'));
 
 gulp.task('html', ['inject', 'partials'], function () {
-  var partialsInjectFile = gulp.src(paths.tmp + '/partials/templateCacheHtml.js', { read: false });
+  var partialsInjectFile = gulp.src([
+      paths.tmp + '/partials/templateCacheHtml-facetedviz.js',
+      paths.tmp + '/partials/templateCacheHtml-vleApp.js'
+    ], { read: false });
   var partialsInjectOptions = {
     starttag: '<!-- inject:partials -->',
     ignorePath: paths.tmp + '/partials',
