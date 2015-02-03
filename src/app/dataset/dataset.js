@@ -38,13 +38,23 @@ var datasets = [{
   table: 'birdstrikes_json'
 }];
 
+function getNameMap(dataschema) {
+  return dataschema.reduce(function(m, field) {
+    m[field.name] = field;
+    return m;
+  }, {});
+}
+
 angular.module('vleApp')
   .factory('Dataset', function($http, Config, _, Papa, vl) {
     var Dataset = {};
 
+    var countField = {name:'*', aggr: 'count', type:'Q', displayName:'COUNT'};
+
     Dataset.datasets = datasets;
     Dataset.dataset = datasets[7]; //Movies
     Dataset.dataschema = [];
+    Dataset.dataschema.byName = {};
     Dataset.stats = null;
 
     // TODO move these to constant to a universal vlui constant file
@@ -55,16 +65,7 @@ angular.module('vleApp')
       G: 'geo'
     };
 
-    var typeOrder = {
-      text: 0,
-      geo: 1,
-      time: 2,
-      numbers: 3
-    };
-
-    Dataset.fieldOrder = function(field) {
-      return typeOrder[Dataset.typeNames[field.type]] + '_' + field.name;
-    };
+    Dataset.fieldOrder = vl.field.order.typeThenName;
 
     Dataset.update = function (dataset) {
       //set schema and stats
@@ -74,29 +75,32 @@ angular.module('vleApp')
           var parsed = Papa.parse(response.data, {header: true});
           var dataschema=[], stats = {};
           _.each(_.filter(parsed.data, function(d) {return d.name;}), function(row) {
-            var field = {};
-            field.min = +row.min;
-            field.max = +row.max;
-            field.cardinality = +row.cardinality;
-            stats[row.name] = field;
+            var fieldStats = {};
+            fieldStats.min = +row.min;
+            fieldStats.max = +row.max;
+            fieldStats.cardinality = +row.cardinality;
+            stats[row.name] = fieldStats;
 
             // TODO add "geo" and "time"
             var type = row.type === 'integer' || row.type === 'real' ? 'Q' : 'O';
 
             dataschema.push({name: row.name, type: type});
           });
+          dataschema.push(countField);
           Dataset.dataschema = dataschema;
+          Dataset.dataschema.byName = getNameMap(Dataset.dataschema);
           Dataset.stats = stats;
         });
       } else {
         return $http.get(dataset.url, {cache: true}).then(function(response) {
-          Dataset.dataschema = vl.data.getSchema(response.data);
+          var dataschema = vl.data.getSchema(response.data);
+          dataschema.push(countField);
+          Dataset.dataschema = dataschema;
+          Dataset.dataschema.byName = getNameMap(Dataset.dataschema);
           Dataset.stats = vl.data.getStats(response.data);
         });
       }
     };
-
-
 
     return Dataset;
   });
