@@ -6,7 +6,7 @@ var paths = gulp.paths;
 
 var $ = require('gulp-load-plugins')();
 
-gulp.task('styles', ['copyvlui'], function () {
+gulp.task('styles', function () {
 
   var sassOptions = {
     style: 'expanded'
@@ -44,7 +44,6 @@ gulp.task('styles', ['copyvlui'], function () {
     //   css: paths.tmp + '/serve/app/'
     // }))
     .pipe($.sass(sassOptions))
-
     .pipe($.autoprefixer())
     .on('error', function handleError(err) {
       console.error(err.toString());
