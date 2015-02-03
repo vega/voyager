@@ -28,7 +28,7 @@ angular.module('facetedviz')
     Visrec.opt = {
       genAggr: true,
       genBin: true,
-      genTypeCasting: true,
+      genTypeCasting: false,
       omitTranpose: false,
       omitDotPlotWithExtraEncoding: false,
       omitAggrWithAllDimsOnFacets: false,
