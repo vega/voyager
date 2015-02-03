@@ -9,7 +9,7 @@
 angular.module('facetedviz')
   .directive('variationList', function (Visrec) {
     return {
-      templateUrl: 'components/variationList/variationList.html',
+      templateUrl: 'components/variationlist/variationlist.html',
       restrict: 'E',
       scope: {},
       link: function postLink(scope, element, attrs) {

@@ -9,7 +9,7 @@
 angular.module('facetedviz')
   .directive('visList', function (Fields, Visrec, vl, jQuery) {
     return {
-      templateUrl: 'components/visList/visList.html',
+      templateUrl: 'components/vislist/vislist.html',
       restrict: 'E',
       scope: {},
       link: function postLink(scope , element /*, attrs*/) {

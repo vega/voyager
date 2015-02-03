@@ -9,7 +9,7 @@
 angular.module('facetedviz')
   .directive('encodingVariations', function (Visrec) {
     return {
-      templateUrl: 'components/encodingVariations/encodingVariations.html',
+      templateUrl: 'components/encodingvariations/encodingvariations.html',
       restrict: 'E',
       replace: true,
       scope: {},
@@ -18,7 +18,7 @@ angular.module('facetedviz')
 
         scope.close = function() {
           scope.Visrec.selectedCluster = null;
-        }
+        };
       }
     };
   });

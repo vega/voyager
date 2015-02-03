@@ -9,7 +9,7 @@
 angular.module('facetedviz')
   .directive('fieldList', function (Dataset, Fields) {
     return {
-      templateUrl: 'components/fieldList/fieldList.html',
+      templateUrl: 'components/fieldlist/fieldlist.html',
       restrict: 'E',
       scope: {},
       link: function postLink (scope /*, element, attrs*/) {
