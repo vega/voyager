@@ -8,13 +8,38 @@ describe('Directive: fieldList', function () {
   var element,
     scope;
 
+
+  beforeEach(module('facetedviz', function($provide) {
+    var mockDataschema = [{
+      name: 'a',
+      type: 'Q',
+    }, {
+      name: 'b',
+      type: 'O',
+    }];
+
+    var mockDataset = {
+      datasets: [{name: 'foo'}, {name: 'bar'}],
+      dataset: null,
+      fieldOrder: vl.field.order.typeThenName,
+      dataschema: mockDataschema,
+      update: function() {}
+    };
+    mockDataset.dataset = mockDataset.datasets[0];
+    $provide.value('Dataset', mockDataset);
+
+    $provide.constant('vl', vl); // vl is loaded by karma
+  }));
+
+
   beforeEach(inject(function ($rootScope) {
     scope = $rootScope.$new();
   }));
 
   it('should make hidden element visible', inject(function ($compile) {
-    element = angular.element('<fieldList></fieldList>');
+    element = angular.element('<field-list></field-list>');
     element = $compile(element)(scope);
-    expect(element.text()).toBe('this is the fieldList directive');
+    scope.$digest();
+    expect(element.find('.field').length).toBe(2);
   }));
 });
