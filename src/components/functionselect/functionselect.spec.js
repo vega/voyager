@@ -32,8 +32,7 @@ describe('Directive: functionSelect', function() {
     };
     scope.pills = {
       x: { type: 'Q', name: 'x'},
-      y: { aggr:'count', name: '*'},
-
+      y: null,
       color: { type: 'T', name: 'c'},
       update: function() {}
     };
@@ -60,8 +59,8 @@ describe('Directive: functionSelect', function() {
     element = angular.element('<function-select enc-type="encType2" pills="pills" schema="schema"></function-select>');
     element = $compile(element)(scope);
     scope.$digest();
-    console.log(element.find('input'));
-
+    scope.pills.y = { aggr:'count', name: '*'};
+    scope.$digest();
     expect(element.find('input').length).toBe(1);
   }));
 

@@ -32,6 +32,10 @@ angular.module('vleApp')
 
         function getAggrs(type) {
           var schema = scope.schema.properties;
+          if(!type) {
+            return [COUNT];
+          }
+
           if (schema.aggr && (!schema.aggr.supportedTypes || schema.aggr.supportedTypes[type])){
             return (schema.aggr.supportedEnums ? schema.aggr.supportedEnums[type] : schema.aggr.enum) || [];
           }
