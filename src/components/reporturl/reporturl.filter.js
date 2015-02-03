@@ -9,13 +9,13 @@
  * Filter in the facetedviz.
  */
 angular.module('facetedviz')
-  .filter('reportUrl', function (compactJSONFilter, _) {
+  .filter('reportUrl', function (Fields, compactJSONFilter, _) {
     return function (params) {
       var url = 'https://docs.google.com/forms/d/1T9ZA14F3mmzrHR7JJVUKyPXzrMqF54CjLIOjv2E7ZEM/viewform?';
-      if (params.query) {
-        var query = encodeURI(compactJSONFilter(params.query));
-        url += 'entry.1245199477=' + query + '&';
-      }
+
+      var query = encodeURI(compactJSONFilter(Fields.getList()));
+      url += 'entry.1245199477=' + query + '&';
+
       if (params.encoding) {
         var encoding = _.omit(params.encoding, 'cfg');
         encoding = encodeURI(compactJSONFilter(encoding));
