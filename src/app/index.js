@@ -19,7 +19,7 @@ angular.module('vleApp', [
 
     // config ZeroClipboard
     uiZeroclipConfigProvider.setZcConf({
-      swfPath: '../bower_components/zeroclipboard/dist/ZeroClipboard.swf'
+      swfPath: 'bower_components/zeroclipboard/dist/ZeroClipboard.swf'
     });
   }])
   .config(function($stateProvider, $urlRouterProvider) {
