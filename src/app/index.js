@@ -10,9 +10,9 @@ angular.module('vleApp', ['zeroclipboard'])
 
     // config ZeroClipboard
     uiZeroclipConfigProvider.setZcConf({
-      swfPath: '../bower_components/zeroclipboard/dist/ZeroClipboard.swf'
+      swfPath: 'bower_components/zeroclipboard/dist/ZeroClipboard.swf'
     });
-  }])
+  }]);
 
 angular.module('facetedviz', ['vleApp', 'ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', 'ui.router'])
   .constant('_', window._)
