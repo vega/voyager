@@ -47,7 +47,11 @@ function replace(str, template){
 
 function genDirective(dir){
   var ldir = dir.toLowerCase(),
-    dirpath = COMP_PATH + ldir +'/';
+    dirpath = COMP_PATH + ldir +'/',
+    dirdash = dir.replace(/([A-Z])/g, ' $1') // insert a space before all caps
+      .toLowerCase()
+      .split(' ')
+      .join('-');
 
   if(! fs.existsSync(dirpath)){
     fs.mkdirSync(dirpath);
@@ -60,7 +64,9 @@ function genDirective(dir){
   fetchUrl(GIST_URL + 'directive.js', function(str) {
     fs.writeFileSync(dirpath + ldir + '.js' , replace(str, {
       __appname__: APP_NAME,
-      __directive__: dir
+      __directive__: dir,
+      '__directive_lower__': ldir,
+      '__directive_dash__': dirdash
     }));
   });
 
