@@ -17,8 +17,6 @@ angular.module('facetedviz')
         scope.Visrec = Visrec;
         scope.shorthands = vl.field.shorthands;
 
-        var element = element;
-
         scope.select = function(cluster, $index) {
           Visrec.selectedCluster = cluster;
 
@@ -26,7 +24,7 @@ angular.module('facetedviz')
 
           var getChild = function(i) {
             return jQuery('.vis-list-item:nth-child(' + i + ')');
-          }
+          };
 
           // off by one
           var index = $index + 1;
@@ -34,7 +32,7 @@ angular.module('facetedviz')
           var dist = getChild(index).offset().top;
 
           // find index of last in row
-          while (getChild(index).length == 1 && getChild(index).offset().top === dist) {
+          while (getChild(index).length === 1 && getChild(index).offset().top === dist) {
             index++;
           }
 
