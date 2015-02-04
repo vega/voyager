@@ -294,7 +294,7 @@ h4 {
 .icon-type{
   @extend .inline-block;
   width: 20px;
-  height: 15px;
+  height: 16px;
   color: transparent;
   background-position: center center;
 
@@ -302,7 +302,7 @@ h4 {
     width: 18px;
     height: 16px;
     margin: 0px -1px;
-    background-position-y: -1px;
+    background-position-y: -2px;
   }
 }
 
@@ -328,7 +328,7 @@ h4 {
   background-position-x: 1px;
   background-position-y: 1px;
   &.icon-small {
-    background-position-y: 2px;
+    background-position-y: 0px;
   }
 }
 
