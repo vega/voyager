@@ -46,7 +46,7 @@ function getNameMap(dataschema) {
 }
 
 angular.module('vleApp')
-  .factory('Dataset', function($http, Config, _, Papa, vl) {
+  .factory('Dataset', function($http, Config, _, Papa, vl, consts) {
     var Dataset = {};
 
     var countField = {name:'*', aggr: 'count', type:'Q', displayName:'COUNT'};
@@ -86,7 +86,10 @@ angular.module('vleApp')
 
             dataschema.push({name: row.name, type: type});
           });
-          dataschema.push(countField);
+          if (consts.addCount) {
+            dataschema.push(countField);
+          }
+
           Dataset.dataschema = dataschema;
           Dataset.dataschema.byName = getNameMap(Dataset.dataschema);
           Dataset.stats = stats;
@@ -94,7 +97,9 @@ angular.module('vleApp')
       } else {
         return $http.get(dataset.url, {cache: true}).then(function(response) {
           var dataschema = vl.data.getSchema(response.data);
-          dataschema.push(countField);
+          if (consts.addCount) {
+            dataschema.push(countField);
+          }
           Dataset.dataschema = dataschema;
           Dataset.dataschema.byName = getNameMap(Dataset.dataschema);
           Dataset.stats = vl.data.getStats(response.data);
