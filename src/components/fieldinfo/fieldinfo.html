@@ -1,5 +1,8 @@
 <span class="field-name">
   <!-- empty comments between lines are for removing spaces between spans-->
+  <div class="type icon-small icon-type-{{typeNames[field.type]}}" ng-show="showType" title="{{typeNames[field.type]}}">
+    {{field.type}}
+  </div>
   <span class="field-func" ng-if="field.aggr">{{ field.aggr }}</span><!--
   --><span class="field-func" ng-if="field.fn">{{ field.fn }}</span><!--
   --><span class="field-func" ng-if="field.bin">bin</span><!--

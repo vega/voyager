@@ -7,13 +7,17 @@
  * # fieldInfo
  */
 angular.module('vleApp')
-  .directive('fieldInfo', function () {
+  .directive('fieldInfo', function (Dataset) {
     return {
       templateUrl: 'components/fieldinfo/fieldinfo.html',
       restrict: 'E',
       replace: true,
       scope: {
-        field: '='
+        field: '=',
+        showType: '='
+      },
+      link: function(scope) {
+        scope.typeNames = Dataset.typeNames;
       }
     };
   });
