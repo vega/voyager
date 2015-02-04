@@ -9,10 +9,11 @@
         vl-spec="cluster[0][0].vlSpec"
         vg-spec="cluster[0][0].vgSpec"></vl-plot>
     </div>
-    <div>
+    <div class="right">
       &nbsp;
-      <a ng-click="select(cluster, $index)" class="right command">Select</a>
-      <a class="right command" ui-zeroclip zeroclip-model="cluster[0][0].vlSpec | compactJSON">Copy</a>
+      <a ng-href="{{ { type: 'vl', encoding: cluster[0][0].vlSpec } | reportUrl }}" target="_blank" class="command">Report an issue</a>
+      <a class="command" ui-zeroclip zeroclip-model="cluster[0][0].vlSpec | compactJSON">Copy</a>
+      <a ng-click="select(cluster, $index)" class="command">Select</a>
     </div>
   </div>
 </div>
