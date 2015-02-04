@@ -15,16 +15,7 @@
            jqyoui-draggable="{onStart: 'fieldDragStart'}"
            data-jqyoui-options="{revert: 'invalid', helper: 'clone'}"
         >
-        <span class="field-name">
-          <!-- empty comments between lines are for removing spaces between spans-->
-          <span class="field-func" ng-if="enc[encType].aggr">{{ enc[encType].aggr }}</span><!--
-          --><span class="field-func" ng-if="enc[encType].fn">{{ enc[encType].fn }}</span><!--
-          --><span class="field-func" ng-if="enc[encType].bin">bin</span><!--
-
-          --><span class="field-func-pl" ng-if="enc[encType].aggr || enc[encType].fn || enc[encType].bin">(</span><!--
-          -->{{ enc[encType].name }}<!--
-          --><span class="field-func-pr" ng-if="enc[encType].aggr || enc[encType].fn || enc[encType].bin">)</span>
-        </span>
+        <field-info field="enc[encType]"></field-info>
         <a href="#" class="remove-field" ng-click="removeField()">×</a>
       </div>
 
