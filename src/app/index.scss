@@ -70,7 +70,7 @@ vis-list .encoding-variations {
   }
 }
 
-.field-set-info{
+.field-set-info, .schema{
   .field-name {
     display: inline-block;
     vertical-align: middle;
@@ -82,11 +82,10 @@ vis-list .encoding-variations {
     padding-left: 5px;
     padding-right: 5px;
     font-size: 11px;
-    border: 1px dashed #ccc;
-    background-color: #eee;
+
     &.selected {
       border: 1px solid #bbb;
-      background-color: #d6d6d6;
+      background-color: #eee;
       font-weight: 500;
     }
     .type {
@@ -97,4 +96,9 @@ vis-list .encoding-variations {
       }
     }
   }
+}
+
+.field-set-info .field-name {
+  border: 1px dashed #ccc;
+  background-color: #fafafa;
 }

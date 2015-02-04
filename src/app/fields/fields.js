@@ -19,8 +19,12 @@ angular.module('facetedviz')
       }, {});
     };
 
-    Fields.getList = function(){
+    Fields.getList = function() {
       return _.values(Fields.fields);
+    };
+
+    Fields.isSelected = function(fieldName) {
+      return Fields.fields[fieldName].selected;
     };
 
     // [{"name":"Cost__Total_$","type":"Q","_aggr":"*","_bin":"*"}]

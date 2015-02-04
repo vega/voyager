@@ -1,22 +1,24 @@
 <!-- <div>{{projection.key}}</div> -->
 
-<div class="vis-list-item-group card"
+<div class="vis-list-item-group card vflex"
   ng-repeat="fieldSet in Visrec.fieldSets"
   ng-init="cluster = Visrec.chartClusters[fieldSet.key]"
 >
-  <div class="vis-list-item-header full-width">
+  <div class="vis-list-item-header full-width no-shrink">
     <div class="right">
       <a class="right command" ui-zeroclip zeroclip-model="cluster[0][0].vlSpec | compactJSON">Copy</a>
-      <a ng-click="select(cluster, $index)" class="command"
-        ng-if="cluster.length > 1">More of This {{ cluster.length }} !</a>
+      <a ng-click="select(cluster, $index)"
+        class="command"
+        title="More Visualizations of the same data"
+        ng-if="cluster.length > 1">More</a>
     </div>
     <div class="field-set-info">
-      <field-info field='field' show-type='true' ng-repeat="field in fieldSet" ng-class="{selected: field.selected}"></field-info>
+      <field-info field='field' show-type='true' ng-repeat="field in fieldSet" ng-class="{selected: Fields.isSelected(field.name)}"></field-info>
     </div>
     <!-- {{cluster[0][0] | compactJSON }} -->
 
   </div>
-  <div class="vis-list-item full-width vis-{{fieldSet.key}}">
+  <div class="vis-list-item full-width vis-{{fieldSet.key}} flex-grow-1">
     <vl-plot vis-class="vis-list" show-copy="true"
       vl-spec="cluster[0][0].vlSpec"
       vg-spec="cluster[0][0].vgSpec"></vl-plot>
