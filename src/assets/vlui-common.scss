@@ -293,9 +293,15 @@ h4 {
 
 .icon-type{
   @extend .inline-block;
-  width: 22px;
-  height: 15px;
+  width: 20px;
+  height: 16px;
   color: transparent;
+  background-position: center center;
+
+  &.icon-small {
+    width: 18px;
+    height: 16px;
+  }
 }
 
 .icon-type-location{
@@ -311,11 +317,16 @@ h4 {
 .icon-type-number{
   @extend .icon-type;
   background: url("../assets/images/field_number.png") no-repeat;
+  background-position-x: -1px;
 }
 
 .icon-type-time{
   @extend .icon-type;
   background: url("../assets/images/field_time.png") no-repeat;
+  background-position-y: 1px;
+  &.icon-small {
+    background-position-y: 0px;
+  }
 }
 
 /**** FIELD & FIELD-PILLS ****/
