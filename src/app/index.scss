@@ -47,21 +47,6 @@ vis-list {
   align-content: flex-start;
 }
 
-vis-list .vis-list-item {
-  @extend .persist-scroll;
-
-  max-width: 520px;
-  max-height: 250px;
-  overflow: scroll;
-
-  flex-grow: 1;
-  display: flex;
-
-  .field-name{
-    overflow-x: hidden;
-    text-overflow: ellipsis;
-  }
-}
 
 vis-list .encoding-variations {
   width: 100%;
@@ -82,5 +67,34 @@ vis-list .encoding-variations {
     color: red;
     top: 10px;
     right: 10px;
+  }
+}
+
+.field-set-info{
+  .field-name {
+    display: inline-block;
+    vertical-align: middle;
+    border-radius: 5px;
+    line-height: 15px;
+    height: 15px;
+    margin-bottom: 0;
+    margin-right: 3px;
+    padding-left: 5px;
+    padding-right: 5px;
+    font-size: 11px;
+    border: 1px dashed #ccc;
+    background-color: #eee;
+    &.selected {
+      border: 1px solid #bbb;
+      background-color: #d6d6d6;
+      font-weight: 500;
+    }
+    .type {
+      margin-left: -2px;
+      background-position-y: -2px;
+      &.icon-type-time {
+        background-position-y: 0px;
+      }
+    }
   }
 }
