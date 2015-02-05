@@ -88,7 +88,7 @@ angular.module('facetedviz')
 
       // For each fieldSet, get encoding vairations
       _.each(fieldSetDict, function(fieldSet, fieldSetKey) {
-        var encodings = vr.gen.encodings([], fieldSet, Visrec.opt, Config.config);
+        var encodings = vr.gen.encodings([], fieldSet, Dataset.stats, Visrec.opt, Config.config);
 
         var clusterIndices = vr.cluster(encodings, 2.5)
           .map(function (cluster) {
