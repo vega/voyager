@@ -18,10 +18,6 @@ body{
   line-height: 18px;
 }
 
-.italic {
-  font-style: italic;
-}
-
 a:hover, a:focus {
   color: #125369;
 }
@@ -35,6 +31,10 @@ a {
   color: #008CBA;
   text-decoration: none;
   line-height: inherit;
+}
+
+.italic {
+  font-style: italic;
 }
 
 a.debug {
@@ -379,6 +379,10 @@ $pill-bg-color: #eee;
 
   cursor: default;
 
+  .field-func{
+    text-transform: uppercase;
+  }
+
   .field-name{
     overflow-x: hidden;
     text-overflow: ellipsis;
@@ -397,10 +401,6 @@ $pill-bg-color: #eee;
     flex-grow: 0;
     margin: auto 0;
   }
-}
-
-.field-func{
-  text-transform: uppercase;
 }
 
 
