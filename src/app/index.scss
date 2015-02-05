@@ -72,8 +72,7 @@ vis-list .encoding-variations {
     height: 15px;
     margin-bottom: 0;
     margin-right: 3px;
-    padding-left: 5px;
-    padding-right: 5px;
+    padding: 1px 5px;
     font-size: 11px;
 
     &.selected {
@@ -89,6 +88,7 @@ vis-list .encoding-variations {
       }
     }
   }
+  margin-bottom: 10px;
 }
 
 .field-set-info .field-name {
