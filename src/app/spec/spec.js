@@ -75,7 +75,7 @@ angular.module('vleApp')
           msg: result.errors
         });
       } else {
-        Spec.encoding = vl.Encoding.fromSpec(cleanSpec, Config.config);
+        Spec.encoding = vl.Encoding.fromSpec(cleanSpec, {}, Config.config);
         Spec.vlSpec = Spec.encoding.toSpec(true);
         Spec.shorthand = Spec.encoding.toShorthand();
         Spec.vgSpec = vl.compile(Spec.encoding, Dataset.stats);

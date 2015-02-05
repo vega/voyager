@@ -19,7 +19,7 @@ body{
 }
 
 a:hover, a:focus {
-  color: #0078a0;
+  color: #125369;
 }
 a:hover {
   cursor: pointer;
@@ -31,6 +31,13 @@ a {
   color: #008CBA;
   text-decoration: none;
   line-height: inherit;
+}
+
+a.debug {
+  color: #177332;
+  &:hover, &:focus{
+    color: #174225;
+  }
 }
 
 textarea {
@@ -301,8 +308,6 @@ h4 {
   &.icon-small {
     width: 18px;
     height: 16px;
-    margin: 0px -1px;
-    background-position-y: -2px;
   }
 }
 
@@ -325,7 +330,6 @@ h4 {
 .icon-type-time{
   @extend .icon-type;
   background: url("../assets/images/field_time.png") no-repeat;
-  background-position-x: 1px;
   background-position-y: 1px;
   &.icon-small {
     background-position-y: 0px;
