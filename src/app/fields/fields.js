@@ -24,7 +24,7 @@ angular.module('facetedviz')
     };
 
     Fields.isSelected = function(fieldName) {
-      return Fields.fields[fieldName].selected;
+      return (Fields.fields[fieldName] || {}).selected;
     };
 
     // [{"name":"Cost__Total_$","type":"Q","_aggr":"*","_bin":"*"}]
