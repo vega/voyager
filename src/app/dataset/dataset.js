@@ -49,7 +49,7 @@ angular.module('vleApp')
   .factory('Dataset', function($http, Config, _, Papa, vl, consts) {
     var Dataset = {};
 
-    var countField = {name:'*', aggr: 'count', type:'Q', displayName:'COUNT'};
+    var countField = vl.field.count();
 
     Dataset.datasets = datasets;
     Dataset.dataset = datasets[7]; //Movies

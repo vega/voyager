@@ -7,7 +7,7 @@ angular.module('vleApp')
     var Config = {};
 
     Config.schema = vl.schema.schema.properties.cfg;
-    Config.config = vl.schema.util.instantiate(Config.schema);
+    Config.config = {}
 
     Config.updateDataset = function(dataset) {
       Config.config.dataUrl = dataset.url;
