@@ -19,7 +19,7 @@ body{
 }
 
 a:hover, a:focus {
-  color: #0078a0;
+  color: #125369;
 }
 a:hover {
   cursor: pointer;
@@ -31,6 +31,13 @@ a {
   color: #008CBA;
   text-decoration: none;
   line-height: inherit;
+}
+
+a.debug {
+  color: #177332;
+  &:hover, &:focus{
+    color: #174225;
+  }
 }
 
 textarea {
