@@ -17,7 +17,8 @@ angular.module('facetedviz')
         scope.Visrec = Visrec;
         scope.shorthands = vl.field.shorthands;
 
-        scope.select = function(cluster, $index) {
+        scope.select = function(fieldSet, cluster, $index) {
+          Visrec.selectedFieldSet = fieldSet;
           Visrec.selectedCluster = cluster;
 
           var ev = jQuery(element).find('.encoding-variations').detach();

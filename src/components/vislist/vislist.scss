@@ -13,4 +13,8 @@
   min-width: 250px;
   overflow: scroll;
   text-align: center;
+  display: flex;
+  .vis {
+    display: inline-block;
+  }
 }

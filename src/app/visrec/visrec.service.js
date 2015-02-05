@@ -48,6 +48,7 @@ angular.module('facetedviz')
       chartClusters: {},
 
       selectedCluster: null,
+      selectedFieldSet: null,
       update: {}
     };
 
