@@ -3,7 +3,9 @@
   ng-repeat="subcluster in Visrec.selectedCluster"
   ng-if="$index !== 0"
 >
+  <a class="command right debug" ui-zeroclip zeroclip-model="subcluster[0].vlSpec | compactJSON">Copy Spec</a>
   <vl-plot vis-class="vis-list" show-copy="true"
-    vl-spec="cluster[0].vlSpec"
+    vl-spec="subcluster[0].vlSpec"
     vg-spec="subcluster[0].vgSpec"></vl-plot>
+
 </div>
