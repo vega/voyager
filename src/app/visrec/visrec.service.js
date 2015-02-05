@@ -54,14 +54,14 @@ angular.module('facetedviz')
     // Visrec Config
 
     Visrec.opt = {
-      genAggr: true,
-      genBin: true,
+      // genAggr: true,
+      // genBin: true,
       genTypeCasting: false,
-      omitTranpose: true,
-      omitDotPlotWithExtraEncoding: false,
-      omitAggrWithAllDimsOnFacets: false,
+      // omitTranpose: true,
+      // omitDotPlotWithExtraEncoding: false,
+      // omitAggrWithAllDimsOnFacets: false,
       omitDimensionOnly: true,
-      omitAggregateWithMeasureOnly: true
+      // omitAggregateWithMeasureOnly: true
     };
 
 
@@ -83,6 +83,7 @@ angular.module('facetedviz')
           fieldSets.push(fieldSet);
         });
       });
+
 
       // For each fieldSet, get encoding vairations
       _.each(fieldSetDict, function(fieldSet, fieldSetKey) {
