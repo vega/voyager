@@ -106,7 +106,9 @@ angular.module('facetedviz')
           chartClusters[fieldSetKey] =  clusterIndices.map(function(indices) {
             return indices.map(function(index) {
               var spec = encodings[index],
-                encoding = vl.Encoding.fromSpec(spec);
+                encoding = vl.Encoding.fromSpec(spec, {
+                  enc: {alpha: {value: 0.1}}
+                });
 
               return {
                 vlSpec: spec,
