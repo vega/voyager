@@ -38,10 +38,10 @@ a {
 }
 
 a.debug {
-  color: #177332;
-  &:hover, &:focus{
-    color: #174225;
-  }
+  color: #ccc;
+  // &:hover, &:focus{
+  //   color: #174225;
+  // }
 }
 
 textarea {
@@ -379,10 +379,6 @@ $pill-bg-color: #eee;
 
   cursor: default;
 
-  .field-func{
-    text-transform: uppercase;
-  }
-
   .field-name{
     overflow-x: hidden;
     text-overflow: ellipsis;
@@ -403,6 +399,10 @@ $pill-bg-color: #eee;
   }
 }
 
+.field-func{
+  text-transform: uppercase;
+  font-weight: bold;
+}
 
 .draggable {
   cursor: move;
