@@ -10,6 +10,7 @@ angular.module('vleApp')
       scope: {
         'vgSpec':'='
       },
+      replace: true,
       controller: function($scope, vg) {
         $scope.visId = (counter++);
         var vis;

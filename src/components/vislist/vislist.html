@@ -1,20 +1,31 @@
 <!-- <div>{{projection.key}}</div> -->
-<div ng-repeat="(akey, cluster) in Visrec.chartClusters" class="vis-list-item card">
-  <div ng-if="cluster && cluster[0]">
-    <div class="aggregate-header">{{ fieldSet.key }}</div>
-    <div class="vis-{{akey}}">
-      {{pkey}}-{{akey}}
-      <!-- {{cluster[0][0] | compactJSON }} -->
-      <vl-plot vis-class="vis-list" show-copy="true"
-        vl-spec="cluster[0][0].vlSpec"
-        vg-spec="cluster[0][0].vgSpec"></vl-plot>
-    </div>
+
+<div class="vis-list-item-group card vflex"
+  ng-repeat="fieldSet in Visrec.fieldSets"
+  ng-init="cluster = Visrec.chartClusters[fieldSet.key]"
+>
+  <div class="vis-list-item-header full-width no-shrink">
     <div class="right">
-      &nbsp;
-      <a ng-href="{{ { type: 'vl', encoding: cluster[0][0].vlSpec } | reportUrl }}" target="_blank" class="command">Report an issue</a>
-      <a class="command" ui-zeroclip zeroclip-model="cluster[0][0].vlSpec | compactJSON">Copy</a>
-      <a ng-click="select(cluster, $index)" class="command">Select</a>
+
+      <a ng-click="select(fieldSet, cluster, $index)"
+        class="command"
+        title="More Visualizations of the same data"
+        ng-if="cluster.length > 1">More Like This ...</a>
     </div>
+    <div class="field-set-info">
+      <field-info field='field' show-type='true' ng-repeat="field in fieldSet" ng-class="{selected: Fields.isSelected(field.name)}"></field-info>
+    </div>
+    <!-- {{cluster[0][0] | compactJSON }} -->
+
+  </div>
+  <div class="vis-list-item full-width vis-{{fieldSet.key}} flex-grow-1">
+    <vl-plot vis-class="vis-list" show-copy="true"
+      vl-spec="cluster[0][0].vlSpec"
+      vg-spec="cluster[0][0].vgSpec"></vl-plot>
+  </div>
+  <div class="no-shrink">
+    <span class="debug">[Dev]</span>
+    <a class="command  debug" ui-zeroclip zeroclip-model="cluster[0][0].vlSpec | compactJSON">Copy Spec</a>
   </div>
 </div>
 

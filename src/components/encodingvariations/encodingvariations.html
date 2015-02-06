@@ -1,5 +1,20 @@
-<div class="encoding-variations" id="evs" ng-show="Visrec.selectedCluster">
-  <vl-plot vg-spec="Visrec.selectedCluster[0][0].vgSpec"></vl-plot>
-  <variation-list></variation-list>
-  <a href="#" ng-click="close()" class="close">Close</a>
+<div class="encoding-variations vflex" id="evs"
+  ng-show="Visrec.selectedCluster"
+  >
+  <!-- ng-class="{outside: Visrec.selectedCluster}" -->
+  <div class="encoding-variations-header">
+    <div class="right">
+      <a href="#" ng-click="close()" class="right">Close</a>
+    </div>
+    <div class="field-set-info">
+      <field-info field='field' show-type='true' ng-repeat="field in Visrec.selectedFieldSet" ng-class="{selected: Fields.isSelected(field.name)}"></field-info>
+    </div>
+  </div>
+
+  <div class="hflex">
+    <vl-plot vg-spec="Visrec.selectedCluster[0][0].vgSpec"></vl-plot>
+    <variation-list></variation-list>
+
+  </div>
+
 </div>

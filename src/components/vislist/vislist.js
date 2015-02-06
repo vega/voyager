@@ -17,13 +17,14 @@ angular.module('facetedviz')
         scope.Visrec = Visrec;
         scope.shorthands = vl.field.shorthands;
 
-        scope.select = function(cluster, $index) {
+        scope.select = function(fieldSet, cluster, $index) {
+          Visrec.selectedFieldSet = fieldSet;
           Visrec.selectedCluster = cluster;
 
           var ev = jQuery(element).find('.encoding-variations').detach();
 
           var getChild = function(i) {
-            return jQuery('.vis-list-item:nth-child(' + i + ')');
+            return jQuery('.vis-list-item-group:nth-child(' + i + ')');
           };
 
           // off by one

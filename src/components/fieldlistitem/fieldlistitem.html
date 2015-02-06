@@ -1,11 +1,6 @@
 <input type="checkbox" ng-model="Fields.fields[field.name].selected" id="field-{{field.name}}-checkbox"/>
-<label>
-<div
-  class="inline-block type icon-type-{{typeNames[field.type]}}"
-  title="{{typeNames[field.type]}}">
-  {{field.type}}
-</div>
-<div ng-model="fieldDef" class="inline-block field-name">
-  {{ field.name }}
-</div>
+<label for="field-{{field.name}}-checkbox">
+  <field-info show-type="true" field="field"
+    ng-class="{selected: Fields.isSelected(field.name)}"
+    ></field-info>
 </label>

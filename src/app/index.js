@@ -23,7 +23,7 @@ angular.module('facetedviz', ['vleApp', 'ngAnimate', 'ngCookies', 'ngTouch', 'ng
   .constant('tv4', window.tv4)
   .constant('Papa', window.Papa)
   .constant('consts', {
-    addCount: false, // add count field to Dataset.dataschema
+    addCount: true, // add count field to Dataset.dataschema
     debug: true
   })
   .config(function ($stateProvider, $urlRouterProvider) {

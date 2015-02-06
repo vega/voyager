@@ -19,7 +19,7 @@ body{
 }
 
 a:hover, a:focus {
-  color: #0078a0;
+  color: #125369;
 }
 a:hover {
   cursor: pointer;
@@ -31,6 +31,17 @@ a {
   color: #008CBA;
   text-decoration: none;
   line-height: inherit;
+}
+
+.italic {
+  font-style: italic;
+}
+
+a.debug {
+  color: #ccc;
+  // &:hover, &:focus{
+  //   color: #174225;
+  // }
 }
 
 textarea {
@@ -293,9 +304,15 @@ h4 {
 
 .icon-type{
   @extend .inline-block;
-  width: 22px;
-  height: 15px;
+  width: 20px;
+  height: 16px;
   color: transparent;
+  background-position: center center;
+
+  &.icon-small {
+    width: 18px;
+    height: 16px;
+  }
 }
 
 .icon-type-location{
@@ -311,11 +328,16 @@ h4 {
 .icon-type-number{
   @extend .icon-type;
   background: url("../assets/images/field_number.png") no-repeat;
+  background-position-x: -1px;
 }
 
 .icon-type-time{
   @extend .icon-type;
   background: url("../assets/images/field_time.png") no-repeat;
+  background-position-y: 1px;
+  &.icon-small {
+    background-position-y: 0px;
+  }
 }
 
 /**** FIELD & FIELD-PILLS ****/
@@ -357,10 +379,6 @@ $pill-bg-color: #eee;
 
   cursor: default;
 
-  .field-func{
-    text-transform: uppercase;
-  }
-
   .field-name{
     overflow-x: hidden;
     text-overflow: ellipsis;
@@ -381,6 +399,10 @@ $pill-bg-color: #eee;
   }
 }
 
+.field-func{
+  text-transform: uppercase;
+  font-weight: bold;
+}
 
 .draggable {
   cursor: move;
