@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('vleApp')
-  .directive('vlPlot', function() {
+  .directive('vlPlot', function(vg) {
     var counter = 0 ;
 
     return {
@@ -10,18 +10,30 @@ angular.module('vleApp')
       scope: {
         'vgSpec':'='
       },
-      controller: function($scope, vg) {
-        $scope.visId = (counter++);
-        var vis;
-        $scope.$watch('vgSpec',function(spec) {
+      link: function(scope, element) {
+        scope.visId = (counter++);
+        var view;
+        scope.$watch('vgSpec',function(spec) {
           if (!spec) {
+            if (view) {
+              view.off('mouseover');
+            }
             return;
           }
-          vg.parse.spec(spec, function(chart) {
-            vis = null;
-            vis = chart({el: '#vis-'+$scope.visId, renderer: 'canvas'});
-            vis.update();
-          });
+          var elem = element.find('#vis-'+scope.visId);
+          if (elem) {
+            vg.parse.spec(spec, function(chart) {
+              view = null;
+              view = chart({el: elem[0], renderer: 'canvas'});
+              view.update();
+              view.on('mouseover', function(event, item) {
+                // TODO: Hanchuan please create tooltip from this
+                console.log(item.datum.data);
+              });
+            });
+          } else {
+            console.error('can not find vis element');
+          }
         });
       }
     };
