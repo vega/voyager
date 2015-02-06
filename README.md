@@ -5,13 +5,15 @@ Tableau-style User Interface for visual analysis, building on top of vegalite. T
 
 ## Development Setup Instruction
 
+First install node.js (we recommend using [homebrew](http://brew.sh) and run `brew install node`)
+
 Install yeoman (yo + gulp + bower globally) -- see http://yeoman.io for more instruction.
 
 Then install all the npm, bower dependencies:
 
 ```bash
-npm install
-bower install
+npm install --dev
+bower install --dev
 ```
 
 ###
