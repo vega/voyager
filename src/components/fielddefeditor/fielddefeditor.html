@@ -35,13 +35,7 @@
       <div ng-repeat="(propName, scaleProp) in schema.properties[group].properties"
            ng-init="id = encType + group + $index"
            ng-show="scaleProp.supportedTypes ? scaleProp.supportedTypes[enc[encType].type] : true">
-        <label class="prop-label" for="{{ id }}">{{ propName }}</label>
-        <div class="inline-block" ng-switch="scaleProp.type + (scaleProp.enum !== undefined ? 'list' : '') ">
-          <input id="{{ id }}" ng-switch-when="boolean" type="checkbox" ng-model="enc[encType][group][propName]"></input>
-          <select id="{{ id }}" ng-switch-when="stringlist" ng-model="enc[encType][group][propName]" ng-options="choice for choice in scaleProp.enum track by choice"></select>
-          <input id="{{ id }}" type="number" ng-switch-when="integer" ng-model="enc[encType][group][propName]"></input>
-          <input id="{{ id }}" type="string" ng-switch-when="string" ng-model="enc[encType][group][propName]"></input>
-        </div>
+        <property-editor id="id" type="scaleProp.type" enum="scaleProp.enum" prop-name="propName" group="enc[encType][group]"></property-editor>
       </div>
     </div>
   </div>
