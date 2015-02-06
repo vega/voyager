@@ -33,6 +33,10 @@ a {
   line-height: inherit;
 }
 
+.italic {
+  font-style: italic;
+}
+
 a.debug {
   color: #177332;
   &:hover, &:focus{
