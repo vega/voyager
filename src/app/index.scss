@@ -34,10 +34,8 @@
 
 .pane.vis-list-pane {
   flex-grow: 1;
-}
+  overflow: hidden;
 
-vl-plot {
-  background-color: white;
 }
 
 .field-set-info, .schema{

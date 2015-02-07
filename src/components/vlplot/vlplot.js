@@ -2,33 +2,40 @@
 
 angular.module('vleApp')
   .directive('vlPlot', function(vg) {
-    var counter = 0 ;
+    var counter = 0;
 
     return {
       templateUrl: 'components/vlplot/vlplot.html',
       restrict: 'E',
       scope: {
-        'vgSpec':'='
+        'vgSpec':'=',
+        'maxHeight':'='
       },
-      // replace: true,
+      replace: true,
       link: function(scope, element) {
         scope.visId = (counter++);
-        var vis;
-        var dewatch = scope.$watch('vgSpec',function(spec) {
+        var view;
+        scope.$watch('vgSpec',function(spec) {
           if (!spec) {
+            if (view) {
+              view.off('mouseover');
+            }
             return;
           }
-          var elem = element.find('#vis-'+scope.visId);
+          var elem = element;
           if (elem) {
             vg.parse.spec(spec, function(chart) {
-              vis = null;
-              vis = chart({el: elem[0], renderer: 'canvas'});
-              vis.update();
+              view = null;
+              view = chart({el: elem[0], renderer: 'canvas'});
+              view.update();
+              view.on('mouseover', function(event, item) {
+                // TODO: Hanchuan please create tooltip from this
+                console.log(item.datum.data);
+              });
             });
           } else {
             console.error('can not find vis element');
           }
-
         });
       }
     };

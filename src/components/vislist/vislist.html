@@ -1,4 +1,4 @@
-<div class="vis-list">
+<div class="vis-list abs-100 scroll-y">
   <div class="vis-list-item-group card vflex"
     ng-repeat="fieldSet in Visrec.fieldSets | limitTo: limit"
     ng-init="cluster = Visrec.chartClusters[fieldSet.key]"
@@ -18,7 +18,9 @@
 
     </div>
     <div class="vis-list-item full-width vis-{{fieldSet.key}} flex-grow-1">
-      <vl-plot vis-class="vis-list" show-copy="true"
+      <vl-plot vis-class="vis-list"
+        show-copy="true"
+        max-height="330"
         vl-spec="cluster[0][0].vlSpec"
         vg-spec="cluster[0][0].vgSpec"></vl-plot>
     </div>
