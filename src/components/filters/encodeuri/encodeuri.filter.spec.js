@@ -10,10 +10,4 @@ describe('Filter: encodeURI', function () {
   beforeEach(inject(function ($filter) {
     encodeUri = $filter('encodeURI');
   }));
-
-  it('should return the input prefixed with "encodeURI filter:"', function () {
-    var text = 'angularjs';
-    expect(encodeUri(text)).toBe(window.encodingUri(text));
-  });
-
 });
