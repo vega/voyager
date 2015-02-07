@@ -3,11 +3,11 @@
     ng-show="Visrec.selectedCluster"
     >
     <!-- ng-class="{outside: Visrec.selectedCluster}" -->
-    <div class="encoding-variations-header card no-top-margin no-right-margin">
+    <div class="encoding-variations-header no-shrink card no-top-margin no-right-margin">
       <div class="right">
         <a href="#" ng-click="close()" class="right">Close</a>
       </div>
-      <div class="field-set-info no-margin-bottom">
+      <div class="field-set-info no-bottom-margin">
         <field-info field='field' show-type='true' ng-repeat="field in Visrec.selectedFieldSet" ng-class="{selected: Fields.isSelected(field.name)}"></field-info>
       </div>
     </div>
