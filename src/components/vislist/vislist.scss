@@ -1,3 +1,32 @@
+.vis-list {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: flex-start;
+}
+
+.vis-list .encoding-variations {
+  width: 100%;
+  max-width: 100%;
+  flex-grow: 1;
+
+  margin: 3px 3px 0 0;
+  padding: 8px;
+  border: 2px solid #666;
+  background-color: white;
+
+  max-height: 500px;
+
+  position: relative;
+}
+
+.vis-list-more {
+  height: 60px;
+  line-height: 60px;
+  vertical-align: middle;
+  text-align:center;
+}
+
 .vis-list-item-group {
   max-width: 520px;
   flex-grow: 1;
@@ -9,6 +38,7 @@
 
 .vis-list-item {
   @extend .persist-scroll;
+  min-height: 150px;
   max-height: 330px;
   min-width: 250px;
   overflow: scroll;
@@ -18,3 +48,4 @@
     display: inline-block;
   }
 }
+

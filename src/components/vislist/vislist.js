@@ -7,7 +7,7 @@
  * # visList
  */
 angular.module('facetedviz')
-  .directive('visList', function (Fields, Visrec, vl, jQuery) {
+  .directive('visList', function (Fields, Visrec, vl, jQuery, consts) {
     return {
       templateUrl: 'components/vislist/vislist.html',
       restrict: 'E',
@@ -16,6 +16,12 @@ angular.module('facetedviz')
         scope.Fields = Fields;
         scope.Visrec = Visrec;
         scope.shorthands = vl.field.shorthands;
+        scope.limit = consts.listLimit;
+
+        scope.increaseLimit = function() {
+          console.log("increase!!!");
+          scope.limit+=10;
+        };
 
         scope.select = function(fieldSet, cluster, $index) {
           Visrec.selectedFieldSet = fieldSet;
@@ -44,6 +50,7 @@ angular.module('facetedviz')
         };
 
         scope.$watch('Fields.fields', function(){
+          scope.limit = consts.listLimit;
           var fieldList = Fields.getList();
           Visrec.update.projections(fieldList);
         }, true);

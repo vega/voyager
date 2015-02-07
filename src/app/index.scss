@@ -40,29 +40,6 @@ vl-plot {
   background-color: white;
 }
 
-vis-list {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  align-content: flex-start;
-}
-
-
-vis-list .encoding-variations {
-  width: 100%;
-  max-width: 100%;
-  flex-grow: 1;
-
-  margin: 3px 3px 0 0;
-  padding: 8px;
-  border: 2px solid #666;
-  background-color: white;
-
-  max-height: 500px;
-
-  position: relative;
-}
-
 .field-set-info, .schema{
   .field-name {
     display: inline-block;
