@@ -3,4 +3,8 @@
        ng-repeat="field in Dataset.dataschema | orderBy: Dataset.fieldOrder">
     <field-list-item field='field'></field-list-item>
   </div>
+    <div class="tool">
+    <a class="" ng-click="Fields.deselectAll()">Uncheck All</a>
+  </div>
+
 </div>
