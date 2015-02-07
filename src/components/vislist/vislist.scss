@@ -58,9 +58,12 @@
 
   .vis.overflow {
     cursor: pointer;
-    @extend .persist-scroll;
     width: 100%;
-    overflow: scroll;
+    overflow: hidden;
+    &.scroll {
+      @extend .persist-scroll;
+      overflow: scroll;
+    }
   }
 }
 
