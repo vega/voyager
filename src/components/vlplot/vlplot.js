@@ -2,13 +2,14 @@
 
 angular.module('vleApp')
   .directive('vlPlot', function(vg) {
-    var counter = 0 ;
+    var counter = 0;
 
     return {
       templateUrl: 'components/vlplot/vlplot.html',
       restrict: 'E',
       scope: {
-        'vgSpec':'='
+        'vgSpec':'=',
+        'maxHeight':'='
       },
       replace: true,
       link: function(scope, element) {
