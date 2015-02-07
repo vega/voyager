@@ -57,6 +57,9 @@ textarea {
   padding: 8px;
   background: white;
   border-style: none;
+  &.margin-bottom {
+    margin-bottom: 3px
+  }
 }
 
 .no-right-margin {
