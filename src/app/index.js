@@ -24,7 +24,8 @@ angular.module('facetedviz', ['vleApp', 'ngAnimate', 'ngCookies', 'ngTouch', 'ng
   .constant('Papa', window.Papa)
   .constant('consts', {
     addCount: true, // add count field to Dataset.dataschema
-    debug: true
+    debug: true,
+    listLimit: 15
   })
   .config(function ($stateProvider, $urlRouterProvider) {
     $stateProvider
