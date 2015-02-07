@@ -1,1 +1,3 @@
-<div class="vis" id="vis-{{visId}}"></div>
+<div class="vis" id="vis-{{visId}}"
+  ng-class="{fit: (maxHeight && vgSpec.height <= maxHeight), overflow: (maxHeight && vgSpec.height > maxHeight)}"
+></div>
