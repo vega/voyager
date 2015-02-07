@@ -15,7 +15,10 @@ describe('Directive: vlPlot', function() {
         spec: function(spec, callback) {
           callback(function(opt) {
             element.find(opt.el).append('<div></div>');
-            return {update: function() {}};
+            return {
+              update: function() {},
+              on: function() {}
+            };
           });
         }
       }

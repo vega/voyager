@@ -42,11 +42,25 @@
   min-height: 150px;
   max-height: 330px;
   min-width: 250px;
-  overflow: scroll;
+  overflow: hidden;
   text-align: center;
   display: flex;
-  .vis {
-    display: inline-block;
+
+  .vis.fit {
+    width:100%;
+    display: flex;
+    justify-content: center;
+    .vega {
+      overflow-x: scroll;
+      align-self: flex-end;
+    }
+  }
+
+  .vis.overflow {
+    cursor: pointer;
+    @extend .persist-scroll;
+    width: 100%;
+    overflow: scroll;
   }
 }
 
