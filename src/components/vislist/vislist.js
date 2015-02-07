@@ -26,26 +26,26 @@ angular.module('facetedviz')
           Visrec.selectedFieldSet = fieldSet;
           Visrec.selectedCluster = cluster;
 
-          var ev = jQuery(element).find('.encoding-variations').detach();
+          // var ev = jQuery(element).find('.encoding-variations').clone();
 
-          var getChild = function(i) {
-            return jQuery('.vis-list-item-group:nth-child(' + i + ')');
-          };
+          // var getChild = function(i) {
+          //   return jQuery('.vis-list-item-group:nth-child(' + i + ')');
+          // };
 
-          // off by one
-          var index = $index + 1;
+          // // off by one
+          // var index = $index + 1;
 
-          var dist = getChild(index).offset().top;
+          // var dist = getChild(index).offset().top;
 
-          // find index of last in row
-          while (getChild(index).length === 1 && getChild(index).offset().top === dist) {
-            index++;
-          }
+          // // find index of last in row
+          // while (getChild(index).length === 1 && getChild(index).offset().top === dist) {
+          //   index++;
+          // }
 
-          // TODO: fix location when the window is resized. We could use flexbox order to do this.
+          // // TODO: fix location when the window is resized. We could use flexbox order to do this.
 
-          // TODO: animate
-          getChild(index-1).after(ev);
+          // // TODO: animate
+          // getChild(index-1).after(ev);
         };
 
         scope.$watch('Fields.fields', function(){
