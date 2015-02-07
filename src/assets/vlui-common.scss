@@ -147,7 +147,7 @@ h4 {
   margin-right: auto;
   left: 0;
   right: 0;
-  width: 300px;
+  width: 500px;
 }
 
 .alert-item {
@@ -158,6 +158,8 @@ h4 {
   margin-bottom: 5px;
   border: 1px solid transparent;
   border-radius: 4px;
+  overflow-wrap: break-word;
+
   a.close {
     float: right;
     color: #a94442;

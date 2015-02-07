@@ -24,7 +24,7 @@ angular.module('vleApp')
 
     Spec._removeEmptyFieldDefs = function(spec) {
       spec.enc = _.omit(spec.enc, function(fieldDef) {
-        return !fieldDef || fieldDef.name === undefined;
+        return !fieldDef || (fieldDef.name === undefined && fieldDef.value === undefined);
       });
     };
 

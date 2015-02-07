@@ -24,24 +24,20 @@
   </div>
 
   <div class="shelf-properties" ng-show="propsExpanded">
-    <div ng-if="schema.properties.legend">
-      <label>
-        <input type="checkbox" ng-model="enc[encType].legend"> Legend
-      </label>
+    <div>
+      <property-editor ng-show="schema.properties.legend" id="encType + 'legend'" type="schema.properties.legend.type" enum="schema.properties.legend.enum" prop-name="'legend'" group="enc[encType]"></property-editor>
     </div>
+    <div>
+      <property-editor ng-show="schema.properties.value" id="encType + 'value'" type="schema.properties.value.type" enum="schema.properties.value.enum" prop-name="'value'" group="enc[encType]"></property-editor>
+    </div>
+
     <div ng-repeat="group in ['scale', 'text', 'axis']"
          ng-show="schema.properties[group]">
       <h4>{{ group }}</h4>
       <div ng-repeat="(propName, scaleProp) in schema.properties[group].properties"
            ng-init="id = encType + group + $index"
            ng-show="scaleProp.supportedTypes ? scaleProp.supportedTypes[enc[encType].type] : true">
-        <label class="prop-label" for="{{ id }}">{{ propName }}</label>
-        <div class="inline-block" ng-switch="scaleProp.type + (scaleProp.enum !== undefined ? 'list' : '') ">
-          <input id="{{ id }}" ng-switch-when="boolean" type="checkbox" ng-model="enc[encType][group][propName]"></input>
-          <select id="{{ id }}" ng-switch-when="stringlist" ng-model="enc[encType][group][propName]" ng-options="choice for choice in scaleProp.enum track by choice"></select>
-          <input id="{{ id }}" type="number" ng-switch-when="integer" ng-model="enc[encType][group][propName]"></input>
-          <input id="{{ id }}" type="string" ng-switch-when="string" ng-model="enc[encType][group][propName]"></input>
-        </div>
+        <property-editor id="id" type="scaleProp.type" enum="scaleProp.enum" prop-name="propName" group="enc[encType][group]"></property-editor>
       </div>
     </div>
   </div>
