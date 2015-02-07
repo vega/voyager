@@ -10,6 +10,7 @@ angular.module('vleApp')
       scope: {
         'vgSpec':'='
       },
+      replace: true,
       link: function(scope, element) {
         scope.visId = (counter++);
         var view;
@@ -20,7 +21,7 @@ angular.module('vleApp')
             }
             return;
           }
-          var elem = element.find('#vis-'+scope.visId);
+          var elem = element;
           if (elem) {
             vg.parse.spec(spec, function(chart) {
               view = null;
