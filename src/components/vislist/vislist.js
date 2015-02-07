@@ -19,7 +19,6 @@ angular.module('facetedviz')
         scope.limit = consts.listLimit;
 
         scope.increaseLimit = function() {
-          console.log("increase!!!");
           scope.limit+=10;
         };
 
