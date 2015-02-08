@@ -1,7 +1,7 @@
 // 'use strict';
 
 angular.module('vleApp')
-  .controller('MainCtrl', function($scope, Spec, consts, Chronicle, jQuery) {
+  .controller('MainCtrl', function($scope, $document, Spec, consts, Chronicle) {
     $scope.Spec = Spec;
     $scope.consts = consts;
     $scope.showDevPanel = consts.debug;
@@ -27,7 +27,7 @@ angular.module('vleApp')
       $scope.$digest()
     });
 
-    jQuery(document).keydown(function(e) {
+    angular.element($document).on('keydown', function(e) {
       if (e.keyCode == 'Z'.charCodeAt(0) && (e.ctrlKey || e.metaKey) && !e.shiftKey) {
         $scope.chron.undo();
         return false;

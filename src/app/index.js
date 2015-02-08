@@ -12,7 +12,6 @@ angular.module('vleApp', [
     'ui.router',
     'Chronicle'])
   .constant('_', window._)
-  .constant('jQuery', window.$)
   .constant('vl', window.vl)
   .constant('vg', window.vg)
   .constant('Papa', window.Papa)
