@@ -19,7 +19,8 @@ angular.module('vleApp', [
   .constant('tv4', window.tv4)
   .constant('consts', {
     addCount: true, // add count field to Dataset.dataschema
-    debug: true
+    debug: true,
+    logging: false
   })
   .config(function(uiZeroclipConfigProvider) {
     // config ZeroClipboard
