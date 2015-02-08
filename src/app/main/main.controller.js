@@ -13,7 +13,6 @@ angular.module('vleApp')
     c = $scope;
 
     $scope.canUndoRedo = function() {
-      console.log($scope.chron)
       $scope.canUndo = $scope.chron.canUndo();
       $scope.canRedo = $scope.chron.canRedo();
     };
