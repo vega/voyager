@@ -11,7 +11,6 @@ angular.module('vleApp')
         'vgSpec':'=',
         'maxHeight':'='
       },
-      replace: true,
       link: function(scope, element) {
         scope.visId = (counter++);
         var view;
