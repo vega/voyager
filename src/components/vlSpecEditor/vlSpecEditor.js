@@ -10,6 +10,9 @@ angular.module('vleApp')
         scope.Spec = Spec;
 
         scope.parseShorthand = Spec.parseShorthand;
+        scope.parseVegalite = function(specJSON) {
+          Spec.parseSpec(JSON.parse(specJSON));
+        };
       }
     };
   });

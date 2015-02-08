@@ -47,6 +47,12 @@ angular.module('vleApp')
       Spec.spec = vl.Encoding.parseShorthand(newShorthand, Config.config).toSpec();
     };
 
+    // takes a partial spec
+    Spec.parseSpec = function(newSpec) {
+      console.log(newSpec, Spec.spec);
+      Spec.spec = vl.schema.util.merge(Spec.spec, newSpec);
+    };
+
     Spec.reset = function() {
       Spec.spec = vl.schema.instantiate();
 
