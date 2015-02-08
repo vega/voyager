@@ -49,7 +49,6 @@ angular.module('vleApp')
 
     // takes a partial spec
     Spec.parseSpec = function(newSpec) {
-      console.log(newSpec, Spec.spec);
       Spec.spec = vl.schema.util.merge(Spec.spec, newSpec);
     };
 
