@@ -9,8 +9,10 @@ angular.module('vleApp', [
     'ngDragDrop',
     'monospaced.elastic',
     'zeroclipboard',
-    'ui.router'])
+    'ui.router',
+    'Chronicle'])
   .constant('_', window._)
+  .constant('jQuery', window.$)
   .constant('vl', window.vl)
   .constant('vg', window.vg)
   .constant('Papa', window.Papa)
