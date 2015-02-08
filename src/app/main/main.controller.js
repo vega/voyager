@@ -10,7 +10,7 @@ angular.module('vleApp')
 
     $scope.canUndo = false;
     $scope.canRedo = false;
-    $scope.chron = Chronicle.record('Spec.spec', $scope, true);
+    $scope.chron = Chronicle.record('spec', Spec, true);
 
     $scope.canUndoRedo = function() {
       $scope.canUndo = $scope.chron.canUndo();
