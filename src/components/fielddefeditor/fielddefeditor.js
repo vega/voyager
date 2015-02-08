@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('vleApp')
-  .directive('fieldDefEditor', function(Dataset, _) {
+  .directive('fieldDefEditor', function(Dataset, Logger, _) {
 
 
     return {
@@ -52,6 +52,9 @@ angular.module('vleApp')
 
         scope.fieldDropped = function() {
           var pill = fieldPill();
+
+          Logger.logInteraction("Field dropped: " + pill.name);
+
           // validate type
           var types = scope.schema.properties.type.enum;
           if (!_.contains(types, pill.type)) {

@@ -10,7 +10,8 @@ angular.module('vleApp', [
     'monospaced.elastic',
     'zeroclipboard',
     'ui.router',
-    'Chronicle'])
+    'Chronicle',
+    'LocalStorageModule'])
   .constant('_', window._)
   .constant('vl', window.vl)
   .constant('vg', window.vg)
@@ -20,13 +21,15 @@ angular.module('vleApp', [
     addCount: true, // add count field to Dataset.dataschema
     debug: true
   })
-  .config(['uiZeroclipConfigProvider', function(uiZeroclipConfigProvider) {
-
+  .config(function(uiZeroclipConfigProvider) {
     // config ZeroClipboard
     uiZeroclipConfigProvider.setZcConf({
       swfPath: 'bower_components/zeroclipboard/dist/ZeroClipboard.swf'
     });
-  }])
+  })
+  .config(function(localStorageServiceProvider) {
+    localStorageServiceProvider.setPrefix('vegalite-ui');
+  })
   .config(function($stateProvider, $urlRouterProvider) {
     $stateProvider
       .state('home', {
