@@ -1,4 +1,4 @@
-// 'use strict';
+'use strict';
 
 angular.module('vleApp')
   .controller('MainCtrl', function($scope, $document, Spec, consts, Chronicle) {
@@ -9,8 +9,6 @@ angular.module('vleApp')
     $scope.canUndo = false;
     $scope.canRedo = false;
     $scope.chron = Chronicle.record('Spec.spec', $scope);
-
-    c = $scope;
 
     $scope.canUndoRedo = function() {
       $scope.canUndo = $scope.chron.canUndo();
