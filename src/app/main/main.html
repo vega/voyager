@@ -1,6 +1,6 @@
 <div class="flex-root vflex full-width full-height">
   <div class="full-width no-shrink">
-    <div class="card no-right-margin no-top-margin">
+    <div class="card no-right-margin no-top-margin margin-bottom">
       <div class="right">
         <a href="http://bit.ly/visrecissues" class="command debug">Known Issues</a>
         <a ng-href="{{ {} | reportUrl }}" target="_blank" class="command debug">Report an issue</a>
@@ -12,7 +12,7 @@
   </div>
   <div class="hflex full-width main-panel grow-1">
     <div class="pane data-pane">
-      <div class="card">
+      <div class="card no-top-margin">
         <div class="right">
           <dataset-selector></dataset-selector>
         </div>
@@ -24,9 +24,7 @@
       </div>
     </div>
     <div class="pane vis-list-pane">
-      <div class="abs-100 scroll-y">
-        <vis-list></vis-list>
-      </div>
+      <vis-list></vis-list>
     </div>
   </div>
   <div class="hflex full-width dev-panel" ng-show="showDevPanel">
