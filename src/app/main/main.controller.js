@@ -21,24 +21,24 @@ angular.module('vleApp')
     $scope.chron.addOnRedoFunction($scope.canUndoRedo);
 
     $scope.chron.addOnUndoFunction(function() {
-      Logger.logInteraction("Undo");
+      Logger.logInteraction('Undo');
     });
     $scope.chron.addOnRedoFunction(function() {
-      Logger.logInteraction("Redo");
+      Logger.logInteraction('Redo');
     });
 
     angular.element($document).on('keydown', function(e) {
       if (e.keyCode == 'Z'.charCodeAt(0) && (e.ctrlKey || e.metaKey) && !e.shiftKey) {
         $scope.chron.undo();
-        $scope.$digest()
+        $scope.$digest();
         return false;
       } else if (e.keyCode == 'Y'.charCodeAt(0) && (e.ctrlKey || e.metaKey)) {
         $scope.chron.redo();
-        $scope.$digest()
+        $scope.$digest();
         return false;
       } else if (e.keyCode == 'Z'.charCodeAt(0) && (e.ctrlKey || e.metaKey) && e.shiftKey) {
         $scope.chron.redo();
-        $scope.$digest()
+        $scope.$digest();
         return false;
       }
     });
