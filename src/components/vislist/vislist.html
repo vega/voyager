@@ -28,7 +28,7 @@
       <a class="command right debug" ui-zeroclip zeroclip-model="cluster[0][0].vlSpec | compactJSON">Copy Spec</a>
     </div>
   </div>
-  <encoding-variations></encoding-variations>
+  <encoding-variations ng-show="Visrec.selectedCluster"></encoding-variations>
 </div>
 <div class="vis-list-more" ng-show="limit < Visrec.fieldSets.length">
   <a ng-click="increaseLimit()">More</a>
