@@ -24,7 +24,10 @@
         vg-spec="cluster[0][0].vgSpec"></vl-plot>
     </div>
     <div class="no-shrink debug">
-      <a class="command right debug" ui-zeroclip zeroclip-model="cluster[0][0].vlSpec | compactJSON">Copy Spec</a>
+      <div class="right">
+        <a class="command debug" ui-zeroclip zeroclip-model="cluster[0][0].vlSpec | compactJSON">Copy Spec</a>
+        <a class="command debug" ng-href="{{ {type:'vl', encoding: cluster[0][0].vlSpec} | reportUrl }}" target="_blank">Report Bad Render</a>
+      </div>
     </div>
   </div>
   <encoding-variations ng-show="Visrec.selectedCluster"></encoding-variations>
