@@ -70,6 +70,14 @@ textarea {
   margin-top:0;
 }
 
+.no-left-margin {
+  margin-left: 0;
+}
+
+.no-bottom-margin {
+  margin-bottom:0;
+}
+
 h1 {
   @extend .noselect;
   font-size: 24px;
@@ -217,6 +225,10 @@ h4 {
   display: flex;
   flex-direction: column;
   position: relative;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
 }
 
 .flex-grow-1 {

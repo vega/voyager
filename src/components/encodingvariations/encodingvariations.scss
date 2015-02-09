@@ -4,7 +4,14 @@
   left: 100px;
   right: 100px;
   bottom: 100px;
-  background-color: white;
+  background-color: #eee;
   z-index: 1;
   border: 5px solid #aaa;
+}
+
+.encoding-variations .selected-variation {
+  min-width: 500px;
+  position: relative;
+  align-self: stretch;
+  flex-grow:0.4;
 }

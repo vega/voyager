@@ -12,6 +12,7 @@ angular.module('facetedviz')
       templateUrl: 'components/variationlist/variationlist.html',
       restrict: 'E',
       scope: {},
+      replace: true,
       link: function postLink(scope, element, attrs) {
         scope.Visrec = Visrec;
       }

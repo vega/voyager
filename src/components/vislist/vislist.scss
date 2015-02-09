@@ -1,9 +1,6 @@
 .vis-list {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  align-content: flex-start;
   margin-top: -3px;
+  align-content: flex-start;
 }
 
 // .vis-list .encoding-variations {
@@ -58,9 +55,12 @@
 
   .vis.overflow {
     cursor: pointer;
-    @extend .persist-scroll;
     width: 100%;
-    overflow: scroll;
+    overflow: hidden;
+    &.scroll {
+      @extend .persist-scroll;
+      overflow: scroll;
+    }
   }
 }
 

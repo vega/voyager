@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('vleApp')
-  .directive('vlPlot', function(vg) {
+  .directive('vlPlot', function(vg, $timeout) {
     var counter = 0;
 
     return {
@@ -14,6 +14,18 @@ angular.module('vleApp')
       replace: true,
       link: function(scope, element) {
         scope.visId = (counter++);
+        scope.hoverAction = null;
+        scope.mouseover = function() {
+          scope.hoverAction = $timeout(function(){
+            scope.hoverFocus = true;
+          }, 500);
+        };
+
+        scope.mouseout = function() {
+          $timeout.cancel(scope.hoverAction);
+          scope.hoverFocus = scope.unlocked = false;
+        };
+
         var view;
         scope.$watch('vgSpec',function(spec) {
           if (!spec) {
