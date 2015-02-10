@@ -68,8 +68,9 @@ angular.module('vleApp')
           Spec.reset();
         };
 
-        $scope.$watch('Spec.spec', function(spec) {
-          Logger.logInteraction("Spec changed: " + JSON.stringify(spec));
+        $scope.$watch('Spec.spec', function(spec, oldSpec) {
+          Logger.logInteraction("Spec changed: " + JSON.stringify(jsondiffpatch.diff(oldSpec, spec)));
+
           Spec.update(spec);
         }, true /* watch equality rather than reference */);
       }
