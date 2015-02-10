@@ -6,7 +6,7 @@ angular.module('vleApp')
       templateUrl: 'components/shelves/shelves.html',
       restrict: 'E',
       scope: {},
-      controller: function($scope, vl, _, Spec, Logger) {
+      controller: function($scope, vl, _, jsondiffpatch, Spec, Config, Dataset, Logger) {
         $scope.Spec = Spec;
         $scope.schema = vl.schema.schema;
         var pills = $scope.pills = {};

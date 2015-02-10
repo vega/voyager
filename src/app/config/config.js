@@ -9,11 +9,6 @@ angular.module('vleApp')
     Config.schema = vl.schema.schema.properties.cfg;
     Config.config = vl.schema.util.instantiate(Config.schema);
 
-    // merge config into config
-    Config.update = function(config) {
-      vl.schema.util.merge(Config.config, config);
-    };
-
     Config.updateDataset = function(dataset) {
       Config.config.dataUrl = dataset.url;
       Config.config.vegaServerTable = dataset.table;

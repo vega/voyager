@@ -11,8 +11,6 @@ angular.module('vleApp')
         $scope.Dataset = Dataset;
 
         $scope.datasetChanged = function() {
-          console.log('new dataset selected', dataset);
-
           var dataset = Dataset.dataset;
 
           Logger.logInteraction("Dataset changed to: " + dataset.name);

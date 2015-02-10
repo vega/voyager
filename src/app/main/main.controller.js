@@ -21,7 +21,6 @@ angular.module('vleApp')
       $scope.chron = Chronicle.record('Spec.spec', $scope, true, ['Dataset.dataset', 'Dataset.dataschema', 'Dataset.stats', 'Config.config']);
 
       $scope.canUndoRedo = function() {
-        console.log('I registered a change');
         $scope.canUndo = $scope.chron.canUndo();
         $scope.canRedo = $scope.chron.canRedo();
       };
