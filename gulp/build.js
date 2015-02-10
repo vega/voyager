@@ -62,9 +62,9 @@ gulp.task('html', ['inject', 'partials'], function () {
     .pipe($.size({ title: paths.dist + '/', showFiles: true }));
 });
 
-gulp.task('images', function () {
-  return gulp.src(paths.src + '/assets/images/**/*')
-    .pipe(gulp.dest(paths.dist + '/assets/images/'));
+gulp.task('assets', function () {
+  return gulp.src(paths.src + '/assets/**/*')
+    .pipe(gulp.dest(paths.dist + '/assets/'));
 });
 
 gulp.task('data', function () {
@@ -89,13 +89,8 @@ gulp.task('zeroclipboard', function () {
     .pipe(gulp.dest(paths.dist + '/bower_components/zeroclipboard/dist/'));
 });
 
-gulp.task('fontawesome', function() { 
-  return gulp.src('bower_components/fontawesome/fonts/*.*') 
-    .pipe(gulp.dest(paths.dist + '/bower_components/fontawesome/fonts/'));
-});
-
 gulp.task('clean', function (done) {
   $.del([paths.dist + '/', paths.tmp + '/'], done);
 });
 
-gulp.task('build', ['copydep', 'html', 'images', 'data', 'fonts', 'misc', 'watchdep', 'zeroclipboard', 'fontawesome']);
+gulp.task('build', ['copydep', 'html', 'assets', 'data', 'fonts', 'misc', 'watchdep', 'zeroclipboard']);
