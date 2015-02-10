@@ -6,7 +6,7 @@ angular.module('vleApp')
       templateUrl: 'components/shelves/shelves.html',
       restrict: 'E',
       scope: {},
-      controller: function($scope, vl, _, Spec, Logger) {
+      controller: function($scope, vl, _, jsondiffpatch, Spec, Config, Dataset, Logger) {
         $scope.Spec = Spec;
         $scope.schema = vl.schema.schema;
         var pills = $scope.pills = {};
@@ -68,8 +68,9 @@ angular.module('vleApp')
           Spec.reset();
         };
 
-        $scope.$watch('Spec.spec', function(spec) {
-          Logger.logInteraction("Spec changed: " + JSON.stringify(spec));
+        $scope.$watch('Spec.spec', function(spec, oldSpec) {
+          Logger.logInteraction("Spec changed: " + JSON.stringify(jsondiffpatch.diff(oldSpec, spec)));
+
           Spec.update(spec);
         }, true /* watch equality rather than reference */);
       }

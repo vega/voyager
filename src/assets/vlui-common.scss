@@ -44,6 +44,11 @@ a.debug {
   // }
 }
 
+a.disabled {
+  cursor: not-allowed;
+  color: #bbb;
+}
+
 textarea {
   width: 100%;
 }
@@ -423,4 +428,15 @@ $pill-bg-color: #eee;
 
 .draggable {
   cursor: move;
+}
+
+
+/**** Components ****/
+
+.controls {
+  display: inline;
+  margin-right: 100px;
+  a {
+    margin: 0 10px;
+  }
 }

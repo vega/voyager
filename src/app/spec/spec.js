@@ -59,6 +59,7 @@ angular.module('vleApp')
       Spec.spec.marktype = vl.schema.schema.properties.marktype.enum[0];
     };
 
+    // takes a full spec, validates it and then rebuilds everything
     Spec.update = function(spec) {
       var cleanSpec = _.cloneDeep(spec);
 
@@ -81,7 +82,7 @@ angular.module('vleApp')
         });
       } else {
         Spec.encoding = vl.Encoding.fromSpec(cleanSpec, {}, Config.config);
-        Spec.vlSpec = Spec.encoding.toSpec(true);
+        Spec.vlSpec = Spec.encoding.toSpec(false);
         Spec.shorthand = Spec.encoding.toShorthand();
         Spec.vgSpec = vl.compile(Spec.encoding, Dataset.stats);
 
