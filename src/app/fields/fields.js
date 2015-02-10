@@ -18,11 +18,9 @@ angular.module('facetedviz')
     };
 
     Fields.deselectAll = function() {
-      var fields = _.cloneDeep(Fields.fields);
-      _.each(fields, function(field){
+      _.each(Fields.fields, function(field){
         field.selected = false;
       });
-      Fields.fields = fields;
     };
 
     Fields.getList = function() {

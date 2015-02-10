@@ -2,6 +2,10 @@
   <div class="full-width no-shrink">
     <div class="card no-right-margin no-top-margin margin-bottom">
       <div class="right">
+        <div class="controls">
+          <a href="#" ng-click="chron.undo()" ng-class="{disabled: !canUndo}"><i class="fa fa-undo"></i> Undo</a>
+          <a href="#" ng-click="chron.redo()" ng-class="{disabled: !canRedo}"><i class="fa fa-repeat"></i> Redo</a>
+        </div>
         <a href="http://bit.ly/visrecissues" target="_blank" class="command debug">Known Issues</a>
         <a ng-href="{{ {} | reportUrl }}" target="_blank" class="command debug">Report an issue</a>
         <a href="#" class="command debug" ng-click="showDevPanel = !showDevPanel">Dev Pane</a>

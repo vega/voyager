@@ -1,1 +1,1 @@
-<select id="datasetSelect" ng-model="Dataset.dataset" ng-options="dataset.name for dataset in Dataset.datasets"></select>
+<select id="datasetSelect" ng-model="Dataset.dataset" ng-change="datasetChanged()" ng-options="dataset.name for dataset in Dataset.datasets track by dataset.name"></select>

@@ -16,11 +16,12 @@ describe('Directive: datasetSelector', function() {
     };
     mockDataset.dataset = mockDataset.datasets[0];
 
-    var mockConfig =
-
     $provide.value('Dataset', mockDataset);
     $provide.value('Config', {
-      updateDataset: function(dataset) {}
+      updateDataset: function() {}
+    });
+    $provide.value('Spec', {
+      reset: function() {}
     });
 
     $provide.constant('vl', vl); // vl is loaded by karma

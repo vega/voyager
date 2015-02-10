@@ -15,9 +15,6 @@ angular.module('facetedviz')
       link: function postLink (scope /*, element, attrs*/) {
         scope.Dataset = Dataset;
         scope.Fields = Fields;
-        scope.$watch('Dataset.dataschema', function(dataschema) {
-          Fields.updateSchema(dataschema);
-        });
       }
     };
   });
