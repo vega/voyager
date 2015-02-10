@@ -1,24 +1,26 @@
 <div class="encoding-variations">
-  <div class="vflex full-width full-height" id="evs"
-    ng-show="Visrec.selectedCluster"
-    >
-    <!-- ng-class="{outside: Visrec.selectedCluster}" -->
-    <div class="encoding-variations-header no-shrink card no-top-margin no-right-margin">
-      <div class="right">
-        <a href="#" ng-click="close()" class="right">Close</a>
-      </div>
-      <div class="field-set-info no-bottom-margin">
-        <field-info field='field' show-type='true' ng-repeat="field in Visrec.selectedFieldSet" ng-class="{selected: Fields.isSelected(field.name)}"></field-info>
-      </div>
-    </div>
-
-    <div class="hflex flex-grow-1">
-      <div class="selected-variation">
-        <div class="card abs-100 scroll-xy">
-          <vl-plot vg-spec="Visrec.selectedCluster[0][0].vgSpec"></vl-plot>
+  <div class="wrapper">
+    <div class="vflex full-width full-height" id="evs"
+      ng-show="Visrec.selectedCluster"
+      >
+      <!-- ng-class="{outside: Visrec.selectedCluster}" -->
+      <div class="encoding-variations-header no-shrink card no-top-margin no-right-margin">
+        <div class="right">
+          <a href="#" ng-click="close()" class="right">Close</a>
+        </div>
+        <div class="field-set-info no-bottom-margin">
+          <field-info field='field' show-type='true' ng-repeat="field in Visrec.selectedFieldSet" ng-class="{selected: Fields.isSelected(field.name)}"></field-info>
         </div>
       </div>
-      <variation-list></variation-list>
+
+      <div class="hflex flex-grow-1">
+        <div class="selected-variation">
+          <div class="card abs-100 scroll-xy">
+            <vl-plot vg-spec="Visrec.selectedCluster[0][0].vgSpec"></vl-plot>
+          </div>
+        </div>
+        <variation-list></variation-list>
+      </div>
     </div>
   </div>
 </div>
