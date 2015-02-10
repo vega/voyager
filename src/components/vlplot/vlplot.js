@@ -3,6 +3,15 @@
 angular.module('vleApp')
   .directive('vlPlot', function(vg, $timeout) {
     var counter = 0;
+    var MAX_CANVAS_SIZE = 32767, MAX_CANVAS_AREA = 268435456;
+
+    function getRenderer(spec) {
+      // use canvas by default but use svg if the visualization is too big
+      if (spec.width > MAX_CANVAS_SIZE || spec.height > MAX_CANVAS_SIZE || spec.width*spec.height > MAX_CANVAS_AREA) {
+        return 'svg';
+      }
+      return 'canvas';
+    }
 
     return {
       templateUrl: 'components/vlplot/vlplot.html',
@@ -38,7 +47,7 @@ angular.module('vleApp')
           if (elem) {
             vg.parse.spec(spec, function(chart) {
               view = null;
-              view = chart({el: elem[0], renderer: 'canvas'});
+              view = chart({el: elem[0], renderer: getRenderer(spec)});
               view.update();
               view.on('mouseover', function(event, item) {
                 // TODO: Hanchuan please create tooltip from this
