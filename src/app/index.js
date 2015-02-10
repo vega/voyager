@@ -1,7 +1,10 @@
 'use strict';
 /* globals window */
 
-angular.module('vleApp', ['zeroclipboard'])
+angular.module('vleApp', [
+    'zeroclipboard',
+    'Chronicle'
+  ])
   .constant('_', window._)
   .constant('vl', window.vl)
   .constant('vg', window.vg)
