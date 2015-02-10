@@ -1,3 +1,11 @@
 <div class="vis" id="vis-{{visId}}"
-  ng-class="{fit: (maxHeight && vgSpec.height <= maxHeight), overflow: (maxHeight && vgSpec.height > maxHeight)}"
+  ng-class="{
+    fit: (maxHeight && vgSpec.height <= maxHeight),
+    overflow: (maxHeight && vgSpec.height > maxHeight),
+    scroll: unlocked || hoverFocus
+  }"
+  ng-mousedown="unlocked=true"
+  ng-mouseup="unlocked=false"
+  ng-mouseover="mouseover()"
+  ng-mouseout="mouseout()"
 ></div>
