@@ -59,20 +59,6 @@ $iron: #ccc;
   margin-bottom: 5px;
 }
 
-a.disabled {
-  cursor: not-allowed;
-  color: #bbb;
-}
-
-// TODO(kanitw): consider moving this to vlui-common.scss
-.controls {
-  display: inline;
-  margin-right: 100px;
-  a {
-    margin: 0 10px;
-  }
-}
-
 .shelf{
   border-radius: $pill-radius;
   background-color: #ddd;

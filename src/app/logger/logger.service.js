@@ -12,7 +12,7 @@ angular.module('vleApp')
 
     var service = {};
 
-    var ts = function timeStamp() {
+    var timeStamp = function() {
       var now = new Date();
       var date = [ now.getFullYear(), now.getMonth() + 1, now.getDate()];
       var time = [ now.getHours(), now.getMinutes(), now.getSeconds() ];
@@ -27,7 +27,7 @@ angular.module('vleApp')
     service.logInteraction = function(action) {
       if (!consts.logging)
         return;
-      var key = ts();
+      var key = timeStamp();
       localStorageService.set(key, action);
     }
 
