@@ -10,13 +10,18 @@ angular.module('vleApp')
       controller: function($scope) {
         $scope.Dataset = Dataset;
 
-        $scope.$watch('Dataset.dataset', function(dataset) {
+        $scope.datasetChanged = function() {
+          console.log('new dataset selected', dataset);
+
+          var dataset = Dataset.dataset;
+
           Logger.logInteraction("Dataset changed to: " + dataset.name);
 
-          Dataset.update(dataset);
-          Config.updateDataset(dataset);
-          Spec.reset();
-        });
+          Dataset.update(dataset).then(function() {
+            Config.updateDataset(dataset);
+            Spec.reset();
+          });
+        };
       }
     };
   });
