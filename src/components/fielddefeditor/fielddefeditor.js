@@ -1,9 +1,7 @@
 'use strict';
 
 angular.module('vleApp')
-  .directive('fieldDefEditor', function(Dataset, Logger, _) {
-
-
+  .directive('fieldDefEditor', function(Dataset, Logger, _, Tether) {
     return {
       templateUrl: 'components/fielddefeditor/fielddefeditor.html',
       restrict: 'E',
@@ -14,6 +12,7 @@ angular.module('vleApp')
         schema: '=fieldDefSchema'
       },
       link: function(scope, element /*, attrs*/) {
+        var propsPopup, funcsPopup;
         scope.propsExpanded = false;
         scope.funcsExpanded = false;
 
@@ -33,10 +32,40 @@ angular.module('vleApp')
 
         scope.togglePropsExpand = function() {
           scope.propsExpanded = !scope.propsExpanded;
+          if (scope.propsExpanded) {
+            if (scope.funcsExpanded) {
+              scope.toggleFuncsExpand();
+            }
+            propsPopup = new Tether({
+              element: element.find('.shelf-properties'),
+              target: element.find('.shelf'),
+              attachment: 'top left',
+              targetAttachment: 'bottom left'
+            });
+          } else { // detach
+            if (propsPopup) {
+              propsPopup.destroy();
+            }
+          }
         };
 
         scope.toggleFuncsExpand = function() {
           scope.funcsExpanded = !scope.funcsExpanded;
+          if (scope.funcsExpanded) {
+            if (scope.propsExpanded) {
+              scope.togglePropsExpand();
+            }
+            funcsPopup = new Tether({
+              element: element.find('.shelf-functions'),
+              target: element.find('.field-pill'),
+              attachment: 'top left',
+              targetAttachment: 'bottom left'
+            });
+          } else {
+            if (funcsPopup) {
+              funcsPopup.destroy();
+            }
+          }
         };
 
         scope.removeField = function() {
@@ -53,7 +82,7 @@ angular.module('vleApp')
         scope.fieldDropped = function() {
           var pill = fieldPill();
 
-          Logger.logInteraction("Field dropped: " + pill.name);
+          Logger.logInteraction('Field dropped: ' + pill.name);
 
           // validate type
           var types = scope.schema.properties.type.enum;

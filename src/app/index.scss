@@ -59,26 +59,6 @@ $iron: #ccc;
   margin-bottom: 5px;
 }
 
-.shelf-properties, .shelf-functions{
-  padding: 5px;
-  label.prop-label {
-    display: inline-block;
-    width: 40px;
-    text-align: right;
-    margin-right: 3px;
-  }
-
-  label.func-label {
-    display: inline-block;
-    min-width: 50px;
-    margin-right: 5px;
-  }
-
-  label.type-label {
-    margin-right: 5px;
-  }
-}
-
 a.disabled {
   cursor: not-allowed;
   color: #bbb;
@@ -102,10 +82,19 @@ a.disabled {
   .shelf-label{
     @extend .noselect;
     display: block;
-    width: 30px;
-    margin: 0 0.5rem;
+    width: 45px;
+    margin: 0 0.2rem;
+    text-align: right;
     line-height: $pill-height;
     cursor: pointer;
+
+    .fa {
+      margin-top: 4px;
+      opacity: 0.5;
+    }
+    &.expanded .fa, &:hover .fa {
+      opacity: 1;
+    }
   }
 
   .field-drop {
