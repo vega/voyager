@@ -1,0 +1,28 @@
+.shelf-properties {
+  min-width: 250px;
+}
+
+.shelf-functions {
+  width: 150px;
+}
+
+
+.shelf-properties, .shelf-functions{
+  padding: 5px;
+  label.prop-label {
+    display: inline-block;
+    width: 60px;
+    text-align: right;
+    margin-right: 3px;
+  }
+
+  label.func-label {
+    display: inline-block;
+    min-width: 50px;
+    margin-right: 5px;
+  }
+
+  label.type-label {
+    margin-right: 5px;
+  }
+}

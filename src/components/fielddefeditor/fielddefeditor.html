@@ -1,6 +1,10 @@
 <div class="shelf-group">
   <div class="shelf">
-    <div class="shelf-label" ng-click="togglePropsExpand()">{{ encType }}</div>
+    <div class="shelf-label" ng-click="togglePropsExpand()"
+      ng-class="{expanded: propsExpanded}">
+      {{ encType }}
+      <i class="fa fa-caret-down"></i>
+    </div>
     <!--<field-drop field-def="enc[encType]" types="schema.properties.type.enum"></field-drop>-->
     <div class="field-drop"
          ng-model="pills[encType]"
@@ -8,6 +12,7 @@
          jqyoui-droppable="{onDrop:'fieldDropped'}"
          data-jqyoui-options="{activeClass: 'drop-active'}">
       <div class="field-pill"
+           ng-class="{expanded: funcsExpanded}"
            ng-if="enc[encType].name"
            ng-click="toggleFuncsExpand()"
            data-drag="true"
@@ -16,14 +21,14 @@
            data-jqyoui-options="{revert: 'invalid', helper: 'clone'}"
         >
         <field-info field="enc[encType]"></field-info>
-        <a href="#" class="remove-field" ng-click="removeField()">×</a>
+        <i class="fa fa-caret-down"></i>
       </div>
 
       <span class="placeholder" ng-if="!enc[encType].name">drop a field here</span>
   </div>
   </div>
 
-  <div class="shelf-properties" ng-show="propsExpanded">
+  <div class="popup-menu shelf-properties" ng-show="propsExpanded">
     <div>
       <property-editor ng-show="schema.properties.legend" id="encType + 'legend'" type="schema.properties.legend.type" enum="schema.properties.legend.enum" prop-name="'legend'" group="enc[encType]"></property-editor>
     </div>
@@ -41,7 +46,7 @@
       </div>
     </div>
   </div>
-  <div class="shelf-functions" ng-show="funcsExpanded && enc[encType].name">
+  <div class="popup-menu shelf-functions" ng-show="funcsExpanded && enc[encType].name">
     <div class="mb5">
       <h4>Types</h4>
       <span ng-if="allowedTypes.length<=1">
@@ -60,6 +65,6 @@
 
     <function-select pills="pills" enc-type="encType" schema="schema"></function-select>
 
-
+    <a href="#" class="remove-field" ng-click="removeField()">Remove Field</a>
   </div>
 </div>
