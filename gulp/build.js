@@ -95,4 +95,4 @@ gulp.task('clean', function (done) {
   $.del([paths.dist + '/', paths.tmp + '/'], done);
 });
 
-gulp.task('build', ['copydep', 'html', 'images', 'data', 'fonts', 'misc', 'watchdep', 'zeroclipboard']);
+gulp.task('build', ['html', 'images', 'data', 'fonts', 'misc', 'zeroclipboard']);
