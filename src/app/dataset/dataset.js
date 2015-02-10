@@ -67,7 +67,30 @@ angular.module('vleApp')
 
     Dataset.fieldOrder = vl.field.order.typeThenName;
 
+    call this method if you have a config and want to set the dataset that is in the config
+    Dataset.updateFromConfig = function(config) {
+      // nothing changed
+      if (!config.dataUrl || !config.vegaServerTable
+          || config.dataUrl === Dataset.dataset.url
+          || config.vegaServerTable === Dataset.dataset.table) {
+        console.log('dataset has not changed in config');
+        return;
+      }
+
+      for (var i = 0; i < Dataset.datasets.length; i++) {
+        var dataset = Dataset.datasets[i];
+        if (config.dataUrl === dataset.url || config.vegaServerTable === dataset.table) {
+          return Dataset.update(dataset);
+        }
+      };
+
+      console.warn('Could not find dataset in config: ', config);
+    };
+
+    // update the schema and stats
     Dataset.update = function (dataset) {
+      console.log('update dataset', dataset);
+
       //set schema and stats
       if (Config.useVegaServer) {
         var url = Config.serverUrl + '/stats/?name=' + dataset.table;
@@ -90,6 +113,7 @@ angular.module('vleApp')
             dataschema.push(countField);
           }
 
+          Dataset.dataset = dataset;
           Dataset.dataschema = dataschema;
           Dataset.dataschema.byName = getNameMap(Dataset.dataschema);
           Dataset.stats = stats;
@@ -100,6 +124,8 @@ angular.module('vleApp')
           if (consts.addCount) {
             dataschema.push(countField);
           }
+
+          Dataset.dataset = dataset;
           Dataset.dataschema = dataschema;
           Dataset.dataschema.byName = getNameMap(Dataset.dataschema);
           Dataset.stats = vl.data.getStats(response.data);
