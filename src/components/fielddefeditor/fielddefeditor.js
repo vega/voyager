@@ -36,15 +36,19 @@ angular.module('vleApp')
             if (scope.funcsExpanded) {
               scope.toggleFuncsExpand();
             }
-            propsPopup = new Tether({
-              element: element.find('.shelf-properties'),
-              target: element.find('.shelf'),
-              attachment: 'top left',
-              targetAttachment: 'bottom left'
-            });
+            if (propsPopup) {
+              propsPopup.enable();
+            } else {
+              propsPopup = new Tether({
+                element: element.find('.shelf-properties'),
+                target: element.find('.shelf'),
+                attachment: 'top left',
+                targetAttachment: 'bottom left'
+              });
+            }
           } else { // detach
             if (propsPopup) {
-              propsPopup.destroy();
+              propsPopup.disable();
             }
           }
         };
@@ -55,15 +59,19 @@ angular.module('vleApp')
             if (scope.propsExpanded) {
               scope.togglePropsExpand();
             }
-            funcsPopup = new Tether({
-              element: element.find('.shelf-functions'),
-              target: element.find('.field-pill'),
-              attachment: 'top left',
-              targetAttachment: 'bottom left'
-            });
+            if (funcsPopup) {
+              funcsPopup.enable();
+            } else {
+              funcsPopup = new Tether({
+                element: element.find('.shelf-functions'),
+                target: element.find('.field-pill'),
+                attachment: 'top left',
+                targetAttachment: 'bottom left'
+              });
+            }
           } else {
             if (funcsPopup) {
-              funcsPopup.destroy();
+              funcsPopup.disable();
             }
           }
         };
