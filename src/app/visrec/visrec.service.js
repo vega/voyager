@@ -67,6 +67,7 @@ angular.module('facetedviz')
 
 
     Visrec.update.projections = function(fieldList) {
+      var start = new Date().getTime();
       // TODO decide if we can update projections only if field name list changes
 
       // First create a projection
@@ -108,13 +109,14 @@ angular.module('facetedviz')
           chartClusters[fieldSetKey] =  clusterIndices.map(function(indices) {
             return indices.map(function(index) {
               var spec = encodings[index],
-                encoding = vl.Encoding.fromSpec(spec, {
-                  enc: {alpha: {value: 0.1}}
-                });
+                encoding = vl.Encoding.fromSpec(spec);
+
+              var vgSpec= vl.compile(encoding, Dataset.stats);
 
               return {
                 vlSpec: spec,
-                vgSpec: vl.compile(encoding, Dataset.stats)
+                encoding: encoding,
+                vgSpec: vgSpec
               };
             });
           });
@@ -125,6 +127,9 @@ angular.module('facetedviz')
       Visrec.fieldSetDict = fieldSetDict;
       Visrec.fieldSets = fieldSets;
       Visrec.chartClusters = chartClusters;
+
+      var end = new Date().getTime();
+      console.log('Visrec.update took '+ (end-start));
     };
     return Visrec;
   });
