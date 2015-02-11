@@ -65,4 +65,7 @@ Other common stylesheets that should be shared with https://github.com/uwdata/fa
 
 `gh-pages` branch is for releasing a stable version.
 `gh-pages` should only contain the dist folder.
-Therefore, build on master, go to gh-pages, commit only the dist folder.
+
+Use `deploy.sh` to deploy the current branch to gh-pages.
+
+
