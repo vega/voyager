@@ -52,12 +52,7 @@ $fa-font-path: "../assets/fonts";
     margin-right: 3px;
     padding: 1px 5px;
     font-size: 11px;
-
-    &.selected {
-      border: 1px solid #bbb;
-      background-color: #eee;
-      font-weight: 500;
-    }
+    border: 1px solid rgba(255,255,255,0);
     .type {
       margin-left: -2px;
       background-position-y: -2px;
@@ -65,6 +60,12 @@ $fa-font-path: "../assets/fonts";
         background-position-y: 0px;
       }
     }
+  }
+
+  .field-name.selected, .field-list-item:hover .field-name {
+    border: 1px solid #bbb;
+    background-color: #eee;
+    font-weight: 500;
   }
   margin-bottom: 10px;
 }

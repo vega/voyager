@@ -5,6 +5,7 @@ angular.module('facetedviz')
     return {
       templateUrl: 'components/fieldlistitem/fieldlistitem.html',
       restrict: 'E',
+      replace: true,
       scope: {
         field: '='
       },

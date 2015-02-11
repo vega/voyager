@@ -1,6 +1,15 @@
-<input type="checkbox" ng-model="Fields.fields[field.name].selected" id="field-{{field.name}}-checkbox"/>
-<label for="field-{{field.name}}-checkbox">
-  <field-info show-type="true" field="field"
-    ng-class="{selected: Fields.isSelected(field.name)}"
-    ></field-info>
-</label>
+<div class="field-list-item">
+  <input type="checkbox" ng-model="Fields.fields[field.name].selected" id="field-{{field.name}}-checkbox"/>
+  <label for="field-{{field.name}}-checkbox">
+    <field-info show-type="true" field="field"
+      ng-class="{selected: Fields.isSelected(field.name)}"
+      ></field-info>
+  </label>
+  <i class="fa fa-caret-down" ng-click="toggleFuncsExpand()"></i>
+  <div class="popup-menu popup-functions" ng-show="funcsExpanded">
+
+    <!-- <function-select pills="pills" enc-type="encType" schema="schema"></function-select> -->
+
+    <a href="#" class="remove-field" ng-click="excludeField()">Exclude Field</a>
+  </div>
+</div>
