@@ -22,6 +22,7 @@ angular.module('vleApp', [
   .constant('consts', {
     addCount: true, // add count field to Dataset.dataschema
     debug: true,
+    useUrl: true,
     logging: false
   })
   .config(function(uiZeroclipConfigProvider) {
