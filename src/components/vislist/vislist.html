@@ -1,38 +1,40 @@
-<div class="vis-list hflex flex-wrap">
-  <div class="vis-list-item-group card vflex"
-    ng-repeat="fieldSet in Visrec.fieldSets | limitTo: limit"
-    ng-init="cluster = Visrec.chartClusters[fieldSet.key]"
-  >
-    <div class="vis-list-item-header full-width no-shrink">
-      <div class="right">
+<div class="abs-100 scroll-y">
+  <div class="vis-list hflex flex-wrap">
+    <div class="vis-list-item-group card vflex"
+      ng-repeat="fieldSet in Visrec.fieldSets | limitTo: limit"
+      ng-init="cluster = Visrec.chartClusters[fieldSet.key]"
+    >
+      <div class="vis-list-item-header full-width no-shrink">
+        <div class="right">
 
-        <a ng-click="select(fieldSet, cluster, $index)"
-          class="command"
-          title="More Visualizations of the same data"
-          ng-if="cluster.length > 1">More Like This ...</a>
-      </div>
-      <div class="field-set-info">
-        <field-info field='field' show-type='true' ng-repeat="field in fieldSet" ng-class="{selected: Fields.isSelected(field.name)}"></field-info>
-      </div>
-      <!-- {{cluster[0][0] | compactJSON }} -->
+          <a ng-click="select(fieldSet, cluster, $index)"
+            class="command"
+            title="More Visualizations of the same data"
+            ng-if="cluster.length > 1">More Like This ...</a>
+        </div>
+        <div class="field-set-info">
+          <field-info field='field' show-type='true' ng-repeat="field in fieldSet" ng-class="{selected: Fields.isSelected(field.name)}"></field-info>
+        </div>
+        <!-- {{cluster[0][0] | compactJSON }} -->
 
-    </div>
-    <div class="vis-list-item full-width vis-{{fieldSet.key}} flex-grow-1">
-      <vl-plot show-copy="true"
-        max-height="330"
-        encoding="cluster[0][0].encoding"
-        vl-spec="cluster[0][0].vlSpec"
-        vg-spec="cluster[0][0].vgSpec"></vl-plot>
-    </div>
-    <div class="no-shrink debug">
-      <div class="right">
-        <a class="command debug" ui-zeroclip zeroclip-model="cluster[0][0].vlSpec | compactJSON">Copy Spec</a>
-        <a class="command debug" ng-href="{{ {type:'vl', encoding: cluster[0][0].vlSpec} | reportUrl }}" target="_blank">Report Bad Render</a>
+      </div>
+      <div class="vis-list-item full-width vis-{{fieldSet.key}} flex-grow-1">
+        <vl-plot show-copy="true"
+          max-height="330"
+          encoding="cluster[0][0].encoding"
+          vl-spec="cluster[0][0].vlSpec"
+          vg-spec="cluster[0][0].vgSpec"></vl-plot>
+      </div>
+      <div class="no-shrink debug">
+        <div class="right">
+          <a class="command debug" ui-zeroclip zeroclip-model="cluster[0][0].vlSpec | compactJSON">Copy Spec</a>
+          <a class="command debug" ng-href="{{ {type:'vl', encoding: cluster[0][0].vlSpec} | reportUrl }}" target="_blank">Report Bad Render</a>
+        </div>
       </div>
     </div>
+    <encoding-variations ng-show="Visrec.selectedCluster"></encoding-variations>
   </div>
-  <encoding-variations ng-show="Visrec.selectedCluster"></encoding-variations>
-</div>
-<div class="vis-list-more" ng-show="limit < Visrec.fieldSets.length">
-  <a ng-click="increaseLimit()">More</a>
+  <div class="vis-list-more" ng-show="limit < Visrec.fieldSets.length">
+    <a ng-click="increaseLimit()">More</a>
+  </div>
 </div>

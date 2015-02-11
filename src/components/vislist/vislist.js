@@ -11,6 +11,7 @@ angular.module('facetedviz')
     return {
       templateUrl: 'components/vislist/vislist.html',
       restrict: 'E',
+      replace: true,
       scope: {},
       link: function postLink(scope , element /*, attrs*/) {
         scope.Fields = Fields;
@@ -54,8 +55,10 @@ angular.module('facetedviz')
 
         scope.$watch('Fields.fields', function() {
           scope.limit = consts.numInitClusters;
+          element.scrollTop(0); // scroll the the top
           var fieldList = Fields.getList();
           Visrec.update.projections(fieldList);
+
         }, true);
       }
     };
