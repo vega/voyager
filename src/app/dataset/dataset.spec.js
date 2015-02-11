@@ -16,6 +16,6 @@ describe('Service: Dataset', function() {
 
   it('datasets should be there', function() {
     expect(dataset.datasets).toBeDefined();
-    expect(dataset.datasets.length).toBe(9);
+    expect(dataset.datasets.length).toBe(13);
   });
 });

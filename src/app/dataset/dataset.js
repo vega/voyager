@@ -36,6 +36,22 @@ var datasets = [{
   name: 'Birdstrikes',
   url: 'data/birdstrikes.json',
   table: 'birdstrikes_json'
+},{
+  name: "Burtin",
+  url: "data/burtin.json",
+  table: 'burtin_json'
+},{
+  name: "Budget 2016",
+  url: "data/budget.json",
+  table: 'budget_json'
+},{
+  name: "Climate Normals",
+  url: "data/climate.json",
+  table: 'climate_json'
+},{
+  name: "Campaigns",
+  url: "data/weball26.json",
+  table: 'weball26_json'
 }];
 
 function getNameMap(dataschema) {
