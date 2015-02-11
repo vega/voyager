@@ -23,6 +23,11 @@
           vg-spec="cluster[0][0].vgSpec"></vl-plot>
       </div>
       <div class="no-shrink">
+
+        <div class="right">
+          <a class="command debug" ui-zeroclip zeroclip-model="cluster[0][0].vlSpec | compactJSON">Copy</a>
+          <a class="command debug" ng-href="{{ {type:'vl', encoding: cluster[0][0].vlSpec} | reportUrl }}" target="_blank">Report Bad Render</a>
+        </div>
         <div>
           <a href="#"
             ng-click="Bookmarks.toggle(cluster[0][0].vlSpec)"
@@ -32,10 +37,6 @@
             <span ng-if="!Bookmarks.dict[cluster[0][0].shorthand]"> Add </span>
             Bookmark
           </a>
-        </div>
-        <div class="right">
-          <a class="command debug" ui-zeroclip zeroclip-model="cluster[0][0].vlSpec | compactJSON">Copy</a>
-          <a class="command debug" ng-href="{{ {type:'vl', encoding: cluster[0][0].vlSpec} | reportUrl }}" target="_blank">Report Bad Render</a>
         </div>
       </div>
     </div>
