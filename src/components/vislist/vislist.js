@@ -16,13 +16,17 @@ angular.module('facetedviz')
         scope.Fields = Fields;
         scope.Visrec = Visrec;
         scope.shorthands = vl.field.shorthands;
-        scope.limit = consts.listLimit;
+        scope.limit = consts.numInitClusters;
 
         scope.increaseLimit = function() {
-          scope.limit+=10;
+          if(scope.limit + consts.numMoreClusters > Visrec.numClustersGenerated) {
+            Visrec.update.clusters(scope.limit + consts.numMoreClusters);
+          }
+
+          scope.limit += consts.numMoreClusters;
         };
 
-        scope.select = function(fieldSet, cluster, $index) {
+        scope.select = function(fieldSet, cluster/*, $index*/) {
           Visrec.selectedFieldSet = fieldSet;
           Visrec.selectedCluster = cluster;
 
@@ -48,8 +52,8 @@ angular.module('facetedviz')
           // getChild(index-1).after(ev);
         };
 
-        scope.$watch('Fields.fields', function(){
-          scope.limit = consts.listLimit;
+        scope.$watch('Fields.fields', function() {
+          scope.limit = consts.numInitClusters;
           var fieldList = Fields.getList();
           Visrec.update.projections(fieldList);
         }, true);

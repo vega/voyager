@@ -8,7 +8,7 @@
  * Service in the facetedviz.
  */
 angular.module('facetedviz')
-  .service('Visrec', function (vr, vl, _, Config, Dataset) {
+  .service('Visrec', function (vr, vl, _, consts, Config, Dataset) {
     var Visrec = {
       /**
        * List of all recommended projections based on the selection.
@@ -46,6 +46,7 @@ angular.module('facetedviz')
        * encodings[fieldSetkey] = [[ (vlSpec, vgSpec) ,...], ...]
        */
       chartClusters: {},
+      numClustersGenerated: 0,
 
       selectedCluster: null,
       selectedFieldSet: null,
@@ -72,8 +73,9 @@ angular.module('facetedviz')
 
       // First create a projection
       var projections = vr.gen.projections(fieldList, Visrec.opt);
+
       var aggregates = {}, fieldSetDict = {},
-        fieldSets = [], chartClusters={};
+        fieldSets = [], chartClusters = {};
 
       var endProjection = new Date().getTime();
       console.log('gen projections', (endProjection-start));
@@ -89,44 +91,16 @@ angular.module('facetedviz')
         });
       });
 
+      // TODO rank fieldSets here!
+
       var endAggregates = new Date().getTime();
       console.log('gen aggregates', (endAggregates - endProjection));
 
-      // For each fieldSet, get encoding vairations
-      _.each(fieldSetDict, function(fieldSet, fieldSetKey) {
-        var encodings = vr.gen.encodings([], fieldSet, Dataset.stats, Visrec.opt, Config.config);
-
-        var clusterIndices = vr.cluster(encodings, 2.5)
-          .map(function (cluster) {
-            // rank item in each cluster
-            return cluster.sort(function (i, j) {
-              return encodings[j].score - encodings[i].score;
-            });
-          })
-          .filter(function(cluster) {
-            return cluster.length > 0;
-          })
-          .sort(function (c1, c2) {
-            // rank cluster by top item in each cluster
-            return encodings[c2[0]].score - encodings[c1[0]].score;
-          });
-
-          chartClusters[fieldSetKey] =  clusterIndices.map(function(indices) {
-            return indices.map(function(index) {
-              var spec = encodings[index],
-                encoding = vl.Encoding.fromSpec(spec);
-
-              var vgSpec= vl.compile(encoding, Dataset.stats);
-
-              return {
-                vlSpec: spec,
-                encoding: encoding,
-                vgSpec: vgSpec
-              };
-            });
-          });
-      });
-
+      Visrec.numClustersGenerated = Math.min(consts.numInitClusters, fieldSets.length);
+      for(var i=0; i< Visrec.numClustersGenerated; i++) {
+        var fieldSet = fieldSets[i];
+        chartClusters[fieldSet.key] = genClusters(fieldSet);
+      }
 
 
       Visrec.projections = projections;
@@ -139,5 +113,64 @@ angular.module('facetedviz')
       console.log('gen encodings '+ (end-endAggregates));
       console.log('Visrec.update took '+ (end-start));
     };
+
+    Visrec.update.clusters = function(limit) {
+      if (limit > Visrec.numClustersGenerated) {
+
+        var fieldSets = Visrec.fieldSets,
+          oldnum = Visrec.numClustersGenerated,
+          chartClusters = Visrec.chartClusters;
+
+        limit = Math.min(limit, fieldSets.length);
+
+        for (var i=oldnum; i< limit ; i++) {
+          var fieldSet = fieldSets[i];
+          chartClusters[fieldSet.key] = genClusters(fieldSet);
+        }
+
+        Visrec.numClustersGenerated = newnum;
+      }
+    };
+
+    function genClusters(fieldSet) {
+      var encodings = vr.gen.encodings([], fieldSet, Dataset.stats, Visrec.opt, Config.config);
+
+      // get 2d array of indices
+      var clusterIndices = vr.cluster(encodings, 2.5)
+        .map(function (cluster) {
+          // rank item in each cluster
+          return cluster.sort(function (i, j) {
+            return encodings[j].score - encodings[i].score;
+          });
+        })
+        .filter(function(cluster) {
+          return cluster.length > 0;
+        })
+        .sort(function (c1, c2) {
+          // rank cluster by top item in each cluster
+          return encodings[c2[0]].score - encodings[c1[0]].score;
+        });
+
+      // transform 2d array of indices into 2d array of spec/encodings
+      var cluster = clusterIndices.map(function(indices) {
+        return indices.map(function(index) {
+          var spec = encodings[index],
+            encoding = vl.Encoding.fromSpec(spec);
+
+          var vgSpec= vl.compile(encoding, Dataset.stats);
+
+          return {
+            vlSpec: spec,
+            encoding: encoding,
+            vgSpec: vgSpec
+          };
+        });
+      });
+
+      return cluster;
+    }
+
+
+
     return Visrec;
   });
