@@ -39,7 +39,7 @@ angular.module('vleApp')
         function render() {
           var start = new Date().getTime();
           var spec= scope.vgSpec;
-          var shorthand = scope.encoding.toShorthand();
+          var shorthand = scope.encoding ? scope.encoding.toShorthand() : '';
 
           vg.parse.spec(spec, function(chart) {
             var endParse = new Date().getTime();
