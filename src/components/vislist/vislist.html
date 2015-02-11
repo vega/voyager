@@ -34,7 +34,9 @@
     </div>
     <encoding-variations ng-show="Visrec.selectedCluster"></encoding-variations>
   </div>
-  <div class="vis-list-more" ng-show="limit < Visrec.fieldSets.length">
-    <a ng-click="increaseLimit()">More</a>
-  </div>
+  <a ng-click="increaseLimit()">
+    <div class="vis-list-more" ng-show="limit < Visrec.fieldSets.length">
+      Load more...
+    </div>
+  </a>
 </div>
