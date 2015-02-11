@@ -25,6 +25,7 @@ angular.module('facetedviz', ['vleApp', 'ngAnimate', 'ngCookies', 'ngTouch', 'ng
   .constant('vr', window.vr)
   .constant('tv4', window.tv4)
   .constant('Papa', window.Papa)
+  .constant('Tether', window.Tether)
   .constant('consts', {
     addCount: true, // add count field to Dataset.dataschema
     debug: true,

@@ -17,6 +17,7 @@
     "angular-zeroclipboard": "~0.4.0",
     "jquery": "~2.1.3",
     "chronicle": "~1.0.9",
+    "tether": "~0.6.5",
     "fontawesome": "~4.3.0"
   },
   "devDependencies": {
