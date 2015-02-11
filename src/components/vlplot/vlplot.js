@@ -45,7 +45,6 @@ angular.module('vleApp')
 
           vg.parse.spec(spec, function(chart) {
             var endParse = new Date().getTime();
-            console.log('parse spec', (endParse-start), shorthand);
             view = null;
             view = chart({el: element[0], renderer: scope.renderer});
             if (!consts.useUrl) {
@@ -58,7 +57,7 @@ angular.module('vleApp')
             }
 
             var endChart = new Date().getTime();
-            console.log('charting', (endChart-endParse), shorthand);
+            console.log('parse spec', (endParse-start), 'charting', (endChart-endParse), shorthand);
 
             view.on('mouseover', function(event, item) {
               // TODO: Hanchuan please create tooltip from this

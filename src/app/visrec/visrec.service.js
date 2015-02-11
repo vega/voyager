@@ -78,7 +78,6 @@ angular.module('facetedviz')
         fieldSets = [], chartClusters = {};
 
       var endProjection = new Date().getTime();
-      console.log('gen projections', (endProjection-start));
 
       // For each projection, get different aggregations (fieldSetDict)
       projections.forEach(function(projection) {
@@ -94,14 +93,12 @@ angular.module('facetedviz')
       // TODO rank fieldSets here!
 
       var endAggregates = new Date().getTime();
-      console.log('gen aggregates', (endAggregates - endProjection));
 
       Visrec.numClustersGenerated = Math.min(consts.numInitClusters, fieldSets.length);
       for(var i=0; i< Visrec.numClustersGenerated; i++) {
         var fieldSet = fieldSets[i];
         chartClusters[fieldSet.key] = genClusters(fieldSet);
       }
-
 
       Visrec.projections = projections;
       Visrec.aggregates = aggregates;
@@ -110,8 +107,7 @@ angular.module('facetedviz')
       Visrec.chartClusters = chartClusters;
 
       var end = new Date().getTime();
-      console.log('gen encodings '+ (end-endAggregates));
-      console.log('Visrec.update took '+ (end-start));
+      console.log('gen time – projections:', (endProjection-start), 'aggregates:', (endAggregates - endProjection), 'encodings:'+ (end-endAggregates), 'total:', (end-start));
     };
 
     Visrec.update.clusters = function(limit) {
