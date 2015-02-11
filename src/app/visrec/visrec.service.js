@@ -72,7 +72,7 @@ angular.module('facetedviz')
       // TODO decide if we can update projections only if field name list changes
 
       // First create a projection
-      var projections = vr.gen.projections(fieldList, Visrec.opt);
+      var projections = vr.gen.projections(fieldList, Dataset.stats, Visrec.opt);
 
       var aggregates = {}, fieldSetDict = {},
         fieldSets = [], chartClusters = {};
