@@ -62,9 +62,9 @@ gulp.task('html', ['inject', 'partials'], function () {
     .pipe($.size({ title: paths.dist + '/', showFiles: true }));
 });
 
-gulp.task('images', function () {
-  return gulp.src(paths.src + '/assets/images/**/*')
-    .pipe(gulp.dest(paths.dist + '/assets/images/'));
+gulp.task('assets', function () {
+  return gulp.src(paths.src + '/assets/**/*')
+    .pipe(gulp.dest(paths.dist + '/assets/'));
 });
 
 gulp.task('data', function () {
