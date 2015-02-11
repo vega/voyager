@@ -41,15 +41,22 @@ angular.module('vleApp')
           var spec= scope.vgSpec;
           var shorthand = scope.encoding ? scope.encoding.toShorthand() : '';
 
+          scope.renderer = getRenderer(spec);
+
           vg.parse.spec(spec, function(chart) {
             var endParse = new Date().getTime();
             console.log('parse spec', (endParse-start), shorthand);
             view = null;
-            view = chart({el: element[0], renderer: getRenderer(spec)});
+            view = chart({el: element[0], renderer: scope.renderer});
             if (!consts.useUrl) {
               view.data({table: Dataset.data});
             }
             view.update();
+
+            if (scope.renderer === 'canvas') {
+              scope.height = element.find('canvas').style('height');
+            }
+
             var endChart = new Date().getTime();
             console.log('charting', (endChart-endParse), shorthand);
 
@@ -68,6 +75,8 @@ angular.module('vleApp')
             }
             return;
           }
+
+          scope.height = spec.height;
 
           if (element) {
             // $timeout(render, 10);
