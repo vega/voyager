@@ -5,18 +5,15 @@
       ng-init="cluster = Visrec.chartClusters[fieldSet.key]"
     >
       <div class="vis-list-item-header full-width no-shrink">
-        <div class="right">
-
-          <a ng-click="select(fieldSet, cluster, $index)"
-            class="command"
-            title="More Visualizations of the same data"
-            ng-if="cluster.length > 1">More Like This ...</a>
-        </div>
+        <a ng-click="select(fieldSet, cluster, $index)"
+          class="command right"
+          title="More Visualizations of the same data"
+          ng-if="cluster.length > 1">
+          More Like This ...
+        </a>
         <div class="field-set-info">
           <field-info field='field' show-type='true' ng-repeat="field in fieldSet" ng-class="{selected: Fields.isSelected(field.name)}"></field-info>
         </div>
-        <!-- {{cluster[0][0] | compactJSON }} -->
-
       </div>
       <div class="vis-list-item full-width vis-{{fieldSet.key}} flex-grow-1">
         <vl-plot show-copy="true"
@@ -25,9 +22,19 @@
           vl-spec="cluster[0][0].vlSpec"
           vg-spec="cluster[0][0].vgSpec"></vl-plot>
       </div>
-      <div class="no-shrink debug">
+      <div class="no-shrink">
+        <div>
+          <a href="#"
+            ng-click="Bookmarks.toggle(cluster[0][0].vlSpec)"
+            ng-class="{disabled: !cluster[0][0].vlSpec.enc}">
+            <i class="fa fa-bookmark"></i>
+            <span ng-if="Bookmarks.dict[cluster[0][0].shorthand]"> Remove </span>
+            <span ng-if="!Bookmarks.dict[cluster[0][0].shorthand]"> Add </span>
+            Bookmark
+          </a>
+        </div>
         <div class="right">
-          <a class="command debug" ui-zeroclip zeroclip-model="cluster[0][0].vlSpec | compactJSON">Copy Spec</a>
+          <a class="command debug" ui-zeroclip zeroclip-model="cluster[0][0].vlSpec | compactJSON">Copy</a>
           <a class="command debug" ng-href="{{ {type:'vl', encoding: cluster[0][0].vlSpec} | reportUrl }}" target="_blank">Report Bad Render</a>
         </div>
       </div>

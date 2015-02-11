@@ -7,7 +7,7 @@
  * # encodingVariations
  */
 angular.module('facetedviz')
-  .directive('encodingVariations', function (Visrec, $document) {
+  .directive('encodingVariations', function (Visrec, Bookmarks, $document) {
 
     return {
       templateUrl: 'components/encodingvariations/encodingvariations.html',
@@ -16,10 +16,12 @@ angular.module('facetedviz')
       scope: {},
       link: function postLink(scope/*, element, attrs*/) {
         scope.Visrec = Visrec;
+        scope.Bookmarks = Bookmarks;
 
         function escape(e) {
-          console.log('escape');
+
           if (e.keyCode === 27) {
+            console.log('escape');
             scope.close();
             angular.element($document).off('keydown', escape);
           }
@@ -28,6 +30,7 @@ angular.module('facetedviz')
         angular.element($document).on('keydown', escape);
 
         scope.close = function() {
+          console.log('close');
           scope.Visrec.selectedCluster = null;
         };
       }

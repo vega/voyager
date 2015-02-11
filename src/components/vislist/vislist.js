@@ -7,7 +7,7 @@
  * # visList
  */
 angular.module('facetedviz')
-  .directive('visList', function (Fields, Visrec, vl, jQuery, consts) {
+  .directive('visList', function (Fields, Visrec, Bookmarks, vl, jQuery, consts) {
     return {
       templateUrl: 'components/vislist/vislist.html',
       restrict: 'E',
@@ -16,6 +16,8 @@ angular.module('facetedviz')
       link: function postLink(scope , element /*, attrs*/) {
         scope.Fields = Fields;
         scope.Visrec = Visrec;
+        scope.Bookmarks = Bookmarks;
+
         scope.shorthands = vl.field.shorthands;
         scope.limit = consts.numInitClusters;
 

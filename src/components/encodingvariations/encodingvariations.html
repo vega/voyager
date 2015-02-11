@@ -1,6 +1,7 @@
-<div class="encoding-variations" ng-if="Visrec.selectedCluster">
+<div class="encoding-variations" ng-show="Visrec.selectedCluster">
   <div class="wrapper">
     <div class="vflex full-width full-height" id="evs"
+      ng-if="Visrec.selectedCluster"
       ng-show="Visrec.selectedCluster"
       >
       <!-- ng-class="{outside: Visrec.selectedCluster}" -->
@@ -20,6 +21,20 @@
             encoding="Visrec.selectedCluster[0][0].encoding"
             vg-spec="Visrec.selectedCluster[0][0].vgSpec">
           </vl-plot>
+          <div>
+            <a href="#" class="command"
+              ng-click="Bookmarks.toggle(Visrec.selectedCluster[0][0].vlSpec)"
+              ng-class="{disabled: !Visrec.selectedCluster[0][0].vlSpec.enc}">
+              <i class="fa fa-bookmark"></i>
+              <span ng-if="Bookmarks.dict[Visrec.selectedCluster[0][0].shorthand]"> Remove </span>
+              <span ng-if="!Bookmarks.dict[Visrec.selectedCluster[0][0].shorthand]"> Add </span>
+              Bookmark
+            </a>
+            <div class="right">
+              <a class="command debug" ui-zeroclip zeroclip-model="Visrec.selectedCluster[0][0].vlSpec | compactJSON">Copy Spec</a>
+              <a class="command debug" ng-href="{{ {type:'vl', encoding: subcluster[0].vlSpec} | reportUrl }}" target="_blank">Report Bad Render</a>
+            </div>
+          </div>
         </div>
       </div>
       <variation-list></variation-list>

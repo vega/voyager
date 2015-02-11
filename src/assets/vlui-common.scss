@@ -38,7 +38,7 @@ a {
 }
 
 a.debug {
-  color: #ccc;
+  color: #72a386;
   // &:hover, &:focus{
   //   color: #174225;
   // }
@@ -117,6 +117,32 @@ h4 {
 
 .flex-root{
   overflow: scroll;
+}
+
+/* tooltip */
+
+.tooltip {
+  position: absolute;
+  color: #fff;
+  background: #000;
+  border-radius: 3px;
+  padding: 3px;
+  display: inline-block;
+}
+
+.tooltip.ng-enter {
+  opacity: 0;
+  transition: opacity 0.25s;
+}
+
+.tooltip.ng-enter-active {
+  opacity: 1;
+}
+
+.popup-menu {
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 3px;
 }
 
 /* PANES */
@@ -399,7 +425,7 @@ $pill-bg-color: #eee;
   height: $pill-height;
   line-height: $pill-height;
 
-  cursor: default;
+  cursor: pointer;
 
   .field-name{
     overflow-x: hidden;
@@ -415,9 +441,13 @@ $pill-bg-color: #eee;
     flex-grow: 0;
   }
 
-  .caret {
-    flex-grow: 0;
-    margin: auto 0;
+  .fa {
+    margin-top: 4px;
+    opacity: 0.5;
+  }
+
+  &.expanded .fa, &:hover .fa{
+    opacity: 1;
   }
 }
 

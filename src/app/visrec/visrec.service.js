@@ -158,6 +158,7 @@ angular.module('facetedviz')
           return {
             vlSpec: spec,
             encoding: encoding,
+            shorthand: encoding.toShorthand(),
             vgSpec: vgSpec
           };
         });

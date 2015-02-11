@@ -7,7 +7,7 @@
  * # variationList
  */
 angular.module('facetedviz')
-  .directive('variationList', function (Visrec) {
+  .directive('variationList', function (Visrec, Bookmarks) {
     return {
       templateUrl: 'components/variationlist/variationlist.html',
       restrict: 'E',
@@ -15,6 +15,7 @@ angular.module('facetedviz')
       replace: true,
       link: function postLink(scope, element, attrs) {
         scope.Visrec = Visrec;
+        scope.Bookmarks = Bookmarks;
       }
     };
   });

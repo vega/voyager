@@ -1,13 +1,14 @@
 'use strict';
 
 angular.module('facetedviz')
-  .controller('MainCtrl', function($scope, $document, Chronicle, Visrec, Config, Dataset, Fields) {
+  .controller('MainCtrl', function($scope, $document, Chronicle, Visrec, Config, Dataset, Fields, Bookmarks) {
     $scope.canUndo = false;
     $scope.canRedo = false;
 
     $scope.Visrec = Visrec;
     $scope.Fields = Fields;
     $scope.Dataset = Dataset;
+    $scope.Bookmarks = Bookmarks;
 
     Dataset.update(Dataset.dataset).then(function() {
       // initially set dataset and update fields
