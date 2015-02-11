@@ -54,7 +54,7 @@ angular.module('vleApp')
             view.update();
 
             if (scope.renderer === 'canvas') {
-              scope.height = element.find('canvas').style('height');
+              scope.height = element.find('canvas').height();
             }
 
             var endChart = new Date().getTime();
