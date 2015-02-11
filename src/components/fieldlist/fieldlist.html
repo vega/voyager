@@ -1,6 +1,6 @@
 <div class="schema">
   <div class="field"
-       ng-repeat="field in Dataset.dataschema track by field.name | orderBy: Dataset.fieldOrder">
+       ng-repeat="field in Dataset.dataschema | orderBy: Dataset.fieldOrder">
     <field-list-item field='field'></field-list-item>
   </div>
     <div class="tool">
