@@ -9,6 +9,7 @@ gulp
 mv gh-pages/.git dist
 rm -rf gh-pages
 cd dist
+git add .
 git commit -am "release $gitsha"
 git push
 cd ..
