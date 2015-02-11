@@ -1,4 +1,4 @@
-<div class="encoding-variations">
+<div class="encoding-variations" ng-if="Visrec.selectedCluster">
   <div class="wrapper">
     <div class="vflex full-width full-height" id="evs"
       ng-show="Visrec.selectedCluster"
@@ -13,14 +13,16 @@
         </div>
       </div>
 
-      <div class="hflex flex-grow-1">
-        <div class="selected-variation">
-          <div class="card abs-100 scroll-xy">
-            <vl-plot vg-spec="Visrec.selectedCluster[0][0].vgSpec"></vl-plot>
-          </div>
+    <div class="hflex flex-grow-1">
+      <div class="selected-variation">
+        <div class="card abs-100 scroll-xy">
+          <vl-plot
+            encoding="Visrec.selectedCluster[0][0].encoding"
+            vg-spec="Visrec.selectedCluster[0][0].vgSpec">
+          </vl-plot>
         </div>
-        <variation-list></variation-list>
       </div>
+      <variation-list></variation-list>
     </div>
   </div>
 </div>

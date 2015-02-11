@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('vleApp')
-  .directive('vlPlot', function(vg, $timeout) {
+  .directive('vlPlot', function(vg, $timeout, $q, Dataset, consts) {
     var counter = 0;
     var MAX_CANVAS_SIZE = 32767, MAX_CANVAS_AREA = 268435456;
 
@@ -18,6 +18,7 @@ angular.module('vleApp')
       restrict: 'E',
       scope: {
         'vgSpec':'=',
+        'encoding': '=',
         'maxHeight':'='
       },
       replace: true,
@@ -35,6 +36,36 @@ angular.module('vleApp')
           scope.hoverFocus = scope.unlocked = false;
         };
 
+        function render() {
+          var start = new Date().getTime();
+          var spec= scope.vgSpec;
+          var shorthand = scope.encoding ? scope.encoding.toShorthand() : '';
+
+          scope.renderer = getRenderer(spec);
+
+          vg.parse.spec(spec, function(chart) {
+            var endParse = new Date().getTime();
+            view = null;
+            view = chart({el: element[0], renderer: scope.renderer});
+            if (!consts.useUrl) {
+              view.data({table: Dataset.data});
+            }
+            view.update();
+
+            if (scope.renderer === 'canvas') {
+              scope.height = element.find('canvas').height();
+            }
+
+            var endChart = new Date().getTime();
+            console.log('parse spec', (endParse-start), 'charting', (endChart-endParse), shorthand);
+
+            view.on('mouseover', function(event, item) {
+              // TODO: Hanchuan please create tooltip from this
+              console.log(item.datum.data);
+            });
+          });
+        }
+
         var view;
         scope.$watch('vgSpec',function(spec) {
           if (!spec) {
@@ -43,17 +74,12 @@ angular.module('vleApp')
             }
             return;
           }
-          var elem = element;
-          if (elem) {
-            vg.parse.spec(spec, function(chart) {
-              view = null;
-              view = chart({el: elem[0], renderer: getRenderer(spec)});
-              view.update();
-              view.on('mouseover', function(event, item) {
-                // TODO: Hanchuan please create tooltip from this
-                console.log(item.datum.data);
-              });
-            });
+
+          scope.height = spec.height;
+
+          if (element) {
+            // $timeout(render, 10);
+            render();
           } else {
             console.error('can not find vis element');
           }
