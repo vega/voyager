@@ -128,7 +128,7 @@ angular.module('facetedviz')
           chartClusters[fieldSet.key] = genClusters(fieldSet);
         }
 
-        Visrec.numClustersGenerated = newnum;
+        Visrec.numClustersGenerated = limit;
       }
     };
 
