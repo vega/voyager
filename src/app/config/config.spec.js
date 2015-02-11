@@ -21,6 +21,9 @@ describe('Service: Config', function() {
     var schema = vl.schema.schema.properties.cfg,
       config = vl.schema.util.instantiate(Config.schema);
 
+    config.singleWidth = 500;
+    config.singleHeight = 500;
+
     expect(Config.schema).toEqual(schema);
     expect(Config.config).toEqual(config);
   });
