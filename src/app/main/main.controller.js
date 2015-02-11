@@ -1,10 +1,11 @@
 'use strict';
 
 angular.module('vleApp')
-  .controller('MainCtrl', function($scope, $document, Spec, Dataset, Config, consts, Chronicle, Logger) {
+  .controller('MainCtrl', function($scope, $document, Spec, Dataset, Config, consts, Chronicle, Logger, Bookmarks) {
     $scope.Spec = Spec;
     $scope.Dataset = Dataset;
     $scope.Config = Config;
+    $scope.Bookmarks = Bookmarks;
     $scope.consts = consts;
     $scope.showDevPanel = consts.debug;
 
