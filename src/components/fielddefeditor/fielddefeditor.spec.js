@@ -24,7 +24,7 @@ describe('Directive: fieldDefEditor', function() {
     element = $compile(element)(scope);
     scope.$digest();
 
-    expect(element.find('.shelf-label').text()).toBe('foobar');
+    expect(element.find('.shelf-label').text().trim()).toBe('foobar');
   }));
 
   describe('fieldDrop', function() {

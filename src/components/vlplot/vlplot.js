@@ -20,7 +20,6 @@ angular.module('vleApp')
         'vgSpec':'=',
         'maxHeight':'='
       },
-      replace: true,
       link: function(scope, element) {
         scope.visId = (counter++);
         scope.hoverAction = null;
