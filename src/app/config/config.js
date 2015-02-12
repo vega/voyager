@@ -9,6 +9,9 @@ angular.module('vleApp')
     Config.schema = vl.schema.schema.properties.cfg;
     Config.config = vl.schema.util.instantiate(Config.schema);
 
+    Config.config.singleWidth = 500;
+    Config.config.singleHeight = 500;
+
     Config.updateDataset = function(dataset) {
       Config.config.dataUrl = dataset.url;
       Config.config.vegaServerTable = dataset.table;
