@@ -2,6 +2,6 @@
 <div class="inline-block" ng-switch="type + (enum !== undefined ? 'list' : '') ">
   <input id="{{ id }}" ng-switch-when="boolean" type="checkbox" ng-model="group[propName]"></input>
   <select id="{{ id }}" ng-switch-when="stringlist" ng-model="group[propName]" ng-options="choice for choice in enum track by choice"></select>
-  <input id="{{ id }}" type="number" ng-switch-when="integer" ng-model="group[propName]"></input>
-  <input id="{{ id }}" type="string" ng-switch-when="string" ng-model="group[propName]"></input>
+  <input id="{{ id }}" type="number" ng-switch-when="integer" ng-model="group[propName]" ng-model-options="{debounce: 200}"></input>
+  <input id="{{ id }}" type="string" ng-switch-when="string" ng-model="group[propName]"  ng-model-options="{debounce: 500}"></input>
 </div>
