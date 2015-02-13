@@ -19,7 +19,9 @@ angular.module('vleApp')
       /** @type {String} generated vl shorthand */
       shorthand: null,
       /** @type {Object} generated vega spec */
-      vgSpec: null
+      vgSpec: null,
+      /** HACK: should become its own service, filter out null values **/
+      filterNulls: true
     };
 
     Spec._removeEmptyFieldDefs = function(spec) {
@@ -61,6 +63,10 @@ angular.module('vleApp')
 
     // takes a full spec, validates it and then rebuilds everything
     Spec.update = function(spec) {
+      if (!spec) {
+        if (!spec) spec = Spec.spec;
+      }
+
       var cleanSpec = _.cloneDeep(spec);
 
       Spec._removeEmptyFieldDefs(cleanSpec);
@@ -69,6 +75,15 @@ angular.module('vleApp')
       // we may have removed enc
       if (!('enc' in cleanSpec)) {
         cleanSpec.enc = {};
+      }
+
+      if (Spec.filterNulls && Dataset.dataschema.length > 0) {
+        cleanSpec.filter = [{
+          operator: 'notNull',
+          operands: _.chain(Dataset.dataschema).filter(function(d){
+            return d.name != '*'
+          }).pluck('name').value()
+        }];
       }
 
       var schema = vl.schema.schema;
