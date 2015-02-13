@@ -18,6 +18,7 @@ angular.module('vleApp', [
   .constant('Papa', window.Papa)
   .constant('tv4', window.tv4)
   .constant('Tether', window.Tether)
+  .constant('Tooltip', window.Tooltip)
   .constant('jsondiffpatch', window.jsondiffpatch)
   .constant('consts', {
     addCount: true, // add count field to Dataset.dataschema
