@@ -5,7 +5,7 @@
       ng-class="{selected: Fields.isSelected(field.name)}"
       ></field-info>
   </label>
-  <i class="fa fa-caret-down" ng-click="toggleFuncsExpand()"></i>
+  <i class="fa fa-caret-down caret" ng-click="toggleFuncsExpand()"></i>
   <div class="popup-menu popup-functions" ng-show="funcsExpanded">
 
     <!-- <function-select pills="pills" enc-type="encType" schema="schema"></function-select> -->
@@ -19,4 +19,14 @@
 
     <a href="#" class="remove-field" ng-click="excludeField()">Exclude Field</a>
   </div>
+  <i class="fa fa-info-circle" tooltips tooltip-size="small" tooltip-content="
+    <div class='tooltip-content'>
+      <strong>Name:</strong> {{field.name}}<br>
+      <strong>Cardinality:</strong> {{stats.cardinality}}<br>
+      <strong>Count:</strong> {{stats.count}}<br>
+      <strong>Min:</strong> {{stats.min}}<br>
+      <strong>Max:</strong> {{stats.max}}<br>
+      <strong>Max length:</strong> {{stats.maxlength}}<br>
+      <strong>Sample:</strong> <div class='sample'>{{stats.sample.join(', ')}}</div>
+    </div>" tooltip-side="right"></i>
 </div>
