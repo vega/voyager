@@ -11,7 +11,8 @@ angular.module('vleApp', [
     'zeroclipboard',
     'ui.router',
     'Chronicle',
-    'LocalStorageModule'])
+    'LocalStorageModule',
+    '720kb.tooltips'])
   .constant('_', window._)
   .constant('vl', window.vl)
   .constant('vg', window.vg)
