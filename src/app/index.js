@@ -11,14 +11,14 @@ angular.module('vleApp', [
     'zeroclipboard',
     'ui.router',
     'Chronicle',
-    'LocalStorageModule'])
+    'LocalStorageModule',
+    '720kb.tooltips'])
   .constant('_', window._)
   .constant('vl', window.vl)
   .constant('vg', window.vg)
   .constant('Papa', window.Papa)
   .constant('tv4', window.tv4)
   .constant('Tether', window.Tether)
-  .constant('Tooltip', window.Tooltip)
   .constant('jsondiffpatch', window.jsondiffpatch)
   .constant('consts', {
     addCount: true, // add count field to Dataset.dataschema

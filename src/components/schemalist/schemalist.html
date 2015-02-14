@@ -11,7 +11,16 @@
          jqyoui-draggable="{placeholder: 'keep', onStart: 'fieldDragStart'}"
          data-jqyoui-options="{revert: 'invalid', helper: 'clone'}">
       <field-info field="field"></field-info>
-      <i class="fa fa-info-circle" details-popup name="field.name"></i>
+      <i class="fa fa-info-circle" tooltips ng-init="stats = Dataset.stats[field.name]" tooltip-size="small" tooltip-title="
+        <div class='tooltip-content'>
+          <strong>Name:</strong> {{field.name}}<br>
+          <strong>Cardinality:</strong> {{stats.cardinality}}<br>
+          <strong>Count:</strong> {{stats.count}}<br>
+          <strong>Min:</strong> {{stats.min}}<br>
+          <strong>Max:</strong> {{stats.max}}<br>
+          <strong>Max length:</strong> {{stats.maxlength}}<br>
+          <strong>Sample:</strong> <div class='sample'>{{stats.sample.join(', ')}}</div>
+        </div>" tooltip-side="right"></i>
     </div>
   </div>
 </div>

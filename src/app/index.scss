@@ -9,8 +9,7 @@
 $fa-font-path: "../assets/fonts";
 @import "../../bower_components/fontawesome/scss/font-awesome.scss";
 
-@import "../../bower_components/tether/css/tether-theme-arrows-dark.css";
-@import "../../bower_components/tether-tooltip/css/tooltip-theme-arrows.css";
+@import "../../bower_components/angular-tooltips/dist/angular-tooltips.min.css";
 
 $iron: #ccc;
 
