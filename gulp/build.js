@@ -46,7 +46,7 @@ gulp.task('html', ['inject', 'partials'], function () {
     .pipe($.uglify({preserveComments: $.uglifySaveLicense}))
     .pipe(jsFilter.restore())
     .pipe(cssFilter)
-    .pipe($.replace('/bower_components/fontawesome/fonts', '../fonts'))
+    .pipe($.replace('../../bower_components/fontawesome/fonts', '../fonts'))
     .pipe($.csso())
     .pipe(cssFilter.restore())
     .pipe(assets.restore())
