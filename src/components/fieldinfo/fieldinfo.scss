@@ -16,6 +16,9 @@
   }
 
   .type {
+    font-size: 0.8rem;
+    margin-right: 3px;
+    flex-shrink: 0;
     margin-left: -2px;
     background-position-y: -2px;
     &.icon-type-time {
@@ -26,6 +29,11 @@
   .field-info-text {
     display: flex;
     flex-grow: 1;
+  }
+
+  .field-func{
+    text-transform: uppercase;
+    font-weight: bold;
   }
 
   .field-name {
