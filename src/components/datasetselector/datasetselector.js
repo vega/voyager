@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('vleApp')
-  .directive('datasetSelector', function(Dataset, Config, Fields) {
+  .directive('datasetSelector', function(Dataset, Config, Fields, Logger) {
     return {
       templateUrl: 'components/datasetselector/datasetselector.html',
       restrict: 'E',
@@ -12,6 +12,8 @@ angular.module('vleApp')
 
         $scope.datasetChanged = function() {
           var dataset = Dataset.dataset;
+
+          Logger.logInteraction('Change dataset to ' + dataset.name);
 
           Dataset.update(dataset).then(function() {
             Config.updateDataset(dataset);

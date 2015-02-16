@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('facetedviz')
-  .controller('MainCtrl', function($scope, $document, Chronicle, Visrec, Config, Dataset, Fields, Bookmarks) {
+  .controller('MainCtrl', function($scope, $document, Chronicle, Visrec, Config, Dataset, Fields, Bookmarks, Logger) {
     $scope.canUndo = false;
     $scope.canRedo = false;
 
@@ -25,6 +25,13 @@ angular.module('facetedviz')
       $scope.chron.addOnAdjustFunction($scope.canUndoRedo);
       $scope.chron.addOnUndoFunction($scope.canUndoRedo);
       $scope.chron.addOnRedoFunction($scope.canUndoRedo);
+
+      $scope.chron.addOnUndoFunction(function() {
+        Logger.logInteraction('Undo');
+      });
+      $scope.chron.addOnRedoFunction(function() {
+        Logger.logInteraction('Redo');
+      });
 
       angular.element($document).on('keydown', function(e) {
         if (e.keyCode == 'Z'.charCodeAt(0) && (e.ctrlKey || e.metaKey) && !e.shiftKey) {

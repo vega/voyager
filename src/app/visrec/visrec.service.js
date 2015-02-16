@@ -8,7 +8,7 @@
  * Service in the facetedviz.
  */
 angular.module('facetedviz')
-  .service('Visrec', function (vr, vl, _, consts, Config, Dataset) {
+  .service('Visrec', function (vr, vl, _, consts, Config, Dataset, Logger) {
     var Visrec = {
       /**
        * List of all recommended projections based on the selection.
@@ -68,6 +68,8 @@ angular.module('facetedviz')
 
 
     Visrec.update.projections = function(fieldList) {
+      Logger.logInteraction('Update projections: ' + JSON.stringify(_.filter(fieldList, function(d) { return d.selected; })));
+
       var start = new Date().getTime();
       // TODO decide if we can update projections only if field name list changes
 

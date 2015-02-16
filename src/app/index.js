@@ -3,7 +3,8 @@
 
 angular.module('vleApp', [
     'zeroclipboard',
-    'Chronicle'
+    'Chronicle',
+    'LocalStorageModule'
   ])
   .constant('_', window._)
   .constant('vl', window.vl)
@@ -31,7 +32,8 @@ angular.module('facetedviz', ['vleApp', 'ngAnimate', 'ngCookies', 'ngTouch', 'ng
     debug: true,
     useUrl: false,
     numInitClusters: 9,
-    numMoreClusters: 9
+    numMoreClusters: 9,
+    logging: false
   })
   .config(function ($stateProvider, $urlRouterProvider) {
     $stateProvider
