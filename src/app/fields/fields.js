@@ -4,7 +4,8 @@ angular.module('facetedviz')
   .factory('Fields', function(_, Dataset){
 
     var Fields = {
-      fields: {}
+      fields: {},
+      highlighted: {}
     };
 
     Fields.updateSchema = function(dataschema) {
@@ -15,6 +16,7 @@ angular.module('facetedviz')
         // TODO set _aggr to default value for each type
         return d;
       }, {});
+      Fields.highlighted = {};
     };
 
     Fields.deselectAll = function() {
@@ -29,6 +31,10 @@ angular.module('facetedviz')
 
     Fields.isSelected = function(fieldName) {
       return (Fields.fields[fieldName] || {}).selected;
+    };
+
+    Fields.setHighlight = function(fieldName, val) {
+      Fields.highlighted[fieldName] = val;
     };
 
     // [{"name":"Cost__Total_$","type":"Q","_aggr":"*","_bin":"*"}]

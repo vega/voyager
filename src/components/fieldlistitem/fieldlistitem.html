@@ -1,11 +1,14 @@
 <label for="field-{{field.name}}-checkbox" class="full-width">
-  <div class="field-list-item">
+  <div class="field-list-item"
+    ng-mouseover="Fields.highlighted[field.name] = true"
+    ng-mouseout="Fields.highlighted[field.name] = false"
+  >
     <input type="checkbox" ng-model="Fields.fields[field.name].selected" id="field-{{field.name}}-checkbox"/>
     <field-info
       field="field"
       show-type="true"
       show-caret="true"
-      ng-class="{selected: Fields.isSelected(field.name), 'flex-grow-1': true}"
+      ng-class="{selected: Fields.isSelected(field.name), highlighted: Fields.highlighted[field.name], 'flex-grow-1': true}"
       ></field-info>
   </div>
   <div class="popup-menu popup-functions" ng-show="funcsExpanded">
