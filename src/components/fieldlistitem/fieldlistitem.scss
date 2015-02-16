@@ -2,32 +2,15 @@
   display: flex;
   flex-direction: row;
   width: 100%;
-
+  margin-right: -3px;
 
   input[type=checkbox] {
     flex-shrink: 0;
-    margin-top: 1px;
-  }
-  label {
-    margin-left: 2px;
-    flex-grow: 1;
-    text-overlow: ellipsis;
-    .field-name {
-      width: 100%
-    }
-  }
-  .fa {
-    margin: 4px;
-    margin-left: -4px;
-    flex-shrink:0;
-    visibility: hidden;
-    color: white;
-    background-color: #999;
-    border-radius: 3px;
-    padding: 0 3px;
-  }
-  &:hover .fa {
-    visibility: visible;
+    margin-top: 3px;
+    margin-right: 3px;
   }
 
+  .field-info {
+    margin-right: 0;
+  }
 }

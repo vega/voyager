@@ -1,15 +1,15 @@
-<div class="field-list-item">
-  <input type="checkbox" ng-model="Fields.fields[field.name].selected" id="field-{{field.name}}-checkbox"/>
-  <label for="field-{{field.name}}-checkbox">
-    <field-info show-type="true" field="field"
-      ng-class="{selected: Fields.isSelected(field.name)}"
+<label for="field-{{field.name}}-checkbox" class="full-width">
+  <div class="field-list-item">
+    <input type="checkbox" ng-model="Fields.fields[field.name].selected" id="field-{{field.name}}-checkbox"/>
+    <field-info
+      field="field"
+      show-type="true"
+      show-caret="true"
+      ng-class="{selected: Fields.isSelected(field.name), 'flex-grow-1': true}"
       ></field-info>
-  </label>
-  <i class="fa fa-caret-down" ng-click="toggleFuncsExpand()"></i>
+  </div>
   <div class="popup-menu popup-functions" ng-show="funcsExpanded">
-
     <!-- <function-select pills="pills" enc-type="encType" schema="schema"></function-select> -->
-
     <div style="width:150px">
       <br/>
       [control for selecting functions (avg, sum, min, max, bin) here!!]
@@ -19,4 +19,4 @@
 
     <a href="#" class="remove-field" ng-click="excludeField()">Exclude Field</a>
   </div>
-</div>
+</label>

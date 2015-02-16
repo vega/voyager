@@ -14,7 +14,9 @@ angular.module('vleApp')
       replace: true,
       scope: {
         field: '=',
-        showType: '='
+        showType: '=',
+        showCaret: '=',
+        caretAction: '&'
       },
       link: function(scope) {
         scope.typeNames = Dataset.typeNames;

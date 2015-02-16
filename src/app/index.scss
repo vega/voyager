@@ -38,39 +38,8 @@ $fa-font-path: "../assets/fonts";
 .pane.vis-list-pane {
   flex-grow: 1;
   overflow: hidden;
-
 }
 
 .field-set-info, .schema{
-  .field-name {
-    display: inline-block;
-    vertical-align: middle;
-    border-radius: 5px;
-    line-height: 15px;
-    height: 15px;
-    margin-bottom: 0;
-    margin-right: 3px;
-    padding: 1px 5px;
-    font-size: 11px;
-    border: 1px solid rgba(255,255,255,0);
-    .type {
-      margin-left: -2px;
-      background-position-y: -2px;
-      &.icon-type-time {
-        background-position-y: 0px;
-      }
-    }
-  }
-
-  .field-name.selected, .field-list-item:hover .field-name {
-    border: 1px solid #bbb;
-    background-color: #eee;
-    font-weight: 500;
-  }
   margin-bottom: 10px;
-}
-
-.field-set-info .field-name {
-  border: 1px dashed #ccc;
-  background-color: #fafafa;
 }
