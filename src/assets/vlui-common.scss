@@ -1,7 +1,6 @@
 $pill-radius: 3px;
 $pill-height: 20px;
 $pill-min-width: 150px;
-
 $text-color: #212121;
 
 html {
@@ -24,6 +23,15 @@ a:hover, a:focus {
 a:hover {
   cursor: pointer;
 }
+
+.clickable, .clickable.draggable {
+  cursor: pointer;
+}
+
+.draggable {
+  cursor: move;
+}
+
 a:active, a:hover {
 outline: 0;
 }
@@ -370,76 +378,6 @@ h4 {
 
 /**** FIELD & FIELD-PILLS ****/
 
-.field {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  height: $pill-height;
-  line-height: $pill-height;
-  margin-bottom: 3px;
-
-  .type{
-    font-size: 0.8rem;
-    margin-right: 3px;
-    flex-shrink: 0;
-  }
-  .field-pill{
-    flex-grow: 1;
-  }
-}
-
-$pill-bg-color: #eee;
-
-/* draggable component of the field */
-.field-pill {
-  @extend .noselect;
-  display: flex;
-
-  background-color: $pill-bg-color;
-  color: $text-color;
-  margin: 0;
-  text-decoration: none;
-  padding: 0 0.5em;
-
-  border-radius: 3px;
-  height: $pill-height;
-  line-height: $pill-height;
-
-  cursor: pointer;
-
-  .field-name{
-    overflow-x: hidden;
-    text-overflow: ellipsis;
-    flex-grow: 1;
-  }
-
-  .dragging{
-    min-width: $pill-min-width;
-  }
-
-  .remove-field {
-    flex-grow: 0;
-    margin-left: 3px;
-  }
-
-  .fa {
-    margin-top: 4px;
-    opacity: 0.5;
-  }
-
-  &.expanded .fa, &:hover .fa{
-    opacity: 1;
-  }
-}
-
-.field-func{
-  text-transform: uppercase;
-  font-weight: bold;
-}
-
-.draggable {
-  cursor: move;
-}
 
 
 /**** Components ****/

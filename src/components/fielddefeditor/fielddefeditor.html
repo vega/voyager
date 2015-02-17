@@ -2,30 +2,36 @@
   <div class="shelf">
     <div class="shelf-label" ng-click="togglePropsExpand()"
       ng-class="{expanded: propsExpanded}">
-      {{ encType }}
       <i class="fa fa-caret-down"></i>
+      {{ encType }}
     </div>
     <!--<field-drop field-def="enc[encType]" types="schema.properties.type.enum"></field-drop>-->
     <div class="field-drop"
-         ng-model="pills[encType]"
-         data-drop="true"
-         jqyoui-droppable="{onDrop:'fieldDropped'}"
-         data-jqyoui-options="{activeClass: 'drop-active'}">
-      <div class="field-pill"
-           ng-class="{expanded: funcsExpanded}"
-           ng-if="enc[encType].name"
-           ng-click="toggleFuncsExpand()"
-           data-drag="true"
-           ng-model="pills[encType]"
-           jqyoui-draggable="{onStart: 'fieldDragStart'}"
-           data-jqyoui-options="{revert: 'invalid', helper: 'clone'}"
-        >
-        <field-info field="enc[encType]"></field-info>
-        <i class="fa fa-caret-down"></i>
-        <a href="#" class="remove-field" ng-click="removeField()">×</a>
-      </div>
+     ng-model="pills[encType]"
+     data-drop="true"
+     jqyoui-droppable="{onDrop:'fieldDropped'}"
+     data-jqyoui-options="{activeClass: 'drop-active'}">
 
-      <span class="placeholder" ng-if="!enc[encType].name">drop a field here</span>
+      <field-info ng-if="enc[encType].name"
+        ng-class="{expanded: funcsExpanded}"
+        field="enc[encType]"
+        show-type="true"
+        show-caret="true"
+        caret-action="toggleFuncsExpand()"
+        show-remove="true"
+        remove-action="removeField()"
+        class="selected draggable full-width clickable"
+
+        data-drag="true"
+        ng-model="pills[encType]"
+        jqyoui-draggable="{onStart: 'fieldDragStart'}"
+        data-jqyoui-options="{revert: 'invalid', helper: 'clone'}"
+        >
+      </field-info>
+
+      <span class="placeholder" ng-if="!enc[encType].name">
+        drop a field here
+      </span>
   </div>
   </div>
 

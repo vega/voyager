@@ -103,6 +103,7 @@ angular.module('vleApp')
             var type = row.type === 'integer' || row.type === 'real' ? 'Q' : 'O';
 
             dataschema.push({name: row.name, type: type});
+            stats.count = row.count;
           });
           if (consts.addCount) {
             dataschema.push(countField);
