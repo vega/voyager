@@ -1,16 +1,14 @@
-<div class="schema">
-  <div class="field"
-   ng-repeat="field in Dataset.dataschema | orderBy : Dataset.fieldOrder"
-   ng-init="pill = {name:field.name, type: field.type, aggr: field.aggr};">
-    <field-info field="field"
-      show-type="true"
-      show-info="true"
-      class="pill draggable full-width"
-      ng-model="pill"
-      data-drag="true"
-      jqyoui-draggable="{placeholder: 'keep', onStart: 'fieldDragStart'}"
-      data-jqyoui-options="{revert: 'invalid', helper: 'clone'}"
-      >
-    </field-info>
-  </div>
+<div class="schema full-width">
+  <field-info field="field"
+    ng-repeat="field in Dataset.dataschema | orderBy : Dataset.fieldOrder"
+    ng-init="pill = {name:field.name, type: field.type, aggr: field.aggr};"
+    show-type="true"
+    show-info="true"
+    class="pill list-item draggable full-width no-right-margin"
+    ng-model="pill"
+    data-drag="true"
+    jqyoui-draggable="{placeholder: 'keep'}"
+    data-jqyoui-options="{revert: 'invalid', helper: 'clone'}"
+    >
+  </field-info>
 </div>

@@ -5,6 +5,7 @@ angular.module('vleApp')
     return {
       templateUrl: 'components/fielddefeditor/fielddefeditor.html',
       restrict: 'E',
+      replace: true,
       scope: {
         encType: '=',
         enc: '=',
@@ -64,7 +65,7 @@ angular.module('vleApp')
             } else {
               funcsPopup = new Tether({
                 element: element.find('.shelf-functions'),
-                target: element.find('.field-pill'),
+                target: element.find('.field-info'),
                 attachment: 'top left',
                 targetAttachment: 'bottom left'
               });
@@ -81,9 +82,6 @@ angular.module('vleApp')
         };
 
         scope.fieldDragStart = function() {
-          var pillElem = element.find('.field-drop');
-          pillElem.css('width', pillElem.width() + 'px');
-
           scope.pills.dragStart(scope.encType);
         };
 

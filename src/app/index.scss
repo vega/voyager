@@ -24,7 +24,7 @@ $iron: #ccc;
 /** panes **/
 
 .pane.encoding-pane {
-  width: 210px;
+  width: 230px;
   flex-shrink: 0;
 }
 
@@ -53,75 +53,4 @@ $iron: #ccc;
 
 .encoding-group {
   margin-bottom: 30px;
-}
-
-.shelf-group{
-  border: 1px solid #ddd;
-  border-radius: $pill-radius;
-  margin-bottom: 5px;
-}
-
-.shelf{
-  border-radius: $pill-radius;
-  background-color: #ddd;
-  width: 100%;
-  display: flex;
-
-  .shelf-label{
-    @extend .noselect;
-    display: block;
-    width: 45px;
-    margin: 0 0.2rem;
-    text-align: right;
-    line-height: $pill-height;
-    cursor: pointer;
-
-    .fa {
-      margin-top: 4px;
-      opacity: 0.5;
-    }
-    &.expanded .fa, &:hover .fa {
-      opacity: 1;
-    }
-  }
-
-  .field-drop {
-    flex-grow: 1;
-    width: auto;
-
-    box-sizing: content-box;
-    height: $pill-height;
-    line-height: $pill-height;
-    border: 1px solid $iron;
-    .field {
-      margin: 0;
-    }
-    .placeholder {
-      display: block;
-      padding: 0 0.5em;
-      background-color: white;
-      border-radius: $pill-radius;
-
-      text-overflow: ellipsis;
-
-      font-weight: normal;
-      color: #aaa;
-    }
-  }
-
-  .drop-active {
-    border: 1px dashed #4CAF50;
-    background-color: #C8E6C9;
-    .placeholder {
-      background-color: #C8E6C9;
-      color: $text-color;
-    }
-    .field-pill {
-      opacity: 0.5;
-    }
-  }
-
-  .field-pill {
-    flex-grow: 1;
-  }
 }

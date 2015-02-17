@@ -23,8 +23,12 @@
     </span>
 
     <span ng-if="field.aggr==='count'"
-      class="italic field-info-text field-name">
-      Number of Records
+      class="italic field-info-text">
+      <span class="field-name">Number of Records</span>
+    </span>
+
+    <span class="no-shrink remove" ng-show="showRemove">
+      <a href="#" class="remove-field" ng-click="removeAction()">×</a>
     </span>
 
     <span class="no-shrink info" ng-show="showInfo">

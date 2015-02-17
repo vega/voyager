@@ -15,10 +15,12 @@ angular.module('vleApp')
       scope: {
         field: '=',
         showType: '=',
-        showCaret: '=',
         showInfo: '=',
-        action: '&',
-        caretAction: '&'
+        showCaret: '=',
+        caretAction: '&',
+        showRemove: '=',
+        removeAction: '&',
+        action: '&'
       },
       link: function(scope) {
         scope.typeNames = Dataset.typeNames;
