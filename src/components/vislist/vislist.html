@@ -15,7 +15,6 @@
           <field-info ng-repeat="field in fieldSet"
             field='field'
             show-type='true'
-            show-caret='true'
             ng-class="{selected: Fields.isSelected(field.name), unselected: !Fields.isSelected(field.name), highlighted: Fields.highlighted[field.name]}"
             ng-mouseover="Fields.highlighted[field.name] = true"
             ng-mouseout="Fields.highlighted[field.name] = false"
