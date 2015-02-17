@@ -72,8 +72,6 @@ angular.module('vleApp')
     Dataset.dataschema = [];
     Dataset.dataschema.byName = {};
     Dataset.stats = {};
-    Dataset.count = null;
-
 
     // TODO move these to constant to a universal vlui constant file
     Dataset.typeNames = {
@@ -105,7 +103,7 @@ angular.module('vleApp')
             var type = row.type === 'integer' || row.type === 'real' ? 'Q' : 'O';
 
             dataschema.push({name: row.name, type: type});
-            Dataset.count = row.count;
+            stats.count = row.count;
           });
           if (consts.addCount) {
             dataschema.push(countField);
@@ -125,7 +123,6 @@ angular.module('vleApp')
           Dataset.dataschema = dataschema;
           Dataset.dataschema.byName = getNameMap(Dataset.dataschema);
           Dataset.stats = vl.data.getStats(response.data);
-          Dataset.count = response.data.length;
         });
       }
     };

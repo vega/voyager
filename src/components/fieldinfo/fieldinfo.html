@@ -39,11 +39,10 @@
         <div class='tooltip-content'>
           <strong>Name:</strong> {{field.name}}<br>
           <strong>Cardinality:</strong> {{stats.cardinality}}<br>
-          <strong>Count:</strong> {{stats.count}}<br>
           <strong>Min:</strong> {{stats.min}}<br>
           <strong>Max:</strong> {{stats.max}}<br>
           <strong>Max length:</strong> {{stats.maxlength}}<br>
-          <strong>Sample:</strong> <div class='sample'>{{stats.sample.join(', ')}}</div>
+          <strong>Sample:</strong> <span class='sample'>{{stats.sample.join(', ')}}</span>
         </div>"
         tooltip-side="right"></i>
       <i ng-show="field.aggr === 'count'"
@@ -51,7 +50,7 @@
         tooltips tooltip-size="small"
         tooltip-title="
         <div class='tooltip-content'>
-          <strong>Count:</strong> {{Dataset.stats.count}}
+          <strong>Count:</strong> {{stats}}
         </div>"
         tooltip-side="right"></i>
     </span>

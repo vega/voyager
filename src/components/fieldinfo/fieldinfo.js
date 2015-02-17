@@ -34,7 +34,8 @@ angular.module('vleApp')
         };
       },
       controller: function($scope, Dataset) {
-        $scope.stats = Dataset.stats[$scope.field.name];
+        var statsField = $scope.field.aggr === 'count' ? 'count' : $scope.field.name;
+        $scope.stats = Dataset.stats[statsField];
       }
     };
   });
