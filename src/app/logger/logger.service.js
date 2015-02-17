@@ -12,6 +12,10 @@ angular.module('vleApp')
 
     var service = {};
 
+    // to avoid key collisions
+    var previous;
+    var counter = 0;
+
     var timeStamp = function() {
       var now = new Date();
       var date = [ now.getFullYear(), now.getMonth() + 1, now.getDate()];
@@ -28,6 +32,13 @@ angular.module('vleApp')
       if (!consts.logging)
         return;
       var key = timeStamp();
+
+      if (key === previous) {
+        key += " " + (++counter);
+      } else {
+        counter = 0;
+        previous = key;
+      }
       localStorageService.set(key, action);
     }
 
