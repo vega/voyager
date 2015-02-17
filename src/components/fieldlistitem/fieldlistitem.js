@@ -10,7 +10,6 @@ angular.module('facetedviz')
         field: '='
       },
       link: function postLink (scope, element /*, attrs*/) {
-
         var funcsPopup;
 
         scope.typeNames = Dataset.typeNames;
@@ -24,7 +23,7 @@ angular.module('facetedviz')
             } else {
               funcsPopup = new Tether({
                 element: element.find('.popup-functions'),
-                target: element.find('label'),
+                target: element.find('.field-info'),
                 attachment: 'top left',
                 targetAttachment: 'bottom left'
               });
@@ -35,6 +34,9 @@ angular.module('facetedviz')
             }
           }
         };
+      },
+      controller: function($scope, Dataset) {
+        $scope.stats = Dataset.stats[$scope.field.name];
       }
     };
   });

@@ -1,16 +1,18 @@
-<label for="field-{{field.name}}-checkbox" class="full-width">
-  <div class="field-list-item"
-    ng-mouseover="Fields.highlighted[field.name] = true"
-    ng-mouseout="Fields.highlighted[field.name] = false"
-  >
-    <input type="checkbox" ng-model="Fields.fields[field.name].selected" id="field-{{field.name}}-checkbox"/>
-    <field-info
-      field="field"
-      show-type="true"
-      show-caret="true"
-      ng-class="{selected: Fields.isSelected(field.name), highlighted: Fields.highlighted[field.name], 'flex-grow-1': true}"
-      ></field-info>
-  </div>
+<div class="field-list-item full-width"
+  ng-mouseover="Fields.highlighted[field.name] = true"
+  ng-mouseout="Fields.highlighted[field.name] = false"
+>
+  <input type="checkbox" ng-model="Fields.fields[field.name].selected" id="field-{{field.name}}-checkbox"/>
+  <field-info
+    field="field"
+    show-type="true"
+    show-caret="true"
+    show-info="true"
+    caret-action="toggleFuncsExpand()"
+    action="Fields.fields[field.name].selected = !Fields.fields[field.name].selected"
+    ng-class="{selected: Fields.isSelected(field.name), highlighted: Fields.highlighted[field.name], 'flex-grow-1': true}"
+    ></field-info>
+
   <div class="popup-menu popup-functions" ng-show="funcsExpanded">
     <!-- <function-select pills="pills" enc-type="encType" schema="schema"></function-select> -->
     <div style="width:150px">
@@ -22,4 +24,4 @@
 
     <a href="#" class="remove-field" ng-click="excludeField()">Exclude Field</a>
   </div>
-</label>
+</div>

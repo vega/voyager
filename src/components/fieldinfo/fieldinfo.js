@@ -16,10 +16,23 @@ angular.module('vleApp')
         field: '=',
         showType: '=',
         showCaret: '=',
+        showInfo: '=',
+        action: '&',
         caretAction: '&'
       },
       link: function(scope) {
         scope.typeNames = Dataset.typeNames;
+        scope.stats = Dataset.stats[scope.field.name];
+
+        scope.caretClicked = function($event) {
+          if(scope.caretAction) {
+            scope.caretAction();
+          }
+          $event.stopPropagation();
+        };
+      },
+      controller: function($scope, Dataset) {
+        $scope.stats = Dataset.stats[$scope.field.name];
       }
     };
   });

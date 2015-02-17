@@ -9,6 +9,7 @@
   padding: 1px 6px 1px 2px;
   font-size: 11px;
   border: 1px solid transparent;
+  user-select: none;
 
   .caret {
     padding: 0 3px;
@@ -40,6 +41,15 @@
     display: inline-block;
     overflow-x: hidden;
     text-overflow: ellipsis;
+
+    &.hasfunc {
+      &::before {
+        content:"("
+      }
+      &::after {
+        content:")"
+      }
+    }
   }
 }
 
@@ -73,6 +83,19 @@
   border: 1px solid #FDE59A;
   background-color: #FCEF00;
   font-weight: 500;
+}
+
+
+.tooltip-content {
+  strong {
+    width: 75px;
+    display: inline-block;
+    text-align: right;
+    margin-right: 5px;
+  }
+  .sample {
+    max-width: 300px;
+  }
 }
 
 

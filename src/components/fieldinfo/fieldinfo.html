@@ -1,16 +1,44 @@
 <span class="field-info">
-  <span class="hflex full-width"><span class="caret"><i class="fa fa-caret-down" ng-if="showCaret" ng-click="caretAction"></i></span>
-    <span class="type icon-small icon-type-{{typeNames[field.type]}}" ng-show="showType" title="{{typeNames[field.type]}}">
-      {{field.type}}
-    </span><!--
-    --><span ng-if="field.aggr!=='count'" class="field-info-text"><span class="field-func" ng-if="field.aggr">{{ field.aggr }}</span><!--
-      --><span class="field-func" ng-if="field.fn">{{ field.fn }}</span><!--
-      --><span class="field-func" ng-if="field.bin">bin</span><!--
+  <span class="hflex full-width clickable"
+      ng-click="action()">
+    <span class="caret" ng-if="showCaret">
+      <i class="fa fa-caret-down" ng-click="caretClicked($event);"></i>
+    </span>
 
-      --><span class="field-func-pl" ng-if="field.aggr || field.fn || field.bin">(</span><!--
-      --><span class="field-name">{{ field.name }}</span><!--
-      --><span class="field-func-pr" ng-if="field.aggr || field.fn || field.bin">)</span><!--
-    --></span><!--
-    --><span class="italic field-info-text field-name" ng-if="field.aggr==='count'">Number of Records</span>
+    <span class="type icon-small icon-type-{{typeNames[field.type]}}"
+      ng-show="showType"
+      title="{{typeNames[field.type]}}">
+      {{field.type}}
+    </span>
+
+    <span ng-if="field.aggr!=='count'"
+      class="field-info-text">
+      <span class="field-func" ng-if="field.aggr || field.fn || field.bin">
+        {{ field.aggr || field.fn || (field.bin && "bin") }}
+      </span><!--
+      --><span class="field-name"
+        title="{{field.name}} {{stats.cardinality}}"
+        ng-class="{hasfunc: field.aggr || field.fn || field.bin}"
+        >{{ field.name }}</span>
+    </span>
+
+    <span ng-if="field.aggr==='count'"
+      class="italic field-info-text field-name">
+      Number of Records
+    </span>
+
+    <span class="no-shrink info" ng-show="showInfo">
+      <i class="fa fa-info-circle" tooltips tooltip-size="small" tooltip-content="
+        <div class='tooltip-content'>
+          <strong>Name:</strong> {{field.name}}<br>
+          <strong>Cardinality:</strong> {{stats.cardinality}}<br>
+          <strong>Count:</strong> {{stats.count}}<br>
+          <strong>Min:</strong> {{stats.min}}<br>
+          <strong>Max:</strong> {{stats.max}}<br>
+          <strong>Max length:</strong> {{stats.maxlength}}<br>
+          <strong>Sample:</strong> <div class='sample'>{{stats.sample.join(', ')}}</div>
+        </div>" tooltip-side="right"></i>
+    </span>
+
   </span>
 </span>

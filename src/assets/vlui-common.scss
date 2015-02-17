@@ -24,6 +24,11 @@ a:hover, a:focus {
 a:hover {
   cursor: pointer;
 }
+
+.clickable {
+  cursor: pointer;
+}
+
 a:active, a:hover {
 outline: 0;
 }
