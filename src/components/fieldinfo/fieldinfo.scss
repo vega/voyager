@@ -1,0 +1,101 @@
+.field-info {
+  display: inline-block;
+  vertical-align: middle;
+  border-radius: 5px;
+  line-height: 15px;
+  height: 15px;
+  margin-bottom: 0;
+  margin-right: 3px;
+  padding: 1px 6px 1px 6px;
+  font-size: 11px;
+  border: 1px solid transparent;
+  user-select: none;
+
+  .caret {
+    flex-shrink: 0;
+    padding-right: 3px;
+  }
+
+  .type {
+    font-size: 0.8rem;
+    margin-right: 3px;
+    flex-shrink: 0;
+    margin-left: -2px;
+    background-position-y: -2px;
+    &.icon-type-time {
+      background-position-y: 0px;
+    }
+  }
+
+  .field-info-text {
+    display: flex;
+    flex-grow: 1;
+  }
+
+  .field-func{
+    text-transform: uppercase;
+    font-weight: bold;
+  }
+
+  .field-name {
+    display: inline-block;
+    overflow-x: hidden;
+    text-overflow: ellipsis;
+
+    &.hasfunc {
+      &::before {
+        content:"("
+      }
+      &::after {
+        content:")"
+      }
+    }
+  }
+}
+
+.field-info .fa.fa-caret-down {
+  flex-shrink:0;
+  // visibility: hidden;
+  border-radius: 3px;
+  margin-top: 2px;
+  margin-right: 2px;
+  padding: 0 2px;
+
+  &:hover {
+    color: white;
+    background-color: #999;
+  }
+}
+
+.field-info.unselected {
+  border: 1px dashed #ccc;
+  background-color: #fafafa;
+}
+
+.field-info.selected {
+  border: 1px solid #bbb;
+  background-color: #eee;
+  font-weight: 500;
+}
+
+.field-info.highlighted,
+.field-list-item:hover .field-info {
+  border: 1px solid #FDE59A;
+  background-color: #FCEF00;
+  font-weight: 500;
+}
+
+
+.tooltip-content {
+  strong {
+    width: 75px;
+    display: inline-block;
+    text-align: right;
+    margin-right: 5px;
+  }
+  .sample {
+    max-width: 300px;
+  }
+}
+
+

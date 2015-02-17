@@ -24,6 +24,11 @@ a:hover, a:focus {
 a:hover {
   cursor: pointer;
 }
+
+.clickable {
+  cursor: pointer;
+}
+
 a:active, a:hover {
 outline: 0;
 }
@@ -432,10 +437,6 @@ $pill-bg-color: #eee;
   }
 }
 
-.field-func{
-  text-transform: uppercase;
-  font-weight: bold;
-}
 
 .draggable {
   cursor: move;
