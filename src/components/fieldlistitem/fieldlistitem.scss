@@ -16,18 +16,29 @@
       width: 100%
     }
   }
-  .fa {
+  .caret {
     margin: 4px;
     margin-left: -4px;
-    flex-shrink:0;
+    flex-shrink: 0;
     visibility: hidden;
     color: white;
     background-color: #999;
     border-radius: 3px;
     padding: 0 3px;
   }
-  &:hover .fa {
+  &:hover .caret {
     visibility: visible;
   }
+}
 
+.tooltip-content {
+  strong {
+    width: 75px;
+    display: inline-block;
+    text-align: right;
+    margin-right: 5px;
+  }
+  .sample {
+    max-width: 300px;
+  }
 }

@@ -3,7 +3,8 @@
 
 angular.module('vleApp', [
     'zeroclipboard',
-    'Chronicle'
+    'Chronicle',
+    '720kb.tooltips'
   ])
   .constant('_', window._)
   .constant('vl', window.vl)
