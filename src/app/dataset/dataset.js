@@ -71,7 +71,7 @@ angular.module('vleApp')
     Dataset.dataset = datasets[7]; //Movies
     Dataset.dataschema = [];
     Dataset.dataschema.byName = {};
-    Dataset.stats = null;
+    Dataset.stats = {};
 
     // TODO move these to constant to a universal vlui constant file
     Dataset.typeNames = {

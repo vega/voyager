@@ -4,6 +4,7 @@
 angular.module('vleApp', [
     'zeroclipboard',
     'Chronicle',
+    '720kb.tooltips',
     'LocalStorageModule'
   ])
   .constant('_', window._)
