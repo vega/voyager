@@ -17,7 +17,6 @@
         {{ field.aggr || field.fn || (field.bin && "bin") }}
       </span><!--
       --><span class="field-name"
-        title="{{field.name}} {{stats.cardinality}}"
         ng-class="{hasfunc: field.aggr || field.fn || field.bin}"
         >{{ field.name }}</span>
     </span>
