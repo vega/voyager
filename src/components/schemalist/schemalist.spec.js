@@ -9,10 +9,15 @@ describe('Directive: schemaList', function() {
     scope;
 
   beforeEach(module('vleApp', function($provide) {
-    var mock = {
-      dataschema: ['foo', 'bar', 'baz']
+    var mockDataset = {
+      dataschema: ['foo', 'bar', 'baz'],
+      stats: {
+        foo: {},
+        bar: {},
+        baz: {}
+      }
     };
-    $provide.value('Dataset', mock);
+    $provide.value('Dataset', mockDataset);
   }));
 
   beforeEach(inject(function($rootScope) {
@@ -24,6 +29,6 @@ describe('Directive: schemaList', function() {
     element = $compile(element)(scope);
     scope.$digest();
 
-    expect(element.find('.field').length).toBe(3);
+    expect(element.find('.field-info').length).toBe(3);
   }));
 });
