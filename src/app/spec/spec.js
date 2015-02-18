@@ -44,19 +44,25 @@ angular.module('vleApp')
     }
 
     Spec.parseShorthand = function(newShorthand) {
-      Spec.spec = vl.Encoding.parseShorthand(newShorthand, Config.config).toSpec();
+      var newSpec = vl.Encoding.parseShorthand(newShorthand, Config.config).toSpec();
+      Spec.parseSpec(newSpec);
     };
 
     // takes a partial spec
     Spec.parseSpec = function(newSpec) {
-      Spec.spec = vl.schema.util.merge(Spec.spec, newSpec);
+      Spec.spec = vl.schema.util.merge(Spec.instantiate(), newSpec);
+    };
+
+    Spec.instantiate = function() {
+      var spec = vl.schema.instantiate();
+
+      // we need to set the marktype because it doesn't have a default.
+      spec.marktype = vl.schema.schema.properties.marktype.enum[0];
+      return spec;
     };
 
     Spec.reset = function() {
-      Spec.spec = vl.schema.instantiate();
-
-      // we need to set the marktype because it doesn't have a default.
-      Spec.spec.marktype = vl.schema.schema.properties.marktype.enum[0];
+      Spec.spec = Spec.instantiate();
     };
 
     // takes a full spec, validates it and then rebuilds everything
