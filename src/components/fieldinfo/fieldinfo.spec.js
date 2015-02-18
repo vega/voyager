@@ -8,13 +8,19 @@ describe('Directive: fieldInfo', function () {
   var element,
     scope;
 
-  beforeEach(inject(function ($rootScope) {
-    scope = $rootScope.$new();
+
+  beforeEach(module('vleApp', function($provide) {
+    $provide.constant('vl', vl); // vl is loaded by karma
   }));
 
-  it('should make hidden element visible', inject(function ($compile) {
+  beforeEach(inject(function ($rootScope) {
+    scope = $rootScope.$new();
+
+  }));
+
+  it('should appear', inject(function ($compile) {
     element = angular.element('<field-info></field-info>');
     element = $compile(element)(scope);
-    expect(element.text()).toBe('this is the fieldInfo directive');
+    expect(element.find('.hflex')).toBeTruthy();
   }));
 });
