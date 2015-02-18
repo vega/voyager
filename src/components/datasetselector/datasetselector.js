@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('vleApp')
+angular.module('vegalite-ui')
   .directive('datasetSelector', function(Dataset, Config, Fields) {
     return {
       templateUrl: 'components/datasetselector/datasetselector.html',

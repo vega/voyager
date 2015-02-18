@@ -2,12 +2,12 @@
 
 /**
  * @ngdoc service
- * @name vleApp.Bookmarks
+ * @name vegalite-ui.Bookmarks
  * @description
  * # Bookmarks
- * Service in the vleApp.
+ * Service in the vegalite-ui.
  */
-angular.module('vleApp')
+angular.module('vegalite-ui')
   .service('Bookmarks', function (_, vl) {
     var Bookmarks = function (){
       this.dict = {};

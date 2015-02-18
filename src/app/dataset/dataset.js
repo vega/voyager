@@ -61,7 +61,7 @@ function getNameMap(dataschema) {
   }, {});
 }
 
-angular.module('vleApp')
+angular.module('vegalite-ui')
   .factory('Dataset', function($http, Config, _, Papa, vl, consts) {
     var Dataset = {};
 

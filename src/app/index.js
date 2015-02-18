@@ -1,7 +1,7 @@
 'use strict';
 /* globals window */
 
-angular.module('vleApp', [
+angular.module('vegalite-ui', [
     'zeroclipboard',
     'Chronicle',
     '720kb.tooltips'
@@ -24,7 +24,7 @@ angular.module('vleApp', [
     });
   }]);
 
-angular.module('facetedviz', ['vleApp', 'ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', 'ui.router'])
+angular.module('facetedviz', ['vegalite-ui', 'ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', 'ui.router'])
   .constant('_', window._)
   .constant('jQuery', window.$)
   .constant('vl', window.vl)

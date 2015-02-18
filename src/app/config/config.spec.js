@@ -5,9 +5,9 @@ describe('Service: Config', function() {
   var deferred, Config, scope;
 
   // load the service's module
-  beforeEach(module('vleApp'));
+  beforeEach(module('vegalite-ui'));
 
-  beforeEach(module('vleApp', function($provide) {
+  beforeEach(module('vegalite-ui', function($provide) {
     $provide.constant('vl', vl); // vl is loaded by karma
   }));
 

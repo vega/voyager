@@ -2,7 +2,7 @@
 
 // Service for the spec config.
 // We keep this separate so that changes are kept even if the spec changes.
-angular.module('vleApp')
+angular.module('vegalite-ui')
   .factory('Config', function(vl, consts) {
     var Config = {};
 
