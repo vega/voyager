@@ -15,10 +15,12 @@ angular.module('vleApp')
       scope: {
         field: '=',
         showType: '=',
-        showCaret: '=',
         showInfo: '=',
-        action: '&',
-        caretAction: '&'
+        showCaret: '=',
+        caretAction: '&',
+        showRemove: '=',
+        removeAction: '&',
+        action: '&'
       },
       link: function(scope) {
         scope.typeNames = Dataset.typeNames;
@@ -32,7 +34,8 @@ angular.module('vleApp')
         };
       },
       controller: function($scope, Dataset) {
-        $scope.stats = Dataset.stats[$scope.field.name];
+        var statsField = $scope.field.aggr === 'count' ? 'count' : $scope.field.name;
+        $scope.stats = Dataset.stats[statsField];
       }
     };
   });

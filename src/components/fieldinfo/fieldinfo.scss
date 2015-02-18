@@ -1,15 +1,17 @@
 .field-info {
   display: inline-block;
   vertical-align: middle;
-  border-radius: 5px;
-  line-height: 15px;
-  height: 15px;
+  border-radius: 3px;
+  line-height: 18px;
+  box-sizing: border-box;
+  height: 20px;
   margin-bottom: 0;
   margin-right: 3px;
   padding: 1px 6px 1px 6px;
   font-size: 11px;
   border: 1px solid transparent;
   user-select: none;
+  overflow: hidden;
 
   .caret {
     flex-shrink: 0;
@@ -36,19 +38,20 @@
     text-transform: uppercase;
     font-weight: bold;
   }
+}
 
-  .field-name {
-    display: inline-block;
-    overflow-x: hidden;
-    text-overflow: ellipsis;
+.field-info .field-name {
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: default;
 
-    &.hasfunc {
-      &::before {
-        content:"("
-      }
-      &::after {
-        content:")"
-      }
+  &.hasfunc {
+    &::before {
+      content:"("
+    }
+    &::after {
+      content:")"
     }
   }
 }
@@ -67,6 +70,13 @@
   }
 }
 
+.field-info .info {
+  opacity: 0.5;
+  &:hover {
+    opacity: 1;
+  }
+}
+
 .field-info.unselected {
   border: 1px dashed #ccc;
   background-color: #fafafa;
@@ -78,6 +88,15 @@
   font-weight: 500;
 }
 
+.field-info.pill {
+  background-color: #eee;
+  font-weight: 500;
+}
+
+.field-info.list-item {
+  margin-bottom: 4px;
+}
+
 .field-info.highlighted,
 .field-list-item:hover .field-info {
   border: 1px solid #FDE59A;
@@ -85,16 +104,19 @@
   font-weight: 500;
 }
 
+.field-info.ui-draggable-dragging {
+  min-width: 150px;
+  width: auto;
+  box-shadow: 2px 2px 1px rgba(0,0,0,0.2);
+}
 
 .tooltip-content {
+  max-width: 300px;
   strong {
     width: 75px;
     display: inline-block;
     text-align: right;
     margin-right: 5px;
-  }
-  .sample {
-    max-width: 300px;
   }
 }
 

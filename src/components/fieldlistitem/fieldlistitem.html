@@ -10,7 +10,8 @@
     show-info="true"
     caret-action="toggleFuncsExpand()"
     action="Fields.fields[field.name].selected = !Fields.fields[field.name].selected"
-    ng-class="{selected: Fields.isSelected(field.name), highlighted: Fields.highlighted[field.name], 'flex-grow-1': true}"
+    class="flex-grow-1 list-item"
+    ng-class="{selected: Fields.isSelected(field.name), highlighted: Fields.highlighted[field.name]"
     ></field-info>
 
   <div class="popup-menu popup-functions" ng-show="funcsExpanded">

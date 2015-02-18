@@ -1,5 +1,5 @@
 <span class="field-info">
-  <span class="hflex full-width clickable"
+  <span class="hflex full-width"
       ng-click="action()">
     <span class="caret" ng-if="showCaret">
       <i class="fa fa-caret-down" ng-click="caretClicked($event);"></i>
@@ -23,21 +23,36 @@
     </span>
 
     <span ng-if="field.aggr==='count'"
-      class="italic field-info-text field-name">
-      Number of Records
+      class="italic field-info-text">
+      <span class="field-name">Number of Records</span>
+    </span>
+
+    <span class="no-shrink remove" ng-show="showRemove">
+      <a href="#" class="remove-field" ng-click="removeAction()">×</a>
     </span>
 
     <span class="no-shrink info" ng-show="showInfo">
-      <i class="fa fa-info-circle" tooltips tooltip-size="small" tooltip-content="
+      <i ng-hide="field.aggr === 'count'"
+        class="fa fa-info-circle"
+        tooltips tooltip-size="small"
+        tooltip-content="
         <div class='tooltip-content'>
           <strong>Name:</strong> {{field.name}}<br>
           <strong>Cardinality:</strong> {{stats.cardinality}}<br>
-          <strong>Count:</strong> {{stats.count}}<br>
           <strong>Min:</strong> {{stats.min}}<br>
           <strong>Max:</strong> {{stats.max}}<br>
           <strong>Max length:</strong> {{stats.maxlength}}<br>
-          <strong>Sample:</strong> <div class='sample'>{{stats.sample.join(', ')}}</div>
-        </div>" tooltip-side="right"></i>
+          <strong>Sample:</strong> <span class='sample'>{{stats.sample.join(', ')}}</span>
+        </div>"
+        tooltip-side="right"></i>
+      <i ng-show="field.aggr === 'count'"
+        class="fa fa-info-circle"
+        tooltips tooltip-size="small"
+        tooltip-title="
+        <div class='tooltip-content'>
+          <strong>Count:</strong> {{stats}}
+        </div>"
+        tooltip-side="right"></i>
     </span>
 
   </span>
