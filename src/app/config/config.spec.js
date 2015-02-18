@@ -23,6 +23,7 @@ describe('Service: Config', function() {
 
     config.singleWidth = 500;
     config.singleHeight = 500;
+    config.largeBandMaxCardinality = 20;
 
     expect(Config.schema).toEqual(schema);
     expect(Config.config).toEqual(config);
