@@ -78,12 +78,14 @@ angular.module('vleApp')
       }
 
       if (Spec.filterNulls && Dataset.dataschema.length > 0) {
-        cleanSpec.filter = [{
-          operator: 'notNull',
-          operands: _.chain(Dataset.dataschema).filter(function(d){
+        cleanSpec.filter = _.chain(Dataset.dataschema).filter(function(d){
             return d.name != '*'
-          }).pluck('name').value()
-        }];
+          }).pluck('name').map(function(d) {
+            return {
+              operator: 'notNull',
+              operands: [d]
+            }
+          }).value();
       }
 
       var schema = vl.schema.schema;
