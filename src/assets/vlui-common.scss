@@ -334,6 +334,7 @@ h4 {
 /* prevent element from being selected http://stackoverflow.com/questions/826782 */
 .noselect {
   user-select: none;
+  cursor: default;
 }
 
 /** ICONS FOR DATA TYPES */
@@ -375,10 +376,6 @@ h4 {
     background-position-y: 0px;
   }
 }
-
-/**** FIELD & FIELD-PILLS ****/
-
-
 
 /**** Components ****/
 
