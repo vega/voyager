@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('vleApp')
+angular.module('vegalite-ui')
   .service('Alerts', function($timeout) {
     var Alerts = {};
 

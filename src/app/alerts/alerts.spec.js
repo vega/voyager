@@ -3,7 +3,7 @@
 describe('Service: Alerts', function() {
 
   // load the service's module
-  beforeEach(module('vleApp'));
+  beforeEach(module('vegalite-ui'));
 
   // instantiate service
   var alerts, $timeout;

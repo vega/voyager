@@ -2,11 +2,11 @@
 
 /**
  * @ngdoc directive
- * @name vleApp.directive:fieldInfo
+ * @name vegalite-ui.directive:fieldInfo
  * @description
  * # fieldInfo
  */
-angular.module('vleApp')
+angular.module('vegalite-ui')
   .directive('fieldInfo', function (Dataset) {
     return {
       templateUrl: 'components/fieldinfo/fieldinfo.html',

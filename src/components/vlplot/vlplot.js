@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('vleApp')
+angular.module('vegalite-ui')
   .directive('vlPlot', function(vg, $timeout, $q, Dataset, consts) {
     var counter = 0;
     var MAX_CANVAS_SIZE = 32767, MAX_CANVAS_AREA = 268435456;
