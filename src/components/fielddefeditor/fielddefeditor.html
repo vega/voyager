@@ -1,5 +1,5 @@
 <div class="shelf-group">
-  <div class="shelf">
+  <div class="shelf" ng-class="{disabled: !schema.supportedMarktypes[marktype]}">
     <div class="shelf-label" ng-click="togglePropsExpand()"
       ng-class="{expanded: propsExpanded}">
       <i class="fa fa-caret-down"></i>
@@ -8,7 +8,7 @@
     <!--<field-drop field-def="enc[encType]" types="schema.properties.type.enum"></field-drop>-->
     <div class="field-drop"
      ng-model="pills[encType]"
-     data-drop="true"
+     data-drop="schema.supportedMarktypes[marktype]"
      jqyoui-droppable="{onDrop:'fieldDropped'}"
      data-jqyoui-options="{activeClass: 'drop-active'}">
 
