@@ -10,7 +10,8 @@ angular.module('vleApp')
         encType: '=',
         enc: '=',
         pills: '=',
-        schema: '=fieldDefSchema'
+        schema: '=fieldDefSchema',
+        marktype: '='
       },
       link: function(scope, element /*, attrs*/) {
         var propsPopup, funcsPopup;

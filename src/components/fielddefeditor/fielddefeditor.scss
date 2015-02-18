@@ -17,6 +17,10 @@ $pill-min-width: 150px;
   display: flex;
   height: 22px;
 
+  &.disabled {
+    opacity: 0.5;
+  }
+
   .shelf-label{
     @extend .noselect;
     display: block;
