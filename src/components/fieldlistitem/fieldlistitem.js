@@ -23,7 +23,7 @@ angular.module('facetedviz')
             } else {
               funcsPopup = new Tether({
                 element: element.find('.popup-functions'),
-                target: element.find('label'),
+                target: element.find('.field-info'),
                 attachment: 'top left',
                 targetAttachment: 'bottom left'
               });

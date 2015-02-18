@@ -83,7 +83,9 @@ angular.module('vleApp')
 
     Dataset.fieldOrder = vl.field.order.typeThenName;
 
+    // update the schema and stats
     Dataset.update = function (dataset) {
+
       //set schema and stats
       if (Config.useVegaServer) {
         var url = Config.serverUrl + '/stats/?name=' + dataset.table;
@@ -101,6 +103,7 @@ angular.module('vleApp')
             var type = row.type === 'integer' || row.type === 'real' ? 'Q' : 'O';
 
             dataschema.push({name: row.name, type: type});
+            stats.count = row.count;
           });
           if (consts.addCount) {
             dataschema.push(countField);
@@ -117,6 +120,7 @@ angular.module('vleApp')
           if (consts.addCount) {
             dataschema.push(countField);
           }
+
           Dataset.dataschema = dataschema;
           Dataset.dataschema.byName = getNameMap(Dataset.dataschema);
           Dataset.stats = vl.data.getStats(response.data);

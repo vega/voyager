@@ -1,15 +1,21 @@
-<div class="field-list-item">
+<div class="field-list-item full-width"
+  ng-mouseover="Fields.highlighted[field.name] = true"
+  ng-mouseout="Fields.highlighted[field.name] = false"
+>
   <input type="checkbox" ng-model="Fields.fields[field.name].selected" id="field-{{field.name}}-checkbox"/>
-  <label for="field-{{field.name}}-checkbox">
-    <field-info show-type="true" field="field"
-      ng-class="{selected: Fields.isSelected(field.name)}"
-      ></field-info>
-  </label>
-  <i class="fa fa-caret-down caret" ng-click="toggleFuncsExpand()"></i>
+  <field-info
+    field="field"
+    show-type="true"
+    show-caret="true"
+    show-info="true"
+    caret-action="toggleFuncsExpand()"
+    action="Fields.fields[field.name].selected = !Fields.fields[field.name].selected"
+    class="flex-grow-1 list-item"
+    ng-class="{selected: Fields.isSelected(field.name), highlighted: Fields.highlighted[field.name]"
+    ></field-info>
+
   <div class="popup-menu popup-functions" ng-show="funcsExpanded">
-
     <!-- <function-select pills="pills" enc-type="encType" schema="schema"></function-select> -->
-
     <div style="width:150px">
       <br/>
       [control for selecting functions (avg, sum, min, max, bin) here!!]
@@ -19,14 +25,4 @@
 
     <a href="#" class="remove-field" ng-click="excludeField()">Exclude Field</a>
   </div>
-  <i class="fa fa-info-circle" tooltips tooltip-size="small" tooltip-content="
-    <div class='tooltip-content'>
-      <strong>Name:</strong> {{field.name}}<br>
-      <strong>Cardinality:</strong> {{stats.cardinality}}<br>
-      <strong>Count:</strong> {{stats.count}}<br>
-      <strong>Min:</strong> {{stats.min}}<br>
-      <strong>Max:</strong> {{stats.max}}<br>
-      <strong>Max length:</strong> {{stats.maxlength}}<br>
-      <strong>Sample:</strong> <div class='sample'>{{stats.sample.join(', ')}}</div>
-    </div>" tooltip-side="right"></i>
 </div>

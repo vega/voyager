@@ -12,7 +12,13 @@
           More Like This ...
         </a>
         <div class="field-set-info">
-          <field-info field='field' show-type='true' ng-repeat="field in fieldSet" ng-class="{selected: Fields.isSelected(field.name)}"></field-info>
+          <field-info ng-repeat="field in fieldSet"
+            field='field'
+            show-type='true'
+            ng-class="{selected: Fields.isSelected(field.name), unselected: !Fields.isSelected(field.name), highlighted: Fields.highlighted[field.name]}"
+            ng-mouseover="Fields.highlighted[field.name] = true"
+            ng-mouseout="Fields.highlighted[field.name] = false"
+          ></field-info>
         </div>
       </div>
       <div class="vis-list-item full-width vis-{{fieldSet.key}} flex-grow-1">
