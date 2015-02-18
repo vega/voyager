@@ -11,6 +11,7 @@ angular.module('vleApp')
 
     Config.config.singleWidth = 500;
     Config.config.singleHeight = 500;
+    Config.config.largeBandMaxCardinality = 20;
 
     Config.updateDataset = function(dataset) {
       Config.config.dataUrl = dataset.url;
