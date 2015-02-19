@@ -14,15 +14,19 @@ describe('Directive: vlPlot', function() {
       parse: {
         spec: function(spec, callback) {
           callback(function(opt) {
-            element.find(opt.el).append('<div></div>');
+            element.append('<div></div>');
             return {
+              width: function() {},
+              height: function() {},
               update: function() {},
+              renderer: function() {},
               on: function() {}
             };
           });
         }
       }
     });
+    $provide.constant('vl', vl);
   }));
 
   beforeEach(inject(function($rootScope) {
@@ -33,7 +37,6 @@ describe('Directive: vlPlot', function() {
     element = angular.element('<vl-plot vg-spec="{}"></vl-plot>');
     element = $compile(element)(scope);
     scope.$digest();
-
-    expect(element.find('.vis').length).toBe(1);
+    expect(element.find('div').length).toBe(1);
   }));
 });

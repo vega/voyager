@@ -3,11 +3,11 @@
 angular.module('vleApp')
   .directive('vlPlot', function(vg, $timeout, $q, Dataset, consts) {
     var counter = 0;
-    var MAX_CANVAS_SIZE = 32767, MAX_CANVAS_AREA = 268435456;
+    var MAX_CANVAS_SIZE = 32767/2, MAX_CANVAS_AREA = 268435456/4;
 
-    function getRenderer(spec) {
+    function getRenderer(width, height) {
       // use canvas by default but use svg if the visualization is too big
-      if (spec.width > MAX_CANVAS_SIZE || spec.height > MAX_CANVAS_SIZE || spec.width*spec.height > MAX_CANVAS_AREA) {
+      if (width > MAX_CANVAS_SIZE || height > MAX_CANVAS_SIZE || width*height > MAX_CANVAS_AREA) {
         return 'svg';
       }
       return 'canvas';
@@ -46,15 +46,16 @@ angular.module('vleApp')
           vg.parse.spec(spec, function(chart) {
             var endParse = new Date().getTime();
             view = null;
-            view = chart({el: element[0], renderer: scope.renderer});
+            view = chart({el: element[0]});
+
             if (!consts.useUrl) {
               view.data({table: Dataset.data});
             }
-            view.update();
 
-            if (scope.renderer === 'canvas') {
-              scope.height = element.find('canvas').height();
-            }
+            scope.width =  view.width();
+            scope.height = view.height();
+            view.renderer(getRenderer(spec.width, scope.height));
+            view.update();
 
             var endChart = new Date().getTime();
             console.log('parse spec', (endParse-start), 'charting', (endChart-endParse), shorthand);
