@@ -10,7 +10,11 @@
           <a href="#" ng-click="close()" class="right">Close</a>
         </div>
         <div class="field-set-info no-bottom-margin">
-          <field-info field='field' show-type='true' ng-repeat="field in Visrec.selectedFieldSet" ng-class="{selected: Fields.isSelected(field.name)}"></field-info>
+          <field-info ng-repeat="field in Visrec.selectedFieldSet"
+            field='field'
+            show-type='true'
+            class='selected'>
+          </field-info>
         </div>
       </div>
 

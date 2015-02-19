@@ -1,36 +1,18 @@
-<div class="vflex flex-grow-1">
+<div class="vflex flex-grow-1" ng-if="Visrec.selectedCluster.length > 1">
   <div class="card no-right-margin no-shrink">
     <h3 class="no-bottom-margin">Variations Within Cluster</h3>
   </div>
 
   <div class="flex-grow-1 scroll-y">
     <div class="hflex flex-wrap">
-      <div class="vis-list-item-group card"
+      <vis-list-item
         ng-repeat="subcluster in Visrec.selectedCluster"
         ng-if="$index !== 0"
+        chart="subcluster[0]"
+        show-expand="true"
+        expand-action=""
       >
-        <div class="vis-list-item">
-          <vl-plot show-copy="true"
-            max-height="330"
-            vl-spec="subcluster[0].vlSpec"
-            vg-spec="subcluster[0].vgSpec"></vl-plot>
-        </div>
-        <div class="no-shrink">
-          <a href="#" class="command"
-            ng-click="Bookmarks.toggle(subcluster[0].vlSpec)"
-            ng-class="{disabled: !subcluster[0].vlSpec.enc}">
-            <i class="fa fa-bookmark"></i>
-            <span ng-if="Bookmarks.dict[subcluster[0].shorthand]"> Remove </span>
-            <span ng-if="!Bookmarks.dict[subcluster[0].shorthand]"> Add </span>
-            Bookmark
-          </a>
-
-          <div class="right">
-            <a class="command debug" ui-zeroclip zeroclip-model="subcluster[0].vlSpec | compactJSON">Copy Spec</a>
-            <a class="command debug" ng-href="{{ {type:'vl', encoding: subcluster[0].vlSpec} | reportUrl }}" target="_blank">Report Bad Render</a>
-          </div>
-        </div>
-      </div>
+      </vis-list-item>
     </div>
   </div>
 </div>
