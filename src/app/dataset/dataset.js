@@ -115,6 +115,7 @@ angular.module('vleApp')
         });
       } else {
         return $http.get(dataset.url, {cache: true}).then(function(response) {
+          Dataset.data = response.data;
           var dataschema = vl.data.getSchema(response.data);
           if (consts.addCount) {
             dataschema.push(countField);
