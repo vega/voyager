@@ -108,6 +108,10 @@
   min-width: 150px;
   width: auto;
   box-shadow: 2px 2px 1px rgba(0,0,0,0.2);
+
+  .info {
+    display: none;
+  }
 }
 
 .tooltip-content {
