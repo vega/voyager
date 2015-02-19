@@ -10,7 +10,11 @@
           <a href="#" ng-click="close()" class="right">Close</a>
         </div>
         <div class="field-set-info no-bottom-margin">
-          <field-info field='field' show-type='true' ng-repeat="field in Visrec.selectedFieldSet" ng-class="{selected: Fields.isSelected(field.name)}"></field-info>
+          <field-info ng-repeat="field in Visrec.selectedFieldSet"
+            field='field'
+            show-type='true'
+            class='selected'>
+          </field-info>
         </div>
       </div>
 
@@ -18,26 +22,45 @@
       <div class="selected-variation">
         <div class="card abs-100 scroll-xy">
           <vl-plot
-            encoding="Visrec.selectedCluster[0][0].encoding"
-            vg-spec="Visrec.selectedCluster[0][0].vgSpec">
+            encoding="selectedSubcluster[0].encoding"
+            vg-spec="selectedSubcluster[0].vgSpec">
           </vl-plot>
           <div>
             <a href="#" class="command"
-              ng-click="Bookmarks.toggle(Visrec.selectedCluster[0][0].vlSpec)"
-              ng-class="{disabled: !Visrec.selectedCluster[0][0].vlSpec.enc}">
+              ng-click="Bookmarks.toggle(selectedSubcluster[0].vlSpec)"
+              ng-class="{disabled: !selectedSubcluster[0].vlSpec.enc}">
               <i class="fa fa-bookmark"></i>
-              <span ng-if="Bookmarks.dict[Visrec.selectedCluster[0][0].shorthand]"> Remove </span>
-              <span ng-if="!Bookmarks.dict[Visrec.selectedCluster[0][0].shorthand]"> Add </span>
+              <span ng-if="Bookmarks.dict[selectedSubcluster[0].shorthand]"> Remove </span>
+              <span ng-if="!Bookmarks.dict[selectedSubcluster[0].shorthand]"> Add </span>
               Bookmark
             </a>
             <div class="right">
-              <a class="command debug" ui-zeroclip zeroclip-model="Visrec.selectedCluster[0][0].vlSpec | compactJSON">Copy Spec</a>
-              <a class="command debug" ng-href="{{ {type:'vl', encoding: subcluster[0].vlSpec} | reportUrl }}" target="_blank">Report Bad Render</a>
+              <a class="command debug" ui-zeroclip zeroclip-model="selectedSubcluster[0].vlSpec | compactJSON">Copy Spec</a>
+              <a class="command debug" ng-href="{{ {type:'vl', encoding: selectedSubcluster[0].vlSpec} | reportUrl }}" target="_blank">Report Bad Render</a>
             </div>
           </div>
         </div>
       </div>
-      <variation-list></variation-list>
+      <!--variation-list-->
+      <div class="vflex flex-grow-1" ng-if="Visrec.selectedCluster.length > 1">
+        <div class="card no-right-margin no-shrink">
+          <h3 class="no-bottom-margin">Variations Within Cluster</h3>
+        </div>
+
+        <div class="flex-grow-1 scroll-y">
+          <div class="hflex flex-wrap">
+            <vis-list-item
+              ng-repeat="subcluster in Visrec.selectedCluster"
+              ng-if="selectedSubcluster != subcluster"
+              chart="subcluster[0]"
+              show-expand="true"
+              expand-action="select(subcluster)"
+            >
+            </vis-list-item>
+          </div>
+        </div>
+      </div>
+      <!--end of variation-list-->
     </div>
   </div>
 </div>

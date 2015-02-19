@@ -1,51 +1,16 @@
 <div class="abs-100 scroll-y">
   <div class="vis-list hflex flex-wrap">
-    <div class="vis-list-item-group card vflex"
+    <vis-list-item
       ng-repeat="fieldSet in Visrec.fieldSets | limitTo: limit"
       ng-init="cluster = Visrec.chartClusters[fieldSet.key]"
+      field-set="fieldSet"
+      chart="cluster[0][0]"
+      is-selected="Fields.isSelected"
+      highlighted="Fields.highlighted"
+      show-expand="true"
+      expand-action="select(fieldSet, cluster, $index)"
     >
-      <div class="vis-list-item-header full-width no-shrink">
-        <a ng-click="select(fieldSet, cluster, $index)"
-          class="command right"
-          title="More Visualizations of the same data"
-          ng-if="cluster.length > 1">
-          More Like This ...
-        </a>
-        <div class="field-set-info">
-          <field-info ng-repeat="field in fieldSet"
-            field='field'
-            show-type='true'
-            ng-class="{selected: Fields.isSelected(field.name), unselected: !Fields.isSelected(field.name), highlighted: Fields.highlighted[field.name]}"
-            ng-mouseover="Fields.highlighted[field.name] = true"
-            ng-mouseout="Fields.highlighted[field.name] = false"
-          ></field-info>
-        </div>
-      </div>
-      <div class="vis-list-item full-width vis-{{fieldSet.key}} flex-grow-1">
-        <vl-plot show-copy="true"
-          max-height="330"
-          encoding="cluster[0][0].encoding"
-          vl-spec="cluster[0][0].vlSpec"
-          vg-spec="cluster[0][0].vgSpec"></vl-plot>
-      </div>
-      <div class="no-shrink">
-
-        <div class="right">
-          <a class="command debug" ui-zeroclip zeroclip-model="cluster[0][0].vlSpec | compactJSON">Copy</a>
-          <a class="command debug" ng-href="{{ {type:'vl', encoding: cluster[0][0].vlSpec} | reportUrl }}" target="_blank">Report Bad Render</a>
-        </div>
-        <div>
-          <a href="#"
-            ng-click="Bookmarks.toggle(cluster[0][0].vlSpec)"
-            ng-class="{disabled: !cluster[0][0].vlSpec.enc}">
-            <i class="fa fa-bookmark"></i>
-            <span ng-if="Bookmarks.dict[cluster[0][0].shorthand]"> Remove </span>
-            <span ng-if="!Bookmarks.dict[cluster[0][0].shorthand]"> Add </span>
-            Bookmark
-          </a>
-        </div>
-      </div>
-    </div>
+    </vis-list-item>
     <encoding-variations ng-show="Visrec.selectedCluster"></encoding-variations>
   </div>
   <a ng-click="increaseLimit()">

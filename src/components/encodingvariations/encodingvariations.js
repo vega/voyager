@@ -29,10 +29,18 @@ angular.module('facetedviz')
 
         angular.element($document).on('keydown', escape);
 
+        scope.select = function(subcluster) {
+          scope.selectedSubcluster = subcluster;
+        };
+
         scope.close = function() {
           console.log('close');
           scope.Visrec.selectedCluster = null;
         };
+
+        scope.$watch('Visrec.selectedCluster', function(selectedCluster) {
+          scope.selectedSubcluster = selectedCluster ? selectedCluster[0] : null;
+        });
       }
     };
   });
