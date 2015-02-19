@@ -70,7 +70,7 @@ angular.module('vleApp')
     // takes a full spec, validates it and then rebuilds everything
     Spec.update = function(spec) {
       if (!spec) {
-        if (!spec) spec = Spec.spec;
+        spec = Spec.spec;
       }
 
       var cleanSpec = _.cloneDeep(spec);
@@ -84,13 +84,16 @@ angular.module('vleApp')
       }
 
       if (Spec.filterNulls && Dataset.dataschema.length > 0) {
-        cleanSpec.filter = _.chain(Dataset.dataschema).filter(function(d){
-            return d.name != '*'
-          }).pluck('name').map(function(d) {
+        cleanSpec.filter = _(cleanSpec.enc).pluck('name')
+          .filter(function(name){
+            return name && name !== '*';
+          })
+          .unique()
+          .map(function(name) {
             return {
-              operator: 'notNull',
-              operands: [d]
-            }
+              operands: [name],
+              operator: 'notNull'
+            };
           }).value();
       }
 
