@@ -33,6 +33,9 @@ angular.module('vleApp')
         }
 
         scope.togglePropsExpand = function() {
+          if (!scope.schema.supportedMarktypes[scope.marktype]) {
+            return;
+          }
           scope.propsExpanded = !scope.propsExpanded;
           if (scope.propsExpanded) {
             if (scope.funcsExpanded) {
