@@ -4,18 +4,13 @@
 angular.module('vleApp', [
     'zeroclipboard',
     'Chronicle',
-    '720kb.tooltips'
+    '720kb.tooltips',
+    'LocalStorageModule'
   ])
   .constant('_', window._)
   .constant('vl', window.vl)
   .constant('vg', window.vg)
   .constant('Papa', window.Papa)
-  .constant('consts', {
-    addCount: true, // add count field to Dataset.dataschema
-    debug: false,
-    useUrl: true,
-    logging: false
-  })
   .config(['uiZeroclipConfigProvider', function(uiZeroclipConfigProvider) {
 
     // config ZeroClipboard
@@ -38,7 +33,8 @@ angular.module('facetedviz', ['vleApp', 'ngAnimate', 'ngCookies', 'ngTouch', 'ng
     debug: true,
     useUrl: false,
     numInitClusters: 9,
-    numMoreClusters: 9
+    numMoreClusters: 9,
+    logging: false
   })
   .config(function ($stateProvider, $urlRouterProvider) {
     $stateProvider
