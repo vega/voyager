@@ -109,7 +109,12 @@ angular.module('facetedviz')
       Visrec.chartClusters = chartClusters;
 
       var end = new Date().getTime();
-      console.log('gen time – projections:', (endProjection-start), 'aggregates:', (endAggregates - endProjection), 'encodings:'+ (end-endAggregates), 'total:', (end-start));
+
+      var selectedFields = fieldList.filter(function(f) {
+        return f.selected;
+      });
+
+      console.log('gen time – projections ', vl.field.shorthands(selectedFields), ' :', (endProjection-start), 'aggregates:', (endAggregates - endProjection), 'encodings:'+ (end-endAggregates), 'total:', (end-start));
     };
 
     Visrec.update.clusters = function(limit) {
@@ -158,6 +163,7 @@ angular.module('facetedviz')
           var vgSpec= vl.compile(encoding, Dataset.stats);
 
           return {
+            fieldSetKey: fieldSet.key,
             vlSpec: spec,
             encoding: encoding,
             shorthand: encoding.toShorthand(),
@@ -166,6 +172,7 @@ angular.module('facetedviz')
         });
       });
 
+      cluster.key = fieldSet.key;
       return cluster;
     }
 
