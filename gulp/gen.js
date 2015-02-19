@@ -78,7 +78,9 @@ function genDirective(dir){
   fetchUrl(GIST_URL + 'directive.spec.js', function(str) {
     fs.writeFileSync(dirpath + ldir + '.spec.js' , replace(str, {
       __appname__: getAppName(),
-      __directive__: dir
+      __directive__: dir,
+      '__directive_lower__': ldir,
+      '__directive_dash__': dirdash
     }));
   });
 }
