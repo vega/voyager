@@ -45,6 +45,10 @@ function replace(str, template){
   return str;
 }
 
+function getAppName() {
+  return argv.a || argv.appname || APP_NAME;
+}
+
 function genDirective(dir){
   var ldir = dir.toLowerCase(),
     dirpath = COMP_PATH + ldir +'/',
@@ -63,7 +67,7 @@ function genDirective(dir){
   // create directive file
   fetchUrl(GIST_URL + 'directive.js', function(str) {
     fs.writeFileSync(dirpath + ldir + '.js' , replace(str, {
-      __appname__: APP_NAME,
+      __appname__: getAppName(),
       __directive__: dir,
       '__directive_lower__': ldir,
       '__directive_dash__': dirdash
@@ -73,17 +77,16 @@ function genDirective(dir){
   // create spec file
   fetchUrl(GIST_URL + 'directive.spec.js', function(str) {
     fs.writeFileSync(dirpath + ldir + '.spec.js' , replace(str, {
-      __appname__: APP_NAME,
+      __appname__: getAppName(),
       __directive__: dir
     }));
   });
-
 }
 
 function genItem(rootpath, item, fileurl, specurl, itemtype){
   var filename = item.toLowerCase(),
     dirpath = rootpath + filename +'/',
-    template = { __appname__: APP_NAME };
+    template = { __appname__: getAppName() };
 
   if(! fs.existsSync(dirpath)){
     fs.mkdirSync(dirpath);
