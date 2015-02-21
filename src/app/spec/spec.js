@@ -8,7 +8,7 @@
  * Service in the vleApp.
  */
 angular.module('vleApp')
-  .service('Spec', function(_, vl, tv4, Alerts, Config, Dataset) {
+  .service('Spec', function(_, vl, ZSchema, Alerts, Config, Dataset) {
     var Spec = {
       /** @type {Object} verbose spec edited by the UI */
       spec: null,
@@ -97,14 +97,18 @@ angular.module('vleApp')
           }).value();
       }
 
+      var validator = new ZSchema();
+
+      validator.setRemoteReference('http://json-schema.org/draft-04/schema', {});
+
       var schema = vl.schema.schema;
       // now validate the spec
-      var result = tv4.validateMultiple(cleanSpec, schema);
+      var valid = validator.validate(cleanSpec, schema);
 
-      if (result.errors.length > 0) {
+      if (!valid) {
         //FIXME: move this dependency to directive/controller layer
         Alerts.add({
-          msg: result.errors
+          msg: validator.getLastErrors()
         });
       } else {
         Spec.encoding = vl.Encoding.fromSpec(cleanSpec, {}, Config.config);
