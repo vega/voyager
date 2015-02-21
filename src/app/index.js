@@ -17,7 +17,7 @@ angular.module('vleApp', [
   .constant('vl', window.vl)
   .constant('vg', window.vg)
   .constant('Papa', window.Papa)
-  .constant('tv4', window.tv4)
+  .constant('ZSchema', window.ZSchema)
   .constant('Tether', window.Tether)
   .constant('jsondiffpatch', window.jsondiffpatch)
   .constant('consts', {
