@@ -8,7 +8,7 @@
  * Service in the facetedviz.
  */
 angular.module('facetedviz')
-  .service('Visrec', function (vr, vl, _, consts, Config, Dataset, Logger) {
+  .service('Visrec', function (vr, vl, _, consts, Config, Dataset, Logger, Fields) {
     var Visrec = {
       /**
        * List of all recommended projections based on the selection.
@@ -55,17 +55,19 @@ angular.module('facetedviz')
 
     // Visrec Config
 
-    Visrec.opt = {
-      // genAggr: true,
-      // genBin: true,
+    var exactMatchOpt = {
       genTypeCasting: false,
-      // omitTranpose: true,
-      // omitDotPlotWithExtraEncoding: false,
-      // omitAggrWithAllDimsOnFacets: false,
-      omitDimensionOnly: true,
-      // omitAggregateWithMeasureOnly: true
     };
 
+    var initOpt = {
+      genTypeCasting: false,
+      omitDotPlot: true
+    };
+
+    var suggestionOpt = {
+      genTypeCasting: false,
+      addCountForDimensionOnly: false
+    };
 
     Visrec.update.projections = function(fieldList) {
       Logger.logInteraction('Update projections: ' + JSON.stringify(_.filter(fieldList, function(d) { return d.selected; })));
@@ -74,7 +76,7 @@ angular.module('facetedviz')
       // TODO decide if we can update projections only if field name list changes
 
       // First create a projection
-      var projections = vr.gen.projections(fieldList, Dataset.stats, Visrec.opt);
+      var projections = vr.gen.projections(fieldList, Dataset.stats, {});
 
       var aggregates = {}, fieldSetDict = {},
         fieldSets = [], chartClusters = {};
@@ -84,7 +86,9 @@ angular.module('facetedviz')
       // For each projection, get different aggregations (fieldSetDict)
       projections.forEach(function(projection) {
         var pkey = projection.key;
-        aggregates[pkey] = vr.gen.aggregates([], projection, Visrec.opt);
+        var opt = pkey === Fields.selectedPKey ? exactMatchOpt :  Fields.selected.length === 0 ? initOpt : suggestionOpt;
+
+        aggregates[pkey] = vr.gen.aggregates([], projection, opt);
 
         aggregates[pkey].forEach(function(fieldSet) {
           fieldSetDict[fieldSet.key] = fieldSet;
@@ -136,7 +140,7 @@ angular.module('facetedviz')
     };
 
     function genClusters(fieldSet) {
-      var encodings = vr.gen.encodings([], fieldSet, Dataset.stats, Visrec.opt, Config.config)
+      var encodings = vr.gen.encodings([], fieldSet, Dataset.stats, {}, Config.config)
         .map(function(encoding) { // add filter null to all Buffer(subject, encoding, offset);
           encoding.filter = _(encoding.enc)
             .filter(function(field){
