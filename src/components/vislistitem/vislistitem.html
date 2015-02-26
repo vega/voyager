@@ -1,12 +1,20 @@
 <div class="vis-list-item-group card vflex">
   <div ng-if="showExpand || fieldSet"
-    class="vis-list-item-header full-width no-shrink" >
-    <a ng-if="showExpand"
-      ng-click="expandAction()"
-      class="command right"
-      >
-      <i class="fa fa-expand"></i>
-    </a>
+    class="vis-list-item-header full-width no-shrink">
+    <div class="right">
+      <a href="#"
+        class="command"
+        ng-click="Bookmarks.toggle(chart.vlSpec)"
+        ng-class="{disabled: !chart.vlSpec.enc, bookmarked: Bookmarks.isBookmarked(chart.vlSpec)}">
+        <i class="fa fa-bookmark"></i>
+      </a>
+      <a ng-if="showExpand"
+        ng-click="expandAction()"
+        class="command"
+        >
+        <i class="fa fa-expand"></i>
+      </a>
+    </div>
     <div class="field-set-info" ng-if="fieldSet">
       <field-info ng-repeat="field in fieldSet"
         field='field'
@@ -27,13 +35,13 @@
       max-height="330"
     ></vl-plot>
   </div>
-  <div class="no-shrink">
+  <div class="no-shrink dev-tool" ng-if="consts.debug">
     <div class="right">
       <a class="command debug" ui-zeroclip zeroclip-model="chart.vlSpec | compactJSON">Copy Vl</a>
       <a class="command debug" ui-zeroclip zeroclip-model="chart.vgSpec | compactJSON">Copy Vg</a>
       <a class="command debug" ng-href="{{ {type:'vl', encoding: chart.vlSpec} | reportUrl }}" target="_blank">Report Bad Render</a>
     </div>
-    <div>
+    <!-- <div>
       <a href="#"
         ng-click="Bookmarks.toggle(chart.vlSpec)"
         ng-class="{disabled: !chart.vlSpec.enc}">
@@ -42,6 +50,6 @@
         <span ng-if="!Bookmarks.dict[chart.shorthand]"> Add </span>
         Bookmark
       </a>
-    </div>
+    </div> -->
   </div>
 </div>

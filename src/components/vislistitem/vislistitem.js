@@ -7,7 +7,7 @@
  * # visListItem
  */
 angular.module('vleApp')
-  .directive('visListItem', function (Fields, Bookmarks) {
+  .directive('visListItem', function (Fields, Bookmarks, consts) {
     return {
       templateUrl: 'components/vislistitem/vislistitem.html',
       restrict: 'E',
@@ -23,6 +23,7 @@ angular.module('vleApp')
       link: function postLink(scope, element, attrs) {
         scope.Fields = Fields;
         scope.Bookmarks = Bookmarks;
+        scope.consts = consts;
       }
     };
   });

@@ -35,6 +35,10 @@
   margin-bottom: 5px;
 }
 
+.vis-list-item-header .bookmarked {
+  color: #EE0000;
+}
+
 .vis-list-item {
   @extend .persist-scroll;
   min-height: 150px;
@@ -63,5 +67,14 @@
       overflow: scroll;
     }
   }
+}
+
+
+.vis-list-item-group .dev-tool {
+  visibility: hidden;
+}
+
+.vis-list-item-group:hover .dev-tool{
+  visibility:visible;
 }
 
