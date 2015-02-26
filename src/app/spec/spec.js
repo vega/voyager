@@ -84,10 +84,11 @@ angular.module('vleApp')
       }
 
       if (Spec.filterNulls && Dataset.dataschema.length > 0) {
-        cleanSpec.filter = _(cleanSpec.enc).pluck('name')
-          .filter(function(name){
-            return name && name !== '*' && name.type !== 'O';
+        cleanSpec.filter = _(cleanSpec.enc)
+          .filter(function(field){
+            return field.name && field.name !== '*' && field.type !== 'O';
           })
+          .pluck('name')
           .unique()
           .map(function(name) {
             return {
