@@ -39,15 +39,15 @@ angular.module('facetedviz')
       });
 
       angular.element($document).on('keydown', function(e) {
-        if (e.keyCode == 'Z'.charCodeAt(0) && (e.ctrlKey || e.metaKey) && !e.shiftKey) {
+        if (e.keyCode === 'Z'.charCodeAt(0) && (e.ctrlKey || e.metaKey) && !e.shiftKey) {
           $scope.chron.undo();
           $scope.$digest();
           return false;
-        } else if (e.keyCode == 'Y'.charCodeAt(0) && (e.ctrlKey || e.metaKey)) {
+        } else if (e.keyCode === 'Y'.charCodeAt(0) && (e.ctrlKey || e.metaKey)) {
           $scope.chron.redo();
           $scope.$digest();
           return false;
-        } else if (e.keyCode == 'Z'.charCodeAt(0) && (e.ctrlKey || e.metaKey) && e.shiftKey) {
+        } else if (e.keyCode === 'Z'.charCodeAt(0) && (e.ctrlKey || e.metaKey) && e.shiftKey) {
           $scope.chron.redo();
           $scope.$digest();
           return false;
