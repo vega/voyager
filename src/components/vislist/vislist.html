@@ -1,7 +1,22 @@
 <div class="abs-100 scroll-y">
-  <div class="vis-list hflex flex-wrap">
+  <div ng-if="Fields.selected.length > 0"
+     class="card no-top-margin vis-list-header">
+    <span class="desc">Showing Data Variations for</span>
+    <field-info ng-repeat="(name, field) in Fields.selected"
+      field='field'
+      show-type='true'
+      ng-class="{
+        selected: true,
+        highlighted: (Fields.highlighted||{})[field.name]
+      }"
+      ng-mouseover="(Fields.highlighted||{})[field.name] = true"
+      ng-mouseout="(Fields.highlighted||{})[field.name] = false"
+    ></field-info>
+  </div>
+  <div ng-if="Fields.selected.length > 0"
+      class="vis-list hflex flex-wrap">
     <vis-list-item
-      ng-repeat="fieldSet in Visrec.fieldSets | limitTo: limit"
+      ng-repeat="fieldSet in Visrec.aggregates[Fields.selectedPKey] "
       ng-init="cluster = Visrec.chartClusters[fieldSet.key]"
       field-set="fieldSet"
       chart="cluster[0][0]"
@@ -11,8 +26,43 @@
       expand-action="select(fieldSet, cluster, $index)"
     >
     </vis-list-item>
-    <encoding-variations ng-show="Visrec.selectedCluster"></encoding-variations>
   </div>
+  <div ng-if="Fields.selected.length == 0"
+    class="card vis-list-header no-top-margin">
+    <span class="desc">Start by looking at some univariate distributions below or select some fields with the data selector!</span>
+
+  </div>
+  <div ng-if="Fields.selected.length > 0"
+    class="card vis-list-header">
+    <span class="desc">Showing</span>
+    <field-info ng-repeat="(name, field) in Fields.selected"
+      field='field'
+      show-type='true'
+      ng-class="{
+        selected: true,
+        highlighted: (Fields.highlighted||{})[field.name]
+      }"
+      ng-mouseover="(Fields.highlighted||{})[field.name] = true"
+      ng-mouseout="(Fields.highlighted||{})[field.name] = false"
+    ></field-info>
+    <span class="desc">with one additional field.</span>
+  </div>
+
+  <div class="vis-list hflex flex-wrap">
+    <vis-list-item
+      ng-repeat="fieldSet in Visrec.fieldSets | limitTo: limit - Visrec.aggregates[Fields.selectedPKey].length"
+      ng-if="fieldSet.length !== Fields.selected.length"
+      ng-init="cluster = Visrec.chartClusters[fieldSet.key]"
+      field-set="fieldSet"
+      chart="cluster[0][0]"
+      is-selected="Fields.isSelected"
+      highlighted="Fields.highlighted"
+      show-expand="true"
+      expand-action="select(fieldSet, cluster, $index)"
+    >
+    </vis-list-item>
+  </div>
+  <encoding-variations ng-show="Visrec.selectedCluster"></encoding-variations>
   <a ng-click="increaseLimit()">
     <div class="vis-list-more" ng-show="limit < Visrec.fieldSets.length">
       Load more...

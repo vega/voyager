@@ -1,6 +1,12 @@
+.vis-list-header {
+  .desc {
+    font-weight: bold;
+  }
+}
+
 .vis-list {
-  margin-top: -3px;
   align-content: flex-start;
+  margin-bottom: 20px;
 }
 
 // .vis-list .encoding-variations {
@@ -24,6 +30,7 @@
   vertical-align: middle;
   text-align:center;
   font-size: 1.2em;
+  margin-bottom: 20px;
 }
 
 .vis-list-item-group {

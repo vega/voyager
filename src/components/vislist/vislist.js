@@ -57,6 +57,7 @@ angular.module('facetedviz')
           scope.limit = consts.numInitClusters;
           element.scrollTop(0); // scroll the the top
           var fieldList = Fields.getList();
+          Fields.update();
           Visrec.update.projections(fieldList);
 
         }, true);
