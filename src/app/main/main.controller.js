@@ -10,6 +10,11 @@ angular.module('facetedviz')
     $scope.Dataset = Dataset;
     $scope.Bookmarks = Bookmarks;
 
+    $scope.showBookmark = false;
+    $scope.hideBookmark = function() {
+      $scope.showBookmark = false;
+    };
+
     Dataset.update(Dataset.dataset).then(function() {
       // initially set dataset and update fields
       Config.updateDataset(Dataset.dataset);

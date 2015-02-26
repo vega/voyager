@@ -183,6 +183,7 @@ angular.module('facetedviz')
 
           return {
             fieldSetKey: fieldSet.key,
+            fieldSet: fieldSet,
             vlSpec: spec,
             encoding: encoding,
             shorthand: encoding.toShorthand(),
