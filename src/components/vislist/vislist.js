@@ -7,7 +7,7 @@
  * # visList
  */
 angular.module('facetedviz')
-  .directive('visList', function (Fields, Visrec, vl, jQuery, consts) {
+  .directive('visList', function (Fields, Visrec, vl, jQuery, consts, _) {
     return {
       templateUrl: 'components/vislist/vislist.html',
       restrict: 'E',
@@ -53,13 +53,16 @@ angular.module('facetedviz')
           // getChild(index-1).after(ev);
         };
 
-        scope.$watch('Fields.fields', function() {
+        var updateFields = _.debounce(function() {
+          console.log('updateFields');
           scope.limit = consts.numInitClusters;
           element.scrollTop(0); // scroll the the top
           var fieldList = Fields.getList();
           Visrec.update.projections(fieldList);
 
-        }, true);
+        }, 200, {maxWait: 1500});
+
+        scope.$watch('Fields.fields', updateFields, true);
       }
     };
   });
