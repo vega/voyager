@@ -136,7 +136,22 @@ angular.module('facetedviz')
     };
 
     function genClusters(fieldSet) {
-      var encodings = vr.gen.encodings([], fieldSet, Dataset.stats, Visrec.opt, Config.config);
+      var encodings = vr.gen.encodings([], fieldSet, Dataset.stats, Visrec.opt, Config.config)
+        .map(function(encoding) { // add filter null to all Buffer(subject, encoding, offset);
+          encoding.filter = _(encoding.enc)
+            .filter(function(field){
+              return field.name && field.name !== '*' && field.type !== 'O';
+            })
+            .pluck('name')
+            .unique()
+            .map(function(name) {
+              return {
+                operands: [name],
+                operator: 'notNull'
+              };
+            }).value();
+          return encoding;
+        });
 
       // get 2d array of indices
       var clusterIndices = vr.cluster(encodings, 2.5)
@@ -161,6 +176,8 @@ angular.module('facetedviz')
             encoding = vl.Encoding.fromSpec(spec);
 
           var vgSpec= vl.compile(encoding, Dataset.stats);
+
+          console.log('vgSpec', vgSpec);
 
           return {
             fieldSetKey: fieldSet.key,

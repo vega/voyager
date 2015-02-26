@@ -49,7 +49,7 @@ angular.module('vleApp')
             view = chart({el: element[0]});
 
             if (!consts.useUrl) {
-              view.data({table: Dataset.data});
+              view.data({raw: Dataset.data});
             }
 
             scope.width =  view.width();

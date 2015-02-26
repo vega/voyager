@@ -31,7 +31,7 @@ angular.module('facetedviz', ['vleApp', 'ngAnimate', 'ngCookies', 'ngTouch', 'ng
   .constant('consts', {
     addCount: true, // add count field to Dataset.dataschema
     debug: true,
-    useUrl: false,
+    useUrl: true,
     numInitClusters: 9,
     numMoreClusters: 9,
     logging: false
