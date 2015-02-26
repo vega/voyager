@@ -4,14 +4,15 @@
       <div class="right">
         <div class="controls">
           <a href="#"
-            ng-click="Bookmarks.toggle(Spec.vlSpec)"
+            ng-click="Bookmarks.toggle(Spec.getChart())"
             ng-class="{disabled: !Spec.vlSpec.enc}">
             <i class="fa fa-bookmark"></i>
             <span ng-if="Bookmarks.dict[Spec.shorthand]"> Remove </span>
             <span ng-if="!Bookmarks.dict[Spec.shorthand]"> Add </span>
             Bookmark
           </a>
-          <a class="disabled">
+          <a ng-click="showBookmark=true">
+            <i class="fa fa-bookmark"></i>
             Bookmarks ({{Bookmarks.list.length}})
           </a>
           <a href="#" ng-click="chron.undo()" ng-class="{disabled: !canUndo}"><i class="fa fa-undo"></i> Undo</a>
@@ -60,3 +61,7 @@
     </div>
   </div>
 </div>
+<bookmark-list active="showBookmark"
+  deactivate="hideBookmark();"
+  highlighted="{}">
+</bookmark-list>
