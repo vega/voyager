@@ -177,8 +177,6 @@ angular.module('facetedviz')
 
           var vgSpec= vl.compile(encoding, Dataset.stats);
 
-          console.log('vgSpec', vgSpec);
-
           return {
             fieldSetKey: fieldSet.key,
             vlSpec: spec,
