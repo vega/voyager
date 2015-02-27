@@ -53,7 +53,7 @@ angular.module('vleApp')
           }
 
           // reset field def, HACK: we're temporarily storing the maxbins in the pill
-          pill.bin = selectedFunc === BIN ? {maxbins: pill.maxbins || 15} : undefined;
+          pill.bin = selectedFunc === BIN ? {maxbins: pill.maxbins || vl.schema.MAXBINS_DEFAULT} : undefined;
           pill.aggr = getAggrs(type).indexOf(selectedFunc) !== -1 ? selectedFunc : undefined;
           pill.fn = getFns(type).indexOf(selectedFunc) !== -1 ? selectedFunc : undefined;
 
