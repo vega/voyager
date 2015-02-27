@@ -22,7 +22,7 @@ angular.module('vleApp', [
   .constant('jsondiffpatch', window.jsondiffpatch)
   .constant('consts', {
     addCount: true, // add count field to Dataset.dataschema
-    debug: false,
+    debug: true,
     useUrl: true,
     logging: false
   })

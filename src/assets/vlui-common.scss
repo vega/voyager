@@ -386,3 +386,23 @@ h4 {
     margin: 0 10px;
   }
 }
+
+.modal {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  background: rgba(0,0,0,0.5);
+
+  .wrapper {
+    position: fixed;
+    top: 50px;
+    left: 50px;
+    right: 50px;
+    bottom: 50px;
+    background-color: #eee;
+    z-index: 1;
+    border: 5px solid #aaa;
+  }
+}

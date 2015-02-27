@@ -11,8 +11,8 @@ describe('Service: Bookmarks', function () {
     Bookmarks = _Bookmarks_;
   }));
 
-  it('should start with empty list', function () {
-    expect(Bookmarks.list.length).toBe(0);
+  it('should do something', function () {
+    expect(Bookmarks).toBeTruthy();
   });
 
 });
