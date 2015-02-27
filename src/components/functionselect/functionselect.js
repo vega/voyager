@@ -52,8 +52,8 @@ angular.module('vleApp')
             return; // not ready
           }
 
-          // reset field def
-          pill.bin = selectedFunc === BIN ? true : undefined;
+          // reset field def, HACK: we're temporarily storing the maxbins in the pill
+          pill.bin = selectedFunc === BIN ? {maxbins: pill.maxbins || 15} : undefined;
           pill.aggr = getAggrs(type).indexOf(selectedFunc) !== -1 ? selectedFunc : undefined;
           pill.fn = getFns(type).indexOf(selectedFunc) !== -1 ? selectedFunc : undefined;
 
@@ -72,6 +72,11 @@ angular.module('vleApp')
 
           var type = pill.name ? pill.type : '';
           var schema = scope.schema.properties;
+
+          // hack: save the maxbins
+          if (pill.bin) {
+            pill.maxbins = pill.bin.maxbins;
+          }
 
           var isQonOrdinalOnlyShelf = ['row','col','shape'].indexOf(scope.encType) !== -1 && type==='Q';
 
