@@ -31,7 +31,9 @@
   </div>
   <div class="vis-list-item full-width vis-{{fieldSet.key}} flex-grow-1">
     <vl-plot vg-spec="chart.vgSpec"
-      encoding="chart.encoding"
+      vl-spec="chart.vlSpec"
+      shorthand="chart.shorthand"
+      config-set="small"
       max-height="330"
     ></vl-plot>
   </div>

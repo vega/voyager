@@ -177,7 +177,7 @@ angular.module('facetedviz')
       var cluster = clusterIndices.map(function(indices) {
         return indices.map(function(index) {
           var spec = encodings[index],
-            encoding = vl.Encoding.fromSpec(spec);
+            encoding = vl.Encoding.fromSpec(spec, {}, Config.small());
 
           var vgSpec= vl.compile(encoding, Dataset.stats);
 

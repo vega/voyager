@@ -9,6 +9,7 @@
           <a href="#" ng-click="close()" class="right">Close</a>
         </div>
         <div class="field-set-info no-bottom-margin">
+          <b>Various Visualizations Showing </b>
           <field-info ng-repeat="field in Visrec.selectedFieldSet"
             field='field'
             show-type='true'
@@ -20,8 +21,9 @@
     <div class="hflex flex-grow-1">
       <div class="selected-variation">
         <div class="card abs-100 scroll-xy">
-          <vl-plot vg-spec="selectedSubcluster[0].vgSpec"
-            encoding="selectedSubcluster[0].encoding"
+          <vl-plot shorthand="selectedSubcluster[0].shorthand"
+            vl-spec="selectedSubcluster[0].vlSpec"
+            config-set="large"
           >
           </vl-plot>
           <div>

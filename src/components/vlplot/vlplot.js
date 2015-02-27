@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('vleApp')
-  .directive('vlPlot', function(vg, $timeout, $q, Dataset, consts) {
+  .directive('vlPlot', function(vl, vg, $timeout, $q, Dataset, Config, consts) {
     var counter = 0;
     var MAX_CANVAS_SIZE = 32767/2, MAX_CANVAS_AREA = 268435456/4;
 
@@ -18,11 +18,13 @@ angular.module('vleApp')
       restrict: 'E',
       scope: {
         'vgSpec':'=',
-        'encoding': '=',
-        'maxHeight':'='
+        'vlSpec': '=',
+        'shorthand': '=',
+        'maxHeight':'=',
+        'configSet': '@'
       },
       replace: true,
-      link: function(scope, element) {
+      link: function(scope, element, attr) {
         scope.visId = (counter++);
         scope.hoverAction = null;
         scope.mouseover = function() {
@@ -38,8 +40,20 @@ angular.module('vleApp')
 
         function render() {
           var start = new Date().getTime();
-          var spec= scope.vgSpec;
-          var shorthand = scope.encoding ? scope.encoding.toShorthand() : '';
+          var configSet = scope.configSet || consts.defaultConfigSet || {};
+
+          var spec = consts.defaultConfigSet && scope.configSet && consts.defaultConfigSet !== scope.configSet ? null : scope.vgSpec;
+
+          console.log('render', scope.configSet, spec, scope.vlSpec);
+
+          if (!spec) { // recompile if not yet available
+            var encoding = vl.Encoding.fromSpec(scope.vlSpec, {}, Config[configSet]());
+            spec = vl.compile(encoding, Dataset.stats);
+          }
+
+          console.log(spec);
+
+          var shorthand = scope.shorthand || (scope.vlSpec ? vl.Encoding.shorthandFromSpec(scope.vlSpec) : '');
 
           scope.renderer = getRenderer(spec);
 
@@ -49,7 +63,7 @@ angular.module('vleApp')
             view = chart({el: element[0]});
 
             if (!consts.useUrl) {
-              view.data({raw: Dataset.data});
+              view.data({table: Dataset.data});
             }
 
             scope.width =  view.width();
