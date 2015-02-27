@@ -19,7 +19,8 @@ function runTests (singleRun, done) {
   var testFiles = bowerDeps.js.concat([
     paths.src + '/{app,components}/**/*.js',
     paths.src + '/vendor/*.js',
-    paths.src + '/partials/templateCacheHtml.js'
+    paths.src + '/partials/templateCacheHtml-facetedviz.js',
+    paths.src + '/partials/templateCacheHtml-vleApp.js'
   ]);
 
   gulp.src(testFiles)
