@@ -7,7 +7,7 @@ angular.module('vleApp')
     $scope.Config = Config;
     $scope.Bookmarks = Bookmarks;
     $scope.consts = consts;
-    $scope.showDevPanel = consts.debug;
+    $scope.showDevPanel = false;
 
     // undo/redo support
 

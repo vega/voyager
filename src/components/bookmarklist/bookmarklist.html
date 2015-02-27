@@ -7,7 +7,7 @@
         <div class="right">
           <a href="#" ng-click="deactivate()" class="right">Close</a>
         </div>
-        <h2 class="no-bottom-margin">Bookmarks</h3>
+        <h2 class="no-bottom-margin">Bookmarks ({{Bookmarks.list.length}})</h3>
       </div>
       <div class="flex-grow-1 scroll-y">
         <div ng-if="Bookmarks.list.length > 0"
@@ -17,6 +17,7 @@
             ng-init="chart = Bookmarks.dict[shorthand]"
             field-set="chart.fieldSet"
             chart="chart"
+            show-debug="consts.debug"
             always-selected="true"
             highlighted="highlighted"
             ng-mouseover="(highlighted||{})[field.name] = true"
@@ -24,7 +25,7 @@
             show-expand="false"
           ></vis-list-item>
         </div>
-        <div class="vis-list-more" ng-if="Bookmarks.list.length ===0">
+        <div class="vis-list-empty" ng-if="Bookmarks.list.length ===0">
           The bookmark is empty
         </div>
       </div>

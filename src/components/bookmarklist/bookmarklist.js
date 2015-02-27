@@ -7,7 +7,7 @@
  * # bookmarkList
  */
 angular.module('vleApp')
-  .directive('bookmarkList', function (Bookmarks) {
+  .directive('bookmarkList', function (Bookmarks, consts) {
     return {
       templateUrl: 'components/bookmarklist/bookmarklist.html',
       restrict: 'E',
@@ -19,6 +19,7 @@ angular.module('vleApp')
       },
       link: function postLink(scope, element, attrs) {
         scope.Bookmarks = Bookmarks;
+        scope.consts = consts;
       }
     };
   });
