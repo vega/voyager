@@ -19,7 +19,7 @@
           <a href="#" ng-click="chron.redo()" ng-class="{disabled: !canRedo}"><i class="fa fa-repeat"></i> Redo</a>
         </div>
         <a href="http://bit.ly/visrecissues" target="_blank" class="command debug">Known Issues</a>
-        <a ng-href="https://docs.google.com/forms/d/1xKs-qGaLZEUfbTmhdmSoS13OKOEpuu_NNWE5TAAml_Y/viewform?entry.114212540&entry.1245199477={{Spec.vlSpec | compactJSON | encodeURI}}" target="_blank" class="command debug">Report an issue</a>
+        <a ng-href="{{ {encoding:Spec.vlSpec} | reportUrl }}" target="_blank" class="command debug">Report an issue</a>
         <a href="#" class="command debug" ng-click="showDevPanel = !showDevPanel">Dev Pane</a>
       </div>
       <h1>ShelfViz</h1>
