@@ -14,7 +14,9 @@ angular.module('vleApp')
       replace: true,
       scope: {
         chart: '=',
+        showDebug: '=', //optional
         fieldSet: '=', //optional
+        alwaysSelected: '=', //optional
         isSelected: '=', //optional
         highlighted: '=', //optional
         showExpand: '=', //optional

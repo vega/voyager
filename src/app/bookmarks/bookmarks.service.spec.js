@@ -12,7 +12,7 @@ describe('Service: Bookmarks', function () {
   }));
 
   it('should do something', function () {
-    expect(Bookmarks).toBe(true);
+    expect(Bookmarks).toBeTruthy();
   });
 
 });
