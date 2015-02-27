@@ -1,13 +1,9 @@
 'use strict';
 
-describe('Directive: visListItem', function () {
+describe('Directive: bookmarkList', function () {
 
   // load the directive's module
   beforeEach(module('vleApp'));
-
-  var element,
-    scope;
-
 
   beforeEach(module('vleApp', function($provide) {
     // mock vega
@@ -30,15 +26,18 @@ describe('Directive: visListItem', function () {
     $provide.constant('vl', vl);
   }));
 
+  var element,
+    scope;
+
   beforeEach(inject(function ($rootScope) {
     scope = $rootScope.$new();
-    scope.showExpand = true;
+    scope.active = true;
   }));
 
   it('should make hidden element visible', inject(function ($compile) {
-    element = angular.element('<vis-list-item></vis-list-item>');
+    element = angular.element('<bookmark-list></bookmark-list>');
     element = $compile(element)(scope);
     scope.$digest();
-    expect(element.find('.vis-list-item').length).toBe(1);
+    expect(element.find('.wrapper').length).toBe(1);
   }));
 });

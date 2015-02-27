@@ -3,11 +3,16 @@
     <div class="card no-right-margin no-top-margin margin-bottom">
       <div class="right">
         <div class="controls">
-          <a class="disabled">
+          <a ng-click="showBookmark=true">
+            <i class="fa fa-bookmark"></i>
             Bookmarks ({{Bookmarks.list.length}})
           </a>
-          <a href="#" ng-click="chron.undo()" ng-class="{disabled: !canUndo}"><i class="fa fa-undo"></i> Undo</a>
-          <a href="#" ng-click="chron.redo()" ng-class="{disabled: !canRedo}"><i class="fa fa-repeat"></i> Redo</a>
+          <a href="#" ng-click="chron.undo()" ng-class="{disabled: !canUndo}">
+            <i class="fa fa-undo"></i> Undo
+          </a>
+          <a href="#" ng-click="chron.redo()" ng-class="{disabled: !canRedo}">
+            <i class="fa fa-repeat"></i> Redo
+          </a>
         </div>
         <a href="http://bit.ly/visrecissues" target="_blank" class="command debug">Known Issues</a>
         <a ng-href="{{ {fields: Fields.fields} | reportUrl }}" target="_blank" class="command debug">Report an issue</a>
@@ -37,3 +42,7 @@
   <div class="hflex full-width dev-panel" ng-show="showDevPanel">
   </div>
 </div>
+<bookmark-list active="showBookmark"
+  deactivate="hideBookmark();"
+  highlighted="Fields.highlighted">
+</bookmark-list>

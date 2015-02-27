@@ -21,29 +21,29 @@ angular.module('vleApp')
 
     var proto = Bookmarks.prototype;
 
-    proto.toggle = function(vlSpec, shorthand) {
-      shorthand = shorthand || toShorthand(vlSpec);
+    proto.toggle = function(chart) {
+      var shorthand = chart.shorthand;
 
       if (this.dict[shorthand]) {
-        this.remove(vlSpec, shorthand);
+        this.remove(chart);
       } else {
-        this.add(vlSpec, shorthand);
+        this.add(chart);
       }
     };
 
-    proto.add = function(vlSpec) {
-      var shorthand = _.isString(vlSpec) ? shorthand :  toShorthand(vlSpec);
+    proto.add = function(chart) {
+      var shorthand = chart.shorthand;
 
-      console.log('adding', vlSpec, shorthand);
+      console.log('adding', chart.vlSpec, shorthand);
 
-      this.dict[shorthand] = vlSpec;
+      this.dict[shorthand] = chart;
       this.list.push(shorthand);
     };
 
-    proto.remove = function(vlSpec) {
-      var shorthand = _.isString(vlSpec) ? shorthand :  toShorthand(vlSpec);
+    proto.remove = function(chart) {
+      var shorthand = chart.shorthand;
 
-      console.log('removing', vlSpec, shorthand);
+      console.log('removing', chart.vlSpec, shorthand);
 
       delete this.dict[shorthand];
       _.remove(this.list, function(item){

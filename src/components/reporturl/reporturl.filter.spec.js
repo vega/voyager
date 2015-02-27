@@ -3,10 +3,15 @@
 describe('Filter: reportUrl', function () {
 
   // load the filter's module
-  beforeEach(module('facetedviz'));
+  beforeEach(module('vleApp'));
 
   // initialize a new instance of the filter before each test
   var reportUrl;
+
+  beforeEach(module('vleApp', function($provide) {
+    $provide.constant('consts', {report: 'voyager'});
+  }));
+
   beforeEach(inject(function ($filter) {
     reportUrl = $filter('reportUrl');
   }));

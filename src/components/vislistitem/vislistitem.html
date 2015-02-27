@@ -4,7 +4,7 @@
     <div class="right">
       <a href="#"
         class="command"
-        ng-click="Bookmarks.toggle(chart.vlSpec)"
+        ng-click="Bookmarks.toggle(chart)"
         ng-class="{disabled: !chart.vlSpec.enc, bookmarked: Bookmarks.isBookmarked(chart.vlSpec)}">
         <i class="fa fa-bookmark"></i>
       </a>
@@ -20,7 +20,7 @@
         field='field'
         show-type='true'
         ng-class="{
-          selected: isSelected && isSelected(field.name),
+          selected: alwaysSelected || (isSelected && isSelected(field.name)),
           unselected: isSelected && !isSelected(field.name),
           highlighted: (highlighted||{})[field.name]
         }"
@@ -35,11 +35,13 @@
       max-height="330"
     ></vl-plot>
   </div>
-  <div class="no-shrink dev-tool" ng-if="consts.debug">
+  <div class="no-shrink dev-tool" ng-if="consts.debug && showDebug">
     <div class="right">
       <a class="command debug" ui-zeroclip zeroclip-model="chart.vlSpec | compactJSON">Copy Vl</a>
       <a class="command debug" ui-zeroclip zeroclip-model="chart.vgSpec | compactJSON">Copy Vg</a>
-      <a class="command debug" ng-href="{{ {type:'vl', encoding: chart.vlSpec} | reportUrl }}" target="_blank">Report Bad Render</a>
+      <a class="command debug"
+        ng-href="{{ {type:'vl', encoding: chart.vlSpec} | reportUrl }}"
+        target="_blank">Report Bad Render</a>
     </div>
     <!-- <div>
       <a href="#"
