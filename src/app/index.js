@@ -34,7 +34,8 @@ angular.module('facetedviz', ['vleApp', 'ngAnimate', 'ngCookies', 'ngTouch', 'ng
     useUrl: true,
     numInitClusters: 9,
     numMoreClusters: 9,
-    logging: false
+    logging: false,
+    report: 'voyager'
   })
   .config(function ($stateProvider, $urlRouterProvider) {
     $stateProvider
