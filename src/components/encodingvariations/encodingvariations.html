@@ -4,11 +4,12 @@
       ng-if="Visrec.selectedCluster"
       >
       <!-- ng-class="{outside: Visrec.selectedCluster}" -->
-      <div class="encoding-variations-header modal-header no-shrink card no-top-margin no-right-margin">
+      <div class="encoding-variations-header modal-header no-shrink card no-top-margin no-right-margin margin-bottom">
         <div class="right">
           <a href="#" ng-click="close()" class="right">Close</a>
         </div>
         <div class="field-set-info no-bottom-margin">
+          <b>Various Visualizations Showing </b>
           <field-info ng-repeat="field in Visrec.selectedFieldSet"
             field='field'
             show-type='true'
@@ -18,45 +19,33 @@
       </div>
 
     <div class="hflex flex-grow-1">
-      <div class="selected-variation">
-        <div class="card abs-100 scroll-xy">
-          <vl-plot vg-spec="selectedSubcluster[0].vgSpec"
-            encoding="selectedSubcluster[0].encoding"
-          >
-          </vl-plot>
-          <div>
-            <a href="#" class="command"
-              ng-click="Bookmarks.toggle(selectedSubcluster[0].vlSpec)"
-              ng-class="{disabled: !selectedSubcluster[0].vlSpec.enc}">
-              <i class="fa fa-bookmark"></i>
-              <span ng-if="Bookmarks.dict[selectedSubcluster[0].shorthand]"> Remove </span>
-              <span ng-if="!Bookmarks.dict[selectedSubcluster[0].shorthand]"> Add </span>
-              Bookmark
-            </a>
-            <div class="right">
-              <a class="command debug" ui-zeroclip zeroclip-model="selectedSubcluster[0].vlSpec | compactJSON">Copy Spec</a>
-              <a class="command debug" ng-href="{{ {type:'vl', encoding: selectedSubcluster[0].vlSpec} | reportUrl }}" target="_blank">Report Bad Render</a>
-            </div>
-          </div>
-        </div>
+      <div class="selected-variation no-shrink">
+        <vl-plot-group
+          chart="selectedSubcluster[0]"
+          config-set="large"
+          show-bookmark="true"
+          show-debug="consts.debug"
+          show-toggle="true"
+          class="abs-100 scroll-xy full-vl-plot-group no-top-margin"
+        ></vl-plot-group>
       </div>
       <!--variation-list-->
-      <div class="vflex flex-grow-1" ng-if="Visrec.selectedCluster.length > 1">
-        <div class="card no-right-margin no-shrink">
-          <h3 class="no-bottom-margin">Variations Within Cluster</h3>
-        </div>
-
-        <div class="flex-grow-1 scroll-y">
-          <div class="hflex flex-wrap">
-            <vis-list-item
-              ng-repeat="subcluster in Visrec.selectedCluster"
-              ng-if="selectedSubcluster != subcluster"
-              chart="subcluster[0]"
-              show-expand="true"
-              expand-action="select(subcluster)"
-            >
-            </vis-list-item>
+      <div class="vflex flex-grow-1 scroll-y" ng-if="Visrec.selectedCluster.length > 1">
+        <div class="full-width">
+          <div class="card no-shrink no-top-margin ">
+            <h3 class="no-bottom-margin">Variations Within Cluster</h3>
           </div>
+          <vl-plot-group
+            ng-repeat="subcluster in Visrec.selectedCluster"
+            ng-if="selectedSubcluster != subcluster"
+            chart="subcluster[0]"
+            show-bookmark="true"
+            show-debug="consts.debug"
+            show-expand="true"
+            expand-action="select(subcluster)"
+            class="row-vl-plot-group"
+          >
+          </vl-plot-group>
         </div>
       </div>
       <!--end of variation-list-->

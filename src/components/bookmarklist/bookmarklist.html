@@ -12,18 +12,23 @@
       <div class="flex-grow-1 scroll-y">
         <div ng-if="Bookmarks.list.length > 0"
             class="vis-list hflex flex-wrap">
-          <vis-list-item
+          <vl-plot-group
             ng-repeat="shorthand in Bookmarks.list"
             ng-init="chart = Bookmarks.dict[shorthand]"
-            field-set="chart.fieldSet"
+            class="wrapped-vl-plot-group"
+
             chart="chart"
+            field-set="chart.fieldSet"
+
+            show-bookmark="true"
             show-debug="consts.debug"
+            show-expand="false"
+
             always-selected="true"
             highlighted="highlighted"
             ng-mouseover="(highlighted||{})[field.name] = true"
             ng-mouseout="(highlighted||{})[field.name] = false"
-            show-expand="false"
-          ></vis-list-item>
+          ></vl-plot-group>
         </div>
         <div class="vis-list-empty" ng-if="Bookmarks.list.length ===0">
           The bookmark is empty

@@ -140,7 +140,7 @@ angular.module('facetedviz')
     };
 
     function genClusters(fieldSet) {
-      var encodings = vr.gen.encodings([], fieldSet, Dataset.stats, {}, Config.config)
+      var encodings = vr.gen.encodings([], fieldSet, Dataset.stats, {}, Config.small())
         .map(function(encoding) { // add filter null to all Buffer(subject, encoding, offset);
           encoding.filter = _(encoding.enc)
             .filter(function(field){
@@ -177,8 +177,7 @@ angular.module('facetedviz')
       var cluster = clusterIndices.map(function(indices) {
         return indices.map(function(index) {
           var spec = encodings[index],
-            encoding = vl.Encoding.fromSpec(spec);
-
+            encoding = vl.Encoding.fromSpec(spec, {});
           var vgSpec= vl.compile(encoding, Dataset.stats);
 
           return {
