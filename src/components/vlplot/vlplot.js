@@ -44,14 +44,12 @@ angular.module('vleApp')
 
           var spec = consts.defaultConfigSet && scope.configSet && consts.defaultConfigSet !== scope.configSet ? null : scope.vgSpec;
 
-          console.log('render', scope.configSet, spec, scope.vlSpec);
 
           if (!spec) { // recompile if not yet available
             var encoding = vl.Encoding.fromSpec(scope.vlSpec, {}, Config[configSet]());
             spec = vl.compile(encoding, Dataset.stats);
           }
 
-          console.log(spec);
 
           var shorthand = scope.shorthand || (scope.vlSpec ? vl.Encoding.shorthandFromSpec(scope.vlSpec) : '');
 

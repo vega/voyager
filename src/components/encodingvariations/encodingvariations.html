@@ -21,7 +21,8 @@
     <div class="hflex flex-grow-1">
       <div class="selected-variation">
         <div class="card abs-100 scroll-xy">
-          <vl-plot shorthand="selectedSubcluster[0].shorthand"
+          <vl-plot vg-spec="selectedSubcluster[0].vgSpec"
+            shorthand="selectedSubcluster[0].shorthand"
             vl-spec="selectedSubcluster[0].vlSpec"
             config-set="large"
           >
@@ -49,16 +50,15 @@
         </div>
 
         <div class="flex-grow-1 scroll-y">
-          <div class="hflex flex-wrap">
-            <vis-list-item
-              ng-repeat="subcluster in Visrec.selectedCluster"
-              ng-if="selectedSubcluster != subcluster"
-              chart="subcluster[0]"
-              show-expand="true"
-              expand-action="select(subcluster)"
-            >
-            </vis-list-item>
-          </div>
+          <vis-list-item
+            ng-repeat="subcluster in Visrec.selectedCluster"
+            ng-if="selectedSubcluster != subcluster"
+            chart="subcluster[0]"
+            show-expand="true"
+            expand-action="select(subcluster)"
+            class="full-width"
+          >
+          </vis-list-item>
         </div>
       </div>
       <!--end of variation-list-->
