@@ -55,7 +55,7 @@
   <div class="vis-list hflex flex-wrap">
     <vl-plot-group
       ng-repeat="fieldSet in Visrec.fieldSets | limitTo: limit - Visrec.aggregates[Fields.selectedPKey].length"
-      ng-if="fieldSet.length !== Fields.selected.length"
+      ng-if="!fieldSet.isExactMatch"
       ng-init="cluster = Visrec.chartClusters[fieldSet.key]"
       class="wrapped-vl-plot-group"
 

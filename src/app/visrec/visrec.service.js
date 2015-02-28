@@ -66,7 +66,7 @@ angular.module('facetedviz')
 
     var suggestionOpt = {
       genTypeCasting: false,
-      addCountForDimensionOnly: false
+      // addCountForDimensionOnly: false
     };
 
     Visrec.update.projections = function(fieldList) {
@@ -86,12 +86,14 @@ angular.module('facetedviz')
       // For each projection, get different aggregations (fieldSetDict)
       projections.forEach(function(projection) {
         var pkey = projection.key;
-        var opt = pkey === Fields.selectedPKey ? exactMatchOpt :  Fields.selected.length === 0 ? initOpt : suggestionOpt;
+        var isExactMatch = pkey === Fields.selectedPKey;
+        var opt =  isExactMatch ? exactMatchOpt :  Fields.selected.length === 0 ? initOpt : suggestionOpt;
 
         aggregates[pkey] = vr.gen.aggregates([], projection, opt);
 
         aggregates[pkey].forEach(function(fieldSet) {
           fieldSetDict[fieldSet.key] = fieldSet;
+          fieldSet.isExactMatch = isExactMatch;
           fieldSets.push(fieldSet);
         });
       });
