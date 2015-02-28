@@ -1,6 +1,6 @@
 'use strict';
 
-describe('Directive: visListItem', function () {
+describe('Directive: vlPlotGroup', function () {
 
   // load the directive's module
   beforeEach(module('vleApp'));
@@ -36,9 +36,9 @@ describe('Directive: visListItem', function () {
   }));
 
   it('should make hidden element visible', inject(function ($compile) {
-    element = angular.element('<vis-list-item></vis-list-item>');
+    element = angular.element('<vl-plot-group></vl-plot-group>');
     element = $compile(element)(scope);
     scope.$digest();
-    expect(element.find('.vis-list-item').length).toBe(1);
+    expect(element.find('.vl-plot-wrapper').length).toBe(1);
   }));
 });

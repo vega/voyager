@@ -26,7 +26,7 @@ describe('Service: Config', function() {
     config.largeBandMaxCardinality = 20;
 
     expect(Config.schema).toEqual(schema);
-    expect(Config.config).toEqual(config);
+    expect(Config.large()).toEqual(config);
   });
 
 });

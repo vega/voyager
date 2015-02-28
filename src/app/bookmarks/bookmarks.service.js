@@ -51,8 +51,7 @@ angular.module('vleApp')
       });
     };
 
-    proto.isBookmarked = function(vlSpec) {
-      var shorthand = _.isString(vlSpec) ? shorthand :  toShorthand(vlSpec);
+    proto.isBookmarked = function(shorthand) {
       return shorthand in this.dict;
     };
 

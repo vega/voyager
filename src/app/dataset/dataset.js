@@ -68,7 +68,7 @@ angular.module('vleApp')
     var countField = vl.field.count();
 
     Dataset.datasets = datasets;
-    Dataset.dataset = datasets[7]; //Movies
+    Dataset.dataset = datasets[8]; // Birdstrike
     Dataset.dataschema = [];
     Dataset.dataschema.byName = {};
     Dataset.stats = {};

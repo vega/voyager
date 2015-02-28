@@ -9,9 +9,17 @@ angular.module('vleApp')
     Config.schema = vl.schema.schema.properties.cfg;
     Config.config = vl.schema.util.instantiate(Config.schema);
 
-    Config.config.singleWidth = 500;
-    Config.config.singleHeight = 500;
-    Config.config.largeBandMaxCardinality = 20;
+    Config.large = function() {
+      return vl.merge({}, Config.config, {
+        singleWidth: 500,
+        singleHeight: 500,
+        largeBandMaxCardinality: 20
+      });
+    };
+
+    Config.small = function() {
+      return vl.merge({}, Config.config);
+    };
 
     Config.updateDataset = function(dataset) {
       Config.config.dataUrl = dataset.url;

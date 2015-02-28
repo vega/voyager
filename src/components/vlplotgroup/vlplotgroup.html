@@ -1,11 +1,12 @@
-<div class="vis-list-item-group card vflex">
-  <div ng-if="showExpand || fieldSet"
-    class="vis-list-item-header full-width no-shrink">
+<div class="vl-plot-group card vflex">
+  <div ng-if="showExpand || fieldSet || showBookmark || showToggle"
+    class="vl-plot-group-header full-width no-shrink">
     <div class="right">
-      <a href="#"
+      <a ng-if="showBookmark"
+        href="#"
         class="command"
         ng-click="Bookmarks.toggle(chart)"
-        ng-class="{disabled: !chart.vlSpec.enc, bookmarked: Bookmarks.isBookmarked(chart.vlSpec)}">
+        ng-class="{disabled: !chart.vlSpec.enc, bookmarked: Bookmarks.isBookmarked(chart.shorthand)}">
         <i class="fa fa-bookmark"></i>
       </a>
       <a ng-if="showExpand"
@@ -28,10 +29,15 @@
         ng-mouseout="(highlighted||{})[field.name] = false"
       ></field-info>
     </div>
+    <div class="togglers" ng-if="showToggle">
+
+    </div>
   </div>
-  <div class="vis-list-item full-width vis-{{fieldSet.key}} flex-grow-1">
+  <div class="vl-plot-wrapper full-width vis-{{fieldSet.key}} flex-grow-1">
     <vl-plot vg-spec="chart.vgSpec"
-      encoding="chart.encoding"
+      vl-spec="chart.vlSpec"
+      shorthand="chart.shorthand"
+      config-set="{{configSet||'small'}}"
       max-height="330"
     ></vl-plot>
   </div>
