@@ -18,7 +18,7 @@
     <vis-list-item
       ng-repeat="fieldSet in Visrec.aggregates[Fields.selectedPKey] "
       ng-init="cluster = Visrec.chartClusters[fieldSet.key]"
-      class="wrapped-vis-group"
+      class="wrapped-vl-plot-group"
 
       chart="cluster[0][0]"
       field-set="fieldSet"
@@ -56,12 +56,13 @@
       ng-repeat="fieldSet in Visrec.fieldSets | limitTo: limit - Visrec.aggregates[Fields.selectedPKey].length"
       ng-if="fieldSet.length !== Fields.selected.length"
       ng-init="cluster = Visrec.chartClusters[fieldSet.key]"
-      class="wrapped-vis-group"
+      class="wrapped-vl-plot-group"
 
       field-set="fieldSet"
       chart="cluster[0][0]"
       is-selected="Fields.isSelected"
       highlighted="Fields.highlighted"
+      show-bookmark="true"
       show-expand="true"
       expand-action="select(fieldSet, cluster, $index)"
     >

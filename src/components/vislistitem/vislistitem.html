@@ -1,12 +1,12 @@
-<div class="vis-group card vflex">
+<div class="vl-plot-group card vflex">
   <div ng-if="showExpand || fieldSet || showBookmark || showToggle"
-    class="vis-group-header full-width no-shrink">
+    class="vl-plot-group-header full-width no-shrink">
     <div class="right">
       <a ng-if="showBookmark"
         href="#"
         class="command"
         ng-click="Bookmarks.toggle(chart)"
-        ng-class="{disabled: !chart.vlSpec.enc, bookmarked: Bookmarks.isBookmarked(chart.vlSpec)}">
+        ng-class="{disabled: !chart.vlSpec.enc, bookmarked: Bookmarks.isBookmarked(chart.shorthand)}">
         <i class="fa fa-bookmark"></i>
       </a>
       <a ng-if="showExpand"

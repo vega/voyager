@@ -8,24 +8,31 @@
   margin-bottom: 20px;
 }
 
-.wrapped-vis-group {
+.wrapped-vl-plot-group {
   max-width: 520px;
   flex-grow: 1;
 }
 
-.row-vis-group {
+.row-vl-plot-group {
   max-width: 100%;
 }
 
-.full-vis-group {
-  width: 100
+.full-vl-plot-group {
+  max-width: 100%;
+  .vl-plot-wrapper {
+    max-height: none;
+    .vis.fit {
+      margin-bottom: auto;
+      margin-top: auto;
+    }
+  }
 }
 
-.vis-group-header {
+.vl-plot-group-header {
   margin-bottom: 5px;
 }
 
-.vis-group-header .bookmarked {
+.vl-plot-group-header .bookmarked {
   color: #EE0000;
 }
 
@@ -59,10 +66,10 @@
   }
 }
 
-// .vis-group-group .dev-tool {
+// .vl-plot-group-group .dev-tool {
 //   visibility: hidden;
 // }
 
-// .vis-group-group:hover .dev-tool{
+// .vl-plot-group-group:hover .dev-tool{
 //   visibility:visible;
 // }
