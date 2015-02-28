@@ -14,13 +14,19 @@ angular.module('vleApp')
       replace: true,
       scope: {
         chart: '=',
-        showDebug: '=', //optional
-        fieldSet: '=', //optional
-        alwaysSelected: '=', //optional
-        isSelected: '=', //optional
-        highlighted: '=', //optional
-        showExpand: '=', //optional
-        expandAction: '&' //optional
+        //optional
+        fieldSet: '=',
+
+        showBookmark: '=',
+        showDebug: '=',
+        showExpand: '=',
+        showToggle: '=',
+
+        configSet: '@',
+        alwaysSelected: '=',
+        isSelected: '=',
+        highlighted: '=',
+        expandAction: '&'
       },
       link: function postLink(scope, element, attrs) {
         scope.Bookmarks = Bookmarks;

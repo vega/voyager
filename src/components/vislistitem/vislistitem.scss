@@ -8,20 +8,28 @@
   margin-bottom: 20px;
 }
 
-.vis-list-item-group {
+.wrapped-vis-group {
   max-width: 520px;
   flex-grow: 1;
 }
 
-.vis-list-item-header {
+.row-vis-group {
+  max-width: 100%;
+}
+
+.full-vis-group {
+  width: 100
+}
+
+.vis-group-header {
   margin-bottom: 5px;
 }
 
-.vis-list-item-header .bookmarked {
+.vis-group-header .bookmarked {
   color: #EE0000;
 }
 
-.vis-list-item {
+.vl-plot-wrapper {
   @extend .persist-scroll;
   min-height: 150px;
   max-height: 330px;
@@ -51,10 +59,10 @@
   }
 }
 
-// .vis-list-item-group .dev-tool {
+// .vis-group-group .dev-tool {
 //   visibility: hidden;
 // }
 
-// .vis-list-item-group:hover .dev-tool{
+// .vis-group-group:hover .dev-tool{
 //   visibility:visible;
 // }
