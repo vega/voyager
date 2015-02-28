@@ -43,7 +43,7 @@
       <property-editor ng-show="schema.properties.value" id="encType + 'value'" type="schema.properties.value.type" enum="schema.properties.value.enum" prop-name="'value'" group="enc[encType]"></property-editor>
     </div>
 
-    <div ng-repeat="group in ['scale', 'text', 'axis']"
+    <div ng-repeat="group in ['scale', 'text', 'axis', 'bin']"
          ng-show="schema.properties[group]">
       <h4>{{ group }}</h4>
       <div ng-repeat="(propName, scaleProp) in schema.properties[group].properties"
