@@ -8,20 +8,35 @@
   margin-bottom: 20px;
 }
 
-.vis-list-item-group {
+.wrapped-vl-plot-group {
   max-width: 520px;
   flex-grow: 1;
 }
 
-.vis-list-item-header {
+.row-vl-plot-group {
+  max-width: 100%;
+}
+
+.full-vl-plot-group {
+  max-width: 100%;
+  .vl-plot-wrapper {
+    max-height: none;
+    .vis.fit .vega{
+      margin-bottom: auto;
+      margin-top: auto;
+    }
+  }
+}
+
+.vl-plot-group-header {
   margin-bottom: 5px;
 }
 
-.vis-list-item-header .bookmarked {
+.vl-plot-group-header .bookmarked {
   color: #EE0000;
 }
 
-.vis-list-item {
+.vl-plot-wrapper {
   @extend .persist-scroll;
   min-height: 150px;
   max-height: 330px;
@@ -35,7 +50,6 @@
     display: flex;
     justify-content: center;
     .vega {
-      overflow-x: scroll;
       align-self: flex-end;
     }
   }
@@ -51,10 +65,10 @@
   }
 }
 
-// .vis-list-item-group .dev-tool {
+// .vl-plot-group-group .dev-tool {
 //   visibility: hidden;
 // }
 
-// .vis-list-item-group:hover .dev-tool{
+// .vl-plot-group-group:hover .dev-tool{
 //   visibility:visible;
 // }
