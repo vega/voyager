@@ -15,7 +15,7 @@
   </div>
   <div ng-if="Fields.selected.length > 0"
       class="vis-list hflex flex-wrap">
-    <vis-list-item
+    <vl-plot-group
       ng-repeat="fieldSet in Visrec.aggregates[Fields.selectedPKey] "
       ng-init="cluster = Visrec.chartClusters[fieldSet.key]"
       class="wrapped-vl-plot-group"
@@ -23,12 +23,13 @@
       chart="cluster[0][0]"
       field-set="fieldSet"
       show-bookmark="true"
+      show-debug="consts.debug"
       show-expand="true"
       is-selected="Fields.isSelected"
       highlighted="Fields.highlighted"
       expand-action="select(fieldSet, cluster, $index)"
     >
-    </vis-list-item>
+    </vl-plot-group>
   </div>
   <div ng-if="Fields.selected.length == 0"
     class="card vis-list-header no-top-margin">
@@ -52,21 +53,22 @@
   </div>
 
   <div class="vis-list hflex flex-wrap">
-    <vis-list-item
+    <vl-plot-group
       ng-repeat="fieldSet in Visrec.fieldSets | limitTo: limit - Visrec.aggregates[Fields.selectedPKey].length"
       ng-if="fieldSet.length !== Fields.selected.length"
       ng-init="cluster = Visrec.chartClusters[fieldSet.key]"
       class="wrapped-vl-plot-group"
 
-      field-set="fieldSet"
       chart="cluster[0][0]"
+      field-set="fieldSet"
       is-selected="Fields.isSelected"
       highlighted="Fields.highlighted"
       show-bookmark="true"
+      show-debug="consts.debug"
       show-expand="true"
       expand-action="select(fieldSet, cluster, $index)"
     >
-    </vis-list-item>
+    </vl-plot-group>
   </div>
   <encoding-variations ng-show="Visrec.selectedCluster"></encoding-variations>
   <a ng-click="increaseLimit()">

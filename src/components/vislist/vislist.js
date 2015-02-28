@@ -16,6 +16,7 @@ angular.module('facetedviz')
       link: function postLink(scope , element /*, attrs*/) {
         scope.Fields = Fields;
         scope.Visrec = Visrec;
+        scope.consts = consts;
         scope.shorthands = vl.field.shorthands;
         scope.limit = consts.numInitClusters;
 

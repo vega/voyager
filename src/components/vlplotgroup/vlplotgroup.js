@@ -7,9 +7,9 @@
  * # visListItem
  */
 angular.module('vleApp')
-  .directive('visListItem', function (Bookmarks, consts) {
+  .directive('vlPlotGroup', function (Bookmarks, consts) {
     return {
-      templateUrl: 'components/vislistitem/vislistitem.html',
+      templateUrl: 'components/vlplotgroup/vlplotgroup.html',
       restrict: 'E',
       replace: true,
       scope: {

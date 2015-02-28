@@ -20,14 +20,14 @@
 
     <div class="hflex flex-grow-1">
       <div class="selected-variation no-shrink">
-        <vis-list-item
+        <vl-plot-group
           chart="selectedSubcluster[0]"
           config-set="large"
           show-bookmark="true"
-          show-debug="true"
+          show-debug="consts.debug"
           show-toggle="true"
           class="abs-100 scroll-xy full-vl-plot-group no-top-margin"
-        ></vis-list-item>
+        ></vl-plot-group>
       </div>
       <!--variation-list-->
       <div class="vflex flex-grow-1 scroll-y" ng-if="Visrec.selectedCluster.length > 1">
@@ -35,16 +35,17 @@
           <div class="card no-shrink no-top-margin ">
             <h3 class="no-bottom-margin">Variations Within Cluster</h3>
           </div>
-          <vis-list-item
+          <vl-plot-group
             ng-repeat="subcluster in Visrec.selectedCluster"
             ng-if="selectedSubcluster != subcluster"
             chart="subcluster[0]"
             show-bookmark="true"
+            show-debug="consts.debug"
             show-expand="true"
             expand-action="select(subcluster)"
             class="row-vl-plot-group"
           >
-          </vis-list-item>
+          </vl-plot-group>
         </div>
       </div>
       <!--end of variation-list-->
