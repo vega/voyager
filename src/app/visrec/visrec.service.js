@@ -188,7 +188,11 @@ angular.module('facetedviz')
             vlSpec: spec,
             encoding: encoding,
             shorthand: encoding.toShorthand(),
-            vgSpec: vgSpec
+            vgSpec: vgSpec,
+            score: spec.score,
+            scoreFeatures: spec.scoreFeatures.map(function(f) {
+              return '['+f.score+']'+ ' ' + f.reason;
+            }).join('<br/>')
           };
         });
       });

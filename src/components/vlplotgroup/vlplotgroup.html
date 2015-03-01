@@ -43,6 +43,11 @@
   </div>
   <div class="no-shrink dev-tool" ng-if="consts.debug && showDebug">
     <div class="right">
+      <span ng-if="chart.score"
+        tooltips tooltip-size="small"
+        tooltip-content="{{chart.scoreFeatures}}">
+        {{chart.score}}
+      </span>
       <a class="command debug" ui-zeroclip zeroclip-model="chart.vlSpec | compactJSON">Copy Vl</a>
       <a class="command debug" ui-zeroclip zeroclip-model="chart.vgSpec | compactJSON">Copy Vg</a>
       <a class="command debug"
