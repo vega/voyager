@@ -15,7 +15,11 @@
             show-type='true'
             class='selected'>
           </field-info>
+          <span ng-if="consts.debug">
+            (selected cluster size = {{selectedSubcluster.length}})
+          </span>
         </div>
+
       </div>
 
     <div class="hflex flex-grow-1">
