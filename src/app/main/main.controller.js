@@ -20,7 +20,7 @@ angular.module('facetedviz')
       Config.updateDataset(Dataset.dataset);
       Fields.updateSchema(Dataset.dataschema);
 
-      $scope.chron = Chronicle.record('Fields.fields', $scope, true, ['Visrec', 'Dataset.dataset', 'Dataset.dataschema', 'Dataset.stats']);
+      $scope.chron = Chronicle.record('Fields.fields', $scope, true, ['Visrec.numClustersGenerated', 'Dataset.dataset', 'Dataset.dataschema', 'Dataset.stats']);
 
       $scope.canUndoRedo = function() {
         console.log('record');
