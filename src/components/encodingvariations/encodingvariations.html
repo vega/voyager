@@ -15,7 +15,9 @@
             show-type='true'
             class='selected'>
           </field-info>
-          <span ng-if="consts.debug">
+          <span ng-if="consts.debug"
+            tooltips tooltip-size="small"
+            tooltip-content="{{_.pluck(selectedSubcluster, 'shorthand').join('<br/>')}}">
             (selected cluster size = {{selectedSubcluster.length}})
           </span>
         </div>
