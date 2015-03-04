@@ -89,7 +89,7 @@ angular.module('facetedviz')
         var isExactMatch = pkey === Fields.selectedPKey;
         var opt =  isExactMatch ? exactMatchOpt :  Fields.selected.length === 0 ? initOpt : suggestionOpt;
 
-        aggregates[pkey] = vr.gen.aggregates([], projection, opt);
+        aggregates[pkey] = vr.gen.aggregates([], projection, Dataset.stats, opt);
 
         aggregates[pkey].forEach(function(fieldSet) {
           fieldSetDict[fieldSet.key] = fieldSet;

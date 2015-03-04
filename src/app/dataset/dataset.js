@@ -129,7 +129,8 @@ angular.module('vleApp')
             // if fewer than 2% of values or unique, assume the field to be ordinal,
             // or <= 7 unique values
             var stats = Dataset.stats[field.name];
-            if (stats !== undefined && (field.type === 'Q' && stats.cardinality < (stats.count - stats.numNulls)/50 || stats.cardinality <= 7)) {
+            if (stats !== undefined && (field.type === 'Q' && stats.cardinality <= 20 &&
+                  (stats.cardinality < (stats.count - stats.numNulls)/50 || stats.cardinality <= 7))) {
               field.type = 'O';
             }
           });
