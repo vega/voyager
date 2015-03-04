@@ -124,6 +124,16 @@ angular.module('vleApp')
           Dataset.dataschema = dataschema;
           Dataset.dataschema.byName = getNameMap(Dataset.dataschema);
           Dataset.stats = vl.data.getStats(response.data);
+
+          _.each(Dataset.dataschema, function(field) {
+            // if fewer than 2% of values or unique, assume the field to be ordinal,
+            // or <= 7 unique values
+            var stats = Dataset.stats[field.name];
+            if (stats !== undefined && (field.type === 'Q' && stats.cardinality < (stats.count - stats.numNulls)/50 || stats.cardinality <= 7)) {
+              field.type = 'O';
+            }
+          });
+
         });
       }
     };
