@@ -160,7 +160,7 @@ angular.module('facetedviz')
         });
 
       // get 2d array of indices
-      var clusterIndices = vr.cluster(encodings, 2.5)
+      var clusterIndices = vr.cluster(encodings)
         .map(function (cluster) {
           // rank item in each cluster
           return cluster.sort(function (i, j) {
