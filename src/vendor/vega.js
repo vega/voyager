@@ -146,7 +146,22 @@ vg.comparator = function(sort) {
   };
 };
 
-vg.cmp = function(a, b) { return a<b ? -1 : a>b ? 1 : a>=b ? 0 : NaN; };
+vg.cmp = function(a, b) {
+  if (a < b) {
+    return -1;
+  } else if (a > b) {
+    return 1;
+  } else if (a >= b) {
+    return 0;
+  } else if (a === null && b === null) {
+    return 0;
+  } else if (a === null) {
+    return -1;
+  } else if (b === null) {
+    return 1;
+  }
+  return NaN;
+}
 
 vg.numcmp = function(a, b) { return a - b; };
 
@@ -325,14 +340,18 @@ function vg_write(msg) {
     : console.log(msg);
 }
 
+function vg_error(msg) {
+  vg.config.isNode
+    ? process.stderr.write(msg + "\n")
+    : console.error(msg);
+}
+
 vg.log = function(msg) {
   vg_write("[Vega Log] " + msg);
 };
 
 vg.error = function(msg) {
-  msg = "[Vega Err] " + msg;
-  vg_write(msg);
-  if (typeof alert !== "undefined") alert(msg);
+  vg_error("[Vega Err] " + msg);
 };
 vg.config = {};
 
@@ -1944,13 +1963,15 @@ var vg_gradient_id = 0;vg.canvas = {};vg.canvas.path = (function() {
   var renderer = function() {
     this._ctx = null;
     this._el = null;
+    this._bgcolor = null;
     this._imgload = 0;
   };
 
   var prototype = renderer.prototype;
 
-  prototype.initialize = function(el, width, height, pad) {
+  prototype.initialize = function(el, width, height, pad, bgcolor) {
     this._el = el;
+    this.background(bgcolor);
   
     if (!el) return this; // early exit if no DOM element
 
@@ -1968,6 +1989,11 @@ var vg_gradient_id = 0;vg.canvas = {};vg.canvas.path = (function() {
     canvas.exit().remove();
 
     return this.resize(width, height, pad);
+  };
+  
+  prototype.background = function(bgcolor) {
+    this._bgcolor = bgcolor;
+    return this;
   };
 
   prototype.resize = function(width, height, pad) {
@@ -2086,7 +2112,7 @@ var vg_gradient_id = 0;vg.canvas = {};vg.canvas.path = (function() {
     this._scene = scene;
     g.save();
     bb = setBounds(g, getBounds(items));
-    g.clearRect(-pad.left, -pad.top, w, h);
+    this.clear(-pad.left, -pad.top, w, h);
 
     // render
     this.draw(g, scene, bb);
@@ -2097,7 +2123,7 @@ var vg_gradient_id = 0;vg.canvas = {};vg.canvas.path = (function() {
       g.save();
       bb2 = setBounds(g, getBounds(items));
       if (!bb.encloses(bb2)) {
-        g.clearRect(-pad.left, -pad.top, w, h);
+        this.clear(-pad.left, -pad.top, w, h);
         this.draw(g, scene, bb2);
       }
     }
@@ -2111,6 +2137,16 @@ var vg_gradient_id = 0;vg.canvas = {};vg.canvas.path = (function() {
     var marktype = scene.marktype,
         renderer = vg.canvas.marks.draw[marktype];
     renderer.call(this, ctx, scene, bounds);
+  };
+
+  prototype.clear = function(x, y, w, h) {
+    var g = this._ctx;
+
+    g.clearRect(x, y, w, h);
+    if (this._bgcolor != null) {
+      g.fillStyle = this._bgcolor;
+      g.fillRect(x, y, w, h); 
+    }
   };
 
   prototype.renderAsync = function(scene) {
@@ -2643,7 +2679,7 @@ vg.svg.Renderer = (function() {
   
   var prototype = renderer.prototype;
   
-  prototype.initialize = function(el, width, height, pad) {
+  prototype.initialize = function(el, width, height, pad, bgcolor) {
     this._el = el;
 
     // remove any existing svg element
@@ -2653,6 +2689,10 @@ vg.svg.Renderer = (function() {
     this._svg = d3.select(el)
       .append("svg")
       .attr("class", "marks");
+
+    if (bgcolor != null) {
+      this._svg.style("background-color", bgcolor);
+    }
     
     // set the svg root group
     this._ctx = this._svg.append("g");
@@ -2960,6 +3000,13 @@ vg.data.size = function(size, group) {
       } else {
         var a = document.createElement('a');
         a.href = url;
+        // From http://stackoverflow.com/questions/736513/how-do-i-parse-a-url-into-hostname-and-path-in-javascript
+        // IE doesn't populate all link properties when setting .href with a relative URL,
+        // however .href will return an absolute URL which then can be used on itself
+        // to populate these additional fields.
+        if (a.host == "") {
+          a.href = a.href;
+        }
         domain = a.hostname.toLowerCase();
         origin = window.location.hostname;
       }
@@ -4549,11 +4596,18 @@ vg.expression.code = function(opt) {
 
   function fncall(name, args, cast, type) {
     var obj = codegen(args[0]);
-    if (cast) obj = cast + "(" + obj + ")";
+    if (cast) {
+      obj = cast + "(" + obj + ")";
+      if (vg.startsWith(cast, "new ")) obj = "(" + obj + ")";
+    }
     return obj + "." + name + (type < 0 ? "" : type === 0
       ? "()"
       : "(" + args.slice(1).map(codegen).join(",") + ")");
   }
+  
+  var DATE = "new Date";
+  var STRING = "String";
+  var REGEXP = "RegExp";
 
   return {
     // MATH functions
@@ -4580,7 +4634,61 @@ vg.expression.code = function(opt) {
 
     // DATE functions
     "now":      "Date.now",
-    "date":     "new Date",
+    "datetime": "new Date",
+    "date": function(args) {
+        return fncall("getDate", args, DATE, 0);
+      },
+    "day": function(args) {
+        return fncall("getDay", args, DATE, 0);
+      },
+    "year": function(args) {
+        return fncall("getFullYear", args, DATE, 0);
+      },
+    "month": function(args) {
+        return fncall("getMonth", args, DATE, 0);
+      },
+    "hours": function(args) {
+        return fncall("getHours", args, DATE, 0);
+      },
+    "minutes": function(args) {
+        return fncall("getMinutes", args, DATE, 0);
+      },
+    "seconds": function(args) {
+        return fncall("getSeconds", args, DATE, 0);
+      },
+    "milliseconds": function(args) {
+        return fncall("getMilliseconds", args, DATE, 0);
+      },
+    "time": function(args) {
+        return fncall("getTime", args, DATE, 0);
+      },
+    "timezoneoffset": function(args) {
+        return fncall("getTimezoneOffset", args, DATE, 0);
+      },
+    "utcdate": function(args) {
+        return fncall("getUTCDate", args, DATE, 0);
+      },
+    "utcday": function(args) {
+        return fncall("getUTCDay", args, DATE, 0);
+      },
+    "utcyear": function(args) {
+        return fncall("getUTCFullYear", args, DATE, 0);
+      },
+    "utcmonth": function(args) {
+        return fncall("getUTCMonth", args, DATE, 0);
+      },
+    "utchours": function(args) {
+        return fncall("getUTCHours", args, DATE, 0);
+      },
+    "utcminutes": function(args) {
+        return fncall("getUTCMinutes", args, DATE, 0);
+      },
+    "utcseconds": function(args) {
+        return fncall("getUTCSeconds", args, DATE, 0);
+      },
+    "utcmilliseconds": function(args) {
+        return fncall("getUTCMilliseconds", args, DATE, 0);
+      },
 
     // STRING functions
     "parseFloat": "parseFloat",
@@ -4589,21 +4697,21 @@ vg.expression.code = function(opt) {
         return fncall("length", args, null, -1);
       },
     "upper": function(args) {
-        return fncall("toUpperCase", args, "String", 0);
+        return fncall("toUpperCase", args, STRING, 0);
       },
     "lower": function(args) {
-        return fncall("toLowerCase", args, "String", 0);
+        return fncall("toLowerCase", args, STRING, 0);
       },
     "slice": function(args) {
-        return fncall("slice", args, "String");
+        return fncall("slice", args, STRING);
       },
     "substring": function(args) {
-        return fncall("substring", args, "String");
+        return fncall("substring", args, STRING);
       },
 
     // REGEXP functions
     "test": function(args) {
-        return fncall("test", args, "RegExp");
+        return fncall("test", args, REGEXP);
       },
     
     // Control Flow functions
@@ -7164,6 +7272,12 @@ var vg_expression_parser = (function() {
 
   return axes;
 })();
+vg.parse.background = function(bg) {
+  // return null if input is null or undefined
+  if (bg == null) return null;
+  // run through d3 rgb to sanity check
+  return d3.rgb(bg) + "";
+};
 vg.parse.data = function(spec, callback) {
   var model = {
     defs: spec,
@@ -7484,7 +7598,10 @@ vg.parse.properties = (function() {
     }
     
     // multiply, offset, return value
-    val = "(" + (ref.mult?(vg.number(ref.mult)+" * "):"") + val + ")"
+    val = "("
+      + (ref.mult != null ? (vg.number(ref.mult) + " * ") : "")
+      + val
+      + ")"
       + (ref.offset ? " + " + vg.number(ref.offset) : "");
     return val;
   }
@@ -7721,29 +7838,30 @@ vg.parse.properties = (function() {
   return scales;
 })();
 vg.parse.spec = function(spec, callback, viewFactory) {
-  
+
   viewFactory = viewFactory || vg.ViewFactory;
-  
+
   function parse(spec) {
     // protect against subsequent spec modification
     spec = vg.duplicate(spec);
-    
+
     var width = spec.width || 500,
         height = spec.height || 500,
         viewport = spec.viewport || null;
-    
+
     var defs = {
       width: width,
       height: height,
       viewport: viewport,
+      background: vg.parse.background(spec.background),
       padding: vg.parse.padding(spec.padding),
       marks: vg.parse.marks(spec, width, height),
       data: vg.parse.data(spec.data, function() { callback(viewConstructor); })
     };
-    
+
     var viewConstructor = viewFactory(defs);
   }
-  
+
   vg.isObject(spec) ? parse(spec) :
     d3.json(spec, function(error, json) {
       error ? vg.error(error) : parse(json);
@@ -9810,6 +9928,7 @@ function vg_hLegendLabels() {
     this._model = new vg.Model();
     this._width = this.__width = width || 500;
     this._height = this.__height = height || 500;
+    this._bgcolor = null;
     this._autopad = 1;
     this._padding = {top:0, left:0, bottom:0, right:0};
     this._viewport = null;
@@ -9839,6 +9958,15 @@ function vg_hLegendLabels() {
       if (this._el) this.initialize(this._el.parentNode);
       this._model.height(this._height);
       if (this._strict) this._autopad = 1;
+    }
+    return this;
+  };
+
+  prototype.background = function(bgcolor) {
+    if (!arguments.length) return this._bgcolor;
+    if (this._bgcolor !== bgcolor) {
+      this._bgcolor = bgcolor;
+      if (this._el) this.initialize(this._el.parentNode);
     }
     return this;
   };
@@ -9940,7 +10068,10 @@ function vg_hLegendLabels() {
 
   prototype.initialize = function(el) {
     var v = this, prevHandler,
-        w = v._width, h = v._height, pad = v._padding;
+        w = v._width,
+        h = v._height,
+        bg = v._bgcolor,
+        pad = v._padding;
     
     // clear pre-existing container
     d3.select(el).select("div.vega").remove();
@@ -9960,7 +10091,7 @@ function vg_hLegendLabels() {
     
     // renderer
     v._renderer = (v._renderer || new this._io.Renderer())
-      .initialize(el, w, h, pad);
+      .initialize(el, w, h, pad, bg);
     
     // input handler
     prevHandler = v._handler;
@@ -10024,6 +10155,7 @@ vg.ViewFactory = function(defs) {
     var v = new vg.View()
       .width(defs.width)
       .height(defs.height)
+      .background(defs.background)
       .padding(defs.padding)
       .viewport(defs.viewport)
       .renderer(opt.renderer || "canvas")
@@ -10181,13 +10313,18 @@ vg.headless.canvas = vg.canvas.Renderer;vg.headless.svg = (function() {
 
   var prototype = renderer.prototype;
   
-  prototype.initialize = function(el, w, h, pad) {
+  prototype.initialize = function(el, w, h, pad, bgcolor) {
     var t = this._text;
 
-    t.head = open('svg', {
+    var headAttr = {
       width: w,
-      height: h,
-    }, vg.config.svgNamespace);
+      height: h
+    };
+    if (bgcolor != null) {
+      headAttr.style = 'background-color:' + bgcolor + ';'
+    }
+
+    t.head = open('svg', headAttr, vg.config.svgNamespace);
 
     t.root = open('g', {
       transform: 'translate(' + pad.left + ',' + pad.top + ')'
@@ -10556,7 +10693,7 @@ vg.headless.canvas = vg.canvas.Renderer;vg.headless.svg = (function() {
 
 })();vg.headless.View = (function() {
   
-  var view = function(width, height, pad, type, vp) {
+  var view = function(width, height, pad, bgcolor, type, vp) {
     this._canvas = null;
     this._type = type;
     this._el = "body";
@@ -10564,6 +10701,7 @@ vg.headless.canvas = vg.canvas.Renderer;vg.headless.svg = (function() {
     this._model = new vg.Model();
     this._width = this.__width = width || 500;
     this._height = this.__height = height || 500;
+    this._bgcolor = bgcolor || null;
     this._padding = pad || {top:0, left:0, bottom:0, right:0};
     this._autopad = vg.isString(this._padding) ? 1 : 0;
     this._renderer = new vg.headless[type]();
@@ -10602,6 +10740,15 @@ vg.headless.canvas = vg.canvas.Renderer;vg.headless.svg = (function() {
       this._height = height;
       this.initialize();
       this._model.height(this._height);
+    }
+    return this;
+  };
+
+  prototype.background = function(bgcolor) {
+    if (!arguments.length) return this._bgcolor;
+    if (this._bgcolor !== bgcolor) {
+      this._bgcolor = bgcolor;
+      this.initialize();
     }
     return this;
   };
@@ -10707,6 +10854,7 @@ vg.headless.canvas = vg.canvas.Renderer;vg.headless.svg = (function() {
   prototype.initialize = function() {    
     var w = this._width,
         h = this._height,
+        bg = this._bgcolor,
         pad = this._padding;
 
     if (this._viewport) {
@@ -10715,15 +10863,15 @@ vg.headless.canvas = vg.canvas.Renderer;vg.headless.svg = (function() {
     }
     
     if (this._type === "svg") {
-      this.initSVG(w, h, pad);
+      this.initSVG(w, h, pad, bg);
     } else {
-      this.initCanvas(w, h, pad);
+      this.initCanvas(w, h, pad, bg);
     }
     
     return this;
   };
   
-  prototype.initCanvas = function(w, h, pad) {
+  prototype.initCanvas = function(w, h, pad, bg) {
     var Canvas = require("canvas"),
         tw = w + (pad ? pad.left + pad.right : 0),
         th = h + (pad ? pad.top + pad.bottom : 0),
@@ -10736,14 +10884,15 @@ vg.headless.canvas = vg.canvas.Renderer;vg.headless.svg = (function() {
     // configure renderer
     this._renderer.context(ctx);
     this._renderer.resize(w, h, pad);
+    this._renderer.background(bg);
   };
   
-  prototype.initSVG = function(w, h, pad) {
+  prototype.initSVG = function(w, h, pad, bg) {
     var tw = w + (pad ? pad.left + pad.right : 0),
         th = h + (pad ? pad.top + pad.bottom : 0);
 
     // configure renderer
-    this._renderer.initialize(this._el, tw, th, pad);
+    this._renderer.initialize(this._el, tw, th, pad, bg);
   }
   
   prototype.render = function(items) {
@@ -10772,9 +10921,10 @@ vg.headless.View.Factory = function(defs) {
     var w = defs.width,
         h = defs.height,
         p = defs.padding,
+        bg = defs.background,
         vp = defs.viewport,
         r = opt.renderer || "canvas",
-        v = new vg.headless.View(w, h, p, r, vp).defs(defs);
+        v = new vg.headless.View(w, h, p, bg, r, vp).defs(defs);
     if (defs.data.load) v.data(defs.data.load);
     if (opt.data) v.data(opt.data);
     return v;
