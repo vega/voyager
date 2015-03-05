@@ -7,7 +7,7 @@
  * # encodingVariations
  */
 angular.module('facetedviz')
-  .directive('encodingVariations', function (Visrec, Bookmarks, consts, $document) {
+  .directive('encodingVariations', function (Visrec, Bookmarks, consts, $document, _) {
 
     return {
       templateUrl: 'components/encodingvariations/encodingvariations.html',
@@ -18,6 +18,7 @@ angular.module('facetedviz')
         scope.Visrec = Visrec;
         scope.Bookmarks = Bookmarks;
         scope.consts = consts;
+        scope._ = _;
 
         function escape(e) {
 

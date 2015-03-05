@@ -159,46 +159,29 @@ angular.module('facetedviz')
           return encoding;
         });
 
-      // get 2d array of indices
-      var clusterIndices = vr.cluster(encodings, 2.5)
-        .map(function (cluster) {
-          // rank item in each cluster
-          return cluster.sort(function (i, j) {
-            return encodings[j].score - encodings[i].score;
+      var clusters = vr.cluster(encodings)
+        .map(function(cluster) {
+          return cluster.map(function(spec) {
+            var encoding = vl.Encoding.fromSpec(spec, {});
+            var vgSpec= vl.compile(encoding, Dataset.stats);
+
+            return {
+              fieldSetKey: fieldSet.key,
+              fieldSet: fieldSet,
+              vlSpec: spec,
+              encoding: encoding,
+              shorthand: encoding.toShorthand(),
+              vgSpec: vgSpec,
+              score: spec.score,
+              scoreFeatures: spec.scoreFeatures.map(function(f) {
+                return '['+f.score+']'+ ' ' + f.reason;
+              }).join('<br/>')
+            };
           });
-        })
-        .filter(function(cluster) {
-          return cluster.length > 0;
-        })
-        .sort(function (c1, c2) {
-          // rank cluster by top item in each cluster
-          return encodings[c2[0]].score - encodings[c1[0]].score;
         });
 
-      // transform 2d array of indices into 2d array of spec/encodings
-      var cluster = clusterIndices.map(function(indices) {
-        return indices.map(function(index) {
-          var spec = encodings[index],
-            encoding = vl.Encoding.fromSpec(spec, {});
-          var vgSpec= vl.compile(encoding, Dataset.stats);
-
-          return {
-            fieldSetKey: fieldSet.key,
-            fieldSet: fieldSet,
-            vlSpec: spec,
-            encoding: encoding,
-            shorthand: encoding.toShorthand(),
-            vgSpec: vgSpec,
-            score: spec.score,
-            scoreFeatures: spec.scoreFeatures.map(function(f) {
-              return '['+f.score+']'+ ' ' + f.reason;
-            }).join('<br/>')
-          };
-        });
-      });
-
-      cluster.key = fieldSet.key;
-      return cluster;
+      clusters.key = fieldSet.key;
+      return clusters;
     }
 
 
