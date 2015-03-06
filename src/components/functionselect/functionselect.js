@@ -9,7 +9,7 @@ angular.module('vleApp')
         field: '='
       },
       link: function(scope /*,element, attrs*/) {
-        var BIN='bin', RAW='RAW', COUNT='count', ANY = 'any';
+        var BIN='bin', RAW='raw', COUNT='count', ANY = '*';
 
         scope.func = {
           selected: ANY,
@@ -37,7 +37,7 @@ angular.module('vleApp')
           field._aggr = getAggrs(type).indexOf(selectedFunc) !== -1 ? selectedFunc : undefined;
           field._fn = getFns(type).indexOf(selectedFunc) !== -1 ? selectedFunc : undefined;
           field._raw = selectedFunc === RAW || undefined;
-
+          field._any = selectedFunc === ANY || undefined;
         });
 
         scope.$watch('field', function (field) {

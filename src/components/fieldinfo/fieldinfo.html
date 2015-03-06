@@ -13,11 +13,14 @@
 
     <span ng-if="field.aggr!=='count'"
       class="field-info-text">
-      <span class="field-func" ng-if="field.aggr || field.fn || field.bin">
-        {{ field.aggr || field.fn || (field.bin && "bin") }}
+      <span ng-if="func(field)"
+        class="field-func"
+        ng-class="{any: field._any}"
+        >
+        {{ func(field) }}
       </span><!--
       --><span class="field-name"
-        ng-class="{hasfunc: field.aggr || field.fn || field.bin}"
+        ng-class="{hasfunc: func(field), any: field._any}"
         >{{ field.name }}</span>
     </span>
 
