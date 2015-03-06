@@ -11,11 +11,9 @@ angular.module('facetedviz')
     };
 
     Fields.updateSchema = function(dataschema) {
-      Fields.fields = _(dataschema).sortBy(function(field) {
-        return Dataset.fieldOrder(field);
-      }).reduce(function(d, field){
-        d[field.name] = _.merge({selected: false}, field);
-        // TODO set _aggr to default value for each type
+      Fields.fields = _(dataschema).reduce(function(d, field){
+        field.selected = false;
+        d[field.name] = field;
         return d;
       }, {});
       Fields.highlighted = {};
