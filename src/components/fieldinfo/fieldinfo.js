@@ -26,6 +26,13 @@ angular.module('vleApp')
         scope.typeNames = Dataset.typeNames;
         scope.stats = Dataset.stats[scope.field.name];
 
+        scope.func = function(field) {
+          return field.aggr || field.fn ||
+            (field.bin && 'bin') ||
+            field._aggr || field._fn ||
+            (field._bin && 'bin') || (field._any && '*');
+        };
+
         scope.caretClicked = function($event) {
           if(scope.caretAction) {
             scope.caretAction();

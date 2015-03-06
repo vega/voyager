@@ -21,6 +21,12 @@ $fa-font-path: "../../bower_components/fontawesome/fonts";
   right: 0;
 }
 
+
+.pane.data-pane {
+  width: 250px;
+  flex-shrink: 0;
+}
+
 .relative{
   position: relative;
 }

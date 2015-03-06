@@ -1,3 +1,5 @@
+$any-color: #aaa;
+
 .field-info {
   display: inline-block;
   vertical-align: middle;
@@ -38,6 +40,9 @@
     text-transform: uppercase;
     font-weight: bold;
     flex-shrink: 0;
+    &.any {
+      color: $any-color;
+    }
   }
 }
 
@@ -52,6 +57,9 @@
     }
     &::after {
       content:")"
+    }
+    &.any::before, &.any::after {
+      color: $any-color;
     }
   }
 }

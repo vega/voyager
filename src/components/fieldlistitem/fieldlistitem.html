@@ -17,10 +17,7 @@
   <div class="popup-menu popup-functions" ng-show="funcsExpanded">
     <!-- <function-select pills="pills" enc-type="encType" schema="schema"></function-select> -->
     <div style="width:150px">
-      <br/>
-      [control for selecting functions (avg, sum, min, max, bin) here!!]
-      <br/>
-      <br/>
+      <function-select field="Fields.fields[field.name]"></function-select>
     </div>
 
     <a href="#" class="remove-field" ng-click="excludeField()">Exclude Field</a>
