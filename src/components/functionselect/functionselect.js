@@ -52,14 +52,15 @@ angular.module('vleApp')
             scope.func.list=[COUNT];
             scope.func.selected = COUNT;
           } else {
-            scope.func.list = (type === 'O' ? [ANY] : [ANY, RAW])
+            var isO = type==='O';
+            scope.func.list = ( isO ? [RAW] : [ANY, RAW])
               .concat(getFns(type))
               .concat(getAggrs(type).filter(function(x) { return x !== COUNT; }))
               .concat(type ==='Q' ? [BIN] : []);
 
             scope.func.selected = field._bin ? BIN :
               field._raw ? RAW :
-              field._aggr || field._fn || ANY;
+              field._aggr || field._fn || ( isO ? RAW : ANY );
           }
 
         }, true);
