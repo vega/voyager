@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('vleApp')
-  .directive('functionSelect', function(_) {
+  .directive('functionSelect', function(_, vl) {
     return {
       templateUrl: 'components/functionselect/functionselect.html',
       restrict: 'E',
@@ -89,9 +89,17 @@ angular.module('vleApp')
               .concat(getAggrs(type).filter(function(x) { return x !== COUNT; }))
               .concat(schema.bin && schema.bin.supportedTypes[type] ? ['bin'] : []);
 
-            scope.func.selected = pill.bin ? 'bin' :
+            var defaultVal = isQonOrdinalOnlyShelf ? BIN : RAW,
+              selected = pill.bin ? 'bin' :
               pill.aggr || pill.fn ||
-              (isQonOrdinalOnlyShelf ? BIN : RAW);
+              defaultVal;
+
+            if (scope.func.list.indexOf(selected) >= 0) {
+              scope.func.selected = selected;
+            } else {
+              scope.func.selected = defaultVal;
+            }
+
           }
 
         }, true);
