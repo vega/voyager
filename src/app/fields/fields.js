@@ -25,9 +25,12 @@ angular.module('facetedviz')
       Fields.selectedPKey = vr.gen.projections.key(Fields.selected);
     };
 
-    Fields.deselectAll = function() {
+    Fields.reset = function() {
       _.each(Fields.fields, function(field){
         field.selected = false;
+        delete field._raw;
+        delete field._aggr;
+        delete field._fn;
       });
     };
 
