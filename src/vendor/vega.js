@@ -39,7 +39,7 @@ vg.isFunction = function(obj) {
 vg.isString = function(obj) {
   return toString.call(obj) == '[object String]';
 };
-  
+
 vg.isArray = Array.isArray || function(obj) {
   return toString.call(obj) == '[object Array]';
 };
@@ -146,7 +146,22 @@ vg.comparator = function(sort) {
   };
 };
 
-vg.cmp = function(a, b) { return a<b ? -1 : a>b ? 1 : a>=b ? 0 : NaN; };
+vg.cmp = function(a, b) {
+  if (a < b) {
+    return -1;
+  } else if (a > b) {
+    return 1;
+  } else if (a >= b) {
+    return 0;
+  } else if (a === null && b === null) {
+    return 0;
+  } else if (a === null) {
+    return -1;
+  } else if (b === null) {
+    return 1;
+  }
+  return NaN;
+}
 
 vg.numcmp = function(a, b) { return a - b; };
 
@@ -219,6 +234,8 @@ vg.maxIndex = function(data, f) {
 };
 
 vg.bins = function(opt) {
+  console.log('vg.bins');
+
   opt = opt || {};
 
   // determine range
@@ -325,14 +342,18 @@ function vg_write(msg) {
     : console.log(msg);
 }
 
+function vg_error(msg) {
+  vg.config.isNode
+    ? process.stderr.write(msg + "\n")
+    : console.error(msg);
+}
+
 vg.log = function(msg) {
   vg_write("[Vega Log] " + msg);
 };
 
 vg.error = function(msg) {
-  msg = "[Vega Err] " + msg;
-  vg_write(msg);
-  if (typeof alert !== "undefined") alert(msg);
+  vg_error("[Vega Err] " + msg);
 };
 vg.config = {};
 
@@ -485,9 +506,9 @@ vg.Bounds = (function() {
     this.clear();
     if (b) this.union(b);
   };
-  
+
   var prototype = bounds.prototype;
-  
+
   prototype.clear = function() {
     this.x1 = +Number.MAX_VALUE;
     this.y1 = +Number.MAX_VALUE;
@@ -495,7 +516,7 @@ vg.Bounds = (function() {
     this.y2 = -Number.MAX_VALUE;
     return this;
   };
-  
+
   prototype.set = function(x1, y1, x2, y2) {
     this.x1 = x1;
     this.y1 = y1;
@@ -519,7 +540,7 @@ vg.Bounds = (function() {
     this.y2 += d;
     return this;
   };
-  
+
   prototype.round = function() {
     this.x1 = Math.floor(this.x1);
     this.y1 = Math.floor(this.y1);
@@ -535,7 +556,7 @@ vg.Bounds = (function() {
     this.y2 += dy;
     return this;
   };
-  
+
   prototype.rotate = function(angle, x, y) {
     var cos = Math.cos(angle),
         sin = Math.sin(angle),
@@ -616,7 +637,7 @@ vg.Bounds = (function() {
     });
     return this;
   };
-  
+
   return gradient;
 })();
 
@@ -812,7 +833,7 @@ var vg_gradient_id = 0;vg.canvas = {};vg.canvas.path = (function() {
     if (t == undefined) t = 0;
 
     g.beginPath();
-  
+
     for (var i=0, len=path.length; i<len; ++i) {
       current = path[i];
 
@@ -1328,11 +1349,11 @@ var vg_gradient_id = 0;vg.canvas = {};vg.canvas.path = (function() {
     }
     return bounds;
   }
-  
+
   function area(items) {
     var o = items[0];
     var area;
-    
+
     if (o.orient === "horizontal") {
       area = d3.svg.area()
         .y(function(d) { return d.y; })
@@ -1359,7 +1380,7 @@ var vg_gradient_id = 0;vg.canvas = {};vg.canvas.path = (function() {
     if (o.tension != null) line.tension(o.tension);
     return line(items);
   }
-  
+
   return {
     parse:  parse,
     render: render,
@@ -1367,7 +1388,7 @@ var vg_gradient_id = 0;vg.canvas = {};vg.canvas.path = (function() {
     area:   area,
     line:   line
   };
-  
+
 })();vg.canvas.marks = (function() {
 
   var parsePath = vg.canvas.path.parse,
@@ -1596,7 +1617,7 @@ var vg_gradient_id = 0;vg.canvas = {};vg.canvas.path = (function() {
 
       opac = o.opacity == null ? 1 : o.opacity;
       if (opac == 0) continue;
-      
+
       if (stroke = o.stroke) {
         lw = (lw = o.strokeWidth) != null ? lw : vg.config.render.lineWidth;
         if (lw > 0) {
@@ -1738,9 +1759,9 @@ var vg_gradient_id = 0;vg.canvas = {};vg.canvas.path = (function() {
         g.rect(0, 0, group.width || 0, group.height || 0);
         g.clip();
       }
-      
+
       if (bounds) bounds.translate(-gx, -gy);
-      
+
       for (j=0, m=axes.length; j<m; ++j) {
         if (axes[j].def.layer === "back") {
           renderer.draw(g, axes[j], bounds);
@@ -1757,10 +1778,10 @@ var vg_gradient_id = 0;vg.canvas = {};vg.canvas.path = (function() {
       for (j=0, m=legends.length; j<m; ++j) {
         renderer.draw(g, legends[j], bounds);
       }
-      
+
       if (bounds) bounds.translate(gx, gy);
       g.restore();
-    }    
+    }
   }
 
   function color(g, o, value) {
@@ -1944,14 +1965,16 @@ var vg_gradient_id = 0;vg.canvas = {};vg.canvas.path = (function() {
   var renderer = function() {
     this._ctx = null;
     this._el = null;
+    this._bgcolor = null;
     this._imgload = 0;
   };
 
   var prototype = renderer.prototype;
 
-  prototype.initialize = function(el, width, height, pad) {
+  prototype.initialize = function(el, width, height, pad, bgcolor) {
     this._el = el;
-  
+    this.background(bgcolor);
+
     if (!el) return this; // early exit if no DOM element
 
     // select canvas element
@@ -1968,6 +1991,11 @@ var vg_gradient_id = 0;vg.canvas = {};vg.canvas.path = (function() {
     canvas.exit().remove();
 
     return this.resize(width, height, pad);
+  };
+
+  prototype.background = function(bgcolor) {
+    this._bgcolor = bgcolor;
+    return this;
   };
 
   prototype.resize = function(width, height, pad) {
@@ -2086,7 +2114,7 @@ var vg_gradient_id = 0;vg.canvas = {};vg.canvas.path = (function() {
     this._scene = scene;
     g.save();
     bb = setBounds(g, getBounds(items));
-    g.clearRect(-pad.left, -pad.top, w, h);
+    this.clear(-pad.left, -pad.top, w, h);
 
     // render
     this.draw(g, scene, bb);
@@ -2097,7 +2125,7 @@ var vg_gradient_id = 0;vg.canvas = {};vg.canvas.path = (function() {
       g.save();
       bb2 = setBounds(g, getBounds(items));
       if (!bb.encloses(bb2)) {
-        g.clearRect(-pad.left, -pad.top, w, h);
+        this.clear(-pad.left, -pad.top, w, h);
         this.draw(g, scene, bb2);
       }
     }
@@ -2111,6 +2139,16 @@ var vg_gradient_id = 0;vg.canvas = {};vg.canvas.path = (function() {
     var marktype = scene.marktype,
         renderer = vg.canvas.marks.draw[marktype];
     renderer.call(this, ctx, scene, bounds);
+  };
+
+  prototype.clear = function(x, y, w, h) {
+    var g = this._ctx;
+
+    g.clearRect(x, y, w, h);
+    if (this._bgcolor != null) {
+      g.fillStyle = this._bgcolor;
+      g.fillRect(x, y, w, h);
+    }
   };
 
   prototype.renderAsync = function(scene) {
@@ -2167,7 +2205,7 @@ vg.canvas.Handler = (function() {
     if (el) this.initialize(el);
     if (model) this.model(model);
   };
-  
+
   var prototype = handler.prototype;
 
   prototype.initialize = function(el, pad, obj) {
@@ -2175,7 +2213,7 @@ vg.canvas.Handler = (function() {
     this._canvas = d3.select(el).select("canvas.marks").node();
     this._padding = pad;
     this._obj = obj || null;
-    
+
     // add event listeners
     var canvas = this._canvas, that = this;
     events.forEach(function(type) {
@@ -2183,15 +2221,15 @@ vg.canvas.Handler = (function() {
         prototype[type].call(that, evt);
       });
     });
-    
+
     return this;
   };
-  
+
   prototype.padding = function(pad) {
     this._padding = pad;
     return this;
   };
-  
+
   prototype.model = function(model) {
     if (!arguments.length) return this._model;
     this._model = model;
@@ -2249,7 +2287,7 @@ vg.canvas.Handler = (function() {
       this.fire("mouseover", evt);
     }
   };
-  
+
   prototype.mouseout = function(evt) {
     if (this._active) {
       this.fire("mouseout", evt);
@@ -2268,7 +2306,7 @@ vg.canvas.Handler = (function() {
       this._down = null;
     }
   };
-  
+
   // to keep firefox happy
   prototype.DOMMouseScroll = function(evt) {
     this.fire("mousewheel", evt);
@@ -2308,12 +2346,12 @@ vg.canvas.Handler = (function() {
     }
     return this;
   };
-  
+
   // retrieve the current canvas context
   prototype.context = function() {
     return this._canvas.getContext("2d");
   };
-  
+
   // find the scenegraph item at the current mouse position
   // x, y -- the absolute x, y mouse coordinates on the canvas element
   // gx, gy -- the relative coordinates within the current group
@@ -2334,22 +2372,22 @@ vg.canvas.Handler = (function() {
   function key(o)   { return o.key; }
   function size(o)  { return o.size==null ? 100 : o.size; }
   function shape(o) { return o.shape || "circle"; }
-      
+
   var arc_path    = d3.svg.arc(),
       area_path_v = d3.svg.area().x(x).y1(y).y0(yh),
       area_path_h = d3.svg.area().y(y).x0(xw).x1(x),
       line_path   = d3.svg.line().x(x).y(y),
       symbol_path = d3.svg.symbol().type(shape).size(size);
-  
+
   var mark_id = 0,
       clip_id = 0;
-  
+
   var textAlign = {
     "left":   "start",
     "center": "middle",
     "right":  "end"
   };
-  
+
   var styles = {
     "fill":             "fill",
     "fillOpacity":      "fill-opacity",
@@ -2386,14 +2424,14 @@ vg.canvas.Handler = (function() {
       }
     }
   }
-  
+
   function arc(o) {
     var x = o.x || 0,
         y = o.y || 0;
     this.setAttribute("transform", "translate("+x+","+y+")");
     this.setAttribute("d", arc_path(o));
   }
-  
+
   function area(items) {
     if (!items.length) return;
     var o = items[0],
@@ -2403,7 +2441,7 @@ vg.canvas.Handler = (function() {
       .tension(o.tension == null ? 0.7 : o.tension);
     this.setAttribute("d", path(items));
   }
-  
+
   function line(items) {
     if (!items.length) return;
     var o = items[0];
@@ -2412,7 +2450,7 @@ vg.canvas.Handler = (function() {
       .tension(o.tension == null ? 0.7 : o.tension);
     this.setAttribute("d", line_path(items));
   }
-  
+
   function path(o) {
     var x = o.x || 0,
         y = o.y || 0;
@@ -2435,14 +2473,14 @@ vg.canvas.Handler = (function() {
     this.setAttribute("x2", o.x2 != null ? o.x2 : x1);
     this.setAttribute("y2", o.y2 != null ? o.y2 : y1);
   }
-  
+
   function symbol(o) {
     var x = o.x || 0,
         y = o.y || 0;
     this.setAttribute("transform", "translate("+x+","+y+")");
     this.setAttribute("d", symbol_path(o));
   }
-  
+
   function image(o) {
     var w = o.width || (o.image && o.image.width) || 0,
         h = o.height || (o.image && o.image.height) || 0,
@@ -2459,7 +2497,7 @@ vg.canvas.Handler = (function() {
     this.setAttribute("width", w);
     this.setAttribute("height", h);
   }
-    
+
   function fontString(o) {
     var f = (o.fontStyle ? o.fontStyle + " " : "")
       + (o.fontVariant ? o.fontVariant + " " : "")
@@ -2468,7 +2506,7 @@ vg.canvas.Handler = (function() {
       + (o.font || vg.config.render.font);
     return f;
   }
-  
+
   function text(o) {
     var x = o.x || 0,
         y = o.y || 0,
@@ -2489,17 +2527,17 @@ vg.canvas.Handler = (function() {
     this.setAttribute("x", x + dx);
     this.setAttribute("y", y + dy);
     this.setAttribute("text-anchor", align);
-    
+
     if (a) this.setAttribute("transform", "rotate("+a+" "+x+","+y+")");
     else this.removeAttribute("transform");
-    
+
     if (base) this.setAttribute("dy", base);
     else this.removeAttribute("dy");
-    
+
     this.textContent = o.text;
     this.style.setProperty("font", fontString(o), null);
   }
-  
+
   function group(o) {
     var x = o.x || 0,
         y = o.y || 0;
@@ -2531,7 +2569,7 @@ vg.canvas.Handler = (function() {
       drawMark(g, scene, index, tag, attr, nest);
     };
   }
-  
+
   function drawMark(g, scene, index, tag, attr, nest) {
     var data = nest ? [scene.items] : scene.items,
         evts = scene.interactive===false ? "none" : null,
@@ -2557,19 +2595,19 @@ vg.canvas.Handler = (function() {
     } else {
       e.append("rect").attr("class","background").style("pointer-events",evts);
     }
-    
+
     m.exit().remove();
     m.each(attr);
     if (notG) m.each(style);
     else p.selectAll(s+" > rect.background").each(group_bg).each(style);
-    
+
     return p;
   }
 
   function drawGroup(g, scene, index) {
     var p = drawMark(g, scene, index, "g", group),
         c = p.node().childNodes, n = c.length, i, j, m;
-    
+
     for (i=0; i<n; ++i) {
       var items = c[i].__data__.items,
           legends = c[i].__data__.legendItems || [],
@@ -2628,7 +2666,7 @@ vg.canvas.Handler = (function() {
       draw:    draw // expose for extensibility
     }
   };
-  
+
 })();
 vg.svg.Renderer = (function() {
   var renderer = function() {
@@ -2640,10 +2678,10 @@ vg.svg.Renderer = (function() {
       clipping: {}
     };
   };
-  
+
   var prototype = renderer.prototype;
-  
-  prototype.initialize = function(el, width, height, pad) {
+
+  prototype.initialize = function(el, width, height, pad, bgcolor) {
     this._el = el;
 
     // remove any existing svg element
@@ -2653,32 +2691,36 @@ vg.svg.Renderer = (function() {
     this._svg = d3.select(el)
       .append("svg")
       .attr("class", "marks");
-    
+
+    if (bgcolor != null) {
+      this._svg.style("background-color", bgcolor);
+    }
+
     // set the svg root group
     this._ctx = this._svg.append("g");
-    
+
     return this.resize(width, height, pad);
   };
-  
+
   prototype.resize = function(width, height, pad) {
     this._width = width;
     this._height = height;
     this._padding = pad;
-    
+
     this._svg
       .attr("width", width + pad.left + pad.right)
       .attr("height", height + pad.top + pad.bottom);
-      
+
     this._ctx
       .attr("transform", "translate("+pad.left+","+pad.top+")");
 
     return this;
   };
-  
+
   prototype.context = function() {
     return this._ctx;
   };
-  
+
   prototype.element = function() {
     return this._el;
   };
@@ -2689,21 +2731,21 @@ vg.svg.Renderer = (function() {
         dgrad = vg.keys(all.gradient),
         dclip = vg.keys(all.clipping),
         defs = svg.select("defs"), grad, clip;
-  
+
     // get or create svg defs block
     if (dgrad.length===0 && dclip.length==0) { defs.remove(); return; }
     if (defs.empty()) defs = svg.insert("defs", ":first-child");
-    
+
     grad = defs.selectAll("linearGradient").data(dgrad, vg.identity);
     grad.enter().append("linearGradient").attr("id", vg.identity);
     grad.exit().remove();
     grad.each(function(id) {
       var def = all.gradient[id],
           grd = d3.select(this);
-  
+
       // set gradient coordinates
       grd.attr({x1: def.x1, x2: def.x2, y1: def.y1, y2: def.y2});
-  
+
       // set gradient stops
       stop = grd.selectAll("stop").data(def.stops);
       stop.enter().append("stop");
@@ -2711,7 +2753,7 @@ vg.svg.Renderer = (function() {
       stop.attr("offset", function(d) { return d.offset; })
           .attr("stop-color", function(d) { return d.color; });
     });
-    
+
     clip = defs.selectAll("clipPath").data(dclip, vg.identity);
     clip.enter().append("clipPath").attr("id", vg.identity);
     clip.exit().remove();
@@ -2725,7 +2767,7 @@ vg.svg.Renderer = (function() {
         .attr("height", def.height);
     });
   };
-  
+
   prototype.render = function(scene, items) {
     vg.svg._cur = this;
 
@@ -2738,7 +2780,7 @@ vg.svg.Renderer = (function() {
 
    delete vg.svg._cur;
   };
-  
+
   prototype.renderItems = function(items) {
     var item, node, type, nest, i, n,
         marks = vg.svg.marks;
@@ -2753,13 +2795,13 @@ vg.svg.Renderer = (function() {
       marks.style.call(node, item);
     }
   }
-  
+
   prototype.draw = function(ctx, scene, index) {
     var marktype = scene.marktype,
         renderer = vg.svg.marks.draw[marktype];
     renderer.call(this, ctx, scene, index);
   };
-  
+
   return renderer;
 })();vg.svg.Handler = (function() {
   var handler = function(el, model) {
@@ -2768,7 +2810,7 @@ vg.svg.Renderer = (function() {
     if (el) this.initialize(el);
     if (model) this.model(model);
   };
-  
+
   function svgHandler(handler) {
     var that = this;
     return function(evt) {
@@ -2780,12 +2822,12 @@ vg.svg.Renderer = (function() {
       }
     };
   }
-  
+
   function eventName(name) {
     var i = name.indexOf(".");
     return i < 0 ? name : name.slice(0,i);
   }
-  
+
   var prototype = handler.prototype;
 
   prototype.initialize = function(el, pad, obj) {
@@ -2795,18 +2837,18 @@ vg.svg.Renderer = (function() {
     this._obj = obj || null;
     return this;
   };
-  
+
   prototype.padding = function(pad) {
     this._padding = pad;
     return this;
   };
-  
+
   prototype.model = function(model) {
     if (!arguments.length) return this._model;
     this._model = model;
     return this;
   };
-  
+
   prototype.handlers = function() {
     var h = this._handlers;
     return vg.keys(h).reduce(function(a, k) {
@@ -2819,7 +2861,7 @@ vg.svg.Renderer = (function() {
     var name = eventName(type),
         h = this._handlers,
         dom = d3.select(this._svg).node();
-        
+
     var x = {
       type: type,
       handler: handler,
@@ -2960,6 +3002,13 @@ vg.data.size = function(size, group) {
       } else {
         var a = document.createElement('a');
         a.href = url;
+        // From http://stackoverflow.com/questions/736513/how-do-i-parse-a-url-into-hostname-and-path-in-javascript
+        // IE doesn't populate all link properties when setting .href with a relative URL,
+        // however .href will return an absolute URL which then can be used on itself
+        // to populate these additional fields.
+        if (a.host == "") {
+          a.href = a.href;
+        }
         domain = a.hostname.toLowerCase();
         origin = window.location.hostname;
       }
@@ -3054,12 +3103,12 @@ vg.data.read = (function() {
     var d = d3.tsv.parse(data);
     return d;
   };
-  
+
   formats.topojson = function(data, format) {
     if (topojson == null) {
       vg.error("TopoJSON library not loaded.");
       return [];
-    }    
+    }
     var t = vg.isObject(data) ? data : JSON.parse(data),
         obj = [];
 
@@ -3076,19 +3125,19 @@ vg.data.read = (function() {
 
     return obj;
   };
-  
+
   formats.treejson = function(data, format) {
     data = vg.isObject(data) ? data : JSON.parse(data);
     return vg.tree(data, format.children);
   };
-  
+
   function parseValues(data, types) {
     var cols = vg.keys(types),
         p = cols.map(function(col) { return parsers[types[col]]; }),
         tree = vg.isTree(data);
     vg_parseArray(tree ? [data] : data, cols, p, tree);
   }
-  
+
   function vg_parseArray(data, cols, p, tree) {
     var d, i, j, len, clen;
     for (i=0, len=data.length; i<len; ++i) {
@@ -3206,7 +3255,7 @@ vg.data.read = (function() {
       }, []).join("|");
       return cells[k] || (cells[k] = new_cell(x));
     }
-    
+
     function new_cell(x) {
       var c = monoids.map(function(m) { return m.clone(); });
       c.data = {};
@@ -3274,9 +3323,9 @@ vg.data.read = (function() {
 
 })();vg.data.array = function() {
   var fields = [];
-   
+
   function array(data) {
-    return data.map(function(d) {      
+    return data.map(function(d) {
       var list = [];
       for (var i=0, len=fields.length; i<len; ++i) {
         list.push(fields[i](d));
@@ -3284,12 +3333,12 @@ vg.data.read = (function() {
       return list;
     });
   }
-  
+
   array.fields = function(fieldList) {
     fields = vg.array(fieldList).map(vg.accessor);
     return array;
   };
-  
+
   return array;
 };vg.data.bin = function() {
 
@@ -3361,7 +3410,7 @@ vg.data.read = (function() {
   var from = vg.accessor("data"),
       fields = [],
       as = null;
-  
+
   var copy = vg.data.mapper(function(d) {
     var src = from(d), i, len,
         source = fields,
@@ -3376,12 +3425,12 @@ vg.data.read = (function() {
     from = vg.accessor(field);
     return copy;
   };
-  
+
   copy.fields = function(fieldList) {
     fields = vg.array(fieldList);
     return copy;
   };
-  
+
   copy.as = function(fieldList) {
     as = vg.array(fieldList);
     return copy;
@@ -3414,7 +3463,7 @@ vg.data.read = (function() {
     other = d;
     return cross;
   };
-  
+
   cross.diagonal = function(x) {
     nodiag = !x;
     return cross;
@@ -3499,7 +3548,7 @@ vg.data.facet = function() {
   function filter(data) {
     return test ? data.filter(test) : data;
   }
-  
+
   filter.test = function(func) {
     test = vg.isFunction(func) ? func : vg.parse.expr(func);
     return filter;
@@ -3507,11 +3556,11 @@ vg.data.facet = function() {
 
   return filter;
 };vg.data.flatten = function() {
-    
+
   function flatten(data) {
     return flat(data, []);
   }
-  
+
   function flat(data, list) {
     if (data.values) {
       for (var i=0, n=data.values.length; i<n; ++i) {
@@ -3522,7 +3571,7 @@ vg.data.facet = function() {
     }
     return list;
   }
-  
+
   return flatten;
 };vg.data.fold = function() {
   var fields = [],
@@ -3550,7 +3599,7 @@ vg.data.facet = function() {
     }
 
     return values;
-  }  
+  }
 
   fold.fields = function(f) {
     fields = vg.array(f);
@@ -3597,7 +3646,7 @@ vg.data.facet = function() {
       layout.tick();
     }
     layout.stop();
-  
+
     return data;
   }
 
@@ -3696,7 +3745,7 @@ vg.data.force.dependencies = ["links"];vg.data.formula = (function() {
           "x": "x",
           "y": "y"
         };
-    
+
     var map = vg.data.mapper(function(d) {
       var ll = [lon(d), lat(d)],
           xy = func(ll);
@@ -3708,7 +3757,7 @@ vg.data.force.dependencies = ["links"];vg.data.formula = (function() {
     map.func = function() {
       return func;
     };
-        
+
     map.projection = function(p) {
       if (projection !== p) {
         projection = p;
@@ -3727,7 +3776,7 @@ vg.data.force.dependencies = ["links"];vg.data.formula = (function() {
         return map;
       }
     });
-    
+
     map.lon = function(field) {
       lon = vg.accessor(field);
       return map;
@@ -3737,7 +3786,7 @@ vg.data.force.dependencies = ["links"];vg.data.formula = (function() {
       lat = vg.accessor(field);
       return map;
     };
-    
+
     map.output = function(map) {
       vg.keys(output).forEach(function(k) {
         if (map[k] !== undefined) {
@@ -3746,11 +3795,11 @@ vg.data.force.dependencies = ["links"];vg.data.formula = (function() {
       });
       return map;
     };
-    
-    
+
+
     return map;
   };
-  
+
   geo.params = params;
   return geo;
 })();vg.data.geopath = function() {
@@ -3764,7 +3813,7 @@ vg.data.force.dependencies = ["links"];vg.data.formula = (function() {
     d[output.path] = geopath(geojson(d));
     return d;
   });
-  
+
   map.projection = function(proj) {
     if (projection !== proj) {
       projection = proj;
@@ -3776,7 +3825,7 @@ vg.data.force.dependencies = ["links"];vg.data.formula = (function() {
     }
     return map;
   };
-  
+
   vg.data.geo.params.forEach(function(name) {
     map[name] = function(x) {
       opt[name] = x;
@@ -3784,7 +3833,7 @@ vg.data.force.dependencies = ["links"];vg.data.formula = (function() {
       return map;
     }
   });
-   
+
   map.value = function(field) {
     geojson = vg.accessor(field);
     return map;
@@ -3806,11 +3855,11 @@ vg.data.force.dependencies = ["links"];vg.data.formula = (function() {
       target = vg.accessor("target"),
       tension = 0.2,
       output = {"path": "path"};
-  
+
   function line(d) {
     var s = source(d),
         t = target(d);
-    return "M" + s.x + "," + s.y 
+    return "M" + s.x + "," + s.y
          + "L" + t.x + "," + t.y;
   }
 
@@ -3826,7 +3875,7 @@ vg.data.force.dependencies = ["links"];vg.data.formula = (function() {
          + " " + (t.x+iy) + "," + (t.y-ix)
          + " " + t.x + "," + t.y;
   }
-  
+
   function diagonalX(d) {
     var s = source(d),
         t = target(d),
@@ -3854,14 +3903,14 @@ vg.data.force.dependencies = ["links"];vg.data.formula = (function() {
     diagonalX: diagonalX,
     diagonalY: diagonalY
   };
-  
+
   function link(data) {
     var path = shapes[shape];
-        
+
     data.forEach(function(d) {
       d[output.path] = path(d);
     });
-    
+
     return data;
   }
 
@@ -3874,17 +3923,17 @@ vg.data.force.dependencies = ["links"];vg.data.formula = (function() {
     tension = val;
     return link;
   };
-  
+
   link.source = function(field) {
     source = vg.accessor(field);
     return link;
   };
-  
+
   link.target = function(field) {
     target = vg.accessor(field);
     return link;
   };
-  
+
   link.output = function(map) {
     vg.keys(output).forEach(function(k) {
       if (map[k] !== undefined) {
@@ -3893,7 +3942,7 @@ vg.data.force.dependencies = ["links"];vg.data.formula = (function() {
     });
     return link;
   };
-  
+
   return link;
 };vg.data.pie = function() {
   var one = function() { return 1; },
@@ -3912,13 +3961,13 @@ vg.data.force.dependencies = ["links"];vg.data.formula = (function() {
         a = start,
         k = (end - start) / d3.sum(values),
         index = d3.range(data.length);
-    
+
     if (sort) {
       index.sort(function(a, b) {
         return values[a] - values[b];
       });
     }
-    
+
     index.forEach(function(i) {
       var d;
       data[i].value = (d = values[i]);
@@ -3926,7 +3975,7 @@ vg.data.force.dependencies = ["links"];vg.data.formula = (function() {
       data[i][output.midAngle] = (a + 0.5 * d * k);
       data[i][output.endAngle] = (a += d * k);
     });
-    
+
     return data;
   }
 
@@ -3934,17 +3983,17 @@ vg.data.force.dependencies = ["links"];vg.data.formula = (function() {
     sort = b;
     return pie;
   };
-       
+
   pie.value = function(field) {
     value = field ? vg.accessor(field) : one;
     return pie;
   };
-  
+
   pie.startAngle = function(startAngle) {
     start = Math.PI * startAngle / 180;
     return pie;
   };
-  
+
   pie.endAngle = function(endAngle) {
     end = Math.PI * endAngle / 180;
     return pie;
@@ -3966,7 +4015,7 @@ vg.data.force.dependencies = ["links"];vg.data.formula = (function() {
 
   function slice(data) {
     data = vg.values(data);
-    
+
     if (by === "min") {
       data = [data[vg.minIndex(data, field)]];
     } else if (by === "max") {
@@ -3983,12 +4032,12 @@ vg.data.force.dependencies = ["links"];vg.data.formula = (function() {
     }
     return data;
   }
-  
+
   slice.by = function(x) {
     by = x;
     return slice;
   };
-  
+
   slice.field = function(f) {
     field = vg.accessor(f);
     return slice;
@@ -4004,7 +4053,7 @@ vg.data.force.dependencies = ["links"];vg.data.formula = (function() {
     for (var i=0, n=data.length; i<n; ++i) data[i].index = i; // re-index
     return data;
   }
-  
+
   sort.by = function(s) {
     by = vg.comparator(s);
     return sort;
@@ -4026,10 +4075,10 @@ vg.data.force.dependencies = ["links"];vg.data.formula = (function() {
     var out_y0 = output["y0"],
         out_y1 = output["y1"],
         out_cy = output["cy"];
-    
+
     var series = stacks(data);
     if (series.length === 0) return data;
-    
+
     layout.out(function(d, y0, y) {
       if (d.datum) {
         d.datum[out_y0] = y0;
@@ -4037,10 +4086,10 @@ vg.data.force.dependencies = ["links"];vg.data.formula = (function() {
         d.datum[out_cy] = y0 + y/2;
       }
     })(series);
-    
+
     return data;
   }
-  
+
   function stacks(data) {
     var values = vg.values(data),
         points = [], series = [],
@@ -4063,7 +4112,7 @@ vg.data.force.dependencies = ["links"];vg.data.formula = (function() {
 
     // emit data series for stack layout
     for (x=points[0].x, i=0, j=0, k=0, n=points.length; k<n; ++k) {
-      p = points[k];    
+      p = points[k];
       if (p.x !== x) {
         while (i < series.length) series[i++].push({x:j, y:0});
         x = p.x; i = 0; j += 1;
@@ -4076,12 +4125,12 @@ vg.data.force.dependencies = ["links"];vg.data.formula = (function() {
 
     return series;
   }
-       
+
   stack.point = function(field) {
     point = vg.accessor(field);
     return stack;
   };
-  
+
   stack.height = function(field) {
     height = vg.accessor(field);
     return stack;
@@ -4228,7 +4277,7 @@ vg.data.force.dependencies = ["links"];vg.data.formula = (function() {
       .size(vg.data.size(size, group))
       .value(value)
       .nodes(vg.isTree(data) ? data : {values: data});
-    
+
     var keys = vg.keys(output),
         len = keys.length;
     data.forEach(function(d) {
@@ -4242,7 +4291,7 @@ vg.data.force.dependencies = ["links"];vg.data.formula = (function() {
         }
       }
     });
-    
+
     return data;
   }
 
@@ -4333,12 +4382,12 @@ vg.data.force.dependencies = ["links"];vg.data.formula = (function() {
         return o;
       });
   }
-  
+
   unique.field = function(f) {
     field = vg.accessor(f);
     return unique;
   };
-  
+
   unique.as = function(x) {
     as = x;
     return unique;
@@ -4349,7 +4398,7 @@ vg.data.force.dependencies = ["links"];vg.data.formula = (function() {
 
   var size = 2,
       step = 1;
-  
+
   function win(data) {
     data = vg.isArray(data) ? data : data.values || [];
     var runs = [], i, j, n=data.length-size, curr;
@@ -4359,12 +4408,12 @@ vg.data.force.dependencies = ["links"];vg.data.formula = (function() {
     }
     return {values: runs};
   }
-  
+
   win.size = function(n) {
     size = n;
     return win;
   };
-  
+
   win.step = function(n) {
     step = n;
     return win;
@@ -4378,7 +4427,7 @@ vg.data.force.dependencies = ["links"];vg.data.formula = (function() {
       fontSize = function() { return 14; },
       rotate = function() { return 0; },
       params = ["font", "fontStyle", "fontWeight", "padding"];
-  
+
   var output = {
     "x": "x",
     "y": "y",
@@ -4386,7 +4435,7 @@ vg.data.force.dependencies = ["links"];vg.data.formula = (function() {
     "font": "font",
     "rotate": "angle"
   };
-  
+
   function cloud(data, db, group) {
     function finish(tags, bounds) {
       var size = layout.size(),
@@ -4410,7 +4459,7 @@ vg.data.force.dependencies = ["links"];vg.data.formula = (function() {
         }
       }
     }
-    
+
     layout
       .size(vg.data.size(size, group))
       .text(text)
@@ -4426,17 +4475,17 @@ vg.data.force.dependencies = ["links"];vg.data.formula = (function() {
     text = vg.accessor(field);
     return cloud;
   };
-  
+
   cloud.size = function(sz) {
     size = sz;
     return cloud;
   };
-         
+
   cloud.fontSize = function(field) {
     fontSize = vg.accessor(field);
     return cloud;
   };
-  
+
   cloud.rotate = function(x) {
     var v;
     if (vg.isObject(x) && !Array.isArray(x)) {
@@ -4472,7 +4521,7 @@ vg.data.force.dependencies = ["links"];vg.data.formula = (function() {
     });
     return cloud;
   };
-  
+
   return cloud;
 };vg.data.zip = function() {
   var z = null,
@@ -4483,19 +4532,19 @@ vg.data.force.dependencies = ["links"];vg.data.formula = (function() {
 
   function zip(data, db) {
     var zdata = db[z], zlen = zdata.length, v, d, i, len, map;
-    
+
     if (withKey) {
       map = {};
       zdata.forEach(function(s) { map[withKey(s)] = s; });
     }
-    
+
     for (i=0, len=data.length; i<len; ++i) {
       d = data[i];
       d[as] = map
         ? ((v=map[key(d)]) != null ? v : defaultValue)
         : zdata[i % zlen];
     }
-    
+
     return data;
   }
 
@@ -4503,7 +4552,7 @@ vg.data.force.dependencies = ["links"];vg.data.formula = (function() {
     z = d;
     return zip;
   };
-  
+
   zip["default"] = function(d) {
     defaultValue = d;
     return zip;
@@ -4549,11 +4598,18 @@ vg.expression.code = function(opt) {
 
   function fncall(name, args, cast, type) {
     var obj = codegen(args[0]);
-    if (cast) obj = cast + "(" + obj + ")";
+    if (cast) {
+      obj = cast + "(" + obj + ")";
+      if (vg.startsWith(cast, "new ")) obj = "(" + obj + ")";
+    }
     return obj + "." + name + (type < 0 ? "" : type === 0
       ? "()"
       : "(" + args.slice(1).map(codegen).join(",") + ")");
   }
+
+  var DATE = "new Date";
+  var STRING = "String";
+  var REGEXP = "RegExp";
 
   return {
     // MATH functions
@@ -4580,7 +4636,61 @@ vg.expression.code = function(opt) {
 
     // DATE functions
     "now":      "Date.now",
-    "date":     "new Date",
+    "datetime": "new Date",
+    "date": function(args) {
+        return fncall("getDate", args, DATE, 0);
+      },
+    "day": function(args) {
+        return fncall("getDay", args, DATE, 0);
+      },
+    "year": function(args) {
+        return fncall("getFullYear", args, DATE, 0);
+      },
+    "month": function(args) {
+        return fncall("getMonth", args, DATE, 0);
+      },
+    "hours": function(args) {
+        return fncall("getHours", args, DATE, 0);
+      },
+    "minutes": function(args) {
+        return fncall("getMinutes", args, DATE, 0);
+      },
+    "seconds": function(args) {
+        return fncall("getSeconds", args, DATE, 0);
+      },
+    "milliseconds": function(args) {
+        return fncall("getMilliseconds", args, DATE, 0);
+      },
+    "time": function(args) {
+        return fncall("getTime", args, DATE, 0);
+      },
+    "timezoneoffset": function(args) {
+        return fncall("getTimezoneOffset", args, DATE, 0);
+      },
+    "utcdate": function(args) {
+        return fncall("getUTCDate", args, DATE, 0);
+      },
+    "utcday": function(args) {
+        return fncall("getUTCDay", args, DATE, 0);
+      },
+    "utcyear": function(args) {
+        return fncall("getUTCFullYear", args, DATE, 0);
+      },
+    "utcmonth": function(args) {
+        return fncall("getUTCMonth", args, DATE, 0);
+      },
+    "utchours": function(args) {
+        return fncall("getUTCHours", args, DATE, 0);
+      },
+    "utcminutes": function(args) {
+        return fncall("getUTCMinutes", args, DATE, 0);
+      },
+    "utcseconds": function(args) {
+        return fncall("getUTCSeconds", args, DATE, 0);
+      },
+    "utcmilliseconds": function(args) {
+        return fncall("getUTCMilliseconds", args, DATE, 0);
+      },
 
     // STRING functions
     "parseFloat": "parseFloat",
@@ -4589,23 +4699,23 @@ vg.expression.code = function(opt) {
         return fncall("length", args, null, -1);
       },
     "upper": function(args) {
-        return fncall("toUpperCase", args, "String", 0);
+        return fncall("toUpperCase", args, STRING, 0);
       },
     "lower": function(args) {
-        return fncall("toLowerCase", args, "String", 0);
+        return fncall("toLowerCase", args, STRING, 0);
       },
     "slice": function(args) {
-        return fncall("slice", args, "String");
+        return fncall("slice", args, STRING);
       },
     "substring": function(args) {
-        return fncall("substring", args, "String");
+        return fncall("substring", args, STRING);
       },
 
     // REGEXP functions
     "test": function(args) {
-        return fncall("test", args, "RegExp");
+        return fncall("test", args, REGEXP);
       },
-    
+
     // Control Flow functions
     "if": function(args) {
         if (args.length < 3)
@@ -4714,7 +4824,7 @@ vg.expression.code = function(opt) {
         return codegen(n.expression);
       }
   };
-  
+
   return codegen;
 };/*
   The following expression parser is based on Esprima (http://esprima.org/).
@@ -7164,6 +7274,12 @@ var vg_expression_parser = (function() {
 
   return axes;
 })();
+vg.parse.background = function(bg) {
+  // return null if input is null or undefined
+  if (bg == null) return null;
+  // run through d3 rgb to sanity check
+  return d3.rgb(bg) + "";
+};
 vg.parse.data = function(spec, callback) {
   var model = {
     defs: spec,
@@ -7175,7 +7291,7 @@ vg.parse.data = function(spec, callback) {
   };
 
   var count = 0;
-  
+
   function load(d) {
     return function(error, data) {
       if (error) {
@@ -7186,18 +7302,18 @@ vg.parse.data = function(spec, callback) {
       if (--count === 0) callback();
     }
   }
-  
+
   // process each data set definition
   (spec || []).forEach(function(d) {
     if (d.url) {
       count += 1;
-      vg.data.load(d.url, load(d)); 
+      vg.data.load(d.url, load(d));
     } else if (d.values) {
       model.load[d.name] = vg.data.read(d.values, d.format);
     } else if (d.source) {
       (model.source[d.source] || (model.source[d.source] = [])).push(d.name);
     }
-    
+
     if (d.transform) {
       var flow = vg.parse.dataflow(d);
       model.flow[d.name] = flow;
@@ -7206,7 +7322,7 @@ vg.parse.data = function(spec, callback) {
       });
     }
   });
-  
+
   // topological sort by dependencies
   var names = (spec || []).map(vg.accessor("name")),
       order = [], v = {}, n;
@@ -7222,7 +7338,7 @@ vg.parse.data = function(spec, callback) {
   }
   while (names.length) { if (v[n=names.pop()] !== 2) visit(n); }
   model.sorted = order.reverse();
-  
+
   if (count === 0) setTimeout(callback, 1);
   return model;
 };vg.parse.dataflow = function(def) {
@@ -7295,7 +7411,7 @@ vg.parse.legends = (function() {
     legend.symbolProperties(p && p.symbols || {});
     legend.gradientProperties(p && p.gradient || {});
   }
-  
+
   return legends;
 })();vg.parse.mark = function(mark) {
   var props = mark.properties,
@@ -7325,7 +7441,7 @@ vg.parse.legends = (function() {
   if (group) {
     mark.marks = group.map(vg.parse.mark);
   }
-    
+
   return mark;
 };vg.parse.marks = function(spec, width, height) {
   return {
@@ -7349,16 +7465,16 @@ vg.parse.properties = (function() {
     var code = "",
         names = vg.keys(spec),
         i, len, name, ref, vars = {};
-        
+
     code += "var o = trans ? {} : item;\n"
-    
+
     for (i=0, len=names.length; i<len; ++i) {
       ref = spec[name = names[i]];
       code += (i > 0) ? "\n  " : "  ";
       code += "o."+name+" = "+valueRef(name, ref)+";";
       vars[name] = true;
     }
-    
+
     if (vars.x2) {
       if (vars.x) {
         code += "\n  if (o.x > o.x2) { "
@@ -7396,7 +7512,7 @@ vg.parse.properties = (function() {
         code += "\n  o.y = o.yc;"
       }
     }
-    
+
     if (hasPath(mark, vars)) code += "\n  item.touch();";
     code += "\n  if (trans) trans.interpolate(item, o);";
 
@@ -7407,7 +7523,7 @@ vg.parse.properties = (function() {
       vg.log(code);
     }
   }
-  
+
   function hasPath(mark, vars) {
     return vars.path ||
       ((mark==="area" || mark==="line") &&
@@ -7415,7 +7531,7 @@ vg.parse.properties = (function() {
          vars.y || vars.y2 || vars.height ||
          vars.tension || vars.interpolate));
   }
-  
+
   var GROUP_VARS = {
     "width": 1,
     "height": 1,
@@ -7482,20 +7598,23 @@ vg.parse.properties = (function() {
       scale = "group.scales[" + scale + "]";
       val = scale + (ref.band ? ".rangeBand()" : "("+val+")");
     }
-    
+
     // multiply, offset, return value
-    val = "(" + (ref.mult?(vg.number(ref.mult)+" * "):"") + val + ")"
+    val = "("
+      + (ref.mult != null ? (vg.number(ref.mult) + " * ") : "")
+      + val
+      + ")"
       + (ref.offset ? " + " + vg.number(ref.offset) : "");
     return val;
   }
-  
+
   function colorRef(type, x, y, z) {
     var xx = x ? valueRef("", x) : vg.config.color[type][0],
         yy = y ? valueRef("", y) : vg.config.color[type][1],
         zz = z ? valueRef("", z) : vg.config.color[type][2];
     return "(this.d3." + type + "(" + [xx,yy,zz].join(",") + ') + "")';
   }
-  
+
   return compile;
 })();vg.parse.scales = (function() {
   var LINEAR = "linear",
@@ -7604,16 +7723,16 @@ vg.parse.properties = (function() {
       }
     }
   }
-  
+
   function extract(refs, db, data) {
-    return refs.reduce(function(values, r) {        
+    return refs.reduce(function(values, r) {
       var dat = vg.values(db[r.data] || data),
           get = vg.accessor(vg.isString(r.field)
               ? r.field : "data." + vg.accessor(r.field.group)(data));
       return vg.unique(dat, get, values);
     }, []);
   }
-  
+
   function domainValues(def, db, data, sort) {
     var domain = def.domain, values, refs;
     if (vg.isArray(domain)) {
@@ -7625,17 +7744,17 @@ vg.parse.properties = (function() {
     if (values && sort) values.sort(vg.cmp);
     return values;
   }
-  
+
   function domainMinMax(def, db, data) {
     var domain = [null, null], refs, z;
-    
+
     function extract(ref, min, max, z) {
       var dat = vg.values(db[ref.data] || data);
       var fields = vg.array(ref.field).map(function(f) {
         return vg.isString(f) ? f
           : "data." + vg.accessor(f.group)(data);
       });
-      
+
       fields.forEach(function(f,i) {
         f = vg.accessor(f);
         if (min) domain[0] = d3.min([domain[0], d3.min(dat, f)]);
@@ -7706,7 +7825,7 @@ vg.parse.properties = (function() {
     if (def.rangeMax !== undefined) {
       rng[rng.length-1] = def.rangeMax;
     }
-    
+
     if (def.reverse !== undefined) {
       var rev = def.reverse;
       if (vg.isObject(rev)) {
@@ -7714,36 +7833,37 @@ vg.parse.properties = (function() {
       }
       if (rev) rng = rng.reverse();
     }
-    
+
     return rng;
   }
 
   return scales;
 })();
 vg.parse.spec = function(spec, callback, viewFactory) {
-  
+
   viewFactory = viewFactory || vg.ViewFactory;
-  
+
   function parse(spec) {
     // protect against subsequent spec modification
     spec = vg.duplicate(spec);
-    
+
     var width = spec.width || 500,
         height = spec.height || 500,
         viewport = spec.viewport || null;
-    
+
     var defs = {
       width: width,
       height: height,
       viewport: viewport,
+      background: vg.parse.background(spec.background),
       padding: vg.parse.padding(spec.padding),
       marks: vg.parse.marks(spec, width, height),
       data: vg.parse.data(spec.data, function() { callback(viewConstructor); })
     };
-    
+
     var viewConstructor = viewFactory(defs);
   }
-  
+
   vg.isObject(spec) ? parse(spec) :
     d3.json(spec, function(error, json) {
       error ? vg.error(error) : parse(json);
@@ -7790,7 +7910,7 @@ var vg_template_var = function(text, variable) {
   var prop = filters.shift().trim();
   var format = [];
   var stringCast = true;
-  
+
   function strcall(fn) {
     fn = fn || "";
     if (stringCast) {
@@ -7801,10 +7921,10 @@ var vg_template_var = function(text, variable) {
     }
     return source;
   }
-  
+
   var source = vg.field(prop).map(vg.str).join("][");
   source = variable + "[" + source + "]";
-  
+
   for (var i=0; i<filters.length; ++i) {
     var f = filters[i], args = null, pidx, a, b;
 
@@ -7917,12 +8037,12 @@ var vg_template_format = function(pattern, fmt) {
 
 vg.__formats = vg_template_formats;vg.parse.transform = function(def) {
   var tx = vg.data[def.type]();
-      
+
   vg.keys(def).forEach(function(k) {
     if (k === 'type') return;
     (tx[k])(def[k]);
   });
-  
+
   return tx;
 };vg.scene = {};
 
@@ -7941,7 +8061,7 @@ vg.scene.data = function(data, parentData) {
 
   // if inheriting default data, ensure its in an array
   if (data === DEFAULT) data = [DEFAULT];
-  
+
   return data;
 };
 
@@ -7955,7 +8075,7 @@ vg.scene.fontString = function(o) {
   function item(mark) {
     this.mark = mark;
   }
-  
+
   var prototype = item.prototype;
 
   prototype.hasPropertySet = function(name) {
@@ -7972,7 +8092,7 @@ vg.scene.fontString = function(o) {
         midx = group.items.indexOf(mark) + offset;
     return group.items[midx].items[iidx];
   };
-  
+
   prototype.sibling = function(offset) {
     if (offset === 0) return this;
     offset = offset || -1;
@@ -7980,7 +8100,7 @@ vg.scene.fontString = function(o) {
         iidx = mark.items.indexOf(this) + offset;
     return mark.items[iidx];
   };
-  
+
   prototype.remove = function() {
     var item = this,
         list = item.mark.items,
@@ -7988,12 +8108,12 @@ vg.scene.fontString = function(o) {
     if (i >= 0) (i===list.length-1) ? list.pop() : list.splice(i, 1);
     return item;
   };
-  
+
   prototype.touch = function() {
     if (this.pathCache) this.pathCache = null;
     if (this.mark.pathCache) this.mark.pathCache = null;
   };
-  
+
   return item;
 })();
 
@@ -8017,25 +8137,25 @@ vg.scene.item = function(mark) {
       UPDATE = vg.scene.UPDATE,
       EXIT   = vg.scene.EXIT,
       DEFAULT= {"sentinel":1};
-  
+
   function build(def, db, node, parentData, reentrant) {
     var data = vg.scene.data(
       def.from ? def.from(db, node, parentData) : null,
       parentData);
-    
+
     // build node and items
     node = buildNode(def, node);
     node.items = buildItems(def, data, node);
     buildTrans(def, node);
-    
+
     // recurse if group
     if (def.type === GROUP) {
       buildGroup(def, db, node, reentrant);
     }
-    
+
     return node;
   };
-  
+
   function buildNode(def, node) {
     node = node || {};
     node.def = def;
@@ -8043,7 +8163,7 @@ vg.scene.item = function(mark) {
     node.interactive = !(def.interactive === false);
     return node;
   }
-  
+
   function buildItems(def, data, node) {
     var keyf = keyFunction(def.key),
         prev = node.items || [],
@@ -8056,7 +8176,7 @@ vg.scene.item = function(mark) {
       item.status = EXIT;
       if (keyf) map[item.key] = item;
     }
-    
+
     for (i=0, len=data.length; i<len; ++i) {
       datum = data[i];
       key = i;
@@ -8075,10 +8195,10 @@ vg.scene.item = function(mark) {
         next.splice(item.index, 0, item);
       }
     }
-    
+
     return next;
   }
-  
+
   function buildGroup(def, db, node, reentrant) {
     var groups = node.items,
         marks = def.marks,
@@ -8086,7 +8206,7 @@ vg.scene.item = function(mark) {
 
     for (i=0, len=groups.length; i<len; ++i) {
       group = groups[i];
-      
+
       // update scales
       if (!reentrant && group.scales) for (name in group.scales) {
         if (name.indexOf(":prev") < 0) {
@@ -8111,7 +8231,7 @@ vg.scene.item = function(mark) {
       for (i=0; i<n; ++i) def.delay.call(this, items[i], group);
     }
   }
-  
+
   function keyFunction(key) {
     if (key == null) return null;
     var f = vg.array(key).map(vg.accessor);
@@ -8123,7 +8243,7 @@ vg.scene.item = function(mark) {
       return s;
     }
   }
-  
+
   return build;
 })();vg.scene.bounds = (function() {
 
@@ -8166,7 +8286,7 @@ vg.scene.item = function(mark) {
       : null;
     return pathBounds(o, p, bounds);
   }
-  
+
   function area(o, bounds) {
     var items = o.mark.items, o = items[0];
     var p = o.pathCache || (o.pathCache = parse(areaPath(items)));
@@ -8214,7 +8334,7 @@ vg.scene.item = function(mark) {
     }
     return bounds;
   }
-  
+
   function arc(o, bounds) {
     var cx = o.x || 0,
         cy = o.y || 0,
@@ -8338,7 +8458,7 @@ vg.scene.item = function(mark) {
     } else {
       y = y - 4*h/5; // alphabetic by default
     }
-    
+
     bounds.set(x, y, x+w, y+h);
     if (o.angle && !noRotate) {
       bounds.rotate(o.angle*Math.PI/180, o.x||0, o.y||0);
@@ -8400,7 +8520,7 @@ vg.scene.item = function(mark) {
         func  = methods[type],
         items = mark.items,
         item, i, len;
-        
+
     if (type==="area" || type==="line") {
       if (items.length) {
         items[0].bounds = func(items[0], bounds);
@@ -8412,7 +8532,7 @@ vg.scene.item = function(mark) {
     }
     mark.bounds = bounds;
   }
-  
+
   return {
     mark:  markBounds,
     item:  itemBounds,
@@ -8433,7 +8553,7 @@ vg.scene.item = function(mark) {
       : encode.call(this, scene, scene, def, trans, request);
     return scene;
   }
-  
+
   function update(scene, def, trans, request, items) {
     items = vg.array(items);
     var i, len, item, group, props, prop;
@@ -8448,7 +8568,7 @@ vg.scene.item = function(mark) {
       }
     }
   }
-  
+
   function encode(group, scene, def, trans, request) {
     encodeItems.call(this, group, scene.items, def, trans, request);
     if (scene.marktype === GROUP) {
@@ -8457,13 +8577,13 @@ vg.scene.item = function(mark) {
       vg.scene.bounds.mark(scene);
     }
   }
-  
+
   function encodeLegend(group, scene, def, trans, request) {
     encodeGroup.call(this, scene, def, group, trans, request);
     encodeItems.call(this, group, scene.items, def, trans, request);
     vg.scene.bounds.mark(scene, null, true);
   }
-  
+
   function encodeGroup(scene, def, parent, trans, request) {
     var i, len, m, mlen, group, scales,
         axes, axisItems, axisDef, leg, legItems, legDef;
@@ -8475,12 +8595,12 @@ vg.scene.item = function(mark) {
       // use parent scales if there are no group-level scale defs
       scales = group.scales || (group.scales =
         def.scales ? vg.extend({}, parent.scales) : parent.scales);
-      
+
       // update group-level scales
       if (def.scales) {
         vg.parse.scales(def.scales, scales, this._data, group);
       }
-      
+
       // update group-level axes
       if (def.axes) {
         axes = group.axes || (group.axes = []);
@@ -8493,16 +8613,16 @@ vg.scene.item = function(mark) {
           encode.call(this, group, group.axisItems[i], axisDef, trans);
         });
       }
-      
+
       // encode children marks
       for (m=0, mlen=group.items.length; m<mlen; ++m) {
         encode.call(this, group, group.items[m], def.marks[m], trans, request);
       }
     }
-    
+
     // compute bounds (without legend)
     vg.scene.bounds.mark(scene, null, !def.legends);
-    
+
     // update legends
     if (def.legends) {
       for (i=0, len=scene.items.length; i<len; ++i) {
@@ -8520,8 +8640,8 @@ vg.scene.item = function(mark) {
       vg.scene.bounds.mark(scene, null, true);
     }
   }
-  
-  function encodeItems(group, items, def, trans, request) {    
+
+  function encodeItems(group, items, def, trans, request) {
     var props  = def.properties || EMPTY,
         enter  = props.enter,
         update = props.update,
@@ -8546,11 +8666,11 @@ vg.scene.item = function(mark) {
         item.status = UPDATE;
       }
 
-      // update set      
+      // update set
       if (item.status !== EXIT && update) {
         update.call(vg, item, group, trans);
       }
-      
+
       // exit set
       if (item.status === EXIT) {
         if (exit) exit.call(vg, item, group, trans);
@@ -8559,7 +8679,7 @@ vg.scene.item = function(mark) {
       }
     }
   }
-  
+
   return main;
 })();vg.scene.Transition = (function() {
   function trans(duration, ease) {
@@ -8567,20 +8687,20 @@ vg.scene.item = function(mark) {
     this.ease = ease && d3.ease(ease) || d3.ease("cubic-in-out");
     this.updates = {next: null};
   }
-  
+
   var prototype = trans.prototype;
-  
+
   var skip = {
     "text": 1,
     "url":  1
   };
-  
+
   prototype.interpolate = function(item, values) {
     var key, curr, next, interp, list = null;
 
     for (key in values) {
       curr = item[key];
-      next = values[key];      
+      next = values[key];
       if (curr !== next) {
         if (skip[key] || curr === undefined) {
           // skip interpolation for specific keys or undefined start values
@@ -8609,7 +8729,7 @@ vg.scene.item = function(mark) {
     }
     return this;
   };
-  
+
   prototype.start = function(callback) {
     var t = this, prev = t.updates, curr = prev.next;
     for (; curr!=null; prev=curr, curr=prev.next) {
@@ -8651,9 +8771,9 @@ vg.scene.item = function(mark) {
     this.callback();
     return stop;
   };
-  
+
   return trans;
-  
+
 })();
 
 vg.scene.transition = function(dur, ease) {
@@ -8710,7 +8830,7 @@ vg.scene.transition = function(dur, ease) {
       major: tickValues,
       minor: null
     };
-    
+
     if (ticks.major == null) {
       ticks.major = scale.ticks
         ? scale.ticks(tickCount)
@@ -8723,7 +8843,7 @@ vg.scene.transition = function(dur, ease) {
     ticks.major = ticks.major.map(function(d) {
       return (d = vg.data.ingest(d), d.label = fmt(d.data), d);
     });
-    
+
     return ticks;
   }
 
@@ -8732,7 +8852,7 @@ vg.scene.transition = function(dur, ease) {
     var fmt = buildTickFormat();
     var ticks = buildTicks(fmt);
     var tdata = title ? [title].map(vg.data.ingest) : [];
-    
+
     // update axis def
     def.marks[0].from = function() { return grid ? ticks.major : []; };
     def.marks[1].from = function() { return ticks.major; };
@@ -8775,7 +8895,7 @@ vg.scene.transition = function(dur, ease) {
 
     vg_axisDomainExtend(orient, domain, range, tickEndSize);
     vg_axisTitleExtend(orient, title, range, titleOffset); // TODO get offset
-    
+
     // add / override custom style properties
     vg.extend(gridLines.properties.update, gridLineStyle);
     vg.extend(majorTicks.properties.update, majorTickStyle);
@@ -8834,7 +8954,7 @@ vg.scene.transition = function(dur, ease) {
     }
     return axis;
   };
-  
+
   axis.tickSize = function(x, y) {
     if (!arguments.length) return tickMajorSize;
     var n = arguments.length - 1,
@@ -8859,7 +8979,7 @@ vg.scene.transition = function(dur, ease) {
     tickSubdivide = +x;
     return axis;
   };
-  
+
   axis.offset = function(x) {
     if (!arguments.length) return offset;
     offset = vg.isObject(x) ? x : +x;
@@ -8925,7 +9045,7 @@ vg.scene.transition = function(dur, ease) {
     if (domainStyle !== x) { domainStyle = x; }
     return axis;
   };
-  
+
   axis.reset = function() { reset(); };
 
   return axis;
@@ -8986,7 +9106,7 @@ function vg_axisLabelExtend(orient, labels, oldScale, newScale, size, pad) {
   size = Math.max(size, 0) + pad;
   if (orient === "left" || orient === "top") {
     size *= -1;
-  }  
+  }
   if (orient === "top" || orient === "bottom") {
     vg.extend(labels.properties.enter, {
       x: oldScale,
@@ -9034,7 +9154,7 @@ function vg_axisTicksExtend(orient, ticks, oldScale, newScale, size) {
     });
     vg.extend(ticks.properties.exit, {
       x:  newScale,
-    });        
+    });
   } else {
     vg.extend(ticks.properties.enter, {
       x:  {value: 0},
@@ -9055,7 +9175,7 @@ function vg_axisTicksExtend(orient, ticks, oldScale, newScale, size) {
 function vg_axisTitleExtend(orient, title, range, offset) {
   var mid = ~~((range[0] + range[1]) / 2),
       sign = (orient === "top" || orient === "left") ? -1 : 1;
-  
+
   if (orient === "bottom" || orient === "top") {
     vg.extend(title.properties.update, {
       x: {value: mid},
@@ -9217,11 +9337,11 @@ vg.scene.legend = function() {
 
   legend.def = function() {
     var scale = size || shape || fill || stroke;
-    
+
     format = !formatString ? null : ((scale.type === 'time')
       ? d3.time.format(formatString)
       : d3.format(formatString));
-    
+
     if (!legendDef) {
       legendDef = (scale===fill || scale===stroke) && !discrete(scale.type)
         ? quantDef(scale)
@@ -9246,7 +9366,7 @@ vg.scene.legend = function() {
       ? (scale.ticks ? scale.ticks.apply(scale, tickArguments) : scale.domain())
       : values).map(vg.data.ingest);
     var fmt = format==null ? (scale.tickFormat ? scale.tickFormat.apply(scale, tickArguments) : String) : format;
-    
+
     // determine spacing between legend entries
     var fs, range, offset, pad=5, domain = d3.range(data.length);
     if (size) {
@@ -9272,7 +9392,7 @@ vg.scene.legend = function() {
       sz += 5 + ((ts && ts.value) || vg.config.legend.titleFontSize);
     }
     for (var i=0, n=range.length; i<n; ++i) range[i] += sz;
-    
+
     // build scale for label layout
     var scale = {
       name: "legend",
@@ -9281,7 +9401,7 @@ vg.scene.legend = function() {
       domain: domain,
       range: range
     };
-    
+
     // update legend def
     var tdata = (title ? [title] : []).map(vg.data.ingest);
     data.forEach(function(d) {
@@ -9303,7 +9423,7 @@ vg.scene.legend = function() {
 
     // extend legend marks
     vg_legendSymbolExtend(symbols, size, shape, fill, stroke);
-    
+
     // add / override custom style properties
     vg.extend(titles.properties.update, titleStyle);
     vg.extend(symbols.properties.update, symbolStyle);
@@ -9345,7 +9465,7 @@ vg.scene.legend = function() {
       range: [padding, width+padding]
     };
     if (scale.type==="pow") layout.exponent = scale.exponent();
-    
+
     // update legend def
     var tdata = (title ? [title] : []).map(vg.data.ingest);
     data.forEach(function(d,i) {
@@ -9358,7 +9478,7 @@ vg.scene.legend = function() {
     def.marks[2].from = function() { return data; };
     return def;
   }
-  
+
   function q_legend_def(scale) {
     // setup legend marks
     var titles = vg_legendTitle(),
@@ -9371,7 +9491,7 @@ vg.scene.legend = function() {
         min = dom[0],
         max = dom[dom.length-1],
         f = scale.copy().domain([min, max]).range([0,1]);
-        
+
     var stops = (scale.type !== "linear" && scale.ticks)
       ? scale.ticks.call(scale, 15) : dom;
     if (min !== stops[0]) stops.unshift(min);
@@ -9402,7 +9522,7 @@ vg.scene.legend = function() {
       gradient.properties.update.y.value += sz;
       labels.properties.update.y.value += sz;
     }
-    
+
     // padding from legend border
     titles.properties.enter.x.value += padding;
     titles.properties.enter.y.value += padding;
@@ -9441,7 +9561,7 @@ vg.scene.legend = function() {
     if (fill !== x) { fill = x; reset(); }
     return legend;
   };
-  
+
   legend.stroke = function(x) {
     if (!arguments.length) return stroke;
     if (stroke !== x) { stroke = x; reset(); }
@@ -9510,7 +9630,7 @@ vg.scene.legend = function() {
     labelStyle = x;
     return legend;
   };
-  
+
   legend.titleProperties = function(x) {
     if (!arguments.length) return titleStyle;
     titleStyle = x;
@@ -9557,7 +9677,7 @@ function vg_legendUpdate(item, group, trans) {
       break;
     };
   }
-  
+
   if (trans) trans.interpolate(item, o);
   item.mark.def.properties.enter(item, group, trans);
 }
@@ -9732,7 +9852,7 @@ function vg_hLegendLabels() {
       (src[k] || []).forEach(function(s) { deps[s] = k; sources(s); });
     }
     vg.keys(data).forEach(sources);
-    
+
     // update data sets in dependency-aware order
     for (i=0; i<len; ++i) {
       if (data[k=keys[i]]) {
@@ -9810,6 +9930,7 @@ function vg_hLegendLabels() {
     this._model = new vg.Model();
     this._width = this.__width = width || 500;
     this._height = this.__height = height || 500;
+    this._bgcolor = null;
     this._autopad = 1;
     this._padding = {top:0, left:0, bottom:0, right:0};
     this._viewport = null;
@@ -9818,9 +9939,9 @@ function vg_hLegendLabels() {
     this._io = vg.canvas;
     if (el) this.initialize(el);
   };
-  
+
   var prototype = view.prototype;
-  
+
   prototype.width = function(width) {
     if (!arguments.length) return this.__width;
     if (this.__width !== width) {
@@ -9839,6 +9960,15 @@ function vg_hLegendLabels() {
       if (this._el) this.initialize(this._el.parentNode);
       this._model.height(this._height);
       if (this._strict) this._autopad = 1;
+    }
+    return this;
+  };
+
+  prototype.background = function(bgcolor) {
+    if (!arguments.length) return this._bgcolor;
+    if (this._bgcolor !== bgcolor) {
+      this._bgcolor = bgcolor;
+      if (this._el) this.initialize(this._el.parentNode);
     }
     return this;
   };
@@ -9862,7 +9992,7 @@ function vg_hLegendLabels() {
     }
     return this;
   };
-  
+
   prototype.autopad = function(opt) {
     if (this._autopad < 1) return this;
     else this._autopad = 0;
@@ -9899,7 +10029,7 @@ function vg_hLegendLabels() {
     }
     return this;
   };
-  
+
   prototype.renderer = function(type) {
     if (!arguments.length) return this._io;
     if (type === "canvas") type = vg.canvas;
@@ -9940,11 +10070,14 @@ function vg_hLegendLabels() {
 
   prototype.initialize = function(el) {
     var v = this, prevHandler,
-        w = v._width, h = v._height, pad = v._padding;
-    
+        w = v._width,
+        h = v._height,
+        bg = v._bgcolor,
+        pad = v._padding;
+
     // clear pre-existing container
     d3.select(el).select("div.vega").remove();
-    
+
     // add div container
     this._el = el = d3.select(el)
       .append("div")
@@ -9957,11 +10090,11 @@ function vg_hLegendLabels() {
         .style("height", (v._viewport[1] || h)+"px")
         .style("overflow", "auto");
     }
-    
+
     // renderer
     v._renderer = (v._renderer || new this._io.Renderer())
-      .initialize(el, w, h, pad);
-    
+      .initialize(el, w, h, pad, bg);
+
     // input handler
     prevHandler = v._handler;
     v._handler = new this._io.Handler()
@@ -9973,26 +10106,26 @@ function vg_hLegendLabels() {
         v._handler.on(h.type, h.handler);
       });
     }
-    
+
     return this;
   };
-  
+
   prototype.render = function(items) {
     this._renderer.render(this._model.scene(), items);
     return this;
   };
-  
+
   prototype.on = function() {
     this._handler.on.apply(this._handler, arguments);
     return this;
   };
-  
+
   prototype.off = function() {
     this._handler.off.apply(this._handler, arguments);
     return this;
   };
-  
-  prototype.update = function(opt) {    
+
+  prototype.update = function(opt) {
     opt = opt || {};
     var view = this,
         trans = opt.duration
@@ -10001,7 +10134,7 @@ function vg_hLegendLabels() {
 
     view._build = view._build || (view._model.build(), true);
     view._model.encode(trans, opt.props, opt.items);
-    
+
     if (trans) {
       trans.start(function(items) {
         view._renderer.render(view._model.scene(), items);
@@ -10011,7 +10144,7 @@ function vg_hLegendLabels() {
 
     return view.autopad(opt);
   };
-      
+
   return view;
 })();
 
@@ -10024,6 +10157,7 @@ vg.ViewFactory = function(defs) {
     var v = new vg.View()
       .width(defs.width)
       .height(defs.height)
+      .background(defs.background)
       .padding(defs.padding)
       .viewport(defs.viewport)
       .renderer(opt.renderer || "canvas")
@@ -10045,7 +10179,7 @@ vg.ViewFactory = function(defs) {
         }
       });
     }
-  
+
     return v;
   };
 };
@@ -10062,24 +10196,24 @@ vg.Spec = (function() {
     };
     if (s) vg.extend(this.spec, s);
   };
-  
+
   var prototype = spec.prototype;
 
   prototype.width = function(w) {
     this.spec.width = w;
     return this;
   };
-  
+
   prototype.height = function(h) {
     this.spec.height = h;
     return this;
   };
-  
+
   prototype.padding = function(p) {
     this.spec.padding = p;
     return this;
   };
-  
+
   prototype.viewport = function(v) {
     this.spec.viewport = v;
     return this;
@@ -10091,25 +10225,25 @@ vg.Spec = (function() {
     this.spec.data.push(params);
     return this;
   };
-  
+
   prototype.scale = function(name, params) {
     if (!params) params = vg.isString(name) ? {name: name} : name;
     else params.name = name;
     this.spec.scales.push(params);
     return this;
   };
-  
+
   prototype.axis = function(params) {
     this.spec.axes.push(params);
     return this;
   };
-  
+
   prototype.mark = function(type, mark) {
     if (!mark) mark = {type: type};
     else mark.type = type;
     mark.properties = {};
     this.spec.marks.push(mark);
-    
+
     var that = this;
     return {
       from: function(name, obj) {
@@ -10146,7 +10280,7 @@ vg.spec = function(s) {
 vg.headless = {};
 
 vg.headless.canvas = vg.canvas.Renderer;vg.headless.svg = (function() {
-  
+
   var renderer = function() {
     this._text = {
       head: "",
@@ -10180,14 +10314,19 @@ vg.headless.canvas = vg.canvas.Renderer;vg.headless.svg = (function() {
   }
 
   var prototype = renderer.prototype;
-  
-  prototype.initialize = function(el, w, h, pad) {
+
+  prototype.initialize = function(el, w, h, pad, bgcolor) {
     var t = this._text;
 
-    t.head = open('svg', {
+    var headAttr = {
       width: w,
-      height: h,
-    }, vg.config.svgNamespace);
+      height: h
+    };
+    if (bgcolor != null) {
+      headAttr.style = 'background-color:' + bgcolor + ';'
+    }
+
+    t.head = open('svg', headAttr, vg.config.svgNamespace);
 
     t.root = open('g', {
       transform: 'translate(' + pad.left + ',' + pad.top + ')'
@@ -10195,12 +10334,12 @@ vg.headless.canvas = vg.canvas.Renderer;vg.headless.svg = (function() {
 
     t.foot = close('g') + close('svg');
   };
-  
+
   prototype.svg = function() {
     var t = this._text;
     return t.head + t.defs + t.root + t.body + t.foot;
   };
-  
+
   prototype.buildDefs = function() {
     var all = this._defs,
         dgrad = vg.keys(all.gradient),
@@ -10219,17 +10358,17 @@ vg.headless.canvas = vg.canvas.Renderer;vg.headless.svg = (function() {
         y1: def.y1,
         y2: def.y2
       });
-      
+
       for (j=0; j<stops.length; ++j) {
         defs += open("stop", {
           offset: stops[j].offset,
           "stop-color": stops[j].color
         }) + close("stop");
       }
-      
+
       defs += close("linearGradient");
     }
-    
+
     for (i=0; i<dclip.length; ++i) {
       var id = dclip[i],
           def = all.clipping[id];
@@ -10245,10 +10384,10 @@ vg.headless.canvas = vg.canvas.Renderer;vg.headless.svg = (function() {
 
       defs += close("clipPath");
     }
-    
+
     return defs;
   };
-  
+
   prototype.render = function(scene) {
     this._text.body = this.draw(scene);
     this._text.defs = this.buildDefs();
@@ -10275,14 +10414,14 @@ vg.headless.canvas = vg.canvas.Renderer;vg.headless.svg = (function() {
 
     return svg + close('g');
   };
-  
+
   function escape_text(s) {
     s = (s == null ? "" : String(s));
     return s.replace(/&/g, '&amp;')
             .replace(/</g, '&lt;')
             .replace(/>/g, '&gt;');
   }
-  
+
   function escape_font(s) {
     return String(s).replace(/\"/g, "'");
   }
@@ -10328,7 +10467,7 @@ vg.headless.canvas = vg.canvas.Renderer;vg.headless.svg = (function() {
 
     return svg;
   };
-  
+
   ///
 
   function group_bg(o) {
@@ -10342,7 +10481,7 @@ vg.headless.canvas = vg.canvas.Renderer;vg.headless.svg = (function() {
       height: h
     }, style(o, 'rect')) + close('rect');
   }
-  
+
   function group(o, defs) {
     var x = o.x || 0,
         y = o.y || 0,
@@ -10357,7 +10496,7 @@ vg.headless.canvas = vg.canvas.Renderer;vg.headless.svg = (function() {
 
     return attr;
   }
-  
+
   function arc(o) {
     var x = o.x || 0,
         y = o.y || 0;
@@ -10366,7 +10505,7 @@ vg.headless.canvas = vg.canvas.Renderer;vg.headless.svg = (function() {
       d: arc_path(o)
     };
   }
-  
+
   function area(items) {
     if (!items.length) return;
     var o = items[0],
@@ -10376,7 +10515,7 @@ vg.headless.canvas = vg.canvas.Renderer;vg.headless.svg = (function() {
       .tension(o.tension == null ? 0.7 : o.tension);
     return {d: path(items)};
   }
-  
+
   function line(items) {
     if (!items.length) return;
     var o = items[0];
@@ -10385,7 +10524,7 @@ vg.headless.canvas = vg.canvas.Renderer;vg.headless.svg = (function() {
       .tension(o.tension == null ? 0.7 : o.tension);
     return {d: line_path(items)};
   }
-  
+
   function path(o) {
     var x = o.x || 0,
         y = o.y || 0;
@@ -10414,7 +10553,7 @@ vg.headless.canvas = vg.canvas.Renderer;vg.headless.svg = (function() {
       y2: o.y2 != null ? o.y2 : y1
     };
   }
-  
+
   function symbol(o) {
     var x = o.x || 0,
         y = o.y || 0;
@@ -10423,7 +10562,7 @@ vg.headless.canvas = vg.canvas.Renderer;vg.headless.svg = (function() {
       d: symbol_path(o)
     };
   }
-  
+
   function image(o) {
     var w = o.width || (o.image && o.image.width) || 0,
         h = o.height || (o.image && o.image.height) || 0,
@@ -10432,7 +10571,7 @@ vg.headless.canvas = vg.canvas.Renderer;vg.headless.svg = (function() {
         y = o.y - (o.baseline === "middle"
           ? h/2 : (o.baseline === "bottom" ? h : 0)),
         url = vg.config.baseURL + o.url;
-    
+
     return {
       "xlink:href": url,
       x: x,
@@ -10441,7 +10580,7 @@ vg.headless.canvas = vg.canvas.Renderer;vg.headless.svg = (function() {
       height: h
     };
   }
-  
+
   function text(o) {
     var x = o.x || 0,
         y = o.y || 0,
@@ -10467,7 +10606,7 @@ vg.headless.canvas = vg.canvas.Renderer;vg.headless.svg = (function() {
       dy: base ? base : null
     };
   }
-  
+
   ///
 
   function cssClass(def) {
@@ -10535,11 +10674,11 @@ vg.headless.canvas = vg.canvas.Renderer;vg.headless.svg = (function() {
         s += name + ':' + value + ';'
       }
     }
-    
+
     if (tag === 'text') {
       s += 'font:' + fontString(o); + ';';
     }
-    
+
     return s.length ? 'style="'+s+'"' : null;
   }
 
@@ -10555,8 +10694,8 @@ vg.headless.canvas = vg.canvas.Renderer;vg.headless.svg = (function() {
   return renderer;
 
 })();vg.headless.View = (function() {
-  
-  var view = function(width, height, pad, type, vp) {
+
+  var view = function(width, height, pad, bgcolor, type, vp) {
     this._canvas = null;
     this._type = type;
     this._el = "body";
@@ -10564,13 +10703,14 @@ vg.headless.canvas = vg.canvas.Renderer;vg.headless.svg = (function() {
     this._model = new vg.Model();
     this._width = this.__width = width || 500;
     this._height = this.__height = height || 500;
+    this._bgcolor = bgcolor || null;
     this._padding = pad || {top:0, left:0, bottom:0, right:0};
     this._autopad = vg.isString(this._padding) ? 1 : 0;
     this._renderer = new vg.headless[type]();
     this._viewport = vp || null;
     this.initialize();
   };
-  
+
   var prototype = view.prototype;
 
   prototype.el = function(el) {
@@ -10602,6 +10742,15 @@ vg.headless.canvas = vg.canvas.Renderer;vg.headless.svg = (function() {
       this._height = height;
       this.initialize();
       this._model.height(this._height);
+    }
+    return this;
+  };
+
+  prototype.background = function(bgcolor) {
+    if (!arguments.length) return this._bgcolor;
+    if (this._bgcolor !== bgcolor) {
+      this._bgcolor = bgcolor;
+      this.initialize();
     }
     return this;
   };
@@ -10681,10 +10830,10 @@ vg.headless.canvas = vg.canvas.Renderer;vg.headless.svg = (function() {
   prototype.canvas = function() {
     return this._canvas;
   };
-  
+
   prototype.canvasAsync = function(callback) {
     var r = this._renderer, view = this;
-    
+
     function wait() {
       if (r.pendingImages() === 0) {
         view.render(); // re-render with all images
@@ -10697,60 +10846,62 @@ vg.headless.canvas = vg.canvas.Renderer;vg.headless.svg = (function() {
     // if images loading, poll until ready
     (r.pendingImages() > 0) ? wait() : callback(this._canvas);
   };
-  
+
   prototype.svg = function() {
     return (this._type === "svg")
       ? this._renderer.svg()
       : null;
   };
 
-  prototype.initialize = function() {    
+  prototype.initialize = function() {
     var w = this._width,
         h = this._height,
+        bg = this._bgcolor,
         pad = this._padding;
 
     if (this._viewport) {
       w = this._viewport[0] - (pad ? pad.left + pad.right : 0);
       h = this._viewport[1] - (pad ? pad.top + pad.bottom : 0);
     }
-    
+
     if (this._type === "svg") {
-      this.initSVG(w, h, pad);
+      this.initSVG(w, h, pad, bg);
     } else {
-      this.initCanvas(w, h, pad);
+      this.initCanvas(w, h, pad, bg);
     }
-    
+
     return this;
   };
-  
-  prototype.initCanvas = function(w, h, pad) {
+
+  prototype.initCanvas = function(w, h, pad, bg) {
     var Canvas = require("canvas"),
         tw = w + (pad ? pad.left + pad.right : 0),
         th = h + (pad ? pad.top + pad.bottom : 0),
         canvas = this._canvas = new Canvas(tw, th),
         ctx = canvas.getContext("2d");
-    
+
     // setup canvas context
     ctx.setTransform(1, 0, 0, 1, pad.left, pad.top);
 
     // configure renderer
     this._renderer.context(ctx);
     this._renderer.resize(w, h, pad);
+    this._renderer.background(bg);
   };
-  
-  prototype.initSVG = function(w, h, pad) {
+
+  prototype.initSVG = function(w, h, pad, bg) {
     var tw = w + (pad ? pad.left + pad.right : 0),
         th = h + (pad ? pad.top + pad.bottom : 0);
 
     // configure renderer
-    this._renderer.initialize(this._el, tw, th, pad);
+    this._renderer.initialize(this._el, tw, th, pad, bg);
   }
-  
+
   prototype.render = function(items) {
     this._renderer.render(this._model.scene(), items);
     return this;
   };
-  
+
   prototype.update = function(opt) {
     opt = opt || {};
     var view = this;
@@ -10759,7 +10910,7 @@ vg.headless.canvas = vg.canvas.Renderer;vg.headless.svg = (function() {
     view.render(opt.items);
     return view.autopad(opt);
   };
-    
+
   return view;
 })();
 
@@ -10772,9 +10923,10 @@ vg.headless.View.Factory = function(defs) {
     var w = defs.width,
         h = defs.height,
         p = defs.padding,
+        bg = defs.background,
         vp = defs.viewport,
         r = opt.renderer || "canvas",
-        v = new vg.headless.View(w, h, p, r, vp).defs(defs);
+        v = new vg.headless.View(w, h, p, bg, r, vp).defs(defs);
     if (defs.data.load) v.data(defs.data.load);
     if (opt.data) v.data(opt.data);
     return v;
