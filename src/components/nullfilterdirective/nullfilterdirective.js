@@ -7,17 +7,17 @@
  * # nullFilterDirective
  */
 angular.module('vleApp')
-  .directive('nullFilterDirective', function (Spec) {
+  .directive('nullFilterDirective', function (Spec, Config) {
     return {
       templateUrl: 'components/nullfilterdirective/nullfilterdirective.html',
       restrict: 'E',
       scope: {},
       link: function postLink(scope, element, attrs) {
-        scope.Spec = Spec;
+        scope.Config = Config;
 
         scope.updateFilter = function() {
           Spec.update();
-        }
+        };
       }
     };
   });

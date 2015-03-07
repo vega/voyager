@@ -2,7 +2,7 @@
   <a class="right small"  ng-click="clear()">Clear</a>
   <h2>Encoding</h2>
 
-  <div class="encoding-group full-width">
+  <div class="shelf-pane shelf-encoding-pane full-width">
     <a class="right small" ng-click="transpose()">Transpose</a>
     <h3>Positional</h3>
     <field-def-editor enc-type="'x'"
@@ -32,11 +32,10 @@
       field-def-schema="schema.properties.enc.properties.row">
     </field-def-editor>
   </div>
-  <div class="marks-group full-width">
+  <div class="shelf-pane shelf-marks-pane full-width">
     <div class="right">
       <select class="markselect" ng-model="Spec.spec.marktype"
               ng-options="type for type in schema.properties.marktype.enum"></select>
-
     </div>
     <h3>Marks</h3>
 
@@ -76,5 +75,10 @@
       marktype="Spec.spec.marktype"
       field-def-schema="schema.properties.enc.properties.text">
     </field-def-editor>
+  </div>
+
+  <div class="shelf-pane shelf-config-pane full-width">
+    <h3>Config</h3>
+    <null-filter-directive></null-filter-directive>
   </div>
 </div>

@@ -19,9 +19,7 @@ angular.module('vleApp')
       /** @type {String} generated vl shorthand */
       shorthand: null,
       /** @type {Object} generated vega spec */
-      vgSpec: null,
-      /** HACK: should become its own service, filter out null values **/
-      filterNulls: true
+      vgSpec: null
     };
 
     Spec._removeEmptyFieldDefs = function(spec) {
@@ -92,22 +90,6 @@ angular.module('vleApp')
       if (!('enc' in cleanSpec)) {
         cleanSpec.enc = {};
       }
-
-      if (Spec.filterNulls && Dataset.dataschema.length > 0) {
-        cleanSpec.filter = _(cleanSpec.enc)
-          .filter(function(field){
-            return field.name && field.name !== '*' && field.type !== 'O';
-          })
-          .pluck('name')
-          .unique()
-          .map(function(name) {
-            return {
-              operands: [name],
-              operator: 'notNull'
-            };
-          }).value();
-      }
-
       var validator = new ZSchema();
 
       validator.setRemoteReference('http://json-schema.org/draft-04/schema', {});
@@ -126,8 +108,6 @@ angular.module('vleApp')
         Spec.vlSpec = Spec.encoding.toSpec(false);
         Spec.shorthand = Spec.encoding.toShorthand();
         Spec.vgSpec = vl.compile(Spec.encoding, Dataset.stats);
-
-        // console.log('Spec.update() enc:', Spec.vlSpec.enc);
       }
     };
 
