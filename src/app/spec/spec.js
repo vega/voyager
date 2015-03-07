@@ -61,16 +61,6 @@ angular.module('vleApp')
       return spec;
     };
 
-    /** getChart object to be bookmarked */
-    Spec.getChart = function() {
-      return {
-        fieldSet: _.values(Spec.vlSpec.enc), // FIXME order
-        vlSpec: Spec.vlSpec,
-        vgSpec: Spec.vgSpec,
-        shorthand: Spec.shorthand
-      };
-    };
-
     Spec.reset = function() {
       Spec.spec = Spec.instantiate();
     };
@@ -110,6 +100,14 @@ angular.module('vleApp')
         Spec.vlSpec = Spec.encoding.toSpec(false);
         Spec.shorthand = Spec.encoding.toShorthand();
         Spec.vgSpec = vl.compile(Spec.encoding, Dataset.stats);
+
+        // chart object to be bookmarked
+        Spec.chart = {
+          fieldSet: _.values(Spec.vlSpec.enc), // FIXME order
+          vlSpec: Spec.vlSpec,
+          vgSpec: Spec.vgSpec,
+          shorthand: Spec.shorthand
+        };
       }
     };
 
