@@ -45,7 +45,9 @@ angular.module('vleApp')
           var spec = consts.defaultConfigSet && scope.configSet && consts.defaultConfigSet !== scope.configSet ? null : scope.vgSpec;
 
           if (!spec) { // recompile if not yet available
-            var encoding = vl.Encoding.fromSpec(scope.vlSpec, {}, Config[configSet]());
+            var encoding = vl.Encoding.fromSpec(scope.vlSpec, {
+              cfg: Config[configSet]()
+            });
             spec = vl.compile(encoding, Dataset.stats);
           }
 
@@ -66,6 +68,8 @@ angular.module('vleApp')
             scope.height = view.height();
             view.renderer(getRenderer(spec.width, scope.height));
             view.update();
+
+            window.view = view;
 
             var endChart = new Date().getTime();
             console.log('parse spec', (endParse-start), 'charting', (endChart-endParse), shorthand);

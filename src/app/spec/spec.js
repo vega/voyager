@@ -104,7 +104,9 @@ angular.module('vleApp')
           msg: validator.getLastErrors()
         });
       } else {
-        Spec.encoding = vl.Encoding.fromSpec(cleanSpec, {}, Config.large());
+        Spec.encoding = vl.Encoding.fromSpec(cleanSpec, {
+          cfg: Config.large()
+        });
         Spec.vlSpec = Spec.encoding.toSpec(false);
         Spec.shorthand = Spec.encoding.toShorthand();
         Spec.vgSpec = vl.compile(Spec.encoding, Dataset.stats);
