@@ -3,7 +3,7 @@
   ng-mouseout="Fields.highlighted[field.name] = false"
 >
 
-  <i class="fa selection"
+  <i class="fa selection clickable"
     ng-class="{'fa-plus-square': Fields.isSelected(field.name), 'fa-square': Fields.isSelected(field.name) === undefined, 'fa-minus-square': Fields.isSelected(field.name) === false}"
     ng-click="Fields.toggleSelected(field.name)"
     ng-dblclick="Fields.setSelected(field.name, false)"
@@ -14,36 +14,38 @@
     show-type="true"
     show-caret="true"
     show-info="true"
-    caret-action="toggleFuncsExpand()"
+    popup-content="popupContent"
     action="Fields.toggleSelected(field.name)"
-    class="flex-grow-1 list-item"
+    class="flex-grow-1 list-item clickable"
     ng-class="{selected: Fields.isSelected(field.name), excluded: Fields.isSelected(field.name)===false, highlighted: Fields.highlighted[field.name]}"
     ></field-info>
 
-  <div class="popup-menu popup-functions" ng-show="funcsExpanded">
-    <div style="width:150px">
-      <function-select field="Fields.fields[field.name]"></function-select>
-    </div>
+  <div class="drop-container">
+    <div class="popup-menu popup-functions">
+      <div style="width:150px">
+        <function-select field="Fields.fields[field.name]"></function-select>
+      </div>
 
-    <div class="inclusion">
-      <h4>Field</h4>
-      <div>
-        <a ng-class="{inactive: Fields.isSelected(field.name) !== true}"
-          ng-click="Fields.setSelected(field.name, true)">
-          <i class="fa fa-plus-square"></i> Include
-        </a>
-      </div>
-      <div>
-        <a ng-class="{inactive: Fields.isSelected(field.name) !== undefined}"
-          ng-click="Fields.setSelected(field.name, undefined)">
-          <i class="fa fa-square"></i> Optional
-        </a>
-      </div>
-      <div>
-        <a ng-class="{inactive: Fields.isSelected(field.name) !== false}"
-          ng-click="Fields.setSelected(field.name, false)">
-          <i class="fa fa-minus-square"></i> Exclude
-        </a>
+      <div class="inclusion">
+        <h4>Field</h4>
+        <div>
+          <a ng-class="{inactive: Fields.isSelected(field.name) !== true}"
+            ng-click="Fields.setSelected(field.name, true)">
+            <i class="fa fa-plus-square"></i> Include
+          </a>
+        </div>
+        <div>
+          <a ng-class="{inactive: Fields.isSelected(field.name) !== undefined}"
+            ng-click="Fields.setSelected(field.name, undefined)">
+            <i class="fa fa-square"></i> Optional
+          </a>
+        </div>
+        <div>
+          <a ng-class="{inactive: Fields.isSelected(field.name) !== false}"
+            ng-click="Fields.setSelected(field.name, false)">
+            <i class="fa fa-minus-square"></i> Exclude
+          </a>
+        </div>
       </div>
     </div>
   </div>
