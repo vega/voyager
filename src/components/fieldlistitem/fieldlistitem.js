@@ -10,7 +10,6 @@ angular.module('facetedviz')
         field: '='
       },
       link: function postLink (scope, element /*, attrs*/) {
-        scope.typeNames = Dataset.typeNames;
         scope.Fields = Fields;
         scope.popupContent = element.find('.popup-functions')[0];
       },
