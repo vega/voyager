@@ -11,7 +11,7 @@
         <i class="fa fa-circle-o"></i>
       </a>
       <a ng-if="showTranspose"
-        class="command inactive"> <!-- transpose -->
+        class="command" ng-click="transpose()"> <!-- transpose -->
         <i class="fa fa-refresh" style="transform: rotateZ(135deg) scaleX(-1);"></i>
       </a>
       <a ng-if="showFilterNull"
