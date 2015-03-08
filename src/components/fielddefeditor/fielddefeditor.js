@@ -91,6 +91,7 @@ angular.module('vleApp')
 
         scope.fieldDropped = function() {
           var pill = fieldPill();
+          funcsPopup = null;
 
           Logger.logInteraction('Field dropped: ' + pill.name);
 
