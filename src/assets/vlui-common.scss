@@ -402,3 +402,15 @@ h4 {
     border: 5px solid #aaa;
   }
 }
+
+
+.drop-container {
+  display:none;
+}
+
+.drop{
+  display: none;
+  &.drop-open {
+    display: block;
+  }
+}

@@ -1,8 +1,7 @@
 <span class="field-info">
-  <span class="hflex full-width"
-      ng-click="action()">
-    <span class="caret" ng-if="showCaret">
-      <i class="fa fa-caret-down" ng-click="caretClicked($event);"></i>
+  <span class="hflex full-width" ng-click="clicked($event)">
+    <span class="caret" ng-show="showCaret">
+      <i class="fa fa-caret-down"></i>
     </span>
 
     <span class="type icon-small icon-type-{{typeNames[field.type]}}"
