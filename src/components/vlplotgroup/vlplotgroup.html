@@ -13,11 +13,13 @@
       <a ng-show="showSort && toggleSort.support(chart.vlSpec)"
         class="command" ng-click="toggleSort(chart.vlSpec)"
         >
-        <i class="fa fa-sort-amount-desc"></i>
+        <i class="fa sort"
+          ng-class="toggleSortClass(chart.vlSpec)"
+        ></i>
       </a>
       <a ng-if="showTranspose"
         class="command" ng-click="transpose()"> <!-- transpose -->
-        <i class="fa fa-refresh" style="transform: rotateZ(135deg) scaleX(-1);"></i>
+        <i class="fa fa-refresh transpose"></i>
       </a>
       <a ng-if="showFilterNull"
         class="command" ng-click="toggleFilterNull(chart.vlSpec)"

@@ -35,9 +35,20 @@ angular.module('vleApp')
         scope.Bookmarks = Bookmarks;
         scope.consts = consts;
 
-        scope.toggleSort = vl.Encoding.toggleSort;
+        var toggleSort = scope.toggleSort = vl.Encoding.toggleSort;
         scope.toggleFilterNull = vl.Encoding.toggleFilterNullO;
 
+        scope.toggleSortClass = function(vlSpec) {
+          var direction = toggleSort.direction(vlSpec),
+            mode = toggleSort.mode(vlSpec);
+          if (direction === 'y') {
+            return mode === 'Q' ? 'fa-sort-amount-desc' :
+              'fa-sort-alpha-asc';
+          } else {
+            return mode === 'Q' ? 'fa-sort-amount-desc sort-x' :
+              'fa-sort-alpha-asc sort-x';
+          }
+        };
 
         scope.transpose = function() {
           vl.Encoding.transpose(scope.chart.vlSpec);
