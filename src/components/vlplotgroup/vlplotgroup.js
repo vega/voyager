@@ -7,7 +7,7 @@
  * # visListItem
  */
 angular.module('vleApp')
-  .directive('vlPlotGroup', function (Bookmarks, consts) {
+  .directive('vlPlotGroup', function (Bookmarks, consts, vl) {
     return {
       templateUrl: 'components/vlplotgroup/vlplotgroup.html',
       restrict: 'E',
@@ -36,6 +36,10 @@ angular.module('vleApp')
 
         scope.toggleFilterNull = function() {
           scope.chart.vlSpec.cfg.filterNull.O = !scope.chart.vlSpec.cfg.filterNull.O;
+        };
+
+        scope.transpose = function() {
+          vl.Encoding.transpose(scope.chart.vlSpec);
         };
       }
     };
