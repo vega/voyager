@@ -10,7 +10,28 @@
     margin-right: 3px;
   }
 
+  .selection {
+    color: #ddd;
+    font-size: 15px;
+    margin-right: 5px;
+    margin-top: 2px;
+    &.fa-plus-square {
+      color: #008CBA;
+    }
+    &.fa-minus-square {
+      color: #eee;
+    }
+  }
+
   .field-info {
     margin-right: 0;
+  }
+}
+
+
+.inclusion a.inactive {
+  color: #ccc;
+  &:hover {
+    color: #125369;
   }
 }

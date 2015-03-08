@@ -10,9 +10,16 @@ angular.module('facetedviz')
       selectedKey: null
     };
 
+    function resetField(field) {
+      field.selected = undefined;
+      delete field._raw;
+      delete field._aggr;
+      delete field._fn;
+    }
+
     Fields.updateSchema = function(dataschema) {
       Fields.fields = _(dataschema).reduce(function(d, field){
-        field.selected = false;
+        resetField(field);
         d[field.name] = field;
         return d;
       }, {});
@@ -25,14 +32,21 @@ angular.module('facetedviz')
       Fields.selectedPKey = vr.gen.projections.key(Fields.selected);
     };
 
-    Fields.deselectAll = function() {
-      _.each(Fields.fields, function(field){
-        field.selected = false;
-      });
+    Fields.reset = function() {
+      _.each(Fields.fields, resetField);
     };
 
     Fields.getList = function() {
       return _.values(Fields.fields);
+    };
+
+    Fields.setSelected = function(fieldName, val) {
+      (Fields.fields[fieldName] || {}).selected = val;
+    };
+
+    Fields.toggleSelected = function(fieldName) {
+      var field = Fields.fields[fieldName] || {};
+      field.selected = field.selected ? undefined : true;
     };
 
     Fields.isSelected = function(fieldName) {
