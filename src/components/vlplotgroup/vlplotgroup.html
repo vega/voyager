@@ -2,12 +2,34 @@
   <div ng-if="showExpand || fieldSet || showBookmark || showToggle"
     class="vl-plot-group-header full-width no-shrink">
     <div class="right">
+      <a ng-if="showToggleMarkType"
+        class="command disabled">
+        <i class="fa fa-font"></i>
+        <i class="fa fa-line-chart"></i>
+        <i class="fa fa-area-chart"></i>
+        <i class="fa fa-bar-chart"></i>
+        <i class="fa fa-circle-o"></i>
+      </a>
+      <a ng-if="showToggleTranspose"
+        class="command inactive"> <!-- transpose -->
+        <i class="fa fa-refresh" style="transform: rotateZ(135deg) scaleX(-1);"></i>
+      </a>
+      <a ng-if="showFilterNull"
+        class="command" ng-click="toggleFilterNull()"
+        ng-class='{active: chart.vlSpec.cfg.filterNull.O}'>
+        <i class="fa fa-filter"></i>
+        <small>NULL</small>
+      </a>
       <a ng-if="showBookmark"
         href="#"
         class="command"
         ng-click="Bookmarks.toggle(chart)"
         ng-class="{disabled: !chart.vlSpec.enc, bookmarked: Bookmarks.isBookmarked(chart.shorthand)}">
         <i class="fa fa-bookmark"></i>
+      </a>
+      <a ng-if="consts.debug && showDebug"
+        class="command">
+        <i class="fa fa-wrench"></i>
       </a>
       <a ng-if="showExpand"
         ng-click="expandAction()"
@@ -34,8 +56,7 @@
     </div>
   </div>
   <div class="vl-plot-wrapper full-width vis-{{fieldSet.key}} flex-grow-1">
-    <vl-plot vg-spec="chart.vgSpec"
-      vl-spec="chart.vlSpec"
+    <vl-plot vl-spec="chart.vlSpec"
       shorthand="chart.shorthand"
       config-set="{{configSet||'small'}}"
       max-height="330"
