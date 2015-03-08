@@ -10,12 +10,17 @@
         <i class="fa fa-bar-chart"></i>
         <i class="fa fa-circle-o"></i>
       </a>
+      <a ng-show="showSort && toggleSort.support(chart.vlSpec)"
+        class="command" ng-click="toggleSort(chart.vlSpec)"
+        >
+        <i class="fa fa-sort-amount-desc"></i>
+      </a>
       <a ng-if="showTranspose"
         class="command" ng-click="transpose()"> <!-- transpose -->
         <i class="fa fa-refresh" style="transform: rotateZ(135deg) scaleX(-1);"></i>
       </a>
       <a ng-if="showFilterNull"
-        class="command" ng-click="toggleFilterNull()"
+        class="command" ng-click="toggleFilterNull(chart.vlSpec)"
         ng-class='{active: chart.vlSpec.cfg.filterNull.O}'>
         <i class="fa fa-filter"></i>
         <small>NULL</small>

@@ -22,6 +22,7 @@ angular.module('vleApp')
         showExpand: '=',
         showFilterNull: '@',
         showMarkType: '@',
+        showSort: '@',
         showTranspose: '@',
 
         configSet: '@',
@@ -34,9 +35,9 @@ angular.module('vleApp')
         scope.Bookmarks = Bookmarks;
         scope.consts = consts;
 
-        scope.toggleFilterNull = function() {
-          scope.chart.vlSpec.cfg.filterNull.O = !scope.chart.vlSpec.cfg.filterNull.O;
-        };
+        scope.toggleSort = vl.Encoding.toggleSort;
+        scope.toggleFilterNull = vl.Encoding.toggleFilterNullO;
+
 
         scope.transpose = function() {
           vl.Encoding.transpose(scope.chart.vlSpec);
