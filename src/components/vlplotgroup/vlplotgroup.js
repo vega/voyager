@@ -21,8 +21,8 @@ angular.module('vleApp')
         showDebug: '=',
         showExpand: '=',
         showFilterNull: '@',
-        showToggleMarkType: '@',
-        showToggleTranspose: '@',
+        showMarkType: '@',
+        showTranspose: '@',
 
         configSet: '@',
         alwaysSelected: '=',
