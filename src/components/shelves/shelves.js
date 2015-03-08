@@ -2,6 +2,7 @@
 
 angular.module('vleApp')
   .directive('shelves', function() {
+
     return {
       templateUrl: 'components/shelves/shelves.html',
       restrict: 'E',
@@ -15,10 +16,22 @@ angular.module('vleApp')
         var etDragFrom = null;
 
         /** copy value from the pill to the fieldDef */
-        function updateFieldDef(fieldDef, pill){
-          // console.log('updateFieldDef', JSON.stringify(pill, null, '  ', 80));
+        function updateFieldDef(fieldDef, pill, encType){
+          var type = fieldDef.type = pill.type,
+            supportedRole = vl.schema.getSupportedRole(encType),
+            dimensionOnly = supportedRole.dimension && !supportedRole.measure;
+
+          // auto cast binning / time binning for dimension only encoding type.
+          if (dimensionOnly && !pill.aggr && !pill.fn && !pill.bin) {
+            if (type==='Q' && !pill.fn) {
+              pill.aggr = undefined;
+              pill.bin = {maxbins: vl.schema.MAXBINS_DEFAULT};
+            } else {
+              pill.fn = vl.schema.defaultTimeFn;
+            }
+          }
+
           fieldDef.name = pill.name;
-          fieldDef.type = pill.type;
           fieldDef.aggr = pill.aggr;
           fieldDef.fn = pill.fn;
           fieldDef.bin = pill.bin;
@@ -30,7 +43,7 @@ angular.module('vleApp')
         };
 
         pills.update = function (encType) {
-          updateFieldDef(Spec.spec.enc[encType], pills[encType]);
+          updateFieldDef(Spec.spec.enc[encType], pills[encType], encType);
         };
 
         pills.dragStart = function (encType) {
@@ -42,9 +55,9 @@ angular.module('vleApp')
           // update the clone of the enc
           if(etDragFrom){
             // if pill is dragged from another shelf, not the schemalist
-            updateFieldDef(enc[etDragFrom], pills[etDragFrom] || {});
+            updateFieldDef(enc[etDragFrom], pills[etDragFrom] || {}, etDragFrom);
           }
-          updateFieldDef(enc[etDragTo], pills[etDragTo] || {});
+          updateFieldDef(enc[etDragTo], pills[etDragTo] || {}, etDragTo);
 
           // console.log('pills.dragDrop',
           //   'from:', etDragFrom, pills[etDragFrom], enc[etDragFrom],
@@ -70,7 +83,7 @@ angular.module('vleApp')
         };
 
         $scope.$watch('Spec.spec', function(spec, oldSpec) {
-          Logger.logInteraction("Spec changed: " + JSON.stringify(jsondiffpatch.diff(oldSpec, spec)));
+          Logger.logInteraction('Spec changed: ' + JSON.stringify(jsondiffpatch.diff(oldSpec, spec)));
 
           Spec.update(spec);
         }, true /* watch equality rather than reference */);
