@@ -28,7 +28,7 @@
   }
 }
 
-.vl-plot-group a{
+.vl-plot-group a.command{
   color: #aaa;
   // color: #9BC8D4;
   &.active {
@@ -37,14 +37,23 @@
   &:hover {
     color: $link-hover-color;
   }
+
+  .fa.fa-refresh.transpose {
+    transform: rotateZ(135deg) scaleX(-1);
+  }
+
+  .fa.sort.sort-x {
+   transform: rotateZ(270deg);
+  }
+  // &.bookmarked .fa{
+  //   color: #EE0000;
+  // }
 }
+
+
 
 .vl-plot-group-header {
   margin-bottom: 5px;
-}
-
-.vl-plot-group-header .bookmarked {
-  color: #EE0000;
 }
 
 .vl-plot-wrapper {
