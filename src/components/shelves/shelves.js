@@ -22,11 +22,11 @@ angular.module('vleApp')
             dimensionOnly = supportedRole.dimension && !supportedRole.measure;
 
           // auto cast binning / time binning for dimension only encoding type.
-          if (dimensionOnly && !pill.aggr && !pill.fn && !pill.bin) {
-            if (type==='Q' && !pill.fn) {
+          if (pill.name && dimensionOnly) {
+            if (type==='Q' && !pill.bin) {
               pill.aggr = undefined;
               pill.bin = {maxbins: vl.schema.MAXBINS_DEFAULT};
-            } else {
+            } else if(type==='T' && !pill.fn) {
               pill.fn = vl.schema.defaultTimeFn;
             }
           }
@@ -39,7 +39,7 @@ angular.module('vleApp')
 
         pills.remove = function (encType) {
           delete pills[encType];
-          updateFieldDef(Spec.spec.enc[encType], {}); // remove all pill detail from the fieldDef
+          updateFieldDef(Spec.spec.enc[encType], {}, encType); // remove all pill detail from the fieldDef
         };
 
         pills.update = function (encType) {
