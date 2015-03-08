@@ -41,9 +41,14 @@
     </div>
 
     <div class="pane vis-pane">
-      <div class="card scroll-xy abs-100 no-right-margin">
+      <vl-plot-group class="card abs-100 no-right-margin full-vl-plot-group"
+          chart="Spec.chart"
+          show-bookmark="true"
+          show-filter-null="true"
+          ></vl-plot-group>
+      <!-- <div class="card scroll-xy abs-100 no-right-margin">
         <vl-plot vg-spec="Spec.vgSpec" shorthand="Spec.shorthand" vl-spec="Spec.vlSpec"></vl-plot>
-      </div>
+      </div> -->
     </div>
   </div>
   <div class="hflex full-width dev-panel" ng-show="showDevPanel">

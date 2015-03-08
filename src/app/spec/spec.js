@@ -104,7 +104,7 @@ angular.module('vleApp')
         // chart object to be bookmarked
         Spec.chart = {
           fieldSet: _.values(Spec.vlSpec.enc), // FIXME order
-          vlSpec: Spec.vlSpec,
+          vlSpec: Spec.spec,
           vgSpec: Spec.vgSpec,
           shorthand: Spec.shorthand
         };

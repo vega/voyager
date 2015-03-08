@@ -2,6 +2,8 @@ $pill-radius: 3px;
 $pill-height: 20px;
 $pill-min-width: 150px;
 $text-color: #212121;
+$link-color: #008CBA;
+$link-hover-color: #125369;
 
 html {
   height: 100%;
@@ -18,7 +20,7 @@ body{
 }
 
 a:hover, a:focus {
-  color: #125369;
+  color: $link-hover-color;
 }
 a:hover {
   cursor: pointer;
@@ -33,10 +35,10 @@ a:hover {
 }
 
 a:active, a:hover {
-outline: 0;
+  outline: 0;
 }
 a {
-  color: #008CBA;
+  color: $link-color;
   text-decoration: none;
   line-height: inherit;
 }
@@ -45,16 +47,24 @@ a {
   font-style: italic;
 }
 
-a.debug {
-  color: #72a386;
-  // &:hover, &:focus{
-  //   color: #174225;
-  // }
-}
-
 a.disabled {
   cursor: not-allowed;
-  color: #bbb;
+  color: #ccc;
+}
+
+a.command {
+  margin-left: 10px;
+  color: #aaa;
+  &.active {
+    color: $link-color;
+  }
+  &:hover {
+    color: $link-hover-color;
+  }
+
+  &.debug {
+    color: #72a386;
+  }
 }
 
 textarea {
@@ -323,9 +333,6 @@ h4 {
   font-size: 10px;
 }
 
-.command {
-  margin-left: 10px;
-}
 
 /* prevent element from being selected http://stackoverflow.com/questions/826782 */
 .noselect {
