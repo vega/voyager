@@ -1,8 +1,7 @@
 <span class="field-info">
-  <span class="hflex full-width"
-      ng-click="action()">
-    <span class="caret" ng-if="showCaret">
-      <i class="fa fa-caret-down" ng-click="caretClicked($event);"></i>
+  <span class="hflex full-width" ng-click="clicked($event)">
+    <span class="caret" ng-show="showCaret">
+      <i class="fa fa-caret-down"></i>
     </span>
 
     <span class="type icon-small icon-type-{{typeNames[field.type]}}"
@@ -13,11 +12,14 @@
 
     <span ng-if="field.aggr!=='count'"
       class="field-info-text">
-      <span class="field-func" ng-if="field.aggr || field.fn || field.bin">
-        {{ field.aggr || field.fn || (field.bin && "bin") }}
+      <span ng-if="func(field)"
+        class="field-func"
+        ng-class="{any: field._any}"
+        >
+        {{ func(field) }}
       </span><!--
       --><span class="field-name"
-        ng-class="{hasfunc: field.aggr || field.fn || field.bin}"
+        ng-class="{hasfunc: func(field), any: field._any}"
         >{{ field.name }}</span>
     </span>
 

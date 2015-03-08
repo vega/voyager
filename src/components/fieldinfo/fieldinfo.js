@@ -7,7 +7,7 @@
  * # fieldInfo
  */
 angular.module('vleApp')
-  .directive('fieldInfo', function (Dataset) {
+  .directive('fieldInfo', function (Dataset, Drop) {
     return {
       templateUrl: 'components/fieldinfo/fieldinfo.html',
       restrict: 'E',
@@ -17,21 +17,33 @@ angular.module('vleApp')
         showType: '=',
         showInfo: '=',
         showCaret: '=',
-        caretAction: '&',
+        popupContent: '=',
         showRemove: '=',
         removeAction: '&',
         action: '&'
       },
-      link: function(scope) {
+      link: function(scope, element) {
+        var funcsPopup;
+
         scope.typeNames = Dataset.typeNames;
         scope.stats = Dataset.stats[scope.field.name];
 
-        scope.caretClicked = function($event) {
-          if(scope.caretAction) {
-            scope.caretAction();
+        scope.clicked = function($event){
+          if(scope.action && $event.target !== element.find('.fa-caret-down')[0]) {
+            scope.action($event);
           }
-          $event.stopPropagation();
         };
+
+        scope.$watch('popupContent', function(popupContent) {
+          if (!popupContent) { return; }
+
+          funcsPopup = new Drop({
+            content: popupContent,
+            target: element.find('.caret')[0],
+            position: 'bottom left',
+            openOn: 'click'
+          });
+        });
       },
       controller: function($scope, Dataset) {
         var statsField = $scope.field.aggr === 'count' ? 'count' : $scope.field.name;

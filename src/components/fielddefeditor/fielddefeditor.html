@@ -1,6 +1,6 @@
 <div class="shelf-group">
   <div class="shelf" ng-class="{disabled: !schema.supportedMarktypes[marktype]}">
-    <div class="shelf-label" ng-click="togglePropsExpand()"
+    <div class="shelf-label"
       ng-class="{expanded: propsExpanded}">
       <i class="fa fa-caret-down"></i>
       {{ encType }}
@@ -12,12 +12,12 @@
      jqyoui-droppable="{onDrop:'fieldDropped'}"
      data-jqyoui-options="{activeClass: 'drop-active'}">
 
-      <field-info ng-if="enc[encType].name"
+      <field-info ng-show="enc[encType].name"
         ng-class="{expanded: funcsExpanded}"
         field="enc[encType]"
         show-type="true"
         show-caret="true"
-        caret-action="toggleFuncsExpand()"
+        popup-content="fieldInfoPopupContent"
         show-remove="true"
         remove-action="removeField()"
         class="selected draggable full-width clickable"
@@ -34,44 +34,45 @@
       </span>
   </div>
   </div>
+  <div class="drop-container">
+    <div class="popup-menu shelf-properties shelf-properties-{{encType}}">
+      <div>
+        <property-editor ng-show="schema.properties.legend" id="encType + 'legend'" type="schema.properties.legend.type" enum="schema.properties.legend.enum" prop-name="'legend'" group="enc[encType]"></property-editor>
+      </div>
+      <div>
+        <property-editor ng-show="schema.properties.value" id="encType + 'value'" type="schema.properties.value.type" enum="schema.properties.value.enum" prop-name="'value'" group="enc[encType]"></property-editor>
+      </div>
 
-  <div class="popup-menu shelf-properties" ng-show="propsExpanded">
-    <div>
-      <property-editor ng-show="schema.properties.legend" id="encType + 'legend'" type="schema.properties.legend.type" enum="schema.properties.legend.enum" prop-name="'legend'" group="enc[encType]"></property-editor>
-    </div>
-    <div>
-      <property-editor ng-show="schema.properties.value" id="encType + 'value'" type="schema.properties.value.type" enum="schema.properties.value.enum" prop-name="'value'" group="enc[encType]"></property-editor>
-    </div>
-
-    <div ng-repeat="group in ['scale', 'text', 'axis', 'bin']"
-         ng-show="schema.properties[group]">
-      <h4>{{ group }}</h4>
-      <div ng-repeat="(propName, scaleProp) in schema.properties[group].properties"
-           ng-init="id = encType + group + $index"
-           ng-show="scaleProp.supportedTypes ? scaleProp.supportedTypes[enc[encType].type] : true">
-        <property-editor id="id" type="scaleProp.type" enum="scaleProp.enum" prop-name="propName" group="enc[encType][group]"></property-editor>
+      <div ng-repeat="group in ['scale', 'text', 'axis', 'bin']"
+           ng-show="schema.properties[group]">
+        <h4>{{ group }}</h4>
+        <div ng-repeat="(propName, scaleProp) in schema.properties[group].properties"
+             ng-init="id = encType + group + $index"
+             ng-show="scaleProp.supportedTypes ? scaleProp.supportedTypes[enc[encType].type] : true">
+          <property-editor id="id" type="scaleProp.type" enum="scaleProp.enum" prop-name="propName" group="enc[encType][group]"></property-editor>
+        </div>
       </div>
     </div>
-  </div>
-  <div class="popup-menu shelf-functions" ng-show="funcsExpanded && enc[encType].name">
-    <div class="mb5">
-      <h4>Types</h4>
-      <span ng-if="allowedTypes.length<=1">
-        {{typeNames[enc[encType].type]}}
-      </span>
-      <label class="type-label"
-        ng-if="allowedTypes.length>1"
-        ng-repeat="type in allowedTypes">
-        <input type="radio" ng-value="type" ng-model="enc[encType].type">
-        {{typeNames[type]}}
-      </label>
-      <!-- <select class="type-select" ng-model="enc[encType].type"
-              ng-options="type as typeNames[type] for type in schema.properties.type.enum track by type">
-      </select> -->
+    <div class="popup-menu shelf-functions shelf-functions-{{encType}}">
+      <div class="mb5">
+        <h4>Types</h4>
+        <span ng-if="allowedTypes.length<=1">
+          {{typeNames[enc[encType].type]}}
+        </span>
+        <label class="type-label"
+          ng-if="allowedTypes.length>1"
+          ng-repeat="type in allowedTypes">
+          <input type="radio" ng-value="type" ng-model="enc[encType].type">
+          {{typeNames[type]}}
+        </label>
+        <!-- <select class="type-select" ng-model="enc[encType].type"
+                ng-options="type as typeNames[type] for type in schema.properties.type.enum track by type">
+        </select> -->
+      </div>
+
+      <function-select pills="pills" enc-type="encType" schema="schema"></function-select>
+
+      <!-- <a href="#" class="remove-field" ng-click="removeField()">Remove Field</a> -->
     </div>
-
-    <function-select pills="pills" enc-type="encType" schema="schema"></function-select>
-
-    <!-- <a href="#" class="remove-field" ng-click="removeField()">Remove Field</a> -->
   </div>
 </div>
