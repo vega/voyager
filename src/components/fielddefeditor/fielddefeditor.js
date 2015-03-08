@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('vleApp')
-  .directive('fieldDefEditor', function(Dataset, Logger, _, Tether) {
+  .directive('fieldDefEditor', function(Dataset, Logger, _, Drop) {
     return {
       templateUrl: 'components/fielddefeditor/fielddefeditor.html',
       restrict: 'E',
@@ -15,8 +15,6 @@ angular.module('vleApp')
       },
       link: function(scope, element /*, attrs*/) {
         var propsPopup, funcsPopup;
-        scope.propsExpanded = false;
-        scope.funcsExpanded = false;
 
         scope.allowedCasting = {
           Q: ['Q', 'O'],
@@ -32,54 +30,15 @@ angular.module('vleApp')
           return scope.pills ? scope.pills[scope.encType] : null;
         }
 
-        scope.togglePropsExpand = function() {
-          if (!scope.schema.supportedMarktypes[scope.marktype]) {
-            return;
-          }
-          scope.propsExpanded = !scope.propsExpanded;
-          if (scope.propsExpanded) {
-            if (scope.funcsExpanded) {
-              scope.toggleFuncsExpand();
-            }
-            if (propsPopup) {
-              propsPopup.enable();
-            } else {
-              propsPopup = new Tether({
-                element: element.find('.shelf-properties'),
-                target: element.find('.shelf'),
-                attachment: 'top left',
-                targetAttachment: 'bottom left'
-              });
-            }
-          } else { // detach
-            if (propsPopup) {
-              propsPopup.disable();
-            }
-          }
-        };
 
-        scope.toggleFuncsExpand = function() {
-          scope.funcsExpanded = !scope.funcsExpanded;
-          if (scope.funcsExpanded) {
-            if (scope.propsExpanded) {
-              scope.togglePropsExpand();
-            }
-            if (funcsPopup) {
-              funcsPopup.enable();
-            } else {
-              funcsPopup = new Tether({
-                element: element.find('.shelf-functions'),
-                target: element.find('.field-info'),
-                attachment: 'top left',
-                targetAttachment: 'bottom left'
-              });
-            }
-          } else {
-            if (funcsPopup) {
-              funcsPopup.disable();
-            }
-          }
-        };
+        propsPopup = new Drop({
+          content: element.find('.shelf-properties')[0],
+          target: element.find('.shelf-label')[0],
+          position: 'bottom left',
+          openOn: 'click'
+        });
+
+        scope.fieldInfoPopupContent =  element.find('.shelf-functions')[0];
 
         scope.removeField = function() {
           scope.pills.remove(scope.encType);
@@ -91,7 +50,9 @@ angular.module('vleApp')
 
         scope.fieldDropped = function() {
           var pill = fieldPill();
-          funcsPopup = null;
+          if (funcsPopup) {
+            funcsPopup = null;
+          }
 
           Logger.logInteraction('Field dropped: ' + pill.name);
 
@@ -121,6 +82,9 @@ angular.module('vleApp')
           var allowedTypes = arr[0], aggr=arr[1];
           scope.allowedTypes = aggr === 'count' ? ['Q'] : allowedTypes;
         });
+
+
       }
+
     };
   });
