@@ -47,24 +47,19 @@ a {
   font-style: italic;
 }
 
-a.disabled {
-  cursor: not-allowed;
-  color: #ccc;
-}
 
 a.command {
   margin-left: 10px;
-  color: #aaa;
-  &.active {
-    color: $link-color;
-  }
-  &:hover {
-    color: $link-hover-color;
-  }
-
   &.debug {
     color: #72a386;
   }
+
+  &.disabled, &.disabled:hover, &[disabled=disabled], [disabled=disabled]:hover {
+    cursor: not-allowed;
+    color: #ccc;
+    display:none;
+  }
+
 }
 
 textarea {

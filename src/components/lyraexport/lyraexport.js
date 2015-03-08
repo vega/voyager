@@ -3,7 +3,7 @@
 angular.module('vleApp')
   .directive('lyraExport', function() {
     return {
-      template: '<a href="#" ng-click="export()">Export to lyra</a>',
+      template: '<a href="#" class="command" ng-click="export()">Export to lyra</a>',
       restrict: 'E',
       replace: true,
       scope: {},
