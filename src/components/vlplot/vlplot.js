@@ -45,7 +45,9 @@ angular.module('vleApp')
           var spec = consts.defaultConfigSet && scope.configSet && consts.defaultConfigSet !== scope.configSet ? null : scope.vgSpec;
 
           if (!spec) { // recompile if not yet available
-            var encoding = vl.Encoding.fromSpec(scope.vlSpec, {}, Config[configSet]());
+            var encoding = vl.Encoding.fromSpec(scope.vlSpec, {
+              cfg: Config[configSet]()
+            });
             spec = vl.compile(encoding, Dataset.stats);
           }
 
