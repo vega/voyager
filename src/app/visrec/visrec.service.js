@@ -147,6 +147,9 @@ angular.module('facetedviz')
       var clusters = vr.cluster(encodings)
         .map(function(cluster) {
           return cluster.map(function(spec) {
+            // auto sort
+            vl.Encoding.toggleSort(spec);
+
             var encoding = vl.Encoding.fromSpec(spec, {});
             var vgSpec= vl.compile(encoding, Dataset.stats);
 
