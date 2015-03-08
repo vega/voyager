@@ -17,10 +17,12 @@ angular.module('vleApp')
         //optional
         fieldSet: '=',
 
-        showBookmark: '=',
+        showBookmark: '@',
         showDebug: '=',
         showExpand: '=',
-        showToggle: '=',
+        showFilterNull: '@',
+        showToggleMarkType: '@',
+        showToggleTranspose: '@',
 
         configSet: '@',
         alwaysSelected: '=',
@@ -28,9 +30,13 @@ angular.module('vleApp')
         highlighted: '=',
         expandAction: '&'
       },
-      link: function postLink(scope, element, attrs) {
+      link: function postLink(scope) {
         scope.Bookmarks = Bookmarks;
         scope.consts = consts;
+
+        scope.toggleFilterNull = function() {
+          scope.chart.vlSpec.cfg.filterNull.O = !scope.chart.vlSpec.cfg.filterNull.O;
+        };
       }
     };
   });
