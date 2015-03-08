@@ -54,17 +54,24 @@ angular.module('facetedviz')
           // getChild(index-1).after(ev);
         };
 
-        var updateFields = _.debounce(function() {
+        function updateFields() {
           scope.limit = consts.numInitClusters;
           element.scrollTop(0); // scroll the the top
           var fieldList = Fields.getList();
-          console.log('updateFields', fieldList);
           Fields.update();
           Visrec.update.projections(fieldList);
+        }
 
-        }, 200, {maxWait: 1500});
+        var dUpdateFields = _.debounce(updateFields, 200, {maxWait: 1500});
 
-        scope.$watch('Fields.fields', updateFields, true);
+        scope.$watch('Fields.fields', function(fields, oldFields) {
+          if (!oldFields || _.keys(oldFields).length ===0 ) { // first time!
+            updateFields();
+          } else {
+            dUpdateFields();
+          }
+        }, true);
+
       }
     };
   });
