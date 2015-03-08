@@ -28,12 +28,12 @@ angular.module('vleApp')
         scope.typeNames = Dataset.typeNames;
         scope.stats = Dataset.stats[scope.field.name];
 
-        // scope.caretClicked = function($event) {
-        //   if(scope.caretAction) {
-        //     scope.caretAction();
-        //   }
-        //   $event.stopPropagation();
-        // };
+        scope.clicked = function($event){
+          if(scope.action && $event.target !== element.find('.fa-caret-down')[0]) {
+            scope.action($event);
+          }
+        };
+
         scope.$watch('popupContent', function(popupContent) {
           if (!popupContent) { return; }
 
