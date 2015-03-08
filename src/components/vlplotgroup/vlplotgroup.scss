@@ -8,16 +8,16 @@
   margin-bottom: 20px;
 }
 
-.wrapped-vl-plot-group {
+.vl-plot-group.wrapped-vl-plot-group {
   max-width: 520px;
   flex-grow: 1;
 }
 
-.row-vl-plot-group {
+.vl-plot-group.row-vl-plot-group {
   max-width: 100%;
 }
 
-.full-vl-plot-group {
+.vl-plot-group.full-vl-plot-group {
   max-width: 100%;
   .vl-plot-wrapper {
     max-height: none;
@@ -25,6 +25,17 @@
       margin-bottom: auto;
       margin-top: auto;
     }
+  }
+}
+
+.vl-plot-group a{
+  color: #aaa;
+  // color: #9BC8D4;
+  &.active {
+    color: $link-color;
+  }
+  &:hover {
+    color: $link-hover-color;
   }
 }
 
