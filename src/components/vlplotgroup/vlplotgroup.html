@@ -10,16 +10,13 @@
         <i class="fa fa-bar-chart"></i>
         <i class="fa fa-circle-o"></i>
       </a>
-      <a ng-show="showSort && toggleSort.support(chart.vlSpec)"
+      <a ng-show="showSort && toggleSort.support(chart.vlSpec, Dataset.stats)"
         class="command" ng-click="toggleSort(chart.vlSpec)"
         >
         <i class="fa sort"
           ng-class="toggleSortClass(chart.vlSpec)"
         ></i>
-      </a>
-      <a ng-if="showTranspose"
-        class="command" ng-click="transpose()"> <!-- transpose -->
-        <i class="fa fa-refresh transpose"></i>
+        <small ng-if="showLabel">Sort</small>
       </a>
       <a ng-if="showFilterNull"
         class="command" ng-click="toggleFilterNull(chart.vlSpec)"
@@ -27,12 +24,18 @@
         <i class="fa fa-filter"></i>
         <small>NULL</small>
       </a>
+      <a ng-if="showTranspose"
+        class="command" ng-click="transpose()"> <!-- transpose -->
+        <i class="fa fa-refresh transpose"></i>
+        <small ng-if="showLabel">Transpose</small>
+      </a>
       <a ng-if="showBookmark"
         href="#"
         class="command"
         ng-click="Bookmarks.toggle(chart)"
-        ng-class="{disabled: !chart.vlSpec.enc, bookmarked: Bookmarks.isBookmarked(chart.shorthand)}">
+        ng-class="{disabled: !chart.vlSpec.enc, active: Bookmarks.isBookmarked(chart.shorthand)}">
         <i class="fa fa-bookmark"></i>
+        <small ng-if="showLabel">Bookmark</small>
       </a>
       <a ng-if="consts.debug && showDebug"
         class="command">

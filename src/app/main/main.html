@@ -3,14 +3,14 @@
     <div class="card no-right-margin no-top-margin">
       <div class="right">
         <div class="controls">
-          <a href="#"
+          <!-- <a href="#"
             ng-click="Bookmarks.toggle(Spec.chart)"
             ng-class="{disabled: !Spec.vlSpec.enc}">
             <i class="fa fa-bookmark"></i>
             <span ng-if="Bookmarks.dict[Spec.shorthand]"> Remove </span>
             <span ng-if="!Bookmarks.dict[Spec.shorthand]"> Add </span>
             Bookmark
-          </a>
+          </a> -->
           <a ng-click="showBookmark=true">
             <i class="fa fa-bookmark"></i>
             Bookmarks ({{Bookmarks.list.length}})
@@ -48,6 +48,8 @@
           show-mark-type="true"
           show-sort="true"
           show-transpose="true"
+
+          show-label="true"
           ></vl-plot-group>
       <!-- <div class="card scroll-xy abs-100 no-right-margin">
         <vl-plot vg-spec="Spec.vgSpec" shorthand="Spec.shorthand" vl-spec="Spec.vlSpec"></vl-plot>

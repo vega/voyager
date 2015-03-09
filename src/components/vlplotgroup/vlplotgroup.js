@@ -7,7 +7,7 @@
  * # visListItem
  */
 angular.module('vleApp')
-  .directive('vlPlotGroup', function (Bookmarks, consts, vl) {
+  .directive('vlPlotGroup', function (Bookmarks, consts, vl, Dataset) {
     return {
       templateUrl: 'components/vlplotgroup/vlplotgroup.html',
       restrict: 'E',
@@ -25,6 +25,8 @@ angular.module('vleApp')
         showSort: '@',
         showTranspose: '@',
 
+        showLabel: '@',
+
         configSet: '@',
         alwaysSelected: '=',
         isSelected: '=',
@@ -34,6 +36,7 @@ angular.module('vleApp')
       link: function postLink(scope) {
         scope.Bookmarks = Bookmarks;
         scope.consts = consts;
+        scope.Dataset = Dataset;
 
         var toggleSort = scope.toggleSort = vl.Encoding.toggleSort;
         scope.toggleFilterNull = vl.Encoding.toggleFilterNullO;

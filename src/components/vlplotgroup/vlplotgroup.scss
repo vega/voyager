@@ -45,16 +45,15 @@
   .fa.sort.sort-x {
    transform: rotateZ(270deg);
   }
+  // &.bookmarked .fa{
+  //   color: #EE0000;
+  // }
 }
 
 
 
 .vl-plot-group-header {
   margin-bottom: 5px;
-}
-
-.vl-plot-group-header .bookmarked {
-  color: #EE0000;
 }
 
 .vl-plot-wrapper {
