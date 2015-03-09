@@ -3,55 +3,67 @@
 var datasets = [{
   name: 'Barley',
   url: 'data/barley.json',
-  table: 'barley_json'
+  id: 'barley',
+
 },{
   name: 'Cars',
   url: 'data/cars.json',
-  table: 'cars_json'
+  id: 'cars',
+  displayNames: {
+    'name': 'Name',
+    'mpg': 'Miles per Gallon',
+    'cyl': 'Cylinders',
+    'dsp': 'Displacement',
+    'hp': 'Horse Power',
+    'lbs': 'Weight (in lbs)',
+    'acc': 'Acceleration',
+    'year': 'Year',
+    'origin': 'Origin'
+  }
 },{
   name: 'Crimea',
   url: 'data/crimea.json',
-  table: 'crimea_json'
+  id: 'crimea'
 },{
   name: 'Driving',
   url: 'data/driving.json',
-  table: 'driving_json'
+  id: 'driving'
 },{
   name: 'Iris',
   url: 'data/iris.json',
-  table: 'iris_json'
+  id: 'iris'
 },{
   name: 'Jobs',
   url: 'data/jobs.json',
-  table: 'jobs_json'
+  id: 'jobs'
 },{
   name: 'Population',
   url: 'data/population.json',
-  table: 'population_json'
+  id: 'population'
 },{
   name: 'Movies',
   url: 'data/movies.json',
-  table: 'movies_json'
+  id: 'movies'
 },{
   name: 'Birdstrikes',
   url: 'data/birdstrikes.json',
-  table: 'birdstrikes_json'
+  id: 'birdstrikes'
 },{
   name: "Burtin",
   url: "data/burtin.json",
-  table: 'burtin_json'
+  id: 'burtin'
 },{
   name: "Budget 2016",
   url: "data/budget.json",
-  table: 'budget_json'
+  id: 'budget'
 },{
   name: "Climate Normals",
   url: "data/climate.json",
-  table: 'climate_json'
+  id: 'climate'
 },{
   name: "Campaigns",
   url: "data/weball26.json",
-  table: 'weball26_json'
+  id: 'weball26'
 }];
 
 function getNameMap(dataschema) {
