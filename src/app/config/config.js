@@ -10,15 +10,18 @@ angular.module('vleApp')
     Config.config = vl.schema.util.instantiate(Config.schema);
 
     Config.large = function() {
-      return vl.merge({}, Config.config, {
+      var config = vl.merge({}, Config.config, {
         singleWidth: 500,
         singleHeight: 500,
         largeBandMaxCardinality: 20
       });
+
+      return vl.duplicate(config);
     };
 
     Config.small = function() {
-      return vl.merge({}, Config.config);
+      var config = vl.merge({}, Config.config);
+      return vl.duplicate(config);
     };
 
     Config.updateDataset = function(dataset) {

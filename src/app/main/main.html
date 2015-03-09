@@ -3,14 +3,14 @@
     <div class="card no-right-margin no-top-margin">
       <div class="right">
         <div class="controls">
-          <a href="#"
+          <!-- <a href="#"
             ng-click="Bookmarks.toggle(Spec.chart)"
             ng-class="{disabled: !Spec.vlSpec.enc}">
             <i class="fa fa-bookmark"></i>
             <span ng-if="Bookmarks.dict[Spec.shorthand]"> Remove </span>
             <span ng-if="!Bookmarks.dict[Spec.shorthand]"> Add </span>
             Bookmark
-          </a>
+          </a> -->
           <a ng-click="showBookmark=true">
             <i class="fa fa-bookmark"></i>
             Bookmarks ({{Bookmarks.list.length}})
@@ -22,7 +22,7 @@
         <a ng-href="{{ {encoding:Spec.vlSpec} | reportUrl }}" target="_blank" class="command debug">Report an issue</a>
         <a href="#" class="command debug" ng-click="showDevPanel = !showDevPanel">Dev Pane</a>
       </div>
-      <h1>ShelfViz</h1>
+      <h1>Pole✭</h1>
     </div>
     <alert-messages></alert-messages>
   </div>
@@ -41,9 +41,19 @@
     </div>
 
     <div class="pane vis-pane">
-      <div class="card scroll-xy abs-100 no-right-margin">
+      <vl-plot-group class="card abs-100 no-right-margin full-vl-plot-group"
+          chart="Spec.chart"
+          show-bookmark="true"
+          show-filter-null="true"
+          show-mark-type="true"
+          show-sort="true"
+          show-transpose="true"
+
+          show-label="true"
+          ></vl-plot-group>
+      <!-- <div class="card scroll-xy abs-100 no-right-margin">
         <vl-plot vg-spec="Spec.vgSpec" shorthand="Spec.shorthand" vl-spec="Spec.vlSpec"></vl-plot>
-      </div>
+      </div> -->
     </div>
   </div>
   <div class="hflex full-width dev-panel" ng-show="showDevPanel">

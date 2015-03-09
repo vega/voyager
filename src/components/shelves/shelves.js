@@ -69,13 +69,7 @@ angular.module('vleApp')
         };
 
         $scope.transpose = function(){
-          var oldenc = Spec.spec.enc,
-            enc = _.clone(Spec.spec.enc);
-          enc.x = oldenc.y;
-          enc.y = oldenc.x;
-          enc.row = oldenc.col;
-          enc.col = oldenc.row;
-          Spec.spec.enc = enc;
+          vl.Encoding.transpose(Spec.spec);
         };
 
         $scope.clear = function(){
