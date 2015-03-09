@@ -2,6 +2,25 @@
   <div ng-show="showExpand || fieldSet || showBookmark || showToggle"
     class="vl-plot-group-header full-width no-shrink">
     <div class="right">
+
+      <a ng-show="consts.debug && showDebug"
+        class="command debug">
+        <i class="fa fa-wrench"></i>
+      </a>
+      <div class="drop-container">
+        <div class="popup-menu popup-command no-shrink dev-tool">
+          <a class="command debug" ui-zeroclip zeroclip-model="chart.shorthand">Copy Vls</a>
+          <a class="command debug" ui-zeroclip zeroclip-model="chart.vlSpec | compactJSON">Copy Vl</a>
+          <a class="command debug" ui-zeroclip zeroclip-model="chart.vgSpec | compactJSON">Copy Vg</a>
+          <a class="command debug"
+            ng-href="{{ {type:'vl', encoding: chart.vlSpec} | reportUrl }}"
+            target="_blank">Report Bad Render</a>
+          <a ng-click="showFeature=!showFeature" class="command debug">{{chart.score}}</a>
+          <div ng-repeat="f in chart.scoreFeatures track by f.reason">
+            [{{f.score}}] {{f.reason}}
+          </div>
+        </div>
+      </div>
       <a ng-if="showMarkType"
         class="command disabled">
         <i class="fa fa-font"></i>
@@ -38,24 +57,6 @@
         <i class="fa fa-bookmark"></i>
         <small ng-if="showLabel">Bookmark</small>
       </a>
-      <a ng-show="consts.debug && showDebug"
-        class="command">
-        <i class="fa fa-wrench"></i>
-      </a>
-      <div class="drop-container">
-        <div class="popup-menu popup-command no-shrink dev-tool">
-          <a class="command debug" ui-zeroclip zeroclip-model="chart.shorthand">Copy Vls</a>
-          <a class="command debug" ui-zeroclip zeroclip-model="chart.vlSpec | compactJSON">Copy Vl</a>
-          <a class="command debug" ui-zeroclip zeroclip-model="chart.vgSpec | compactJSON">Copy Vg</a>
-          <a class="command debug"
-            ng-href="{{ {type:'vl', encoding: chart.vlSpec} | reportUrl }}"
-            target="_blank">Report Bad Render</a>
-          <a ng-click="showFeature=!showFeature" class="command debug">{{chart.score}}</a>
-          <div ng-repeat="f in chart.scoreFeatures track by f.reason">
-            [{{f.score}}] {{f.reason}}
-          </div>
-        </div>
-      </div>
       <a ng-if="showExpand"
         ng-click="expandAction()"
         class="command"

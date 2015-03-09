@@ -31,6 +31,9 @@
 .vl-plot-group a.command{
   color: #aaa;
   // color: #9BC8D4;
+  &.debug {
+    color: #72a386;
+  }
   &.active {
     color: $link-color;
   }
