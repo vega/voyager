@@ -7,7 +7,10 @@
  * # visListItem
  */
 angular.module('vleApp')
-  .directive('vlPlotGroup', function (Bookmarks, consts, vl, Dataset) {
+  .directive('vlPlotGroup', function (Bookmarks, consts, vl, Dataset, Drop) {
+
+    var debugPopup;
+
     return {
       templateUrl: 'components/vlplotgroup/vlplotgroup.html',
       restrict: 'E',
@@ -33,13 +36,21 @@ angular.module('vleApp')
         highlighted: '=',
         expandAction: '&'
       },
-      link: function postLink(scope) {
+      link: function postLink(scope, element) {
         scope.Bookmarks = Bookmarks;
         scope.consts = consts;
         scope.Dataset = Dataset;
 
         var toggleSort = scope.toggleSort = vl.Encoding.toggleSort;
         scope.toggleFilterNull = vl.Encoding.toggleFilterNullO;
+
+        debugPopup = new Drop({
+          content: element.find('.dev-tool')[0],
+          target: element.find('.fa-wrench')[0],
+          position: 'bottom right',
+          openOn: 'click',
+          constrainToWindow: true
+        });
 
         scope.toggleSortClass = function(vlSpec) {
           var direction = toggleSort.direction(vlSpec),

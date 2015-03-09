@@ -1,5 +1,5 @@
 <div class="vl-plot-group card vflex">
-  <div ng-if="showExpand || fieldSet || showBookmark || showToggle"
+  <div ng-show="showExpand || fieldSet || showBookmark || showToggle"
     class="vl-plot-group-header full-width no-shrink">
     <div class="right">
       <a ng-if="showMarkType"
@@ -38,10 +38,24 @@
         <i class="fa fa-bookmark"></i>
         <small ng-if="showLabel">Bookmark</small>
       </a>
-      <a ng-if="consts.debug && showDebug"
+      <a ng-show="consts.debug && showDebug"
         class="command">
         <i class="fa fa-wrench"></i>
       </a>
+      <div class="drop-container">
+        <div class="popup-menu popup-command no-shrink dev-tool">
+          <a class="command debug" ui-zeroclip zeroclip-model="chart.shorthand">Copy Vls</a>
+          <a class="command debug" ui-zeroclip zeroclip-model="chart.vlSpec | compactJSON">Copy Vl</a>
+          <a class="command debug" ui-zeroclip zeroclip-model="chart.vgSpec | compactJSON">Copy Vg</a>
+          <a class="command debug"
+            ng-href="{{ {type:'vl', encoding: chart.vlSpec} | reportUrl }}"
+            target="_blank">Report Bad Render</a>
+          <a ng-click="showFeature=!showFeature" class="command debug">{{chart.score}}</a>
+          <div ng-repeat="f in chart.scoreFeatures track by f.reason">
+            [{{f.score}}] {{f.reason}}
+          </div>
+        </div>
+      </div>
       <a ng-if="showExpand"
         ng-click="expandAction()"
         class="command"
@@ -62,9 +76,6 @@
         ng-mouseout="(highlighted||{})[field.name] = false"
       ></field-info>
     </div>
-    <div class="togglers" ng-if="showToggle">
-
-    </div>
   </div>
   <div class="vl-plot-wrapper full-width vis-{{fieldSet.key}} flex-grow-1">
     <vl-plot vl-spec="chart.vlSpec"
@@ -72,30 +83,5 @@
       config-set="{{configSet||'small'}}"
       max-height="330"
     ></vl-plot>
-  </div>
-  <div class="no-shrink dev-tool" ng-if="consts.debug && showDebug">
-    <div class="right">
-      <span ng-if="chart.score"
-        tooltips tooltip-size="small"
-        tooltip-content="{{chart.scoreFeatures}}">
-        {{chart.score}}
-      </span>
-      <a class="command debug" ui-zeroclip zeroclip-model="chart.shorthand">Copy Vls</a>
-      <a class="command debug" ui-zeroclip zeroclip-model="chart.vlSpec | compactJSON">Copy Vl</a>
-      <a class="command debug" ui-zeroclip zeroclip-model="chart.vgSpec | compactJSON">Copy Vg</a>
-      <a class="command debug"
-        ng-href="{{ {type:'vl', encoding: chart.vlSpec} | reportUrl }}"
-        target="_blank">Report Bad Render</a>
-    </div>
-    <!-- <div>
-      <a href="#"
-        ng-click="Bookmarks.toggle(chart.vlSpec)"
-        ng-class="{disabled: !chart.vlSpec.enc}">
-        <i class="fa fa-bookmark"></i>
-        <span ng-if="Bookmarks.dict[chart.shorthand]"> Remove </span>
-        <span ng-if="!Bookmarks.dict[chart.shorthand]"> Add </span>
-        Bookmark
-      </a>
-    </div> -->
   </div>
 </div>

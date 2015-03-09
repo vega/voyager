@@ -137,6 +137,12 @@ h4 {
   background-color: white;
   border: 1px solid #ccc;
   border-radius: 3px;
+
+  &.popup-command {
+    .command {
+      display: block;
+    }
+  }
 }
 
 /* PANES */

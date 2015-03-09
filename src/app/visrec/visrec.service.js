@@ -161,9 +161,7 @@ angular.module('facetedviz')
               shorthand: encoding.toShorthand(),
               vgSpec: vgSpec,
               score: spec.score,
-              scoreFeatures: spec.scoreFeatures.map(function(f) {
-                return '['+f.score+']'+ ' ' + f.reason;
-              }).join('<br/>')
+              scoreFeatures: spec.scoreFeatures
             };
           });
         });
