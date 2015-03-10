@@ -36,13 +36,15 @@ $any-color: #aaa;
     flex-grow: 1;
   }
 
-  .field-func{
+  .field-func, .field-count{
     text-transform: uppercase;
     font-weight: bold;
-    flex-shrink: 0;
     &.any {
       color: $any-color;
     }
+  }
+  .field-func {
+    flex-shrink: 0;
   }
 }
 
