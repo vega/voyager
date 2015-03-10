@@ -1,13 +1,15 @@
 <span class="field-info">
   <span class="hflex full-width" ng-click="clicked($event)">
-    <span class="caret" ng-show="showCaret">
-      <i class="fa fa-caret-down"></i>
-    </span>
 
-    <span class="type icon-small icon-type-{{typeNames[field.type]}}"
-      ng-show="showType"
-      title="{{typeNames[field.type]}}">
-      {{field.type}}
+    <span class="type-caret"
+      ng-class="{active: !disableCountOrOCaret || (field.type!=='O' && field.aggr!=='count')}">
+      <i class="fa fa-caret-down" ng-show="showCaret"
+      ></i>
+      <span class="type icon-small icon-type-{{typeNames[field.type]}}"
+        ng-show="showType"
+        title="{{typeNames[field.type]}}">
+        {{field.type}}
+      </span>
     </span>
 
     <span ng-if="field.aggr!=='count'"
@@ -20,7 +22,7 @@
       </span><!--
       --><span class="field-name"
         ng-class="{hasfunc: func(field), any: field._any}"
-        >{{ field.name | underscore2space }}</span>
+        >{{ field.name | underscore2space }} {{disableCountOrOCaret}}</span>
     </span>
 
     <span ng-if="field.aggr==='count'"
@@ -29,7 +31,9 @@
     </span>
 
     <span class="no-shrink remove" ng-show="showRemove">
-      <a href="#" class="remove-field" ng-click="removeAction()">×</a>
+      <a href="#" class="remove-field" ng-click="removeAction()">
+        <i class="fa fa-times"></i>
+      </a>
     </span>
 
     <span class="no-shrink info" ng-show="showInfo">

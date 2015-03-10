@@ -20,7 +20,8 @@ angular.module('vleApp')
         popupContent: '=',
         showRemove: '=',
         removeAction: '&',
-        action: '&'
+        action: '&',
+        disableCountOrOCaret: '='
       },
       link: function(scope, element) {
         var funcsPopup;
@@ -46,7 +47,7 @@ angular.module('vleApp')
 
           funcsPopup = new Drop({
             content: popupContent,
-            target: element.find('.caret')[0],
+            target: element.find('.type-caret')[0],
             position: 'bottom left',
             openOn: 'click'
           });
