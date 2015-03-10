@@ -8,18 +8,7 @@ var datasets = [{
 },{
   name: 'Cars',
   url: 'data/cars.json',
-  id: 'cars',
-  displayNames: {
-    'name': 'Name',
-    'mpg': 'Miles per Gallon',
-    'cyl': 'Cylinders',
-    'dsp': 'Displacement',
-    'hp': 'Horse Power',
-    'lbs': 'Weight (in lbs)',
-    'acc': 'Acceleration',
-    'year': 'Year',
-    'origin': 'Origin'
-  }
+  id: 'cars'
 },{
   name: 'Crimea',
   url: 'data/crimea.json',
