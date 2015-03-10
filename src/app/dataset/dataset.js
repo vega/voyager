@@ -47,23 +47,7 @@ var datasets = [{
 },{
   name: 'Birdstrikes',
   url: 'data/birdstrikes.json',
-  id: 'birdstrikes',
-  displayNames: {
-    "Airport__Name":"Airport Name",
-    "Aircraft__Make_Model":"Aircraft Model",
-    "Effect__Amount_of_damage":"Amount of Damage",
-    "Flight_Date":"FLight Date",
-    "Aircraft__Airline_Operator":"Airline",
-    "Origin_State":"Origin State",
-    "When__Phase_of_flight":"Phase of Flight",
-    "Wildlife__Size":"Wildlife Size",
-    "Wildlife__Species":"Wildlife Species",
-    "When__Time_of_day":" Time of Day",
-    "Cost__Other": "Other costs (in US$)",
-    "Cost__Repair": "Cost repair (in US$)",
-    "Cost__Total_$": "Total cost (in US$)",
-    "Speed_IAS_in_knots": "Speed IAS (in knots)"},
-
+  id: 'birdstrikes'
 },{
   name: "Burtin",
   url: "data/burtin.json",
