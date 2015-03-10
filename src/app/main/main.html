@@ -3,6 +3,17 @@
     <div class="card no-right-margin no-top-margin">
       <div class="right">
         <div class="controls">
+          <span ng-show="consts.debug">
+            <a ng-href="{{ {encoding:Spec.vlSpec} | reportUrl }}" target="_blank" class="command debug" tooltips tooltip-size="small"
+              tooltip-content="Report an issue">
+              <i class="fa fa-bug"></i>
+            </a>
+            <a href="#" class="command debug" ng-click="showDevPanel = !showDevPanel" tooltips
+              tooltip-size="small"
+              tooltip-content="Debug Tool">
+              <i class="fa fa-wrench"></i>
+            </a>
+          </span>
           <!-- <a href="#"
             ng-click="Bookmarks.toggle(Spec.chart)"
             ng-class="{disabled: !Spec.vlSpec.enc}">
@@ -18,9 +29,7 @@
           <a href="#" ng-click="chron.undo()" ng-class="{disabled: !canUndo}"><i class="fa fa-undo"></i> Undo</a>
           <a href="#" ng-click="chron.redo()" ng-class="{disabled: !canRedo}"><i class="fa fa-repeat"></i> Redo</a>
         </div>
-        <a href="http://bit.ly/visrecissues" target="_blank" class="command debug">Known Issues</a>
-        <a ng-href="{{ {encoding:Spec.vlSpec} | reportUrl }}" target="_blank" class="command debug">Report an issue</a>
-        <a href="#" class="command debug" ng-click="showDevPanel = !showDevPanel">Dev Pane</a>
+
       </div>
       <h1>Pole✭</h1>
     </div>
