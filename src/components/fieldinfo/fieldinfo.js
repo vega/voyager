@@ -30,7 +30,8 @@ angular.module('vleApp')
         scope.stats = Dataset.stats[scope.field.name];
 
         scope.clicked = function($event){
-          if(scope.action && $event.target !== element.find('.fa-caret-down')[0]) {
+          if(scope.action && $event.target !== element.find('.fa-caret-down')[0] &&
+            $event.target !== element.find('span.type')[0]) {
             scope.action($event);
           }
         };
