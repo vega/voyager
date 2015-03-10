@@ -9,22 +9,21 @@ $any-color: #aaa;
   height: 20px;
   margin-bottom: 0;
   margin-right: 3px;
-  padding: 1px 6px 1px 6px;
+  padding: 1px 3px;
   font-size: 11px;
   border: 1px solid transparent;
   user-select: none;
   overflow: hidden;
 
-  .caret {
+  .type-caret {
     flex-shrink: 0;
-    padding-right: 3px;
   }
 
   .type {
     font-size: 0.8rem;
     margin-right: 3px;
+    margin-left: 1px;
     flex-shrink: 0;
-    margin-left: -2px;
     background-position-y: -2px;
     &.icon-type-time {
       background-position-y: 0px;
@@ -36,13 +35,15 @@ $any-color: #aaa;
     flex-grow: 1;
   }
 
-  .field-func{
+  .field-func, .field-count{
     text-transform: uppercase;
     font-weight: bold;
-    flex-shrink: 0;
     &.any {
       color: $any-color;
     }
+  }
+  .field-func {
+    flex-shrink: 0;
   }
 }
 
@@ -64,15 +65,30 @@ $any-color: #aaa;
   }
 }
 
-.field-info .fa.fa-caret-down {
-  flex-shrink:0;
-  // visibility: hidden;
-  border-radius: 3px;
-  margin-top: 2px;
-  margin-right: 2px;
-  padding: 0 2px;
+.field-info {
+  .fa.fa-caret-down, .fa.fa-times {
+    flex-shrink:0;
+    // visibility: hidden;
+    border-radius: 3px;
+    margin-top: 1px;
+  }
+  .fa.fa-caret-down {
+    padding: 2px 3px 1px;
+  }
+  .fa.fa-times {
+    padding: 1px 2px;
+  }
 
-  &:hover {
+  .type-caret {
+    color: #eee;
+  }
+
+  .type-caret.active {
+    color: black;
+    cursor: pointer;
+  }
+
+  .type-caret.active:hover .fa.fa-caret-down, .fa.fa-times:hover {
     color: white;
     background-color: #999;
   }

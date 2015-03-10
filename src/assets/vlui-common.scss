@@ -34,6 +34,10 @@ a:hover {
   cursor: move;
 }
 
+.invisible {
+  visibility: hidden;
+}
+
 a:active, a:hover {
   outline: 0;
 }
