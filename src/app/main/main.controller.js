@@ -1,7 +1,9 @@
 'use strict';
 
 angular.module('facetedviz')
-  .controller('MainCtrl', function($scope, $document, Chronicle, Visrec, Config, Dataset, Fields, Bookmarks, Logger) {
+  .controller('MainCtrl', function($scope, $document, Chronicle, Visrec, Config, Dataset, Fields, Bookmarks, Logger, Drop, consts) {
+
+    $scope.consts = consts;
     $scope.canUndo = false;
     $scope.canRedo = false;
 

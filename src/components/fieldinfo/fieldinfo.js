@@ -34,6 +34,13 @@ angular.module('vleApp')
           }
         };
 
+        scope.func = function(field) {
+          return field.aggr || field.fn ||
+            (field.bin && 'bin') ||
+            field._aggr || field._fn ||
+            (field._bin && 'bin') || (field._any && '*');
+        };
+
         scope.$watch('popupContent', function(popupContent) {
           if (!popupContent) { return; }
 

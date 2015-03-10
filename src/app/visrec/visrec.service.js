@@ -142,26 +142,14 @@ angular.module('facetedviz')
     };
 
     function genClusters(fieldSet) {
-      var encodings = vr.gen.encodings([], fieldSet, Dataset.stats, {}, Config.small())
-        .map(function(encoding) { // add filter null to all Buffer(subject, encoding, offset);
-          encoding.filter = _(encoding.enc)
-            .filter(function(field){
-              return field.name && field.name !== '*' && field.type !== 'O';
-            })
-            .pluck('name')
-            .unique()
-            .map(function(name) {
-              return {
-                operands: [name],
-                operator: 'notNull'
-              };
-            }).value();
-          return encoding;
-        });
+      var encodings = vr.gen.encodings([], fieldSet, Dataset.stats, {}, Config.small());
 
       var clusters = vr.cluster(encodings)
         .map(function(cluster) {
           return cluster.map(function(spec) {
+            // auto sort
+            vl.Encoding.toggleSort(spec);
+
             var encoding = vl.Encoding.fromSpec(spec, {});
             var vgSpec= vl.compile(encoding, Dataset.stats);
 
@@ -173,9 +161,7 @@ angular.module('facetedviz')
               shorthand: encoding.toShorthand(),
               vgSpec: vgSpec,
               score: spec.score,
-              scoreFeatures: spec.scoreFeatures.map(function(f) {
-                return '['+f.score+']'+ ' ' + f.reason;
-              }).join('<br/>')
+              scoreFeatures: spec.scoreFeatures
             };
           });
         });

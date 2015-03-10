@@ -7,7 +7,10 @@
  * # visListItem
  */
 angular.module('vleApp')
-  .directive('vlPlotGroup', function (Bookmarks, consts) {
+  .directive('vlPlotGroup', function (Bookmarks, consts, vl, Dataset, Drop) {
+
+    var debugPopup;
+
     return {
       templateUrl: 'components/vlplotgroup/vlplotgroup.html',
       restrict: 'E',
@@ -17,10 +20,15 @@ angular.module('vleApp')
         //optional
         fieldSet: '=',
 
-        showBookmark: '=',
+        showBookmark: '@',
         showDebug: '=',
         showExpand: '=',
-        showToggle: '=',
+        showFilterNull: '@',
+        showMarkType: '@',
+        showSort: '@',
+        showTranspose: '@',
+
+        showLabel: '@',
 
         configSet: '@',
         alwaysSelected: '=',
@@ -28,9 +36,37 @@ angular.module('vleApp')
         highlighted: '=',
         expandAction: '&'
       },
-      link: function postLink(scope, element, attrs) {
+      link: function postLink(scope, element) {
         scope.Bookmarks = Bookmarks;
         scope.consts = consts;
+        scope.Dataset = Dataset;
+
+        var toggleSort = scope.toggleSort = vl.Encoding.toggleSort;
+        scope.toggleFilterNull = vl.Encoding.toggleFilterNullO;
+
+        debugPopup = new Drop({
+          content: element.find('.dev-tool')[0],
+          target: element.find('.fa-wrench')[0],
+          position: 'bottom right',
+          openOn: 'click',
+          constrainToWindow: true
+        });
+
+        scope.toggleSortClass = function(vlSpec) {
+          var direction = toggleSort.direction(vlSpec),
+            mode = toggleSort.mode(vlSpec);
+          if (direction === 'y') {
+            return mode === 'Q' ? 'fa-sort-amount-desc' :
+              'fa-sort-alpha-asc';
+          } else {
+            return mode === 'Q' ? 'fa-sort-amount-desc sort-x' :
+              'fa-sort-alpha-asc sort-x';
+          }
+        };
+
+        scope.transpose = function() {
+          vl.Encoding.transpose(scope.chart.vlSpec);
+        };
       }
     };
   });

@@ -3,6 +3,18 @@
     <div class="card no-right-margin no-top-margin margin-bottom">
       <div class="right">
         <div class="controls">
+          <span ng-show="consts.debug">
+            <a ng-href="{{ {fields: Fields.fields} | reportUrl }}" target="_blank" class="command debug" tooltips tooltip-size="small"
+              tooltip-content="Report an issue">
+              <i class="fa fa-bug"></i>
+            </a>
+            <!-- <a href="http://bit.ly/visrecissues" target="_blank" class="command debug">Known Issues</a> -->
+            <!-- <a href="#" class="command debug" ng-click="showDevPanel = !showDevPanel" tooltips
+              tooltip-size="small"
+              tooltip-content="Debug Tool">
+              <i class="fa fa-wrench"></i>
+            </a> -->
+          </span>
           <a ng-click="showBookmark=true">
             <i class="fa fa-bookmark"></i>
             Bookmarks ({{Bookmarks.list.length}})
@@ -14,9 +26,6 @@
             <i class="fa fa-repeat"></i> Redo
           </a>
         </div>
-        <a href="http://bit.ly/visrecissues" target="_blank" class="command debug">Known Issues</a>
-        <a ng-href="{{ {fields: Fields.fields} | reportUrl }}" target="_blank" class="command debug">Report an issue</a>
-        <a href="#" class="command debug" ng-click="showDevPanel = !showDevPanel">Dev Pane</a>
       </div>
       <h1>Data Voyager</h1>
     </div>

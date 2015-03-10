@@ -24,7 +24,7 @@ angular.module('vleApp')
         'configSet': '@'
       },
       replace: true,
-      link: function(scope, element, attr) {
+      link: function(scope, element) {
         scope.visId = (counter++);
         scope.hoverAction = null;
         scope.mouseover = function() {
@@ -38,17 +38,25 @@ angular.module('vleApp')
           scope.hoverFocus = scope.unlocked = false;
         };
 
-        function render() {
-          var start = new Date().getTime();
+        function getVgSpec() {
+          return consts.defaultConfigSet && scope.configSet && consts.defaultConfigSet !== scope.configSet ? null : scope.vgSpec;
+        }
+
+        function getCompiledSpec() {
           var configSet = scope.configSet || consts.defaultConfigSet || {};
+          var encoding = vl.Encoding.fromSpec(scope.vlSpec, {
+            cfg: Config[configSet]()
+          });
+          return vl.compile(encoding, Dataset.stats);
+        }
 
-          var spec = consts.defaultConfigSet && scope.configSet && consts.defaultConfigSet !== scope.configSet ? null : scope.vgSpec;
+        function render(spec) {
+          var start = new Date().getTime();
 
-          if (!spec) { // recompile if not yet available
-            var encoding = vl.Encoding.fromSpec(scope.vlSpec, {
-              cfg: Config[configSet]()
-            });
-            spec = vl.compile(encoding, Dataset.stats);
+
+          scope.height = spec.height;
+          if (!element) {
+            console.error('can not find vis element');
           }
 
           var shorthand = scope.shorthand || (scope.vlSpec ? vl.Encoding.shorthandFromSpec(scope.vlSpec) : '');
@@ -80,7 +88,8 @@ angular.module('vleApp')
         }
 
         var view;
-        scope.$watch('vgSpec',function(spec) {
+        scope.$watch('vgSpec',function() {
+          var spec = getVgSpec();
           if (!spec) {
             if (view) {
               view.off('mouseover');
@@ -88,15 +97,16 @@ angular.module('vleApp')
             return;
           }
 
-          scope.height = spec.height;
+          render(spec);
+        }, true);
 
-          if (element) {
-            // $timeout(render, 10);
-            render();
-          } else {
-            console.error('can not find vis element');
-          }
-        });
+        scope.$watch('vlSpec', function() {
+          var vgSpec = getVgSpec();
+          if (vgSpec) { return; } //no need to update
+
+          var spec = getCompiledSpec();
+          render(spec);
+        }, true);
       }
     };
   });
