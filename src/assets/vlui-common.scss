@@ -16,6 +16,7 @@ body{
   margin: 0;
   background-color: #eee;
   font-size: 12px;
+  line-height: 18px;
 }
 
 a:hover, a:focus {
@@ -31,6 +32,10 @@ a:hover {
 
 .draggable {
   cursor: move;
+}
+
+.invisible {
+  visibility: hidden;
 }
 
 a:active, a:hover {
