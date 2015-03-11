@@ -87,6 +87,9 @@ angular.module('vleApp')
               view.on('mouseover', function(event, item) {
                 if (item.datum.data) {
                   scope.tooltipActive = true;
+
+                  // convert data into a format that we can easily use with ng table and ng-repeat
+                  // TODO: revise if this is actually a good idea
                   scope.data = _.pairs(item.datum.data).map(function(p) {
                     p.isNumber = vg.isNumber(p[1]);
                     return p;
@@ -98,12 +101,14 @@ angular.module('vleApp')
                     width = tooltip.width(),
                     height= tooltip.height();
 
+                  // put tooltip above if it's near the screen's bottom border
                   if (event.pageY+10+height < $body.height()) {
                     tooltip.css('top', (event.pageY+10));
                   } else {
                     tooltip.css('top', (event.pageY-10-height));
                   }
 
+                  // put tooltip on left if it's near the screen's right border
                   if (event.pageX+10+ width < $body.width()) {
                     tooltip.css('left', (event.pageX+10));
                   } else {
@@ -111,8 +116,6 @@ angular.module('vleApp')
                   }
 
                   console.log(event, item);
-
-
                 }
               });
 
