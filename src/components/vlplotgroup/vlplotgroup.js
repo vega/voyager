@@ -34,7 +34,12 @@ angular.module('vleApp')
         alwaysSelected: '=',
         isSelected: '=',
         highlighted: '=',
-        expandAction: '&'
+        expandAction: '&',
+
+        maxHeight: '=',
+        maxWidth: '=',
+        overflow: '=',
+        alwaysScrollable: '='
       },
       link: function postLink(scope, element) {
         scope.Bookmarks = Bookmarks;
