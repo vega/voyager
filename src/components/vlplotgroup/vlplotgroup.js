@@ -39,7 +39,8 @@ angular.module('vleApp')
         maxHeight: '=',
         maxWidth: '=',
         overflow: '=',
-        alwaysScrollable: '='
+        alwaysScrollable: '=',
+        tooltip: '='
       },
       link: function postLink(scope, element) {
         scope.Bookmarks = Bookmarks;
