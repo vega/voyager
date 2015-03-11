@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('vleApp')
-  .directive('vlPlot', function(vl, vg, $timeout, $q, Dataset, Config, consts) {
+  .directive('vlPlot', function(vl, vg, $timeout, $q, Dataset, Config, consts, _) {
     var counter = 0;
     var MAX_CANVAS_SIZE = 32767/2, MAX_CANVAS_AREA = 268435456/4;
 
@@ -21,6 +21,10 @@ angular.module('vleApp')
         'vlSpec': '=',
         'shorthand': '=',
         'maxHeight':'=',
+        'maxWidth': '=',
+        'alwaysScrollable': '=',
+        'overflow': '=',
+        'tooltip': '=',
         'configSet': '@'
       },
       replace: true,
@@ -79,11 +83,29 @@ angular.module('vleApp')
 
             var endChart = new Date().getTime();
             console.log('parse spec', (endParse-start), 'charting', (endChart-endParse), shorthand);
+            if (scope.tooltip) {
+              view.on('mouseover', function(event, item) {
+                // TODO: Hanchuan please create tooltip from this
+                scope.tooltipActive = true;
+                scope.data = _.pairs(item.datum.data).map(function(p) {
+                  p.isNumber = vg.isNumber(p[1]);
+                  return p;
+                });
 
-            view.on('mouseover', function(event, item) {
-              // TODO: Hanchuan please create tooltip from this
-              console.log(item.datum.data);
-            });
+                var tooltip = element.find('.vis-tooltip');
+                console.log(event, item, tooltip, (event.pageX+10), (event.pageY+10));
+                tooltip.css('top', (event.pageY+10));
+                tooltip.css('left', (event.pageX+10));
+                scope.$digest();
+              });
+
+              view.on('mouseout', function() {
+                scope.tooltipActive = false;
+                scope.data = [];
+                scope.$digest();
+              });
+            }
+
           });
         }
 
@@ -93,6 +115,7 @@ angular.module('vleApp')
           if (!spec) {
             if (view) {
               view.off('mouseover');
+              view.off('mouseout');
             }
             return;
           }
