@@ -4,6 +4,7 @@
       ng-class="{expanded: propsExpanded}">
       <i class="fa fa-caret-down"></i>
       {{ encType }}
+      {{ pills.dragging}}
     </div>
     <!--<field-drop field-def="enc[encType]" types="schema.properties.type.enum"></field-drop>-->
     <div class="field-drop"
@@ -25,7 +26,7 @@
 
         data-drag="true"
         ng-model="pills[encType]"
-        jqyoui-draggable="{onStart: 'fieldDragStart'}"
+        jqyoui-draggable="{onStart: 'fieldDragStart', onStop:'fieldDragStop'}"
         data-jqyoui-options="{revert: 'invalid', helper: 'clone'}"
         >
       </field-info>

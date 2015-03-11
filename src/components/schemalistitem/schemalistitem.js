@@ -20,7 +20,10 @@ angular.module('vleApp')
 
         scope.fieldDragStart = function() {
           scope.pill = Pills.getSchemaPill(scope.field);
+          Pills.dragStart(scope.pill, null);
         };
+
+        scope.fieldDragStop = Pills.dragStop;
       }
     };
   });
