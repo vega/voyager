@@ -9,6 +9,12 @@
  */
 angular.module('vleApp')
   .service('Pills', function (vl, Spec, _, $window) {
+    var encSchemaProps = vl.schema.schema.properties.enc.properties;
+
+    function instantiate(encType) {
+      return vl.schema.util.instantiate(encSchemaProps[encType]);
+    }
+
     var Pills = {
       pills: {}
     };
@@ -23,8 +29,8 @@ angular.module('vleApp')
 
 
     /** copy value from the pill to the fieldDef */
-    function updateFieldDef(fieldDef, pill, encType){
-      var type = fieldDef.type = pill.type,
+    function updateFieldDef(enc, pill, encType){
+      var type = pill.type,
         supportedRole = vl.schema.getSupportedRole(encType),
         dimensionOnly = supportedRole.dimension && !supportedRole.measure;
 
@@ -41,19 +47,18 @@ angular.module('vleApp')
         }
       }
 
-      fieldDef.name = pill.name;
-      fieldDef.aggr = pill.aggr;
-      fieldDef.fn = pill.fn;
-      fieldDef.bin = pill.bin;
+      // FIXME filter unsupported properties
+
+      enc[encType] = _.merge(instantiate(encType), pill);
     }
 
     Pills.remove = function (encType) {
       delete Pills.pills[encType];
-      updateFieldDef(Spec.spec.enc[encType], {}, encType); // remove all pill detail from the fieldDef
+      updateFieldDef(Spec.spec.enc, {}, encType); // remove all pill detail from the fieldDef
     };
 
     Pills.update = function (encType) {
-      updateFieldDef(Spec.spec.enc[encType], Pills.pills[encType], encType);
+      updateFieldDef(Spec.spec.enc, Pills.pills[encType], encType);
     };
 
     Pills.dragStart = function (pill, encType) {
@@ -74,9 +79,9 @@ angular.module('vleApp')
         // if pill is dragged from another shelf, not the schemalist
         //
         // console.log('pillDragFrom', Pills.pills[etDragFrom]);
-        updateFieldDef(enc[etDragFrom], Pills.pills[etDragFrom] || {}, etDragFrom);
+        updateFieldDef(enc, Pills.pills[etDragFrom] || {}, etDragFrom);
       }
-      updateFieldDef(enc[etDragTo], Pills.pills[etDragTo] || {}, etDragTo);
+      updateFieldDef(enc, Pills.pills[etDragTo] || {}, etDragTo);
 
       // console.log('Pills.dragDrop',
       //   'from:', etDragFrom, Pills.pills[etDragFrom], enc[etDragFrom],

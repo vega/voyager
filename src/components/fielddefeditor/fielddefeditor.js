@@ -71,18 +71,18 @@ angular.module('vleApp')
         };
 
         // when each of the fieldPill property in fieldDef changes, update the pill
-        ['name', 'type', 'aggr', 'bin', 'fn'].forEach( function(prop) {
-          scope.$watch('enc[encType].'+prop, function(val){
-            var pill = fieldPill();
-            if(pill && val !== pill[prop]){
-              pill[prop] = val;
-            }
-          }, true);
-        });
-
-        // scope.$watch('enc[encType]', function(field) {
-        //   Pills.pills[scope.encType] = field ? _.cloneDeep(field) : {};
+        // ['name', 'type', 'aggr', 'bin', 'fn'].forEach( function(prop) {
+        //   scope.$watch('enc[encType].'+prop, function(val){
+        //     var pill = fieldPill();
+        //     if(pill && val !== pill[prop]){
+        //       pill[prop] = val;
+        //     }
+        //   }, true);
         // });
+
+        scope.$watch('enc[encType]', function(field) {
+          Pills.pills[scope.encType] = field ? _.cloneDeep(field) : {};
+        });
 
         scope.$watchGroup(['allowedCasting[Dataset.dataschema.byName[enc[encType].name].type]', 'enc[encType].aggr'], function(arr){
           var allowedTypes = arr[0], aggr=arr[1];
