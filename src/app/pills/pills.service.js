@@ -69,11 +69,11 @@ angular.module('vleApp')
       var enc = _.clone(Spec.spec.enc),
         etDragFrom = Pills.pills.etDragFrom;
       // update the clone of the enc
-      console.log('dragDrop', enc, Pills, 'from:', etDragFrom, Pills.pills[etDragFrom]);
+      // console.log('dragDrop', enc, Pills, 'from:', etDragFrom, Pills.pills[etDragFrom]);
       if(etDragFrom){
         // if pill is dragged from another shelf, not the schemalist
         //
-        console.log('pillDragFrom', Pills.pills[etDragFrom]);
+        // console.log('pillDragFrom', Pills.pills[etDragFrom]);
         updateFieldDef(enc[etDragFrom], Pills.pills[etDragFrom] || {}, etDragFrom);
       }
       updateFieldDef(enc[etDragTo], Pills.pills[etDragTo] || {}, etDragTo);
