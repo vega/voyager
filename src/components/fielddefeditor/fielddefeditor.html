@@ -25,7 +25,7 @@
 
         data-drag="true"
         ng-model="pills[encType]"
-        jqyoui-draggable="{onStart: 'fieldDragStart'}"
+        jqyoui-draggable="{onStart: 'fieldDragStart', onStop:'fieldDragStop'}"
         data-jqyoui-options="{revert: 'invalid', helper: 'clone'}"
         >
       </field-info>
@@ -71,7 +71,7 @@
         </select> -->
       </div>
 
-      <function-select pills="pills" enc-type="encType" schema="schema"></function-select>
+      <function-select field="enc[encType]" enc-type="encType" schema="schema"></function-select>
 
       <!-- <a href="#" class="remove-field" ng-click="removeField()">Remove Field</a> -->
     </div>

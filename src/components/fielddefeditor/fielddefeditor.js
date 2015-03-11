@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('vleApp')
-  .directive('fieldDefEditor', function(Dataset, _, Drop) {
+  .directive('fieldDefEditor', function(Dataset, Pills, _, Drop) {
     return {
       templateUrl: 'components/fielddefeditor/fielddefeditor.html',
       restrict: 'E',
@@ -9,7 +9,7 @@ angular.module('vleApp')
       scope: {
         encType: '=',
         enc: '=',
-        pills: '=',
+
         schema: '=fieldDefSchema',
         marktype: '='
       },
@@ -25,11 +25,11 @@ angular.module('vleApp')
 
         scope.Dataset = Dataset;
         scope.typeNames = Dataset.typeNames;
+        scope.pills = Pills.pills;
 
         function fieldPill(){
-          return scope.pills ? scope.pills[scope.encType] : null;
+          return Pills.pills[scope.encType];
         }
-
 
         propsPopup = new Drop({
           content: element.find('.shelf-properties')[0],
@@ -41,11 +41,15 @@ angular.module('vleApp')
         scope.fieldInfoPopupContent =  element.find('.shelf-functions')[0];
 
         scope.removeField = function() {
-          scope.pills.remove(scope.encType);
+          Pills.remove(scope.encType);
         };
 
         scope.fieldDragStart = function() {
-          scope.pills.dragStart(scope.encType);
+          Pills.dragStart(Pills[scope.encType], scope.encType);
+        };
+
+        scope.fieldDragStop = function() {
+          Pills.dragStop();
         };
 
         scope.fieldDropped = function() {
@@ -63,17 +67,21 @@ angular.module('vleApp')
 
           // TODO validate fn / aggr
 
-          scope.pills.dragDrop(scope.encType);
+          Pills.dragDrop(scope.encType);
         };
 
         // when each of the fieldPill property in fieldDef changes, update the pill
-        ['name', 'type', 'aggr', 'bin', 'fn'].forEach( function(prop) {
-          scope.$watch('enc[encType].'+prop, function(val){
-            var pill = fieldPill();
-            if(pill && val !== pill[prop]){
-              pill[prop] = val;
-            }
-          }, true);
+        // ['name', 'type', 'aggr', 'bin', 'fn'].forEach( function(prop) {
+        //   scope.$watch('enc[encType].'+prop, function(val){
+        //     var pill = fieldPill();
+        //     if(pill && val !== pill[prop]){
+        //       pill[prop] = val;
+        //     }
+        //   }, true);
+        // });
+
+        scope.$watch('enc[encType]', function(field) {
+          Pills.pills[scope.encType] = field ? _.cloneDeep(field) : {};
         });
 
         scope.$watchGroup(['allowedCasting[Dataset.dataschema.byName[enc[encType].name].type]', 'enc[encType].aggr'], function(arr){

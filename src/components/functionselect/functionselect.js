@@ -1,25 +1,26 @@
 'use strict';
 
 angular.module('vleApp')
-  .directive('functionSelect', function(_, vl) {
+  .directive('functionSelect', function(_, vl, Pills) {
     return {
       templateUrl: 'components/functionselect/functionselect.html',
       restrict: 'E',
       scope: {
         encType: '=',
-        pills: '=',
-        schema: '='
+        schema: '=',
+        field: '='
       },
       link: function(scope /*,element, attrs*/) {
-        var BIN='bin', RAW='', COUNT='count';
+        var BIN='bin', RAW='', COUNT='count', maxbins;
 
+        scope.pills = Pills.pills;
         scope.func = {
           selected: RAW,
           list: [RAW]
         };
 
         function fieldPill() {
-          return scope.pills ? scope.pills[scope.encType] : null;
+          return Pills ? Pills.pills[scope.encType] : null;
         }
 
         function getFns(type) {
@@ -52,19 +53,20 @@ angular.module('vleApp')
             return; // not ready
           }
 
-          // reset field def, HACK: we're temporarily storing the maxbins in the pill
-          pill.bin = selectedFunc === BIN ? {maxbins: pill.maxbins || vl.schema.MAXBINS_DEFAULT} : undefined;
+          // reset field def
+          // HACK: we're temporarily storing the maxbins in the pill
+          pill.bin = selectedFunc === BIN ? {maxbins: maxbins || vl.schema.MAXBINS_DEFAULT} : undefined;
           pill.aggr = getAggrs(type).indexOf(selectedFunc) !== -1 ? selectedFunc : undefined;
           pill.fn = getFns(type).indexOf(selectedFunc) !== -1 ? selectedFunc : undefined;
 
           if(!_.isEqual(oldPill, pill)){
-            scope.pills[scope.encType] = pill;
-            scope.pills.update(scope.encType);
+            Pills.pills[scope.encType] = pill;
+            Pills.update(scope.encType);
           }
         });
 
-        // when parent objects modify the pill
-        scope.$watch('pills[encType]', function (pill) {
+        // when parent objects modify the field
+        scope.$watch('field', function (pill) {
           // only run this if schema is not null
           if (!scope.schema || !pill) {
             return;
@@ -75,7 +77,7 @@ angular.module('vleApp')
 
           // hack: save the maxbins
           if (pill.bin) {
-            pill.maxbins = pill.bin.maxbins;
+            maxbins = pill.bin.maxbins;
           }
 
           var isOrdinalShelf = ['row','col','shape'].indexOf(scope.encType) !== -1,

@@ -2,7 +2,7 @@
   <span class="hflex full-width" ng-click="clicked($event)">
 
     <span class="type-caret"
-      ng-class="{active: !disableCountOrOCaret || (field.type!=='O' && field.aggr!=='count')}">
+      ng-class="{active: !disableCountOrOCaret || (field.aggr!=='count')}">
       <i class="fa fa-caret-down" ng-show="showCaret"
       ></i>
       <span class="type icon-small icon-type-{{typeNames[field.type]}}"
