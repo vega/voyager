@@ -7,11 +7,10 @@ angular.module('vleApp')
       restrict: 'E',
       scope: {},
       replace: true,
-      link: function postLink(scope, element /*, attrs*/) {
-      },
+      // link: function postLink(scope, element /*, attrs*/) {
+      // },
       controller: function($scope) {
         $scope.Dataset = Dataset;
-        $scope.typeNames = Dataset.typeNames;
       }
     };
   });

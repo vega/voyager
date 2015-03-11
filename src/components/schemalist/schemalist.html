@@ -1,14 +1,6 @@
 <div class="schema full-width">
-  <field-info field="field"
+  <schema-list-item field="field"
     ng-repeat="field in Dataset.dataschema | orderBy : Dataset.fieldOrder"
-    ng-init="pill = {name:field.name, type: field.type, aggr: field.aggr};"
-    show-type="true"
-    show-info="true"
-    class="pill list-item draggable full-width no-right-margin"
-    ng-model="pill"
-    data-drag="true"
-    jqyoui-draggable="{placeholder: 'keep'}"
-    data-jqyoui-options="{revert: 'invalid', helper: 'clone'}"
     >
-  </field-info>
+  </schema-list-item>
 </div>
