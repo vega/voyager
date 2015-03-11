@@ -21,6 +21,9 @@ angular.module('vleApp')
         'vlSpec': '=',
         'shorthand': '=',
         'maxHeight':'=',
+        'maxWidth': '=',
+        'alwaysScrollable': '=',
+        'overflow': '=',
         'configSet': '@'
       },
       replace: true,

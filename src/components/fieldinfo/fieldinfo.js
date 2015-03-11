@@ -20,7 +20,8 @@ angular.module('vleApp')
         popupContent: '=',
         showRemove: '=',
         removeAction: '&',
-        action: '&'
+        action: '&',
+        disableCountOrOCaret: '='
       },
       link: function(scope, element) {
         var funcsPopup;
@@ -29,7 +30,8 @@ angular.module('vleApp')
         scope.stats = Dataset.stats[scope.field.name];
 
         scope.clicked = function($event){
-          if(scope.action && $event.target !== element.find('.fa-caret-down')[0]) {
+          if(scope.action && $event.target !== element.find('.fa-caret-down')[0] &&
+            $event.target !== element.find('span.type')[0]) {
             scope.action($event);
           }
         };
@@ -46,7 +48,7 @@ angular.module('vleApp')
 
           funcsPopup = new Drop({
             content: popupContent,
-            target: element.find('.caret')[0],
+            target: element.find('.type-caret')[0],
             position: 'bottom left',
             openOn: 'click'
           });
