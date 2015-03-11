@@ -62,8 +62,6 @@ angular.module('vleApp')
       this.dict[shorthand] = _.cloneDeep(chart);
       this.updateLength();
       this.save();
-
-      Logger.logInteraction('Bookmark added', shorthand);
     };
 
     proto.remove = function(chart) {

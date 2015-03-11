@@ -18,6 +18,8 @@ angular.module('facetedviz')
       $scope.showBookmark = false;
     };
 
+    Bookmarks.load();
+
     Dataset.update(Dataset.dataset).then(function() {
       // initially set dataset and update fields
       Config.updateDataset(Dataset.dataset);
