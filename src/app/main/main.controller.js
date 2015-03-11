@@ -20,6 +20,9 @@ angular.module('vleApp')
       $scope.showBookmark = false;
     };
 
+    // load bookmarks from local storage
+    Bookmarks.load();
+
     // initialize undo after we have a dataset
     Dataset.update(Dataset.dataset).then(function() {
       Config.updateDataset(Dataset.dataset);

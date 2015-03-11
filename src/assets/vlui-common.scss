@@ -51,6 +51,10 @@ a {
   font-style: italic;
 }
 
+a.disabled {
+  cursor: not-allowed;
+  color: #ccc;
+}
 
 a.command {
   margin-left: 10px;
@@ -63,7 +67,6 @@ a.command {
     color: #ccc;
     display:none;
   }
-
 }
 
 textarea {
