@@ -28,7 +28,8 @@ angular.module('vleApp', [
     debug: true,
     useUrl: true,
     logging: true,
-    defaultConfigSet: 'large'
+    defaultConfigSet: 'large',
+    appId: 'polestar'
   })
   .config(function(uiZeroclipConfigProvider) {
     // config ZeroClipboard

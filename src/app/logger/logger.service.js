@@ -17,7 +17,9 @@ angular.module('vleApp')
 
     service.db = $webSql.openDatabase('logs', '1.0', 'Logs', 2 * 1024 * 1024);
 
-    service.db.createTable('log', {
+    service.tableName = 'log_' + consts.appId;
+
+    service.db.createTable(service.tableName, {
       'userid':{
         'type': 'INTEGER',
         'null': 'NOT NULL'
@@ -42,12 +44,12 @@ angular.module('vleApp')
     service.clear = function() {
       var r = confirm('Really clear the logs?');
       if (r == true) {
-        service.db.dropTable('log');
+        service.db.dropTable(service.tableName);
       }
     };
 
     service.export = function() {
-      var data = service.db.selectAll('log').then(function(results) {
+      var data = service.db.selectAll(service.tableName).then(function(results) {
         if (results.rows.length === 0) {
           console.warn('No logs');
           return;
@@ -82,9 +84,7 @@ angular.module('vleApp')
         row.diff = JSON.stringify(diff);
       }
 
-      service.db.insert('log', row).then(function(results) {
-        console.log(results.insertId);
-      });
+      service.db.insert(service.tableName, row).then(function(results) {});
     };
 
     return service;
