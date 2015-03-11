@@ -134,6 +134,15 @@ angular.module('vleApp')
                   (stats.cardinality < (stats.count - stats.numNulls)/50 || stats.cardinality <= 7))) {
               field.type = 'O';
             }
+
+            // HACK
+            if (field.type === 'T') {
+              Dataset.stats['year_'+field.name] = {
+                cardinality: vl.uniq(response.data.map(function(row) {
+                  return new Date(row[field.name]).getUTCFullYear();
+                }))
+              };
+            }
           });
 
         });
