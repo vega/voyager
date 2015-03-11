@@ -12,7 +12,8 @@ angular.module('vleApp', [
     'ui.router',
     'Chronicle',
     'LocalStorageModule',
-    '720kb.tooltips'])
+    '720kb.tooltips',
+    'ngOrderObjectBy'])
   .constant('_', window._)
   .constant('vl', window.vl)
   .constant('vg', window.vg)
