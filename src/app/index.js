@@ -5,7 +5,8 @@ angular.module('vleApp', [
     'zeroclipboard',
     'Chronicle',
     '720kb.tooltips',
-    'LocalStorageModule'
+    'LocalStorageModule',
+    'ngOrderObjectBy'
   ])
   .constant('_', window._)
   .constant('vl', window.vl)
