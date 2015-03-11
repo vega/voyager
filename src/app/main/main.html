@@ -8,12 +8,12 @@
               tooltip-content="Report an issue">
               <i class="fa fa-bug"></i>
             </a>
-            <!-- <a href="http://bit.ly/visrecissues" target="_blank" class="command debug">Known Issues</a> -->
-            <!-- <a href="#" class="command debug" ng-click="showDevPanel = !showDevPanel" tooltips
+            <a href="http://bit.ly/visrecissues" target="_blank" class="command debug">Known Issues</a>
+            <a href="#" class="command debug" ng-click="showDevPanel = !showDevPanel" tooltips
               tooltip-size="small"
               tooltip-content="Debug Tool">
               <i class="fa fa-wrench"></i>
-            </a> -->
+            </a>
           </span>
           <a ng-click="showBookmark=true">
             <i class="fa fa-bookmark"></i>
@@ -49,6 +49,12 @@
     </div>
   </div>
   <div class="hflex full-width dev-panel" ng-show="showDevPanel">
+    <div class="pane">
+      <div class="card">
+        <button ng-click="Logger.clear()">Clear logs</button><br/>
+        <button ng-click="Logger.export()">Download logs</button>
+      </div>
+    </div>
   </div>
 </div>
 <bookmark-list active="showBookmark"

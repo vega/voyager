@@ -8,7 +8,7 @@
  * Service in the vleApp.
  */
 angular.module('vleApp')
-  .service('Bookmarks', function (_, vl, localStorageService) {
+  .service('Bookmarks', function (_, vl, localStorageService, Logger) {
     var Bookmarks = function (){
       this.dict = {};
       this.length = 0;
@@ -38,6 +38,8 @@ angular.module('vleApp')
       this.dict = {};
       this.updateLength();
       this.save();
+
+      Logger.logInteraction('Bookmarks cleared');
     }
 
     proto.toggle = function(chart) {
@@ -69,8 +71,9 @@ angular.module('vleApp')
 
       delete this.dict[shorthand];
       this.updateLength();
-
       this.save();
+
+      Logger.logInteraction('Bookmark removed', shorthand);
     };
 
     proto.isBookmarked = function(shorthand) {

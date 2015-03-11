@@ -46,7 +46,7 @@ angular.module('vleApp')
       return url;
     }
 
-    function vluiReport(params) {
+    function polestarReport(params) {
       var url = 'https://docs.google.com/forms/d/1xKs-qGaLZEUfbTmhdmSoS13OKOEpuu_NNWE5TAAml_Y/viewform?';
       if (params.encoding) {
         var encoding = _.omit(params.encoding, 'cfg');
@@ -56,5 +56,5 @@ angular.module('vleApp')
       return url;
     }
 
-    return consts.report === 'voyager' ? voyagerReport : vluiReport;
+    return consts.appId === 'voyager' ? voyagerReport : polestarReport;
   });

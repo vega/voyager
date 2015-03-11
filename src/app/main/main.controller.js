@@ -10,6 +10,7 @@ angular.module('facetedviz')
     $scope.Visrec = Visrec;
     $scope.Fields = Fields;
     $scope.Dataset = Dataset;
+    $scope.Logger = Logger;
     $scope.Bookmarks = Bookmarks;
 
     $scope.showBookmark = false;
