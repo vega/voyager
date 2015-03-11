@@ -1,0 +1,24 @@
+.vis-tooltip {
+  background-color: black;
+  padding: 3px;
+  border-radius: 3px;
+  color: white;
+  position: fixed;
+  z-index: 2000;
+
+  font-size: 10px;
+
+  td.key, td.value {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  td.key {
+    max-width: 100px;
+    text-align: right;
+    padding-right: 5px;
+  }
+  td.value {
+    max-width: 150px;
+    text-align: left;
+  }
+}

@@ -9,4 +9,15 @@
   ng-mouseover="mouseover()"
   ng-mouseout="mouseout()"
 >
+  <div class="vis-tooltip" ng-show="tooltipActive">
+    <table>
+      <tr ng-repeat="p in data">
+        <td class="key">{{p[0]}}</td>
+        <td class="value">
+          <b ng-if="p.isNumber">{{p[1]| number: 2}}</b>
+          <b ng-if="!p.isNumber">{{p[1]}}</b>
+        </td>
+      </tr>
+    </table>
+  </div>
 </div>
