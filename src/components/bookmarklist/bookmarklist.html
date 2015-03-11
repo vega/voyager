@@ -28,6 +28,8 @@
             highlighted="highlighted"
             ng-mouseover="(highlighted||{})[field.name] = true"
             ng-mouseout="(highlighted||{})[field.name] = false"
+
+            overflow="true"
           ></vl-plot-group>
         </div>
         <div class="vis-list-empty" ng-if="Bookmarks.list.length ===0">
