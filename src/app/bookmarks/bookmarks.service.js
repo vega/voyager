@@ -8,10 +8,10 @@
  * Service in the vleApp.
  */
 angular.module('vleApp')
-  .service('Bookmarks', function (_, vl) {
+  .service('Bookmarks', function (_, vl, localStorageService) {
     var Bookmarks = function (){
       this.dict = {};
-      this.list = [];
+      this.length = 0;
     };
 
     function toShorthand(spec) {
@@ -20,6 +20,25 @@ angular.module('vleApp')
     }
 
     var proto = Bookmarks.prototype;
+
+    proto.updateLength = function() {
+      this.length = Object.keys(this.dict).length;
+    }
+
+    proto.save = function() {
+      localStorageService.set('bookmarks', this.dict);
+    }
+
+    proto.load = function() {
+      this.dict = localStorageService.get('bookmarks') || {};
+      this.updateLength();
+    }
+
+    proto.clear = function() {
+      this.dict = {};
+      this.updateLength();
+      this.save();
+    }
 
     proto.toggle = function(chart) {
       var shorthand = chart.shorthand;
@@ -36,8 +55,11 @@ angular.module('vleApp')
 
       console.log('adding', chart.vlSpec, shorthand);
 
-      this.dict[shorthand] = chart;
-      this.list.push(shorthand);
+      chart.timeAdded = (new Date().getTime());
+
+      this.dict[shorthand] = _.cloneDeep(chart);
+      this.updateLength();
+      this.save();
     };
 
     proto.remove = function(chart) {
@@ -46,9 +68,9 @@ angular.module('vleApp')
       console.log('removing', chart.vlSpec, shorthand);
 
       delete this.dict[shorthand];
-      _.remove(this.list, function(item){
-        return item === shorthand;
-      });
+      this.updateLength();
+
+      this.save();
     };
 
     proto.isBookmarked = function(shorthand) {

@@ -7,14 +7,14 @@
         <div class="right">
           <a href="#" ng-click="deactivate()" class="right">Close</a>
         </div>
-        <h2 class="no-bottom-margin">Bookmarks ({{Bookmarks.list.length}})</h3>
+        <h2 class="no-bottom-margin">Bookmarks ({{ Bookmarks.length }})</h2>
+        <a href="#" ng-click="Bookmarks.clear()"><i class="fa fa-trash-o"></i> Clear all</a>
       </div>
       <div class="flex-grow-1 scroll-y">
-        <div ng-if="Bookmarks.list.length > 0"
+        <div ng-if="Bookmarks.length > 0"
             class="vis-list hflex flex-wrap">
           <vl-plot-group
-            ng-repeat="shorthand in Bookmarks.list"
-            ng-init="chart = Bookmarks.dict[shorthand]"
+            ng-repeat="chart in Bookmarks.dict | orderObjectBy : 'timeAdded' : true"
             class="wrapped-vl-plot-group"
 
             chart="chart"
@@ -30,8 +30,8 @@
             ng-mouseout="(highlighted||{})[field.name] = false"
           ></vl-plot-group>
         </div>
-        <div class="vis-list-empty" ng-if="Bookmarks.list.length ===0">
-          The bookmark is empty
+        <div class="vis-list-empty" ng-if="Bookmarks.length === 0">
+          You have no bookmarks
         </div>
       </div>
     </div>
