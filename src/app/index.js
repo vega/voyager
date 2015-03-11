@@ -13,7 +13,8 @@ angular.module('vleApp', [
     'Chronicle',
     'LocalStorageModule',
     '720kb.tooltips',
-    'ngOrderObjectBy'])
+    'ngOrderObjectBy',
+    'angular-websql'])
   .constant('_', window._)
   .constant('vl', window.vl)
   .constant('vg', window.vg)
@@ -26,7 +27,7 @@ angular.module('vleApp', [
     addCount: true, // add count field to Dataset.dataschema
     debug: true,
     useUrl: true,
-    logging: false,
+    logging: true,
     defaultConfigSet: 'large'
   })
   .config(function(uiZeroclipConfigProvider) {
@@ -36,15 +37,20 @@ angular.module('vleApp', [
     });
   })
   .config(function(localStorageServiceProvider) {
-    localStorageServiceProvider.setPrefix('vegalite-ui');
+    localStorageServiceProvider.setPrefix('polestar');
   })
-  .config(function($stateProvider, $urlRouterProvider) {
+  .config(function($stateProvider, $urlRouterProvider, $locationProvider) {
     $stateProvider
       .state('home', {
         url: '/',
         templateUrl: 'app/main/main.html',
         controller: 'MainCtrl'
       });
+
+    $locationProvider.html5Mode({
+      enabled: true,
+      requireBase: false
+    });
 
     $urlRouterProvider.otherwise('/');
   });
