@@ -5,7 +5,9 @@ angular.module('vleApp', [
     'zeroclipboard',
     'Chronicle',
     '720kb.tooltips',
-    'LocalStorageModule'
+    'LocalStorageModule',
+    'ngOrderObjectBy',
+    'angular-websql'
   ])
   .constant('_', window._)
   .constant('vl', window.vl)
@@ -35,17 +37,22 @@ angular.module('facetedviz', ['vleApp', 'ngAnimate', 'ngCookies', 'ngTouch', 'ng
     useUrl: true,
     numInitClusters: 9,
     numMoreClusters: 9,
-    logging: false,
-    report: 'voyager',
-    defaultConfigSet: 'small'
+    logging: true,
+    defaultConfigSet: 'small',
+    appId: 'voyager'
   })
-  .config(function ($stateProvider, $urlRouterProvider) {
+  .config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
     $stateProvider
       .state('home', {
         url: '/',
         templateUrl: 'app/main/main.html',
         controller: 'MainCtrl'
       });
+
+    $locationProvider.html5Mode({
+      enabled: true,
+      requireBase: false
+    });
 
     $urlRouterProvider.otherwise('/');
   })
