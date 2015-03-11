@@ -1693,8 +1693,13 @@ function scale_range(s, encoding, layout, style, opt) {
         s.bandWidth = encoding.bandSize(X, layout.x.useSmallBand);
       } else {
         s.range = layout.cellWidth ? [0, layout.cellWidth] : 'width';
-        s.zero = spec.zero ||
-          ( encoding.isType(s.name,T) && encoding.fn(s.name) === 'year' ? false : true );
+
+        if (spec.zero === undefined) {
+          s.zero = encoding.isType(s.name,T) && encoding.fn(s.name) === 'year' ? false : true;
+        } else {
+          s.zero = spec.zero;
+        }
+
         s.reverse = spec.reverse;
       }
       s.round = true;
@@ -1709,8 +1714,13 @@ function scale_range(s, encoding, layout, style, opt) {
         s.bandWidth = encoding.bandSize(Y, layout.y.useSmallBand);
       } else {
         s.range = layout.cellHeight ? [layout.cellHeight, 0] : 'height';
-        s.zero = spec.zero ||
-          ( encoding.isType(s.name, T) && encoding.fn(s.name) === 'year' ? false : true );
+
+        if (spec.zero === undefined) {
+          s.zero = encoding.isType(s.name,T) && encoding.fn(s.name) === 'year' ? false : true;
+        } else {
+          s.zero = spec.zero;
+        }
+
         s.reverse = spec.reverse;
       }
 
@@ -2127,7 +2137,7 @@ time.cardinality = function(field, stats, filterNull) {
 };
 
 function fieldFn(func, field) {
-  return func + '(d.data.'+ field.name +')';
+  return 'utc' + func + '(d.data.'+ field.name +')';
 }
 
 /**
@@ -2245,7 +2255,8 @@ consts.shorthand = {
 
 var util = require('./util');
 
-var vldata = module.exports = {};
+var vldata = module.exports = {},
+  vlfield = require('./field');
 
 vldata.getUrl = function getDataUrl(encoding, stats) {
   if (!encoding.config('useVegaServer')) {
@@ -2285,7 +2296,7 @@ vldata.getUrl = function getDataUrl(encoding, stats) {
  * @param  {Object} data data in JSON/javascript object format
  * @return Array of {name: __name__, type: "number|text|time|location"}
  */
-vldata.getSchema = function(data) {
+vldata.getSchema = function(data, order) {
   var schema = [],
     fields = util.keys(data[0]);
 
@@ -2309,6 +2320,8 @@ vldata.getSchema = function(data) {
 
     schema.push({name: k, type: type});
   });
+
+  schema = util.stablesort(schema, order || vlfield.order.typeThenName, vlfield.order.name);
 
   return schema;
 };
@@ -2356,7 +2369,7 @@ vldata.getStats = function(data) { // hack
   return stats;
 };
 
-},{"./util":27}],22:[function(require,module,exports){
+},{"./field":23,"./util":27}],22:[function(require,module,exports){
 // utility for enc
 
 'use strict';
@@ -2778,6 +2791,7 @@ var typicalField = merge(clone(schema.field), {
         zero: {
           type: 'boolean',
           description: 'Include zero',
+          default: true,
           supportedTypes: {'Q': true}
         },
         nice: {
@@ -3436,6 +3450,22 @@ util.variance = function(values) {
     diffs.push(Math.pow((values[i] - avg), 2));
   }
   return util.mean(diffs);
+};
+
+util.stablesort = function(array, sortBy, keyFn) {
+  var indices = {};
+
+  array.forEach(function(v, i) {
+    indices[keyFn(v)] = i;
+  });
+
+  array.sort(function(a, b) {
+    var sa = sortBy(a),
+      sb = sortBy(b);
+
+    return sa<sb ? -1 : sa>sb ? 1 : (indices[keyFn(a)] - indices[keyFn(b)]);
+  });
+  return array;
 };
 
 util.stdev = function(values) {
