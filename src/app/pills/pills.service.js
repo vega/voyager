@@ -8,7 +8,7 @@
  * Service in the vleApp.
  */
 angular.module('vleApp')
-  .service('Pills', function (vl, Spec, _) {
+  .service('Pills', function (vl, Spec, _, $window) {
     var Pills = {
       pills: {}
     };
@@ -30,7 +30,10 @@ angular.module('vleApp')
 
       // auto cast binning / time binning for dimension only encoding type.
       if (pill.name && dimensionOnly) {
-        if (type==='Q' && !pill.bin) {
+        if (pill.aggr==='count') {
+          pill = {};
+          $window.alert('COUNT not supported here!');
+        } else if (type==='Q' && !pill.bin) {
           pill.aggr = undefined;
           pill.bin = {maxbins: vl.schema.MAXBINS_DEFAULT};
         } else if(type==='T' && !pill.fn) {
@@ -55,13 +58,11 @@ angular.module('vleApp')
 
     Pills.dragStart = function (pill, encType) {
       Pills.pills.dragging = pill;
-      console.log('dragging', Pills, pill, Pills.pills.dragging, 'from', Pills.pills.etDragFrom);
       Pills.pills.etDragFrom = encType;
     };
 
     Pills.dragStop = function () {
-      delete Pills.dragging;
-      Pills.pills.etDragFrom = null;
+      delete Pills.pills.dragging;
     };
 
     Pills.dragDrop = function (etDragTo) {

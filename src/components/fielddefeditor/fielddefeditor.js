@@ -80,6 +80,10 @@ angular.module('vleApp')
           }, true);
         });
 
+        // scope.$watch('enc[encType]', function(field) {
+        //   Pills.pills[scope.encType] = field ? _.cloneDeep(field) : {};
+        // });
+
         scope.$watchGroup(['allowedCasting[Dataset.dataschema.byName[enc[encType].name].type]', 'enc[encType].aggr'], function(arr){
           var allowedTypes = arr[0], aggr=arr[1];
           scope.allowedTypes = aggr === 'count' ? ['Q'] : allowedTypes;
