@@ -16,7 +16,6 @@ body{
   margin: 0;
   background-color: #eee;
   font-size: 12px;
-  line-height: 18px;
 }
 
 a:hover, a:focus {
@@ -47,6 +46,10 @@ a {
   font-style: italic;
 }
 
+a.disabled {
+  cursor: not-allowed;
+  color: #ccc;
+}
 
 a.command {
   margin-left: 10px;
@@ -59,7 +62,6 @@ a.command {
     color: #ccc;
     display:none;
   }
-
 }
 
 textarea {
@@ -174,6 +176,7 @@ h4 {
   min-height: 150px;
   height: 300px;
   flex-grow: 0.5;
+  background-color: #EEE;
 }
 
 .alert-box {
