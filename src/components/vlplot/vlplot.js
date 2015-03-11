@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('vleApp')
-  .directive('vlPlot', function(vl, vg, $timeout, $q, Dataset, Config, consts, _) {
+  .directive('vlPlot', function(vl, vg, $timeout, $q, Dataset, Config, consts, _, $document) {
     var counter = 0;
     var MAX_CANVAS_SIZE = 32767/2, MAX_CANVAS_AREA = 268435456/4;
 
@@ -85,21 +85,43 @@ angular.module('vleApp')
             console.log('parse spec', (endParse-start), 'charting', (endChart-endParse), shorthand);
             if (scope.tooltip) {
               view.on('mouseover', function(event, item) {
-                // TODO: Hanchuan please create tooltip from this
-                scope.tooltipActive = true;
-                scope.data = _.pairs(item.datum.data).map(function(p) {
-                  p.isNumber = vg.isNumber(p[1]);
-                  return p;
-                });
+                if (item.datum.data) {
+                  scope.tooltipActive = true;
+                  scope.data = _.pairs(item.datum.data).map(function(p) {
+                    p.isNumber = vg.isNumber(p[1]);
+                    return p;
+                  });
+                  scope.$digest();
 
-                var tooltip = element.find('.vis-tooltip');
-                console.log(event, item, tooltip, (event.pageX+10), (event.pageY+10));
-                tooltip.css('top', (event.pageY+10));
-                tooltip.css('left', (event.pageX+10));
-                scope.$digest();
+                  var tooltip = element.find('.vis-tooltip'),
+                    $body = angular.element($document),
+                    width = tooltip.width(),
+                    height= tooltip.height();
+
+                  if (event.pageY+10+height < $body.height()) {
+                    tooltip.css('top', (event.pageY+10));
+                  } else {
+                    tooltip.css('top', (event.pageY-10-height));
+                  }
+
+                  if (event.pageX+10+ width < $body.width()) {
+                    tooltip.css('left', (event.pageX+10));
+                  } else {
+                    tooltip.css('left', (event.pageX-10-width));
+                  }
+
+                  console.log(event, item);
+
+
+                }
               });
 
               view.on('mouseout', function() {
+                //clear positions
+                var tooltip = element.find('.vis-tooltip');
+                tooltip.css('top', null);
+                tooltip.css('left', null);
+
                 scope.tooltipActive = false;
                 scope.data = [];
                 scope.$digest();
