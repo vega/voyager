@@ -15,8 +15,7 @@ angular.module('vleApp')
       scope: {
         field:'='
       },
-      link: function postLink(scope, element, attrs) {
-        console.log('hola');
+      link: function postLink(scope) {
         scope.getSchemaPill = Pills.getSchemaPill;
 
         scope.fieldDragStart = function() {
