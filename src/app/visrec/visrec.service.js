@@ -142,7 +142,7 @@ angular.module('facetedviz')
     };
 
     function genClusters(fieldSet) {
-      var encodings = vr.gen.encodings([], fieldSet, Dataset.stats, {}, Config.small());
+      var encodings = vr.gen.encodings([], fieldSet, Dataset.stats, {}, Config.getConfig());
 
       var clusters = vr.cluster(encodings)
         .map(function(cluster) {
