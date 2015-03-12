@@ -17,15 +17,17 @@ angular.module('vleApp')
       templateUrl: 'components/vlplot/vlplot.html',
       restrict: 'E',
       scope: {
-        'vgSpec':'=',
-        'vlSpec': '=',
-        'shorthand': '=',
-        'maxHeight':'=',
-        'maxWidth': '=',
-        'alwaysScrollable': '=',
-        'overflow': '=',
-        'tooltip': '=',
-        'configSet': '@'
+        vgSpec: '=',
+        vlSpec: '=',
+        shorthand: '=',
+        maxHeight:'=',
+        maxWidth: '=',
+        alwaysScrollable: '=',
+        overflow: '=',
+        tooltip: '=',
+        configSet: '@',
+        rescale: '=',
+        thumbnail: '='
       },
       replace: true,
       link: function(scope, element) {
@@ -41,7 +43,7 @@ angular.module('vleApp')
         scope.mouseover = function() {
           scope.hoverPromise = $timeout(function(){
             Logger.logInteraction(Logger.actions.CHART_MOUSEOVER, scope.vlSpec);
-            scope.hoverFocus = true;
+            scope.hoverFocus = !scope.thumbnail;
           }, HOVER_TIMEOUT);
         };
 
@@ -114,6 +116,14 @@ angular.module('vleApp')
         }
 
         function render(spec) {
+          if (!spec) {
+            if (view) {
+              view.off('mouseover');
+              view.off('mouseout');
+            }
+            return;
+          }
+
           var start = new Date().getTime();
           scope.height = spec.height;
           if (!element) {
@@ -138,13 +148,29 @@ angular.module('vleApp')
             view.renderer(getRenderer(spec.width, scope.height));
             view.update();
 
+            if (scope.rescale) {
+              var xRatio = scope.maxWidth > 0 ?  scope.maxWidth / scope.width : 1;
+              var yRatio = scope.maxHeight > 0 ? scope.maxHeight / scope.height  : 1;
+              var ratio = Math.min(xRatio, yRatio);
+
+              var niceRatio = 1;
+              while (0.75 * niceRatio> ratio) {
+                niceRatio /= 2;
+              }
+
+              var t = niceRatio * 100 / 2 && 0;
+              console.log('ratio', ratio, 'nice', niceRatio);
+              element.find('.vega').css('transform', 'translate(-'+t+'%, -'+t+'%) scale('+niceRatio+')');
+            } else {
+              element.find('.vega').css('transform', null);
+            }
+
             Logger.logInteraction(Logger.actions.CHART_RENDER, scope.vlSpec);
 
             var endChart = new Date().getTime();
             console.log('parse spec', (endParse-start), 'charting', (endChart-endParse), shorthand);
             if (scope.tooltip) {
               view.on('mouseover', viewOnMouseOver);
-
               view.on('mouseout', viewOnMouseOut);
             }
 
@@ -154,14 +180,6 @@ angular.module('vleApp')
         var view;
         scope.$watch('vgSpec',function() {
           var spec = getVgSpec();
-          if (!spec) {
-            if (view) {
-              view.off('mouseover');
-              view.off('mouseout');
-            }
-            return;
-          }
-
           render(spec);
         }, true);
 
