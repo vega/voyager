@@ -38,6 +38,7 @@ $any-color: #aaa;
   .field-func, .field-count{
     text-transform: uppercase;
     font-weight: bold;
+    margin-right: 3px;
     &.any {
       color: $any-color;
     }
