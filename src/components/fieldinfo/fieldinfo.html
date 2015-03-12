@@ -37,7 +37,7 @@
     </span>
 
     <span class="no-shrink info" ng-show="showInfo">
-      <i ng-hide="field.aggr === 'count' || field.type !== 'O'"
+      <i ng-show="field.aggr !== 'count' && field.type === 'O'"
         class="fa fa-info-circle"
         tooltips tooltip-size="small"
         tooltip-content="
@@ -50,7 +50,19 @@
           <strong>Sample:</strong> <span class='sample'>{{stats.sample.join(', ')}}</span>
         </div>"
         tooltip-side="right"></i>
-      <i ng-hide="field.aggr === 'count' || field.type === 'O'"
+      <i ng-show="field.aggr !== 'count' && field.type === 'T'"
+        class="fa fa-info-circle"
+        tooltips tooltip-size="small"
+        tooltip-content="
+        <div class='tooltip-content'>
+          <strong>Name:</strong> {{field.name}}<br>
+          <strong>Cardinality:</strong> {{stats.cardinality | number}}<br>
+          <strong>Min:</strong> {{stats.min | date: short}}<br>
+          <strong>Max:</strong> {{stats.max | date: short}}<br>
+          <strong>Sample:</strong> <span class='sample'>{{stats.sample.join(', ')}}</span>
+        </div>"
+        tooltip-side="right"></i>
+      <i ng-show="field.aggr !== 'count' && field.type === 'Q'"
         class="fa fa-info-circle"
         tooltips tooltip-size="small"
         tooltip-content="
