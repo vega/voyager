@@ -17,15 +17,15 @@ angular.module('vleApp')
       templateUrl: 'components/vlplot/vlplot.html',
       restrict: 'E',
       scope: {
-        'vgSpec':'=',
-        'vlSpec': '=',
-        'shorthand': '=',
-        'maxHeight':'=',
-        'maxWidth': '=',
-        'alwaysScrollable': '=',
-        'overflow': '=',
-        'tooltip': '=',
-        'configSet': '@'
+        vgSpec:'=',
+        vlSpec: '=',
+        shorthand: '=',
+        maxHeight:'=',
+        maxWidth: '=',
+        alwaysScrollable: '=',
+        overflow: '=',
+        tooltip: '=',
+        configSet: '@'
       },
       replace: true,
       link: function(scope, element) {
