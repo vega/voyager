@@ -109,9 +109,11 @@ angular.module('vleApp')
 
         function getCompiledSpec() {
           var configSet = scope.configSet || consts.defaultConfigSet || {};
-          var encoding = vl.Encoding.fromSpec(scope.vlSpec, {
-            cfg: Config[configSet]()
-          });
+
+          var vlSpec = _.cloneDeep(scope.vlSpec);
+          vl.merge(vlSpec.cfg, Config[configSet]());
+
+          var encoding = vl.Encoding.fromSpec(vlSpec);
           return vl.compile(encoding, Dataset.stats);
         }
 
