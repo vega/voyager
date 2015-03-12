@@ -51,13 +51,10 @@ a {
   font-style: italic;
 }
 
-a.disabled {
-  cursor: not-allowed;
-  color: #ccc;
-}
 
 a.command {
   margin-left: 10px;
+
   &.debug {
     color: #72a386;
   }
@@ -65,7 +62,6 @@ a.command {
   &.disabled, &.disabled:hover, &[disabled=disabled], [disabled=disabled]:hover {
     cursor: not-allowed;
     color: #ccc;
-    display:none;
   }
 }
 
