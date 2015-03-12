@@ -72,15 +72,17 @@ angular.module('vleApp')
         });
 
         scope.toggleSortClass = function(vlSpec) {
-          var direction = vl.Encoding.toggleSort.direction(vlSpec),
-            mode = vl.Encoding.toggleSort.mode(vlSpec);
+          var direction = vlSpec && vl.Encoding.toggleSort.direction(vlSpec),
+            mode = vlSpec && vl.Encoding.toggleSort.mode(vlSpec);
 
           if (direction === 'y') {
             return mode === 'Q' ? 'fa-sort-amount-desc' :
               'fa-sort-alpha-asc';
-          } else {
+          } else if (direction === 'x') {
             return mode === 'Q' ? 'fa-sort-amount-desc sort-x' :
               'fa-sort-alpha-asc sort-x';
+          } else {
+            return 'invisible';
           }
         };
 
