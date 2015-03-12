@@ -80,7 +80,7 @@ angular.module('vleApp')
     };
 
     service.export = function() {
-      /*var data = */ service.db.selectAll(service.tableName).then(function(results) {
+      service.db.selectAll(service.tableName).then(function(results) {
         if (results.rows.length === 0) {
           console.warn('No logs');
           return;
