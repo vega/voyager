@@ -42,22 +42,18 @@
         ></vl-plot-group>
       </div>
       <!--variation-list-->
-      <div class="vflex flex-grow-1 scroll-y" ng-if="Visrec.selectedCluster.length > 1">
+      <div class="variations vflex flex-grow-1 scroll-y" ng-if="Visrec.selectedCluster.length > 1">
         <div class="full-width">
-          <div class="card no-shrink no-top-margin ">
-            <h3 class="no-bottom-margin">Variations Within Cluster</h3>
-          </div>
           <vl-plot-group
             ng-repeat="subcluster in Visrec.selectedCluster"
-            ng-if="selectedSubcluster != subcluster"
+            ng-class="{selected: selectedSubcluster == subcluster}"
             chart="subcluster[0]"
             show-bookmark="true"
-            show-debug="consts.debug"
-            show-expand="true"
-            expand-action="select(subcluster)"
-            overflow="true"
-            tooltip="true"
-            class="row-vl-plot-group"
+            rescale="true"
+            max-width="300"
+            max-width="300"
+            ng-click="select(subcluster)"
+            class="row-vl-plot-group clickable"
           >
           </vl-plot-group>
         </div>

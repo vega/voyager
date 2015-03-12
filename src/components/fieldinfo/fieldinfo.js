@@ -43,6 +43,8 @@ angular.module('vleApp')
             (field._bin && 'bin') || (field._any && 'auto');
         };
 
+
+
         scope.$watch('popupContent', function(popupContent) {
           if (!popupContent) { return; }
 

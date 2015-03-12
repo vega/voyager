@@ -40,6 +40,7 @@ angular.module('vleApp')
         maxWidth: '=',
         overflow: '=',
         alwaysScrollable: '=',
+        rescale: '=',
         tooltip: '='
       },
       link: function postLink(scope, element) {

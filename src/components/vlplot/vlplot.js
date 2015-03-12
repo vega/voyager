@@ -17,15 +17,16 @@ angular.module('vleApp')
       templateUrl: 'components/vlplot/vlplot.html',
       restrict: 'E',
       scope: {
-        'vgSpec':'=',
-        'vlSpec': '=',
-        'shorthand': '=',
-        'maxHeight':'=',
-        'maxWidth': '=',
-        'alwaysScrollable': '=',
-        'overflow': '=',
-        'tooltip': '=',
-        'configSet': '@'
+        vgSpec: '=',
+        vlSpec: '=',
+        shorthand: '=',
+        maxHeight:'=',
+        maxWidth: '=',
+        alwaysScrollable: '=',
+        overflow: '=',
+        tooltip: '=',
+        configSet: '@',
+        rescale: '='
       },
       replace: true,
       link: function(scope, element) {
@@ -137,6 +138,23 @@ angular.module('vleApp')
             scope.height = view.height();
             view.renderer(getRenderer(spec.width, scope.height));
             view.update();
+
+            if (scope.rescale) {
+              var xRatio = scope.maxWidth > 0 ?  scope.maxWidth / scope.width : 1;
+              var yRatio = scope.maxHeight > 0 ? scope.maxHeight / scope.height  : 1;
+              var ratio = Math.min(xRatio, yRatio);
+
+              var niceRatio = 1;
+              while (0.75 * niceRatio> ratio) {
+                niceRatio /= 2;
+              }
+
+              var t = niceRatio * 100 / 2 && 0;
+              console.log('ratio', ratio, 'nice', niceRatio);
+              element.find('.vega').css('transform', 'translate(-'+t+'%, -'+t+'%) scale('+niceRatio+')');
+            } else {
+              element.find('.vega').css('transform', null);
+            }
 
             Logger.logInteraction(Logger.actions.CHART_RENDER, scope.vlSpec);
 
