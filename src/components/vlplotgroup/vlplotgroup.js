@@ -7,7 +7,7 @@
  * # visListItem
  */
 angular.module('vleApp')
-  .directive('vlPlotGroup', function (Bookmarks, consts, vl, Dataset, Drop) {
+  .directive('vlPlotGroup', function (Bookmarks, consts, vl, Dataset, Drop, Logger) {
 
     var debugPopup;
 
@@ -40,15 +40,28 @@ angular.module('vleApp')
         maxWidth: '=',
         overflow: '=',
         alwaysScrollable: '=',
-        tooltip: '='
+        rescale: '=',
+        tooltip: '=',
+        thumbnail: '='
       },
       link: function postLink(scope, element) {
         scope.Bookmarks = Bookmarks;
         scope.consts = consts;
         scope.Dataset = Dataset;
 
-        var toggleSort = scope.toggleSort = vl.Encoding.toggleSort;
-        scope.toggleFilterNull = vl.Encoding.toggleFilterNullO;
+        var toggleSort = scope.toggleSort = function(spec) {
+          Logger.logInteraction(Logger.actions.SORT_TOGGLE, scope.chart.shorthand);
+          vl.Encoding.toggleSort(spec);
+        };
+        //FIXME
+        toggleSort.support = vl.Encoding.toggleSort.support;
+
+        scope.toggleFilterNull = function(spec, stats) {
+          Logger.logInteraction(Logger.actions.NULL_FILTER_TOGGLE, scope.chart.shorthand);
+
+          vl.Encoding.toggleFilterNullO(spec, stats);
+        };
+        scope.toggleFilterNull.support = vl.Encoding.toggleFilterNullO.support;
 
         debugPopup = new Drop({
           content: element.find('.dev-tool')[0],
@@ -59,18 +72,22 @@ angular.module('vleApp')
         });
 
         scope.toggleSortClass = function(vlSpec) {
-          var direction = toggleSort.direction(vlSpec),
-            mode = toggleSort.mode(vlSpec);
+          var direction = vlSpec && vl.Encoding.toggleSort.direction(vlSpec),
+            mode = vlSpec && vl.Encoding.toggleSort.mode(vlSpec);
+
           if (direction === 'y') {
             return mode === 'Q' ? 'fa-sort-amount-desc' :
               'fa-sort-alpha-asc';
-          } else {
+          } else if (direction === 'x') {
             return mode === 'Q' ? 'fa-sort-amount-desc sort-x' :
               'fa-sort-alpha-asc sort-x';
+          } else {
+            return 'invisible';
           }
         };
 
         scope.transpose = function() {
+          Logger.logInteraction(Logger.actions.TRANSPOSE_TOGGLE, scope.chart.shorthand);
           vl.Encoding.transpose(scope.chart.vlSpec);
         };
       }

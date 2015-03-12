@@ -15,6 +15,16 @@
 
 .vl-plot-group.row-vl-plot-group {
   max-width: 100%;
+
+
+  box-sizing: border-box;
+  &.selected {
+    border: 3px solid #aaa;
+    background: #ccc;
+    .vis canvas{
+      opacity: 0.85;
+    }
+  }
 }
 
 .vl-plot-group.full-vl-plot-group {

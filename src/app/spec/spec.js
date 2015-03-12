@@ -58,6 +58,7 @@ angular.module('vleApp')
 
       // we need to set the marktype because it doesn't have a default.
       spec.marktype = vl.schema.schema.properties.marktype.enum[0];
+      spec.cfg = Config.config;
       return spec;
     };
 
@@ -94,9 +95,7 @@ angular.module('vleApp')
           msg: validator.getLastErrors()
         });
       } else {
-        Spec.encoding = vl.Encoding.fromSpec(cleanSpec, {
-          cfg: Config.large()
-        });
+        Spec.encoding = vl.Encoding.fromSpec(cleanSpec);
         Spec.vlSpec = Spec.encoding.toSpec(false);
         Spec.shorthand = Spec.encoding.toShorthand();
         Spec.vgSpec = vl.compile(Spec.encoding, Dataset.stats);
