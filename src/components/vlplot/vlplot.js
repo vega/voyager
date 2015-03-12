@@ -26,7 +26,8 @@ angular.module('vleApp')
         overflow: '=',
         tooltip: '=',
         configSet: '@',
-        rescale: '='
+        rescale: '=',
+        thumbnail: '='
       },
       replace: true,
       link: function(scope, element) {
@@ -42,7 +43,7 @@ angular.module('vleApp')
         scope.mouseover = function() {
           scope.hoverPromise = $timeout(function(){
             Logger.logInteraction(Logger.actions.CHART_MOUSEOVER, scope.vlSpec);
-            scope.hoverFocus = true;
+            scope.hoverFocus = !scope.thumbnail;
           }, HOVER_TIMEOUT);
         };
 
@@ -115,6 +116,14 @@ angular.module('vleApp')
         }
 
         function render(spec) {
+          if (!spec) {
+            if (view) {
+              view.off('mouseover');
+              view.off('mouseout');
+            }
+            return;
+          }
+
           var start = new Date().getTime();
           scope.height = spec.height;
           if (!element) {
@@ -162,7 +171,6 @@ angular.module('vleApp')
             console.log('parse spec', (endParse-start), 'charting', (endChart-endParse), shorthand);
             if (scope.tooltip) {
               view.on('mouseover', viewOnMouseOver);
-
               view.on('mouseout', viewOnMouseOut);
             }
 
@@ -172,14 +180,6 @@ angular.module('vleApp')
         var view;
         scope.$watch('vgSpec',function() {
           var spec = getVgSpec();
-          if (!spec) {
-            if (view) {
-              view.off('mouseover');
-              view.off('mouseout');
-            }
-            return;
-          }
-
           render(spec);
         }, true);
 
