@@ -39,6 +39,7 @@ angular.module('vleApp')
       // Polestar only
       SPEC_CHANGE: 'SPEC_CHANGE',
       FIELD_DROP: 'FIELD_DROP',
+      MARK_CHANGE: 'MARK_CHANGE',
       // Voyager only
       FIELDS_CHANGE: 'FIELDS_CHANGE',
       FIELDS_RESET: 'FIELDS_RESET',

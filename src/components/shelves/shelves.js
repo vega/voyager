@@ -13,6 +13,9 @@ angular.module('vleApp')
         $scope.schema = vl.schema.schema;
         $scope.pills = Pills;
 
+        $scope.markChange = function() {
+          Logger.logInteraction(Logger.actions.MARK_CHANGE, Spec.spec.marktype);
+        };
 
         $scope.transpose = function(){
           vl.Encoding.transpose(Spec.spec);
