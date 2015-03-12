@@ -15,14 +15,14 @@
               <i class="fa fa-wrench"></i>
             </a>
           </span>
-          <a ng-click="showBookmark=true">
+          <a class="command" ng-click="showBookmark=true">
             <i class="fa fa-bookmark"></i>
             Bookmarks ({{Bookmarks.length}})
           </a>
-          <a href="#" ng-click="chron.undo()" ng-class="{disabled: !canUndo}">
+          <a class="command" href="#" ng-click="chron.undo()" ng-class="{disabled: !canUndo}">
             <i class="fa fa-undo"></i> Undo
           </a>
-          <a href="#" ng-click="chron.redo()" ng-class="{disabled: !canRedo}">
+          <a class="command" href="#" ng-click="chron.redo()" ng-class="{disabled: !canRedo}">
             <i class="fa fa-repeat"></i> Redo
           </a>
         </div>
