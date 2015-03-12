@@ -30,15 +30,21 @@
 
 .vl-plot-group a.command{
   color: #aaa;
-  // color: #9BC8D4;
+
   &.debug {
     color: #72a386;
   }
+
   &.active {
     color: $link-color;
   }
-  &:hover {
+
+  &.active:hover {
     color: $link-hover-color;
+  }
+
+  &:hover {
+    color: #72C1D5;
   }
 
   .fa.fa-refresh.transpose {
@@ -48,9 +54,11 @@
   .fa.sort.sort-x {
    transform: rotateZ(270deg);
   }
-  // &.bookmarked .fa{
-  //   color: #EE0000;
-  // }
+
+  &.disabled, &.disabled:hover, &[disabled=disabled], [disabled=disabled]:hover {
+    display: none;
+  }
+
 }
 
 
