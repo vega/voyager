@@ -23,7 +23,7 @@ angular.module('vleApp')
         };
 
         $scope.$watch('Spec.spec', function(spec, oldSpec) {
-          Logger.logInteraction(LOGGER.actions.SPEC_CHANGE, spec, jsondiffpatch.diff(oldSpec, spec));
+          Logger.logInteraction(Logger.actions.SPEC_CHANGE, spec, jsondiffpatch.diff(oldSpec, spec));
 
           Spec.update(spec);
         }, true /* watch equality rather than reference */);
