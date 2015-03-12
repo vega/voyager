@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('vleApp')
-  .directive('fieldDefEditor', function(Dataset, Pills, _, Drop) {
+  .directive('fieldDefEditor', function(Dataset, Pills, _, Drop, Logger) {
     return {
       templateUrl: 'components/fielddefeditor/fielddefeditor.html',
       restrict: 'E',
@@ -68,6 +68,7 @@ angular.module('vleApp')
           // TODO validate fn / aggr
 
           Pills.dragDrop(scope.encType);
+          Logger.logInteraction(Logger.actions.FIELD_DROP, scope.enc[scope.encType]);
         };
 
         // when each of the fieldPill property in fieldDef changes, update the pill

@@ -38,6 +38,7 @@ angular.module('vleApp')
       MARKTYPE_TOGGLE: 'MARKTYPE_TOGGLE',
       // Polestar only
       SPEC_CHANGE: 'SPEC_CHANGE',
+      FIELD_DROP: 'FIELD_DROP',
       // Voyager only
       FIELDS_CHANGE: 'FIELDS_CHANGE',
       FIELDS_RESET: 'FIELDS_RESET',
