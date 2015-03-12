@@ -14,7 +14,7 @@
         <div ng-if="Bookmarks.length > 0"
             class="vis-list hflex flex-wrap">
           <vl-plot-group
-            ng-repeat="chart in Bookmarks.dict | orderObjectBy : 'timeAdded' : true"
+            ng-repeat="chart in Bookmarks.dict | orderObjectBy : 'timeAdded' : false"
             class="wrapped-vl-plot-group"
 
             chart="chart"
