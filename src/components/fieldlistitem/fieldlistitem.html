@@ -4,7 +4,7 @@
 >
 
   <i class="fa selection clickable"
-    ng-class="{'fa-plus-square': Fields.isSelected(field.name), 'fa-square': Fields.isSelected(field.name) === undefined, 'fa-minus-square': Fields.isSelected(field.name) === false}"
+    ng-class="{'fa-check-square': Fields.isSelected(field.name), 'fa-square': Fields.isSelected(field.name) === undefined, 'fa-minus-circle': Fields.isSelected(field.name) === false}"
     ng-click="Fields.toggleSelected(field.name)"
     ng-dblclick="Fields.setSelected(field.name, false)"
   ></i>
@@ -13,6 +13,7 @@
     field="field"
     show-type="true"
     show-caret="true"
+    disable-count-or-o-caret="true"
     show-info="true"
     popup-content="popupContent"
     action="Fields.toggleSelected(field.name)"
@@ -26,12 +27,12 @@
         <function-select field="Fields.fields[field.name]"></function-select>
       </div>
 
-      <div class="inclusion">
+      <div class="inclusion" ng-show="consts.enableExclude">
         <h4>Field</h4>
         <div>
           <a ng-class="{inactive: Fields.isSelected(field.name) !== true}"
             ng-click="Fields.setSelected(field.name, true)">
-            <i class="fa fa-plus-square"></i> Include
+            <i class="fa fa-check-square"></i> Include
           </a>
         </div>
         <div>
@@ -43,7 +44,7 @@
         <div>
           <a ng-class="{inactive: Fields.isSelected(field.name) !== false}"
             ng-click="Fields.setSelected(field.name, false)">
-            <i class="fa fa-minus-square"></i> Exclude
+            <i class="fa fa-minus-circle"></i> Exclude
           </a>
         </div>
       </div>

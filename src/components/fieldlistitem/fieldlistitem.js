@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('facetedviz')
-  .directive('fieldListItem', function(Dataset, Fields) {
+  .directive('fieldListItem', function(Dataset, Fields, consts) {
     return {
       templateUrl: 'components/fieldlistitem/fieldlistitem.html',
       restrict: 'E',
@@ -10,6 +10,7 @@ angular.module('facetedviz')
         field: '='
       },
       link: function postLink (scope, element /*, attrs*/) {
+        scope.consts = consts;
         scope.Fields = Fields;
         scope.popupContent = element.find('.popup-functions')[0];
       },

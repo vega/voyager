@@ -1,3 +1,5 @@
+$exclude-color: #F2BFBF;
+
 .field-list-item {
   display: flex;
   flex-direction: row;
@@ -15,11 +17,11 @@
     font-size: 15px;
     margin-right: 5px;
     margin-top: 2px;
-    &.fa-plus-square {
+    &.fa-check-square {
       color: #008CBA;
     }
-    &.fa-minus-square {
-      color: #F2BFBF; //excluded
+    &.fa-minus-circle {
+      color: $exclude-color; //excluded
     }
   }
 
@@ -28,8 +30,13 @@
   }
 }
 
+.inclusion a {
+  .fa-minus-circle {
+    color: $exclude-color;
+  }
+}
 
-.inclusion a.inactive {
+.inclusion a.inactive, .inclusion a.inactive .fa-minus-circle {
   color: #ccc;
   &:hover {
     color: #125369;
