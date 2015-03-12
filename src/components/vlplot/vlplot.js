@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('vleApp')
-  .directive('vlPlot', function(vl, vg, $timeout, $q, Dataset, Config, consts, _, $document) {
+  .directive('vlPlot', function(vl, vg, $timeout, $q, Dataset, Config, consts, _, $document, Logger) {
     var counter = 0;
     var MAX_CANVAS_SIZE = 32767/2, MAX_CANVAS_AREA = 268435456/4;
 
@@ -17,30 +17,89 @@ angular.module('vleApp')
       templateUrl: 'components/vlplot/vlplot.html',
       restrict: 'E',
       scope: {
-        vgSpec:'=',
-        vlSpec: '=',
-        shorthand: '=',
-        maxHeight:'=',
-        maxWidth: '=',
-        alwaysScrollable: '=',
-        overflow: '=',
-        tooltip: '=',
-        configSet: '@'
+        'vgSpec':'=',
+        'vlSpec': '=',
+        'shorthand': '=',
+        'maxHeight':'=',
+        'maxWidth': '=',
+        'alwaysScrollable': '=',
+        'overflow': '=',
+        'tooltip': '=',
+        'configSet': '@'
       },
       replace: true,
       link: function(scope, element) {
+        var HOVER_TIMEOUT = 500,
+          TOOLTIP_TIMEOUT = 250;
+
         scope.visId = (counter++);
-        scope.hoverAction = null;
+        scope.hoverPromise = null;
+        scope.tooltipPromise = null;
+        scope.hoverFocus = false;
+        scope.tooltipActive = false;
+
         scope.mouseover = function() {
-          scope.hoverAction = $timeout(function(){
+          scope.hoverPromise = $timeout(function(){
+            Logger.logInteraction(Logger.actions.CHART_MOUSEOVER, scope.vlSpec);
             scope.hoverFocus = true;
-          }, 500);
+          }, HOVER_TIMEOUT);
         };
 
         scope.mouseout = function() {
-          $timeout.cancel(scope.hoverAction);
+          if (scope.hoverFocus) {
+            Logger.logInteraction(Logger.actions.CHART_MOUSEOUT, scope.vlSpec);
+          }
+
+          $timeout.cancel(scope.hoverPromise);
           scope.hoverFocus = scope.unlocked = false;
         };
+
+        function viewOnMouseOver(event, item) {
+          if (!item.datum.data) { return; }
+
+          scope.tooltipPromise = $timeout(function activateTooltip(){
+            scope.tooltipActive = true;
+            Logger.logInteraction(Logger.actions.CHART_TOOLTIP, item.datum);
+
+            // convert data into a format that we can easily use with ng table and ng-repeat
+            // TODO: revise if this is actually a good idea
+            scope.data = _.pairs(item.datum.data).map(function(p) {
+              p.isNumber = vg.isNumber(p[1]);
+              return p;
+            });
+            scope.$digest();
+
+            var tooltip = element.find('.vis-tooltip'),
+              $body = angular.element($document),
+              width = tooltip.width(),
+              height= tooltip.height();
+
+            // put tooltip above if it's near the screen's bottom border
+            if (event.pageY+10+height < $body.height()) {
+              tooltip.css('top', (event.pageY+10));
+            } else {
+              tooltip.css('top', (event.pageY-10-height));
+            }
+
+            // put tooltip on left if it's near the screen's right border
+            if (event.pageX+10+ width < $body.width()) {
+              tooltip.css('left', (event.pageX+10));
+            } else {
+              tooltip.css('left', (event.pageX-10-width));
+            }
+          }, TOOLTIP_TIMEOUT);
+        }
+
+        function viewOnMouseOut() {
+          //clear positions
+          var tooltip = element.find('.vis-tooltip');
+          tooltip.css('top', null);
+          tooltip.css('left', null);
+          $timeout.cancel(scope.tooltipPromise);
+          scope.tooltipActive = false;
+          scope.data = [];
+          scope.$digest();
+        }
 
         function getVgSpec() {
           return consts.defaultConfigSet && scope.configSet && consts.defaultConfigSet !== scope.configSet ? null : scope.vgSpec;
@@ -56,8 +115,6 @@ angular.module('vleApp')
 
         function render(spec) {
           var start = new Date().getTime();
-
-
           scope.height = spec.height;
           if (!element) {
             console.error('can not find vis element');
@@ -81,54 +138,14 @@ angular.module('vleApp')
             view.renderer(getRenderer(spec.width, scope.height));
             view.update();
 
+            Logger.logInteraction(Logger.actions.CHART_RENDER, scope.vlSpec);
+
             var endChart = new Date().getTime();
             console.log('parse spec', (endParse-start), 'charting', (endChart-endParse), shorthand);
             if (scope.tooltip) {
-              view.on('mouseover', function(event, item) {
-                if (item.datum.data) {
-                  scope.tooltipActive = true;
+              view.on('mouseover', viewOnMouseOver);
 
-                  // convert data into a format that we can easily use with ng table and ng-repeat
-                  // TODO: revise if this is actually a good idea
-                  scope.data = _.pairs(item.datum.data).map(function(p) {
-                    p.isNumber = vg.isNumber(p[1]);
-                    return p;
-                  });
-                  scope.$digest();
-
-                  var tooltip = element.find('.vis-tooltip'),
-                    $body = angular.element($document),
-                    width = tooltip.width(),
-                    height= tooltip.height();
-
-                  // put tooltip above if it's near the screen's bottom border
-                  if (event.pageY+10+height < $body.height()) {
-                    tooltip.css('top', (event.pageY+10));
-                  } else {
-                    tooltip.css('top', (event.pageY-10-height));
-                  }
-
-                  // put tooltip on left if it's near the screen's right border
-                  if (event.pageX+10+ width < $body.width()) {
-                    tooltip.css('left', (event.pageX+10));
-                  } else {
-                    tooltip.css('left', (event.pageX-10-width));
-                  }
-
-                  console.log(event, item);
-                }
-              });
-
-              view.on('mouseout', function() {
-                //clear positions
-                var tooltip = element.find('.vis-tooltip');
-                tooltip.css('top', null);
-                tooltip.css('left', null);
-
-                scope.tooltipActive = false;
-                scope.data = [];
-                scope.$digest();
-              });
+              view.on('mouseout', viewOnMouseOut);
             }
 
           });
