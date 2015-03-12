@@ -27,7 +27,6 @@ angular.module('vleApp')
     // initialize undo after we have a dataset
     Dataset.update(Dataset.dataset).then(function() {
       Config.updateDataset(Dataset.dataset);
-      // Spec.update(Spec.spec);
 
       $scope.chron = Chronicle.record('Spec.spec', $scope, true,
         ['Dataset.dataset', 'Dataset.dataschema','Dataset.stats', 'Config.config']);
@@ -41,10 +40,10 @@ angular.module('vleApp')
       $scope.chron.addOnRedoFunction($scope.canUndoRedo);
 
       $scope.chron.addOnUndoFunction(function() {
-        Logger.logInteraction('Undo');
+        Logger.logInteraction(LOGGER.actions.UNDO);
       });
       $scope.chron.addOnRedoFunction(function() {
-        Logger.logInteraction('Redo');
+        Logger.logInteraction(LOGGER.actions.REDO);
       });
 
       angular.element($document).on('keydown', function(e) {

@@ -39,7 +39,7 @@ angular.module('vleApp')
       this.updateLength();
       this.save();
 
-      Logger.logInteraction('Bookmarks cleared');
+      Logger.logInteraction(LOGGER.actions.BOOKMARKS_CLEAR);
     }
 
     proto.toggle = function(chart) {
@@ -63,7 +63,7 @@ angular.module('vleApp')
       this.updateLength();
       this.save();
 
-      Logger.logInteraction('Bookmark added', shorthand);
+      Logger.logInteraction(LOGGER.actions.BOOKMARK_ADD, shorthand);
     };
 
     proto.remove = function(chart) {
@@ -75,7 +75,7 @@ angular.module('vleApp')
       this.updateLength();
       this.save();
 
-      Logger.logInteraction('Bookmark removed', shorthand);
+      Logger.logInteraction(LOGGER.actions.BOOKMARK_REMOVE, shorthand);
     };
 
     proto.isBookmarked = function(shorthand) {
