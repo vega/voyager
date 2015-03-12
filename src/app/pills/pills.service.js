@@ -54,7 +54,7 @@ angular.module('vleApp')
       // filter unsupported properties
       var base = instantiate(encType),
         shelfProps = encSchemaProps[encType].properties;
-      console.log('updateFieldDef', encType, base, '<-', pill);
+      // console.log('updateFieldDef', encType, base, '<-', pill);
       for (var prop in shelfProps) {
         if (pill[prop]) {
           if (prop==='value' && pill.name) {
