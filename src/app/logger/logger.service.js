@@ -26,22 +26,26 @@ angular.module('vleApp')
       CHART_MOUSEOVER: 'CHART_MOUSEOVER',
       CHART_MOUSEOUT: 'CHART_MOUSEOUT',
       CHART_RENDER: 'CHART_RENDER',
-      TOOLTIP: 'TOOLTIP',
+      CHART_EXPOSE: 'CHART_EXPOSE',
+      CHART_TOOLTIP: 'CHART_TOOLTIP',
       BOOKMARK_ADD: 'BOOKMARK_ADD',
       BOOKMARK_REMOVE: 'BOOKMARK_REMOVE',
       BOOKMARKS_CLEAR: 'BOOKMARKS_CLEAR',
+
       NULL_FILTER_TOGGLE: 'NULL_FILTER_TOGGLE',
       TRANSPOSE_TOGGLE: 'TRANSPOSE_TOGGLE',
       SORT_TOGGLE: 'SORT_TOGGLE',
+      MARKTYPE_TOGGLE: 'MARKTYPE_TOGGLE',
       // Polestar only
       SPEC_CHANGE: 'SPEC_CHANGE',
       // Voyager only
       FIELDS_CHANGE: 'FIELDS_CHANGE',
       FIELDS_RESET: 'FIELDS_RESET',
-      CLUSTER_EXPAND: 'CLUSTER_EXPAND',
+      DRILL_DOWN_OPEN: 'DRILL_DOWN_OPEN',
+      DRILL_DOWN_CLOSE: 'DRILL_DOWN_CLOSE',
       CLUSTER_SELECT: 'CLUSTER_SELECT',
       LOAD_MORE: 'LOAD_MORE'
-    }
+    };
 
     service.createTableIfNotExists = function() {
       service.db.createTable(service.tableName, {
@@ -65,18 +69,18 @@ angular.module('vleApp')
           'type': 'TEXT'
         }
       });
-    }
+    };
 
     service.clear = function() {
       var r = $window.confirm('Really clear the logs?');
-      if (r == true) {
+      if (r === true) {
         service.db.dropTable(service.tableName);
         service.createTableIfNotExists();
       }
     };
 
     service.export = function() {
-      var data = service.db.selectAll(service.tableName).then(function(results) {
+      /*var data = */ service.db.selectAll(service.tableName).then(function(results) {
         if (results.rows.length === 0) {
           console.warn('No logs');
           return;
@@ -96,11 +100,12 @@ angular.module('vleApp')
           download: service.tableName + '.csv'
         })[0].click();
       });
-    }
+    };
 
     service.logInteraction = function(action, data, diff) {
-      if (!consts.logging)
+      if (!consts.logging) {
         return;
+      }
 
       console.log('[Logging] ', action, data);
 
@@ -113,7 +118,7 @@ angular.module('vleApp')
         row.diff = JSON.stringify(diff);
       }
 
-      service.db.insert(service.tableName, row).then(function(results) {});
+      service.db.insert(service.tableName, row).then(function(/*results*/) {});
     };
 
     return service;

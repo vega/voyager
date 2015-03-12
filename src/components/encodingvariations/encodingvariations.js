@@ -7,7 +7,7 @@
  * # encodingVariations
  */
 angular.module('facetedviz')
-  .directive('encodingVariations', function (Visrec, Bookmarks, consts, $document, _) {
+  .directive('encodingVariations', function (Visrec, Bookmarks, consts, $document, _, Logger) {
 
     return {
       templateUrl: 'components/encodingvariations/encodingvariations.html',
@@ -33,11 +33,13 @@ angular.module('facetedviz')
 
         scope.select = function(subcluster) {
           scope.selectedSubcluster = subcluster;
+          Logger.logInteraction(Logger.actions.CLUSTER_SELECT, subcluster);
         };
 
         scope.close = function() {
-          console.log('close');
+          Logger.logInteraction(Logger.actions.DRILL_DOWN_CLOSE, Visrec.selectedCluster.key);
           scope.Visrec.selectedCluster = null;
+
         };
 
         scope.$watch('Visrec.selectedCluster', function(selectedCluster) {
