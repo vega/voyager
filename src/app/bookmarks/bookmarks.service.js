@@ -23,24 +23,24 @@ angular.module('vleApp')
 
     proto.updateLength = function() {
       this.length = Object.keys(this.dict).length;
-    }
+    };
 
     proto.save = function() {
       localStorageService.set('bookmarks', this.dict);
-    }
+    };
 
     proto.load = function() {
       this.dict = localStorageService.get('bookmarks') || {};
       this.updateLength();
-    }
+    };
 
     proto.clear = function() {
       this.dict = {};
       this.updateLength();
       this.save();
 
-      Logger.logInteraction(LOGGER.actions.BOOKMARKS_CLEAR);
-    }
+      Logger.logInteraction(Logger.actions.BOOKMARKS_CLEAR);
+    };
 
     proto.toggle = function(chart) {
       var shorthand = chart.shorthand;
@@ -63,7 +63,7 @@ angular.module('vleApp')
       this.updateLength();
       this.save();
 
-      Logger.logInteraction(LOGGER.actions.BOOKMARK_ADD, shorthand);
+      Logger.logInteraction(Logger.actions.BOOKMARK_ADD, shorthand);
     };
 
     proto.remove = function(chart) {
@@ -75,7 +75,7 @@ angular.module('vleApp')
       this.updateLength();
       this.save();
 
-      Logger.logInteraction(LOGGER.actions.BOOKMARK_REMOVE, shorthand);
+      Logger.logInteraction(Logger.actions.BOOKMARK_REMOVE, shorthand);
     };
 
     proto.isBookmarked = function(shorthand) {

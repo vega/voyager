@@ -13,7 +13,7 @@ angular.module('vleApp')
         $scope.datasetChanged = function() {
           var dataset = Dataset.dataset;
 
-          Logger.logInteraction(LOGGER.actions.DATASET_CHANGE, dataset.name);
+          Logger.logInteraction(Logger.actions.DATASET_CHANGE, dataset.name);
 
           Dataset.update(dataset).then(function() {
             Config.updateDataset(dataset);

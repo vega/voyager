@@ -26,10 +26,11 @@ angular.module('facetedviz')
           }
 
           scope.limit += consts.numMoreClusters;
+          Logger.logInteraction(Logger.actions.LOAD_MORE, scope.limit);
         };
 
         scope.select = function(fieldSet, cluster/*, $index*/) {
-          Logger.logInteraction(Logger.actions.EXPAND, fieldSet.key);
+          Logger.logInteraction(Logger.actions.DRILL_DOWN_OPEN, fieldSet.key);
           Visrec.selectedFieldSet = fieldSet;
           Visrec.selectedCluster = cluster;
         };
@@ -38,7 +39,12 @@ angular.module('facetedviz')
           scope.limit = consts.numInitClusters;
           element.scrollTop(0); // scroll the the top
           var fieldList = Fields.getList();
+
           Fields.update();
+          Logger.logInteraction(Logger.actions.FIELDS_CHANGE, {
+            selected: Fields.selected,
+            list: fieldList
+          });
           Visrec.update.projections(fieldList);
         }
 
