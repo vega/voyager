@@ -59,13 +59,14 @@
           <strong>Cardinality:</strong> {{stats.cardinality | number}}<br>
           <strong>Min:</strong> {{stats.min | number}}<br>
           <strong>Max:</strong> {{stats.max | number}}<br>
-          <strong>Skew:</strong> {{stats.skew | number:2}}<br>
+
           <strong>Stdev:</strong> {{stats.stdev | number:2}}<br>
           <strong>Mean:</strong> {{stats.mean | number:2}}<br>
           <strong>Median:</strong> {{stats.median | number}}<br>
           <strong>Sample:</strong> <span class='sample'>{{stats.sample.join(', ')}}</span>
         </div>"
         tooltip-side="right"></i>
+        <!--<strong>Skew:</strong> {{stats.skew | number:2}}<br>-->
       <i ng-show="field.aggr === 'count'"
         class="fa fa-info-circle"
         tooltips tooltip-size="small"
