@@ -45,11 +45,29 @@ angular.module('vleApp')
         } else if(type==='T' && !pill.fn) {
           pill.fn = vl.schema.defaultTimeFn;
         }
+      } else if (!pill.name) {
+        // no name, it's actually the empty shelf that
+        // got processed in the opposite direction
+        pill = {};
       }
 
-      // FIXME filter unsupported properties
-
-      enc[encType] = _.merge(instantiate(encType), pill);
+      // filter unsupported properties
+      var base = instantiate(encType),
+        shelfProps = encSchemaProps[encType].properties;
+      console.log('updateFieldDef', encType, base, '<-', pill);
+      for (var prop in shelfProps) {
+        if (pill[prop]) {
+          if (prop==='value' && pill.name) {
+            // only copy value if name is not defined
+            // (which should never be the case)
+            delete base[prop];
+          } else {
+            //FXIME In some case this should be merge / recursive merge instead ?
+            base[prop] = pill[prop];
+          }
+        }
+      }
+      enc[encType] = base;
     }
 
     Pills.remove = function (encType) {
