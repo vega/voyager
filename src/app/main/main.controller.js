@@ -37,10 +37,10 @@ angular.module('facetedviz')
       $scope.chron.addOnRedoFunction($scope.canUndoRedo);
 
       $scope.chron.addOnUndoFunction(function() {
-        Logger.logInteraction('Undo');
+        Logger.logInteraction(LOGGER.actions.UNDO);
       });
       $scope.chron.addOnRedoFunction(function() {
-        Logger.logInteraction('Redo');
+        Logger.logInteraction(LOGGER.actions.REDO);
       });
 
       angular.element($document).on('keydown', function(e) {

@@ -69,7 +69,7 @@ angular.module('vleApp')
     var countField = vl.field.count();
 
     Dataset.datasets = datasets;
-    Dataset.dataset = datasets[8]; // Birdstrike
+    Dataset.dataset = datasets[1];
     Dataset.dataschema = [];
     Dataset.dataschema.byName = {};
     Dataset.stats = {};
