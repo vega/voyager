@@ -12,6 +12,7 @@ angular.module('facetedviz')
 
     function resetField(field) {
       field.selected = undefined;
+      field._any = field.type!=='O' && field.aggr!=='count';
       delete field._raw;
       delete field._aggr;
       delete field._fn;
