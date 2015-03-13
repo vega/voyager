@@ -17,7 +17,11 @@ angular.module('vleApp')
       replace: true,
       scope: {
         chart: '=',
+
         //optional
+        disabled: '=',
+        isInList: '=',
+
         fieldSet: '=',
 
         showBookmark: '@',
