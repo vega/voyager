@@ -142,9 +142,11 @@ angular.module('vleApp')
         }
 
         function renderQueueNext() {
+          // render next item in the queue
           if (renderQueue.length > 0) {
             renderQueue.shift()();
           } else {
+            // or say that no one is rendering
             rendering = false;
           }
         }
@@ -168,48 +170,51 @@ angular.module('vleApp')
 
           scope.renderer = getRenderer(spec);
 
+
           function parseVega() {
+            // if no longer a part of the list, cancel!
             if (scope.disabled || (scope.isInList && scope.fieldSetKey && !scope.isInList(scope.fieldSetKey))) {
               console.log('cancel rendering', shorthand);
               renderQueueNext();
               return;
             }
-          vg.parse.spec(spec, function(chart) {
-            var endParse = new Date().getTime();
-            view = null;
-            view = chart({el: element[0]});
 
-            if (!consts.useUrl) {
-              view.data({raw: Dataset.data});
-            }
+            // render if still a part of the list
+            vg.parse.spec(spec, function(chart) {
+              var endParse = new Date().getTime();
+              view = null;
+              view = chart({el: element[0]});
 
-            scope.width =  view.width();
-            scope.height = view.height();
-            view.renderer(getRenderer(spec.width, scope.height));
-            view.update();
+              if (!consts.useUrl) {
+                view.data({raw: Dataset.data});
+              }
 
-            Logger.logInteraction(Logger.actions.CHART_RENDER, scope.vlSpec);
-              rescaleIfEnable();
+              scope.width =  view.width();
+              scope.height = view.height();
+              view.renderer(getRenderer(spec.width, scope.height));
+              view.update();
 
-            var endChart = new Date().getTime();
-            console.log('parse spec', (endParse-start), 'charting', (endChart-endParse), shorthand);
-            if (scope.tooltip) {
-              view.on('mouseover', viewOnMouseOver);
-              view.on('mouseout', viewOnMouseOut);
-            }
+              Logger.logInteraction(Logger.actions.CHART_RENDER, scope.vlSpec);
+                rescaleIfEnable();
+
+              var endChart = new Date().getTime();
+              console.log('parse spec', (endParse-start), 'charting', (endChart-endParse), shorthand);
+              if (scope.tooltip) {
+                view.on('mouseover', viewOnMouseOver);
+                view.on('mouseout', viewOnMouseOut);
+              }
 
               renderQueueNext();
+            });
+          }
 
-          });
-        }
-
-          if (!rendering) {
+          if (!rendering) { // if no instance is being render -- rendering now
             rendering=true;
             parseVega();
           } else {
+            // otherwise queue it
             renderQueue.push(parseVega);
           }
-
         }
 
         var view;
