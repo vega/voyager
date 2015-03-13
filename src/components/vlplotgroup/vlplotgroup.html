@@ -29,21 +29,21 @@
         <i class="fa fa-bar-chart"></i>
         <i class="fa fa-circle-o"></i>
       </a>
-      <a ng-if="showLog && log.support(chart.vlSpec, 'x')"  class="command"
+      <a ng-if="showLog && chart.vlSpec && log.support(chart.vlSpec, 'x')"  class="command"
         ng-click="log.toggle(chart.vlSpec, 'x')"
         ng-class="{active: log.active(chart.vlSpec, 'x')}">
         <i class="fa fa-long-arrow-right"></i>
         <small>LOG X</small>
       </a>
 
-      <a ng-if="showLog && log.support(chart.vlSpec, 'y')"  class="command"
+      <a ng-if="showLog && chart.vlSpec && log.support(chart.vlSpec, 'y')"  class="command"
         ng-click="log.toggle(chart.vlSpec, 'y')"
         ng-class="{active: log.active(chart.vlSpec, 'y')}">
         <i class="fa fa-long-arrow-up"></i>
         <small>LOG Y</small>
       </a>
 
-      <a ng-show="showSort && toggleSort.support(chart.vlSpec, Dataset.stats)"
+      <a ng-show="showSort && chart.vlSpec && toggleSort.support(chart.vlSpec, Dataset.stats)"
         class="command" ng-click="toggleSort(chart.vlSpec)"
         >
         <i class="fa sort"
@@ -51,7 +51,7 @@
         ></i>
         <small ng-if="showLabel">Sort</small>
       </a>
-      <a ng-if="showFilterNull && toggleFilterNull.support(chart.vlSpec, Dataset.stats)"
+      <a ng-if="showFilterNull && chart.vlSpec && toggleFilterNull.support(chart.vlSpec, Dataset.stats)"
         class="command" ng-click="toggleFilterNull(chart.vlSpec)"
         ng-class='{active: chart.vlSpec && chart.vlSpec.cfg.filterNull.O}'>
         <i class="fa fa-filter"></i>
