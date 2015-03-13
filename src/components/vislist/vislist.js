@@ -51,7 +51,7 @@ angular.module('facetedviz')
         var dUpdateFields = _.debounce(updateFields, 200, {maxWait: 1500});
 
         scope.$watch('Fields.fields', function(fields, oldFields) {
-          if (!oldFields || _.keys(oldFields).length ===0 ) { // first time!
+          if (!oldFields || _.keys(oldFields).length === 0 ) { // first time!
             updateFields();
           } else {
             dUpdateFields();

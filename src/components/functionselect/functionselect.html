@@ -1,7 +1,7 @@
 <div class="mb5" ng-if="func.list.length > 1">
   <h4>Functions</h4>
   <label class="func-label" ng-repeat="f in func.list">
-    <input type="radio" ng-value="f" ng-model="func.selected">
+    <input type="radio" ng-value="f" ng-model="func.selected" ng-change="functionChanged(f)">
     {{f || '-'}}
   </label>
 </div>

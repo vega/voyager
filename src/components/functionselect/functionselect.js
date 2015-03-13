@@ -25,11 +25,11 @@ angular.module('vleApp')
         }
 
         // when the function select is updated, propagates change the parent
-        scope.$watch('func.selected', function(selectedFunc) {
+        scope.functionChanged = function(selectedFunc) {
           var field = scope.field,
             type = field ? field.type : '';
 
-          if(!field){
+          if (!field) {
             return; // not ready
           }
 
@@ -38,7 +38,7 @@ angular.module('vleApp')
           field._fn = getFns(type).indexOf(selectedFunc) !== -1 ? selectedFunc : undefined;
           field._raw = selectedFunc === RAW || undefined;
           field._any = selectedFunc === ANY || undefined;
-        });
+        };
 
         scope.$watch('field', function (field) {
           // only run this if schema is not null
@@ -48,7 +48,7 @@ angular.module('vleApp')
 
           var type = field.name ? field.type : '';
 
-          if(vl.field.isCount(field)){
+          if (vl.field.isCount(field)) {
             scope.func.list=[COUNT];
             scope.func.selected = COUNT;
           } else {

@@ -43,8 +43,6 @@ angular.module('vleApp')
             (field._bin && 'bin') || (field._any && '-, sum');
         };
 
-
-
         scope.$watch('popupContent', function(popupContent) {
           if (!popupContent) { return; }
 
