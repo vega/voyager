@@ -70,8 +70,6 @@ angular.module('facetedviz')
     };
 
     Visrec.update.projections = function(fieldList) {
-      Logger.logInteraction('Update projections: ' + JSON.stringify(_.filter(fieldList, function(d) { return d.selected; })));
-
       var start = new Date().getTime();
       // TODO decide if we can update projections only if field name list changes
 
