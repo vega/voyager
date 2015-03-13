@@ -8,7 +8,7 @@
  * Service in the vegalite-ui.
  */
 angular.module('vleApp')
-  .service('Logger', function ($location, $window, $webSql, consts, Papa) {
+  .service('Logger', function ($location, $window, $webSql, consts, Papa, Blob, URL) {
 
     var service = {};
 
@@ -37,6 +37,8 @@ angular.module('vleApp')
       SORT_TOGGLE: 'SORT_TOGGLE',
       MARKTYPE_TOGGLE: 'MARKTYPE_TOGGLE',
       LOG_TOGGLE: 'LOG_TOGGLE',
+
+      FUNC_CHANGE: 'FUNC_CHANGE',
       // Polestar only
       SPEC_CHANGE: 'SPEC_CHANGE',
       FIELD_DROP: 'FIELD_DROP',
@@ -96,9 +98,12 @@ angular.module('vleApp')
         }
         var csv = Papa.unparse(rows);
 
+        var csvData = new Blob([csv], { type: 'text/csv' });
+        var csvUrl = URL.createObjectURL(csvData);
+
         var element = angular.element('<a/>');
         element.attr({
-          href: 'data:attachment/csv;charset=utf-8,' + encodeURI(csv),
+          href: csvUrl,
           target: '_blank',
           download: service.tableName + '.csv'
         })[0].click();
