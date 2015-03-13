@@ -160,7 +160,6 @@ angular.module('vleApp')
             return;
           }
 
-          var start = new Date().getTime();
           scope.height = spec.height;
           if (!element) {
             console.error('can not find vis element');
@@ -170,7 +169,6 @@ angular.module('vleApp')
 
           scope.renderer = getRenderer(spec);
 
-
           function parseVega() {
             // if no longer a part of the list, cancel!
             if (scope.disabled || (scope.isInList && scope.fieldSetKey && !scope.isInList(scope.fieldSetKey))) {
@@ -179,6 +177,7 @@ angular.module('vleApp')
               return;
             }
 
+            var start = new Date().getTime();
             // render if still a part of the list
             vg.parse.spec(spec, function(chart) {
               var endParse = new Date().getTime();

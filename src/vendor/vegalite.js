@@ -1708,7 +1708,7 @@ scale.type = function(name, encoding) {
     case O: return 'ordinal';
     case T:
       var fn = encoding.fn(name);
-      return (fn && time.scale.type(fn)) || 'time';
+      return (fn && time.scale.type(fn, name)) || 'time';
     case Q:
       if (encoding.bin(name)) {
         return 'ordinal';
@@ -1818,6 +1818,7 @@ function scale_range(s, encoding, layout, style, opt) {
       var range = encoding.scale(COLOR).range;
       if (range === undefined) {
         if (s.type === 'ordinal') {
+          // FIXME
           range = style.colorRange;
         } else {
           range = ['#ddf', 'steelblue'];
@@ -2176,7 +2177,7 @@ function time(spec, encoding, opt) {
   return spec;
 }
 
-time.cardinality = function(field, stats, filterNull) {
+time.cardinality = function(field, stats, filterNull, type) {
   var fn = field.fn;
   switch (fn) {
     case 'seconds': return 60;
@@ -2185,7 +2186,14 @@ time.cardinality = function(field, stats, filterNull) {
     case 'day': return 7;
     case 'date': return 31;
     case 'month': return 12;
-    // case 'year':  -- need real cardinality
+    case 'year':
+      var stat = stats[field.name],
+        yearstat = stats['year_'+field.name];
+
+      if (!yearstat) { return null; }
+
+      return yearstat.cardinality -
+        (stat.numNulls > 0 && filterNull[type] ? 1 : 0);
   }
 
   return null;
@@ -2252,8 +2260,8 @@ time.isOrdinalFn = function(fn) {
   return false;
 };
 
-time.scale.type = function(fn) {
-  return time.isOrdinalFn(fn) ? 'ordinal' : 'linear';
+time.scale.type = function(fn, name) {
+  return time.isOrdinalFn(fn) || name === COL || name === ROW ? 'ordinal' : 'linear';
 };
 
 time.scale.domain = function(fn) {
@@ -2689,7 +2697,7 @@ vlfield.cardinality = function(field, stats, filterNull, useTypeCode) {
     return (bins.stop - bins.start) / bins.step;
   }
   if (isType(field, T)) {
-    var cardinality = time.cardinality(field, stats, filterNull);
+    var cardinality = time.cardinality(field, stats, filterNull, type);
     if(cardinality !== null) return cardinality;
     //otherwise use calculation below
   }
