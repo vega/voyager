@@ -3,8 +3,8 @@
        ng-repeat="field in Dataset.dataschema | orderBy: Dataset.fieldOrder">
     <field-list-item field='field'></field-list-item>
   </div>
-    <div class="tool">
-    <a class="" ng-click="Fields.reset()">Reset</a>
+  <div class="tool">
+    <a ng-click="Fields.reset()"><i class="fa fa-eraser"></i> Reset</a>
   </div>
 
 </div>
