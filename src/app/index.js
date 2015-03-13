@@ -22,6 +22,8 @@ angular.module('vleApp', [
   .constant('ZSchema', window.ZSchema)
   .constant('Tether', window.Tether)
   .constant('Drop', window.Drop)
+  .constant('Blob', window.Blob)
+  .constant('URL', window.URL)
   .constant('jsondiffpatch', window.jsondiffpatch)
   .constant('consts', {
     addCount: true, // add count field to Dataset.dataschema
