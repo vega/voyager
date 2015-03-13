@@ -94,6 +94,9 @@
   </div>
   <div class="vl-plot-wrapper full-width vis-{{fieldSet.key}} flex-grow-1">
     <vl-plot vl-spec="chart.vlSpec"
+      disabled="disabled"
+      field-set-key="chart.fieldSetKey"
+      is-in-list="isInList"
       shorthand="chart.shorthand"
       config-set="{{configSet||'small'}}"
       max-height="maxHeight"

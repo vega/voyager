@@ -23,6 +23,8 @@ angular.module('vleApp')
         vgSpec: '=',
         vlSpec: '=',
         disabled: '=',
+        isInList: '=',
+        fieldSetKey: '=',
         shorthand: '=',
         maxHeight:'=',
         maxWidth: '=',
@@ -167,7 +169,7 @@ angular.module('vleApp')
           scope.renderer = getRenderer(spec);
 
           function parseVega() {
-            if (scope.disabled) {
+            if (scope.disabled || (scope.isInList && scope.fieldSetKey && !scope.isInList(scope.fieldSetKey))) {
               console.log('cancel rendering', shorthand);
               renderQueueNext();
               return;

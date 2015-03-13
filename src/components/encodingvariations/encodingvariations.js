@@ -31,6 +31,11 @@ angular.module('facetedviz')
 
         angular.element($document).on('keydown', escape);
 
+        scope.isInList = function(fieldSetKey) {
+          return Visrec.selectedCluster &&
+            fieldSetKey === Visrec.selectedCluster.key;
+        };
+
         scope.select = function(subcluster) {
           scope.selectedSubcluster = subcluster;
           Logger.logInteraction(Logger.actions.CLUSTER_SELECT, subcluster);
