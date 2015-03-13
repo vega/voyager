@@ -18,7 +18,7 @@
           <span ng-if="consts.debug"
             tooltips tooltip-size="small"
             tooltip-content="{{_.pluck(selectedSubcluster, 'shorthand').join('<br/>')}}">
-            (selected cluster size = {{selectedSubcluster.length}})
+            <!-- (selected cluster size = {{selectedSubcluster.length}}) -->
           </span>
         </div>
 
@@ -30,8 +30,9 @@
           chart="selectedSubcluster[0]"
           config-set="large"
           show-bookmark="true"
-          show-debug="consts.debug"
+          show-debug="consts.debug && consts.debugInList"
           show-filter-null="true"
+          show-log="true"
           show-mark-type="true"
           show-sort="true"
           show-transpose="true"
