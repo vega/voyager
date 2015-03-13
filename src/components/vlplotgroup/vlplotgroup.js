@@ -24,6 +24,7 @@ angular.module('vleApp')
         showDebug: '=',
         showExpand: '=',
         showFilterNull: '@',
+        showLog: '@',
         showMarkType: '@',
         showSort: '@',
         showTranspose: '@',
@@ -49,12 +50,46 @@ angular.module('vleApp')
         scope.consts = consts;
         scope.Dataset = Dataset;
 
+
+        // TOGGLE LOG
+
+        scope.log = {};
+        scope.log.support = function(spec, encType) {
+          if (!spec) { return false; }
+          var enc = spec.enc,
+            field = enc[encType];
+
+          return field && field.type ==='Q' && !field.bin;
+        };
+
+        scope.log.toggle = function(spec, encType) {
+          if (!scope.log.support(spec, encType)) { return; }
+
+          var field = spec.enc[encType],
+            scale = field.scale = field.scale || {};
+
+          scale.type = scale.type === 'log' ? 'linear' : 'log';
+          Logger.logInteraction(Logger.actions.LOG_TOGGLE, scope.chart.shorthand);
+        };
+        scope.log.active = function(spec, encType) {
+          if (!scope.log.support(spec, encType)) { return; }
+
+          var field = spec.enc[encType],
+            scale = field.scale = field.scale || {};
+
+          return scale.type === 'log';
+        };
+
+        // TOGGLE SORT
+
         var toggleSort = scope.toggleSort = function(spec) {
           Logger.logInteraction(Logger.actions.SORT_TOGGLE, scope.chart.shorthand);
           vl.Encoding.toggleSort(spec);
         };
         //FIXME
         toggleSort.support = vl.Encoding.toggleSort.support;
+
+        // TOGGLE FILTER
 
         scope.toggleFilterNull = function(spec, stats) {
           Logger.logInteraction(Logger.actions.NULL_FILTER_TOGGLE, scope.chart.shorthand);
