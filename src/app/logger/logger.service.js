@@ -109,7 +109,7 @@ angular.module('vleApp')
         return;
       }
 
-      console.log('[Logging] ', action, data);
+      // console.log('[Logging] ', action, data);
 
       var row = {userid: user, action: action};
       if (data !== undefined) {
@@ -122,6 +122,8 @@ angular.module('vleApp')
 
       service.db.insert(service.tableName, row).then(function(/*results*/) {});
     };
+
+    service.createTableIfNotExists();
 
     return service;
   });
