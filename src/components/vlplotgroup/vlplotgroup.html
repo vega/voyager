@@ -29,7 +29,7 @@
         <i class="fa fa-bar-chart"></i>
         <i class="fa fa-circle-o"></i>
       </a>
-      <a ng-show="showSort && toggleSort.support(chart.vlSpec, Dataset.stats)"
+      <a ng-if="showSort && chart.vlSpec && toggleSort.support(chart.vlSpec, Dataset.stats)"
         class="command" ng-click="toggleSort(chart.vlSpec)"
         >
         <i class="fa sort"
