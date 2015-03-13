@@ -40,7 +40,6 @@ angular.module('facetedviz')
           element.scrollTop(0); // scroll the the top
           var fieldList = Fields.getList();
 
-          Fields.update();
           Logger.logInteraction(Logger.actions.FIELDS_CHANGE, {
             selected: Fields.selected,
             list: fieldList
