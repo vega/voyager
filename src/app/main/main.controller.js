@@ -10,6 +10,7 @@ angular.module('facetedviz')
     $scope.Visrec = Visrec;
     $scope.Fields = Fields;
     $scope.Dataset = Dataset;
+    $scope.Config = Config;
     $scope.Logger = Logger;
     $scope.Bookmarks = Bookmarks;
 
@@ -25,10 +26,10 @@ angular.module('facetedviz')
       Config.updateDataset(Dataset.dataset);
       Fields.updateSchema(Dataset.dataschema);
 
-      $scope.chron = Chronicle.record('Fields.fields', $scope, true, ['Visrec.numClustersGenerated', 'Dataset.dataset', 'Dataset.dataschema', 'Dataset.stats']);
+      $scope.chron = Chronicle.record('Fields.fields', $scope, true,
+        ['Visrec.numClustersGenerated', 'Dataset.dataset', 'Dataset.dataschema', 'Dataset.stats', 'Config.config']);
 
       $scope.canUndoRedo = function() {
-        console.log('record');
         $scope.canUndo = $scope.chron.canUndo();
         $scope.canRedo = $scope.chron.canRedo();
       };
