@@ -69,6 +69,7 @@ angular.module('vleApp')
             scale = field.scale = field.scale || {};
 
           scale.type = scale.type === 'log' ? 'linear' : 'log';
+          Logger.logInteraction(Logger.actions.LOG_TOGGLE, scope.chart.shorthand);
         };
         scope.log.active = function(spec, encType) {
           if (!scope.log.support(spec, encType)) { return; }
