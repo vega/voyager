@@ -5,6 +5,9 @@ angular.module('vleApp')
     var counter = 0;
     var MAX_CANVAS_SIZE = 32767/2, MAX_CANVAS_AREA = 268435456/4;
 
+    var renderQueue = [],
+      rendering = false;
+
     function getRenderer(width, height) {
       // use canvas by default but use svg if the visualization is too big
       if (width > MAX_CANVAS_SIZE || height > MAX_CANVAS_SIZE || width*height > MAX_CANVAS_AREA) {
@@ -19,6 +22,7 @@ angular.module('vleApp')
       scope: {
         vgSpec: '=',
         vlSpec: '=',
+        disabled: '=',
         shorthand: '=',
         maxHeight:'=',
         maxWidth: '=',
@@ -117,6 +121,32 @@ angular.module('vleApp')
           return vl.compile(encoding, Dataset.stats);
         }
 
+        function rescaleIfEnable() {
+          if (scope.rescale) {
+            var xRatio = scope.maxWidth > 0 ?  scope.maxWidth / scope.width : 1;
+            var yRatio = scope.maxHeight > 0 ? scope.maxHeight / scope.height  : 1;
+            var ratio = Math.min(xRatio, yRatio);
+
+            var niceRatio = 1;
+            while (0.75 * niceRatio> ratio) {
+              niceRatio /= 2;
+            }
+
+            var t = niceRatio * 100 / 2 && 0;
+            element.find('.vega').css('transform', 'translate(-'+t+'%, -'+t+'%) scale('+niceRatio+')');
+          } else {
+            element.find('.vega').css('transform', null);
+          }
+        }
+
+        function renderQueueNext() {
+          if (renderQueue.length > 0) {
+            renderQueue.shift()();
+          } else {
+            rendering = false;
+          }
+        }
+
         function render(spec) {
           if (!spec) {
             if (view) {
@@ -136,6 +166,12 @@ angular.module('vleApp')
 
           scope.renderer = getRenderer(spec);
 
+          function parseVega() {
+            if (scope.disabled) {
+              console.log('cancel rendering', shorthand);
+              renderQueueNext();
+              return;
+            }
           vg.parse.spec(spec, function(chart) {
             var endParse = new Date().getTime();
             view = null;
@@ -150,24 +186,8 @@ angular.module('vleApp')
             view.renderer(getRenderer(spec.width, scope.height));
             view.update();
 
-            if (scope.rescale) {
-              var xRatio = scope.maxWidth > 0 ?  scope.maxWidth / scope.width : 1;
-              var yRatio = scope.maxHeight > 0 ? scope.maxHeight / scope.height  : 1;
-              var ratio = Math.min(xRatio, yRatio);
-
-              var niceRatio = 1;
-              while (0.75 * niceRatio> ratio) {
-                niceRatio /= 2;
-              }
-
-              var t = niceRatio * 100 / 2 && 0;
-              console.log('ratio', ratio, 'nice', niceRatio);
-              element.find('.vega').css('transform', 'translate(-'+t+'%, -'+t+'%) scale('+niceRatio+')');
-            } else {
-              element.find('.vega').css('transform', null);
-            }
-
             Logger.logInteraction(Logger.actions.CHART_RENDER, scope.vlSpec);
+              rescaleIfEnable();
 
             var endChart = new Date().getTime();
             console.log('parse spec', (endParse-start), 'charting', (endChart-endParse), shorthand);
@@ -176,7 +196,18 @@ angular.module('vleApp')
               view.on('mouseout', viewOnMouseOut);
             }
 
+              renderQueueNext();
+
           });
+        }
+
+          if (!rendering) {
+            rendering=true;
+            parseVega();
+          } else {
+            renderQueue.push(parseVega);
+          }
+
         }
 
         var view;
