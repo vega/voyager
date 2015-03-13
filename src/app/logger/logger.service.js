@@ -37,6 +37,8 @@ angular.module('vleApp')
       SORT_TOGGLE: 'SORT_TOGGLE',
       MARKTYPE_TOGGLE: 'MARKTYPE_TOGGLE',
       LOG_TOGGLE: 'LOG_TOGGLE',
+
+      FUNC_CHANGE: 'FUNC_CHANGE',
       // Polestar only
       SPEC_CHANGE: 'SPEC_CHANGE',
       FIELD_DROP: 'FIELD_DROP',

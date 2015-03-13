@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('facetedviz')
-  .factory('Fields', function(_, Dataset, vr){
+  .factory('Fields', function(_, Dataset, vr, Logger){
 
     var Fields = {
       fields: {},
@@ -28,9 +28,16 @@ angular.module('facetedviz')
     };
 
     Fields.update = function() {
-      Fields.selected = Fields.getList()
-        .filter(function(d) { return d.selected; });
+      var list = Fields.getList();
+      Fields.selected = list.filter(function(d) { return d.selected; });
       Fields.selectedPKey = vr.gen.projections.key(Fields.selected);
+
+      Logger.logInteraction(Logger.actions.FIELDS_CHANGE, {
+        selected: Fields.selected,
+        list: list
+      });
+
+      return list;
     };
 
     Fields.reset = function() {

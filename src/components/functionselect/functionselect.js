@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('vleApp')
-  .directive('functionSelect', function(_, vl) {
+  .directive('functionSelect', function(_, vl, Logger) {
     return {
       templateUrl: 'components/functionselect/functionselect.html',
       restrict: 'E',
@@ -38,6 +38,8 @@ angular.module('vleApp')
           field._fn = getFns(type).indexOf(selectedFunc) !== -1 ? selectedFunc : undefined;
           field._raw = selectedFunc === RAW || undefined;
           field._any = selectedFunc === ANY || undefined;
+
+          Logger.logInteraction(Logger.actions.FUNC_CHANGE, selectedFunc);
         };
 
         scope.$watch('field', function (field) {
