@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('vleApp')
-  .directive('functionSelect', function(_, vl, Pills) {
+  .directive('functionSelect', function(_, vl, Pills, Logger) {
     return {
       templateUrl: 'components/functionselect/functionselect.html',
       restrict: 'E',
@@ -42,6 +42,10 @@ angular.module('vleApp')
           }
           return [];
         }
+
+        scope.selectChanged = function() {
+          Logger.logInteraction(Logger.actions.FUNC_CHANGE, scope.func.selected);
+        };
 
         // when the function select is updated, propagates change the parent
         scope.$watch('func.selected', function(selectedFunc) {
@@ -107,7 +111,6 @@ angular.module('vleApp')
             }
 
           }
-
         }, true);
       }
     };
