@@ -9,7 +9,7 @@
               <i class="fa fa-bug"></i>
             </a>
             <!-- <a href="http://bit.ly/visrecissues" target="_blank" class="command debug">Known Issues</a> -->
-            <a href="#" class="command debug" ng-click="showDevPanel = !showDevPanel" tooltips
+            <a class="command debug" ng-click="showDevPanel = !showDevPanel" tooltips
               tooltip-size="small"
               tooltip-content="Debug Tool">
               <i class="fa fa-wrench"></i>
@@ -19,10 +19,10 @@
             <i class="fa fa-bookmark"></i>
             Bookmarks ({{Bookmarks.length}})
           </a>
-          <a class="command" href="#" ng-click="chron.undo()" ng-class="{disabled: !canUndo}">
+          <a class="command" ng-click="chron.undo()" ng-class="{disabled: !canUndo}">
             <i class="fa fa-undo"></i> Undo
           </a>
-          <a class="command" href="#" ng-click="chron.redo()" ng-class="{disabled: !canRedo}">
+          <a class="command" ng-click="chron.redo()" ng-class="{disabled: !canRedo}">
             <i class="fa fa-repeat"></i> Redo
           </a>
         </div>

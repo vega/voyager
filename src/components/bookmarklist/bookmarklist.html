@@ -5,10 +5,10 @@
       >
       <div class="modal-header no-shrink card no-top-margin no-right-margin">
         <div class="right">
-          <a href="#" ng-click="deactivate()" class="right">Close</a>
+          <a ng-click="deactivate()" class="right">Close</a>
         </div>
         <h2 class="no-bottom-margin">Bookmarks ({{ Bookmarks.length }})</h2>
-        <a href="#" ng-click="Bookmarks.clear()"><i class="fa fa-trash-o"></i> Clear all</a>
+        <a ng-click="Bookmarks.clear()"><i class="fa fa-trash-o"></i> Clear all</a>
       </div>
       <div class="flex-grow-1 scroll-y">
         <div ng-if="Bookmarks.length > 0"
