@@ -35,16 +35,19 @@ $any-color: #aaa;
     flex-grow: 1;
   }
 
-  .field-func, .field-count{
-    text-transform: uppercase;
-    font-weight: bold;
-    margin-right: 3px;
-    &.any {
-      color: $any-color;
-    }
-  }
-  .field-func {
+  .field-func, .field-count {
     flex-shrink: 0;
+    margin-right: 3px;
+  }
+}
+
+.field-func, .field-count{
+  text-transform: uppercase;
+  font-weight: bold;
+
+  font-size: 11px;
+  &.any {
+    color: $any-color;
   }
 }
 
