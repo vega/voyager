@@ -42,18 +42,13 @@ angular.module('vleApp', [
   .config(function(localStorageServiceProvider) {
     localStorageServiceProvider.setPrefix('polestar');
   })
-  .config(function($stateProvider, $urlRouterProvider, $locationProvider) {
+  .config(function($stateProvider, $urlRouterProvider) {
     $stateProvider
       .state('home', {
         url: '/',
         templateUrl: 'app/main/main.html',
         controller: 'MainCtrl'
       });
-
-    $locationProvider.html5Mode({
-      enabled: true,
-      requireBase: false
-    });
 
     $urlRouterProvider.otherwise('/');
   });

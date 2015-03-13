@@ -64,7 +64,6 @@
         <small ng-if="showLabel">Transpose</small>
       </a>
       <a ng-if="showBookmark"
-        href="#"
         class="command"
         ng-click="Bookmarks.toggle(chart)"
         ng-class="{disabled: !chart.vlSpec.enc, active: Bookmarks.isBookmarked(chart.shorthand)}">
