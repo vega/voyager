@@ -35,6 +35,10 @@ angular.module('facetedviz')
           Visrec.selectedCluster = cluster;
         };
 
+        scope.isInList = function(fieldSetKey) {
+          return fieldSetKey in Visrec.chartClusters;
+        };
+
         function updateFields() {
           scope.limit = consts.numInitClusters;
           element.scrollTop(0); // scroll the the top

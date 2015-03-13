@@ -28,6 +28,8 @@
       <div class="selected-variation no-shrink">
         <vl-plot-group
           chart="selectedSubcluster[0]"
+          disabled="!Visrec.selectedCluster"
+
           config-set="large"
           show-bookmark="true"
           show-debug="consts.debug && consts.debugInList"
@@ -49,6 +51,9 @@
             ng-repeat="subcluster in Visrec.selectedCluster"
             ng-class="{selected: selectedSubcluster == subcluster}"
             chart="subcluster[0]"
+            disabled="!subcluster || !subcluster[0]"
+            is-in-list="isInList"
+
             show-bookmark="true"
             rescale="true"
             thumbnail="true"
