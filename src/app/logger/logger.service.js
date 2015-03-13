@@ -38,6 +38,8 @@ angular.module('vleApp')
       MARKTYPE_TOGGLE: 'MARKTYPE_TOGGLE',
       // Polestar only
       SPEC_CHANGE: 'SPEC_CHANGE',
+      FIELD_DROP: 'FIELD_DROP',
+      MARK_CHANGE: 'MARK_CHANGE',
       // Voyager only
       FIELDS_CHANGE: 'FIELDS_CHANGE',
       FIELDS_RESET: 'FIELDS_RESET',
@@ -107,7 +109,7 @@ angular.module('vleApp')
         return;
       }
 
-      console.log('[Logging] ', action, data);
+      // console.log('[Logging] ', action, data);
 
       var row = {userid: user, action: action};
       if (data !== undefined) {
@@ -120,6 +122,8 @@ angular.module('vleApp')
 
       service.db.insert(service.tableName, row).then(function(/*results*/) {});
     };
+
+    service.createTableIfNotExists();
 
     return service;
   });
