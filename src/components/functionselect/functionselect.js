@@ -9,7 +9,7 @@ angular.module('vleApp')
         field: '='
       },
       link: function(scope /*,element, attrs*/) {
-        var BIN='bin', RAW='raw', COUNT='count', ANY = 'auto';
+        var BIN='bin', RAW='raw', COUNT='count', ANY = '-, sum';
 
         scope.func = {
           selected: ANY,
