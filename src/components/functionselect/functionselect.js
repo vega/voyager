@@ -47,6 +47,7 @@ angular.module('vleApp')
           Logger.logInteraction(Logger.actions.FUNC_CHANGE, scope.func.selected);
         };
 
+        // FIXME func.selected logic should be all moved to selectChanged
         // when the function select is updated, propagates change the parent
         scope.$watch('func.selected', function(selectedFunc) {
           var oldPill = fieldPill(),
