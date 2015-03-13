@@ -40,6 +40,7 @@ angular.module('facetedviz')
           element.scrollTop(0); // scroll the the top
           var fieldList = Fields.getList();
 
+          Fields.update();
           Logger.logInteraction(Logger.actions.FIELDS_CHANGE, {
             selected: Fields.selected,
             list: fieldList
@@ -50,7 +51,7 @@ angular.module('facetedviz')
         var dUpdateFields = _.debounce(updateFields, 200, {maxWait: 1500});
 
         scope.$watch('Fields.fields', function(fields, oldFields) {
-          if (!oldFields || _.keys(oldFields).length ===0 ) { // first time!
+          if (!oldFields || _.keys(oldFields).length === 0 ) { // first time!
             updateFields();
           } else {
             dUpdateFields();
