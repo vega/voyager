@@ -45,6 +45,7 @@ angular.module('vleApp')
         scope.tooltipPromise = null;
         scope.hoverFocus = false;
         scope.tooltipActive = false;
+        scope.destroyed = false;
 
         scope.mouseover = function() {
           scope.hoverPromise = $timeout(function(){
@@ -172,7 +173,7 @@ angular.module('vleApp')
 
           function parseVega() {
             // if no longer a part of the list, cancel!
-            if (scope.disabled || (scope.isInList && scope.fieldSetKey && !scope.isInList(scope.fieldSetKey))) {
+            if (scope.destroyed || scope.disabled || (scope.isInList && scope.fieldSetKey && !scope.isInList(scope.fieldSetKey))) {
               console.log('cancel rendering', shorthand);
               renderQueueNext();
               return;
@@ -234,7 +235,11 @@ angular.module('vleApp')
           view.off('mouseover');
           view.off('mouseout');
           view = null;
-          renderQueue = [];
+          scope.destroyed = true; 
+          // FIXME another way that should eliminate things from memory faster should be removing 
+          // maybe something like
+          // renderQueue.splice(renderQueue.indexOf(parseVega), 1));
+          // but without proper testing, this is riskier than setting scope.destroyed.  
         });
       }
     };
