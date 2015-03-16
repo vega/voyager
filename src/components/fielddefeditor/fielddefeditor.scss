@@ -21,7 +21,7 @@ $pill-min-width: 150px;
     opacity: 0.5;
   }
 
-  .shelf-label{
+  .shelf-label {
     @extend .noselect;
     display: block;
     width: 40px;
@@ -87,7 +87,7 @@ $pill-min-width: 150px;
 }
 
 .shelf-functions {
-  width: 150px;
+  width: 160px;
 }
 
 .shelf-properties, .shelf-functions{
@@ -100,7 +100,7 @@ $pill-min-width: 150px;
 
   label.func-label {
     display: inline-block;
-    min-width: 50px;
+    min-width: 75px;
     margin-right: 5px;
   }
 
