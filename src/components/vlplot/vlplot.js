@@ -151,6 +151,7 @@ angular.module('vleApp')
           }
         }
 
+        var view;
         function render(spec) {
           if (!spec) {
             if (view) {
@@ -216,7 +217,6 @@ angular.module('vleApp')
           }
         }
 
-        var view;
         scope.$watch('vgSpec',function() {
           var spec = getVgSpec();
           render(spec);
@@ -229,6 +229,13 @@ angular.module('vleApp')
           var spec = getCompiledSpec();
           render(spec);
         }, true);
+
+        scope.$on('$destroy', function() {
+          view.off('mouseover');
+          view.off('mouseout');
+          view = null;
+          renderQueue = [];
+        });
       }
     };
   });

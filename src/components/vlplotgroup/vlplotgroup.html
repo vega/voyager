@@ -17,7 +17,7 @@
             target="_blank">Report Bad Render</a>
           <a ng-click="showFeature=!showFeature" class="command debug">{{chart.score}}</a>
           <div ng-repeat="f in chart.scoreFeatures track by f.reason">
-            [{{f.score}}] {{f.reason}}
+            [{{:: f.score}}] {{:: f.reason}}
           </div>
         </div>
       </div>

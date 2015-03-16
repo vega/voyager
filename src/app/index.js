@@ -23,7 +23,12 @@ angular.module('vleApp', [
     });
   }]);
 
-angular.module('facetedviz', ['vleApp', 'ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', 'ui.router'])
+angular.module('facetedviz', [
+    'vleApp',
+    'ngCookies',
+    'ngTouch',
+    'ngSanitize',
+    'ui.router'])
   .constant('_', window._)
   .constant('jQuery', window.$)
   .constant('vl', window.vl)

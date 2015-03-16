@@ -46,12 +46,21 @@ angular.module('vleApp')
         scope.$watch('popupContent', function(popupContent) {
           if (!popupContent) { return; }
 
+          if (funcsPopup) {
+            funcsPopup.destroy();
+          }
           funcsPopup = new Drop({
             content: popupContent,
             target: element.find('.type-caret')[0],
             position: 'bottom left',
             openOn: 'click'
           });
+        });
+
+        scope.$on('$destroy', function() {
+          if (funcsPopup) {
+            funcsPopup.destroy();
+          }
         });
       },
       controller: function($scope, Dataset) {
