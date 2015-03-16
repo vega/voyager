@@ -8,9 +8,6 @@
  */
 angular.module('vleApp')
   .directive('vlPlotGroup', function (Bookmarks, consts, vl, Dataset, Drop, Logger) {
-
-    var debugPopup;
-
     return {
       templateUrl: 'components/vlplotgroup/vlplotgroup.html',
       restrict: 'E',
@@ -102,7 +99,7 @@ angular.module('vleApp')
         };
         scope.toggleFilterNull.support = vl.Encoding.toggleFilterNullO.support;
 
-        debugPopup = new Drop({
+        var debugPopup = new Drop({
           content: element.find('.dev-tool')[0],
           target: element.find('.fa-wrench')[0],
           position: 'bottom right',
