@@ -61,6 +61,7 @@ angular.module('facetedviz')
 
     var initOpt = {
       genTypeCasting: false,
+      maxCardinalityForAutoAddOrdinal: null,
       omitDotPlot: true
     };
 
@@ -74,7 +75,9 @@ angular.module('facetedviz')
       // TODO decide if we can update projections only if field name list changes
 
       // First create a projection
-      var projections = vr.gen.projections(fieldList, Dataset.stats, {});
+
+      var projections = vr.gen.projections(fieldList, Dataset.stats,
+        {} || (Fields.selected.length === 0 ? initOpt : suggestionOpt));
 
       var aggregates = {}, fieldSetDict = {},
         fieldSets = [], chartClusters = {};

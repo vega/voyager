@@ -40,7 +40,7 @@ angular.module('vleApp')
           return field.aggr || field.fn ||
             (field.bin && 'bin') ||
             field._aggr || field._fn ||
-            (field._bin && 'bin') || (field._any && '-, sum');
+            (field._bin && 'bin') || (field._any && 'auto');
         };
 
         scope.$watch('popupContent', function(popupContent) {
