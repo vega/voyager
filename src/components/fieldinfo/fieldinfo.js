@@ -55,6 +55,10 @@ angular.module('vleApp')
             openOn: 'click'
           });
         });
+
+        scope.$on('$destroy', function() {
+          funcsPopup.destroy();
+        });
       },
       controller: function($scope, Dataset) {
         var statsField = $scope.field.aggr === 'count' ? 'count' : $scope.field.name;

@@ -229,6 +229,12 @@ angular.module('vleApp')
           var spec = getCompiledSpec();
           render(spec);
         }, true);
+
+        scope.$on('$destroy', function() {
+          view.off('mouseover');
+          view.off('mouseout');
+          view = null;
+        });
       }
     };
   });

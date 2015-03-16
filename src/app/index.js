@@ -2,7 +2,6 @@
 /* globals window */
 
 angular.module('vleApp', [
-    'ngAnimate',
     'ngCookies',
     'ngSanitize',
     'ngTouch',

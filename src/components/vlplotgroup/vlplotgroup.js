@@ -129,6 +129,10 @@ angular.module('vleApp')
           Logger.logInteraction(Logger.actions.TRANSPOSE_TOGGLE, scope.chart.shorthand);
           vl.Encoding.transpose(scope.chart.vlSpec);
         };
+
+        scope.$on('$destroy', function() {
+          debugPopup.destroy();
+        });
       }
     };
   });
