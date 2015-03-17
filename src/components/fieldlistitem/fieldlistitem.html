@@ -6,7 +6,7 @@
   <i class="fa selection clickable"
     ng-class="{'fa-check-square': Fields.isSelected(field.name), 'fa-square': Fields.isSelected(field.name) === undefined, 'fa-minus-circle': Fields.isSelected(field.name) === false}"
     ng-click="Fields.toggleSelected(field.name)"
-    ng-dblclick="Fields.setSelected(field.name, false)"
+    ng-dblclick="if(consts.enableExclude) Fields.setSelected(field.name, false)"
   ></i>
 
   <field-info
