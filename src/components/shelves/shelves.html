@@ -30,7 +30,7 @@
   <div class="shelf-pane shelf-marks-pane full-width">
     <div class="right">
       <select class="markselect" ng-model="Spec.spec.marktype"
-              ng-options="type for type in schema.properties.marktype.enum"
+              ng-options="type for type in ['point', 'tick', 'bar', 'line', 'area', 'text']"
               ng-change="markChange()"></select>
     </div>
     <h3>Marks</h3>
