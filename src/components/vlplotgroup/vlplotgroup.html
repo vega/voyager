@@ -1,9 +1,9 @@
 <div class="vl-plot-group card vflex">
   <div ng-show="showExpand || fieldSet || showBookmark || showToggle"
     class="vl-plot-group-header full-width no-shrink">
-
-    <div class="field-set-info" ng-if="fieldSet">
+    <div class="field-set-info" >
       <field-info ng-repeat="field in fieldSet"
+        ng-if="fieldSet"
         field='field'
         show-type='true'
         ng-class="{
