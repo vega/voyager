@@ -2630,7 +2630,7 @@ vlfield.order.type = function(field) {
 };
 
 vlfield.order.typeThenName = function(field) {
-  return vlfield.order.type(field) + '_' + field.name;
+  return vlfield.order.type(field) + '_' + field.name.toLowerCase();
 };
 
 vlfield.order.original = function() {

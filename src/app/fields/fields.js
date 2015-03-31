@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('facetedviz')
-  .factory('Fields', function(_, Dataset, vr, Logger){
+  .factory('Fields', function(_, Dataset, vl, vr, Logger){
 
     var Fields = {
       fields: {},
@@ -45,7 +45,10 @@ angular.module('facetedviz')
     };
 
     Fields.getList = function() {
-      return _.values(Fields.fields);
+      var list = _.sortBy(_.values(Fields.fields), function(field) {
+        return vl.field.order.typeThenName(field);
+      });
+      return list;
     };
 
     Fields.setSelected = function(fieldName, val) {
