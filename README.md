@@ -1,5 +1,8 @@
-# facetedviz
+# Voyager
 
+**We are working on improving the code and documentation on Voyager.**
+
+Be sure to check out [related projects](https://vega.github.io/).
 
 ## Development
 
