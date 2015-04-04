@@ -1,12 +1,14 @@
-# vegalite-ui
+# Pole✭ (Polestar)
 
-Tableau-style User Interface for visual analysis, building on top of vegalite. Try our [demo](http://uwdata.github.io/vegalite-ui/).
+**We are working on improving the code and documentation on Polestar. The setup instructions are probably not working at this point.**
+
+Tableau-style User Interface for visual analysis, building on top of [Vegalite](https://github.com/uwdata/vegalite). Try our [demo](http://uwdata.github.io/polestar/). Also, be sure to check out [related projects](https://vega.github.io/).
 
 ## Development Setup Instruction
 
 ### Directory Setup
 
-Create a folder `_visrec` somewhere you want to work in.  Then clone this repo and [vegalite](https://github.com/uwdata/vegalite) to be under `_visrec`.  
+Create a folder `_visrec` somewhere you want to work in.  Then clone this repo and [vegalite](https://github.com/uwdata/vegalite) to be under `_visrec`.
 
 Before proceeding to the next steps, setup vegalite repo too. 
 
@@ -49,7 +51,6 @@ All source code are under `src/`
 - `src/vendor` contains 
 
 
-
 @kanitw have create [`gulp/gen.js`](https://github.com/uwdata/vegalite-ui/blob/master/gulp/gen.js) for help generating angular components.  
 For example, you can run `gulp gen -d directiveName` and this would create all relevant files
 
@@ -58,7 +59,6 @@ For example, you can run `gulp gen -d directiveName` and this would create all r
 We use [sass](http://sass-lang.com) as it is a better syntax for css.
 
 Other common stylesheets that should be shared with https://github.com/uwdata/facetedviz should be under `src/assets/vlui-common.scss`
-
 
 
 ### Releasing / Github Pages
