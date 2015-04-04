@@ -1,7 +1,7 @@
 
 gitsha=$(git rev-parse HEAD)
 
-git clone git@github.com:uwdata/facetedviz.git gh-pages
+git clone git@github.com:uwdata/voyager.git gh-pages
 cd gh-pages
 git checkout gh-pages
 cd ..
