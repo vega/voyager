@@ -1,6 +1,6 @@
 gitsha=$(git rev-parse HEAD)
 
-git clone git@github.com:uwdata/vegalite-ui.git gh-pages
+git clone git@github.com:uwdata/polestar.git gh-pages
 cd gh-pages
 git checkout gh-pages
 cd ..
