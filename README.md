@@ -1,11 +1,13 @@
 # Pole✭ (Polestar) -- Alpha
 
 **PoleStar is an [alpha](http://en.wikipedia.org/wiki/Software_release_life_cycle#Alpha) software.
-We are working on improving the code and documentation on Polestar. The setup instructions are probably not working at this point.**
+We are working on improving the code and documentation on Polestar.** 
 
 Tableau-style User Interface for visual analysis, building on top of [Vegalite](https://github.com/uwdata/vegalite). Try our [demo](http://uwdata.github.io/polestar/). Also, be sure to check out [related projects](https://vega.github.io/).
 
 ## Development Setup Instruction
+
+**Warning: The setup instructions are probably not working at this point.**
 
 ### Directory Setup
 
