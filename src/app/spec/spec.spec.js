@@ -4,9 +4,9 @@
 describe('Service: Spec', function() {
 
   // load the service's module
-  beforeEach(module('vleApp'));
+  beforeEach(module('polestar'));
 
-  beforeEach(module('vleApp', function($provide) {
+  beforeEach(module('polestar', function($provide) {
     $provide.constant('vl', vl); // vl is loaded by karma
   }));
 

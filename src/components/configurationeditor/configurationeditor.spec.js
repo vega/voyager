@@ -3,12 +3,12 @@
 describe('Directive: configurationEditor', function() {
 
   // load the directive's module
-  beforeEach(module('vleApp'));
+  beforeEach(module('polestar'));
 
   var element,
     scope;
 
-  beforeEach(module('vleApp', function($provide) {
+  beforeEach(module('polestar', function($provide) {
     var mock = {};
     $provide.value('Config', mock);
   }));

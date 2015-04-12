@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('vleApp')
+angular.module('polestar')
   .filter('scaleType', function() {
     return function(input) {
       var scaleTypes = {

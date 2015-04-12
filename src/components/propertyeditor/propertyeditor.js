@@ -6,7 +6,7 @@
  * @description
  * # propertyEditor
  */
-angular.module('vleApp')
+angular.module('polestar')
   .directive('propertyEditor', function () {
     return {
       templateUrl: 'components/propertyeditor/propertyeditor.html',

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('vleApp')
+angular.module('polestar')
   .directive('alertMessages', function(Alerts) {
     return {
       templateUrl: 'components/alertmessages/alertmessages.html',

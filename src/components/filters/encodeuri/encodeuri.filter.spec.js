@@ -3,7 +3,7 @@
 describe('Filter: encodeURI', function () {
 
   // load the filter's module
-  beforeEach(module('vleApp'));
+  beforeEach(module('polestar'));
 
   // initialize a new instance of the filter before each test
   var encodeUri;

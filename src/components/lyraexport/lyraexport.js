@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('vleApp')
+angular.module('polestar')
   .directive('lyraExport', function() {
     return {
       template: '<a href="#" class="command" ng-click="export()">Export to lyra</a>',

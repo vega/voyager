@@ -2,12 +2,12 @@
 
 /**
  * @ngdoc service
- * @name vleApp.Pills
+ * @name polestar.Pills
  * @description
  * # Pills
- * Service in the vleApp.
+ * Service in the polestar.
  */
-angular.module('vleApp')
+angular.module('polestar')
   .service('Pills', function (vl, Spec, _, $window) {
     var encSchemaProps = vl.schema.schema.properties.enc.properties;
 

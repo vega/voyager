@@ -3,7 +3,7 @@
 describe('Directive: jsonInput', function() {
 
   // load the directive's module
-  beforeEach(module('vleApp'));
+  beforeEach(module('polestar'));
 
   var element,
     scope;
