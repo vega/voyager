@@ -40,7 +40,7 @@ angular.module('voyager', ['vleApp', 'ngAnimate', 'ngCookies', 'ngTouch', 'ngSan
     useUrl: true,
     numInitClusters: 9,
     numMoreClusters: 9,
-    logging: true,
+    logging: false,
     defaultConfigSet: 'small',
     appId: 'voyager',
     enableExclude: false
