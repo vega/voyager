@@ -2,11 +2,11 @@
 
 /**
  * @ngdoc filter
- * @name facetedviz.filter:reportUrl
+ * @name voyager.filter:reportUrl
  * @function
  * @description
  * # reportUrl
- * Filter in the facetedviz.
+ * Filter in the voyager.
  */
 angular.module('vleApp')
   .filter('reportUrl', function (compactJSONFilter, _, consts) {
@@ -39,7 +39,7 @@ angular.module('vleApp')
           url += typeProp + 'Recommender+Algorithm+(Visrec)&';
           break;
         case 'fv':
-          url += typeProp + 'Recommender+UI+(FacetedViz)&';
+          url += typeProp + 'Recommender+UI+(voyager)&';
           break;
 
       }

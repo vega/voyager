@@ -2,11 +2,11 @@
 
 /**
  * @ngdoc directive
- * @name facetedviz.directive:fieldList
+ * @name voyager.directive:fieldList
  * @description
  * # fieldList
  */
-angular.module('facetedviz')
+angular.module('voyager')
   .directive('fieldList', function (Dataset, Fields) {
     return {
       templateUrl: 'components/fieldlist/fieldlist.html',

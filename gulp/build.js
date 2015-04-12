@@ -19,7 +19,7 @@ gulp.task('partials', function () {
       quotes: true
     }))
     .pipe($.angularTemplatecache('templateCacheHtml.js', {
-      module: 'facetedviz'
+      module: 'voyager'
     }))
     .pipe(gulp.dest(paths.tmp + '/partials/'));
 });

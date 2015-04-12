@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('facetedviz')
+angular.module('voyager')
   .directive('fieldListItem', function(Dataset, Fields, consts) {
     return {
       templateUrl: 'components/fieldlistitem/fieldlistitem.html',

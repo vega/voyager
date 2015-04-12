@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('facetedviz')
+angular.module('voyager')
   .controller('MainCtrl', function($scope, $document, Chronicle, Visrec, Config, Dataset, Fields, Bookmarks, Logger, Drop, consts) {
 
     $scope.consts = consts;

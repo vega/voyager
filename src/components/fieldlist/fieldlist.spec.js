@@ -3,13 +3,13 @@
 describe('Directive: fieldList', function () {
 
   // load the directive's module
-  beforeEach(module('facetedviz'));
+  beforeEach(module('voyager'));
 
   var element,
     scope;
 
 
-  beforeEach(module('facetedviz', function($provide) {
+  beforeEach(module('voyager', function($provide) {
     var mockDataschema = [{
       name: 'a',
       type: 'Q',

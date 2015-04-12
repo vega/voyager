@@ -2,12 +2,12 @@
 
 /**
  * @ngdoc service
- * @name facetedviz.visrec
+ * @name voyager.visrec
  * @description
  * # visrec
- * Service in the facetedviz.
+ * Service in the voyager.
  */
-angular.module('facetedviz')
+angular.module('voyager')
   .service('Visrec', function (vr, vl, _, consts, Config, Dataset, Logger, Fields) {
     var Visrec = {
       /**
