@@ -7,7 +7,7 @@ gulp.paths = {
   dist: 'dist',
   tmp: '.tmp',
   e2e: 'e2e',
-  vlui: '../vegalite-ui/'
+  vlui: '../polestar/'
 };
 
 require('require-dir')('./gulp');
