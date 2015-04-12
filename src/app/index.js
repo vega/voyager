@@ -29,7 +29,7 @@ angular.module('vleApp', [
     addCount: true, // add count field to Dataset.dataschema
     debug: true,
     useUrl: true,
-    logging: true,
+    logging: false,
     defaultConfigSet: 'large',
     appId: 'polestar'
   })
