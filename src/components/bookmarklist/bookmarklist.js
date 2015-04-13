@@ -2,11 +2,11 @@
 
 /**
  * @ngdoc directive
- * @name vleApp.directive:bookmarkList
+ * @name polestar.directive:bookmarkList
  * @description
  * # bookmarkList
  */
-angular.module('vleApp')
+angular.module('polestar')
   .directive('bookmarkList', function (Bookmarks, consts) {
     return {
       templateUrl: 'components/bookmarklist/bookmarklist.html',

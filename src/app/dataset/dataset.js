@@ -62,7 +62,7 @@ function getNameMap(dataschema) {
   }, {});
 }
 
-angular.module('vleApp')
+angular.module('polestar')
   .factory('Dataset', function($http, Alerts, _, Papa, vl, consts) {
     var Dataset = {};
 

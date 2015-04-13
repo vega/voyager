@@ -3,7 +3,7 @@
 describe('Service: Bookmarks', function () {
 
   // load the service's module
-  beforeEach(module('vleApp'));
+  beforeEach(module('polestar'));
 
   // instantiate service
   var Bookmarks;

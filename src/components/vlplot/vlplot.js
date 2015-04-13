@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('vleApp')
+angular.module('polestar')
   .directive('vlPlot', function(vl, vg, $timeout, $q, Dataset, Config, consts, _, $document, Logger) {
     var counter = 0;
     var MAX_CANVAS_SIZE = 32767/2, MAX_CANVAS_AREA = 268435456/4;
