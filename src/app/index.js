@@ -1,7 +1,7 @@
 'use strict';
 /* globals window */
 
-angular.module('vleApp', [
+angular.module('polestar', [
     'zeroclipboard',
     'Chronicle',
     '720kb.tooltips',
@@ -23,7 +23,7 @@ angular.module('vleApp', [
     });
   }]);
 
-angular.module('voyager', ['vleApp', 'ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', 'ui.router'])
+angular.module('voyager', ['polestar', 'ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', 'ui.router'])
   .constant('_', window._)
   .constant('jQuery', window.$)
   .constant('vl', window.vl)

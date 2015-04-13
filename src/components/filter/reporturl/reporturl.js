@@ -8,7 +8,7 @@
  * # reportUrl
  * Filter in the voyager.
  */
-angular.module('vleApp')
+angular.module('polestar')
   .filter('reportUrl', function (compactJSONFilter, _, consts) {
     function voyagerReport(params) {
       var url = 'https://docs.google.com/forms/d/1T9ZA14F3mmzrHR7JJVUKyPXzrMqF54CjLIOjv2E7ZEM/viewform?';
