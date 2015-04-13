@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('vleApp')
+angular.module('polestar')
   .directive('functionSelect', function(_, vl, Pills, Logger) {
     return {
       templateUrl: 'components/functionselect/functionselect.html',

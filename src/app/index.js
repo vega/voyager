@@ -1,7 +1,7 @@
 'use strict';
 /* globals window */
 
-angular.module('vleApp', [
+angular.module('polestar', [
     'ngAnimate',
     'ngCookies',
     'ngSanitize',

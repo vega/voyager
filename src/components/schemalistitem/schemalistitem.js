@@ -2,11 +2,11 @@
 
 /**
  * @ngdoc directive
- * @name vleApp.directive:schemaListItem
+ * @name polestar.directive:schemaListItem
  * @description
  * # schemaListItem
  */
-angular.module('vleApp')
+angular.module('polestar')
   .directive('schemaListItem', function (Pills) {
     return {
       templateUrl: 'components/schemalistitem/schemalistitem.html',

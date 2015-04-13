@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('vleApp')
+angular.module('polestar')
   .filter('compactJSON', function() {
     return function(input) {
       return JSON.stringify(input, null, '  ', 80);

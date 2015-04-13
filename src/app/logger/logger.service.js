@@ -7,7 +7,7 @@
  * # logger
  * Service in the vegalite-ui.
  */
-angular.module('vleApp')
+angular.module('polestar')
   .service('Logger', function ($location, $window, $webSql, consts, Papa, Blob, URL) {
 
     var service = {};

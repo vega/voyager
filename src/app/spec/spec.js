@@ -2,12 +2,12 @@
 
 /**
  * @ngdoc service
- * @name vleApp.Spec
+ * @name polestar.Spec
  * @description
  * # Spec
- * Service in the vleApp.
+ * Service in the polestar.
  */
-angular.module('vleApp')
+angular.module('polestar')
   .service('Spec', function(_, vl, ZSchema, Alerts, Config, Dataset) {
     var Spec = {
       /** @type {Object} verbose spec edited by the UI */

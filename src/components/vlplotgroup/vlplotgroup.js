@@ -6,7 +6,7 @@
  * @description
  * # visListItem
  */
-angular.module('vleApp')
+angular.module('polestar')
   .directive('vlPlotGroup', function (Bookmarks, consts, vl, Dataset, Drop, Logger) {
 
     var debugPopup;

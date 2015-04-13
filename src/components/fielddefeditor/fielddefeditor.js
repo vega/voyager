@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('vleApp')
+angular.module('polestar')
   .directive('fieldDefEditor', function(Dataset, Pills, _, Drop, Logger) {
     return {
       templateUrl: 'components/fielddefeditor/fielddefeditor.html',

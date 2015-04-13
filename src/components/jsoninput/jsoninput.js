@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('vleApp')
+angular.module('polestar')
   .directive('jsonInput', function() {
     return {
       restrict: 'A',

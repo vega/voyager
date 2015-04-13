@@ -1,10 +1,10 @@
 {
-  "name": "vleApp",
+  "name": "polestar",
   "version": "0.0.0",
-  "description": "Faceted Search User Interface for Data Exploration",
+  "description": "Visualization specification interface.",
   "repository": {
     "type": "git",
-    "url": "https://github.com/uwdata/visrec.git"
+    "url": "https://github.com/uwdata/polestar.git"
   },
   "dependencies": {
     "stream-series": "^0.1.1"

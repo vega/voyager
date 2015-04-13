@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('vleApp')
+angular.module('polestar')
   .directive('datasetSelector', function(Dataset, Config, Spec, Logger) {
     return {
       templateUrl: 'components/datasetselector/datasetselector.html',

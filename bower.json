@@ -1,5 +1,5 @@
 {
-  "name": "vegalite-ui",
+  "name": "polestar",
   "version": "0.0.0",
   "dependencies": {
     "zeptojs": "~1.1.4",

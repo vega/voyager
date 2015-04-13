@@ -2,7 +2,7 @@
 
 // Service for the spec config.
 // We keep this separate so that changes are kept even if the spec changes.
-angular.module('vleApp')
+angular.module('polestar')
   .factory('Config', function(vl, _) {
     var Config = {};
 

@@ -3,12 +3,12 @@
 describe('Filter: reportUrl', function () {
 
   // load the filter's module
-  beforeEach(module('vleApp'));
+  beforeEach(module('polestar'));
 
   // initialize a new instance of the filter before each test
   var reportUrl;
 
-  beforeEach(module('vleApp', function($provide) {
+  beforeEach(module('polestar', function($provide) {
     $provide.constant('consts', {report: 'voyager'});
   }));
 

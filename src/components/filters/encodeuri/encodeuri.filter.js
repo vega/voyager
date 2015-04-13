@@ -8,7 +8,7 @@
  * # encodeUri
  * Filter in the vegalite-ui.
  */
-angular.module('vleApp')
+angular.module('polestar')
   .filter('encodeURI', function () {
     return function (input) {
       return window.encodeURI(input);
