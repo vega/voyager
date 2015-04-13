@@ -8,7 +8,7 @@
  * # underscore2space
  * Filter in the vegalite-ui.
  */
-angular.module('vleApp')
+angular.module('polestar')
   .filter('underscore2space', function () {
     return function (input) {
       return input ? input.replace(/_+/g, ' ') : '';

@@ -2,13 +2,13 @@
 
 /**
  * @ngdoc filter
- * @name facetedviz.filter:reportUrl
+ * @name voyager.filter:reportUrl
  * @function
  * @description
  * # reportUrl
- * Filter in the facetedviz.
+ * Filter in the voyager.
  */
-angular.module('vleApp')
+angular.module('polestar')
   .filter('reportUrl', function (compactJSONFilter, _, consts) {
     function voyagerReport(params) {
       var url = 'https://docs.google.com/forms/d/1T9ZA14F3mmzrHR7JJVUKyPXzrMqF54CjLIOjv2E7ZEM/viewform?';
@@ -39,7 +39,7 @@ angular.module('vleApp')
           url += typeProp + 'Recommender+Algorithm+(Visrec)&';
           break;
         case 'fv':
-          url += typeProp + 'Recommender+UI+(FacetedViz)&';
+          url += typeProp + 'Recommender+UI+(voyager)&';
           break;
 
       }

@@ -3,7 +3,7 @@
 describe('controllers', function(){
   var scope;
 
-  beforeEach(module('facetedviz'));
+  beforeEach(module('voyager'));
 
   beforeEach(inject(function($rootScope) {
     scope = $rootScope.$new();

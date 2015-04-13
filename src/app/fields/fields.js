@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('facetedviz')
+angular.module('voyager')
   .factory('Fields', function(_, Dataset, vl, vr, Logger){
 
     var Fields = {

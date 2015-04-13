@@ -2,11 +2,11 @@
 
 /**
  * @ngdoc directive
- * @name vleApp.directive:fieldInfo
+ * @name polestar.directive:fieldInfo
  * @description
  * # fieldInfo
  */
-angular.module('vleApp')
+angular.module('polestar')
   .directive('fieldInfo', function (Dataset, Drop) {
     return {
       templateUrl: 'components/fieldinfo/fieldinfo.html',

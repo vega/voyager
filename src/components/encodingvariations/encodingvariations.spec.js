@@ -3,13 +3,13 @@
 describe('Directive: encodingVariations', function () {
 
   // load the directive's module
-  beforeEach(module('facetedviz'));
+  beforeEach(module('voyager'));
 
   var element,
     scope;
 
 
-  beforeEach(module('facetedviz', function($provide) {
+  beforeEach(module('voyager', function($provide) {
     $provide.constant('vl', vl); // vl is loaded by karma
   }));
 

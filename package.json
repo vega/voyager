@@ -1,10 +1,10 @@
 {
-  "name": "facetedviz",
+  "name": "voyager",
   "version": "0.0.0",
   "description": "Faceted Search User Interface for Data Exploration",
   "repository": {
     "type": "git",
-    "url": "https://github.com/uwdata/visrec.git"
+    "url": "https://github.com/uwdata/voyager.git"
   },
   "dependencies": {
     "stream-series": "^0.1.1"

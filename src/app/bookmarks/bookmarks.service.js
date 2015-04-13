@@ -2,12 +2,12 @@
 
 /**
  * @ngdoc service
- * @name vleApp.Bookmarks
+ * @name polestar.Bookmarks
  * @description
  * # Bookmarks
- * Service in the vleApp.
+ * Service in the polestar.
  */
-angular.module('vleApp')
+angular.module('polestar')
   .service('Bookmarks', function (_, vl, localStorageService, Logger) {
     var Bookmarks = function (){
       this.dict = {};

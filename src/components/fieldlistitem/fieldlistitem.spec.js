@@ -3,12 +3,12 @@
 describe('Directive: fieldListItem', function() {
 
   // load the directive's module
-  beforeEach(module('facetedviz'));
+  beforeEach(module('voyager'));
 
   var element,
     scope;
 
-  beforeEach(module('facetedviz', function($provide) {
+  beforeEach(module('voyager', function($provide) {
     var mock = {
       schema: ['foo', 'bar', 'baz']
     };
