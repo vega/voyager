@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('polestar')
-  .service('Alerts', function($timeout) {
+  .service('Alerts', function($timeout, _) {
     var Alerts = {};
 
     Alerts.alerts = [];

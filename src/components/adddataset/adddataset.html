@@ -1,0 +1,26 @@
+<div>
+  <a class="open-dataset-popup">
+    <i class="fa fa-plus"></i> Add dataset
+  </a>
+  <div class="drop-container">
+    <div class="popup-menu popup-new-dataset">
+      <h3>Add a dataset</h3>
+      <p>
+        Add the name of the dataset and the URL to a <b>JSON</b> or <b>CSV</b> (with header) file.
+        Make sure that the formatting is correct and clean the data before adding it to Voyager.
+        The added dataset is only visible to you.
+      </p>
+      <form>
+        <div class="form-group">
+          <label for="dataset-name">Name</label>
+          <input ng-model="dataset.name" id="dataset-name" type="text"></input>
+        </div>
+        <div class="form-group">
+          <label for="dataset-url">URL</label>
+          <input ng-model="dataset.url" id="dataset-url" type="url"></input>
+        </div>
+        <button type="submit" ng-click="add(dataset)">Add dataset</button>
+      </form>
+    </div>
+  </div>
+</div>
