@@ -20,6 +20,7 @@ angular.module('voyager')
           Dataset.add(angular.copy(dataset));
           scope.dataset.name = '';
           scope.dataset.url = '';
+          funcsPopup.close();
         };
 
         var funcsPopup = new Drop({
@@ -30,6 +31,7 @@ angular.module('voyager')
         });
 
         scope.$on('$destroy', function() {
+          funcsPopup.destroy();
           funcsPopup = null;
         });
       }
