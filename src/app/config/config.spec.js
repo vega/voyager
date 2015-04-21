@@ -18,7 +18,7 @@ describe('Service: Config', function() {
   }));
 
   it('should have correct schema and config ', function() {
-    var schema = vl.schema.schema.properties.cfg,
+    var schema = vl.schema.schema.properties.config,
       config = vl.schema.util.instantiate(Config.schema);
 
     config.singleWidth = 500;

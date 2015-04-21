@@ -6,7 +6,7 @@ angular.module('polestar')
   .factory('Config', function(vl, _) {
     var Config = {};
 
-    Config.schema = vl.schema.schema.properties.cfg;
+    Config.schema = vl.schema.schema.properties.config;
     Config.config = vl.schema.util.instantiate(Config.schema);
 
     Config.getConfig = function() {
