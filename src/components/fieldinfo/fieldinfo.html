@@ -79,12 +79,12 @@
         </div>"
         tooltip-side="right"></i>
         <!--<strong>Skew:</strong> {{stats.skew | number:2}}<br>-->
-      <i ng-show="field.aggr === 'count'"
+      <i ng-if="field.aggr === 'count'"
         class="fa fa-info-circle"
         tooltips tooltip-size="small"
-        tooltip-title="
+        tooltip-content="
         <div class='tooltip-content'>
-          <strong>Count:</strong> {{stats}}
+          <strong>Count:</strong> {{count}}
         </div>"
         tooltip-side="right"></i>
     </span>

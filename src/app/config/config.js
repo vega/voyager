@@ -25,9 +25,9 @@ angular.module('polestar')
       return {};
     };
 
-    Config.updateDataset = function(dataset) {
+    Config.updateDataset = function(dataset, type) {
       Config.config.dataUrl = dataset.url;
-      Config.config.vegaServerTable = dataset.table;
+      Config.config.dataFormatType = type;
     };
 
     return Config;
