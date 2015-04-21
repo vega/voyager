@@ -165,7 +165,7 @@ angular.module('polestar')
             console.error('can not find vis element');
           }
 
-          var shorthand = scope.shorthand || (scope.vlSpec ? vl.Encoding.shorthandFromSpec(scope.vlSpec) : '');
+          var shorthand = scope.shorthand || (scope.vlSpec ? vl.Encoding.shorthand(scope.vlSpec) : '');
 
           scope.renderer = getRenderer(spec);
 
