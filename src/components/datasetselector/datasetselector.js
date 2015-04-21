@@ -16,7 +16,7 @@ angular.module('polestar')
           Logger.logInteraction(Logger.actions.DATASET_CHANGE, dataset.name);
 
           Dataset.update(dataset).then(function() {
-            Config.updateDataset(dataset);
+            Config.updateDataset(Dataset.dataset, Dataset.type);
             Spec.reset();
           });
         };
