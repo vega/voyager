@@ -99,7 +99,7 @@ angular.module('polestar')
         Spec.encoding = vl.Encoding.fromSpec(cleanSpec);
         Spec.vlSpec = Spec.encoding.toSpec(false);
         Spec.shorthand = Spec.encoding.toShorthand();
-        Spec.vgSpec = vl.compile(Spec.encoding, Dataset.stats);
+        Spec.vgSpec = vl.compile.encoding(Spec.encoding, Dataset.stats);
 
         // chart object to be bookmarked
         Spec.chart = {

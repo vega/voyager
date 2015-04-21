@@ -119,8 +119,7 @@ angular.module('polestar')
           var vlSpec = _.cloneDeep(scope.vlSpec);
           vl.merge(vlSpec.cfg, Config[configSet]());
 
-          var encoding = vl.Encoding.fromSpec(vlSpec);
-          return vl.compile(encoding, Dataset.stats);
+          return vl.compile(vlSpec, Dataset.stats);
         }
 
         function rescaleIfEnable() {
