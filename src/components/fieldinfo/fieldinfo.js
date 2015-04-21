@@ -28,6 +28,7 @@ angular.module('polestar')
 
         scope.typeNames = Dataset.typeNames;
         scope.stats = Dataset.stats[scope.field.name];
+        scope.count = Dataset.stats.count;
 
         scope.clicked = function($event){
           if(scope.action && $event.target !== element.find('.fa-caret-down')[0] &&
@@ -43,8 +44,6 @@ angular.module('polestar')
             (field._bin && 'bin') || (field._any && '-, sum');
         };
 
-
-
         scope.$watch('popupContent', function(popupContent) {
           if (!popupContent) { return; }
 
@@ -55,10 +54,6 @@ angular.module('polestar')
             openOn: 'click'
           });
         });
-      },
-      controller: function($scope, Dataset) {
-        var statsField = $scope.field.aggr === 'count' ? 'count' : $scope.field.name;
-        $scope.stats = Dataset.stats[statsField];
       }
     };
   });
