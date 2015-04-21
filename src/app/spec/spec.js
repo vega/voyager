@@ -59,6 +59,7 @@ angular.module('polestar')
       // we need to set the marktype because it doesn't have a default.
       spec.marktype = vl.schema.schema.properties.marktype.enum[0];
       spec.config = Config.config;
+      spec.data = Config.data;
       return spec;
     };
 

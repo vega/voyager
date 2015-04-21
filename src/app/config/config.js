@@ -7,10 +7,17 @@ angular.module('polestar')
     var Config = {};
 
     Config.schema = vl.schema.schema.properties.config;
+    Config.dataschema = vl.schema.schema.properties.data;
+
+    Config.data = vl.schema.util.instantiate(Config.dataschema);
     Config.config = vl.schema.util.instantiate(Config.schema);
 
     Config.getConfig = function() {
       return _.cloneDeep(Config.config);
+    };
+
+    Config.getData = function() {
+      return _.cloneDeep(Config.data);
     };
 
     Config.large = function() {
@@ -26,8 +33,8 @@ angular.module('polestar')
     };
 
     Config.updateDataset = function(dataset, type) {
-      Config.config.dataUrl = dataset.url;
-      Config.config.dataFormatType = type;
+      Config.data.url = dataset.url;
+      Config.data.formatType = type;
     };
 
     return Config;
