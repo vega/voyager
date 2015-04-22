@@ -2,6 +2,15 @@
   "name": "voyager",
   "version": "0.0.0",
   "description": "Faceted Search User Interface for Data Exploration",
+  "author": {
+    "name": "UW Interactive Data Lab",
+    "url": "http://idl.cs.washington.edu"
+  },
+  "collaborators": [
+    "Kanit Wongsuphasawat <kanitw@gmail.com> (http://kanitw.yellowpigz.com)",
+    "Dominik Moritz <domoritz@cs.washington.edu> (http://domoritz.de)",
+    "Jeffrey Heer <jheer@uw.edu> (http://jheer.org)"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/uwdata/voyager.git"
