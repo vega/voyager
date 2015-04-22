@@ -117,7 +117,7 @@ angular.module('polestar')
           var configSet = scope.configSet || consts.defaultConfigSet || {};
 
           var vlSpec = _.cloneDeep(scope.vlSpec);
-          vl.merge(vlSpec.cfg, Config[configSet]());
+          vl.merge(vlSpec.config, Config[configSet]());
 
           return vl.compile(vlSpec, Dataset.stats);
         }

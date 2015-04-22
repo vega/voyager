@@ -19,13 +19,13 @@ angular.module('polestar')
       }
 
       if (params.encoding) {
-        var encoding = _.omit(params.encoding, 'cfg');
+        var encoding = _.omit(params.encoding, 'config');
         encoding = encodeURI(compactJSONFilter(encoding));
         url += 'entry.1323680136=' + encoding + '&';
       }
 
       if (params.encoding2) {
-        var encoding2 = _.omit(params.encoding2, 'cfg');
+        var encoding2 = _.omit(params.encoding2, 'config');
         encoding2 = encodeURI(compactJSONFilter(encoding2));
         url += 'entry.853137786=' + encoding2 + '&';
       }
@@ -49,7 +49,7 @@ angular.module('polestar')
     function polestarReport(params) {
       var url = 'https://docs.google.com/forms/d/1xKs-qGaLZEUfbTmhdmSoS13OKOEpuu_NNWE5TAAml_Y/viewform?';
       if (params.encoding) {
-        var encoding = _.omit(params.encoding, 'cfg');
+        var encoding = _.omit(params.encoding, 'config');
         encoding = encodeURI(compactJSONFilter(encoding));
         url += 'entry.1245199477=' + encoding + '&';
       }

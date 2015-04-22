@@ -53,7 +53,7 @@
       </a>
       <a ng-if="showFilterNull && chart.vlSpec && toggleFilterNull.support(chart.vlSpec, Dataset.stats)"
         class="command" ng-click="toggleFilterNull(chart.vlSpec)"
-        ng-class='{active: chart.vlSpec && chart.vlSpec.cfg.filterNull.O}'>
+        ng-class='{active: chart.vlSpec && chart.vlSpec.config.filterNull.O}'>
         <i class="fa fa-filter"></i>
         <small ng-if="showLabel">Filter</small>
         <small>NULL</small>
