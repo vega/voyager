@@ -143,7 +143,10 @@ angular.module('voyager')
     };
 
     function genClusters(fieldSet) {
-      var encodings = vr.gen.encodings([], fieldSet, Dataset.stats, {}, Config.getConfig());
+      var encodings = vr.gen.encodings([], fieldSet, Dataset.stats, {
+        data: Config.getData(),
+        config: Config.getConfig()
+      });
 
       var clusters = vr.cluster(encodings)
         .map(function(cluster) {
