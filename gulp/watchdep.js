@@ -41,7 +41,7 @@ gulp.task('copyvlui', function() {
 
 // Visrec
 
-var vrPath = '../visrec/',
+var vrPath = '../compass/',
   vrWatchList = ['visrec.js'];
 
 gulp.task('watchvr', function(){
