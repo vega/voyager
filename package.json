@@ -16,6 +16,9 @@
     "Jeffrey Heer <jheer@uw.edu> (http://jheer.org)"
   ],
   "license": "BSD-3-Clause",
+  "scripts": {
+    "test": "gulp test"
+  },
   "dependencies": {
     "stream-series": "^0.1.1"
   },

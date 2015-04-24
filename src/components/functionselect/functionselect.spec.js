@@ -3,7 +3,9 @@
 describe('Directive: functionSelect', function() {
 
   // load the directive's module
-  beforeEach(module('polestar'));
+  beforeEach(module('polestar', function($provide) {
+    $provide.constant('vl', vl);
+  }));
 
   var element,
     scope;

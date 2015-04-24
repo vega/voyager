@@ -14,7 +14,7 @@ describe('Directive: vlPlot', function() {
       parse: {
         spec: function(spec, callback) {
           callback(function(opt) {
-            element.append('<div></div>');
+
             return {
               width: function() {},
               height: function() {},
@@ -31,10 +31,16 @@ describe('Directive: vlPlot', function() {
 
   beforeEach(inject(function($rootScope) {
     scope = $rootScope.$new();
+    scope.vlSpec = {
+      marktype:'point',
+      enc: {},
+      config:{}
+    };
+
   }));
 
   it('should attach visualization', inject(function($compile) {
-    element = angular.element('<vl-plot vg-spec="{}"></vl-plot>');
+    element = angular.element('<vl-plot vl-spec="{marktype:\'point\',enc: {}, config:{}}"></vl-plot>');
     element = $compile(element)(scope);
     scope.$digest();
     expect(element.find('div').length).toBe(1);

@@ -3,7 +3,9 @@
 describe('Directive: addDataset', function () {
 
   // load the directive's module
-  beforeEach(module('polestar'));
+  beforeEach(module('polestar', function($provide) {
+    $provide.constant('vl', vl);
+  }));
 
   var element,
     scope;
@@ -15,6 +17,7 @@ describe('Directive: addDataset', function () {
   it('should make hidden element visible', inject(function ($compile) {
     element = angular.element('<add-dataset></add-dataset>');
     element = $compile(element)(scope);
-    expect(element.text()).toBe('this is the addDataset directive');
+    scope.$digest();
+    expect(element.find('div').length).toBe(1);
   }));
 });
