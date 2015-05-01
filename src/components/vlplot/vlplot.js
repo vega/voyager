@@ -118,7 +118,7 @@ angular.module('polestar')
           var configSet = scope.configSet || consts.defaultConfigSet || {};
 
           var vlSpec = _.cloneDeep(scope.vlSpec);
-          vl.merge(vlSpec.cfg, Config[configSet]());
+          vl.merge(vlSpec.config, Config[configSet]());
 
           return vl.compile(vlSpec, Dataset.stats);
         }
@@ -232,9 +232,12 @@ angular.module('polestar')
 
         scope.$on('$destroy', function() {
           console.log('vlplot destroyed');
-          view.off('mouseover');
-          view.off('mouseout');
-          view = null;
+          if(view){
+            view.off('mouseover');
+            view.off('mouseout');
+            view = null;
+          }
+
           scope.destroyed = true;
           // FIXME another way that should eliminate things from memory faster should be removing
           // maybe something like
