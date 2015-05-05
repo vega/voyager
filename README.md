@@ -11,9 +11,9 @@ Tableau-style User Interface for visual analysis, building on top of [Vegalite](
 
 ### Directory Setup
 
-Create a folder `_visrec` somewhere you want to work in.  Then clone this repo and [vegalite](https://github.com/uwdata/vegalite) to be under `_visrec`.
+Create a folder `_visrec` somewhere you want to work in.  
+Then clone this repo and [vegalite](https://github.com/uwdata/vegalite) to be under `_visrec`.
 
-Before proceeding to the next steps, setup vegalite repo too. 
 
 ### Install Dependencies
 
@@ -29,8 +29,8 @@ npm install -g gulp
 Then install all the npm, bower dependencies:
 
 ```bash
-npm install --dev
-bower install --dev
+npm install
+bower install
 ```
 
 Now you should have all dependencies and should be ready to work. 
