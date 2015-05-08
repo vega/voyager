@@ -39,7 +39,7 @@ angular.module('voyager', ['polestar', 'ngAnimate', 'ngCookies', 'ngTouch', 'ngS
     debug: true,
     debugInList: false,
     useUrl: true,
-    numInitClusters: 9,
+    numInitClusters: 15,
     numMoreClusters: 9,
     logging: false,
     defaultConfigSet: 'small',
