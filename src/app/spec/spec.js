@@ -96,7 +96,7 @@ angular.module('polestar')
           msg: validator.getLastErrors()
         });
       } else {
-        vl.merge(cleanSpec.config, Config.large());
+        vl.extend(cleanSpec.config, Config.large());
         Spec.encoding = vl.Encoding.fromSpec(cleanSpec);
         Spec.vlSpec = Spec.encoding.toSpec(false);
         Spec.shorthand = Spec.encoding.toShorthand();
