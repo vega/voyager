@@ -63,7 +63,7 @@ function getNameMap(dataschema) {
 }
 
 angular.module('polestar')
-  .factory('Dataset', function($http, Alerts, _, Papa, vl, consts) {
+  .factory('Dataset', function($http, Alerts, _, Papa, dl, vl, consts) {
     var Dataset = {};
 
     var countField = vl.field.count();
@@ -84,6 +84,20 @@ angular.module('polestar')
     };
 
     Dataset.fieldOrder = vl.field.order.typeThenName;
+    Dataset.getSchema = function(data, order) {
+      var types = dl.read.types(data),
+        schema = _.reduce(types, function(s, type, name){
+          s.push({name: name, type: vl.data.types[type]});
+          return s;
+        }, []);
+
+      schema = dl.stablesort(schema, order || vl.field.order.typeThenName, vl.field.order.name);
+
+      if (consts.addCount) {
+        schema.push(countField);
+      }
+      return schema;
+    };
 
     // update the schema and stats
     Dataset.update = function(dataset) {
@@ -109,12 +123,7 @@ angular.module('polestar')
           }
         }
 
-        var dataschema = vl.data.getSchema(Dataset.data);
-        if (consts.addCount) {
-          dataschema.push(countField);
-        }
-
-        Dataset.dataschema = dataschema;
+        Dataset.dataschema = Dataset.getSchema(Dataset.data);
         Dataset.dataschema.byName = getNameMap(Dataset.dataschema);
         Dataset.stats = vl.data.getStats(Dataset.data);
 
