@@ -63,12 +63,31 @@ We use [sass](http://sass-lang.com) as it is a better syntax for css.
 
 Other common stylesheets that should be shared with https://github.com/uwdata/facetedviz should be under `src/assets/vlui-common.scss`
 
+#### Develop Polestar, Vegalite and Datalib together
+
+Polestar depends on [Datalib](https://github.com/uwdata/datalib) and [Vegalite](https://github.com/uwdata/vegalite).
+
+If you plan to make changes to datalib and test Vegalite without publishing / copying compiled datalib all the time, use [`bower link`](https://oncletom.io/2013/live-development-bower-component/).
+
+In both of your Datalib and Vegalite repositories, run  
+```
+bower link
+```.
+Then go to your Polestar directory and run
+```
+bower link datalib
+bower link vegalite
+```
+
+Now all the changes you make in Datalib and Vegalite are reflected in your Vegalite automatically.
+
+Since bower uses the compiled main file, make sure that both Vegalite and Datalib repos are compiled everytime you run `gulp serve` for Polestar.  Otherwise, you will get errors for missing `vl` or `dl`.   
 
 ### Releasing / Github Pages
 
 `gh-pages` branch is for releasing a stable version.
 `gh-pages` should only contain the dist folder.
 
-Use `deploy.sh` to deploy the current branch to gh-pages.
+Use `publish.sh` to (1) publish the current version to npm (2) deploy the current branch to gh-pages and (3) create a release tag for github and bower. 
 
 
