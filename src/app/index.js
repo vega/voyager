@@ -33,6 +33,7 @@ angular.module('voyager', ['polestar', 'ngAnimate', 'ngCookies', 'ngTouch', 'ngS
   .constant('Papa', window.Papa)
   .constant('Tether', window.Tether)
   .constant('Drop', window.Drop)
+  .constant('dl', window.dl)
   .constant('consts', {
     addCount: true, // add count field to Dataset.dataschema
     debug: true,
