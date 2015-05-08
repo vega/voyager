@@ -24,6 +24,7 @@ angular.module('polestar', [
   .constant('Drop', window.Drop)
   .constant('Blob', window.Blob)
   .constant('URL', window.URL)
+  .constant('dl', window.dl)
   .constant('jsondiffpatch', window.jsondiffpatch)
   .constant('consts', {
     addCount: true, // add count field to Dataset.dataschema
