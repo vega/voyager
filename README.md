@@ -70,10 +70,13 @@ Polestar depends on [Datalib](https://github.com/uwdata/datalib) and [Vegalite](
 If you plan to make changes to datalib and test Vegalite without publishing / copying compiled datalib all the time, use [`bower link`](https://oncletom.io/2013/live-development-bower-component/).
 
 In both of your Datalib and Vegalite repositories, run  
+
 ```
 bower link
-```.
+```
+
 Then go to your Polestar directory and run
+
 ```
 bower link datalib
 bower link vegalite
