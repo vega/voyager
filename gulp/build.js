@@ -94,4 +94,4 @@ gulp.task('clean', function (done) {
   $.del([paths.dist + '/', paths.tmp + '/'], done);
 });
 
-gulp.task('build', ['copydep', 'html', 'assets', 'data', 'fonts', 'misc', 'zeroclipboard']);
+gulp.task('build', ['html', 'assets', 'data', 'fonts', 'misc', 'zeroclipboard']);
