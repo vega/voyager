@@ -63,15 +63,16 @@ We use [sass](http://sass-lang.com) as it is a better syntax for css.
 
 Other common stylesheets that should be shared with https://github.com/uwdata/facetedviz should be under `src/assets/vlui-common.scss`
 
-#### Develop Polestar, Vegalite and Datalib together
+#### Develop Polestar with dependencies
 
-Polestar depends on [Datalib](https://github.com/uwdata/datalib) and [Vegalite](https://github.com/uwdata/vegalite).
+Polestar depends on [Datalib](https://github.com/uwdata/datalib), [Vegalite](https://github.com/uwdata/vegalite), and [Vegalite-ui](https://github.com/uwdata/vegalite-ui).
 
-If you plan to make changes to datalib and test Vegalite without publishing / copying compiled datalib all the time, use [`bower link`](https://oncletom.io/2013/live-development-bower-component/).
+If you plan to make changes to these dependencies and observe the changes without publishing / copying compiled datalib all the time, use [`bower link`](https://oncletom.io/2013/live-development-bower-component/).
 
-In both of your Datalib and Vegalite repositories, run  
+In each of your dependency repository, run  
 
 ```
+cd path/to/dependency-repo
 bower link
 ```
 
@@ -80,11 +81,13 @@ Then go to your Polestar directory and run
 ```
 bower link datalib
 bower link vegalite
+bower link vegalite-ui
 ```
 
-Now all the changes you make in Datalib and Vegalite are reflected in your Vegalite automatically.
+Now all the changes you make in each repo will be reflected in your Vegalite automatically.
 
-Since bower uses the compiled main file, make sure that both Vegalite and Datalib repos are compiled everytime you run `gulp serve` for Polestar.  Otherwise, you will get errors for missing `vl` or `dl`.   
+Since bower uses the compiled main file, make sure that each repos is compiled everytime you run `gulp serve` for Polestar.  
+Otherwise, you will get errors for missing libraries.   
 
 ### Releasing / Github Pages
 
