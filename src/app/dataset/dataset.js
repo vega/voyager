@@ -84,7 +84,7 @@ angular.module('polestar')
     };
 
     Dataset.fieldOrder = vl.field.order.typeThenName;
-    Dataset.getSchema = function(data, order) {
+    Dataset.getSchema = function(data, stats, order) {
       var types = dl.read.types(data),
         schema = _.reduce(types, function(s, type, name){
           s.push({name: name, type: vl.data.types[type]});
@@ -96,7 +96,27 @@ angular.module('polestar')
       if (consts.addCount) {
         schema.push(countField);
       }
+
+      schema.forEach(function(field) {
+        // if fewer than 2% of values or unique, assume the field to be ordinal,
+        // or <= 7 unique values
+        var profile = stats[field.name];
+        if (profile !== undefined && (field.type === 'Q' && profile.distinct <= 20 &&
+              (profile.distinct < (profile.count - profile.numNulls)/50 || profile.distinct <= 7))) {
+          field.type = 'O';
+        }
+      });
       return schema;
+    };
+
+    Dataset.getStats = function(data) {
+      // TODO add sampling back here, but that's less important for now
+      var summary = dl.summary(data);
+
+      return summary.reduce(function(s, profile) {
+        s[profile.field] = profile;
+        return s;
+      }, {count: data.length});
     };
 
     // update the schema and stats
@@ -123,19 +143,9 @@ angular.module('polestar')
           }
         }
 
-        Dataset.dataschema = Dataset.getSchema(Dataset.data);
+        Dataset.stats = Dataset.getStats(Dataset.data);
+        Dataset.dataschema = Dataset.getSchema(Dataset.data, Dataset.stats);
         Dataset.dataschema.byName = getNameMap(Dataset.dataschema);
-        Dataset.stats = vl.data.getStats(Dataset.data);
-
-        _.each(Dataset.dataschema, function(field) {
-          // if fewer than 2% of values or unique, assume the field to be ordinal,
-          // or <= 7 unique values
-          var stats = Dataset.stats[field.name];
-          if (stats !== undefined && (field.type === 'Q' && stats.distinct <= 20 &&
-                (stats.distinct < (stats.count - stats.numNulls)/50 || stats.distinct <= 7))) {
-            field.type = 'O';
-          }
-        });
       });
     };
 
