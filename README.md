@@ -28,7 +28,7 @@ npm install -g gulp
 
 Then install all the npm, bower dependencies:
 
-```bash
+```sh
 npm install
 bower install
 ```
