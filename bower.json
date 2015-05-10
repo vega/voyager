@@ -23,7 +23,10 @@
     "angular-local-storage": "~0.1.5",
     "drop": "~0.5.5",
     "angular-order-object-by": "~1.1.0",
-    "angular-websql": "~1.0.2"
+    "angular-websql": "~1.0.2",
+    "datalib": "~1.0.11",
+    "vegalite": "~0.6.5",
+    "viscompass": "*"
   },
   "devDependencies": {
     "angular-mocks": "~1.3.4"

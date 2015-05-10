@@ -11,6 +11,9 @@ gulp.task('watch', ['inject'], function () {
     paths.src + '/{app,components}/**/*.js',
     paths.src + '/{app,components}/**/*.html',
     paths.src + '/assets/*.scss',
+    paths.src + '/bower_components/vegalite/vegalite.js',
+    paths.src + '/bower_components/datalib/datalib.js',
+    paths.src + '/bower_components/viscompass/viscompass.js',
     'bower.json'
   ], ['inject']);
 });
