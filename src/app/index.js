@@ -2,6 +2,7 @@
 /* globals window */
 
 angular.module('polestar', [
+    'vlui',
     'zeroclipboard',
     'Chronicle',
     '720kb.tooltips',
@@ -16,14 +17,13 @@ angular.module('polestar', [
   .constant('Blob', window.Blob)
   .constant('URL', window.URL)
   .config(['uiZeroclipConfigProvider', function(uiZeroclipConfigProvider) {
-
     // config ZeroClipboard
     uiZeroclipConfigProvider.setZcConf({
       swfPath: 'bower_components/zeroclipboard/dist/ZeroClipboard.swf'
     });
   }]);
 
-angular.module('voyager', ['polestar', 'ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', 'ui.router'])
+angular.module('voyager', ['vlui', 'polestar', 'ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', 'ui.router'])
   .constant('_', window._)
   .constant('jQuery', window.$)
   .constant('vl', window.vl)
