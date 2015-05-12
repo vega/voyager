@@ -94,6 +94,10 @@ Otherwise, you will get errors for missing libraries.
 `gh-pages` branch is for releasing a stable version.
 `gh-pages` should only contain the dist folder.
 
-Use `publish.sh` to (1) publish the current version to npm (2) deploy the current branch to gh-pages and (3) create a release tag for github and bower. 
+Use `publish.sh` to:
+
+1. publish the current version to npm
+2. deploy the current branch to gh-pages and
+3. create a release tag for github and bower. 
 
 
