@@ -25,7 +25,7 @@ angular.module('polestar')
     Bookmarks.load();
 
     // initialize undo after we have a dataset
-    Dataset.initialize().then(function() {
+    Dataset.update(Dataset.dataset).then(function() {
       Config.updateDataset(Dataset.dataset);
 
       $scope.chron = Chronicle.record('Spec.spec', $scope, true,
