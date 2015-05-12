@@ -15,6 +15,15 @@
     "type": "git",
     "url": "https://github.com/uwdata/voyager.git"
   },
+  "author": {
+    "name": "UW Interactive Data Lab",
+    "url": "http://idl.cs.washington.edu"
+  },
+  "collaborators": [
+    "Dominik Moritz <domoritz@cs.washington.edu> (http://domoritz.de)",
+    "Kanit Wongsuphasawat <kanitw@gmail.com> (http://kanitw.yellowpigz.com)",
+    "Jeffrey Heer <jheer@uw.edu> (http://jheer.org)"
+  ],
   "dependencies": {
     "stream-series": "^0.1.1"
   },
