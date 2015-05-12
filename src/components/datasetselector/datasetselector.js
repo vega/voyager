@@ -10,11 +10,6 @@ angular.module('polestar')
       link: function postLink(scope , element/*, attrs*/) {
         scope.Dataset = Dataset;
 
-        // the dataset to add
-        scope.addedDataset = {
-          group: 'user'
-        };
-
         scope.datasetChanged = function() {
           if (!Dataset.dataset) {
             Dataset.dataset = Dataset.currentDataset;
@@ -30,13 +25,9 @@ angular.module('polestar')
           });
         };
 
-        scope.add = function(dataset) {
-          Dataset.dataset = Dataset.add(angular.copy(dataset));
-          scope.datasetChanged();
-
-          scope.addedDataset.name = '';
-          scope.addedDataset.url = '';
+        scope.doneAdd = function() {
           funcsPopup.close();
+          console.log('foo');
         };
 
         var funcsPopup = new Drop({
