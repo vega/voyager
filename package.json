@@ -6,6 +6,19 @@
     "type": "git",
     "url": "https://github.com/uwdata/polestar.git"
   },
+  "author": {
+    "name": "UW Interactive Data Lab",
+    "url": "http://idl.cs.washington.edu"
+  },
+  "collaborators": [
+    "Dominik Moritz <domoritz@cs.washington.edu> (http://domoritz.de)",
+    "Kanit Wongsuphasawat <kanitw@gmail.com> (http://kanitw.yellowpigz.com)",
+    "Jeffrey Heer <jheer@uw.edu> (http://jheer.org)"
+  ],
+  "license": "BSD-3-Clause",
+  "scripts": {
+    "test": "gulp test"
+  },
   "dependencies": {
     "stream-series": "^0.1.1"
   },

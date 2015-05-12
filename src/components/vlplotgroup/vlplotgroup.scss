@@ -75,6 +75,14 @@
 
 .vl-plot-group-header {
   margin-bottom: 5px;
+  display: flex;
+  .toolbox {
+    flex-grow: 0;
+    flex-shrink: 0;
+  }
+  .field-set-info {
+    flex-grow: 1;
+  }
 }
 
 .vl-plot-wrapper {

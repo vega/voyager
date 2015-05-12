@@ -43,7 +43,7 @@
         tooltip-content="
         <div class='tooltip-content'>
           <strong>Name:</strong> {{field.name}}<br>
-          <strong>Cardinality:</strong> {{stats.cardinality | number}}<br>
+          <strong>Cardinality:</strong> {{stats.distinct | number}}<br>
           <strong>Min:</strong> {{stats.min}}<br>
           <strong>Max:</strong> {{stats.max}}<br>
           <strong>Max length:</strong> {{stats.maxlength | number}}<br>
@@ -56,7 +56,7 @@
         tooltip-content="
         <div class='tooltip-content'>
           <strong>Name:</strong> {{field.name}}<br>
-          <strong>Cardinality:</strong> {{stats.cardinality | number}}<br>
+          <strong>Cardinality:</strong> {{stats.distinct | number}}<br>
           <strong>Min:</strong> {{stats.min | date: short}}<br>
           <strong>Max:</strong> {{stats.max | date: short}}<br>
           <strong>Sample:</strong> <span class='sample'>{{stats.sample.join(', ')}}</span>
@@ -68,7 +68,7 @@
         tooltip-content="
         <div class='tooltip-content'>
           <strong>Name:</strong> {{field.name}}<br>
-          <strong>Cardinality:</strong> {{stats.cardinality | number}}<br>
+          <strong>Cardinality:</strong> {{stats.distinct | number}}<br>
           <strong>Min:</strong> {{stats.min | number}}<br>
           <strong>Max:</strong> {{stats.max | number}}<br>
 

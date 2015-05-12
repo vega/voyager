@@ -1,8 +1,21 @@
 <div class="vl-plot-group card vflex">
   <div ng-show="showExpand || fieldSet || showBookmark || showToggle"
     class="vl-plot-group-header full-width no-shrink">
-    <div class="right">
-
+    <div class="field-set-info" >
+      <field-info ng-repeat="field in fieldSet"
+        ng-if="fieldSet"
+        field='field'
+        show-type='true'
+        ng-class="{
+          selected: alwaysSelected || (isSelected && isSelected(field.name)),
+          unselected: isSelected && !isSelected(field.name),
+          highlighted: (highlighted||{})[field.name]
+        }"
+        ng-mouseover="(highlighted||{})[field.name] = true"
+        ng-mouseout="(highlighted||{})[field.name] = false"
+      ></field-info>
+    </div>
+    <div class="toolbox">
       <a ng-show="consts.debug && showDebug"
         class="command debug">
         <i class="fa fa-wrench"></i>
@@ -76,19 +89,6 @@
         >
         <i class="fa fa-expand"></i>
       </a>
-    </div>
-    <div class="field-set-info" ng-if="fieldSet">
-      <field-info ng-repeat="field in fieldSet"
-        field='field'
-        show-type='true'
-        ng-class="{
-          selected: alwaysSelected || (isSelected && isSelected(field.name)),
-          unselected: isSelected && !isSelected(field.name),
-          highlighted: (highlighted||{})[field.name]
-        }"
-        ng-mouseover="(highlighted||{})[field.name] = true"
-        ng-mouseout="(highlighted||{})[field.name] = false"
-      ></field-info>
     </div>
   </div>
   <div class="vl-plot-wrapper full-width vis-{{fieldSet.key}} flex-grow-1">

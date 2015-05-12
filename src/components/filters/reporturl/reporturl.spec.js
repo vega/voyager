@@ -17,7 +17,7 @@ describe('Filter: reportUrl', function () {
   }));
 
   it('should return url for error report', function () {
-    expect(reportUrl({})).toBe('https://docs.google.com/forms/d/1T9ZA14F3mmzrHR7JJVUKyPXzrMqF54CjLIOjv2E7ZEM/viewform?');
+    expect(reportUrl({})).toBe('https://docs.google.com/forms/d/1xKs-qGaLZEUfbTmhdmSoS13OKOEpuu_NNWE5TAAml_Y/viewform?');
   });
 
 });

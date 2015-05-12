@@ -25,7 +25,10 @@
     "z-schema": "~3.4.3",
     "drop": "~0.5.5",
     "angular-order-object-by": "~1.1.0",
-    "angular-websql": "~1.0.2"
+    "angular-websql": "~1.0.2",
+    "vegalite": "~0.6.4",
+    "datalib": "~1.0.11",
+    "vegalite-ui": "https://github.com/uwdata/vegalite-ui"
   },
   "devDependencies": {
     "angular-mocks": "~1.3.4"

@@ -3,24 +3,30 @@
 describe('Directive: fieldDefEditor', function() {
 
   // load the directive's module
-  beforeEach(module('polestar'));
+  beforeEach(module('polestar', function($provide) {
+    $provide.constant('vl', vl);
+  }));
 
   var element,
     scope;
 
   beforeEach(module('polestar', function($provide) {
-    $provide.value('Dataset', {});
+    $provide.constant('Dataset', {
+      stats: {
+        a: {}
+      }
+    });
   }));
 
   beforeEach(inject(function($rootScope) {
     scope = $rootScope.$new();
     scope.encType = 'foobar';
     scope.enc = {'foobar': {}};
-    scope.schema = {};
+    // scope.schema = ;
   }));
 
   it('should show title', inject(function($compile) {
-    element = angular.element('<field-def-editor enc-type="encType" enc="enc" schema="schema"></field-def-editor>');
+    element = angular.element('<field-def-editor enc-type="encType" enc="enc" schema="{properties:{}}"></field-def-editor>');
     element = $compile(element)(scope);
     scope.$digest();
 

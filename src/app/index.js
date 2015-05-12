@@ -14,7 +14,8 @@ angular.module('polestar', [
     'LocalStorageModule',
     '720kb.tooltips',
     'ngOrderObjectBy',
-    'angular-websql'])
+    'angular-websql',
+    'vlui'])
   .constant('_', window._)
   .constant('vl', window.vl)
   .constant('vg', window.vg)
@@ -24,6 +25,7 @@ angular.module('polestar', [
   .constant('Drop', window.Drop)
   .constant('Blob', window.Blob)
   .constant('URL', window.URL)
+  .constant('dl', window.dl)
   .constant('jsondiffpatch', window.jsondiffpatch)
   .constant('consts', {
     addCount: true, // add count field to Dataset.dataschema
