@@ -2,7 +2,7 @@
 
 /**
  * @ngdoc directive
- * @name vegalite-ui.directive:propertyEditor
+ * @name vega-lite-ui.directive:propertyEditor
  * @description
  * # propertyEditor
  */

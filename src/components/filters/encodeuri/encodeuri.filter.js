@@ -2,11 +2,11 @@
 
 /**
  * @ngdoc filter
- * @name vegalite-ui.filter:encodeUri
+ * @name vega-lite-ui.filter:encodeUri
  * @function
  * @description
  * # encodeUri
- * Filter in the vegalite-ui.
+ * Filter in the vega-lite-ui.
  */
 angular.module('polestar')
   .filter('encodeURI', function () {

@@ -5,17 +5,17 @@
       <a ui-zeroclip zeroclip-model="Spec.shorthand">Copy</a>
     </div>
 
-    <h3>Vegalite Shorthand</h3>
+    <h3>Vega-lite Shorthand</h3>
     <input class="shorthand full-width" type="text" ng-model="Spec.shorthand"></input>
   </div>
 
   <div class="subpane flex-grow-1 vflex">
     <div>
-      <a ng-click="parseVegalite(Spec.vlSpec)" class="right command">Load</a>
+      <a ng-click="parseVega-lite(Spec.vlSpec)" class="right command">Load</a>
       <div class="right command">
         <a ui-zeroclip zeroclip-model="Spec.vlSpec | compactJSON">Copy</a>
       </div>
-      <h3>Vegalite Encoding</h3>
+      <h3>Vega-lite Encoding</h3>
     </div>
     <textarea class="vlspec flex-grow-1 full-height" json-input type="text" ng-model="Spec.vlSpec"></textarea>
   </div>

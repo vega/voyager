@@ -1,16 +1,19 @@
 # Pole✭ (Polestar) -- Alpha
 
-PoleStar is Tableau-style User Interface for visual analysis, building on top of [Vegalite](https://github.com/uwdata/vegalite). Try our [online demo](http://uwdata.github.io/polestar/). Also, be sure to check out [related projects](https://vega.github.io/).
+PoleStar is Tableau-style User Interface for visual analysis, building on top
+of [Vega-lite](https://github.com/uwdata/vega-lite). Try our [online
+demo](http://uwdata.github.io/polestar/). Also, be sure to check out [related
+projects](https://vega.github.io/).
 
 **PoleStar is an [alpha](http://en.wikipedia.org/wiki/Software_release_life_cycle#Alpha) software.
-We are working on improving the code and documentation on Polestar.** 
+We are working on improving the code and documentation on Polestar.**
 
 ## Development Setup Instruction
 
 ### Directory Setup
 
-Create a folder `_visrec` somewhere you want to work in.  
-Then clone this repo and [vegalite](https://github.com/uwdata/vegalite) to be under `_visrec`.
+Create a folder `_visrec` somewhere you want to work in.
+Then clone this repo and [vega-lite](https://github.com/uwdata/vega-lite) to be under `_visrec`.
 
 
 ### Install Dependencies
@@ -31,7 +34,7 @@ npm install
 bower install
 ```
 
-Now you should have all dependencies and should be ready to work. 
+Now you should have all dependencies and should be ready to work.
 
 ### Developing
 
@@ -40,7 +43,7 @@ If you edit any file, our gulp task runner should automatically refresh
 
 #### Folder Structure
 
-We try to follow [Google's Angular Best Practice for Angular App Structure](https://docs.google.com/document/d/1XXMvReO8-Awi1EZXAXS4PzDzdNvV6pGcuaF4Q9821Es/pub) and use [generator-gulp-angular](https://github.com/Swiip/generator-gulp-angular) to setup the project.  
+We try to follow [Google's Angular Best Practice for Angular App Structure](https://docs.google.com/document/d/1XXMvReO8-Awi1EZXAXS4PzDzdNvV6pGcuaF4Q9821Es/pub) and use [generator-gulp-angular](https://github.com/Swiip/generator-gulp-angular) to setup the project.
 
 All source code are under `src/`
 
@@ -48,11 +51,11 @@ All source code are under `src/`
 - `src/components` contains our other components
 - `src/components/filter` contains all filter
 - `src/assets/images/` contains relevant images
-- `src/data/` contains all data that we use in the application 
-- `src/vendor` contains 
+- `src/data/` contains all data that we use in the application
+- `src/vendor` contains
 
 
-@kanitw have create [`gulp/gen.js`](https://github.com/uwdata/vegalite-ui/blob/master/gulp/gen.js) for help generating angular components.  
+@kanitw have create [`gulp/gen.js`](https://github.com/uwdata/vega-lite-ui/blob/master/gulp/gen.js) for help generating angular components.
 For example, you can run `gulp gen -d directiveName` and this would create all relevant files
 
 #### stylesheet
@@ -63,11 +66,11 @@ Other common stylesheets that should be shared with https://github.com/uwdata/fa
 
 #### Develop Polestar with dependencies
 
-Polestar depends on [Datalib](https://github.com/uwdata/datalib), [Vegalite](https://github.com/uwdata/vegalite), and [Vegalite-ui](https://github.com/uwdata/vegalite-ui).
+Polestar depends on [Datalib](https://github.com/uwdata/datalib), [Vega-lite](https://github.com/uwdata/vega-lite), and [Vega-lite-ui](https://github.com/uwdata/vega-lite-ui).
 
 If you plan to make changes to these dependencies and observe the changes without publishing / copying compiled datalib all the time, use [`bower link`](https://oncletom.io/2013/live-development-bower-component/).
 
-In each of your dependency repository, run  
+In each of your dependency repository, run
 
 ```
 cd path/to/dependency-repo
@@ -78,14 +81,14 @@ Then go to your Polestar directory and run
 
 ```
 bower link datalib
-bower link vegalite
-bower link vegalite-ui
+bower link vega-lite
+bower link vega-lite-ui
 ```
 
-Now all the changes you make in each repo will be reflected in your Vegalite automatically.
+Now all the changes you make in each repo will be reflected in your Vega-lite automatically.
 
-Since bower uses the compiled main file, make sure that each repos is compiled everytime you run `gulp serve` for Polestar.  
-Otherwise, you will get errors for missing libraries.   
+Since bower uses the compiled main file, make sure that each repos is compiled everytime you run `gulp serve` for Polestar.
+Otherwise, you will get errors for missing libraries.
 
 ### Releasing / Github Pages
 
@@ -96,6 +99,6 @@ Use `publish.sh` to:
 
 1. publish the current version to npm
 2. deploy the current branch to gh-pages and
-3. create a release tag for github and bower. 
+3. create a release tag for github and bower.
 
 
