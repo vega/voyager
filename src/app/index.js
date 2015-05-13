@@ -44,7 +44,7 @@ angular.module('voyager', ['vlui', 'polestar', 'ngAnimate', 'ngCookies', 'ngTouc
     logging: false,
     defaultConfigSet: 'small',
     appId: 'voyager',
-    enableExclude: false
+    enableExclude: true
   })
   .config(function ($stateProvider, $urlRouterProvider) {
     $stateProvider
