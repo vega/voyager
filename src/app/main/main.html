@@ -14,14 +14,6 @@
               <i class="fa fa-wrench"></i>
             </a>
           </span>
-          <!-- <a
-            ng-click="Bookmarks.toggle(Spec.chart)"
-            ng-class="{disabled: !Spec.vlSpec.enc}">
-            <i class="fa fa-bookmark"></i>
-            <span ng-if="Bookmarks.dict[Spec.shorthand]"> Remove </span>
-            <span ng-if="!Bookmarks.dict[Spec.shorthand]"> Add </span>
-            Bookmark
-          </a> -->
           <a class="command" ng-click="showBookmark=true">
             <i class="fa fa-bookmark"></i>
             Bookmarks ({{Bookmarks.length}})
@@ -40,7 +32,6 @@
       <div class="card abs-100">
         <div class="right">
           <dataset-selector></dataset-selector>
-          <add-dataset></add-dataset>
         </div>
         <h2>Data</h2>
         <schema-list></schema-list>
