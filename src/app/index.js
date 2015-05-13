@@ -28,7 +28,7 @@ angular.module('voyager', ['vlui', 'polestar', 'ngAnimate', 'ngCookies', 'ngTouc
   .constant('jQuery', window.$)
   .constant('vl', window.vl)
   .constant('vg', window.vg)
-  .constant('vr', window.vr)
+  .constant('cp', window.cp)
   .constant('tv4', window.tv4)
   .constant('Papa', window.Papa)
   .constant('Tether', window.Tether)

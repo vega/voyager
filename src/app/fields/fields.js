@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('voyager')
-  .factory('Fields', function(_, Dataset, vl, vr, Logger){
+  .factory('Fields', function(_, Dataset, vl, cp, Logger){
 
     var Fields = {
       fields: {},
@@ -30,7 +30,7 @@ angular.module('voyager')
     Fields.update = function() {
       var list = Fields.getList();
       Fields.selected = list.filter(function(d) { return d.selected; });
-      Fields.selectedPKey = vr.gen.projections.key(Fields.selected);
+      Fields.selectedPKey = cp.gen.projections.key(Fields.selected);
 
       Logger.logInteraction(Logger.actions.FIELDS_CHANGE, {
         selected: Fields.selected,

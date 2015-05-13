@@ -8,7 +8,7 @@
  * Service in the voyager.
  */
 angular.module('voyager')
-  .service('Visrec', function (vr, vl, _, consts, Config, Dataset, Logger, Fields) {
+  .service('Visrec', function (cp, vl, _, consts, Config, Dataset, Logger, Fields) {
     var Visrec = {
       /**
        * List of all recommended projections based on the selection.
@@ -76,7 +76,7 @@ angular.module('voyager')
 
       // First create a projection
 
-      var projections = vr.gen.projections(fieldList, Dataset.stats,
+      var projections = cp.gen.projections(fieldList, Dataset.stats,
         {} || (Fields.selected.length === 0 ? initOpt : suggestionOpt));
 
       var aggregates = {}, fieldSetDict = {},
@@ -90,7 +90,7 @@ angular.module('voyager')
         var isExactMatch = pkey === Fields.selectedPKey;
         var opt =  isExactMatch ? exactMatchOpt :  Fields.selected.length === 0 ? initOpt : suggestionOpt;
 
-        aggregates[pkey] = vr.gen.aggregates([], projection, Dataset.stats, opt);
+        aggregates[pkey] = cp.gen.aggregates([], projection, Dataset.stats, opt);
 
         aggregates[pkey].forEach(function(fieldSet) {
           fieldSetDict[fieldSet.key] = fieldSet;
@@ -143,12 +143,12 @@ angular.module('voyager')
     };
 
     function genClusters(fieldSet) {
-      var encodings = vr.gen.encodings([], fieldSet, Dataset.stats, {
+      var encodings = cp.gen.encodings([], fieldSet, Dataset.stats, {
         data: Config.getData(),
         config: Config.getConfig()
       });
 
-      var clusters = vr.cluster(encodings)
+      var clusters = cp.cluster(encodings)
         .map(function(cluster) {
           return cluster.map(function(spec) {
             // auto sort
