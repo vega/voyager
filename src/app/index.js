@@ -10,6 +10,7 @@ angular.module('polestar', [
     'monospaced.elastic',
     'zeroclipboard',
     'ui.router',
+    'ui.select',
     'Chronicle',
     'LocalStorageModule',
     '720kb.tooltips',
@@ -33,7 +34,8 @@ angular.module('polestar', [
     useUrl: true,
     logging: false,
     defaultConfigSet: 'large',
-    appId: 'polestar'
+    appId: 'polestar',
+    myriaRest: 'http://ec2-52-1-38-182.compute-1.amazonaws.com:8753'
   })
   .config(function(uiZeroclipConfigProvider) {
     // config ZeroClipboard
