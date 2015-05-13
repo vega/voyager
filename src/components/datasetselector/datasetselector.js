@@ -34,7 +34,7 @@ angular.module('polestar')
           content: element.find('.popup-new-dataset')[0],
           target: element.find('.open-dataset-popup')[0],
           position: 'right top',
-          openOn: 'click'
+          openOn: false
         });
 
         scope.$on('$destroy', function() {

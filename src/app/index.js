@@ -10,6 +10,7 @@ angular.module('polestar', [
     'monospaced.elastic',
     'zeroclipboard',
     'ui.router',
+    'ui.select',
     'Chronicle',
     'LocalStorageModule',
     '720kb.tooltips',

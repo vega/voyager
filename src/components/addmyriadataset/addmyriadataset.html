@@ -1,29 +1,17 @@
 <div class="add-url-dataset">
 	<h3>Add a dataset from Myria</h3>
   <p>
-    Select a dataset from myria.
+    Select a dataset from the Myria instance at <code>{{myriaRestUrl}}</code>.
   </p>
   <form>
-  	<div class="form-group">
-      <label for="dataset-user">User</label>
-      <input ng-model="addedDataset.user" id="dataset-user" type="text"></input>
-    </div>
-    <div class="form-group">
-      <label for="dataset-program">Program</label>
-      <input ng-model="addedDataset.program" id="dataset-program" type="program"></input>
-    </div>
-    <div class="form-group">
-      <label for="dataset-relation">Relation</label>
-      <input ng-model="addedDataset.relation" id="dataset-relation" type="relation"></input>
-    </div>
-		<!-- <ui-select ng-model="myriaDataset" theme="select2" sortable="true">
+		<ui-select ng-model="$parent.myriaDataset" style="width: 300px" theme="selectize" ng-disabled="disabled" reset-search-input="false">
 	    <ui-select-match placeholder="Select dataset...">{{$select.selected.relationName}}</ui-select-match>
-	    <ui-select-choices id="dataset-name" ng-model="myriaDataset" repeat="dataset in myriaDatasets"
+	    <ui-select-choices id="dataset-name" repeat="dataset in myriaDatasets"
 	       refresh="loadDatasets($select.search)"
 	       refresh-delay="100">
-	       <div ng-bind-html="dataset.relationName | highlight: $select.search"></div>
+	       {{ dataset.userName}}:{{dataset.programName}}:{{dataset.relationName }}
 			</ui-select-choices>
-	  </ui-select> -->
-    <button type="submit" ng-click="add(addedDataset)">Add dataset</button>
+	  </ui-select>
+    <button type="submit" ng-click="add(myriaDataset)">Add dataset</button>
   </form>
 </div>
