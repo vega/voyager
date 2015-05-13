@@ -2,11 +2,11 @@
 
 /**
  * @ngdoc filter
- * @name vegalite-ui.filter:underscore2space
+ * @name vega-lite-ui.filter:underscore2space
  * @function
  * @description
  * # underscore2space
- * Filter in the vegalite-ui.
+ * Filter in the vega-lite-ui.
  */
 angular.module('polestar')
   .filter('underscore2space', function () {

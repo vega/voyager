@@ -2,7 +2,7 @@
 
 /**
  * @ngdoc directive
- * @name vegalite-ui.directive:visListItem
+ * @name vega-lite-ui.directive:visListItem
  * @description
  * # visListItem
  */

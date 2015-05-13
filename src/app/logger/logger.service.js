@@ -2,10 +2,10 @@
 
 /**
  * @ngdoc service
- * @name vegalite-ui.logger
+ * @name vega-lite-ui.logger
  * @description
  * # logger
- * Service in the vegalite-ui.
+ * Service in the vega-lite-ui.
  */
 angular.module('polestar')
   .service('Logger', function ($location, $window, $webSql, consts, Papa, Blob, URL) {
