@@ -11,7 +11,7 @@ angular.module('polestar')
     return {
       templateUrl: 'components/addurldataset/addurldataset.html',
       restrict: 'E',
-      replace: false,
+      replace: true,
       scope: false,  // use scope from datasetSeletor
       link: function postLink(scope/*, element, attrs*/) {
         // the dataset to add
