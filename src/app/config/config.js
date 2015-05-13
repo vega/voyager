@@ -33,8 +33,13 @@ angular.module('polestar')
     };
 
     Config.updateDataset = function(dataset, type) {
-      Config.data.url = dataset.url;
-      Config.data.formatType = type;
+      if (dataset.values) {
+        Config.data.values = dataset.values;
+        Config.data.formatType = undefined;
+      } else {
+        Config.data.url = dataset.url;
+        Config.data.formatType = type;
+      }
     };
 
     return Config;

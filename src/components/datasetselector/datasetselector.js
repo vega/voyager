@@ -27,7 +27,6 @@ angular.module('polestar')
 
         scope.doneAdd = function() {
           funcsPopup.close();
-          console.log('foo');
         };
 
         var funcsPopup = new Drop({
