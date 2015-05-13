@@ -7,14 +7,14 @@
  * # addMyriaDataset
  */
 angular.module('polestar')
-  .directive('addMyriaDataset', function ($http, Dataset) {
+  .directive('addMyriaDataset', function ($http, Dataset, consts) {
     return {
       templateUrl: 'components/addmyriadataset/addmyriadataset.html',
       restrict: 'E',
       replace: true,
       scope: false,  // use scope from datasetSeletor
       link: function postLink(scope/*, element, attrs*/) {
-        scope.myriaRestUrl = 'http://ec2-52-1-38-182.compute-1.amazonaws.com:8753';
+        scope.myriaRestUrl = consts.myriaRest;
 
         scope.myriaDatasets = [];
 
