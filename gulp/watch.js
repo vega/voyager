@@ -13,7 +13,7 @@ gulp.task('watch', ['inject'], function () {
     paths.src + '/assets/*.scss',
     paths.src + '/bower_components/vega-lite/vega-lite.js',
     paths.src + '/bower_components/datalib/datalib.js',
-    paths.src + '/bower_components/viscompass/viscompass.js',
+    paths.src + '/bower_components/viscompass/compass.js',
     paths.src + '/bower_components/vega-lite-ui/vlui.js',
     'bower.json'
   ], ['inject']);
