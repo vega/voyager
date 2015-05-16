@@ -10,12 +10,6 @@ We are working on improving the code and documentation on Polestar.**
 
 ## Development Setup Instruction
 
-### Directory Setup
-
-Create a folder `_visrec` somewhere you want to work in.
-Then clone this repo and [vega-lite](https://github.com/uwdata/vega-lite) to be under `_visrec`.
-
-
 ### Install Dependencies
 
 Make sure you have node.js. (We recommend using [homebrew](http://brew.sh) and simply run `brew install node`.)
