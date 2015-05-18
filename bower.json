@@ -28,7 +28,7 @@
     "angular-order-object-by": "~1.1.0",
     "angular-websql": "~1.0.2",
     "datalib": "~1.0.11",
-    "viscompass": "*",
+    "viscompass": "~0.5.2",
     "vega-lite": "~0.6.8",
     "vega-lite-ui": "~0.6.3"
   },
