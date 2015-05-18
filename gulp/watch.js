@@ -14,5 +14,5 @@ gulp.task('watch', ['inject'], function () {
     paths.src + '/bower_components/datalib/datalib.js',
     paths.src + '/bower_components/vega-lite-ui/vlui.js',
     'bower.json'
-  ], ['inject']);
+  ], ['inject', 'jshint']);
 });
