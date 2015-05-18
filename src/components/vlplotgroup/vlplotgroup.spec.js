@@ -1,5 +1,7 @@
 'use strict';
 
+/* global vl:true */
+
 describe('Directive: vlPlotGroup', function () {
 
   // load the directive's module
@@ -15,6 +17,7 @@ describe('Directive: vlPlotGroup', function () {
       parse: {
         spec: function(spec, callback) {
           callback(function(opt) {
+            // jshint unused:false
             element.append('<div></div>');
             return {
               width: function() {},

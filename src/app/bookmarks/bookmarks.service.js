@@ -8,31 +8,26 @@
  * Service in the polestar.
  */
 angular.module('polestar')
-  .service('Bookmarks', function (_, vl, localStorageService, Logger) {
-    var Bookmarks = function (){
+  .service('Bookmarks', function(_, vl, localStorageService, Logger) {
+    var Bookmarks = function() {
       this.dict = {};
       this.length = 0;
     };
-
-    function toShorthand(spec) {
-      // need to check if it's the initial point
-      return spec.enc ? vl.Encoding.fromSpec(spec).toShorthand() : '';
-    }
 
     var proto = Bookmarks.prototype;
 
     proto.updateLength = function() {
       this.length = Object.keys(this.dict).length;
-    }
+    };
 
     proto.save = function() {
       localStorageService.set('bookmarks', this.dict);
-    }
+    };
 
     proto.load = function() {
       this.dict = localStorageService.get('bookmarks') || {};
       this.updateLength();
-    }
+    };
 
     proto.clear = function() {
       this.dict = {};
@@ -40,7 +35,7 @@ angular.module('polestar')
       this.save();
 
       Logger.logInteraction(Logger.actions.BOOKMARKS_CLEAR);
-    }
+    };
 
     proto.toggle = function(chart) {
       var shorthand = chart.shorthand;

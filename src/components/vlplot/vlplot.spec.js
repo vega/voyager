@@ -1,4 +1,6 @@
-// 'use strict';
+'use strict';
+
+/* global vl:true */
 
 describe('Directive: vlPlot', function() {
 
@@ -14,6 +16,7 @@ describe('Directive: vlPlot', function() {
       parse: {
         spec: function(spec, callback) {
           callback(function(opt) {
+            // jshint unused:false
 
             return {
               width: function() {},

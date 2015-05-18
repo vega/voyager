@@ -1,5 +1,7 @@
 'use strict';
 
+/* global vl:true */
+
 describe('Service: Pills', function () {
 
   // load the service's module

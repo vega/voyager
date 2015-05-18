@@ -1,5 +1,7 @@
 'use strict';
 
+/* global vl:true */
+
 describe('Directive: fieldDefEditor', function() {
 
   // load the directive's module
@@ -42,18 +44,21 @@ describe('Directive: fieldDefEditor', function() {
     }));
 
     it('should show correct field name when dropped', inject(function($compile) {
+      // jshint unused:false
       //TODO
     }));
   });
 
   describe('shelfProperties', function() {
     it('should change properties correctly', inject(function($compile) {
+      // jshint unused:false
       //TODO
     }));
   });
 
   describe('shelfFunctions', function() {
     it('should change function correctly', inject(function($compile) {
+      // jshint unused:false
       //TODO
     }));
   });

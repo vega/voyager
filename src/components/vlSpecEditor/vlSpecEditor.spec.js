@@ -1,5 +1,7 @@
 'use strict';
 
+/* global vl:true */
+
 describe('Directive: vlSpecEditor', function() {
   // load the directive's module
   beforeEach(module('polestar'));

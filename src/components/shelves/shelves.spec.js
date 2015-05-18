@@ -1,5 +1,7 @@
 'use strict';
 
+/* global vl:true */
+
 describe('Directive: shelves', function() {
 
   // load the directive's module

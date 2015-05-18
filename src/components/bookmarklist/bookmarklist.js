@@ -18,6 +18,7 @@ angular.module('polestar')
         highlighted: '='
       },
       link: function postLink(scope, element, attrs) {
+        // jshint unused:false
         scope.Bookmarks = Bookmarks;
         scope.consts = consts;
       }

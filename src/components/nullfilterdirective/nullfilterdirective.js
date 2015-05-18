@@ -13,6 +13,7 @@ angular.module('polestar')
       restrict: 'E',
       scope: {},
       link: function postLink(scope, element, attrs) {
+        // jshint unused:false
         scope.Spec = Spec;
 
         scope.updateFilter = function() {

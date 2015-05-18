@@ -1,5 +1,7 @@
 'use strict';
 
+/* global vl:true */
+
 describe('Directive: bookmarkList', function () {
 
   // load the directive's module
@@ -10,7 +12,7 @@ describe('Directive: bookmarkList', function () {
     $provide.constant('vg', {
       parse: {
         spec: function(spec, callback) {
-          callback(function(opt) {
+          callback(function() {
             element.append('<div></div>');
             return {
               width: function() {},

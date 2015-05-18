@@ -1,5 +1,7 @@
 'use strict';
 
+/* global vl:true */
+
 describe('Directive: schemaListItem', function () {
 
   // load the directive's module
@@ -9,6 +11,7 @@ describe('Directive: schemaListItem', function () {
       parse: {
         spec: function(spec, callback) {
           callback(function(opt) {
+            // jshint unused:false
 
             return {
               width: function() {},

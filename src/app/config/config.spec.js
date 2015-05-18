@@ -1,8 +1,9 @@
 'use strict';
+/* global vl:true */
 
 describe('Service: Config', function() {
 
-  var deferred, Config, scope;
+  var Config, scope;
 
   // load the service's module
   beforeEach(module('polestar'));

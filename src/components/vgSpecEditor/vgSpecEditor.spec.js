@@ -1,5 +1,7 @@
 'use strict';
 
+/* global vl:true */
+
 describe('Directive: vgSpecEditor', function() {
 
   // load the directive's module
