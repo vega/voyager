@@ -36,14 +36,14 @@
       </a>
     </span>
 
-    <span class="no-shrink info" ng-show="showInfo">
+   <span class="no-shrink info" ng-show="showInfo">
       <i ng-if="field.aggr !== 'count' && field.type === 'O'"
         class="fa fa-info-circle"
         tooltips tooltip-size="small"
         tooltip-content="
         <div class='tooltip-content'>
           <strong>Name:</strong> {{field.name}}<br>
-          <strong>Cardinality:</strong> {{stats.cardinality | number}}<br>
+          <strong>Cardinality:</strong> {{stats.distinct | number}}<br>
           <strong>Min:</strong> {{stats.min}}<br>
           <strong>Max:</strong> {{stats.max}}<br>
           <strong>Max length:</strong> {{stats.maxlength | number}}<br>
@@ -56,7 +56,7 @@
         tooltip-content="
         <div class='tooltip-content'>
           <strong>Name:</strong> {{field.name}}<br>
-          <strong>Cardinality:</strong> {{stats.cardinality | number}}<br>
+          <strong>Cardinality:</strong> {{stats.distinct | number}}<br>
           <strong>Min:</strong> {{stats.min | date: short}}<br>
           <strong>Max:</strong> {{stats.max | date: short}}<br>
           <strong>Sample:</strong> <span class='sample'>{{stats.sample.join(', ')}}</span>
@@ -68,7 +68,7 @@
         tooltip-content="
         <div class='tooltip-content'>
           <strong>Name:</strong> {{field.name}}<br>
-          <strong>Cardinality:</strong> {{stats.cardinality | number}}<br>
+          <strong>Cardinality:</strong> {{stats.distinct | number}}<br>
           <strong>Min:</strong> {{stats.min | number}}<br>
           <strong>Max:</strong> {{stats.max | number}}<br>
 
@@ -79,12 +79,12 @@
         </div>"
         tooltip-side="right"></i>
         <!--<strong>Skew:</strong> {{stats.skew | number:2}}<br>-->
-      <i ng-show="field.aggr === 'count'"
+      <i ng-if="field.aggr === 'count'"
         class="fa fa-info-circle"
         tooltips tooltip-size="small"
-        tooltip-title="
+        tooltip-content="
         <div class='tooltip-content'>
-          <strong>Count:</strong> {{stats}}
+          <strong>Count:</strong> {{count}}
         </div>"
         tooltip-side="right"></i>
     </span>
