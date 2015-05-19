@@ -13,6 +13,7 @@ gulp.task('styles', function () {
   };
 
   var injectFiles = gulp.src([
+    'bower_components/vega-lite-ui/vlui.scss',
     paths.src + '/{app,components}/**/*.scss',
     '!' + paths.src + '/app/index.scss',
     '!' + paths.src + '/app/vendor.scss'
