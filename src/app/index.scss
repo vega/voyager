@@ -1,14 +1,12 @@
 // FIXME should use normalize.scss version instead
 // but I got some errors so I don't want to spend too much time here now.
 @import "../assets/normalize.scss";
-@import "../assets/vlui-common.scss";
 
 // injector
 // endinjector
 
 $fa-font-path: "../../bower_components/fontawesome/fonts";
 @import "../../bower_components/fontawesome/scss/font-awesome.scss";
-
 @import "../../bower_components/angular-tooltips/dist/angular-tooltips";
 
 .top{
