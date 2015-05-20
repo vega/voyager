@@ -1,5 +1,5 @@
 'use strict';
-
+/* global vl:true */
 describe('Directive: datasetSelector', function() {
 
   // load the directive's module
@@ -12,7 +12,9 @@ describe('Directive: datasetSelector', function() {
     var mockDataset = {
       datasets: [{name: 'foo'}, {name: 'bar'}],
       dataset: null,
-      update: function(dataset) {}
+      update: function(dataset) {
+        // jshint unused:false
+      }
     };
     mockDataset.dataset = mockDataset.datasets[0];
 

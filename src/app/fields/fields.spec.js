@@ -1,5 +1,7 @@
 'use strict';
 
+/* global vl:true */
+
 describe('Service: Fields', function() {
   // load the service's module
   beforeEach(module('voyager'));
