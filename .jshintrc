@@ -7,39 +7,22 @@
   "node":    true,
   "browser": true,
   "mocha": true,
-  "globalstrict":true ,
-  "browser": true,
-  "node": true,
-  "esnext": true,
-  "bitwise": true,
-  "camelcase": true,
-  "curly": true,
-  "eqeqeq": true,
-  "immed": true,
+  "globalstrict":true,
   "indent": 2,
-  "latedef": true,
-  "newcap": true,
-  "noarg": true,
   "quotmark": "single",
-  "regexp": true,
   "undef": true,
-  "unused": true,
-  "strict": true,
-  "trailing": true,
-  "smarttabs": true,
-  "white": true,
-  "validthis": true,
   "globals": {
     "angular": false,
     // Angular Mocks
     "inject": false,
+    // assert
+    "expect": false,
     // JASMINE
     "describe": false,
     "it": false,
     "before": false,
     "beforeEach": false,
     "after": false,
-    "afterEach": false,
-    "expect": false
+    "afterEach": false
   }
 }
