@@ -21,7 +21,6 @@
     "topojson": "~1.6.18",
     "fontawesome": "~4.3.0",
     "chronicle": "~1.0.9",
-    "tether": "~0.6.5",
     "jsondiffpatch": "~0.1.27",
     "angular-tooltips": "~0.1.8",
     "z-schema": "~3.4.3",
