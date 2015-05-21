@@ -12,6 +12,7 @@ angular.module('polestar')
 
         scope.datasetChanged = function() {
           if (!Dataset.dataset) {
+            // reset if no dataset has been set
             Dataset.dataset = Dataset.currentDataset;
             funcsPopup.open();
             return;
