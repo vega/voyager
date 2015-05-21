@@ -27,7 +27,8 @@ angular.module('polestar')
             });
         };
 
-        scope.add = function(myriaDataset) {
+        // need to give this a unique name because we share the namespace
+        scope.addFromMyria = function(myriaDataset) {
           var dataset = {
             group: 'myria',
             name: myriaDataset.relationName,
@@ -36,6 +37,7 @@ angular.module('polestar')
               '/relation-' + myriaDataset.relationName + '/data?format=json'
           };
 
+          Dataset.type = 'json';
           Dataset.dataset = Dataset.add(angular.copy(dataset));
           scope.datasetChanged();
 
