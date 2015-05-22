@@ -1,5 +1,7 @@
 'use strict';
 
+/* global vl:true */
+
 describe('Service: Visrec', function () {
 
   // load the service's module
