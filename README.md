@@ -8,7 +8,7 @@ projects](https://vega.github.io/).
 **This project is an [alpha](http://en.wikipedia.org/wiki/Software_release_life_cycle#Alpha) software.
 We are working on improving its code and documentation.**
 
-If you are using Polestar for your project(s), please let us know by emailing us at [Vega-lite \[at\] cs.washington.edu](mailto:vega-lite@cs.washington.edu).  Feedbacks are also welcomed.
+If you are using Polestar for your project(s), please let us know what are you using it for by emailing us at [Vega-lite \[at\] cs.washington.edu](mailto:vega-lite@cs.washington.edu).  Feedbacks are also welcomed.
 If you find a bug or have a feature request, please [create an issue](https://github.com/uwdata/polestar/issues/new).
 
 ## Setup Instruction
