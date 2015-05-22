@@ -12,9 +12,11 @@ describe('Directive: addMyriaDataset', function () {
     scope = $rootScope.$new();
   }));
 
-  it('should make hidden element visible', inject(function ($compile) {
+  it('should show correct form', inject(function ($compile) {
     element = angular.element('<add-myria-dataset></add-myria-dataset>');
     element = $compile(element)(scope);
-    expect(element.text()).toBe('this is the addMyriaDataset directive');
+
+    scope.$digest();
+    expect(element.find('button').length).toBe(1);
   }));
 });

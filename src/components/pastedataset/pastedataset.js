@@ -17,7 +17,8 @@ angular.module('polestar')
         scope.datasetName = '';
         scope.data = '';
 
-        scope.add = function() {
+        // need to give this a unique name because we share the namespace
+        scope.addPasted = function() {
           var data;
 
           var result = Papa.parse(scope.data, {

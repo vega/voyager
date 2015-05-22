@@ -7,6 +7,7 @@ describe('Directive: fieldDefEditor', function() {
   // load the directive's module
   beforeEach(module('polestar', function($provide) {
     $provide.constant('vl', vl);
+    $provide.constant('Drop', function() {});
   }));
 
   var element,

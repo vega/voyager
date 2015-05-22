@@ -12,9 +12,12 @@ describe('Directive: addUrlDataset', function () {
     scope = $rootScope.$new();
   }));
 
-  it('should make hidden element visible', inject(function ($compile) {
+  it('should show correct form', inject(function ($compile) {
     element = angular.element('<add-url-dataset></add-url-dataset>');
     element = $compile(element)(scope);
-    expect(element.text()).toBe('this is the addUrlDataset directive');
+
+    scope.$digest();
+    expect(element.find('#dataset-url').length).toBe(1);
+    expect(element.find('#dataset-name').length).toBe(1);
   }));
 });

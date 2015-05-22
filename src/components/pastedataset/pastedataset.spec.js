@@ -12,9 +12,12 @@ describe('Directive: pasteDataset', function () {
     scope = $rootScope.$new();
   }));
 
-  it('should make hidden element visible', inject(function ($compile) {
+  it('should show correct form', inject(function ($compile) {
     element = angular.element('<paste-dataset></paste-dataset>');
     element = $compile(element)(scope);
-    expect(element.text()).toBe('this is the pasteDataset directive');
+
+    scope.$digest();
+    expect(element.find('textarea').length).toBe(1);
+    expect(element.find('#dataset-name').length).toBe(1);
   }));
 });

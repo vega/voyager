@@ -19,7 +19,8 @@ angular.module('polestar')
           group: 'user'
         };
 
-        scope.add = function(dataset) {
+        // need to give this a unique name because we share the namespace
+        scope.addFromUrl = function(dataset) {
           Dataset.dataset = Dataset.add(angular.copy(dataset));
           scope.datasetChanged();
 

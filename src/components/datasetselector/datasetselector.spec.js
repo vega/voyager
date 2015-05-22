@@ -4,7 +4,9 @@
 describe('Directive: datasetSelector', function() {
 
   // load the directive's module
-  beforeEach(module('polestar'));
+  beforeEach(module('polestar', function($provide) {
+    $provide.constant('Drop', function() {});
+  }));
 
   var element,
     scope;
@@ -32,13 +34,14 @@ describe('Directive: datasetSelector', function() {
     scope = $rootScope.$new();
   }));
 
-  it('should make hidden element visible', inject(function($compile) {
+  it('should add correct options', inject(function($compile) {
     element = angular.element('<dataset-selector></dataset-selector>');
     element = $compile(element)(scope);
     scope.$digest();
 
-    expect(element.find('option').length).toBe(2);
-    expect(element.find('option:first').attr('label')).toBe('foo');
-    expect(element.find('option:nth-child(2)').attr('label')).toBe('bar');
+    expect(element.find('option').length).toBe(3);
+    expect(element.find('option:first').attr('label')).toBe(undefined);
+    expect(element.find('option:nth-child(2)').attr('label')).toBe('foo');
+    expect(element.find('option:nth-child(3)').attr('label')).toBe('bar');
   }));
 });
