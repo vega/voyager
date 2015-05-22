@@ -5,6 +5,7 @@ cd gh-pages
 git checkout gh-pages
 cd ..
 gulp
+rm -rf dist/.git
 mv gh-pages/.git dist
 rm -rf gh-pages
 cd dist
