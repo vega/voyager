@@ -37,7 +37,7 @@ angular.module('voyager', ['vlui', 'polestar', 'ngAnimate', 'ngCookies', 'ngTouc
   .constant('consts', {
     addCount: true, // add count field to Dataset.dataschema
     debug: true,
-    debugInList: false,
+    debugInList: true,
     useUrl: true,
     numInitClusters: 15,
     numMoreClusters: 9,
