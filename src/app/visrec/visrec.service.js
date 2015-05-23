@@ -13,13 +13,13 @@ angular.module('voyager')
       /**
        * List of all recommended projections based on the selection.
        * Array of fieldSet (Array of Field without transformation)
-       * projections = [ fieldSet (without aggr) ]
+       * projections = [ fieldSet (without aggregate) ]
        */
       projections: [],
 
       /**
        * Dictionary: projection key => a list of aggregated table
-       * aggregates[pkey] = [ fieldSet (with aggr) ]
+       * aggregates[pkey] = [ fieldSet (with aggregate) ]
        */
       aggregates: {},
 
