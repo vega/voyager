@@ -30,7 +30,7 @@ describe('Service: Spec', function() {
       it('should be cleaned', function() {
         var spec = vl.schema.instantiate();
         Spec._removeEmptyFieldDefs(spec);
-        expect(vl.keys(spec.enc).length).toBe(3);  // color, size, shape
+        expect(vl.keys(spec.encoding).length).toBe(3);  // color, size, shape
       });
     });
   });

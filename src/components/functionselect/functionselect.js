@@ -37,8 +37,8 @@ angular.module('polestar')
             return [COUNT];
           }
 
-          if (schema.aggr && (!schema.aggr.supportedTypes || schema.aggr.supportedTypes[type])){
-            return (schema.aggr.supportedEnums ? schema.aggr.supportedEnums[type] : schema.aggr.enum) || [];
+          if (schema.aggregate && (!schema.aggregate.supportedTypes || schema.aggregate.supportedTypes[type])){
+            return (schema.aggregate.supportedEnums ? schema.aggregate.supportedEnums[type] : schema.aggregate.enum) || [];
           }
           return [];
         }
@@ -61,7 +61,7 @@ angular.module('polestar')
           // reset field def
           // HACK: we're temporarily storing the maxbins in the pill
           pill.bin = selectedFunc === BIN ? {maxbins: maxbins || vl.schema.MAXBINS_DEFAULT} : undefined;
-          pill.aggr = getAggrs(type).indexOf(selectedFunc) !== -1 ? selectedFunc : undefined;
+          pill.aggregate = getAggrs(type).indexOf(selectedFunc) !== -1 ? selectedFunc : undefined;
           pill.fn = getFns(type).indexOf(selectedFunc) !== -1 ? selectedFunc : undefined;
 
           if(!_.isEqual(oldPill, pill)){
@@ -88,7 +88,7 @@ angular.module('polestar')
           var isOrdinalShelf = ['row','col','shape'].indexOf(scope.encType) !== -1,
             isQ = type==='Q', isT = type==='T';
 
-          if(pill.name==='*' && pill.aggr===COUNT){
+          if(pill.name==='*' && pill.aggregate===COUNT){
             scope.func.list=[COUNT];
             scope.func.selected = COUNT;
           } else {
@@ -102,7 +102,7 @@ angular.module('polestar')
             )|| RAW;
 
             var selected = pill.bin ? 'bin' :
-              pill.aggr || pill.fn ||
+              pill.aggregate || pill.fn ||
               defaultVal;
 
             if (scope.func.list.indexOf(selected) >= 0) {

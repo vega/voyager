@@ -23,7 +23,7 @@ angular.module('polestar')
     };
 
     Spec._removeEmptyFieldDefs = function(spec) {
-      spec.enc = _.omit(spec.enc, function(fieldDef) {
+      spec.encoding = _.omit(spec.encoding, function(fieldDef) {
         return !fieldDef || (fieldDef.name === undefined && fieldDef.value === undefined);
       });
     };
@@ -79,8 +79,8 @@ angular.module('polestar')
       deleteNulls(cleanSpec);
 
       // we may have removed enc
-      if (!('enc' in cleanSpec)) {
-        cleanSpec.enc = {};
+      if (!('encoding' in cleanSpec)) {
+        cleanSpec.encoding = {};
       }
       var validator = new ZSchema();
 
@@ -104,7 +104,7 @@ angular.module('polestar')
 
         // chart object to be bookmarked
         Spec.chart = {
-          fieldSet: _.values(Spec.vlSpec.enc), // FIXME order
+          fieldSet: _.values(Spec.vlSpec.encoding), // FIXME order
           vlSpec: Spec.spec,
           vgSpec: Spec.vgSpec,
           shorthand: Spec.shorthand
