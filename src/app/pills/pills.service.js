@@ -9,7 +9,7 @@
  */
 angular.module('polestar')
   .service('Pills', function (vl, Spec, _, $window) {
-    var encSchemaProps = vl.schema.schema.properties.enc.properties;
+    var encSchemaProps = vl.schema.schema.properties.encoding.properties;
 
     function instantiate(encType) {
       return vl.schema.util.instantiate(encSchemaProps[encType]);
@@ -23,7 +23,7 @@ angular.module('polestar')
       return {
         name: field.name,
         type: field.type,
-        aggr: field.aggr
+        aggregate: field.aggregate
       };
     };
 
@@ -36,11 +36,11 @@ angular.module('polestar')
 
       // auto cast binning / time binning for dimension only encoding type.
       if (pill.name && dimensionOnly) {
-        if (pill.aggr==='count') {
+        if (pill.aggregate==='count') {
           pill = {};
           $window.alert('COUNT not supported here!');
         } else if (type==='Q' && !pill.bin) {
-          pill.aggr = undefined;
+          pill.aggregate = undefined;
           pill.bin = {maxbins: vl.schema.MAXBINS_DEFAULT};
         } else if(type==='T' && !pill.fn) {
           pill.fn = vl.schema.defaultTimeFn;
@@ -72,11 +72,11 @@ angular.module('polestar')
 
     Pills.remove = function (encType) {
       delete Pills.pills[encType];
-      updateFieldDef(Spec.spec.enc, {}, encType); // remove all pill detail from the fieldDef
+      updateFieldDef(Spec.spec.encoding, {}, encType); // remove all pill detail from the fieldDef
     };
 
     Pills.update = function (encType) {
-      updateFieldDef(Spec.spec.enc, Pills.pills[encType], encType);
+      updateFieldDef(Spec.spec.encoding, Pills.pills[encType], encType);
     };
 
     Pills.dragStart = function (pill, encType) {
@@ -89,7 +89,7 @@ angular.module('polestar')
     };
 
     Pills.dragDrop = function (etDragTo) {
-      var enc = _.clone(Spec.spec.enc),
+      var enc = _.clone(Spec.spec.encoding),
         etDragFrom = Pills.pills.etDragFrom;
       // update the clone of the enc
       // console.log('dragDrop', enc, Pills, 'from:', etDragFrom, Pills.pills[etDragFrom]);
@@ -106,7 +106,7 @@ angular.module('polestar')
       //   'to:', etDragTo, Pills.pills[etDragTo], enc[etDragTo]);
 
       // Finally, update the enc only once to prevent glitches
-      Spec.spec.enc = enc;
+      Spec.spec.encoding = enc;
       etDragFrom = null;
     };
 
