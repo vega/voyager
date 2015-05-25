@@ -12,9 +12,9 @@ angular.module('voyager')
 
     function resetField(field) {
       field.selected = undefined;
-      field._any = field.type!=='O' && field.aggr!=='count';
+      field._any = field.type!=='O' && field.aggregate!=='count';
       delete field._raw;
-      delete field._aggr;
+      delete field._aggregate;
       delete field._fn;
     }
 
@@ -68,6 +68,5 @@ angular.module('voyager')
       Fields.highlighted[fieldName] = val;
     };
 
-    // [{"name":"Cost__Total_$","type":"Q","_aggr":"*","_bin":"*"}]
     return Fields;
   });
