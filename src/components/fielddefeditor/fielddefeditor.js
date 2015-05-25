@@ -17,10 +17,11 @@ angular.module('polestar')
         var propsPopup, funcsPopup;
 
         scope.allowedCasting = {
-          Q: ['Q', 'O'],
-          O: ['O'],
-          T: ['T', 'O'],
-          G: ['G', 'O']
+          Q: ['Q', 'O', 'N'],
+          O: ['O', 'N'],
+          N: ['N', 'O'],
+          T: ['T', 'O', 'N'],
+          G: ['G', 'O', 'N']
         };
 
         scope.Dataset = Dataset;

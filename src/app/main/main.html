@@ -4,7 +4,7 @@
       <div class="right">
         <div class="controls">
           <span ng-show="consts.debug">
-            <a ng-href="{{ {encoding:Spec.vlSpec} | reportUrl }}" target="_blank" class="command debug" tooltips tooltip-size="small"
+            <a ng-href="{{ {encoding:Spec.chart.vlSpec} | reportUrl }}" target="_blank" class="command debug" tooltips tooltip-size="small"
               tooltip-content="Report an issue">
               <i class="fa fa-bug"></i>
             </a>
@@ -57,9 +57,6 @@
 
           always-scrollable="true"
           ></vl-plot-group>
-      <!-- <div class="card scroll-xy abs-100 no-right-margin">
-        <vl-plot vg-spec="Spec.vgSpec" shorthand="Spec.shorthand" vl-spec="Spec.vlSpec"></vl-plot>
-      </div> -->
     </div>
   </div>
   <div class="hflex full-width dev-panel" ng-show="showDevPanel">

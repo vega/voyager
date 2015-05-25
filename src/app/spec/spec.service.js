@@ -8,18 +8,20 @@
  * Service in the polestar.
  */
 angular.module('polestar')
-  .service('Spec', function(_, vl, ZSchema, Alerts, Config, Dataset) {
+  .service('Spec', function(_, vl, ZSchema, Alerts, Config) {
     var Spec = {
       /** @type {Object} verbose spec edited by the UI */
       spec: null,
-      /** @type {Object} concise spec generated */
-      vlSpec: null,
-      /** @type {Encoding} encoding object from the spec */
-      encoding: null,
-      /** @type {String} generated vl shorthand */
-      shorthand: null,
-      /** @type {Object} generated vega spec */
-      vgSpec: null
+      chart:{
+        /** @type {Object} concise spec generated */
+        vlSpec: null,
+        /** @type {Encoding} encoding object from the spec */
+        encoding: null,
+        /** @type {String} generated vl shorthand */
+        shorthand: null,
+        /** @type {Object} generated vega spec */
+        vgSpec: null
+      }
     };
 
     Spec._removeEmptyFieldDefs = function(spec) {
@@ -97,18 +99,14 @@ angular.module('polestar')
         });
       } else {
         vl.extend(cleanSpec.config, Config.large());
-        Spec.encoding = vl.Encoding.fromSpec(cleanSpec);
-        Spec.vlSpec = Spec.encoding.toSpec(false);
-        Spec.shorthand = Spec.encoding.toShorthand();
-        Spec.vgSpec = vl.compile.encoding(Spec.encoding, Dataset.stats);
+        var encoding = vl.Encoding.fromSpec(cleanSpec),
+          chart = Spec.chart;
 
-        // chart object to be bookmarked
-        Spec.chart = {
-          fieldSet: _.values(Spec.vlSpec.encoding), // FIXME order
-          vlSpec: Spec.spec,
-          vgSpec: Spec.vgSpec,
-          shorthand: Spec.shorthand
-        };
+        chart.fieldSet =  Spec.spec.encoding;
+        chart.vlSpec = Spec.spec;
+        chart.cleanSpec = encoding.toSpec(false);
+        chart.shorthand = encoding.toShorthand();
+        console.log('chart', chart.vgSpec, chart.vlSpec);
       }
     };
 
