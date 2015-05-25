@@ -42,7 +42,6 @@ angular.module('voyager', ['vlui', 'polestar', 'ngAnimate', 'ngCookies', 'ngTouc
     numInitClusters: 15,
     numMoreClusters: 9,
     logging: false,
-    defaultConfigSet: 'small',
     appId: 'voyager',
     enableExclude: true
   })
