@@ -72,7 +72,7 @@ angular.module('polestar')
         });
 
         // when parent objects modify the field
-        scope.$watch('field', function (pill) {
+        scope.$watch('field', function(pill) {
           // only run this if schema is not null
           if (!scope.schema || !pill) {
             return;
