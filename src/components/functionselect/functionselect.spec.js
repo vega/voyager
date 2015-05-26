@@ -3,7 +3,7 @@
 describe('Directive: functionSelect', function() {
 
   // load the directive's module
-  beforeEach(module('polestar'));
+  beforeEach(module('voyager'));
 
   var element,
     scope;

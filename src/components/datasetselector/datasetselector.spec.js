@@ -3,12 +3,12 @@
 describe('Directive: datasetSelector', function() {
 
   // load the directive's module
-  beforeEach(module('polestar'));
+  beforeEach(module('voyager'));
 
   var element,
     scope;
 
-  beforeEach(module('polestar', function($provide) {
+  beforeEach(module('voyager', function($provide) {
     var mockDataset = {
       datasets: [{name: 'foo'}, {name: 'bar'}],
       dataset: null,
