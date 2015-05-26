@@ -22,6 +22,6 @@ describe('Directive: visList', function () {
     element = angular.element('<vis-list></vis-list>');
     element = $compile(element)(scope);
     scope.$digest();
-    expect(element).toBe('');
+    expect(element).to.eql('');
   }));
 });

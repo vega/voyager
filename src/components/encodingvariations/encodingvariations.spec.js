@@ -22,6 +22,5 @@ describe('Directive: encodingVariations', function () {
   it('should make hidden element visible', inject(function ($compile) {
     element = angular.element('<encoding-variations></encoding-variations>');
     element = $compile(element)(scope);
-    expect(element.text()).toBe('this is the encodingVariations directive');
-  }));
+    expect(element.text()).to.eql('this is the encodingVariations directive');
 });

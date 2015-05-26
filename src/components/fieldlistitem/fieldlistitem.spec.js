@@ -27,6 +27,6 @@ describe('Directive: fieldListItem', function() {
     element = $compile(element)(scope);
     scope.$digest();
 
-    expect(element.find('.field').length).toBe(3);
+    expect(element.find('.field').length).to.eql(3);
   }));
 });

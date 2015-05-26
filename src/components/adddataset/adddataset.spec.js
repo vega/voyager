@@ -15,6 +15,6 @@ describe('Directive: addDataset', function () {
   it('should make hidden element visible', inject(function ($compile) {
     element = angular.element('<add-dataset></add-dataset>');
     element = $compile(element)(scope);
-    expect(element.text()).toBe('this is the addDataset directive');
+    expect(element.text()).to.eql('this is the addDataset directive');
   }));
 });

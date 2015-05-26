@@ -42,6 +42,6 @@ describe('Directive: fieldList', function () {
     element = angular.element('<field-list></field-list>');
     element = $compile(element)(scope);
     scope.$digest();
-    expect(element.find('.field').length).toBe(2);
+    expect(element.find('.field').length).to.eql(2);
   }));
 });

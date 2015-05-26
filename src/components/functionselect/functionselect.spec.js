@@ -45,14 +45,14 @@ describe('Directive: functionSelect', function() {
     element = angular.element('<function-select enc-type="encType" pills="pills" schema="schema"></function-select>');
     element = $compile(element)(scope);
     scope.$digest();
-    expect(element.find('input').length).toBe(4);
+    expect(element.find('input').length).to.eql(4);
   }));
 
   it('should have correct number of radio', inject(function($compile) {
     element = angular.element('<function-select enc-type="encType3" pills="pills" schema="schema"></function-select>');
     element = $compile(element)(scope);
     scope.$digest();
-    expect(element.find('input').length).toBe(3);
+    expect(element.find('input').length).to.eql(3);
   }));
 
   it('should not show other options for count field', inject(function($compile) {
@@ -61,7 +61,7 @@ describe('Directive: functionSelect', function() {
     scope.$digest();
     scope.pills.y = { aggregate:'count', name: '*'};
     scope.$digest();
-    expect(element.find('input').length).toBe(1);
+    expect(element.find('input').length).to.eql(1);
   }));
 
 });
