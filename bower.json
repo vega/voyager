@@ -27,7 +27,7 @@
     "angular-order-object-by": "~1.1.0",
     "angular-websql": "~1.0.2",
     "datalib": "~1.1.12",
-    "vega-lite-ui": "~0.7.6",
+    "vega-lite-ui": "~0.7.8",
     "vega-lite": "~0.7.1",
     "angular-ui-select": "~0.11.2",
     "selectize": "~0.12.1",
