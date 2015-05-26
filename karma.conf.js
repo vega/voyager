@@ -15,7 +15,7 @@ var testFiles = [
   // add bind polyfill since Function.prototype.bind is missing from PhantomJS
   './node_modules/phantomjs-polyfill/bind-polyfill.js',
 ].concat(bowerDeps.js).concat([
-  src + '/index.js',
+  src + '/app/index.js',
   src + '/**/*.js',
   src + '/vendor/*.js',
   tmp + '/partials/templateCacheHtml.js'
