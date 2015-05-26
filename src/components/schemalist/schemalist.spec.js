@@ -33,6 +33,6 @@ describe('Directive: schemaList', function() {
     element = $compile(element)(scope);
     scope.$digest();
 
-    expect(element.find('.field-info').length).toBe(3);
+    expect(element.find('.field-info').length).to.eql(3);
   }));
 });

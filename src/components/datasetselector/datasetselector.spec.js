@@ -39,9 +39,9 @@ describe('Directive: datasetSelector', function() {
     element = $compile(element)(scope);
     scope.$digest();
 
-    expect(element.find('option').length).toBe(3);
-    expect(element.find('option:first').attr('label')).toBe(undefined);
-    expect(element.find('option:nth-child(2)').attr('label')).toBe('foo');
-    expect(element.find('option:nth-child(3)').attr('label')).toBe('bar');
+    expect(element.find('option').length).to.eql(3);
+    expect(element.find('option:first').attr('label')).to.eql(undefined);
+    expect(element.find('option:nth-child(2)').attr('label')).to.eql('foo');
+    expect(element.find('option:nth-child(3)').attr('label')).to.eql('bar');
   }));
 });

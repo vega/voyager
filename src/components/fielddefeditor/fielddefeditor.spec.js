@@ -33,7 +33,7 @@ describe('Directive: fieldDefEditor', function() {
     element = $compile(element)(scope);
     scope.$digest();
 
-    expect(element.find('.shelf-label').text().trim()).toBe('foobar');
+    expect(element.find('.shelf-label').text().trim()).to.eql('foobar');
   }));
 
   describe('fieldDrop', function() {
@@ -41,7 +41,7 @@ describe('Directive: fieldDefEditor', function() {
       element = angular.element('<field-def-editor enc-type="encType" enc="enc" schema="schema"></field-def-editor>');
       element = $compile(element)(scope);
       scope.$digest();
-      expect(element.find('.placeholder').length).toBe(1);
+      expect(element.find('.placeholder').length).to.eql(1);
     }));
 
     it('should show correct field name when dropped', inject(function($compile) {

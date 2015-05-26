@@ -17,7 +17,7 @@ describe('Directive: addUrlDataset', function () {
     element = $compile(element)(scope);
 
     scope.$digest();
-    expect(element.find('#dataset-url').length).toBe(1);
-    expect(element.find('#dataset-name').length).toBe(1);
+    expect(element.find('#dataset-url').length).to.eql(1);
+    expect(element.find('#dataset-name').length).to.eql(1);
   }));
 });

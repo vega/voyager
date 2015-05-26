@@ -1,6 +1,7 @@
 'use strict';
 
 /* global vl:true */
+/* jshint expr:true */
 
 describe('Service: Pills', function () {
 
@@ -16,7 +17,7 @@ describe('Service: Pills', function () {
   }));
 
   it('should do something', function () {
-    expect(Pills).toBeTruthy();
+    expect(Pills).to.be.ok;
   });
 
 });

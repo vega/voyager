@@ -1,5 +1,6 @@
 'use strict';
 /* global vl */
+/* jshint expr:true */
 
 describe('Service: Spec', function() {
 
@@ -17,12 +18,12 @@ describe('Service: Spec', function() {
   }));
 
   it('should be defined', function() {
-    expect(Spec).toBeDefined();
+    expect(Spec).to.be.defined;
   });
 
   it('functions should be defined', function() {
-    expect(Spec.reset).toBeDefined();
-    expect(Spec.parseShorthand).toBeDefined();
+    expect(Spec.reset).to.be.defined;
+    expect(Spec.parseShorthand).to.be.defined;
   });
 
   describe('_removeEmptyFieldDefs', function() {
@@ -30,7 +31,7 @@ describe('Service: Spec', function() {
       it('should be cleaned', function() {
         var spec = vl.schema.instantiate();
         Spec._removeEmptyFieldDefs(spec);
-        expect(vl.keys(spec.encoding).length).toBe(3);  // color, size, shape
+        expect(vl.keys(spec.encoding).length).to.eql(3);  // color, size, shape
       });
     });
   });

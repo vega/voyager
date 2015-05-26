@@ -17,6 +17,6 @@ describe('Directive: addMyriaDataset', function () {
     element = $compile(element)(scope);
 
     scope.$digest();
-    expect(element.find('button').length).toBe(1);
+    expect(element.find('button').length).to.eql(1);
   }));
 });

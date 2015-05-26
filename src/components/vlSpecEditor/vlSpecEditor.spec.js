@@ -20,22 +20,22 @@ describe('Directive: vlSpecEditor', function() {
 
   beforeEach(module('polestar', function($provide) {
     var mock = {
-      vlSpec: {},
+      cleanSpec: {},
       shorthand: 'point.'
     };
-    $provide.value('Spec', mock);
+    $provide.value('Spec', {chart: mock});
   }));
 
   beforeEach(inject(function($rootScope) {
     scope = $rootScope.$new();
   }));
 
-  it('should show source code', inject(function($compile) {
+  it.only('should show source code', inject(function($compile) {
     element = angular.element('<vl-spec-editor></vl-spec-editor>');
     element = $compile(element)(scope);
     scope.$digest();
 
-    expect(element.find('.vlspec').val()).toBe('{}');
-    expect(element.find('.shorthand').val()).toBe('point.');
+    expect(element.find('.vlspec').val()).to.eql('{}');
+    expect(element.find('.shorthand').val()).to.eql('point.');
   }));
 });

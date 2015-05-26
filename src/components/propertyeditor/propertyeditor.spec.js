@@ -25,6 +25,6 @@ describe('Directive: propertyEditor', function() {
     element = $compile(element)(scope);
     scope.$digest();
 
-    expect(element.find('#foo').length).toBe(1);
+    expect(element.find('#foo').length).to.eql(1);
   }));
 });

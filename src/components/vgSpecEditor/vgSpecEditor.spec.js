@@ -23,7 +23,7 @@ describe('Directive: vgSpecEditor', function() {
     var mock = {
       vgSpec: {}
     };
-    $provide.value('Spec', mock);
+    $provide.value('Spec', {chart: mock});
   }));
 
   beforeEach(inject(function($rootScope) {
@@ -35,6 +35,6 @@ describe('Directive: vgSpecEditor', function() {
     element = $compile(element)(scope);
     scope.$digest();
 
-    expect(element.find('.vgspec').val()).toBe('{}');
+    expect(element.find('.vgspec').val()).to.eql('{}');
   }));
 });

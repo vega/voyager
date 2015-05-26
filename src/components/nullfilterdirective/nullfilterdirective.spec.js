@@ -20,6 +20,6 @@ describe('Directive: nullFilterDirective', function () {
   it('should make hidden element visible', inject(function ($compile) {
     element = angular.element('<null-filter-directive></null-filter-directive>');
     element = $compile(element)(scope);
-    expect(element.length).toBe(1);
+    expect(element.length).to.eql(1);
   }));
 });
