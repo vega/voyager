@@ -26,18 +26,16 @@ angular.module('voyager', ['vlui',
       swfPath: 'bower_components/zeroclipboard/dist/ZeroClipboard.swf'
     });
   }])
-  .constant('consts', {
-    addCount: true, // add count field to Dataset.dataschema
-    debug: true,
-    debugInList: true,
-    useUrl: true,
-    numInitClusters: 15,
-    numMoreClusters: 9,
-    logging: false,
-    appId: 'voyager',
-    enableExclude: true
-  })
-  .config(function ($stateProvider, $urlRouterProvider) {
+  .config(function ($stateProvider, $urlRouterProvider, consts) {
+    window.vl.extend(consts, {
+      debug: true,
+      debugInList: true,
+      numInitClusters: 15,
+      numMoreClusters: 9,
+      appId: 'voyager',
+      enableExclude: true
+    });
+
     $stateProvider
       .state('home', {
         url: '/',
