@@ -24,20 +24,21 @@ angular.module('polestar')
         }
 
         function getFns(type) {
-          var schema = scope.schema.properties;
-          if (schema.fn && (!schema.fn.supportedTypes || schema.fn.supportedTypes[type])) {
+          var schema = (scope.schema || {}).properties;
+          if (schema && schema.fn && (!schema.fn.supportedTypes || schema.fn.supportedTypes[type])) {
             return (schema.fn.supportedEnums ? schema.fn.supportedEnums[type] : schema.fn.enum) || [];
           }
           return [];
         }
 
         function getAggrs(type) {
-          var schema = scope.schema.properties;
           if(!type) {
             return [COUNT];
           }
 
-          if (schema.aggregate && (!schema.aggregate.supportedTypes || schema.aggregate.supportedTypes[type])){
+          var schema = scope.schema.properties;
+
+          if (schema && schema.aggregate && (!schema.aggregate.supportedTypes || schema.aggregate.supportedTypes[type])){
             return (schema.aggregate.supportedEnums ? schema.aggregate.supportedEnums[type] : schema.aggregate.enum) || [];
           }
           return [];

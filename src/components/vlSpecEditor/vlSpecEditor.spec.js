@@ -30,7 +30,7 @@ describe('Directive: vlSpecEditor', function() {
     scope = $rootScope.$new();
   }));
 
-  it.only('should show source code', inject(function($compile) {
+  it('should show source code', inject(function($compile) {
     element = angular.element('<vl-spec-editor></vl-spec-editor>');
     element = $compile(element)(scope);
     scope.$digest();
