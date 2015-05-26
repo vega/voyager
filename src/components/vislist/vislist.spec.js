@@ -11,17 +11,17 @@ describe('Directive: visList', function () {
     $provide.constant('vl', vl); // vl is loaded by karma
   }));
 
-  var element,
-    scope;
+  var element, scope, $compile;
 
-  beforeEach(inject(function ($rootScope) {
+  beforeEach(inject(function ($rootScope, _$compile_) {
     scope = $rootScope.$new();
+    $compile = _$compile_;
   }));
 
-  it('should make hidden element visible', inject(function ($compile) {
+  it('should make hidden element visible', function () {
     element = angular.element('<vis-list></vis-list>');
     element = $compile(element)(scope);
     scope.$digest();
-    expect(element).to.eql('');
-  }));
+    expect(element.find('.vis-list').length).to.eql(1);
+  });
 });
