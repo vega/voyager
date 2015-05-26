@@ -28,13 +28,11 @@ angular.module('polestar', [
   .constant('URL', window.URL)
   .constant('dl', window.dl)
   .constant('jsondiffpatch', window.jsondiffpatch)
-  .constant('consts', {
-    addCount: true, // add count field to Dataset.dataschema
-    debug: true,
-    useUrl: true,
-    logging: false,
-    appId: 'polestar',
-    myriaRest: 'http://ec2-52-1-38-182.compute-1.amazonaws.com:8753'
+  .config(function(consts) {
+    window.vl.extend(consts, {
+      appId: 'polestar',
+      myriaRest: 'http://ec2-52-1-38-182.compute-1.amazonaws.com:8753'
+    });
   })
   .config(function(uiZeroclipConfigProvider) {
     // config ZeroClipboard
