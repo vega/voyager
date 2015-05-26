@@ -15,6 +15,9 @@
     "type": "git",
     "url": "https://github.com/uwdata/voyager.git"
   },
+  "scripts": {
+    "test": "gulp test"
+  },
   "dependencies": {
     "stream-series": "^0.1.1"
   },
