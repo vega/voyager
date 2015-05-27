@@ -156,7 +156,6 @@ angular.module('voyager')
             vl.Encoding.toggleSort(spec);
 
             var encoding = vl.Encoding.fromSpec(spec, {});
-            var vgSpec= vl.compile.encoding(encoding, Dataset.stats);
 
             return {
               fieldSetKey: fieldSet.key,
@@ -164,7 +163,6 @@ angular.module('voyager')
               vlSpec: spec,
               encoding: encoding,
               shorthand: encoding.toShorthand(),
-              vgSpec: vgSpec,
               score: spec.score,
               scoreFeatures: spec.scoreFeatures
             };
