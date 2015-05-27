@@ -52,7 +52,7 @@ All source code are under `src/`
 - `src/data/` contains all data that we use in the application
 - `src/vendor` contains
 
-@kanitw have create [`gulp/gen.js`](https://github.com/uwdata/polestar/blob/master/gulp/gen.js) for help generating angular components.
+@kanitw created [`gulp/gen.js`](https://github.com/uwdata/polestar/blob/master/gulp/gen.js) for help generating angular components.
 For example, you can run `gulp gen -d directiveName` and this would create all relevant files including the javascript file, the template file, the stylesheet file and the test spec. 
 
 #### Coding Style
