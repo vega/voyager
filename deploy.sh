@@ -1,3 +1,5 @@
+set -e
+
 gitsha=$(git rev-parse HEAD)
 
 git clone git@github.com:uwdata/polestar.git gh-pages
