@@ -1,3 +1,4 @@
+set -e
 
 gitsha=$(git rev-parse HEAD)
 
