@@ -18,7 +18,7 @@ describe('Directive: visList', function () {
     $compile = _$compile_;
   }));
 
-  it('should make hidden element visible', function () {
+  it('should add vis list element', function () {
     element = angular.element('<vis-list></vis-list>');
     element = $compile(element)(scope);
     scope.$digest();
