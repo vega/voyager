@@ -1,12 +1,15 @@
 # Voyager
 
+[![Build Status](https://travis-ci.org/uwdata/voyager.svg)](https://travis-ci.org/uwdata/voyager) 
+
 Voyager is a visualization browser for data analysis, building on top of [Vega-lite](https://github.com/uwdata/vega-lite).
 Try our [online demo](http://uwdata.github.io/voyager/). Also, be sure to check out [related projects](https://vega.github.io/).
 
 **This project is an [alpha](http://en.wikipedia.org/wiki/Software_release_life_cycle#Alpha) software.
 We are working on improving its code and documentation.**
 
-If you have specific questions, please contact @kanitw and @domoritz.
+If you are using Voyager for your project(s), please let us know what are you using it for by emailing us at [Vega-lite \[at\] cs.washington.edu](mailto:vega-lite@cs.washington.edu).  Feedbacks are also welcomed.
+If you find a bug or have a feature request, please take a look a [the issue tracker](https://github.com/uwdata/voyager/issues/) and [create an issue](https://github.com/uwdata/voyager/issues/new) if there is no existing issue. 
 
 ## Setup Instruction
 
