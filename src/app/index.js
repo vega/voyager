@@ -33,7 +33,6 @@ angular.module('polestar', [
     debug: true,
     useUrl: true,
     logging: false,
-    defaultConfigSet: 'large',
     appId: 'polestar',
     myriaRest: 'http://ec2-52-1-38-182.compute-1.amazonaws.com:8753'
   })

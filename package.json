@@ -1,6 +1,6 @@
 {
   "name": "polestar",
-  "version": "0.6.2",
+  "version": "0.6.3",
   "description": "Visualization specification interface.",
   "repository": {
     "type": "git",
