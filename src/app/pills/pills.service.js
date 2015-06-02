@@ -42,8 +42,8 @@ angular.module('polestar')
         } else if (type==='Q' && !pill.bin) {
           pill.aggregate = undefined;
           pill.bin = {maxbins: vl.schema.MAXBINS_DEFAULT};
-        } else if(type==='T' && !pill.fn) {
-          pill.fn = vl.schema.defaultTimeFn;
+        } else if(type==='T' && !pill.timeUnit) {
+          pill.timeUnit = vl.schema.defaultTimeFn;
         }
       } else if (!pill.name) {
         // no name, it's actually the empty shelf that
