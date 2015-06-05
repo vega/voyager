@@ -1,6 +1,7 @@
 'use strict';
 
 /* global vl:true */
+/* jshint expr:true */
 
 describe('Service: Visrec', function () {
 
@@ -18,7 +19,7 @@ describe('Service: Visrec', function () {
   }));
 
   it('should do something', function () {
-    expect(Visrec).toBeTruthy();
+    expect(Visrec).to.be.ok;
   });
 
 });

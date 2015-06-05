@@ -1,28 +1,42 @@
 'use strict';
 /* globals window */
 
-angular.module('polestar', [
-    'vlui',
+angular.module('voyager', ['vlui',
     'zeroclipboard',
-    'Chronicle',
     '720kb.tooltips',
     'LocalStorageModule',
     'ngOrderObjectBy',
-    'angular-websql'
-  ])
+    'angular-websql',
+    'Chronicle', 'ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', 'ui.router'])
   .constant('_', window._)
+  .constant('jQuery', window.$)
   .constant('vl', window.vl)
   .constant('vg', window.vg)
+  .constant('cp', window.cp)
+  .constant('tv4', window.tv4)
   .constant('Papa', window.Papa)
   .constant('Blob', window.Blob)
   .constant('URL', window.URL)
+  .constant('Tether', window.Tether)
+  .constant('Drop', window.Drop)
+  .constant('dl', window.dl)
   .config(['uiZeroclipConfigProvider', function(uiZeroclipConfigProvider) {
     // config ZeroClipboard
     uiZeroclipConfigProvider.setZcConf({
       swfPath: 'bower_components/zeroclipboard/dist/ZeroClipboard.swf'
     });
-  }]);
+  }])
+  .config(function ($stateProvider, $urlRouterProvider, consts) {
+    window.vl.extend(consts, {
+      debug: true,
+      debugInList: true,
+      numInitClusters: 15,
+      numMoreClusters: 9,
+      appId: 'voyager',
+      enableExclude: true
+    });
 
+<<<<<<< HEAD
 angular.module('voyager', ['vlui', 'polestar', 'ngCookies', 'ngTouch', 'ngSanitize', 'ui.router'])
   .constant('_', window._)
   .constant('jQuery', window.$)
@@ -46,6 +60,8 @@ angular.module('voyager', ['vlui', 'polestar', 'ngCookies', 'ngTouch', 'ngSaniti
     enableExclude: true
   })
   .config(function ($stateProvider, $urlRouterProvider) {
+=======
+>>>>>>> origin/master
     $stateProvider
       .state('home', {
         url: '/',

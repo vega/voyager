@@ -7,9 +7,7 @@ describe('Directive: fieldList', function () {
   // load the directive's module
   beforeEach(module('voyager'));
 
-  var element,
-    scope;
-
+  var element, scope, $compile;
 
   beforeEach(module('voyager', function($provide) {
     var mockDataschema = [{
@@ -25,7 +23,11 @@ describe('Directive: fieldList', function () {
       dataset: null,
       fieldOrder: vl.field.order.typeThenName,
       dataschema: mockDataschema,
-      update: function() {}
+      update: function() {},
+      stats: {
+        a: {},
+        b: {}
+      }
     };
     mockDataset.dataset = mockDataset.datasets[0];
     $provide.value('Dataset', mockDataset);
@@ -34,14 +36,15 @@ describe('Directive: fieldList', function () {
   }));
 
 
-  beforeEach(inject(function ($rootScope) {
+  beforeEach(inject(function ($rootScope, _$compile_) {
     scope = $rootScope.$new();
+    $compile = _$compile_;
   }));
 
-  it('should make hidden element visible', inject(function ($compile) {
+  it('should make hidden element visible', function () {
     element = angular.element('<field-list></field-list>');
     element = $compile(element)(scope);
     scope.$digest();
-    expect(element.find('.field').length).toBe(2);
-  }));
+    expect(element.find('.field').length).to.eql(2);
+  });
 });

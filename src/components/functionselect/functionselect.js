@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('polestar')
+angular.module('voyager')
   .directive('functionSelect', function(_, vl, Logger) {
     return {
       templateUrl: 'components/functionselect/functionselect.html',
@@ -16,8 +16,8 @@ angular.module('polestar')
           list: [ANY]
         };
 
-        function getFns(type) {
-          return type === 'T' ? vl.schema.timefns : [];
+        function getTimeUnits(type) {
+          return type === 'T' ? vl.schema.timeUnits : [];
         }
 
         function getAggrs(type) {
@@ -35,7 +35,7 @@ angular.module('polestar')
 
           field._bin = selectedFunc === BIN || undefined;
           field._aggregate = getAggrs(type).indexOf(selectedFunc) !== -1 ? selectedFunc : undefined;
-          field._fn = getFns(type).indexOf(selectedFunc) !== -1 ? selectedFunc : undefined;
+          field._timeUnit = getTimeUnits(type).indexOf(selectedFunc) !== -1 ? selectedFunc : undefined;
           field._raw = selectedFunc === RAW || undefined;
           field._any = selectedFunc === ANY || undefined;
 
@@ -56,13 +56,13 @@ angular.module('polestar')
           } else {
             var isO = type==='O';
             scope.func.list = ( isO ? [RAW] : [ANY, RAW])
-              .concat(getFns(type))
+              .concat(getTimeUnits(type))
               .concat(getAggrs(type).filter(function(x) { return x !== COUNT; }))
               .concat(type ==='Q' ? [BIN] : []);
 
             scope.func.selected = field._bin ? BIN :
               field._raw ? RAW :
-              field._aggregate || field._fn || ( isO ? RAW : ANY );
+              field._aggregate || field._timeUnit || ( isO ? RAW : ANY );
           }
 
         }, true);
