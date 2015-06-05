@@ -30,7 +30,7 @@
     "selectize": "~0.12.1",
     "angular-local-storage": "~0.2.1",
     "datalib": "^1.1.12",
-    "vega-lite-ui": "^0.7.6",
+    "vega-lite-ui": "^0.7.9",
     "vega-lite": "^0.7.1"
   },
   "devDependencies": {

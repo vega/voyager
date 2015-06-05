@@ -1,6 +1,7 @@
 'use strict';
 
 /* global vl:true */
+/* jshint expr:true */
 
 describe('Directive: shelves', function() {
 
@@ -38,12 +39,12 @@ describe('Directive: shelves', function() {
   }));
 
   it('should insert mark select', function() {
-    expect(element.find('.markselect').length).toBe(1);
+    expect(element.find('.markselect').length).to.eql(1);
   });
 
   it('should attach Spec and schema to scope', function() {
     var isolateScope = element.isolateScope();
-    expect(isolateScope.Spec).toBeDefined();
-    expect(isolateScope.schema).toBeDefined();
+    expect(isolateScope.Spec).to.be.defined;
+    expect(isolateScope.schema).to.be.defined;
   });
 });

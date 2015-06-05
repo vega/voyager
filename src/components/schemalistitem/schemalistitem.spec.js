@@ -39,6 +39,6 @@ describe('Directive: schemaListItem', function () {
     element = angular.element('<schema-list-item field="{name:\'a\'}"></schema-list-item>');
     element = $compile(element)(scope);
     scope.$digest();
-    expect(element.find('span.field-info').length).toBe(1);
+    expect(element.find('span.field-info').length).to.eql(1);
   }));
 });

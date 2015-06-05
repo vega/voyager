@@ -1,5 +1,7 @@
 # Pole✭ (Polestar) -- Alpha
 
+[![Build Status](https://travis-ci.org/uwdata/polestar.svg)](https://travis-ci.org/uwdata/polestar) 
+
 PoleStar is Tableau-style User Interface for visual analysis, building on top
 of [Vega-lite](https://github.com/uwdata/vega-lite). Try our [online
 demo](http://uwdata.github.io/polestar/). Also, be sure to check out [related

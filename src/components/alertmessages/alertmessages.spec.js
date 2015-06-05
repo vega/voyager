@@ -27,6 +27,6 @@ describe('Directive: alertMessages', function() {
     element = $compile(element)(scope);
     scope.$digest();
 
-    expect(element.find('.alert-item').length).toBe(2);
+    expect(element.find('.alert-item').length).to.eql(2);
   }));
 });

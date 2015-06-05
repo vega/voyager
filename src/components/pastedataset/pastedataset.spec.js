@@ -17,7 +17,7 @@ describe('Directive: pasteDataset', function () {
     element = $compile(element)(scope);
 
     scope.$digest();
-    expect(element.find('textarea').length).toBe(1);
-    expect(element.find('#dataset-name').length).toBe(1);
+    expect(element.find('textarea').length).to.eql(1);
+    expect(element.find('#dataset-name').length).to.eql(1);
   }));
 });
