@@ -15,7 +15,7 @@ angular.module('voyager')
       field._any = !vl.field.isTypes(field, ['O', 'N']) && field.aggregate!=='count';
       delete field._raw;
       delete field._aggregate;
-      delete field._fn;
+      delete field._timeUnit;
     }
 
     Fields.updateSchema = function(dataschema) {
