@@ -7,7 +7,11 @@ angular.module('voyager', ['vlui',
     'LocalStorageModule',
     'ngOrderObjectBy',
     'angular-websql',
-    'Chronicle', 'ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', 'ui.router'])
+    'Chronicle',
+    'ngCookies',
+    'ngTouch',
+    'ngSanitize',
+    'ui.router'])
   .constant('_', window._)
   .constant('jQuery', window.$)
   .constant('vl', window.vl)
@@ -36,32 +40,6 @@ angular.module('voyager', ['vlui',
       enableExclude: true
     });
 
-<<<<<<< HEAD
-angular.module('voyager', ['vlui', 'polestar', 'ngCookies', 'ngTouch', 'ngSanitize', 'ui.router'])
-  .constant('_', window._)
-  .constant('jQuery', window.$)
-  .constant('vl', window.vl)
-  .constant('vg', window.vg)
-  .constant('cp', window.cp)
-  .constant('tv4', window.tv4)
-  .constant('Papa', window.Papa)
-  .constant('Tether', window.Tether)
-  .constant('Drop', window.Drop)
-  .constant('dl', window.dl)
-  .constant('consts', {
-    addCount: true, // add count field to Dataset.dataschema
-    debug: true,
-    debugInList: true,
-    useUrl: true,
-    numInitClusters: 15,
-    numMoreClusters: 9,
-    logging: false,
-    appId: 'voyager',
-    enableExclude: true
-  })
-  .config(function ($stateProvider, $urlRouterProvider) {
-=======
->>>>>>> origin/master
     $stateProvider
       .state('home', {
         url: '/',
