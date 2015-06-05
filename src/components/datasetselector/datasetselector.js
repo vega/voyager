@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('polestar')
+angular.module('voyager')
   .directive('datasetSelector', function(Dataset, Config, Fields, Logger) {
     return {
       templateUrl: 'components/datasetselector/datasetselector.html',

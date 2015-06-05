@@ -1,5 +1,7 @@
 # Voyager
 
+[![Build Status](https://travis-ci.org/uwdata/voyager.svg)](https://travis-ci.org/uwdata/voyager) 
+
 Voyager is a visualization browser for data analysis, building on top of [Vega-lite](https://github.com/uwdata/vega-lite).
 Try our [online demo](http://uwdata.github.io/voyager/). Also, be sure to check out [related projects](https://vega.github.io/).
 

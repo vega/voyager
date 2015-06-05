@@ -5,28 +5,35 @@ describe('Directive: fieldListItem', function() {
   // load the directive's module
   beforeEach(module('voyager'));
 
-  var element,
-    scope;
+
+  var element, scope, $compile;
 
   beforeEach(module('voyager', function($provide) {
     var mock = {
-      schema: ['foo', 'bar', 'baz']
+      schema: ['foo', 'bar', 'baz'],
+      stats: {
+        a: {}
+      }
     };
     $provide.value('Dataset', mock);
   }));
 
-  beforeEach(inject(function($rootScope) {
+
+  beforeEach(inject(function ($rootScope, _$compile_) {
     scope = $rootScope.$new();
     scope.field = {
-      selected: false
+      selected: false,
+      name: 'a'
     };
+
+    $compile = _$compile_;
   }));
 
-  it('should make hidden element visible', inject(function($compile) {
+  it('should make hidden element visible', function() {
     element = angular.element('<field-list-item field="field"></field-list-item>');
     element = $compile(element)(scope);
     scope.$digest();
 
-    expect(element.find('.field').length).toBe(3);
-  }));
+    expect(element.find('.field-info').length).to.eql(1);
+  });
 });
