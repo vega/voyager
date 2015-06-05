@@ -21,7 +21,7 @@ describe('Directive: functionSelect', function() {
             undefined: []
           }
         },
-        fn: {
+        timeUnit: {
           supportedEnums: {
             T: ['f1','f2']
           }

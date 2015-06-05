@@ -66,14 +66,14 @@ angular.module('polestar')
             pill.type = types[0];
           }
 
-          // TODO validate fn / aggregate
+          // TODO validate timeUnit / aggregate
 
           Pills.dragDrop(scope.encType);
           Logger.logInteraction(Logger.actions.FIELD_DROP, scope.enc[scope.encType]);
         };
 
         // when each of the fieldPill property in fieldDef changes, update the pill
-        // ['name', 'type', 'aggregate', 'bin', 'fn'].forEach( function(prop) {
+        // ['name', 'type', 'aggregate', 'bin', 'timeUnit'].forEach( function(prop) {
         //   scope.$watch('enc[encType].'+prop, function(val){
         //     var pill = fieldPill();
         //     if(pill && val !== pill[prop]){

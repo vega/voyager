@@ -25,8 +25,8 @@ angular.module('polestar')
 
         function getFns(type) {
           var schema = (scope.schema || {}).properties;
-          if (schema && schema.fn && (!schema.fn.supportedTypes || schema.fn.supportedTypes[type])) {
-            return (schema.fn.supportedEnums ? schema.fn.supportedEnums[type] : schema.fn.enum) || [];
+          if (schema && schema.timeUnit && (!schema.timeUnit.supportedTypes || schema.timeUnit.supportedTypes[type])) {
+            return (schema.timeUnit.supportedEnums ? schema.timeUnit.supportedEnums[type] : schema.timeUnit.enum) || [];
           }
           return [];
         }
@@ -63,7 +63,7 @@ angular.module('polestar')
           // HACK: we're temporarily storing the maxbins in the pill
           pill.bin = selectedFunc === BIN ? {maxbins: maxbins || vl.schema.MAXBINS_DEFAULT} : undefined;
           pill.aggregate = getAggrs(type).indexOf(selectedFunc) !== -1 ? selectedFunc : undefined;
-          pill.fn = getFns(type).indexOf(selectedFunc) !== -1 ? selectedFunc : undefined;
+          pill.timeUnit = getFns(type).indexOf(selectedFunc) !== -1 ? selectedFunc : undefined;
 
           if(!_.isEqual(oldPill, pill)){
             Pills.pills[scope.encType] = pill;
@@ -103,7 +103,7 @@ angular.module('polestar')
             )|| RAW;
 
             var selected = pill.bin ? 'bin' :
-              pill.aggregate || pill.fn ||
+              pill.aggregate || pill.timeUnit ||
               defaultVal;
 
             if (scope.func.list.indexOf(selected) >= 0) {
