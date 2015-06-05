@@ -1,0 +1,22 @@
+<div class="add-url-dataset">
+  <h3>Add a dataset from URL</h3>
+  <p>
+    Add the name of the dataset and the URL to a <b>JSON</b> or <b>CSV</b> (with header) file.
+    Make sure that the formatting is correct and clean the data before adding it to Voyager.
+    The added dataset is only visible to you.
+  </p>
+  <form>
+    <div class="form-group">
+      <label for="dataset-name">Name</label>
+      <input ng-model="addedDataset.name" id="dataset-name" type="text"></input>
+    </div>
+    <div class="form-group">
+      <label for="dataset-url">URL</label>
+      <input ng-model="addedDataset.url" id="dataset-url" type="url"></input>
+      <p>
+        Make sure that you host the file on a server that has <code>Access-Control-Allow-Origin: *</code> set.
+      </p>
+    </div>
+    <button type="submit" ng-click="addFromUrl(addedDataset)">Add dataset</button>
+  </form>
+</div>

@@ -2,11 +2,11 @@
 
 /**
  * @ngdoc directive
- * @name vegalite-ui.directive:propertyEditor
+ * @name vega-lite-ui.directive:propertyEditor
  * @description
  * # propertyEditor
  */
-angular.module('vleApp')
+angular.module('polestar')
   .directive('propertyEditor', function () {
     return {
       templateUrl: 'components/propertyeditor/propertyeditor.html',

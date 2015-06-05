@@ -1,0 +1,17 @@
+<div class="paste-data">
+  <h3>Paste raw data</h3>
+  <p>
+    Paste data in <a href="https://en.wikipedia.org/wiki/Comma-separated_values">CSV</a> format. Please include a header with field names.
+  </p>
+
+  <form>
+  	<div class="form-group">
+      <label for="dataset-name">Name</label>
+      <input ng-model="datasetName" id="dataset-name" type="name"></input>
+    </div>
+    <div class="form-group">
+    	<textarea ng-model="data"></textarea>
+    </div>
+  	<button type="submit" ng-click="addPasted()">Add data</button>
+  </form>
+</div>

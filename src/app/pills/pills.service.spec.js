@@ -1,9 +1,14 @@
 'use strict';
 
+/* global vl:true */
+/* jshint expr:true */
+
 describe('Service: Pills', function () {
 
   // load the service's module
-  beforeEach(module('vleApp'));
+  beforeEach(module('polestar', function($provide) {
+    $provide.constant('vl', vl);
+  }));
 
   // instantiate service
   var Pills;
@@ -12,7 +17,7 @@ describe('Service: Pills', function () {
   }));
 
   it('should do something', function () {
-    expect(Pills).toBe(true);
+    expect(Pills).to.be.ok;
   });
 
 });

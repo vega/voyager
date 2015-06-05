@@ -1,0 +1,24 @@
+.add-url-dataset {
+  p {
+    width: 300px;
+  }
+  .form-group {
+    margin-top: 1em;
+    label {
+      width: 50px;
+      display: block;
+      float: left;
+      text-align: right;
+      font-weight: bold;
+      margin-right: 10px;
+    }
+    input {
+      width: 230px;
+    }
+  }
+  button {
+    margin-top: 1.5em;
+    margin-left: 60px;
+    line-height: 15px;
+  }
+}

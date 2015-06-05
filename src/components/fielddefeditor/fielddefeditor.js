@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('vleApp')
+angular.module('polestar')
   .directive('fieldDefEditor', function(Dataset, Pills, _, Drop, Logger) {
     return {
       templateUrl: 'components/fielddefeditor/fielddefeditor.html',
@@ -17,10 +17,11 @@ angular.module('vleApp')
         var propsPopup, funcsPopup;
 
         scope.allowedCasting = {
-          Q: ['Q', 'O'],
-          O: ['O'],
-          T: ['T', 'O'],
-          G: ['G', 'O']
+          Q: ['Q', 'O', 'N'],
+          O: ['O', 'N'],
+          N: ['N', 'O'],
+          T: ['T', 'O', 'N'],
+          G: ['G', 'O', 'N']
         };
 
         scope.Dataset = Dataset;
@@ -65,14 +66,14 @@ angular.module('vleApp')
             pill.type = types[0];
           }
 
-          // TODO validate fn / aggr
+          // TODO validate timeUnit / aggregate
 
           Pills.dragDrop(scope.encType);
           Logger.logInteraction(Logger.actions.FIELD_DROP, scope.enc[scope.encType]);
         };
 
         // when each of the fieldPill property in fieldDef changes, update the pill
-        // ['name', 'type', 'aggr', 'bin', 'fn'].forEach( function(prop) {
+        // ['name', 'type', 'aggregate', 'bin', 'timeUnit'].forEach( function(prop) {
         //   scope.$watch('enc[encType].'+prop, function(val){
         //     var pill = fieldPill();
         //     if(pill && val !== pill[prop]){
@@ -85,9 +86,9 @@ angular.module('vleApp')
           Pills.pills[scope.encType] = field ? _.cloneDeep(field) : {};
         });
 
-        scope.$watchGroup(['allowedCasting[Dataset.dataschema.byName[enc[encType].name].type]', 'enc[encType].aggr'], function(arr){
-          var allowedTypes = arr[0], aggr=arr[1];
-          scope.allowedTypes = aggr === 'count' ? ['Q'] : allowedTypes;
+        scope.$watchGroup(['allowedCasting[Dataset.dataschema.byName[enc[encType].name].type]', 'enc[encType].aggregate'], function(arr){
+          var allowedTypes = arr[0], aggregate=arr[1];
+          scope.allowedTypes = aggregate === 'count' ? ['Q'] : allowedTypes;
         });
 
 

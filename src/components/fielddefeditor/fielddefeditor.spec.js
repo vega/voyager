@@ -1,54 +1,66 @@
 'use strict';
 
+/* global vl:true */
+
 describe('Directive: fieldDefEditor', function() {
 
   // load the directive's module
-  beforeEach(module('vleApp'));
-
-  var element,
-    scope;
-
-  beforeEach(module('vleApp', function($provide) {
-    $provide.value('Dataset', {});
+  beforeEach(module('polestar', function($provide) {
+    $provide.constant('vl', vl);
+    $provide.constant('Drop', function() {});
   }));
 
-  beforeEach(inject(function($rootScope) {
+  var element, scope, $compile;
+
+  beforeEach(module('polestar', function($provide) {
+    $provide.constant('Dataset', {
+      stats: {
+        a: {}
+      }
+    });
+  }));
+
+  beforeEach(inject(function($rootScope, _$compile_) {
     scope = $rootScope.$new();
-    scope.encType = 'foobar';
-    scope.enc = {'foobar': {}};
-    scope.schema = {};
+    scope.encType = 'x';
+    scope.enc = {'x': {}};
+
+    $compile = _$compile_;
   }));
 
-  it('should show title', inject(function($compile) {
-    element = angular.element('<field-def-editor enc-type="encType" enc="enc" schema="schema"></field-def-editor>');
+  it('should show title', function() {
+    element = angular.element('<field-def-editor enc-type="encType" enc="enc" schema="{properties:{}}"></field-def-editor>');
     element = $compile(element)(scope);
     scope.$digest();
 
-    expect(element.find('.shelf-label').text().trim()).toBe('foobar');
-  }));
+    expect(element.find('.shelf-label').text().trim()).to.eql('x');
+  });
 
   describe('fieldDrop', function() {
-    it('should initially have placeholder', inject(function($compile) {
+    it('should initially have placeholder', function() {
       element = angular.element('<field-def-editor enc-type="encType" enc="enc" schema="schema"></field-def-editor>');
       element = $compile(element)(scope);
       scope.$digest();
-      expect(element.find('.placeholder').length).toBe(1);
-    }));
+      expect(element.find('.placeholder').length).to.eql(1);
+    });
 
-    it('should show correct field name when dropped', inject(function($compile) {
+    it('should show correct field name when dropped', function() {
+      // jshint unused:false
       //TODO
-    }));
+    });
   });
 
   describe('shelfProperties', function() {
-    it('should change properties correctly', inject(function($compile) {
+    it('should change properties correctly', function() {
+      // jshint unused:false
       //TODO
-    }));
+    });
   });
 
   describe('shelfFunctions', function() {
-    it('should change function correctly', inject(function($compile) {
+    it('should change function correctly', function() {
+      // jshint unused:false
       //TODO
-    }));
+    });
   });
 });

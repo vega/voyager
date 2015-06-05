@@ -1,18 +1,21 @@
 'use strict';
+/* global vl:true */
 
 describe('Directive: datasetSelector', function() {
 
   // load the directive's module
-  beforeEach(module('vleApp'));
+  beforeEach(module('polestar', function($provide) {
+    $provide.constant('Drop', function() {});
+  }));
 
   var element,
     scope;
 
-  beforeEach(module('vleApp', function($provide) {
+  beforeEach(module('polestar', function($provide) {
     var mockDataset = {
       datasets: [{name: 'foo'}, {name: 'bar'}],
       dataset: null,
-      update: function(dataset) {}
+      update: function() {}
     };
     mockDataset.dataset = mockDataset.datasets[0];
 
@@ -31,13 +34,14 @@ describe('Directive: datasetSelector', function() {
     scope = $rootScope.$new();
   }));
 
-  it('should make hidden element visible', inject(function($compile) {
+  it('should add correct options', inject(function($compile) {
     element = angular.element('<dataset-selector></dataset-selector>');
     element = $compile(element)(scope);
     scope.$digest();
 
-    expect(element.find('option').length).toBe(2);
-    expect(element.find('option:first').attr('label')).toBe('foo');
-    expect(element.find('option:nth-child(2)').attr('label')).toBe('bar');
+    expect(element.find('option').length).to.eql(3);
+    expect(element.find('option:first').attr('label')).to.eql(undefined);
+    expect(element.find('option:nth-child(2)').attr('label')).to.eql('foo');
+    expect(element.find('option:nth-child(3)').attr('label')).to.eql('bar');
   }));
 });

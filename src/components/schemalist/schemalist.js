@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('vleApp')
+angular.module('polestar')
   .directive('schemaList', function(Dataset) {
     return {
       templateUrl: 'components/schemalist/schemalist.html',

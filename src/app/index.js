@@ -1,7 +1,7 @@
 'use strict';
 /* globals window */
 
-angular.module('vleApp', [
+angular.module('polestar', [
     'ngCookies',
     'ngSanitize',
     'ngTouch',
@@ -9,11 +9,13 @@ angular.module('vleApp', [
     'monospaced.elastic',
     'zeroclipboard',
     'ui.router',
+    'ui.select',
     'Chronicle',
     'LocalStorageModule',
     '720kb.tooltips',
     'ngOrderObjectBy',
-    'angular-websql'])
+    'angular-websql',
+    'vlui'])
   .constant('_', window._)
   .constant('vl', window.vl)
   .constant('vg', window.vg)
@@ -23,14 +25,13 @@ angular.module('vleApp', [
   .constant('Drop', window.Drop)
   .constant('Blob', window.Blob)
   .constant('URL', window.URL)
+  .constant('dl', window.dl)
   .constant('jsondiffpatch', window.jsondiffpatch)
-  .constant('consts', {
-    addCount: true, // add count field to Dataset.dataschema
-    debug: true,
-    useUrl: true,
-    logging: true,
-    defaultConfigSet: 'large',
-    appId: 'polestar'
+  .config(function(consts) {
+    window.vl.extend(consts, {
+      appId: 'polestar',
+      myriaRest: 'http://ec2-52-1-38-182.compute-1.amazonaws.com:8753'
+    });
   })
   .config(function(uiZeroclipConfigProvider) {
     // config ZeroClipboard

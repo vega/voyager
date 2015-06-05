@@ -1,11 +1,13 @@
 'use strict';
 
+/* global vl:true */
+
 describe('Directive: vgSpecEditor', function() {
 
   // load the directive's module
-  beforeEach(module('vleApp'));
+  beforeEach(module('polestar'));
 
-  beforeEach(module('vleApp', function($provide) {
+  beforeEach(module('polestar', function($provide) {
     $provide.constant('vl', vl); // vl is loaded by karma
 
     // mock directive (trodrigues's answer in http://stackoverflow.com/questions/17533052)
@@ -17,11 +19,11 @@ describe('Directive: vgSpecEditor', function() {
   var element,
     scope;
 
-  beforeEach(module('vleApp', function($provide) {
+  beforeEach(module('polestar', function($provide) {
     var mock = {
       vgSpec: {}
     };
-    $provide.value('Spec', mock);
+    $provide.value('Spec', {chart: mock});
   }));
 
   beforeEach(inject(function($rootScope) {
@@ -33,6 +35,6 @@ describe('Directive: vgSpecEditor', function() {
     element = $compile(element)(scope);
     scope.$digest();
 
-    expect(element.find('.vgspec').val()).toBe('{}');
+    expect(element.find('.vgspec').val()).to.eql('{}');
   }));
 });

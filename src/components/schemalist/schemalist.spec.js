@@ -1,14 +1,18 @@
 'use strict';
 
+/* global vl:true */
+
 describe('Directive: schemaList', function() {
 
   // load the directive's module
-  beforeEach(module('vleApp'));
+  beforeEach(module('polestar', function($provide) {
+    $provide.constant('vl', vl);
+  }));
 
   var element,
     scope;
 
-  beforeEach(module('vleApp', function($provide) {
+  beforeEach(module('polestar', function($provide) {
     var mockDataset = {
       dataschema: ['foo', 'bar', 'baz'],
       stats: {
@@ -29,6 +33,6 @@ describe('Directive: schemaList', function() {
     element = $compile(element)(scope);
     scope.$digest();
 
-    expect(element.find('.field-info').length).toBe(3);
+    expect(element.find('.field-info').length).to.eql(3);
   }));
 });

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('vleApp')
+angular.module('polestar')
   .directive('configurationEditor', function() {
     return {
       templateUrl: 'components/configurationeditor/configurationeditor.html',

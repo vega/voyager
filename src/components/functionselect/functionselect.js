@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('vleApp')
+angular.module('polestar')
   .directive('functionSelect', function(_, vl, Pills, Logger) {
     return {
       templateUrl: 'components/functionselect/functionselect.html',
@@ -24,21 +24,22 @@ angular.module('vleApp')
         }
 
         function getFns(type) {
-          var schema = scope.schema.properties;
-          if (schema.fn && (!schema.fn.supportedTypes || schema.fn.supportedTypes[type])) {
-            return (schema.fn.supportedEnums ? schema.fn.supportedEnums[type] : schema.fn.enum) || [];
+          var schema = (scope.schema || {}).properties;
+          if (schema && schema.timeUnit && (!schema.timeUnit.supportedTypes || schema.timeUnit.supportedTypes[type])) {
+            return (schema.timeUnit.supportedEnums ? schema.timeUnit.supportedEnums[type] : schema.timeUnit.enum) || [];
           }
           return [];
         }
 
         function getAggrs(type) {
-          var schema = scope.schema.properties;
           if(!type) {
             return [COUNT];
           }
 
-          if (schema.aggr && (!schema.aggr.supportedTypes || schema.aggr.supportedTypes[type])){
-            return (schema.aggr.supportedEnums ? schema.aggr.supportedEnums[type] : schema.aggr.enum) || [];
+          var schema = scope.schema.properties;
+
+          if (schema && schema.aggregate && (!schema.aggregate.supportedTypes || schema.aggregate.supportedTypes[type])){
+            return (schema.aggregate.supportedEnums ? schema.aggregate.supportedEnums[type] : schema.aggregate.enum) || [];
           }
           return [];
         }
@@ -61,8 +62,8 @@ angular.module('vleApp')
           // reset field def
           // HACK: we're temporarily storing the maxbins in the pill
           pill.bin = selectedFunc === BIN ? {maxbins: maxbins || vl.schema.MAXBINS_DEFAULT} : undefined;
-          pill.aggr = getAggrs(type).indexOf(selectedFunc) !== -1 ? selectedFunc : undefined;
-          pill.fn = getFns(type).indexOf(selectedFunc) !== -1 ? selectedFunc : undefined;
+          pill.aggregate = getAggrs(type).indexOf(selectedFunc) !== -1 ? selectedFunc : undefined;
+          pill.timeUnit = getFns(type).indexOf(selectedFunc) !== -1 ? selectedFunc : undefined;
 
           if(!_.isEqual(oldPill, pill)){
             Pills.pills[scope.encType] = pill;
@@ -71,7 +72,7 @@ angular.module('vleApp')
         });
 
         // when parent objects modify the field
-        scope.$watch('field', function (pill) {
+        scope.$watch('field', function(pill) {
           // only run this if schema is not null
           if (!scope.schema || !pill) {
             return;
@@ -88,7 +89,7 @@ angular.module('vleApp')
           var isOrdinalShelf = ['row','col','shape'].indexOf(scope.encType) !== -1,
             isQ = type==='Q', isT = type==='T';
 
-          if(pill.name==='*' && pill.aggr===COUNT){
+          if(pill.name==='*' && pill.aggregate===COUNT){
             scope.func.list=[COUNT];
             scope.func.selected = COUNT;
           } else {
@@ -102,7 +103,7 @@ angular.module('vleApp')
             )|| RAW;
 
             var selected = pill.bin ? 'bin' :
-              pill.aggr || pill.fn ||
+              pill.aggregate || pill.timeUnit ||
               defaultVal;
 
             if (scope.func.list.indexOf(selected) >= 0) {

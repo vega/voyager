@@ -3,12 +3,12 @@
 describe('Directive: alertMessages', function() {
 
   // load the directive's module
-  beforeEach(module('vleApp'));
+  beforeEach(module('polestar'));
 
   var element,
     scope;
 
-  beforeEach(module('vleApp', function($provide) {
+  beforeEach(module('polestar', function($provide) {
     var mock = {
       alerts: [
         {name: 'foo'},
@@ -27,6 +27,6 @@ describe('Directive: alertMessages', function() {
     element = $compile(element)(scope);
     scope.$digest();
 
-    expect(element.find('.alert-item').length).toBe(2);
+    expect(element.find('.alert-item').length).to.eql(2);
   }));
 });

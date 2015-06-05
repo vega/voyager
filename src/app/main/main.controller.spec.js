@@ -3,7 +3,7 @@
 describe('controllers', function() {
   var scope;
 
-  beforeEach(module('vleApp'));
+  beforeEach(module('polestar'));
 
   beforeEach(inject(function($rootScope) {
     scope = $rootScope.$new();

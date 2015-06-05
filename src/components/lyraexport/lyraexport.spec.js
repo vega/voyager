@@ -3,9 +3,9 @@
 describe('Directive: lyraExport', function() {
 
   // load the directive's module
-  beforeEach(module('vleApp'));
+  beforeEach(module('polestar'));
 
-  beforeEach(module('vleApp', function($provide) {
+  beforeEach(module('polestar', function($provide) {
     var mock = {
       vgSpec: {}
     };
@@ -22,6 +22,6 @@ describe('Directive: lyraExport', function() {
   it('should make hidden element visible', inject(function($compile) {
     element = angular.element('<lyra-export></lyra-export>');
     element = $compile(element)(scope);
-    expect(element.text()).toBe('Export to lyra');
+    expect(element.text()).to.eql('Export to lyra');
   }));
 });

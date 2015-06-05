@@ -1,14 +1,16 @@
 'use strict';
 
+/* jshint expr:true */
+
 describe('Directive: configurationEditor', function() {
 
   // load the directive's module
-  beforeEach(module('vleApp'));
+  beforeEach(module('polestar'));
 
   var element,
     scope;
 
-  beforeEach(module('vleApp', function($provide) {
+  beforeEach(module('polestar', function($provide) {
     var mock = {};
     $provide.value('Config', mock);
   }));
@@ -22,11 +24,11 @@ describe('Directive: configurationEditor', function() {
   }));
 
   it('should insert form', function() {
-    expect(element.find('form').length).toBe(1);
+    expect(element.find('form').length).to.eql(1);
   });
 
   it('should attach config to scope', function() {
     var isolateScope = element.isolateScope();
-    expect(isolateScope.Config).toBeDefined();
+    expect(isolateScope.Config).to.be.defined;
   });
 });
