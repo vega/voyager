@@ -10,16 +10,16 @@ var $ = require('gulp-load-plugins')({
 
 gulp.task('partials', function () {
   return gulp.src([
-    paths.src + '/{app,components}/**/*.html',
-    paths.tmp + '/{app,components}/**/*.html'
-  ])
+      paths.src + '/{app,components}/**/*.html',
+      paths.tmp + '/{app,components}/**/*.html'
+    ])
     .pipe($.minifyHtml({
       empty: true,
       spare: true,
       quotes: true
     }))
     .pipe($.angularTemplatecache('templateCacheHtml.js', {
-      module: 'facetedviz'
+      module: 'voyager'
     }))
     .pipe(gulp.dest(paths.tmp + '/partials/'));
 });

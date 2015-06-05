@@ -2,24 +2,24 @@
 
 /**
  * @ngdoc service
- * @name facetedviz.visrec
+ * @name voyager.visrec
  * @description
  * # visrec
- * Service in the facetedviz.
+ * Service in the voyager.
  */
-angular.module('facetedviz')
-  .service('Visrec', function (vr, vl, _, consts, Config, Dataset, Logger, Fields) {
+angular.module('voyager')
+  .service('Visrec', function (cp, vl, _, consts, Config, Dataset, Logger, Fields) {
     var Visrec = {
       /**
        * List of all recommended projections based on the selection.
        * Array of fieldSet (Array of Field without transformation)
-       * projections = [ fieldSet (without aggr) ]
+       * projections = [ fieldSet (without aggregate) ]
        */
       projections: [],
 
       /**
        * Dictionary: projection key => a list of aggregated table
-       * aggregates[pkey] = [ fieldSet (with aggr) ]
+       * aggregates[pkey] = [ fieldSet (with aggregate) ]
        */
       aggregates: {},
 
@@ -61,6 +61,7 @@ angular.module('facetedviz')
 
     var initOpt = {
       genTypeCasting: false,
+      maxCardinalityForAutoAddOrdinal: null,
       omitDotPlot: true
     };
 
@@ -74,7 +75,9 @@ angular.module('facetedviz')
       // TODO decide if we can update projections only if field name list changes
 
       // First create a projection
-      var projections = vr.gen.projections(fieldList, Dataset.stats, {});
+
+      var projections = cp.gen.projections(fieldList, Dataset.stats,
+        {} || (Fields.selected.length === 0 ? initOpt : suggestionOpt));
 
       var aggregates = {}, fieldSetDict = {},
         fieldSets = [], chartClusters = {};
@@ -87,7 +90,7 @@ angular.module('facetedviz')
         var isExactMatch = pkey === Fields.selectedPKey;
         var opt =  isExactMatch ? exactMatchOpt :  Fields.selected.length === 0 ? initOpt : suggestionOpt;
 
-        aggregates[pkey] = vr.gen.aggregates([], projection, Dataset.stats, opt);
+        aggregates[pkey] = cp.gen.aggregates([], projection, Dataset.stats, opt);
 
         aggregates[pkey].forEach(function(fieldSet) {
           fieldSetDict[fieldSet.key] = fieldSet;
@@ -140,9 +143,12 @@ angular.module('facetedviz')
     };
 
     function genClusters(fieldSet) {
-      var encodings = vr.gen.encodings([], fieldSet, Dataset.stats, {}, Config.getConfig());
+      var encodings = cp.gen.encodings([], fieldSet, Dataset.stats, {
+        data: Config.getData(),
+        config: Config.getConfig()
+      });
 
-      var clusters = vr.cluster(encodings)
+      var clusters = cp.cluster(encodings)
         .map(function(cluster) {
           return cluster.map(function(spec) {
             // auto sort
@@ -150,7 +156,6 @@ angular.module('facetedviz')
             vl.Encoding.toggleSort(spec);
 
             var encoding = vl.Encoding.fromSpec(spec, {});
-            var vgSpec= vl.compile(encoding, Dataset.stats);
 
             return {
               fieldSetKey: fieldSet.key,
@@ -158,7 +163,6 @@ angular.module('facetedviz')
               vlSpec: spec,
               encoding: encoding,
               shorthand: encoding.toShorthand(),
-              vgSpec: vgSpec,
               score: spec.score,
               scoreFeatures: spec.scoreFeatures
             };

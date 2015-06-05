@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('vleApp')
+angular.module('polestar')
   .directive('functionSelect', function(_, vl, Logger) {
     return {
       templateUrl: 'components/functionselect/functionselect.html',
@@ -9,7 +9,7 @@ angular.module('vleApp')
         field: '='
       },
       link: function(scope /*,element, attrs*/) {
-        var BIN='bin', RAW='raw', COUNT='count', ANY = '-, sum';
+        var BIN='bin', RAW='raw', COUNT='count', ANY = 'AUTO';
 
         scope.func = {
           selected: ANY,
@@ -21,7 +21,7 @@ angular.module('vleApp')
         }
 
         function getAggrs(type) {
-          return vl.schema.aggr.supportedEnums[type];
+          return vl.schema.aggregate.supportedEnums[type];
         }
 
         // when the function select is updated, propagates change the parent
@@ -34,7 +34,7 @@ angular.module('vleApp')
           }
 
           field._bin = selectedFunc === BIN || undefined;
-          field._aggr = getAggrs(type).indexOf(selectedFunc) !== -1 ? selectedFunc : undefined;
+          field._aggregate = getAggrs(type).indexOf(selectedFunc) !== -1 ? selectedFunc : undefined;
           field._fn = getFns(type).indexOf(selectedFunc) !== -1 ? selectedFunc : undefined;
           field._raw = selectedFunc === RAW || undefined;
           field._any = selectedFunc === ANY || undefined;
@@ -62,7 +62,7 @@ angular.module('vleApp')
 
             scope.func.selected = field._bin ? BIN :
               field._raw ? RAW :
-              field._aggr || field._fn || ( isO ? RAW : ANY );
+              field._aggregate || field._fn || ( isO ? RAW : ANY );
           }
 
         }, true);

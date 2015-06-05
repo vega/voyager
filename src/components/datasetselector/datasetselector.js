@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('vleApp')
+angular.module('polestar')
   .directive('datasetSelector', function(Dataset, Config, Fields, Logger) {
     return {
       templateUrl: 'components/datasetselector/datasetselector.html',
@@ -16,7 +16,7 @@ angular.module('vleApp')
           Logger.logInteraction(Logger.actions.DATASET_CHANGE, dataset.name);
 
           Dataset.update(dataset).then(function() {
-            Config.updateDataset(dataset);
+            Config.updateDataset(Dataset.dataset, Dataset.type);
             Fields.updateSchema(Dataset.dataschema);
           });
         };

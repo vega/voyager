@@ -1,18 +1,20 @@
 'use strict';
-
+/* global vl:true */
 describe('Directive: datasetSelector', function() {
 
   // load the directive's module
-  beforeEach(module('vleApp'));
+  beforeEach(module('polestar'));
 
   var element,
     scope;
 
-  beforeEach(module('vleApp', function($provide) {
+  beforeEach(module('polestar', function($provide) {
     var mockDataset = {
       datasets: [{name: 'foo'}, {name: 'bar'}],
       dataset: null,
-      update: function(dataset) {}
+      update: function(dataset) {
+        // jshint unused:false
+      }
     };
     mockDataset.dataset = mockDataset.datasets[0];
 

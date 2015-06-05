@@ -3,7 +3,7 @@
 describe('Directive: functionSelect', function() {
 
   // load the directive's module
-  beforeEach(module('vleApp'));
+  beforeEach(module('polestar'));
 
   var element,
     scope;
@@ -12,7 +12,7 @@ describe('Directive: functionSelect', function() {
     scope = $rootScope.$new();
     scope.schema = {
       properties: {
-        aggr: {
+        aggregate: {
           supportedEnums: {
             Q: ['a', 'b'],
             undefined: []
@@ -59,7 +59,7 @@ describe('Directive: functionSelect', function() {
     element = angular.element('<function-select enc-type="encType2" pills="pills" schema="schema"></function-select>');
     element = $compile(element)(scope);
     scope.$digest();
-    scope.pills.y = { aggr:'count', name: '*'};
+    scope.pills.y = { aggregate:'count', name: '*'};
     scope.$digest();
     expect(element.find('input').length).toBe(1);
   }));

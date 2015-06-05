@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('facetedviz')
-  .factory('Fields', function(_, Dataset, vr, Logger){
+angular.module('voyager')
+  .factory('Fields', function(_, Dataset, vl, cp, Logger){
 
     var Fields = {
       fields: {},
@@ -12,9 +12,9 @@ angular.module('facetedviz')
 
     function resetField(field) {
       field.selected = undefined;
-      field._any = field.type!=='O' && field.aggr!=='count';
+      field._any = field.type!=='O' && field.aggregate!=='count';
       delete field._raw;
-      delete field._aggr;
+      delete field._aggregate;
       delete field._fn;
     }
 
@@ -30,7 +30,7 @@ angular.module('facetedviz')
     Fields.update = function() {
       var list = Fields.getList();
       Fields.selected = list.filter(function(d) { return d.selected; });
-      Fields.selectedPKey = vr.gen.projections.key(Fields.selected);
+      Fields.selectedPKey = cp.gen.projections.key(Fields.selected);
 
       Logger.logInteraction(Logger.actions.FIELDS_CHANGE, {
         selected: Fields.selected,
@@ -45,7 +45,10 @@ angular.module('facetedviz')
     };
 
     Fields.getList = function() {
-      return _.values(Fields.fields);
+      var list = _.sortBy(_.values(Fields.fields), function(field) {
+        return vl.field.order.typeThenName(field);
+      });
+      return list;
     };
 
     Fields.setSelected = function(fieldName, val) {
@@ -65,6 +68,5 @@ angular.module('facetedviz')
       Fields.highlighted[fieldName] = val;
     };
 
-    // [{"name":"Cost__Total_$","type":"Q","_aggr":"*","_bin":"*"}]
     return Fields;
   });

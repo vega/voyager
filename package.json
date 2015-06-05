@@ -1,10 +1,19 @@
 {
-  "name": "facetedviz",
-  "version": "0.0.0",
+  "name": "voyager",
+  "version": "0.6.2",
   "description": "Faceted Search User Interface for Data Exploration",
+  "author": {
+    "name": "UW Interactive Data Lab",
+    "url": "http://idl.cs.washington.edu"
+  },
+  "collaborators": [
+    "Dominik Moritz <domoritz@cs.washington.edu> (http://domoritz.de)",
+    "Kanit Wongsuphasawat <kanitw@gmail.com> (http://kanitw.yellowpigz.com)",
+    "Jeffrey Heer <jheer@uw.edu> (http://jheer.org)"
+  ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/uwdata/visrec.git"
+    "url": "https://github.com/uwdata/voyager.git"
   },
   "dependencies": {
     "stream-series": "^0.1.1"
@@ -17,6 +26,7 @@
     "gulp-angular-filesort": "~1.0.4",
     "gulp-angular-templatecache": "^1.5.0",
     "gulp-autoprefixer": "~2.0.0",
+    "gulp-bump": "^0.3.0",
     "gulp-compass": "^2.0.3",
     "gulp-consolidate": "~0.1.2",
     "gulp-csso": "~0.2.9",
@@ -27,7 +37,7 @@
     "gulp-karma": "~0.0.4",
     "gulp-load-plugins": "~0.7.1",
     "gulp-minify-html": "~0.1.7",
-    "gulp-ng-annotate": "~0.3.6",
+    "gulp-ng-annotate": "^0.5.2",
     "gulp-protractor": "~0.0.11",
     "gulp-rename": "~1.2.0",
     "gulp-replace": "~0.5.0",

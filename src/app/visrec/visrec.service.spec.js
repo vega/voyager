@@ -1,11 +1,13 @@
 'use strict';
 
+/* global vl:true */
+
 describe('Service: Visrec', function () {
 
   // load the service's module
-  beforeEach(module('facetedviz'));
+  beforeEach(module('voyager'));
 
-  beforeEach(module('facetedviz', function($provide) {
+  beforeEach(module('voyager', function($provide) {
     $provide.constant('vl', vl); // vl is loaded by karma
   }));
 

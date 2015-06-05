@@ -2,11 +2,11 @@
 
 /**
  * @ngdoc directive
- * @name facetedviz.directive:encodingVariations
+ * @name voyager.directive:encodingVariations
  * @description
  * # encodingVariations
  */
-angular.module('facetedviz')
+angular.module('voyager')
   .directive('encodingVariations', function (Visrec, Bookmarks, consts, $document, _, Logger) {
 
     return {

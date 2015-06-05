@@ -2,11 +2,11 @@
 
 /**
  * @ngdoc directive
- * @name facetedviz.directive:visList
+ * @name voyager.directive:visList
  * @description
  * # visList
  */
-angular.module('facetedviz')
+angular.module('voyager')
   .directive('visList', function (Fields, Visrec, vl, jQuery, consts, _, Logger) {
     return {
       templateUrl: 'components/vislist/vislist.html',

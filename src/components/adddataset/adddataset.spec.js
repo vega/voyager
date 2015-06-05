@@ -1,15 +1,9 @@
 'use strict';
 
-/* global vl:true */
-
-describe('Directive: visList', function () {
+describe('Directive: addDataset', function () {
 
   // load the directive's module
   beforeEach(module('voyager'));
-
-  beforeEach(module('voyager', function($provide) {
-    $provide.constant('vl', vl); // vl is loaded by karma
-  }));
 
   var element,
     scope;
@@ -19,9 +13,8 @@ describe('Directive: visList', function () {
   }));
 
   it('should make hidden element visible', inject(function ($compile) {
-    element = angular.element('<vis-list></vis-list>');
+    element = angular.element('<add-dataset></add-dataset>');
     element = $compile(element)(scope);
-    scope.$digest();
-    expect(element).toBe('');
+    expect(element.text()).toBe('this is the addDataset directive');
   }));
 });

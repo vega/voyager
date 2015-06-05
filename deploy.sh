@@ -1,11 +1,13 @@
+set -e
 
 gitsha=$(git rev-parse HEAD)
 
-git clone git@github.com:uwdata/facetedviz.git gh-pages
+git clone git@github.com:uwdata/voyager.git gh-pages
 cd gh-pages
 git checkout gh-pages
 cd ..
 gulp
+rm -rf dist/.git
 mv gh-pages/.git dist
 rm -rf gh-pages
 cd dist
