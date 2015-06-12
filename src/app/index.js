@@ -2,7 +2,6 @@
 /* globals window */
 
 angular.module('polestar', [
-    'ngAnimate',
     'ngCookies',
     'ngSanitize',
     'ngTouch',
