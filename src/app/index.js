@@ -7,7 +7,11 @@ angular.module('voyager', ['vlui',
     'LocalStorageModule',
     'ngOrderObjectBy',
     'angular-websql',
-    'Chronicle', 'ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', 'ui.router'])
+    'Chronicle',
+    'ngCookies',
+    'ngTouch',
+    'ngSanitize',
+    'ui.router'])
   .constant('_', window._)
   .constant('jQuery', window.$)
   .constant('vl', window.vl)
