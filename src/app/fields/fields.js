@@ -19,6 +19,8 @@ angular.module('voyager')
     }
 
     Fields.updateSchema = function(dataschema) {
+      dataschema = dataschema || Dataset.dataschema;
+
       Fields.fields = _(dataschema).reduce(function(d, field){
         resetField(field);
         d[field.name] = field;
@@ -67,6 +69,8 @@ angular.module('voyager')
     Fields.setHighlight = function(fieldName, val) {
       Fields.highlighted[fieldName] = val;
     };
+
+    Dataset.onUpdate.push(Fields.updateSchema);
 
     return Fields;
   });
