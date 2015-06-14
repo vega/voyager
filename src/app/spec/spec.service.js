@@ -8,7 +8,7 @@
  * Service in the polestar.
  */
 angular.module('polestar')
-  .service('Spec', function(_, vl, ZSchema, Alerts, Config) {
+  .service('Spec', function(_, vl, ZSchema, Alerts, Config, Dataset) {
     var Spec = {
       /** @type {Object} verbose spec edited by the UI */
       spec: null,
@@ -111,6 +111,7 @@ angular.module('polestar')
     };
 
     Spec.reset();
+    Dataset.onUpdate.push(Spec.reset);
 
     return Spec;
   });
