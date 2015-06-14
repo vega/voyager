@@ -41,7 +41,7 @@
           always-scrollable="true"
           tooltip="true"
 
-          priority="5"
+          priority="consts.priority.popup"
 
           class="abs-100 scroll-xy full-vl-plot-group no-top-margin"
         ></vl-plot-group>
@@ -64,7 +64,7 @@
             ng-click="select(subcluster)"
             class="row-vl-plot-group clickable"
 
-            priority="3"
+            priority="consts.priority.popup + $index + 1"
           >
           </vl-plot-group>
         </div>
