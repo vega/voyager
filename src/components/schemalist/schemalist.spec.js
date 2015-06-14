@@ -19,8 +19,7 @@ describe('Directive: schemaList', function() {
         foo: {},
         bar: {},
         baz: {}
-      },
-      onUpdate: []
+      }
     };
     $provide.value('Dataset', mockDataset);
   }));

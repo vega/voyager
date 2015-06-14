@@ -29,7 +29,8 @@ angular.module('polestar', [
   .constant('jsondiffpatch', window.jsondiffpatch)
   .config(function(consts) {
     window.vl.extend(consts, {
-      appId: 'polestar'
+      appId: 'polestar',
+      myriaRest: 'http://ec2-52-1-38-182.compute-1.amazonaws.com:8753'
     });
   })
   .config(function(uiZeroclipConfigProvider) {

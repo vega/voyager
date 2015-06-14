@@ -1,0 +1,18 @@
+<div>
+  <div class="open-dataset-popup"></div>
+  <select id="dataset-select" ng-model="Dataset.dataset" ng-change="datasetChanged()" ng-options="dataset.name group by dataset.group for dataset in Dataset.datasets track by dataset.id">
+    <option value="">Add dataset...</option>
+  </select>
+  <div class="drop-container">
+    <div class="popup-menu popup-new-dataset">
+      <div class="right">
+        <a class="fa fa-close" ng-click="doneAdd()"></a>
+      </div>
+      <div class="hflex">
+        <add-url-dataset></add-url-dataset>
+        <add-myria-dataset></add-myria-dataset>
+        <paste-dataset></paste-dataset>
+      </div>
+    </div>
+  </div>
+</div>
