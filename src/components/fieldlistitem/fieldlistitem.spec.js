@@ -13,7 +13,8 @@ describe('Directive: fieldListItem', function() {
       schema: ['foo', 'bar', 'baz'],
       stats: {
         a: {}
-      }
+      },
+      onUpdate: []
     };
     $provide.value('Dataset', mock);
   }));
