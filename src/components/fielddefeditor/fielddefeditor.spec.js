@@ -16,7 +16,8 @@ describe('Directive: fieldDefEditor', function() {
     $provide.constant('Dataset', {
       stats: {
         a: {}
-      }
+      },
+      onUpdate: []
     });
   }));
 
