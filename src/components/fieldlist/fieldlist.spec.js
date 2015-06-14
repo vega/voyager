@@ -27,7 +27,8 @@ describe('Directive: fieldList', function () {
       stats: {
         a: {},
         b: {}
-      }
+      },
+      onUpdate: []
     };
     mockDataset.dataset = mockDataset.datasets[0];
     $provide.value('Dataset', mockDataset);
