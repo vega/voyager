@@ -84,7 +84,7 @@ angular.module('polestar')
 
         scope.$watch('enc[encType]', function(field) {
           Pills.pills[scope.encType] = field ? _.cloneDeep(field) : {};
-        });
+        }, true);
 
         scope.$watchGroup(['allowedCasting[Dataset.dataschema.byName[enc[encType].name].type]', 'enc[encType].aggregate'], function(arr){
           var allowedTypes = arr[0], aggregate=arr[1];
