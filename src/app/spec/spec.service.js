@@ -25,8 +25,9 @@ angular.module('polestar')
     };
 
     Spec._removeEmptyFieldDefs = function(spec) {
-      spec.encoding = _.omit(spec.encoding, function(fieldDef) {
-        return !fieldDef || (fieldDef.name === undefined && fieldDef.value === undefined);
+      spec.encoding = _.omit(spec.encoding, function(fieldDef, encType) {
+        return !fieldDef || (fieldDef.name === undefined && fieldDef.value === undefined) ||
+          (spec.marktype && ! vl.schema.schema.properties.encoding.properties[encType].supportedMarktypes[spec.marktype]);
       });
     };
 
@@ -71,18 +72,14 @@ angular.module('polestar')
 
     // takes a full spec, validates it and then rebuilds everything
     Spec.update = function(spec) {
-      if (!spec) {
-        spec = Spec.spec;
-      }
+      spec = _.cloneDeep(spec || Spec.spec);
 
-      var cleanSpec = _.cloneDeep(spec);
-
-      Spec._removeEmptyFieldDefs(cleanSpec);
-      deleteNulls(cleanSpec);
+      Spec._removeEmptyFieldDefs(spec);
+      deleteNulls(spec);
 
       // we may have removed enc
-      if (!('encoding' in cleanSpec)) {
-        cleanSpec.encoding = {};
+      if (!('encoding' in spec)) {
+        spec.encoding = {};
       }
       var validator = new ZSchema();
 
@@ -90,7 +87,7 @@ angular.module('polestar')
 
       var schema = vl.schema.schema;
       // now validate the spec
-      var valid = validator.validate(cleanSpec, schema);
+      var valid = validator.validate(spec, schema);
 
       if (!valid) {
         //FIXME: move this dependency to directive/controller layer
@@ -98,12 +95,12 @@ angular.module('polestar')
           msg: validator.getLastErrors()
         });
       } else {
-        vl.extend(cleanSpec.config, Config.large());
-        var encoding = vl.Encoding.fromSpec(cleanSpec),
+        vl.extend(spec.config, Config.large());
+        var encoding = vl.Encoding.fromSpec(spec),
           chart = Spec.chart;
 
         chart.fieldSet =  Spec.spec.encoding;
-        chart.vlSpec = Spec.spec;
+        chart.vlSpec = spec;
         chart.cleanSpec = encoding.toSpec(false);
         chart.shorthand = encoding.toShorthand();
         console.log('chart', chart.vgSpec, chart.vlSpec);
