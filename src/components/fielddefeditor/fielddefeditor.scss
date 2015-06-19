@@ -92,20 +92,18 @@ $text-color: #212121;
 }
 
 .shelf-properties, .shelf-functions{
-  label.prop-label {
+  label {
     display: inline-block;
-    width: 60px;
-    text-align: right;
-    margin-right: 3px;
-  }
 
-  label.func-label {
-    display: inline-block;
-    min-width: 75px;
-    margin-right: 5px;
-  }
+    &.prop-label {
+      width: 60px;
+      text-align: right;
+      margin-right: 3px;
+    }
 
-  label.type-label {
-    margin-right: 5px;
+    &.func-label, &.type-label {
+      min-width: 75px;
+      margin-right: 5px;
+    }
   }
 }
