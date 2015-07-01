@@ -15,6 +15,7 @@
     "type": "git",
     "url": "https://github.com/uwdata/voyager.git"
   },
+  "license": "BSD-3-Clause",
   "scripts": {
     "test": "gulp test"
   },
