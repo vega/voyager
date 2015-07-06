@@ -5,7 +5,7 @@ describe('Directive: functionSelect', function() {
   // load the directive's module
   beforeEach(module('voyager'));
 
-  var element, scope, $compile;
+  var scope, $compile;
 
   beforeEach(inject(function ($rootScope, _$compile_) {
     scope = $rootScope.$new();
