@@ -153,7 +153,7 @@ angular.module('voyager')
           return cluster.map(function(spec) {
             // auto sort
             spec = _.cloneDeep(spec);
-            vl.Encoding.toggleSort(spec);
+            // vl.Encoding.toggleSort(spec);
 
             var encoding = vl.Encoding.fromSpec(spec, {});
 
