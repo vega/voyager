@@ -24,7 +24,7 @@
   <div class="drop-container">
     <div class="popup-menu popup-functions" ng-show="(field.type!=='O' && field.aggregate!=='count') || consts.enableExclude">
       <div style="width:150px">
-        <function-select field="Fields.fields[field.name]"></function-select>
+        <function-list field="Fields.fields[field.name]"></function-list>
       </div>
 
       <div class="inclusion" ng-show="consts.enableExclude">

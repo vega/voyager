@@ -1,6 +1,6 @@
 'use strict';
 
-describe('Directive: functionSelect', function() {
+describe('Directive: functionList', function() {
 
   // load the directive's module
   beforeEach(module('voyager'));

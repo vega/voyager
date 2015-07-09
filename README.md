@@ -13,6 +13,12 @@ If you find a bug or have a feature request, please take a look a [the issue tra
 
 ## Setup Instruction
 
+First clone this repository by running
+
+```
+git clone https://github.com/uwdata/voyager
+```
+
 ### Install Dependencies
 
 Make sure you have node.js. (We recommend using [homebrew](http://brew.sh) and simply run `brew install node`.)

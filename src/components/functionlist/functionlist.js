@@ -1,9 +1,9 @@
 'use strict';
 
 angular.module('voyager')
-  .directive('functionSelect', function(_, vl, Logger) {
+  .directive('functionList', function(_, vl, Logger) {
     return {
-      templateUrl: 'components/functionselect/functionselect.html',
+      templateUrl: 'components/functionlist/functionlist.html',
       restrict: 'E',
       scope: {
         field: '='
