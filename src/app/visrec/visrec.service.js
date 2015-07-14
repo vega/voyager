@@ -151,8 +151,6 @@ angular.module('voyager')
       var clusters = cp.cluster(encodings)
         .map(function(cluster) {
           return cluster.map(function(spec) {
-            spec = _.cloneDeep(spec);
-            
             var encoding = vl.Encoding.fromSpec(spec, {});
 
             return {
