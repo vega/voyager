@@ -48,7 +48,7 @@ angular.module('voyager')
 
     Fields.getList = function() {
       var list = _.sortBy(_.values(Fields.fields), function(field) {
-        return vl.field.order.typeThenName(field);
+        return Dataset.fieldOrderBy.typeThenName(field);
       });
       return list;
     };
