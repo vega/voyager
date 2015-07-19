@@ -3,6 +3,8 @@
 angular.module('voyager')
   .controller('MainCtrl', function($scope, $document, Chronicle, Visrec, Config, Dataset, Fields, Bookmarks, Logger, Drop, consts) {
 
+    Config.config.useRawDomain = true;
+
     $scope.consts = consts;
     $scope.canUndo = false;
     $scope.canRedo = false;
