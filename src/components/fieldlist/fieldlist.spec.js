@@ -21,7 +21,7 @@ describe('Directive: fieldList', function () {
     var mockDataset = {
       datasets: [{name: 'foo'}, {name: 'bar'}],
       dataset: null,
-      fieldOrder: vl.field.order.typeThenName,
+      fieldOrder: function() {return 0;},
       dataschema: mockDataschema,
       update: function() {},
       stats: {
