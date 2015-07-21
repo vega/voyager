@@ -22,7 +22,9 @@ angular.module('voyager')
 
         element.bind('scroll', function(){
            if(jQuery(this).scrollTop() + jQuery(this).innerHeight() >= jQuery(this)[0].scrollHeight){
-            scope.increaseLimit();
+            if (scope.limit < Visrec.fieldSets.length) {
+              scope.increaseLimit();
+            }
            }
         });
 
