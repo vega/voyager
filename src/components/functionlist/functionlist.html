@@ -2,6 +2,6 @@
   <h4>Functions</h4>
   <label class="func-label field-func" ng-repeat="f in func.list">
     <input type="radio" ng-value="f" ng-model="func.selected" ng-change="functionChanged(f)">
-    {{f || '-'}}
+    {{f === 'avg' ? 'mean' : f || '-'}}
   </label>
 </div>
