@@ -20,6 +20,14 @@ angular.module('voyager')
         scope.shorthands = vl.field.shorthands;
         scope.limit = consts.numInitClusters;
 
+        element.bind('scroll', function(){
+           if(jQuery(this).scrollTop() + jQuery(this).innerHeight() >= jQuery(this)[0].scrollHeight){
+            if (scope.limit < Visrec.fieldSets.length) {
+              scope.increaseLimit();
+            }
+           }
+        });
+
         scope.increaseLimit = function() {
           if(scope.limit + consts.numMoreClusters > Visrec.numClustersGenerated) {
             Visrec.update.clusters(scope.limit + consts.numMoreClusters);
