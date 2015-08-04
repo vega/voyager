@@ -23,7 +23,7 @@
     "angular-websql": "~1.0.2",
     "datalib": "^1.3.0",
     "viscompass": "~0.5.8",
-    "vega-lite": "~0.7.11",
+    "vega-lite": "~0.7.12",
     "vega-lite-ui": "~0.7.14"
   },
   "devDependencies": {
