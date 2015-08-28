@@ -11,13 +11,6 @@ angular.module('polestar')
     $scope.showDevPanel = false;
     $scope.embedded = !!consts.embeddedData;
 
-    if ($scope.embedded) {
-      // use provided data and we will hide the dataset selector
-      Dataset.dataset = {
-        values: consts.embeddedData
-      };
-    }
-
     // undo/redo support
 
     $scope.canUndo = false;
@@ -31,6 +24,13 @@ angular.module('polestar')
 
     // load bookmarks from local storage
     Bookmarks.load();
+
+    if ($scope.embedded) {
+      // use provided data and we will hide the dataset selector
+      Dataset.dataset = {
+        values: consts.embeddedData
+      };
+    }
 
     // initialize undo after we have a dataset
     Dataset.update(Dataset.dataset).then(function() {
