@@ -8,6 +8,7 @@ angular.module('voyager')
     $scope.consts = consts;
     $scope.canUndo = false;
     $scope.canRedo = false;
+    $scope.embedded = !!consts.embeddedData;
 
     $scope.Visrec = Visrec;
     $scope.Fields = Fields;
@@ -22,6 +23,13 @@ angular.module('voyager')
     };
 
     Bookmarks.load();
+
+    if ($scope.embedded) {
+      // use provided data and we will hide the dataset selector
+      Dataset.dataset = {
+        values: consts.embeddedData
+      };
+    }
 
     Dataset.update(Dataset.dataset).then(function() {
       // initially set dataset and update fields
