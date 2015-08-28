@@ -9,6 +9,14 @@ angular.module('polestar')
     $scope.Bookmarks = Bookmarks;
     $scope.consts = consts;
     $scope.showDevPanel = false;
+    $scope.embedded = !!consts.embeddedData;
+
+    if ($scope.embedded) {
+      // use provided data and we will hide the dataset selector
+      Dataset.dataset = {
+        values: consts.embeddedData
+      };
+    }
 
     // undo/redo support
 
