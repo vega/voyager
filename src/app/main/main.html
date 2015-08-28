@@ -59,7 +59,7 @@
           ></vl-plot-group>
     </div>
   </div>
-  <div class="hflex full-width dev-panel" ng-show="showDevPanel">
+  <div class="hflex full-width dev-panel" ng-if="showDevPanel">
     <div class="pane">
       <div class="card">
         <button ng-click="Logger.clear()">Clear logs</button><br/>
