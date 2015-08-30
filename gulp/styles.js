@@ -46,9 +46,6 @@ gulp.task('styles', function () {
     // }))
     .pipe($.sass(sassOptions))
     .pipe($.autoprefixer())
-    .pipe($.base64({
-        baseDir: paths.src + '/app/',
-        debug: true}))
     .on('error', function handleError(err) {
       console.error(err.toString());
       this.emit('end');
