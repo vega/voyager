@@ -35,7 +35,7 @@
     <div class="pane data-pane noselect">
       <div class="card abs-100 no-top-margin">
         <div class="right">
-          <dataset-selector></dataset-selector>
+          <dataset-selector ng-if="!embedded"></dataset-selector>
         </div>
         <h2>Data</h2>
         <field-list></field-list>
