@@ -20,11 +20,13 @@ angular.module('polestar')
         description: '=',
         default: '=',
         min: '=',
-        max: '='
+        max: '=',
+        role: '=' // for example 'color'
       },
       link: function postLink(scope /*, element, attrs*/) {
         scope.hasAuto = scope.default === undefined;
         scope.automodel = { value: false };
+
         if (scope.hasAuto) {
           scope.automodel.value = scope.group[scope.propName] === undefined;
 
@@ -35,6 +37,8 @@ angular.module('polestar')
             }
           });
         }
+
+        scope.isRange = scope.max !== undefined && scope.min !== undefined;
       }
     };
   });
