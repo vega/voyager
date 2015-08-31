@@ -50,7 +50,7 @@
         <div ng-repeat="(propName, scaleProp) in schema.properties[group].properties"
              ng-init="id = encType + group + $index"
              ng-show="scaleProp.supportedTypes ? scaleProp.supportedTypes[enc[encType].type] : true">
-          <property-editor id="id" type="scaleProp.type" enum="scaleProp.enum" prop-name="propName" group="enc[encType][group]"></property-editor>
+          <property-editor id="id" type="scaleProp.type" enum="scaleProp.enum" prop-name="propName" group="enc[encType][group]" description="scaleProp.description" min="scaleProp.minimum" max="scaleProp.maximum" default="scaleProp.default"></property-editor>
         </div>
       </div>
     </div>

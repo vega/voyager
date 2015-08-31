@@ -16,9 +16,25 @@ angular.module('polestar')
         type: '=',
         enum: '=',
         propName: '=',
-        group: '='
+        group: '=',
+        description: '=',
+        default: '=',
+        min: '=',
+        max: '='
       },
-      link: function postLink(/*scope, element, attrs*/) {
+      link: function postLink(scope /*, element, attrs*/) {
+        scope.hasAuto = scope.default === undefined;
+        scope.automodel = { value: false };
+        if (scope.hasAuto) {
+          scope.automodel.value = scope.group[scope.propName] === undefined;
+
+          // change the value to undefined if auto is true
+          scope.$watch('automodel.value', function() {
+            if (scope.automodel.value === true) {
+              scope.group[scope.propName] = undefined;
+            }
+          });
+        }
       }
     };
   });
