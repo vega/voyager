@@ -36,6 +36,10 @@ angular.module('polestar')
     Dataset.update(Dataset.dataset).then(function() {
       Config.updateDataset(Dataset.dataset);
 
+      if (consts.initialSpec) {
+          Spec.parseSpec(consts.initialSpec);
+      }
+
       $scope.chron = Chronicle.record('Spec.spec', $scope, true,
         ['Dataset.dataset', 'Dataset.dataschema','Dataset.stats', 'Config.config']);
 
