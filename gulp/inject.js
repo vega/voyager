@@ -33,7 +33,7 @@ gulp.task('inject', ['styles'], function () {
 
   var wiredepOptions = {
     directory: 'bower_components',
-    exclude: [/bootstrap\.css/, /foundation\.css/],
+    exclude: [/bootstrap\.css/, /foundation\.css/,/font-awesome.css/],
     overrides: {
       angular: {
         dependencies: {

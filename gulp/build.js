@@ -46,7 +46,11 @@ gulp.task('html', ['inject', 'partials'], function () {
     .pipe($.uglify({preserveComments: $.uglifySaveLicense}))
     .pipe(jsFilter.restore())
     .pipe(cssFilter)
-    .pipe($.replace('../../bower_components/fontawesome/fonts', '../fonts'))
+    //.pipe($.replace('../../bower_components/fontawesome/fonts', '../fonts'))
+    .pipe($.base64({
+        baseDir: paths.src + '/app/',
+        maxImageSize: 1024*1024, // 1MB
+    }))
     .pipe($.csso())
     .pipe(cssFilter.restore())
     .pipe(assets.restore())
@@ -94,4 +98,4 @@ gulp.task('clean', function (done) {
   $.del([paths.dist + '/', paths.tmp + '/'], done);
 });
 
-gulp.task('build', ['html', 'assets', 'data', 'fonts', 'misc', 'zeroclipboard']);
+gulp.task('build', ['html', 'data', 'misc', 'zeroclipboard']);
