@@ -92,13 +92,22 @@ $text-color: #212121;
 }
 
 .shelf-properties, .shelf-functions{
+  line-height: 20px;
+
   label {
     display: inline-block;
 
     &.prop-label {
-      width: 60px;
+      width: 110px;
       text-align: right;
       margin-right: 3px;
+      .name {
+        text-overflow: ellipsis;
+        width: 90px;
+        overflow: hidden;
+        display: inline-block;
+        vertical-align: middle;
+      }
     }
 
     &.func-label, &.type-label {

@@ -38,19 +38,16 @@
   <div class="drop-container">
     <div class="popup-menu shelf-properties shelf-properties-{{encType}}">
       <div>
-        <property-editor ng-show="schema.properties.legend" id="encType + 'legend'" type="schema.properties.legend.type" enum="schema.properties.legend.enum" prop-name="'legend'" group="enc[encType]"></property-editor>
-      </div>
-      <div>
-        <property-editor ng-show="schema.properties.value" id="encType + 'value'" type="schema.properties.value.type" enum="schema.properties.value.enum" prop-name="'value'" group="enc[encType]"></property-editor>
+        <property-editor ng-show="schema.properties.value" id="encType + 'value'" type="schema.properties.value.type" enum="schema.properties.value.enum" prop-name="'value'" group="enc[encType]" description="schema.properties.value.description" min="schema.properties.value.minimum" max="schema.properties.value.maximum" role="schema.properties.value.role" default="schema.properties.value.default"></property-editor>
       </div>
 
-      <div ng-repeat="group in ['scale', 'text', 'axis', 'bin']"
+      <div ng-repeat="group in ['legend', 'scale', 'text', 'axis', 'bin']"
            ng-show="schema.properties[group]">
         <h4>{{ group }}</h4>
         <div ng-repeat="(propName, scaleProp) in schema.properties[group].properties"
              ng-init="id = encType + group + $index"
              ng-show="scaleProp.supportedTypes ? scaleProp.supportedTypes[enc[encType].type] : true">
-          <property-editor id="id" type="scaleProp.type" enum="scaleProp.enum" prop-name="propName" group="enc[encType][group]"></property-editor>
+          <property-editor id="id" type="scaleProp.type" enum="scaleProp.enum" prop-name="propName" group="enc[encType][group]" description="scaleProp.description" min="scaleProp.minimum" max="scaleProp.maximum" role="scaleProp.role" default="scaleProp.default"></property-editor>
         </div>
       </div>
     </div>
