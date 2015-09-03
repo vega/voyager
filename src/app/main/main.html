@@ -1,7 +1,7 @@
 <div class="flex-root vflex full-width full-height">
   <div class="full-width no-shrink">
     <div class="card no-right-margin no-top-margin margin-bottom">
-      <div class="right">
+      <div class="right flex-root hflex">
         <div class="controls">
           <span ng-show="consts.debug">
             <a ng-href="{{ {fields: Fields.fields} | reportUrl }}" target="_blank" class="command debug" tooltips tooltip-size="small"
@@ -25,6 +25,10 @@
           <a class="command" ng-click="chron.redo()" ng-class="{disabled: !canRedo}">
             <i class="fa fa-repeat"></i> Redo
           </a>
+        </div>
+
+        <div>
+          <a href="https://idl.cs.washington.edu/" target="_blank" class="logo"></a>
         </div>
       </div>
       <h1>Data Voyager</h1>
