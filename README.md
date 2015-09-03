@@ -13,6 +13,7 @@ We are working on improving its code and documentation.**
 If you are using Polestar for your project(s), please let us know what are you using it for by emailing us at [Vega-lite \[at\] cs.washington.edu](mailto:vega-lite@cs.washington.edu).  Feedbacks are also welcomed.
 If you find a bug or have a feature request, please [create an issue](https://github.com/uwdata/polestar/issues/new).
 
+
 ## Team
 
 Polestar's development is led by Dominik Moritz, Kanit Wongsuphasawat, and Jeffrey Heer at the University of Washington [Interactive Data Lab](http://idl.cs.washington.edu), in collaboration with [UW eScience Institute](http://escience.washington.edu/) and [Tableau Research](http://research.tableau.com)
