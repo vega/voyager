@@ -31,7 +31,7 @@
     <div class="pane data-pane noselect">
       <div class="card abs-100">
         <div class="right">
-          <dataset-selector></dataset-selector>
+          <dataset-selector ng-if="!embedded"></dataset-selector>
         </div>
         <h2>Data</h2>
         <schema-list></schema-list>
@@ -59,7 +59,7 @@
           ></vl-plot-group>
     </div>
   </div>
-  <div class="hflex full-width dev-panel" ng-show="showDevPanel">
+  <div class="hflex full-width dev-panel" ng-if="showDevPanel">
     <div class="pane">
       <div class="card">
         <button ng-click="Logger.clear()">Clear logs</button><br/>
@@ -71,7 +71,7 @@
         <configuration-editor></configuration-editor>
       </div>
     </div>
-    <div class="pane vl-pane ">
+    <div class="pane vl-pane">
       <vl-spec-editor></vl-spec-editor>
     </div>
     <div class="pane vg-pane">

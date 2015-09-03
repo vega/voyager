@@ -45,7 +45,6 @@ gulp.task('styles', function () {
     //   css: paths.tmp + '/serve/app/'
     // }))
     .pipe($.sass(sassOptions))
-
     .pipe($.autoprefixer())
     .on('error', function handleError(err) {
       console.error(err.toString());

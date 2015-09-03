@@ -9,6 +9,7 @@ angular.module('polestar')
     $scope.Bookmarks = Bookmarks;
     $scope.consts = consts;
     $scope.showDevPanel = false;
+    $scope.embedded = !!consts.embeddedData;
 
     // undo/redo support
 
@@ -24,9 +25,20 @@ angular.module('polestar')
     // load bookmarks from local storage
     Bookmarks.load();
 
+    if ($scope.embedded) {
+      // use provided data and we will hide the dataset selector
+      Dataset.dataset = {
+        values: consts.embeddedData
+      };
+    }
+
     // initialize undo after we have a dataset
     Dataset.update(Dataset.dataset).then(function() {
       Config.updateDataset(Dataset.dataset);
+
+      if (consts.initialSpec) {
+          Spec.parseSpec(consts.initialSpec);
+      }
 
       $scope.chron = Chronicle.record('Spec.spec', $scope, true,
         ['Dataset.dataset', 'Dataset.dataschema','Dataset.stats', 'Config.config']);
