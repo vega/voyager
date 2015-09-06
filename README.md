@@ -23,16 +23,17 @@ git clone https://github.com/uwdata/voyager
 
 Make sure you have node.js. (We recommend using [homebrew](http://brew.sh) and simply run `brew install node`.)
 
-Install gulp + bower globally by running
+First, install gulp + bower globally by running
 
 ```sh
 npm install -g bower
 npm install -g gulp
 ```
 
-Then install all the npm, bower dependencies:
+Then, `cd` into your local clone of the repository, and install all the npm, bower dependencies:
 
 ```sh
+cd voyager
 npm install
 bower install
 ```
