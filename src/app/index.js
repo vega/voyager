@@ -7,7 +7,6 @@ angular.module('polestar', [
     'ngDragDrop',
     'monospaced.elastic',
     'zeroclipboard',
-    'ui.router',
     'ui.select',
     'Chronicle',
     'LocalStorageModule',
@@ -39,14 +38,4 @@ angular.module('polestar', [
   })
   .config(function(localStorageServiceProvider) {
     localStorageServiceProvider.setPrefix('polestar');
-  })
-  .config(function($stateProvider, $urlRouterProvider) {
-    $stateProvider
-      .state('home', {
-        url: '/',
-        templateUrl: 'app/main/main.html',
-        controller: 'MainCtrl'
-      });
-
-    $urlRouterProvider.otherwise('/');
   });
