@@ -6,7 +6,6 @@ angular.module('voyager', ['vlui',
     '720kb.tooltips',
     'LocalStorageModule',
     'ngOrderObjectBy',
-    'angular-websql',
     'Chronicle',
     'ngCookies',
     'ngTouch',
@@ -18,7 +17,6 @@ angular.module('voyager', ['vlui',
   .constant('vg', window.vg)
   .constant('cp', window.cp)
   .constant('tv4', window.tv4)
-  .constant('Papa', window.Papa)
   .constant('Blob', window.Blob)
   .constant('URL', window.URL)
   .constant('Tether', window.Tether)
