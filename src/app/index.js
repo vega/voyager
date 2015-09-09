@@ -8,8 +8,7 @@ angular.module('voyager', ['vlui',
     'ngOrderObjectBy',
     'Chronicle',
     'ngTouch',
-    'ngSanitize',
-    'ui.router'])
+    'ngSanitize'])
   .constant('_', window._)
   .constant('jQuery', window.$)
   .constant('vl', window.vl)
@@ -27,7 +26,7 @@ angular.module('voyager', ['vlui',
       swfPath: 'bower_components/zeroclipboard/dist/ZeroClipboard.swf'
     });
   }])
-  .config(function ($stateProvider, $urlRouterProvider, consts) {
+  .config(function(consts) {
     window.vl.extend(consts, {
       debug: true,
       debugInList: true,
@@ -36,14 +35,5 @@ angular.module('voyager', ['vlui',
       appId: 'voyager',
       enableExclude: true
     });
-
-    $stateProvider
-      .state('home', {
-        url: '/',
-        templateUrl: 'app/main/main.html',
-        controller: 'MainCtrl'
-      });
-
-    $urlRouterProvider.otherwise('/');
   })
 ;
