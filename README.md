@@ -1,6 +1,6 @@
 # Voyager
 
-[![Build Status](https://travis-ci.org/uwdata/voyager.svg)](https://travis-ci.org/uwdata/voyager) 
+[![Build Status](https://travis-ci.org/uwdata/voyager.svg)](https://travis-ci.org/uwdata/voyager)
 
 Voyager is a visualization browser for data analysis, building on top of [Vega-lite](https://github.com/uwdata/vega-lite).
 Try our [online demo](http://uwdata.github.io/voyager/). Also, be sure to check out [related projects](https://vega.github.io/).
@@ -9,7 +9,7 @@ Try our [online demo](http://uwdata.github.io/voyager/). Also, be sure to check 
 We are working on improving its code and documentation.**
 
 If you are using Voyager for your project(s), please let us know what are you using it for by emailing us at [Vega-lite \[at\] cs.washington.edu](mailto:vega-lite@cs.washington.edu).  Feedbacks are also welcomed.
-If you find a bug or have a feature request, please take a look a [the issue tracker](https://github.com/uwdata/voyager/issues/) and [create an issue](https://github.com/uwdata/voyager/issues/new) if there is no existing issue. 
+If you find a bug or have a feature request, please take a look a [the issue tracker](https://github.com/uwdata/voyager/issues/) and [create an issue](https://github.com/uwdata/voyager/issues/new) if there is no existing issue.
 
 ## Setup Instruction
 
@@ -23,16 +23,17 @@ git clone https://github.com/uwdata/voyager
 
 Make sure you have node.js. (We recommend using [homebrew](http://brew.sh) and simply run `brew install node`.)
 
-Install gulp + bower globally by running
+First, install gulp + bower globally by running
 
 ```sh
 npm install -g bower
 npm install -g gulp
 ```
 
-Then install all the npm, bower dependencies:
+Then, `cd` into your local clone of the repository, and install all the npm, bower dependencies:
 
 ```sh
+cd voyager
 npm install
 bower install
 ```
@@ -59,11 +60,11 @@ All source code are under `src/`
 - `src/vendor` contains
 
 @kanitw have create [`gulp/gen.js`](https://github.com/uwdata/polestar/blob/master/gulp/gen.js) for help generating angular components.
-For example, you can run `gulp gen -d directiveName` and this would create all relevant files including the javascript file, the template file, the stylesheet file and the test spec. 
+For example, you can run `gulp gen -d directiveName` and this would create all relevant files including the javascript file, the template file, the stylesheet file and the test spec.
 
 #### Coding Style
 
-We use jshint as our linter for coding in the project.  
+We use jshint as our linter for coding in the project.
 
 #### Stylesheets
 
