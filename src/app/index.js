@@ -14,12 +14,10 @@ angular.module('polestar', [
     'LocalStorageModule',
     '720kb.tooltips',
     'ngOrderObjectBy',
-    'angular-websql',
     'vlui'])
   .constant('_', window._)
   .constant('vl', window.vl)
   .constant('vg', window.vg)
-  .constant('Papa', window.Papa)
   .constant('ZSchema', window.ZSchema)
   .constant('Tether', window.Tether)
   .constant('Drop', window.Drop)
