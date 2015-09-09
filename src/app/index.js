@@ -7,7 +7,6 @@ angular.module('voyager', ['vlui',
     'LocalStorageModule',
     'ngOrderObjectBy',
     'Chronicle',
-    'ngCookies',
     'ngTouch',
     'ngSanitize',
     'ui.router'])

@@ -6,7 +6,6 @@
   ],
   "dependencies": {
     "zeptojs": "~1.1.4",
-    "angular-cookies": "~1.4.1",
     "angular-touch": "~1.4.1",
     "angular-sanitize": "~1.4.1",
     "angular-ui-router": "~0.2.15",
