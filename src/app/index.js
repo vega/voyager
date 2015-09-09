@@ -2,24 +2,20 @@
 /* globals window */
 
 angular.module('polestar', [
-    'ngCookies',
     'ngSanitize',
     'ngTouch',
     'ngDragDrop',
     'monospaced.elastic',
     'zeroclipboard',
-    'ui.router',
     'ui.select',
     'Chronicle',
     'LocalStorageModule',
     '720kb.tooltips',
     'ngOrderObjectBy',
-    'angular-websql',
     'vlui'])
   .constant('_', window._)
   .constant('vl', window.vl)
   .constant('vg', window.vg)
-  .constant('Papa', window.Papa)
   .constant('ZSchema', window.ZSchema)
   .constant('Tether', window.Tether)
   .constant('Drop', window.Drop)
@@ -42,14 +38,4 @@ angular.module('polestar', [
   })
   .config(function(localStorageServiceProvider) {
     localStorageServiceProvider.setPrefix('polestar');
-  })
-  .config(function($stateProvider, $urlRouterProvider) {
-    $stateProvider
-      .state('home', {
-        url: '/',
-        templateUrl: 'app/main/main.html',
-        controller: 'MainCtrl'
-      });
-
-    $urlRouterProvider.otherwise('/');
   });
