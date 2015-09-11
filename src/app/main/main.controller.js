@@ -5,7 +5,6 @@ angular.module('polestar')
     $scope.Spec = Spec;
     $scope.Dataset = Dataset;
     $scope.Config = Config;
-    $scope.Logger = Logger;
     $scope.Bookmarks = Bookmarks;
     $scope.consts = consts;
     $scope.showDevPanel = false;
