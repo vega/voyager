@@ -14,7 +14,6 @@ angular.module('voyager')
     $scope.Fields = Fields;
     $scope.Dataset = Dataset;
     $scope.Config = Config;
-    $scope.Logger = Logger;
     $scope.Bookmarks = Bookmarks;
 
     $scope.showBookmark = false;
