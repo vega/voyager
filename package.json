@@ -4,7 +4,7 @@
   "description": "Visualization specification interface.",
   "repository": {
     "type": "git",
-    "url": "https://github.com/uwdata/polestar.git"
+    "url": "https://github.com/vega/polestar.git"
   },
   "author": {
     "name": "UW Interactive Data Lab",
