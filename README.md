@@ -1,22 +1,22 @@
 # Voyager
 
-[![Build Status](https://travis-ci.org/uwdata/voyager.svg)](https://travis-ci.org/uwdata/voyager)
+[![Build Status](https://travis-ci.org/vega/voyager.svg)](https://travis-ci.org/vega/voyager)
 
-Voyager is a visualization browser for data analysis, building on top of [Vega-lite](https://github.com/uwdata/vega-lite).
-Try our [online demo](http://uwdata.github.io/voyager/). Also, be sure to check out [related projects](https://vega.github.io/).
+Voyager is a visualization browser for data analysis, building on top of [Vega-lite](https://github.com/vega/vega-lite).
+Try our [online demo](http://vega.github.io/voyager/). Also, be sure to check out [related projects](https://vega.github.io/).
 
 **This project is an [alpha](http://en.wikipedia.org/wiki/Software_release_life_cycle#Alpha) software.
 We are working on improving its code and documentation.**
 
 If you are using Voyager for your project(s), please let us know what are you using it for by emailing us at [Vega-lite \[at\] cs.washington.edu](mailto:vega-lite@cs.washington.edu).  Feedbacks are also welcomed.
-If you find a bug or have a feature request, please take a look a [the issue tracker](https://github.com/uwdata/voyager/issues/) and [create an issue](https://github.com/uwdata/voyager/issues/new) if there is no existing issue.
+If you find a bug or have a feature request, please take a look a [the issue tracker](https://github.com/vega/voyager/issues/) and [create an issue](https://github.com/vega/voyager/issues/new) if there is no existing issue.
 
 ## Setup Instruction
 
 First clone this repository by running
 
 ```
-git clone https://github.com/uwdata/voyager
+git clone https://github.com/vega/voyager
 ```
 
 ### Install Dependencies
@@ -59,7 +59,7 @@ All source code are under `src/`
 - `src/data/` contains all data that we use in the application
 - `src/vendor` contains
 
-@kanitw have create [`gulp/gen.js`](https://github.com/uwdata/polestar/blob/master/gulp/gen.js) for help generating angular components.
+@kanitw have create [`gulp/gen.js`](https://github.com/vega/polestar/blob/master/gulp/gen.js) for help generating angular components.
 For example, you can run `gulp gen -d directiveName` and this would create all relevant files including the javascript file, the template file, the stylesheet file and the test spec.
 
 #### Coding Style
@@ -72,7 +72,7 @@ We use [sass](http://sass-lang.com) as it is a better syntax for css.
 
 #### Dependencies
 
-This project depends on [Datalib](https://github.com/uwdata/datalib) for data processing, [Vega-lite](https://github.com/uwdata/vega-lite) as a formal model for visualization, and [Vega-lite-ui](https://github.com/uwdata/vega-lite-ui), which contains shared components between Polestar and Voyager.
+This project depends on [Datalib](https://github.com/vega/datalib) for data processing, [Vega-lite](https://github.com/vega/vega-lite) as a formal model for visualization, and [Vega-lite-ui](https://github.com/vega/vega-lite-ui), which contains shared components between Polestar and Voyager.
 
 If you plan to make changes to these dependencies and observe the changes without publishing / copying compiled libraries all the time, use [`bower link`](https://oncletom.io/2013/live-development-bower-component/).
 
