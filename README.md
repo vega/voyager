@@ -1,17 +1,17 @@
 # Pole✭ (Polestar) -- Alpha
 
-[![Build Status](https://travis-ci.org/uwdata/polestar.svg)](https://travis-ci.org/uwdata/polestar) 
+[![Build Status](https://travis-ci.org/vega/polestar.svg)](https://travis-ci.org/vega/polestar) 
 
 PoleStar is Tableau-style User Interface for visual analysis, building on top
-of [Vega-lite](https://github.com/uwdata/vega-lite). Try our [online
-demo](http://uwdata.github.io/polestar/). Also, be sure to check out [related
+of [Vega-lite](https://github.com/vega/vega-lite). Try our [online
+demo](http://vega.github.io/polestar/). Also, be sure to check out [related
 projects](https://vega.github.io/).
 
 **This project is an [alpha](http://en.wikipedia.org/wiki/Software_release_life_cycle#Alpha) software.
 We are working on improving its code and documentation.**
 
 If you are using Polestar for your project(s), please let us know what are you using it for by emailing us at [Vega-lite \[at\] cs.washington.edu](mailto:vega-lite@cs.washington.edu).  Feedbacks are also welcomed.
-If you find a bug or have a feature request, please [create an issue](https://github.com/uwdata/polestar/issues/new).
+If you find a bug or have a feature request, please [create an issue](https://github.com/vega/polestar/issues/new).
 
 
 ## Team
@@ -60,7 +60,7 @@ All source code are under `src/`
 - `src/data/` contains all data that we use in the application
 - `src/vendor` contains
 
-@kanitw created [`gulp/gen.js`](https://github.com/uwdata/polestar/blob/master/gulp/gen.js) for help generating angular components.
+@kanitw created [`gulp/gen.js`](https://github.com/vega/polestar/blob/master/gulp/gen.js) for help generating angular components.
 For example, you can run `gulp gen -d directiveName` and this would create all relevant files including the javascript file, the template file, the stylesheet file and the test spec. 
 
 #### Coding Style
@@ -73,7 +73,7 @@ We use [sass](http://sass-lang.com) as it is a better syntax for css.
 
 #### Dependencies
 
-This project depends on [Datalib](https://github.com/uwdata/datalib) for data processing, [Vega-lite](https://github.com/uwdata/vega-lite) as a formal model for visualization, and [Vega-lite-ui](https://github.com/uwdata/vega-lite-ui), which contains shared components between Polestar and Voyager.
+This project depends on [Datalib](https://github.com/vega/datalib) for data processing, [Vega-lite](https://github.com/vega/vega-lite) as a formal model for visualization, and [Vega-lite-ui](https://github.com/vega/vega-lite-ui), which contains shared components between Polestar and Voyager.
 
 If you plan to make changes to these dependencies and observe the changes without publishing / copying compiled libraries all the time, use [`bower link`](https://oncletom.io/2013/live-development-bower-component/).
 
