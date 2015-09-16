@@ -25,7 +25,7 @@ angular.module('polestar')
           Spec.reset();
         };
 
-        $scope.$watch('Spec.spec', function(spec, oldSpec) {
+        $scope.$watch('Spec.spec', function(spec) {
           Logger.logInteraction(Logger.actions.SPEC_CHANGE, spec);
 
           Spec.update(spec);
