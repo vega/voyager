@@ -8,7 +8,7 @@ angular.module('polestar')
       restrict: 'E',
       scope: {},
       replace: true,
-      controller: function($scope, vl, jsondiffpatch, Spec, Config, Dataset, Logger, Pills) {
+      controller: function($scope, vl, Spec, Config, Dataset, Logger, Pills) {
         $scope.Spec = Spec;
         $scope.schema = vl.schema.schema;
         $scope.pills = Pills;
@@ -26,7 +26,7 @@ angular.module('polestar')
         };
 
         $scope.$watch('Spec.spec', function(spec, oldSpec) {
-          Logger.logInteraction(Logger.actions.SPEC_CHANGE, spec, jsondiffpatch.diff(oldSpec, spec));
+          Logger.logInteraction(Logger.actions.SPEC_CHANGE, spec);
 
           Spec.update(spec);
         }, true /* watch equality rather than reference */);

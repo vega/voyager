@@ -11,7 +11,6 @@ angular.module('polestar')
     $scope.embedded = !!consts.embeddedData;
 
     // undo/redo support
-
     $scope.canUndo = false;
     $scope.canRedo = false;
 

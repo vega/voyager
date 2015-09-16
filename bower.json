@@ -10,14 +10,12 @@
     "angular-sanitize": "~1.4.1",
     "angular": "~1.4.1",
     "angular-dragdrop": "~1.0.11",
-    "angular-elastic": "~2.4.2",
     "angular-zeroclipboard": "~0.4.0",
     "lodash": "~3.10.0",
     "d3": "~3.5.6",
     "topojson": "~1.6.19",
     "fontawesome": "~4.3.0",
     "chronicle": "~1.0.9",
-    "jsondiffpatch": "~0.1.33",
     "angular-tooltips": "~0.1.13",
     "z-schema": "~3.12.0",
     "angular-order-object-by": "~1.1.0",
@@ -31,6 +29,6 @@
     "angular-mocks": "~1.4.1"
   },
   "resolutions": {
-    "angular": "~1.4.1"
+    "angular": ">=1.4.5"
   }
 }

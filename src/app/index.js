@@ -37,7 +37,6 @@ angular.module('polestar', [
     'ngSanitize',
     'ngTouch',
     'ngDragDrop',
-    'monospaced.elastic',
     'zeroclipboard',
     'ui.select',
     'Chronicle',
