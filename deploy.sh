@@ -2,7 +2,7 @@ set -e
 
 gitsha=$(git rev-parse HEAD)
 
-git clone git@github.com:uwdata/polestar.git gh-pages
+git clone git@github.com:vega/polestar.git gh-pages
 cd gh-pages
 git checkout gh-pages
 cd ..
