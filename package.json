@@ -21,9 +21,6 @@
     "lint": "gulp jshint",
     "test": "gulp test"
   },
-  "dependencies": {
-    "stream-series": "^0.1.1"
-  },
   "devDependencies": {
     "browser-sync": "~2.7.13",
     "chai": "^3.0.0",
@@ -75,6 +72,7 @@
     "protractor": "~2.1.0",
     "request": "^2.58.0",
     "require-dir": "~0.3.0",
+    "stream-series": "^0.1.1",
     "tough-cookie": "^2.0.0",
     "uglify-save-license": "~0.4.1",
     "wiredep": "^3.0.0-beta",
