@@ -15,9 +15,9 @@ angular.module('polestar')
     $scope.canRedo = false;
 
     // bookmark
-    $scope.showBookmarks = false;
-    $scope.hideBookmark = function() {
-      $scope.showBookmarks = false;
+    $scope.bookmarksShown = false;
+    $scope.hideBookmarks = function() {
+      $scope.bookmarksShown = false;
     };
 
     if (Bookmarks.isSupported) {
