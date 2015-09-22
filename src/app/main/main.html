@@ -16,7 +16,7 @@
                 <i class="fa fa-wrench"></i>
               </a>
             </span>
-            <a class="command" ng-click="showBookmark=true">
+            <a ng-show="Bookmarks.isSupported" class="command" ng-click="bookmarksShown=true">
               <i class="fa fa-bookmark"></i>
               Bookmarks ({{Bookmarks.length}})
             </a>
@@ -56,8 +56,10 @@
       </div>
     </div>
   </div>
-  <bookmark-list active="showBookmark"
-    deactivate="hideBookmark();"
+  <bookmark-list
+    ng-if="Bookmarks.isSupported"
+    active="bookmarksShown"
+    deactivate="hideBookmarks();"
     highlighted="Fields.highlighted">
   </bookmark-list>
 </div>
