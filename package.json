@@ -17,6 +17,8 @@
   ],
   "license": "BSD-3-Clause",
   "scripts": {
+    "deploy": "npm run lint && npm run test && scripts/deploy.sh",
+    "lint": "gulp jshint",
     "test": "gulp test"
   },
   "devDependencies": {
