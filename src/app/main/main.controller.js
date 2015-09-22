@@ -15,13 +15,15 @@ angular.module('polestar')
     $scope.canRedo = false;
 
     // bookmark
-    $scope.showBookmark = false;
-    $scope.hideBookmark = function() {
-      $scope.showBookmark = false;
+    $scope.bookmarksShown = false;
+    $scope.hideBookmarks = function() {
+      $scope.bookmarksShown = false;
     };
 
-    // load bookmarks from local storage
-    Bookmarks.load();
+    if (Bookmarks.isSupported) {
+      // load bookmarks from local storage
+      Bookmarks.load();
+    }
 
     if ($scope.embedded) {
       // use provided data and we will hide the dataset selector
