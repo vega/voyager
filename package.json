@@ -17,11 +17,15 @@
   },
   "license": "BSD-3-Clause",
   "scripts": {
+    "postinstall": "bower install",
     "deploy": "npm run lint && npm run test && scripts/deploy.sh",
+    "build": "gulp",
+    "start": "gulp serve",
     "lint": "gulp jshint",
     "test": "gulp test"
   },
   "devDependencies": {
+    "bower": "^1.5.2",
     "browser-sync": "~2.7.13",
     "chai": "^3.0.0",
     "chai-jquery": "^2.0.0",
@@ -68,6 +72,7 @@
     "karma-sinon-chai": "^1.0.0",
     "main-bower-files": "~2.8.2",
     "mocha": "^2.2.5",
+    "phantomjs": "^1.9.18",
     "phantomjs-polyfill": "0.0.1",
     "protractor": "~2.1.0",
     "request": "^2.58.0",
