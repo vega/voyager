@@ -17,11 +17,13 @@
   ],
   "license": "BSD-3-Clause",
   "scripts": {
+    "postinstall": "bower install",
     "deploy": "npm run lint && npm run test && scripts/deploy.sh",
     "lint": "gulp jshint",
     "test": "gulp test"
   },
   "devDependencies": {
+    "bower": "^1.5.2",
     "browser-sync": "~2.7.13",
     "chai-jquery": "^2.0.0",
     "chalk": "~1.0.0",

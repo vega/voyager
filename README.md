@@ -24,19 +24,17 @@ Polestar's development is led by Dominik Moritz, Kanit Wongsuphasawat, and Jeffr
 
 Make sure you have node.js. (We recommend using [homebrew](http://brew.sh) and simply run `brew install node`.)
 
-First, install gulp + bower globally by running
+First, install gulp globally by running
 
 ```sh
-npm install -g bower
 npm install -g gulp
 ```
 
-Then, `cd` into your local clone of the repository, and install all the npm, bower dependencies:
+Then, `cd` into your local clone of the repository, and install all the npm and bower dependencies (bower will auto-run when npm finishes):
 
 ```sh
 cd polestar
 npm install
-bower install
 ```
 
 Now you should have all dependencies and should be ready to work.
@@ -72,6 +70,11 @@ We use jshint as our linter for coding in the project.
 We use [sass](http://sass-lang.com) as it is a better syntax for css.
 
 #### Dependencies
+
+Managing front-end dependencies with [Bower](http://bower.io) requires the `bower` package to be globally installed:
+```sh
+npm install -g bower
+```
 
 This project depends on [Datalib](https://github.com/vega/datalib) for data processing, [Vega-lite](https://github.com/vega/vega-lite) as a formal model for visualization, and [Vega-lite-ui](https://github.com/vega/vega-lite-ui), which contains shared components between Polestar and Voyager.
 
