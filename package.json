@@ -71,6 +71,7 @@
     "karma-sinon-chai": "^1.0.0",
     "main-bower-files": "~2.8.2",
     "mocha": "^2.2.5",
+    "phantomjs": "^1.9.18",
     "phantomjs-polyfill": "0.0.1",
     "protractor": "~2.1.0",
     "request": "^2.58.0",
