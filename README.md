@@ -24,13 +24,7 @@ Polestar's development is led by Dominik Moritz, Kanit Wongsuphasawat, and Jeffr
 
 Make sure you have node.js. (We recommend using [homebrew](http://brew.sh) and simply run `brew install node`.)
 
-First, install gulp globally by running
-
-```sh
-npm install -g gulp
-```
-
-Then, `cd` into your local clone of the repository, and install all the npm and bower dependencies (bower will auto-run when npm finishes):
+`cd` into your local clone of the repository, and install all the npm and bower dependencies (bower will auto-run when npm finishes):
 
 ```sh
 cd polestar
@@ -41,8 +35,10 @@ Now you should have all dependencies and should be ready to work.
 
 ### Running
 
-You can run `gulp serve`, which serves the site as well as running tests in the background.
-If you edit any file, our gulp task runner should automatically refresh the browser and re-run tests.
+You can run `npm start`, which serves the site as well as running tests in the background.
+If you edit any file, our [gulp](http://gulpjs.com) task runner should automatically refresh the browser and re-run tests.
+
+To execute other tasks, either use the npm script aliases `npm run lint`, `npm test`, or `npm run build`, or else install gulp globally with `npm install -g gulp` and run the tasks directly from gulp.
 
 ## Development Guide
 
@@ -97,7 +93,7 @@ bower link vega-lite-ui
 
 Now all the changes you make in each repo will be reflected in your Vega-lite automatically.
 
-Since bower uses the compiled main file, make sure that each repos is compiled everytime you run `gulp serve`.
+Since bower uses the compiled main file, make sure that each repos is compiled everytime you run `npm start`.
 Otherwise, you will get errors for missing libraries.
 
 ### Releasing / Github Pages
