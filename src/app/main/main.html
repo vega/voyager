@@ -1,80 +1,78 @@
-<div ng-controller="MainCtrl">
-  <div class="flex-root vflex full-width full-height">
-    <div class="full-width no-shrink">
-      <div class="card no-right-margin no-top-margin">
-        <div class="right flex-root hflex">
-          <div class="controls">
-            <span ng-show="consts.debug">
-              <a ng-href="{{ {encoding:Spec.chart.vlSpec} | reportUrl }}" target="_blank" class="command debug" tooltips tooltip-size="small"
-                tooltip-content="Report an issue">
-                <i class="fa fa-bug"></i>
-              </a>
-              <a class="command debug" ng-click="showDevPanel = !showDevPanel" tooltips
-                tooltip-size="small"
-                tooltip-content="Debug Tool">
-                <i class="fa fa-wrench"></i>
-              </a>
-            </span>
-            <a ng-show="Bookmarks.isSupported" class="command" ng-click="bookmarksShown=true">
-              <i class="fa fa-bookmark"></i>
-              Bookmarks ({{Bookmarks.length}})
+<div ng-controller="MainCtrl" class="flex-root vflex full-width full-height">
+  <div class="full-width no-shrink">
+    <div class="card no-right-margin no-top-margin">
+      <div class="right flex-root hflex">
+        <div class="controls">
+          <span ng-show="consts.debug">
+            <a ng-href="{{ {encoding:Spec.chart.vlSpec} | reportUrl }}" target="_blank" class="command debug" tooltips tooltip-size="small"
+              tooltip-content="Report an issue">
+              <i class="fa fa-bug"></i>
             </a>
-            <a class="command" ng-click="chron.undo()" ng-class="{disabled: !canUndo}"><i class="fa fa-undo"></i> Undo</a>
-            <a class="command" ng-click="chron.redo()" ng-class="{disabled: !canRedo}"><i class="fa fa-repeat"></i> Redo</a>
-          </div>
-
-          <div>
-            <a href="https://idl.cs.washington.edu/" target="_blank" class="logo"></a>
-          </div>
+            <a class="command debug" ng-click="showDevPanel = !showDevPanel" tooltips
+              tooltip-size="small"
+              tooltip-content="Debug Tool">
+              <i class="fa fa-wrench"></i>
+            </a>
+          </span>
+          <a ng-show="Bookmarks.isSupported" class="command" ng-click="bookmarksShown=true">
+            <i class="fa fa-bookmark"></i>
+            Bookmarks ({{Bookmarks.length}})
+          </a>
+          <a class="command" ng-click="chron.undo()" ng-class="{disabled: !canUndo}"><i class="fa fa-undo"></i> Undo</a>
+          <a class="command" ng-click="chron.redo()" ng-class="{disabled: !canRedo}"><i class="fa fa-repeat"></i> Redo</a>
         </div>
-        <h1>Pole✭</h1>
+
+        <div>
+          <a href="https://idl.cs.washington.edu/" target="_blank" class="logo"></a>
+        </div>
       </div>
-      <alert-messages></alert-messages>
+      <h1>Pole✭</h1>
     </div>
-    <div class="hflex full-width main-panel grow-1">
-      <div class="pane data-pane noselect">
-        <div class="card abs-100">
-          <div class="right">
-            <dataset-selector ng-if="!embedded"></dataset-selector>
-          </div>
-          <h2>Data</h2>
-          <schema-list></schema-list>
+    <alert-messages></alert-messages>
+  </div>
+  <div class="hflex full-width main-panel grow-1">
+    <div class="pane data-pane noselect">
+      <div class="card abs-100">
+        <div class="right">
+          <dataset-selector ng-if="!embedded"></dataset-selector>
         </div>
-      </div>
-      <div class="pane encoding-pane">
-        <shelves></shelves>
-      </div>
-
-      <div class="pane vis-pane">
-        <vl-plot-group class="card abs-100 no-right-margin full-vl-plot-group"
-            chart="Spec.chart"
-            show-bookmark="true"
-            show-filter-null="true"
-            show-log="true"
-            show-mark-type="true"
-            show-sort="true"
-            show-transpose="true"
-            config-set="large"
-
-            show-label="true"
-            tooltip="true"
-
-            always-scrollable="true"
-            ></vl-plot-group>
+        <h2>Data</h2>
+        <schema-list></schema-list>
       </div>
     </div>
-    <div class="hflex full-width dev-panel" ng-if="showDevPanel">
-      <div class="pane config-pane">
-        <div class="card scroll-y  abs-100">
-          <configuration-editor></configuration-editor>
-        </div>
+    <div class="pane encoding-pane">
+      <shelves></shelves>
+    </div>
+
+    <div class="pane vis-pane">
+      <vl-plot-group class="card abs-100 no-right-margin full-vl-plot-group"
+          chart="Spec.chart"
+          show-bookmark="true"
+          show-filter-null="true"
+          show-log="true"
+          show-mark-type="true"
+          show-sort="true"
+          show-transpose="true"
+          config-set="large"
+
+          show-label="true"
+          tooltip="true"
+
+          always-scrollable="true"
+          ></vl-plot-group>
+    </div>
+  </div>
+  <div class="hflex full-width dev-panel" ng-if="showDevPanel">
+    <div class="pane config-pane">
+      <div class="card scroll-y  abs-100">
+        <configuration-editor></configuration-editor>
       </div>
-      <div class="pane vl-pane">
-        <vl-spec-editor></vl-spec-editor>
-      </div>
-      <div class="pane vg-pane">
-        <vg-spec-editor></vg-spec-editor>
-      </div>
+    </div>
+    <div class="pane vl-pane">
+      <vl-spec-editor></vl-spec-editor>
+    </div>
+    <div class="pane vg-pane">
+      <vg-spec-editor></vg-spec-editor>
     </div>
   </div>
   <bookmark-list
