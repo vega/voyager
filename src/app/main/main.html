@@ -1,5 +1,4 @@
-<div ng-controller="MainCtrl">
-  <div class="flex-root vflex full-width full-height">
+<div ng-controller="MainCtrl" class="flex-root vflex full-width full-height">
     <div class="full-width no-shrink">
       <div class="card no-right-margin no-top-margin margin-bottom">
         <div class="right flex-root hflex">
@@ -55,7 +54,7 @@
         <label><input type="checkbox" ng-model="consts.debugInList"/> Show Debug In List</label>
       </div>
     </div>
-  </div>
+
   <bookmark-list
     ng-if="Bookmarks.isSupported"
     active="bookmarksShown"
