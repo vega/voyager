@@ -34,7 +34,7 @@ angular.module('voyager')
       Fields.selected = list.filter(function(d) { return d.selected; });
       Fields.selectedPKey = cp.gen.projections.key(Fields.selected);
 
-      Logger.logInteraction(Logger.actions.FIELDS_CHANGE, {
+      Logger.logInteraction(Logger.actions.FIELDS_CHANGE, Fields.selectedPKey, {
         selected: Fields.selected,
         list: list
       });
