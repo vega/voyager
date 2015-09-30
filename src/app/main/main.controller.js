@@ -18,6 +18,7 @@ angular.module('voyager')
 
     $scope.bookmarksShown = false;
     $scope.hideBookmarks = function() {
+      Logger.logInteraction(Logger.actions.BOOKMARK_CLOSE);
       $scope.bookmarksShown = false;
     };
 
