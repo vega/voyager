@@ -19,11 +19,6 @@ angular.module('voyager')
     $scope.showModal = function(modalId) {
       VlModals.open(modalId);
     }
-    // No longer has any effect: WIP
-    $scope.hideBookmarks = function() {
-      Logger.logInteraction(Logger.actions.BOOKMARK_CLOSE);
-      $scope.bookmarksShown = false;
-    };
 
     if (Bookmarks.isSupported) {
       // load bookmarks from local storage
