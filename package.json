@@ -21,6 +21,7 @@
     "deploy": "npm run lint && npm run test && scripts/deploy.sh",
     "build": "gulp",
     "start": "gulp serve",
+    "start-dist": "gulp serve:dist",
     "lint": "gulp jshint",
     "test": "gulp test"
   },
