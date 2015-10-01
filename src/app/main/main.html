@@ -15,7 +15,7 @@
               <i class="fa fa-wrench"></i>
             </a>
           </span>
-          <a ng-show="Bookmarks.isSupported" class="command" ng-click="bookmarksShown=true">
+          <a ng-show="Bookmarks.isSupported" class="command" ng-click="showModal('bookmark-list')">
             <i class="fa fa-bookmark"></i>
             Bookmarks ({{Bookmarks.length}})
           </a>
@@ -55,10 +55,9 @@
     </div>
   </div>
 
-  <bookmark-list
-    ng-if="Bookmarks.isSupported"
-    active="bookmarksShown"
-    deactivate="hideBookmarks();"
-    highlighted="Fields.highlighted">
-  </bookmark-list>
+  <vl-modal id="bookmark-list" ng-if="Bookmarks.isSupported">
+    <bookmark-list
+      highlighted="Fields.highlighted">
+    </bookmark-list>
+  </vl-modal>
 </div>
