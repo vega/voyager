@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('voyager')
-  .controller('MainCtrl', function($scope, $document, Chronicle, Visrec, Config, Dataset, Fields, Bookmarks, Logger, Drop, consts, VlModals) {
+  .controller('MainCtrl', function($scope, $document, Chronicle, Visrec, Config, Dataset, Fields, Bookmarks, Logger, Drop, consts, Modals) {
 
     Config.config.useRawDomain = true;
 
@@ -17,7 +17,7 @@ angular.module('voyager')
     $scope.Bookmarks = Bookmarks;
 
     $scope.showModal = function(modalId) {
-      VlModals.open(modalId);
+      Modals.open(modalId);
     }
 
     if (Bookmarks.isSupported) {
