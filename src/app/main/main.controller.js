@@ -18,7 +18,7 @@ angular.module('voyager')
 
     $scope.showModal = function(modalId) {
       Modals.open(modalId);
-    }
+    };
 
     if (Bookmarks.isSupported) {
       // load bookmarks from local storage
