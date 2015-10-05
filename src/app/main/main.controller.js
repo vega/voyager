@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('polestar')
-  .controller('MainCtrl', function($scope, $document, Spec, Dataset, Config, consts, Chronicle, Logger, Bookmarks) {
+  .controller('MainCtrl', function($scope, $document, Spec, Dataset, Config, consts, Chronicle, Logger, Bookmarks, Modals) {
     $scope.Spec = Spec;
     $scope.Dataset = Dataset;
     $scope.Config = Config;
@@ -15,10 +15,9 @@ angular.module('polestar')
     $scope.canRedo = false;
 
     // bookmark
-    $scope.bookmarksShown = false;
-    $scope.hideBookmarks = function() {
-      $scope.bookmarksShown = false;
-    };
+    $scope.showModal = function(modalId) {
+      Modals.open(modalId);
+    }
 
     if (Bookmarks.isSupported) {
       // load bookmarks from local storage
