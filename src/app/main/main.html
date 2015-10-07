@@ -1,37 +1,27 @@
 <div ng-controller="MainCtrl" class="flex-root vflex full-width full-height">
   <div class="full-width no-shrink">
     <div class="card no-right-margin no-top-margin margin-bottom">
-      <div class="right flex-root hflex">
-        <div class="controls">
-          <span ng-show="consts.debug">
-            <a ng-href="{{ {fields: Fields.fields} | reportUrl }}" target="_blank" class="command debug" tooltips tooltip-size="small"
-              tooltip-content="Report an issue">
-              <i class="fa fa-bug"></i>
-            </a>
-            <!-- <a href="http://bit.ly/visrecissues" target="_blank" class="command debug">Known Issues</a> -->
-            <a class="command debug" ng-click="showDevPanel = !showDevPanel" tooltips
-              tooltip-size="small"
-              tooltip-content="Debug Tool">
-              <i class="fa fa-wrench"></i>
-            </a>
-          </span>
-          <a ng-show="Bookmarks.isSupported" class="command" ng-click="showModal('bookmark-list')">
-            <i class="fa fa-bookmark"></i>
-            Bookmarks ({{Bookmarks.length}})
-          </a>
-          <a class="command" ng-click="chron.undo()" ng-class="{disabled: !canUndo}">
-            <i class="fa fa-undo"></i> Undo
-          </a>
-          <a class="command" ng-click="chron.redo()" ng-class="{disabled: !canRedo}">
-            <i class="fa fa-repeat"></i> Redo
-          </a>
+      <div class="hflex">
+        <div class="pane">
+          <img id="logo" src="../assets/images/logo.png"></img>
         </div>
-
-        <div>
-          <a href="https://idl.cs.washington.edu/" target="_blank" class="logo"></a>
+        <div class="pane">
+          <div class="controls">
+            <a ng-show="Bookmarks.isSupported" class="command" ng-click="showModal('bookmark-list')">
+              <i class="fa fa-bookmark"></i> Bookmarks ({{Bookmarks.length}})
+            </a>
+            <a class="command" ng-click="chron.undo()" ng-class="{disabled: !canUndo}">
+              <i class="fa fa-undo"></i> Undo
+            </a>
+            <a class="command" ng-click="chron.redo()" ng-class="{disabled: !canRedo}">
+              <i class="fa fa-repeat"></i> Redo
+            </a>
+          </div>
+        </div>
+        <div class="absolute-top-right">
+          <a href="https://idl.cs.washington.edu/" target="_blank" class="idl-logo"></a>
         </div>
       </div>
-      <h1>Data Voyager</h1>
     </div>
     <alert-messages></alert-messages>
   </div>
@@ -41,8 +31,23 @@
         <div class="right">
           <dataset-selector ng-if="!embedded"></dataset-selector>
         </div>
-        <h2>Data</h2>
+        <h2>Current Data:</h2>
         <field-list></field-list>
+        <div id="footer">
+          <ul class="menu">
+            <li>
+              <a ng-click="showDevPanel" >About</a>
+            </li>
+            <span ng-show="consts.debug">
+              <li>
+                <a class="debug" ng-click="showDevPanel = !showDevPanel">Debug</a>
+              </li>
+              <li>
+                <a ng-href="{{ {fields: Fields.fields} | reportUrl }}" target="_blank" class="debug">Report an issue</a>
+              </li>
+            </span>
+          </ul>
+        </div>
       </div>
     </div>
     <div class="pane vis-list-pane">
