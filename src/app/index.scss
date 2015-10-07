@@ -1,6 +1,7 @@
 // FIXME should use normalize.scss version instead
 // but I got some errors so I don't want to spend too much time here now.
 @import "../assets/normalize.scss";
+@import "../assets/angular-tour.scss";
 
 // injector
 // endinjector
@@ -13,12 +14,91 @@ $fa-font-path: "../../bower_components/fontawesome/fonts";
   z-index: 100;
 }
 
+/* prevent element from being selected http://stackoverflow.com/questions/826782 */
+.noselect {
+  user-select: none;
+  cursor: default;
+}
+
+
+h1 {
+  @extend .noselect;
+  font-size: 24px;
+  line-height:36px;
+  font-weight: 700;
+  margin: 0;
+}
+
+h2 {
+  @extend .noselect;
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: 700;
+  margin: 0 0 15px;
+}
+
+h3 {
+  @extend .noselect;
+  font-size: 14px;
+  font-weight: 700;
+  margin: 0 0 10px;
+}
+
+h4 {
+  @extend .noselect;
+  font-size: 12px;
+  font-weight: 700;
+  margin: 0 0;
+}
+
+#logo {
+  height: 45px;
+  flex-shrink: 0;
+}
+
+.controls {
+  margin-left: 40px;
+  margin-top: 20px;
+  a {
+    margin: 10px;
+    font-size: 14px;
+    margin-right: 40px;
+  }
+}
+
+.idl-logo {
+  padding: 10px 20px;
+  background: url("../assets/images/idl-logo.png") center no-repeat;
+  display: block;
+  width: 48px;
+  height: 34px;
+}
+
+ul.menu {
+  list-style-type:none;
+  margin:0;
+  padding:0;
+  li {
+    font-size: 14px;
+    margin-bottom: 4px;
+  }
+}
+
+#footer {
+  position:absolute;
+  bottom: 20px;
+  left: 10px;
+}
+
+#dataset-select {
+  width: 120px;
+}
+
 .absolute-top-right {
   position: absolute;
   top: 0;
   right: 0;
 }
-
 
 .pane.data-pane {
   width: 250px;
