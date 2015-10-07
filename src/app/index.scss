@@ -12,6 +12,44 @@ $fa-font-path: "../../bower_components/fontawesome/fonts";
 
 $iron: #ccc;
 
+/* prevent element from being selected http://stackoverflow.com/questions/826782 */
+.noselect {
+  user-select: none;
+  cursor: default;
+}
+
+
+h1 {
+  @extend .noselect;
+  font-size: 24px;
+  line-height:36px;
+  font-weight: 700;
+  margin: 0;
+}
+
+h2 {
+  @extend .noselect;
+  font-size: 16px;
+  line-height: 24px;
+  text-transform: uppercase;
+  font-weight: 700;
+  margin: 0 0 15px;
+}
+
+h3 {
+  @extend .noselect;
+  font-size: 14px;
+  font-weight: 700;
+  margin: 0 0 10px;
+}
+
+h4 {
+  @extend .noselect;
+  font-size: 12px;
+  font-weight: 700;
+  margin: 0 0;
+}
+
 .type-select {
   width: 60px;
 }
@@ -59,4 +97,3 @@ null-filter-directive {
   @extend .persist-scroll;
   overflow: scroll;
 }
-
