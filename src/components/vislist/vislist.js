@@ -54,7 +54,11 @@ angular.module('voyager')
           Visrec.update.projections(fieldList);
         }
 
-        var dUpdateFields = _.debounce(updateFields, 200, {maxWait: 1500});
+        var dUpdateFields = _.debounce(function() {
+          // The debounced function executes outside Angular's purview: manually
+          // restore angular context by wrapping updateFields in $apply
+          scope.$apply(updateFields);
+        }, 200, {maxWait: 1500});
 
         scope.$watch('Fields.fields', function(fields, oldFields) {
           if (!oldFields || _.keys(oldFields).length === 0 ) { // first time!
