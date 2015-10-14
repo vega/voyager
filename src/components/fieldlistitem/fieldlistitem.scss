@@ -1,10 +1,13 @@
 $exclude-color: #F2BFBF;
+$item-color: #FFFFFF;
+$selected-color: black;
 
 .field-list-item {
   display: flex;
   flex-direction: row;
   width: 100%;
   margin-right: -3px;
+  color: $item-color;
 
   input[type=checkbox] {
     flex-shrink: 0;
@@ -17,9 +20,6 @@ $exclude-color: #F2BFBF;
     font-size: 15px;
     margin-right: 5px;
     margin-top: 2px;
-    &.fa-check-square {
-      color: #008CBA;
-    }
     &.fa-minus-circle {
       color: $exclude-color; //excluded
     }
@@ -28,6 +28,26 @@ $exclude-color: #F2BFBF;
   .field-info {
     margin-right: 0;
   }
+
+  .type-caret.active {
+    color: $item-color;
+  }
+
+  .selected {
+    color: $selected-color;
+    .type-caret {
+      color: $selected-color;
+    }
+  }
+
+  .highlighted {
+    color: $selected-color;
+    .type-caret {
+      color: $selected-color;
+    }
+  }
+
+
 }
 
 .inclusion a {

@@ -1,18 +1,24 @@
 .vis-list-header {
+  margin-left: 15px;
+  background-color: #ECF1F7;
   .desc {
     font-size: 16px;
     margin-top:8px;
   }
   .explain {
-    padding-top: 8px;
     font-size: 14px;
     color: #777;
+  }
+  .field-info {
+    margin-top: -6px;
   }
 }
 
 .vis-list {
+  margin-left: 20px;
   align-content: flex-start;
   margin-bottom: 10px;
+  background-color: #ECF1F7;
 }
 
 // .vis-list .encoding-variations {

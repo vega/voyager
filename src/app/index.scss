@@ -9,6 +9,7 @@ $fa-font-path: "../../bower_components/fontawesome/fonts";
 @import "../../bower_components/fontawesome/scss/font-awesome.scss";
 @import "../../bower_components/angular-tooltips/dist/angular-tooltips";
 
+
 .top{
   z-index: 100;
 }
@@ -19,6 +20,9 @@ $fa-font-path: "../../bower_components/fontawesome/fonts";
   cursor: default;
 }
 
+.voyager {
+  background-color: #ECF1F7;
+}
 
 h1 {
   @extend .noselect;
@@ -56,8 +60,8 @@ h4 {
 }
 
 .controls {
-  margin-left: 40px;
-  margin-top: 20px;
+  margin-left: 45px;
+  margin-top: 14px;
   a {
     margin: 10px;
     font-size: 14px;
@@ -83,14 +87,27 @@ ul.menu {
   }
 }
 
-#footer {
-  position:absolute;
-  bottom: 20px;
-  left: 10px;
-}
-
 #dataset-select {
   width: 120px;
+}
+
+.data-card {
+  background-color: #38425D;
+  h2 {
+    color: white;
+  }
+  a {
+    color: white;
+  }
+  a:hover, a:focus {
+    color: #ddd;
+  }
+}
+
+.data-load {
+  background-color: #30374A;
+  padding:0;
+  margin:0;
 }
 
 .absolute-top-right {
@@ -127,4 +144,10 @@ ul.menu {
 
 .field-set-info, .schema{
   margin-bottom: 10px;
+}
+
+#footer {
+  position:absolute;
+  bottom: 20px;
+  left: 10px;
 }
