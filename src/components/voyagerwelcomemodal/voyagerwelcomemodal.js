@@ -7,7 +7,7 @@
  * # voyagerWelcomeModal
  */
 angular.module('vlui')
-  .directive('voyagerWelcomeModal', function () {
+  .directive('voyagerWelcomeModal', function (Modals) {
     return {
       templateUrl: 'components/voyagerwelcomemodal/voyagerwelcomemodal.html',
       restrict: 'E',
@@ -16,6 +16,11 @@ angular.module('vlui')
       link: function(scope, element, attrs, modalController) {
         scope.closeModal = function() {
           modalController.close();
+        };
+
+        scope.showDatasetModal = function() {
+          modalController.close();
+          Modals.open('dataset-modal');
         };
 
         scope.showTutorial = function() {
