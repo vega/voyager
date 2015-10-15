@@ -49,8 +49,7 @@ h2 {
 .controls {
   margin-left: 33px;
   margin-top: 7px;
-  a {
-    margin: 10px;
+  & > a.command {
     font-size: 14px;
     margin-right: 40px;
   }
