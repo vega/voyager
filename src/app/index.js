@@ -40,7 +40,8 @@ angular.module('voyager', ['vlui',
     'ngOrderObjectBy',
     'Chronicle',
     'ngTouch',
-    'ngSanitize'])
+    'ngSanitize',
+    'angular-tour'])
   .constant('_', window._)
   .constant('jQuery', window.$)
   .constant('vl', window.vl)

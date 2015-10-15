@@ -1,0 +1,138 @@
+//colors
+$background_color: #1c252e;
+$white: #fff;
+$text_color: #cbd0d4;
+$button_color: #555;
+$button_hover_color: #777;
+$close_button_hover: #eee;
+$black_60: rgba(0, 0, 0, 0.6);
+
+
+%base-button {
+  background-color: $button_color;
+  transition: background-color 300ms ease-out;
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: 700;
+  line-height: 1;
+  position: relative;
+  text-decoration: none;
+  text-align: center;
+  display: inline-block;
+  font-size: .8em;
+  color: $white;
+  border-style: solid;
+  border-width: 0;
+  margin: 0 0 1.25em;
+  padding: .5em 1.25em .6em;
+  border-radius: 8px;
+}
+
+
+.tour-tip {
+  display: none;
+  position: absolute;
+  background: $background_color;
+  color: $white;
+  z-index: 101;
+  top: 0;
+  left: 2.5%;
+  font-family: inherit;
+  font-weight: 400;
+  max-width: 400px;
+  border-radius: 10px;
+  p {
+    color: $text_color;
+    font-size: 1.2em;
+    line-height: 1.5em;
+    margin: 0 0 1.125em;
+  }
+  button {
+    @extend %base-button;
+    small {
+      padding-top: .625em;
+      padding-bottom: .5625em;
+    }
+    &:hover {
+      background-color: $button_hover_color;
+    }
+  }
+  .button {
+    @extend %base-button;
+    small {
+      padding-top: .625em;
+      padding-bottom: .5625em;
+    }
+    &:hover {
+      background-color: $button_hover_color;
+    }
+  }
+
+  .tour-arrow {
+    display: block;
+    position: absolute;
+    left: 22px;
+    width: 0;
+    height: 0;
+    border: inset 14px;
+    &.tt-top {
+      border-style: solid;
+      bottom: -27px;
+      border-color: $background_color transparent transparent !important;
+    }
+    &.tt-bottom {
+      border-style: solid;
+      top: -28px;
+      border-color: transparent transparent $background_color !important;
+    }
+    &.tt-right {
+      border-style: solid;
+      left: -27px;
+      top: 28px;
+      border-color: transparent $background_color transparent transparent !important;
+    }
+    &.tt-left {
+      border-style: solid;
+      left: 100%;
+      top: 28px;
+      border-color: transparent transparent transparent $background_color !important;
+    }
+  }
+  .tour-content-wrapper {
+    padding: 1.125em 1.25em 1.5em;
+    .button {
+      margin-bottom: 0 !important;
+    }
+  }
+  .tour-close-tip {
+    position: absolute;
+    right: 12px;
+    top: 10px;
+    color: $white !important;
+    text-decoration: none;
+    font-size: 30px;
+    font-weight: 400;
+    line-height: 0.5 !important;
+    cursor: pointer;
+    &:hover {
+      color: $close_button_hover !important;
+    }
+    &:focus {
+      color: $close_button_hover !important;
+    }
+  }
+}
+.tour-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: $black_60;
+  z-index: 100;
+}
+.tour-element-active {
+  z-index: 120 !important;
+  position: relative;
+  background: $white;
+}

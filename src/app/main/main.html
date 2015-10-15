@@ -36,7 +36,7 @@
         <div id="footer">
           <ul class="menu">
             <li>
-              <a ng-click="">About</a>
+              <a ng-click="startTour()">Show Tour</a>
             </li>
             <li ng-if="consts.debug">
               <a class="debug" ng-click="toggleDevPanel();">Debug</a>
@@ -65,4 +65,42 @@
     </bookmark-list>
   </modal>
   <dataset-modal></dataset-modal>
+  <tour step="currentStep">
+    <virtual-step
+      tourtip="Data Voyager works collaboratively with you to explore your data. You can tell it what fields to start visualizing by selecting them here. Data Voyager will use these fields as a starting point for more recommendations."
+      tourtip-next-label="Next"
+      tourtip-offset-vertical="50"
+      tourtip-placement="right"
+      tourtip-element=".schema"
+      tourtip-step="0" />
+    <virtual-step
+      tourtip="Load other data here. You can look at the provided sample data or load your own from a CSV or URL."
+      tourtip-next-label="Next"
+      tourtip-placement="bottom"
+      tourtip-offset-horizontal="-20"
+      tourtip-element=".select-data"
+      tourtip-step="1" />
+    <virtual-step
+      tourtip="Visualization recommendations are presented to you based on your data and the fields you are interested in. Data Voyager provides smart combinations of the variables in your data so you can quickly get a broad sense of what it looks like."
+      tourtip-next-label="Next"
+      tourtip-placement="right"
+      tourtip-element=".vl-plot-wrapper"
+      tourtip-step="2" />
+    <virtual-step
+      tourtip="The names above each visualization show you which fields or transformations of fields are being visualized."
+      tourtip-next-label="Next"
+      tourtip-placement="right"
+      tourtip-element=".vl-plot-group-header .field-set-info"
+      tourtip-offset-vertical="-30"
+      tourtip-offset-horizontal="-20"
+      tourtip-step="3" />
+    <virtual-step
+      tourtip="Modify the organization of the chart or expand it to see different visualization types for the same data. Bookmarking insightful visualizations lets you return to them again later."
+      tourtip-next-label="Done"
+      tourtip-placement="right"
+      tourtip-element=".vl-plot-group-header .toolbox"
+      tourtip-offset-vertical="-30"
+      tourtip-offset-horizontal="-10"
+      tourtip-step="4" />
+  </tour>
 </div>

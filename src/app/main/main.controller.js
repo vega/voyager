@@ -15,6 +15,7 @@ angular.module('voyager')
     $scope.Dataset = Dataset;
     $scope.Config = Config;
     $scope.Bookmarks = Bookmarks;
+    $scope.currentStep = -1;
 
     $scope.showModal = function(modalId) {
       Modals.open(modalId);
@@ -22,6 +23,10 @@ angular.module('voyager')
 
     $scope.toggleDevPanel = function() {
       $scope.showDevPanel = ! $scope.showDevPanel;
+    };
+
+    $scope.startTour = function() {
+      $scope.currentStep = 0;
     };
 
     if (Bookmarks.isSupported) {
