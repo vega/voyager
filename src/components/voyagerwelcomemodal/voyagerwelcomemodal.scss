@@ -1,0 +1,41 @@
+#welcome-modal {
+
+  h1 {
+    text-align: center;
+  }
+  .content {
+    width: 60%;
+    margin: auto;
+    font-size: 14px;
+    padding-bottom: 20px;
+    .description {
+      padding-bottom: 40px;
+    }
+  }
+}
+
+.big-button,
+.big-button:link,
+.big-button:visited {
+  border-radius: .25em;
+  border-style: solid;
+  border-width: 1px;
+  color: #111;
+  display: inline-block;
+  font-family: avenir, helvetica, roboto, arial, sans-serif;
+  letter-spacing: .15em;
+  margin-bottom: .5em;
+  padding: 1em 1.5em;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: color .4s, background-color .4s, border .4s;
+  background-color: #555;
+  color: #eee;
+}
+
+.big-button:hover,
+.big-button:focus {
+  background-color: #333;
+  border-color: #333;
+  color: #eee;
+}
