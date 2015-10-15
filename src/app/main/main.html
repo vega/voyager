@@ -2,9 +2,9 @@
   <div class="full-width no-shrink">
     <div class="card top-card no-right-margin no-top-margin">
       <div class="hflex">
-        <div class="pane">
-          <img id="logo" src="../assets/images/logo.png"></img>
-        </div>
+        <!-- TODO make this a h1 with text offset -->
+        <img id="logo" src="../assets/images/logo.png"></img>
+
         <div class="pane">
           <div class="controls">
             <a ng-show="Bookmarks.isSupported" class="command" ng-click="showModal('bookmark-list')">
@@ -27,11 +27,11 @@
   </div>
   <div class="hflex full-width main-panel grow-1">
     <div class="pane data-pane noselect">
-      <div class="card data-card abs-100 no-top-margin">
+      <div class="card data-card abs-100 no-top-margin no-right-margin">
         <div class="right">
           <dataset-selector ng-if="!embedded"></dataset-selector>
         </div>
-        <h2>Current Data:</h2>
+        <h2>Data</h2>
         <field-list></field-list>
         <div id="footer">
           <ul class="menu">

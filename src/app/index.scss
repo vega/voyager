@@ -43,11 +43,12 @@ h2 {
 #logo {
   height: 34px;
   flex-shrink: 0;
+  margin-right: 40px; /* This margin further pushes the menu to the right */
 }
 
 .controls {
   margin-left: 33px;
-  margin-top: 5px;
+  margin-top: 7px;
   & > a.command {
     font-size: 14px;
     margin-right: 40px;
@@ -55,30 +56,14 @@ h2 {
 }
 
 .idl-logo {
-  padding: 0px 20px;
   background: url("../assets/images/idl-logo.png") center no-repeat;
   display: block;
   width: 48px;
   height: 34px;
 }
 
-ul.menu {
-  list-style-type:none;
-  margin:0;
-  padding:0;
-  li {
-    font-size: 14px;
-    margin-bottom: 4px;
-  }
-}
-
 #dataset-select {
   width: 120px;
-}
-
-.top-card {
-  padding-bottom:2px;
-  margin-bottom:0;
 }
 
 .data-card {
@@ -140,4 +125,13 @@ ul.menu {
   position:absolute;
   bottom: 5px;
   left: 10px;
+
+  ul.menu {
+    list-style-type:none;
+    margin:0;
+    padding:0;
+    li {
+      margin-bottom: 4px;
+    }
+  }
 }
