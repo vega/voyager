@@ -32,14 +32,6 @@ $fa-font-path: "../../bower_components/fontawesome/fonts";
   color: #72757B;
 }
 
-h1 {
-  @extend .noselect;
-  font-size: 24px;
-  line-height:36px;
-  font-weight: 700;
-  margin: 0;
-}
-
 h2 {
   @extend .noselect;
   font-size: 16px;
@@ -48,28 +40,14 @@ h2 {
   margin: 0 0 15px;
 }
 
-h3 {
-  @extend .noselect;
-  font-size: 14px;
-  font-weight: 700;
-  margin: 0 0 10px;
-}
-
-h4 {
-  @extend .noselect;
-  font-size: 12px;
-  font-weight: 700;
-  margin: 0 0;
-}
-
 #logo {
-  height: 45px;
+  height: 34px;
   flex-shrink: 0;
 }
 
 .controls {
-  margin-left: 45px;
-  margin-top: 14px;
+  margin-left: 33px;
+  margin-top: 5px;
   a {
     margin: 10px;
     font-size: 14px;
@@ -78,7 +56,7 @@ h4 {
 }
 
 .idl-logo {
-  padding: 10px 20px;
+  padding: 0px 20px;
   background: url("../assets/images/idl-logo.png") center no-repeat;
   display: block;
   width: 48px;
@@ -97,6 +75,11 @@ ul.menu {
 
 #dataset-select {
   width: 120px;
+}
+
+.top-card {
+  padding-bottom:2px;
+  margin-bottom:0;
 }
 
 .data-card {
@@ -156,6 +139,6 @@ ul.menu {
 
 #footer {
   position:absolute;
-  bottom: 20px;
+  bottom: 5px;
   left: 10px;
 }
