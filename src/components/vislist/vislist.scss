@@ -1,12 +1,23 @@
 .vis-list-header {
-  .desc {
-    font-weight: bold;
+  background-color: #ECF1F7;
+  .description {
+    font-size: 16px;
+    margin-top:8px;
+  }
+  .explanation {
+    font-size: 14px;
+    color: #777;
+  }
+  .field-info {
+    margin-top: -6px;
   }
 }
 
 .vis-list {
+  margin-left: 5px;
   align-content: flex-start;
   margin-bottom: 10px;
+  background-color: #ECF1F7;
 }
 
 // .vis-list .encoding-variations {
@@ -23,4 +34,3 @@
 
 //   position: relative;
 // }
-

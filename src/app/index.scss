@@ -9,8 +9,80 @@ $fa-font-path: "../../bower_components/fontawesome/fonts";
 @import "../../bower_components/fontawesome/scss/font-awesome.scss";
 @import "../../bower_components/angular-tooltips/dist/angular-tooltips";
 
+
 .top{
   z-index: 100;
+}
+
+/* prevent element from being selected http://stackoverflow.com/questions/826782 */
+.noselect {
+  user-select: none;
+  cursor: default;
+}
+
+.voyager {
+  background-color: #ECF1F7;
+}
+
+.voyager a {
+  color: #38425D;
+}
+
+.voyager a:hover {
+  color: #72757B;
+}
+
+h2 {
+  @extend .noselect;
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: 700;
+  margin: 0 0 15px;
+}
+
+#logo {
+  height: 34px;
+  flex-shrink: 0;
+  margin-right: 40px; /* This margin further pushes the menu to the right */
+}
+
+.controls {
+  margin-left: 33px;
+  margin-top: 7px;
+  & > a.command {
+    font-size: 14px;
+    margin-right: 40px;
+  }
+}
+
+.idl-logo {
+  background: url("../assets/images/idl-logo.png") center no-repeat;
+  display: block;
+  width: 48px;
+  height: 34px;
+}
+
+#dataset-select {
+  width: 120px;
+}
+
+.data-card {
+  background-color: #38425D;
+  h2 {
+    color: white;
+  }
+  a {
+    color: white;
+  }
+  a:hover, a:focus {
+    color: #ddd;
+  }
+}
+
+.data-load {
+  background-color: #30374A;
+  padding:0;
+  margin:0;
 }
 
 .absolute-top-right {
@@ -18,7 +90,6 @@ $fa-font-path: "../../bower_components/fontawesome/fonts";
   top: 0;
   right: 0;
 }
-
 
 .pane.data-pane {
   width: 250px;
@@ -48,4 +119,19 @@ $fa-font-path: "../../bower_components/fontawesome/fonts";
 
 .field-set-info, .schema{
   margin-bottom: 10px;
+}
+
+#footer {
+  position:absolute;
+  bottom: 5px;
+  left: 10px;
+
+  ul.menu {
+    list-style-type:none;
+    margin:0;
+    padding:0;
+    li {
+      margin-bottom: 4px;
+    }
+  }
 }
