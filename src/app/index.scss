@@ -63,16 +63,6 @@ h2 {
   height: 34px;
 }
 
-ul.menu {
-  list-style-type:none;
-  margin:0;
-  padding:0;
-  li {
-    font-size: 14px;
-    margin-bottom: 4px;
-  }
-}
-
 #dataset-select {
   width: 120px;
 }
@@ -141,4 +131,13 @@ ul.menu {
   position:absolute;
   bottom: 5px;
   left: 10px;
+
+  ul.menu {
+    list-style-type:none;
+    margin:0;
+    padding:0;
+    li {
+      margin-bottom: 4px;
+    }
+  }
 }
