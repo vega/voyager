@@ -50,7 +50,7 @@ angular.module('voyager')
 
           var type = field.name ? field.type : '';
 
-          if (vl.field.isCount(field)) {
+          if (vl.encDef.isCount(field)) {
             scope.func.list=[COUNT];
             scope.func.selected = COUNT;
           } else {
