@@ -69,17 +69,25 @@ h2 {
 .data-card {
   color: white;
   background-color: #38425D;
-  h2,
+
+  .sidebar-header {
+    padding-bottom: 5px;
+    border-bottom: 1px solid #7883A0;
+    margin-bottom: 5px;
+  }
+
   .current-dataset {
     display: inline-block;
-  }
-  .current-dataset {
-    padding-left: 10px;
+    white-space: nowrap;
+    width: 70%;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   a:hover, a:focus {
     color: #ddd;
   }
   .small-button {
+    margin-top: -3px;
     display: inline-block;
     color: #555;
     background-color: #eee;
