@@ -12,6 +12,15 @@ $fa-font-path: "../../bower_components/fontawesome/fonts";
 
 $iron: #ccc;
 
+h2 {
+  @extend .noselect;
+  font-size: 16px;
+  line-height: 24px;
+  text-transform: uppercase;
+  font-weight: 700;
+  margin: 0 0 15px;
+}
+
 .type-select {
   width: 60px;
 }
@@ -59,4 +68,3 @@ null-filter-directive {
   @extend .persist-scroll;
   overflow: scroll;
 }
-
