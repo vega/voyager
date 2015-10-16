@@ -36,16 +36,14 @@
         <div id="footer">
           <ul class="menu">
             <li>
-              <a ng-click="showDevPanel" >About</a>
+              <a ng-click="">About</a>
             </li>
-            <span ng-show="consts.debug">
-              <li>
-                <a class="debug" ng-click="showDevPanel = !showDevPanel">Debug</a>
-              </li>
-              <li>
-                <a ng-href="{{ {fields: Fields.fields} | reportUrl }}" target="_blank" class="debug">Report an issue</a>
-              </li>
-            </span>
+            <li ng-if="consts.debug">
+              <a class="debug" ng-click="toggleDevPanel();">Debug</a>
+            </li>
+            <li ng-if="consts.debug">
+              <a ng-href="{{ {fields: Fields.fields} | reportUrl }}" target="_blank" class="debug">Report an issue</a>
+            </li>
           </ul>
         </div>
       </div>
