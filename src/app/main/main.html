@@ -49,10 +49,7 @@
       </div>
     </div>
     <div class="pane vis-list-pane">
-      <welcome-modal>
-        <voyager-welcome-modal>
-        </voyager-welcome-modal>
-      </welcome-modal>
+      <welcome-modal ng-if="!embedded"></welcome-modal>
       <vis-list></vis-list>
     </div>
   </div>
