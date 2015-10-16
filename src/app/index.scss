@@ -132,6 +132,21 @@ h2 {
     padding:0;
     li {
       margin-bottom: 4px;
+      padding: 0;
+      display: inline-block;
+
+      // items Separate with a white bullet
+      &:after {
+        color: #eee;
+        content: '\2022';
+        padding: 0 3px;
+      }
+      &:last-of-type {
+        &:after {
+          content: none;
+          padding-right: 0;
+        }
+      }
     }
   }
 }
