@@ -150,3 +150,8 @@ h2 {
     }
   }
 }
+
+// Workaround for https://github.com/720kb/angular-tooltips/issues/95
+._720kb-tooltip:not(._720kb-tooltip-open) {
+  visibility: hidden !important;
+}
