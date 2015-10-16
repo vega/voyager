@@ -1,26 +1,20 @@
-//colors
 $background_color: #1c252e;
-$white: #fff;
-$text_color: #cbd0d4;
+$text_color: #fff;
 $button_color: #555;
 $button_hover_color: #777;
 $close_button_hover: #eee;
 $black_60: rgba(0, 0, 0, 0.6);
-
 
 %base-button {
   background-color: $button_color;
   transition: background-color 300ms ease-out;
   cursor: pointer;
   font-family: inherit;
-  font-weight: 700;
-  line-height: 1;
   position: relative;
   text-decoration: none;
   text-align: center;
   display: inline-block;
-  font-size: .8em;
-  color: $white;
+  color: $text_color;
   border-style: solid;
   border-width: 0;
   margin: 0 0 1.25em;
@@ -28,23 +22,19 @@ $black_60: rgba(0, 0, 0, 0.6);
   border-radius: 8px;
 }
 
-
 .tour-tip {
   display: none;
   position: absolute;
   background: $background_color;
-  color: $white;
+  color: $text_color;
   z-index: 101;
   top: 0;
   left: 2.5%;
   font-family: inherit;
-  font-weight: 400;
   max-width: 400px;
   border-radius: 10px;
   p {
     color: $text_color;
-    font-size: 1.2em;
-    line-height: 1.5em;
     margin: 0 0 1.125em;
   }
   button {
@@ -108,7 +98,7 @@ $black_60: rgba(0, 0, 0, 0.6);
     position: absolute;
     right: 12px;
     top: 10px;
-    color: $white !important;
+    color: $text_color !important;
     text-decoration: none;
     font-size: 30px;
     font-weight: 400;
@@ -122,6 +112,7 @@ $black_60: rgba(0, 0, 0, 0.6);
     }
   }
 }
+
 .tour-backdrop {
   position: fixed;
   top: 0;
@@ -131,8 +122,9 @@ $black_60: rgba(0, 0, 0, 0.6);
   background: $black_60;
   z-index: 100;
 }
+
 .tour-element-active {
   z-index: 120 !important;
   position: relative;
-  background: $white;
+  background: $text_color;
 }
