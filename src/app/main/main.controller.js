@@ -20,6 +20,10 @@ angular.module('voyager')
       Modals.open(modalId);
     };
 
+    $scope.toggleDevPanel = function() {
+      $scope.showDevPanel = ! $scope.showDevPanel;
+    };
+
     if (Bookmarks.isSupported) {
       // load bookmarks from local storage
       Bookmarks.load();

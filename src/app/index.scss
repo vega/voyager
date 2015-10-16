@@ -135,10 +135,10 @@ h2 {
       padding: 0;
       display: inline-block;
 
-      // items Separate with a white bullet
+      // Separate items with a dot
       &:after {
         color: #eee;
-        content: '\2022';
+        content: '\000b7';
         padding: 0 3px;
       }
       &:last-of-type {
