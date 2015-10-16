@@ -67,15 +67,30 @@ h2 {
 }
 
 .data-card {
+  color: white;
   background-color: #38425D;
-  h2 {
-    color: white;
+  h2,
+  .current-dataset {
+    display: inline-block;
   }
-  a {
-    color: white;
+  .current-dataset {
+    padding-left: 10px;
   }
   a:hover, a:focus {
     color: #ddd;
+  }
+  .small-button {
+    display: inline-block;
+    color: #555;
+    background-color: #eee;
+    border-radius: .25em;
+    border: 1px solid #555;
+    transition: color .3s, background-color .3s, border .3s;
+
+    &:hover {
+      background-color: #88888a;
+      color: #eee;
+    }
   }
 }
 
