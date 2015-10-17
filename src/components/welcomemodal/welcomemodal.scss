@@ -1,0 +1,61 @@
+#welcome-modal {
+
+  h1 {
+    margin-top: 30px;
+    text-align: center;
+  }
+  .content {
+    width: 90%;
+    @media (min-width:1024px) { width: 65%; }
+    margin: auto;
+    font-size: 14px;
+    padding-bottom: 30px;
+    .description {
+      padding-bottom: 30px;
+    }
+  }
+
+  // Move buttons to one above the other on smaller screens
+  @media (max-width:890px) {
+    .content {
+      // Center buttons, but not text
+      text-align: center;
+      .description {
+        text-align: left;
+      }
+    }
+    .big-button {
+      float: none;
+    }
+  }
+}
+
+// This is required due to the `.voyager a` rule in index.scss
+.voyager {
+
+  .big-button,
+  .big-button:link,
+  .big-button:visited {
+    border-radius: .25em;
+    border-style: solid;
+    border-width: 1px;
+    color: #111;
+    display: inline-block;
+    font-family: avenir, helvetica, roboto, arial, sans-serif;
+    letter-spacing: .15em;
+    margin-bottom: .5em;
+    padding: 1em 1.5em;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: color .4s, background-color .4s, border .4s;
+    background-color: #555;
+    color: #eee;
+  }
+
+  .big-button:hover,
+  .big-button:focus {
+    background-color: #333;
+    border-color: #333;
+    color: #eee;
+  }
+}

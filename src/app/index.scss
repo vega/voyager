@@ -132,6 +132,26 @@ h2 {
     padding:0;
     li {
       margin-bottom: 4px;
+      padding: 0;
+      display: inline-block;
+
+      // Separate items with a dot
+      &:after {
+        color: #eee;
+        content: '\000b7';
+        padding: 0 3px;
+      }
+      &:last-of-type {
+        &:after {
+          content: none;
+          padding-right: 0;
+        }
+      }
     }
   }
+}
+
+// Workaround for https://github.com/720kb/angular-tooltips/issues/95
+._720kb-tooltip:not(._720kb-tooltip-open) {
+  visibility: hidden !important;
 }

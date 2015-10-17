@@ -1,0 +1,12 @@
+<modal id="welcome-modal" max-width="850px" auto-open="showWelcomeModal">
+  <modal-close-button></modal-close-button>
+  <h1>Welcome to Data Voyager</h1>
+  <div class="content">
+    <div class="description">
+      <p>Data Voyager allows you to discover data insights by providing you visualization recommendations with your data. Get started by exploring the loaded sample data about cars. Select fields that might be interesting in the panel to your left and check out the resulting recommendations.</p>
+      <p>Once you’ve explored the sample sets, try <strong><a ng-click="showDatasetModal()">loading your own data</a></strong>.</p>
+    </div>
+    <a ng-click="showTutorial()" class="big-button">I want to learn more</a>
+    <a ng-click="closeModal()" class="big-button right">Ok, got it!</a>
+  </div>
+</modal>

@@ -3,7 +3,7 @@
   <div class="exact-match-list"
     ng-if="Fields.selected.length > 0 && Visrec.aggregates[Fields.selectedPKey].length > 0">
 
-    <div class="card no-top-margin vis-list-header">
+    <div class="card vis-list-header">
       <div><span class="description">Explore visualizations of </span>
       <field-info ng-repeat="(name, field) in Fields.selected"
         field='field'
@@ -46,7 +46,7 @@
     </div>
   </div>
   <div ng-if="Fields.selected.length === 0"
-    class="card vis-list-header no-top-margin">
+    class="card vis-list-header">
     <span class="description">Explore univariate summaries of each field</span>
     <div class="explanation">
       Start exploring data by examining each field and continue by selecting interesting data fields in data selector panel.
