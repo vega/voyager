@@ -1,12 +1,14 @@
+$vis-list-margin: 5px;
+
 .vis-list-header {
-  background-color: #ECF1F7;
+  margin: $vis-list-margin $vis-list-margin 0;
+  background-color: #D7E0EA;
   .description {
     font-size: 16px;
-    margin-top:8px;
+    font-weight: bold;
   }
   .explanation {
-    font-size: 14px;
-    color: #777;
+    color: #333;
   }
   .field-info {
     margin-top: -6px;
@@ -14,9 +16,10 @@
 }
 
 .vis-list {
-  margin-left: 5px;
+  margin-left: $vis-list-margin;
+  margin-right: $vis-list-margin - 3px; // each item in .vis-list already have margin-right: 3px
+  margin-bottom: 20px;
   align-content: flex-start;
-  margin-bottom: 10px;
   background-color: #ECF1F7;
 }
 
