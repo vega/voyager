@@ -1,8 +1,13 @@
-$vis-list-margin: 5px;
+$vis-list-margin: 6px;
+
+.vis-list-container {
+  border-top: 1px solid #E2E9F3;
+}
 
 .vis-list-header {
-  margin: $vis-list-margin $vis-list-margin 0;
-  background-color: #D7E0EA;
+  // margin top need to -1 as we have 1px in .vis-list-container's border-top
+  margin: $vis-list-margin - 1  $vis-list-margin 0;
+  background-color: #F1F4F9;
   .description {
     font-size: 16px;
     font-weight: bold;
@@ -20,7 +25,6 @@ $vis-list-margin: 5px;
   margin-right: $vis-list-margin - 3px; // each item in .vis-list already have margin-right: 3px
   margin-bottom: 20px;
   align-content: flex-start;
-  background-color: #ECF1F7;
 }
 
 // .vis-list .encoding-variations {
