@@ -1,6 +1,6 @@
 {
   "name": "polestar",
-  "version": "0.6.3",
+  "version": "0.7.0",
   "description": "Visualization specification interface.",
   "repository": {
     "type": "git",
@@ -18,6 +18,9 @@
   "license": "BSD-3-Clause",
   "scripts": {
     "postinstall": "bower install",
+    "patch": "gulp patch",
+    "feature": "gulp feature",
+    "release": "gulp release",
     "deploy": "npm run lint && npm run test && scripts/deploy.sh",
     "build": "gulp",
     "start": "gulp serve",
