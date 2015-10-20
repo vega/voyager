@@ -12,7 +12,7 @@ angular.module('voyager')
 
     function resetField(field) {
       field.selected = undefined;
-      field._any = !vl.field.isTypes(field, ['O', 'N']) && field.aggregate!=='count';
+      field._any = !vl.encDef.isTypes(field, ['O', 'N']) && field.aggregate!=='count';
       delete field._raw;
       delete field._aggregate;
       delete field._timeUnit;

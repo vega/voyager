@@ -17,7 +17,7 @@ angular.module('voyager')
         scope.Fields = Fields;
         scope.Visrec = Visrec;
         scope.consts = consts;
-        scope.shorthands = vl.field.shorthands;
+        scope.shorthands = vl.encDef.shorthands;
         scope.limit = consts.numInitClusters;
 
         element.bind('scroll', function(){
