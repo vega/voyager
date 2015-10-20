@@ -6,7 +6,6 @@ $selected-color: black;
   display: flex;
   flex-direction: row;
   width: 100%;
-  margin-right: -3px;
   color: $item-color;
 
   input[type=checkbox] {
@@ -46,8 +45,6 @@ $selected-color: black;
       color: $selected-color;
     }
   }
-
-
 }
 
 .inclusion a {
@@ -57,7 +54,7 @@ $selected-color: black;
 }
 
 .inclusion a.inactive, .inclusion a.inactive .fa-minus-circle {
-  color: #ccc;
+  color: #aaa;
   &:hover {
     color: #125369;
   }
