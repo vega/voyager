@@ -7,7 +7,7 @@
  * # visList
  */
 angular.module('voyager')
-  .directive('visList', function (Fields, Visrec, vl, jQuery, consts, _, Logger) {
+  .directive('visList', function (Fields, Visrec, vl, jQuery, consts, _, Logger, Modals) {
     return {
       templateUrl: 'components/vislist/vislist.html',
       restrict: 'E',
@@ -41,6 +41,7 @@ angular.module('voyager')
           Logger.logInteraction(Logger.actions.DRILL_DOWN_OPEN, fieldSet.key);
           Visrec.selectedFieldSet = fieldSet;
           Visrec.selectedCluster = cluster;
+          Modals.open('encoding-variations');
         };
 
         scope.isInList = function(fieldSetKey) {

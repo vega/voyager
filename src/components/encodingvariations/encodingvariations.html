@@ -1,75 +1,64 @@
-<div class="encoding-variations modal" ng-show="Visrec.selectedCluster">
-  <div class="wrapper">
-    <div class="vflex full-width full-height" id="evs"
-      ng-if="Visrec.selectedCluster"
-      >
-      <!-- ng-class="{outside: Visrec.selectedCluster}" -->
-      <div class="encoding-variations-header modal-header no-shrink card no-top-margin no-right-margin margin-bottom">
-        <div class="right">
-          <a ng-click="close()" class="right">Close</a>
-        </div>
-        <div class="field-set-info no-bottom-margin">
-          <b>Various Visualizations Showing </b>
-          <field-info ng-repeat="field in Visrec.selectedFieldSet"
-            field='field'
-            show-type='true'
-            class='selected'>
-          </field-info>
-          <span ng-if="consts.debug"
-            tooltips tooltip-size="small"
-            tooltip-content="{{_.pluck(selectedSubcluster, 'shorthand').join('<br/>')}}">
-            <!-- (selected cluster size = {{selectedSubcluster.length}}) -->
-          </span>
-        </div>
-
-      </div>
-
-    <div class="hflex flex-grow-1 encoding-variations-main">
-      <div class="selected-variation no-shrink">
-        <vl-plot-group
-          chart="selectedSubcluster[0]"
-          disabled="!Visrec.selectedCluster"
-
-          config-set="large"
-          show-bookmark="true"
-          show-debug="consts.debug && consts.debugInList"
-          show-filter-null="true"
-          show-log="true"
-          show-mark-type="true"
-          show-sort="true"
-          show-transpose="true"
-          always-scrollable="true"
-          tooltip="true"
-
-          priority="consts.priority.popup"
-
-          class="abs-100 scroll-xy full-vl-plot-group no-top-margin"
-        ></vl-plot-group>
-      </div>
-      <!--variation-list-->
-      <div class="variations vflex flex-grow-1 scroll-y" ng-if="Visrec.selectedCluster.length > 1">
-        <div class="full-width">
-          <vl-plot-group
-            ng-repeat="subcluster in Visrec.selectedCluster"
-            ng-class="{selected: selectedSubcluster == subcluster}"
-            chart="subcluster[0]"
-            disabled="!subcluster || !subcluster[0]"
-            is-in-list="isInList"
-
-            show-bookmark="true"
-            rescale="true"
-            thumbnail="true"
-            max-width="300"
-            max-width="300"
-            ng-click="select(subcluster)"
-            class="row-vl-plot-group clickable"
-
-            priority="consts.priority.popup + $index + 1"
-          >
-          </vl-plot-group>
-        </div>
-      </div>
-      <!--end of variation-list-->
+<modal id="encoding-variations">
+    <div class="modal-header">
+      <modal-close-button></modal-close-button>
+      <h2>Various Visualizations Showing
+        <field-info ng-repeat="field in Visrec.selectedFieldSet"
+          field='field'
+          show-type='true'
+          class='selected'>
+        </field-info>
+        <span ng-if="consts.debug"
+          tooltips tooltip-size="small"
+          tooltip-content="{{_.pluck(selectedSubcluster, 'shorthand').join('<br/>')}}">
+          <!-- (selected cluster size = {{selectedSubcluster.length}}) -->
+        </span>
+      </h2>
     </div>
+
+  <div class="hflex encoding-variations-main">
+    <div class="selected-variation no-shrink">
+      <vl-plot-group
+        chart="selectedSubcluster[0]"
+        disabled="!Visrec.selectedCluster"
+
+        config-set="large"
+        show-bookmark="true"
+        show-debug="consts.debug && consts.debugInList"
+        show-filter-null="true"
+        show-log="true"
+        show-mark-type="true"
+        show-sort="true"
+        show-transpose="true"
+        always-scrollable="true"
+        tooltip="true"
+
+        priority="consts.priority.popup"
+
+        class="scroll-xy full-vl-plot-group no-top-margin"
+      ></vl-plot-group>
+    </div>
+    <!--variation-list-->
+    <div class="variations vflex scroll-y" ng-if="Visrec.selectedCluster.length > 1">
+      <div class="full-width">
+        <vl-plot-group
+          ng-repeat="subcluster in Visrec.selectedCluster"
+          ng-class="{selected: selectedSubcluster == subcluster}"
+          chart="subcluster[0]"
+          disabled="!subcluster || !subcluster[0]"
+          is-in-list="isInList"
+
+          show-bookmark="true"
+          rescale="true"
+          thumbnail="true"
+          max-width="300"
+          ng-click="select(subcluster)"
+          class="row-vl-plot-group clickable"
+
+          priority="consts.priority.popup + $index + 1"
+        >
+        </vl-plot-group>
+      </div>
+    </div>
+    <!--end of variation-list-->
   </div>
-</div>
+</modal>

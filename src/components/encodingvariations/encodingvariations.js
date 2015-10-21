@@ -12,24 +12,13 @@ angular.module('voyager')
     return {
       templateUrl: 'components/encodingvariations/encodingvariations.html',
       restrict: 'E',
-      replace: true,
+      replace: false,
       scope: {},
       link: function postLink(scope/*, element, attrs*/) {
         scope.Visrec = Visrec;
         scope.Bookmarks = Bookmarks;
         scope.consts = consts;
         scope._ = _;
-
-        function escape(e) {
-
-          if (e.keyCode === 27) {
-            console.log('escape');
-            scope.close();
-            angular.element($document).off('keydown', escape);
-          }
-        }
-
-        angular.element($document).on('keydown', escape);
 
         scope.isInList = function(fieldSetKey) {
           return Visrec.selectedCluster &&
