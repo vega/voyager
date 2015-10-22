@@ -1,3 +1,28 @@
+.encoding-variations {
+  .selected-variation {
+    display: flex;
+    flex-direction: row;
+    & > .vl-plotgroup {
+      flex: 0 0 100%;
+      box-sizing: border-box;
+    }
+  }
+}
+
 .encoding-variations .variations {
-  max-width: 300px;
+  max-width: 350px;
+  overflow-y: auto;
+}
+
+.encoding-variations .modal-wrapper{
+  overflow: hidden;
+}
+
+.encoding-variations .encoding-variations-main {
+  display: flex;
+  overflow: hidden;
+}
+
+.encoding-variations .wrapper {
+  position: relative;
 }
