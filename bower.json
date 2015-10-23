@@ -19,7 +19,6 @@
     "angular-order-object-by": "~1.1.0",
     "datalib": "^1.4.6",
     "viscompass": "~0.6.0",
-    "vega-lite": "~0.8.0",
     "vega-lite-ui": "~0.8.0"
   },
   "devDependencies": {
