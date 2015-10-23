@@ -19,6 +19,9 @@
   padding: 10px 15px 10px 10px;
   background-color: #B7C9E1;
   margin-top: 3px;
+
+  // account for margin-right: -3px in  .encoding-variations-main
+  margin-right: 3px;
 }
 
 .encoding-variations .modal-wrapper{
@@ -28,6 +31,8 @@
 .encoding-variations .encoding-variations-main {
   display: flex;
   overflow: hidden;
+  // account for .selection-variation.card's 3px when .variations is hidden
+  margin-right: -3px;
 
 }
 
