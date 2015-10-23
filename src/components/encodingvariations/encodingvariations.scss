@@ -1,7 +1,7 @@
 .encoding-variations {
   .selected-variation {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     & > .vl-plotgroup {
       flex: 0 0 100%;
       box-sizing: border-box;
@@ -10,8 +10,18 @@
 }
 
 .encoding-variations .variations {
-  max-width: 350px;
-  overflow-y: auto;
+  max-width: 300px;
+  width: 300px;
+  flex-shrink: 0.2;
+  flex-grow: 0;
+  overflow-y: scroll;
+
+  padding: 10px 15px 10px 10px;
+  background-color: #B7C9E1;
+  margin-top: 3px;
+
+  // account for margin-right: -3px in  .encoding-variations-main
+  margin-right: 3px;
 }
 
 .encoding-variations .modal-wrapper{
@@ -21,6 +31,9 @@
 .encoding-variations .encoding-variations-main {
   display: flex;
   overflow: hidden;
+  // account for .selection-variation.card's 3px when .variations is hidden
+  margin-right: -3px;
+
 }
 
 .encoding-variations .wrapper {

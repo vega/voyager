@@ -40,25 +40,23 @@
     </div>
     <!--variation-list-->
     <div class="variations vflex" ng-if="Visrec.selectedCluster.length > 1">
-      <div class="full-width">
-        <vl-plot-group
-          ng-repeat="subcluster in Visrec.selectedCluster"
-          ng-class="{selected: selectedSubcluster == subcluster}"
-          chart="subcluster[0]"
-          disabled="!subcluster || !subcluster[0]"
-          is-in-list="isInList"
+      <vl-plot-group
+        ng-repeat="subcluster in Visrec.selectedCluster"
+        ng-class="{selected: selectedSubcluster == subcluster}"
+        chart="subcluster[0]"
+        disabled="!subcluster || !subcluster[0]"
+        is-in-list="isInList"
 
-          show-bookmark="true"
-          rescale="true"
-          thumbnail="true"
-          max-width="300"
-          ng-click="select(subcluster)"
-          class="row-vl-plot-group clickable card no-right-margin"
+        show-bookmark="true"
+        rescale="true"
+        thumbnail="true"
+        max-width="300"
+        ng-click="select(subcluster)"
+        class="row-vl-plot-group clickable card no-right-margin"
 
-          priority="consts.priority.popup + $index + 1"
-        >
-        </vl-plot-group>
-      </div>
+        priority="consts.priority.popup + $index + 1"
+      >
+      </vl-plot-group>
     </div>
     <!--end of variation-list-->
   </div>
