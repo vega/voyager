@@ -40,10 +40,10 @@
         <div id="footer">
           <ul class="menu">
             <li>
-              <a ng-click="">About</a>
+              <a ng-click="showModal('welcome-modal')">About</a>
             </li>
             <li ng-if="consts.debug">
-              <a class="debug" ng-click="toggleDevPanel();">Debug</a>
+              <a class="debug" ng-click="toggleDevPanel()">Debug</a>
             </li>
             <li ng-if="consts.debug">
               <a ng-href="{{ {fields: Fields.fields} | reportUrl }}" target="_blank" class="debug">Report an issue</a>
