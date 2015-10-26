@@ -35,6 +35,12 @@ null-filter-directive {
 .pane.encoding-pane {
   width: 230px;
   flex-shrink: 0;
+  .card {
+    background-color: #E2E9F3;
+  }
+  h2, h3 {
+    color: #38425D;
+  }
 }
 
 
@@ -46,6 +52,7 @@ null-filter-directive {
 
 .pane.vis-pane{
   flex-grow: 1;
+  margin-top: 1px;
 }
 
 .pane.config-pane {

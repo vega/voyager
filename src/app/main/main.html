@@ -2,7 +2,7 @@
   <div class="full-width no-shrink">
     <div class="card top-card no-right-margin no-top-margin">
       <div class="hflex">
-        <img id="logo" src="../assets/images/logo.png"></img>
+        <img id="logo" src="../assets/images/polestar-logo.png"></img>
         <div class="pane">
           <div class="controls">
             <a ng-show="Bookmarks.isSupported" class="command" ng-click="showModal('bookmark-list')">
@@ -22,11 +22,15 @@
   </div>
   <div class="hflex full-width main-panel grow-1">
     <div class="pane data-pane noselect">
-      <div class="card data-card abs-100">
-        <div class="right">
-          <dataset-selector ng-if="!embedded"></dataset-selector>
+      <div class="card no-top-margin data-card abs-100">
+        <div class="sidebar-header">
+          <h2>Data</h2>
+          <dataset-selector class="right" ng-if="!embedded"></dataset-selector>
+          <div class="current-dataset" title="{{Dataset.currentDataset.name}}">
+            <i class="fa fa-database"></i>
+            <span class="dataset-name">{{Dataset.currentDataset.name}}</span>
+          </div>
         </div>
-        <h2>Data</h2>
         <schema-list></schema-list>
         <div id="footer">
           <ul class="menu">
@@ -47,7 +51,7 @@
     </div>
 
     <div class="pane vis-pane">
-      <vl-plot-group class="card abs-100 no-right-margin full-vl-plot-group"
+      <vl-plot-group class="card abs-100 no-top-margin no-right-margin full-vl-plot-group"
           chart="Spec.chart"
           show-bookmark="true"
           show-filter-null="true"
