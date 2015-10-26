@@ -23,10 +23,14 @@
   <div class="hflex full-width main-panel grow-1">
     <div class="pane data-pane noselect">
       <div class="card no-top-margin data-card abs-100">
-        <div class="right">
-          <dataset-selector ng-if="!embedded"></dataset-selector>
+        <div class="sidebar-header">
+          <h2>Data</h2>
+          <dataset-selector class="right" ng-if="!embedded"></dataset-selector>
+          <div class="current-dataset" title="{{Dataset.currentDataset.name}}">
+            <i class="fa fa-database"></i>
+            <span class="dataset-name">{{Dataset.currentDataset.name}}</span>
+          </div>
         </div>
-        <h2>Data</h2>
         <schema-list></schema-list>
         <div id="footer">
           <ul class="menu">
