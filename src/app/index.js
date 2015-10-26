@@ -38,7 +38,6 @@ angular.module('polestar', [
     'ngTouch',
     'ngDragDrop',
     'zeroclipboard',
-    'ui.select',
     'Chronicle',
     'LocalStorageModule',
     '720kb.tooltips',
