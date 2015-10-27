@@ -46,7 +46,6 @@ angular.module('voyager', ['vlui',
   .constant('vl', window.vl)
   .constant('vg', window.vg)
   .constant('cp', window.cp)
-  .constant('tv4', window.tv4)
   .constant('Blob', window.Blob)
   .constant('URL', window.URL)
   .constant('Tether', window.Tether)

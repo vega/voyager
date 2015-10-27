@@ -8,7 +8,6 @@
     "angular-touch": "~1.4.1",
     "angular-sanitize": "~1.4.1",
     "angular": "~1.4.1",
-    "tv4": "~1.1.12",
     "d3": "~3.5.5",
     "angular-zeroclipboard": "~0.4.0",
     "jquery": "~2.1.4",
