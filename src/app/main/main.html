@@ -1,43 +1,49 @@
 <div ng-controller="MainCtrl" class="flex-root vflex full-width full-height">
   <div class="full-width no-shrink">
-    <div class="card no-right-margin no-top-margin">
-      <div class="right flex-root hflex">
-        <div class="controls">
-          <span ng-show="consts.debug">
-            <a ng-href="{{ {encoding:Spec.chart.vlSpec} | reportUrl }}" target="_blank" class="command debug" tooltips tooltip-size="small"
-              tooltip-content="Report an issue">
-              <i class="fa fa-bug"></i>
+    <div class="card top-card no-right-margin no-top-margin">
+      <div class="hflex">
+        <div id="logo"></div>
+        <div class="pane">
+          <div class="controls">
+            <a ng-show="Bookmarks.isSupported" class="command" ng-click="showModal('bookmark-list')">
+              <i class="fa fa-bookmark"></i>
+              Bookmarks ({{Bookmarks.length}})
             </a>
-            <a class="command debug" ng-click="showDevPanel = !showDevPanel" tooltips
-              tooltip-size="small"
-              tooltip-content="Debug Tool">
-              <i class="fa fa-wrench"></i>
-            </a>
-          </span>
-          <a ng-show="Bookmarks.isSupported" class="command" ng-click="showModal('bookmark-list')">
-            <i class="fa fa-bookmark"></i>
-            Bookmarks ({{Bookmarks.length}})
-          </a>
-          <a class="command" ng-click="chron.undo()" ng-class="{disabled: !canUndo}"><i class="fa fa-undo"></i> Undo</a>
-          <a class="command" ng-click="chron.redo()" ng-class="{disabled: !canRedo}"><i class="fa fa-repeat"></i> Redo</a>
+            <a class="command" ng-click="chron.undo()" ng-class="{disabled: !canUndo}"><i class="fa fa-undo"></i> Undo</a>
+            <a class="command" ng-click="chron.redo()" ng-class="{disabled: !canRedo}"><i class="fa fa-repeat"></i> Redo</a>
+          </div>
         </div>
-
-        <div>
-          <a href="https://idl.cs.washington.edu/" target="_blank" class="logo"></a>
+        <div class="absolute-top-right">
+          <a href="https://idl.cs.washington.edu/" target="_blank" class="idl-logo"></a>
         </div>
       </div>
-      <h1>Pole✭</h1>
     </div>
     <alert-messages></alert-messages>
   </div>
   <div class="hflex full-width main-panel grow-1">
     <div class="pane data-pane noselect">
-      <div class="card abs-100">
-        <div class="right">
-          <dataset-selector ng-if="!embedded"></dataset-selector>
+      <div class="card no-top-margin data-card abs-100">
+        <div class="sidebar-header">
+          <h2>Data</h2>
+          <dataset-selector class="right" ng-if="!embedded"></dataset-selector>
+          <div class="current-dataset" title="{{Dataset.currentDataset.name}}">
+            <i class="fa fa-database"></i>
+            <span class="dataset-name">{{Dataset.currentDataset.name}}</span>
+          </div>
         </div>
-        <h2>Data</h2>
         <schema-list></schema-list>
+        <div id="footer">
+          <ul class="menu">
+            <span ng-show="consts.debug">
+              <li>
+                <a class="debug" ng-click="showDevPanel = !showDevPanel">Debug</a>
+              </li>
+              <li>
+                <a ng-href="{{ {encoding:Spec.chart.vlSpec} | reportUrl }}" target="_blank" class="debug">Report an issue</a>
+              </li>
+            </span>
+          </ul>
+        </div>
       </div>
     </div>
     <div class="pane encoding-pane">
@@ -45,7 +51,7 @@
     </div>
 
     <div class="pane vis-pane">
-      <vl-plot-group class="card abs-100 no-right-margin full-vl-plot-group"
+      <vl-plot-group class="card abs-100 no-top-margin no-right-margin full-vl-plot-group"
           chart="Spec.chart"
           show-bookmark="true"
           show-filter-null="true"
