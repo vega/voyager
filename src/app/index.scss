@@ -12,6 +12,14 @@ $fa-font-path: "../../bower_components/fontawesome/fonts";
 
 $iron: #ccc;
 
+#logo {
+  background: url("../assets/images/logo.png") center no-repeat;
+  background-size: contain;
+  display: block;
+  width: 129px;
+  height: 33px;
+}
+
 .type-select {
   width: 60px;
 }
@@ -23,7 +31,6 @@ $iron: #ccc;
 #dataset-select {
   width: 90px;
 }
-
 
 null-filter-directive {
   display: block;
