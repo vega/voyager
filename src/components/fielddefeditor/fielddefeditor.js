@@ -25,7 +25,12 @@ angular.module('polestar')
         };
 
         scope.Dataset = Dataset;
-        scope.typeNames = Dataset.typeNames;
+        scope.typeNames = {
+          Q: 'Quantitative',
+          T: 'Temporal',
+          O: 'Ordinal',
+          N: 'Nominal'
+        };
         scope.pills = Pills.pills;
 
         function fieldPill(){
