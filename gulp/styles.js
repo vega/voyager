@@ -30,7 +30,7 @@ gulp.task('styles', function () {
     addRootSlash: false
   };
 
-  var indexFilter = $.filter('index.scss');
+  var indexFilter = $.filter('index.scss', {restore: true});
 
   return gulp.src([
     paths.src + '/app/index.scss',
@@ -38,7 +38,7 @@ gulp.task('styles', function () {
   ])
     .pipe(indexFilter)
     .pipe($.inject(injectFiles, injectOptions))
-    .pipe(indexFilter.restore())
+    .pipe(indexFilter.restore)
     // TODO make compass work
     // .pipe($.compass({
     //   project: paths.src +'/app/',
