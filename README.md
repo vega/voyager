@@ -1,16 +1,16 @@
 # Pole✭ (Polestar) -- Alpha
 
-[![Build Status](https://travis-ci.org/vega/polestar.svg)](https://travis-ci.org/vega/polestar) 
+[![Build Status](https://travis-ci.org/vega/polestar.svg)](https://travis-ci.org/vega/polestar)
 
 PoleStar is Tableau-style User Interface for visual analysis, building on top
-of [Vega-lite](https://github.com/vega/vega-lite). Try our [online
+of [Vega-Lite](https://github.com/vega/vega-lite). Try our [online
 demo](http://vega.github.io/polestar/). Also, be sure to check out [related
 projects](https://vega.github.io/).
 
 **This project is an [alpha](http://en.wikipedia.org/wiki/Software_release_life_cycle#Alpha) software.
 We are working on improving its code and documentation.**
 
-If you are using Polestar for your project(s), please let us know what are you using it for by emailing us at [Vega-lite \[at\] cs.washington.edu](mailto:vega-lite@cs.washington.edu).  Feedbacks are also welcomed.
+If you are using Polestar for your project(s), please let us know what are you using it for by emailing us at [Vega-Lite \[at\] cs.washington.edu](mailto:vega-lite@cs.washington.edu).  Feedbacks are also welcomed.
 If you find a bug or have a feature request, please [create an issue](https://github.com/vega/polestar/issues/new).
 
 
@@ -55,11 +55,11 @@ All source code are under `src/`
 - `src/vendor` contains
 
 @kanitw created [`gulp/gen.js`](https://github.com/vega/polestar/blob/master/gulp/gen.js) for help generating angular components.
-For example, you can run `gulp gen -d directiveName` and this would create all relevant files including the javascript file, the template file, the stylesheet file and the test spec. 
+For example, you can run `gulp gen -d directiveName` and this would create all relevant files including the javascript file, the template file, the stylesheet file and the test spec.
 
 #### Coding Style
 
-We use jshint as our linter for coding in the project.  
+We use jshint as our linter for coding in the project.
 
 #### Stylesheets
 
@@ -72,7 +72,7 @@ Managing front-end dependencies with [Bower](http://bower.io) requires the `bowe
 npm install -g bower
 ```
 
-This project depends on [Datalib](https://github.com/vega/datalib) for data processing, [Vega-lite](https://github.com/vega/vega-lite) as a formal model for visualization, and [Vega-lite-ui](https://github.com/vega/vega-lite-ui), which contains shared components between Polestar and Voyager.
+This project depends on [Datalib](https://github.com/vega/datalib) for data processing, [Vega-Lite](https://github.com/vega/vega-lite) as a formal model for visualization, and [Vega-Lite-ui](https://github.com/vega/vega-lite-ui), which contains shared components between Polestar and Voyager.
 
 If you plan to make changes to these dependencies and observe the changes without publishing / copying compiled libraries all the time, use [`bower link`](https://oncletom.io/2013/live-development-bower-component/).
 
@@ -91,7 +91,7 @@ bower link vega-lite
 bower link vega-lite-ui
 ```
 
-Now all the changes you make in each repo will be reflected in your Vega-lite automatically.
+Now all the changes you make in each repo will be reflected in your Vega-Lite automatically.
 
 Since bower uses the compiled main file, make sure that each repos is compiled everytime you run `npm start`.
 Otherwise, you will get errors for missing libraries.
