@@ -2,13 +2,13 @@
 
 [![Build Status](https://travis-ci.org/vega/voyager.svg)](https://travis-ci.org/vega/voyager)
 
-Voyager is a visualization browser for data analysis, building on top of [Vega-lite](https://github.com/vega/vega-lite).
+Voyager is a visualization browser for data analysis, building on top of [Vega-Lite](https://github.com/vega/vega-lite).
 Try our [online demo](http://vega.github.io/voyager/). Also, be sure to check out [related projects](https://vega.github.io/).
 
 **This project is an [alpha](http://en.wikipedia.org/wiki/Software_release_life_cycle#Alpha) software.
 We are working on improving its code and documentation.**
 
-If you are using Voyager for your project(s), please let us know what are you using it for by emailing us at [Vega-lite \[at\] cs.washington.edu](mailto:vega-lite@cs.washington.edu).  Feedbacks are also welcomed.
+If you are using Voyager for your project(s), please let us know what are you using it for by emailing us at [Vega-Lite \[at\] cs.washington.edu](mailto:vega-lite@cs.washington.edu).  Feedbacks are also welcomed.
 If you find a bug or have a feature request, please take a look a [the issue tracker](https://github.com/vega/voyager/issues/) and [create an issue](https://github.com/vega/voyager/issues/new) if there is no existing issue.
 
 ## Setup Instruction
@@ -71,7 +71,7 @@ Managing front-end dependencies with [Bower](http://bower.io) requires the `bowe
 npm install -g bower
 ```
 
-This project depends on [Datalib](https://github.com/vega/datalib) for data processing, [Vega-lite](https://github.com/vega/vega-lite) as a formal model for visualization, and [Vega-lite-ui](https://github.com/vega/vega-lite-ui), which contains shared components between Polestar and Voyager.
+This project depends on [Datalib](https://github.com/vega/datalib) for data processing, [Vega-Lite](https://github.com/vega/vega-lite) as a formal model for visualization, and [Vega-Lite-ui](https://github.com/vega/vega-lite-ui), which contains shared components between Polestar and Voyager.
 
 If you plan to make changes to these dependencies and observe the changes without publishing / copying compiled libraries all the time, use [`bower link`](https://oncletom.io/2013/live-development-bower-component/).
 
