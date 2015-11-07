@@ -88,6 +88,7 @@ Then go to your this project's directory and run
 bower link datalib
 bower link vega-lite
 bower link vega-lite-ui
+bower link viscompass
 ```
 
 Now all the local changes you make in each repo will be reflected in Voyager automatically.
