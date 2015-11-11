@@ -16,7 +16,7 @@
     "angular-tooltips": "~0.1.13",
     "angular-order-object-by": "~1.1.0",
     "datalib": "^1.4.6",
-    "viscompass": "~0.6.0",
+    "viscompass": "~0.6.1",
     "vega-lite-ui": "~0.8.1"
   },
   "devDependencies": {
