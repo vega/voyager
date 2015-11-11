@@ -143,7 +143,7 @@ angular.module('voyager')
     };
 
     function genClusters(fieldSet) {
-      var encodings = cp.gen.encodings([], fieldSet, Dataset.stats, {
+      var encodings = cp.gen.specs([], fieldSet, Dataset.stats, {
         data: Config.getData(),
         config: Config.getConfig()
       });
