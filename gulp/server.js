@@ -10,9 +10,7 @@ var browserSync = require('browser-sync');
 
 var middleware = require('./proxy');
 
-function browserSyncInit(baseDir, files, browser) {
-  browser = browser === undefined ? 'google chrome' : browser;
-
+function browserSyncInit(baseDir, files) {
   var routes = null;
   if(baseDir === paths.src || (util.isArray(baseDir) && baseDir.indexOf(paths.src) !== -1)) {
     routes = {
@@ -26,9 +24,7 @@ function browserSyncInit(baseDir, files, browser) {
       baseDir: baseDir,
       middleware: middleware,
       routes: routes
-    },
-    // port: 3001,
-    browser: browser
+    }
   });
 }
 
