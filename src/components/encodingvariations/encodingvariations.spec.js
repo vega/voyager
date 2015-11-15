@@ -29,6 +29,6 @@ describe('Directive: encodingVariations', function () {
     element = $compile(element)(scope);
     scope.$digest();
 
-    expect(element.find('.wrapper').length).to.eql(1);
+    expect(element.find('#encoding-variations').length).to.eql(1);
   });
 });
