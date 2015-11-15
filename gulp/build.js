@@ -35,27 +35,21 @@ gulp.task('html', ['inject', 'partials'], function () {
   var htmlFilter = $.filter('*.html', {restore: true});
   var jsFilter = $.filter('**/*.js', {restore: true});
   var cssFilter = $.filter('**/*.css', {restore: true});
-  var assets;
 
   return gulp.src(paths.tmp + '/serve/*.html')
     .pipe($.inject(partialsInjectFile, partialsInjectOptions))
-    .pipe(assets = $.useref.assets())
-    .pipe($.rev())
+    .pipe($.useref())
     .pipe(jsFilter)
     .pipe($.ngAnnotate())
     .pipe($.uglify({preserveComments: $.uglifySaveLicense}))
     .pipe(jsFilter.restore)
     .pipe(cssFilter)
-    //.pipe($.replace('../../bower_components/fontawesome/fonts', '../fonts'))
     .pipe($.base64({
         baseDir: paths.src + '/app/',
         maxImageSize: 1024*1024, // 1MB
     }))
     .pipe($.csso())
     .pipe(cssFilter.restore)
-    .pipe(assets.restore())
-    .pipe($.useref())
-    .pipe($.revReplace())
     .pipe(htmlFilter)
     .pipe($.minifyHtml({
       empty: true,
@@ -65,11 +59,6 @@ gulp.task('html', ['inject', 'partials'], function () {
     .pipe(htmlFilter.restore)
     .pipe(gulp.dest(paths.dist + '/'))
     .pipe($.size({ title: paths.dist + '/', showFiles: true }));
-});
-
-gulp.task('assets', function () {
-  return gulp.src(paths.src + '/assets/**/*')
-    .pipe(gulp.dest(paths.dist + '/assets/'));
 });
 
 gulp.task('data', function () {
