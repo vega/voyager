@@ -32,7 +32,8 @@ angular.module('voyager')
     if ($scope.embedded) {
       // use provided data and we will hide the dataset selector
       Dataset.dataset = {
-        values: consts.embeddedData
+        values: consts.embeddedData,
+        name: 'embedded'
       };
     }
 

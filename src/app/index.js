@@ -40,6 +40,7 @@ angular.module('voyager', ['vlui',
     'ngOrderObjectBy',
     'Chronicle',
     'ngTouch',
+    'angular-google-analytics',
     'ngSanitize'])
   .constant('_', window._)
   .constant('jQuery', window.$)
@@ -67,4 +68,8 @@ angular.module('voyager', ['vlui',
       enableExclude: true
     });
   })
-;
+  .config(function (AnalyticsProvider, consts) {
+    if (consts.embeddedData) return;
+    AnalyticsProvider
+      .setAccount({ tracker: 'UA-44428446-4', name: 'voyager', trackEvent: true });
+  });
