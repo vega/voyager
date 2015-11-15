@@ -34,6 +34,7 @@
 /* globals window */
 
 angular.module('polestar', [
+    'vlui',
     'ngSanitize',
     'ngTouch',
     'ngDragDrop',
@@ -42,7 +43,7 @@ angular.module('polestar', [
     'LocalStorageModule',
     '720kb.tooltips',
     'ngOrderObjectBy',
-    'vlui'])
+    'angular-google-analytics'])
   .constant('_', window._)
   .constant('vl', window.vl)
   .constant('vg', window.vg)
@@ -68,4 +69,9 @@ angular.module('polestar', [
   })
   .config(function(localStorageServiceProvider) {
     localStorageServiceProvider.setPrefix('polestar');
+  })
+  .config(function (AnalyticsProvider, consts) {
+    if (consts.embeddedData) return;
+    AnalyticsProvider
+      .setAccount({ tracker: 'UA-44428446-4', name: 'polestar', trackEvent: true });
   });
