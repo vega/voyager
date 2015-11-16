@@ -8,7 +8,7 @@
  * Service in the polestar.
  */
 angular.module('polestar')
-  .service('Pills', function (vl, Spec, _, $window) {
+  .service('Pills', function (consts, vl, Spec, _, $window) {
     var encSchemaProps = vl.schema.schema.properties.encoding.properties;
 
     function instantiate(encType) {
@@ -43,7 +43,7 @@ angular.module('polestar')
           pill.aggregate = undefined;
           pill.bin = {maxbins: vl.schema.MAXBINS_DEFAULT};
         } else if(type==='T' && !pill.timeUnit) {
-          pill.timeUnit = vl.schema.defaultTimeFn;
+          pill.timeUnit = consts.defaultTimeFn;
         }
       } else if (!pill.name) {
         // no name, it's actually the empty shelf that

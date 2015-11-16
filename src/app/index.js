@@ -58,7 +58,7 @@ angular.module('polestar', [
     window.vl.extend(consts, {
       appId: 'polestar',
       // set this if you want to load app with a specific spec
-      initialSpec: window.initialSpec || undefined,
+      initialSpec: window.initialSpec || undefined
     });
   })
   .config(function(uiZeroclipConfigProvider) {
