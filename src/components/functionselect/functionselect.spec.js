@@ -17,32 +17,32 @@ describe('Directive: functionSelect', function() {
       properties: {
         aggregate: {
           supportedEnums: {
-            Q: ['a', 'b'],
+            quantitative: ['a', 'b'],
             undefined: []
           }
         },
         timeUnit: {
           supportedEnums: {
-            T: ['f1','f2']
+            temporal: ['f1','f2']
           }
         },
         bin: {
           supportedTypes: {
-            Q: true
+            quantitative: true
           }
         }
       }
     };
     scope.pills = {
-      x: { type: 'Q', name: 'x'},
+      x: { type: 'quantitative', name: 'x'},
       y: { aggregate: 'count', name:'*'},
-      color: { type: 'T', name: 'c'},
+      color: { type: 'temporal', name: 'c'},
       update: function() {}
     };
     scope.enc = {
-      x: { type: 'Q', name: 'x'},
+      x: { type: 'quantitative', name: 'x'},
       y: { aggregate: 'count', name:'*'},
-      color: { type: 'T', name: 'c'},
+      color: { type: 'temporal', name: 'c'},
     };
     scope.encType = 'x';
     scope.encType2 = 'y';
