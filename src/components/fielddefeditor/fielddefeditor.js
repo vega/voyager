@@ -84,8 +84,8 @@ angular.module('polestar')
         //   }, true);
         // });
 
-        scope.$watch('enc[encType]', function(field) {
-          Pills.pills[scope.encType] = field ? _.cloneDeep(field) : {};
+        scope.$watch('enc[encType]', function(fieldDef) {
+          Pills.pills[scope.encType] = fieldDef ? _.cloneDeep(fieldDef) : {};
         }, true);
 
         scope.$watchGroup(['allowedCasting[Dataset.dataschema.byName[enc[encType].name].type]', 'enc[encType].aggregate'], function(arr){
