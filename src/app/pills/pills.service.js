@@ -39,10 +39,10 @@ angular.module('polestar')
         if (pill.aggregate==='count') {
           pill = {};
           $window.alert('COUNT not supported here!');
-        } else if (type==='Q' && !pill.bin) {
+        } else if (type==='quantitative' && !pill.bin) {
           pill.aggregate = undefined;
           pill.bin = {maxbins: vl.schema.MAXBINS_DEFAULT};
-        } else if(type==='T' && !pill.timeUnit) {
+        } else if(type==='temporal' && !pill.timeUnit) {
           pill.timeUnit = consts.defaultTimeFn;
         }
       } else if (!pill.name) {

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('polestar')
-  .directive('fieldDefEditor', function(Dataset, Pills, _, Drop, Logger) {
+  .directive('fieldDefEditor', function(Dataset, Pills, _, Drop, Logger, vl) {
     return {
       templateUrl: 'components/fielddefeditor/fielddefeditor.html',
       restrict: 'E',
@@ -16,20 +16,24 @@ angular.module('polestar')
       link: function(scope, element /*, attrs*/) {
         var propsPopup, funcsPopup;
 
+        var Type = vl.Type;
+
+
         scope.allowedCasting = {
-          Q: ['Q', 'O', 'N'],
-          O: ['O', 'N'],
-          N: ['N', 'O'],
-          T: ['T', 'O', 'N'],
-          G: ['G', 'O', 'N']
+          quantitative: [Type.Quantitative, Type.Ordinal, Type.Nominal],
+          ordinal: [Type.Ordinal, Type.Nominal],
+          nominal: [Type.Nominal, Type.Ordinal],
+          temporal: [Type.Temporal, Type.Ordinal, Type.Nominal]
         };
 
         scope.Dataset = Dataset;
+
+        // FIXME remove
         scope.typeNames = {
-          Q: 'Quantitative',
-          T: 'Temporal',
-          O: 'Ordinal',
-          N: 'Nominal'
+          quantitative: 'Quantitative',
+          temporal: 'Temporal',
+          ordinal: 'Ordinal',
+          nominal: 'Nominal'
         };
         scope.pills = Pills.pills;
 
@@ -93,7 +97,7 @@ angular.module('polestar')
 
         scope.$watchGroup(['allowedCasting[Dataset.dataschema.byName[enc[encType].name].type]', 'enc[encType].aggregate'], function(arr){
           var allowedTypes = arr[0], aggregate=arr[1];
-          scope.allowedTypes = aggregate === 'count' ? ['Q'] : allowedTypes;
+          scope.allowedTypes = aggregate === 'count' ? [Type.Q] : allowedTypes;
         });
 
 
