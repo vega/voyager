@@ -22,7 +22,7 @@
     ></field-info>
 
   <div class="drop-container">
-    <div class="popup-menu popup-functions" ng-show="(field.type!=='O' && field.aggregate!=='count') || consts.enableExclude">
+    <div class="popup-menu popup-functions" ng-show="(field.type!=='ordinal' && field.aggregate!=='count') || consts.enableExclude">
       <div style="width:150px">
         <function-list field="Fields.fields[field.name]"></function-list>
       </div>

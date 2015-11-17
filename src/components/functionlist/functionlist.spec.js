@@ -16,26 +16,26 @@ describe('Directive: functionList', function() {
       properties: {
         aggregate: {
           supportedEnums: {
-            Q: ['a', 'b'],
+            quantitative: ['a', 'b'],
             undefined: []
           }
         },
         timeUnit: {
           supportedEnums: {
-            T: ['f1','f2']
+            temporal: ['f1','f2']
           }
         },
         bin: {
           supportedTypes: {
-            Q: true
+            quantitative: true
           }
         }
       }
     };
     scope.pills = {
-      x: { type: 'Q', name: 'x'},
+      x: { type: 'quantitative', name: 'x'},
       y: null,
-      color: { type: 'T', name: 'c'},
+      color: { type: 'temporal', name: 'c'},
       update: function() {}
     };
     scope.encType = 'x';

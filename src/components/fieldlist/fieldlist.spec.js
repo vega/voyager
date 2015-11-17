@@ -12,10 +12,10 @@ describe('Directive: fieldList', function () {
   beforeEach(module('voyager', function($provide) {
     var mockDataschema = [{
       name: 'a',
-      type: 'Q',
+      type: 'quantitative',
     }, {
       name: 'b',
-      type: 'O',
+      type: 'ordinal',
     }];
 
     var mockDataset = {
