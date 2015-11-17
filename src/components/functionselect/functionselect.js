@@ -8,7 +8,7 @@ angular.module('polestar')
       scope: {
         encType: '=',
         schema: '=',
-        field: '='
+        fieldDef: '='
       },
       link: function(scope /*,element, attrs*/) {
         var BIN='bin', RAW='', COUNT='count', maxbins;
@@ -72,7 +72,7 @@ angular.module('polestar')
         });
 
         // when parent objects modify the field
-        scope.$watch('field', function(pill) {
+        scope.$watch('fieldDef', function(pill) {
           // only run this if schema is not null
           if (!scope.schema || !pill) {
             return;

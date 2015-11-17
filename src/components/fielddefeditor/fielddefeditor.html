@@ -14,7 +14,7 @@
 
       <field-info ng-show="enc[encType].name"
         ng-class="{expanded: funcsExpanded}"
-        field="enc[encType]"
+        field-def="enc[encType]"
         show-type="true"
         show-caret="true"
         disable-count-caret="true"
@@ -55,7 +55,7 @@
       <div class="mb5">
         <h4>Types</h4>
         <span ng-if="allowedTypes.length<=1">
-          {{enc[encType].type]}}
+          {{enc[encType].type}}
         </span>
         <label class="type-label"
           ng-if="allowedTypes.length>1"

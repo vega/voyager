@@ -20,11 +20,11 @@ angular.module('polestar')
       pills: {}
     };
 
-    Pills.getSchemaPill = function(field) {
+    Pills.getSchemaPill = function(fieldDef) {
       return {
-        name: field.name,
-        type: field.type,
-        aggregate: field.aggregate
+        name: fieldDef.name,
+        type: fieldDef.type,
+        aggregate: fieldDef.aggregate
       };
     };
 
