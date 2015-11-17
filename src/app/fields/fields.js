@@ -10,20 +10,20 @@ angular.module('voyager')
       selectedKey: null
     };
 
-    function resetField(field) {
-      field.selected = undefined;
-      field._any = field.type !== vl.Type.Ordinal && field.type !== vl.Type.Nominal && field.aggregate!=='count';
-      delete field._raw;
-      delete field._aggregate;
-      delete field._timeUnit;
+    function resetField(fieldDef) {
+      fieldDef.selected = undefined;
+      fieldDef._any = fieldDef.type !== vl.Type.Ordinal && fieldDef.type !== vl.Type.Nominal && fieldDef.aggregate!=='count';
+      delete fieldDef._raw;
+      delete fieldDef._aggregate;
+      delete fieldDef._timeUnit;
     }
 
     Fields.updateSchema = function(dataschema) {
       dataschema = dataschema || Dataset.dataschema;
 
-      Fields.fields = _(dataschema).reduce(function(d, field){
-        resetField(field);
-        d[field.name] = field;
+      Fields.fields = _(dataschema).reduce(function(d, fieldDef){
+        resetField(fieldDef);
+        d[fieldDef.name] = fieldDef;
         return d;
       }, {});
       Fields.highlighted = {};
@@ -47,8 +47,8 @@ angular.module('voyager')
     };
 
     Fields.getList = function() {
-      var list = _.sortBy(_.values(Fields.fields), function(field) {
-        return Dataset.fieldOrderBy.typeThenName(field);
+      var list = _.sortBy(_.values(Fields.fields), function(fieldDef) {
+        return Dataset.fieldOrderBy.typeThenName(fieldDef);
       });
       return list;
     };
@@ -58,8 +58,8 @@ angular.module('voyager')
     };
 
     Fields.toggleSelected = function(fieldName) {
-      var field = Fields.fields[fieldName] || {};
-      field.selected = field.selected ? undefined : true;
+      var fieldDef = Fields.fields[fieldName] || {};
+      fieldDef.selected = fieldDef.selected ? undefined : true;
     };
 
     Fields.isSelected = function(fieldName) {

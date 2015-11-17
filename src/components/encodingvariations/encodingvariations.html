@@ -2,8 +2,8 @@
   <div class="modal-header card no-top-margin no-right-margin">
     <modal-close-button></modal-close-button>
     <h2 class="no-bottom-margin">Various Visualizations Showing
-      <field-info ng-repeat="field in Visrec.selectedFieldSet"
-        field='field'
+      <field-info ng-repeat="fieldDef in Visrec.selectedFieldSet"
+        field-def='fieldDef'
         show-type='true'
         class='selected'>
       </field-info>
