@@ -28,13 +28,6 @@ angular.module('polestar')
 
         scope.Dataset = Dataset;
 
-        // FIXME remove
-        scope.typeNames = {
-          quantitative: 'Quantitative',
-          temporal: 'Temporal',
-          ordinal: 'Ordinal',
-          nominal: 'Nominal'
-        };
         scope.pills = Pills.pills;
 
         function fieldPill(){
