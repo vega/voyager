@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('polestar')
-  .directive('functionSelect', function(_, vl, Pills, Logger) {
+  .directive('functionSelect', function(_, consts, vl, Pills, Logger) {
     return {
       templateUrl: 'components/functionselect/functionselect.html',
       restrict: 'E',
@@ -99,7 +99,7 @@ angular.module('polestar')
               .concat(schema.bin && schema.bin.supportedTypes[type] ? ['bin'] : []);
 
             var defaultVal = (isOrdinalShelf &&
-              (isQ && BIN) || (isT && vl.schema.defaultTimeFn)
+              (isQ && BIN) || (isT && consts.defaultTimeFn)
             )|| RAW;
 
             var selected = pill.bin ? 'bin' :
