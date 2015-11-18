@@ -87,13 +87,14 @@ angular.module('polestar')
           }
 
           var isOrdinalShelf = ['row','col','shape'].indexOf(scope.encType) !== -1,
-            isQ = type===vl.Type.Quantitative, isT = type=== vl.Type.Temporal;
+            isQ = type === vl.Type.QUANTITATIVE,
+            isT = type === vl.Type.TEMPORAL;
 
-          if(pill.name==='*' && pill.aggregate===COUNT){
+          if(pill.name === '*' && pill.aggregate === COUNT){
             scope.func.list=[COUNT];
             scope.func.selected = COUNT;
           } else {
-            scope.func.list = ( isOrdinalShelf && (isQ||isT) ? [] : [''])
+            scope.func.list = ( isOrdinalShelf && (isQ || isT) ? [] : [''])
               .concat(getFns(type))
               .concat(getAggrs(type).filter(function(x) { return x !== COUNT; }))
               .concat(schema.bin && schema.bin.supportedTypes[type] ? ['bin'] : []);

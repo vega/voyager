@@ -20,10 +20,10 @@ angular.module('polestar')
 
 
         scope.allowedCasting = {
-          quantitative: [Type.Quantitative, Type.Ordinal, Type.Nominal],
-          ordinal: [Type.Ordinal, Type.Nominal],
-          nominal: [Type.Nominal, Type.Ordinal],
-          temporal: [Type.Temporal, Type.Ordinal, Type.Nominal]
+          quantitative: [Type.QUANTITATIVE, Type.ORDINAL, Type.NOMINAL],
+          ordinal: [Type.ORDINAL, Type.NOMINAL],
+          nominal: [Type.NOMINAL, Type.ORDINAL],
+          temporal: [Type.TEMPORAL, Type.ORDINAL, Type.NOMINAL]
         };
 
         scope.Dataset = Dataset;
