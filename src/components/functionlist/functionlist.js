@@ -17,7 +17,7 @@ angular.module('voyager')
         };
 
         function getTimeUnits(type) {
-          return type === vl.Type.Temporal ? vl.schema.timeUnits : [];
+          return type === vl.Type.TEMPORAL ? vl.schema.timeUnits : [];
         }
 
         function getAggrs(type) {
@@ -54,11 +54,11 @@ angular.module('voyager')
             scope.func.list=[COUNT];
             scope.func.selected = COUNT;
           } else {
-            var isO = type === vl.Type.Ordinal;
+            var isO = type === vl.Type.ORDINAL;
             scope.func.list = ( isO ? [RAW] : [ANY, RAW])
               .concat(getTimeUnits(type))
               .concat(getAggrs(type).filter(function(x) { return x !== COUNT; }))
-              .concat(type === vl.Type.Quantitative ? [BIN] : []);
+              .concat(type === vl.Type.QUANTITATIVE ? [BIN] : []);
 
             scope.func.selected = fieldDef._bin ? BIN :
               fieldDef._raw ? RAW :

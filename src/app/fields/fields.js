@@ -12,7 +12,7 @@ angular.module('voyager')
 
     function resetField(fieldDef) {
       fieldDef.selected = undefined;
-      fieldDef._any = fieldDef.type !== vl.Type.Ordinal && fieldDef.type !== vl.Type.Nominal && fieldDef.aggregate!=='count';
+      fieldDef._any = fieldDef.type !== vl.Type.ORDINAL && fieldDef.type !== vl.Type.NOMINAL && fieldDef.aggregate!=='count';
       delete fieldDef._raw;
       delete fieldDef._aggregate;
       delete fieldDef._timeUnit;
