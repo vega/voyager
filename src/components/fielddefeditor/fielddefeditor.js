@@ -80,7 +80,7 @@ angular.module('polestar')
 
         scope.$watchGroup(['allowedCasting[Dataset.dataschema.byName[enc[encType].name].type]', 'enc[encType].aggregate'], function(arr){
           var allowedTypes = arr[0], aggregate=arr[1];
-          scope.allowedTypes = aggregate === 'count' ? [Type.Q] : allowedTypes;
+          scope.allowedTypes = aggregate === 'count' ? [Type.QUANTITATIVE] : allowedTypes;
         });
 
 
