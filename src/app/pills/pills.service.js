@@ -32,7 +32,7 @@ angular.module('polestar')
     /** copy value from the pill to the fieldDef */
     function updateFieldDef(enc, pill, encType){
       var type = pill.type,
-        supportedRole = vl.schema.getSupportedRole(encType),
+        supportedRole = vl.Enctype.getSupportedRole(encType),
         dimensionOnly = supportedRole.dimension && !supportedRole.measure;
 
       // auto cast binning / time binning for dimension only encoding type.
