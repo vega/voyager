@@ -74,16 +74,6 @@ angular.module('polestar')
           Logger.logInteraction(Logger.actions.FIELD_DROP, scope.enc[scope.encType]);
         };
 
-        // when each of the fieldPill property in fieldDef changes, update the pill
-        // ['name', 'type', 'aggregate', 'bin', 'timeUnit'].forEach( function(prop) {
-        //   scope.$watch('enc[encType].'+prop, function(val){
-        //     var pill = fieldPill();
-        //     if(pill && val !== pill[prop]){
-        //       pill[prop] = val;
-        //     }
-        //   }, true);
-        // });
-
         scope.$watch('enc[encType]', function(fieldDef) {
           Pills.pills[scope.encType] = fieldDef ? _.cloneDeep(fieldDef) : {};
         }, true);
