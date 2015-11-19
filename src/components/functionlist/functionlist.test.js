@@ -38,9 +38,9 @@ describe('Directive: functionList', function() {
       color: { type: 'temporal', name: 'c'},
       update: function() {}
     };
-    scope.encType = 'x';
-    scope.encType2 = 'y';
-    scope.encType3 = 'color';
+    scope.channel = 'x';
+    scope.channel2 = 'y';
+    scope.channel3 = 'color';
   }));
 
   it('should have correct number of radio', function() {
