@@ -12,8 +12,8 @@ angular.module('polestar')
     var Type = vl.Type;
     var encSchemaProps = vl.schema.schema.properties.encoding.properties;
 
-    function instantiate(encType) {
-      return vl.schema.util.instantiate(encSchemaProps[encType]);
+    function instantiate(channel) {
+      return vl.schema.util.instantiate(encSchemaProps[channel]);
     }
 
     var Pills = {
@@ -30,9 +30,9 @@ angular.module('polestar')
 
 
     /** copy value from the pill to the fieldDef */
-    function updateFieldDef(enc, pill, encType){
+    function updateFieldDef(enc, pill, channel){
       var type = pill.type,
-        supportedRole = vl.Enctype.getSupportedRole(encType),
+        supportedRole = vl.channel.getSupportedRole(channel),
         dimensionOnly = supportedRole.dimension && !supportedRole.measure;
 
       // auto cast binning / time binning for dimension only encoding type.
@@ -53,9 +53,9 @@ angular.module('polestar')
       }
 
       // filter unsupported properties
-      var base = instantiate(encType),
-        shelfProps = encSchemaProps[encType].properties;
-      // console.log('updateFieldDef', encType, base, '<-', pill);
+      var base = instantiate(channel),
+        shelfProps = encSchemaProps[channel].properties;
+      // console.log('updateFieldDef', channel, base, '<-', pill);
       for (var prop in shelfProps) {
         if (pill[prop]) {
           if (prop==='value' && pill.name) {
@@ -68,21 +68,21 @@ angular.module('polestar')
           }
         }
       }
-      enc[encType] = base;
+      enc[channel] = base;
     }
 
-    Pills.remove = function (encType) {
-      delete Pills.pills[encType];
-      updateFieldDef(Spec.spec.encoding, {}, encType); // remove all pill detail from the fieldDef
+    Pills.remove = function (channel) {
+      delete Pills.pills[channel];
+      updateFieldDef(Spec.spec.encoding, {}, channel); // remove all pill detail from the fieldDef
     };
 
-    Pills.update = function (encType) {
-      updateFieldDef(Spec.spec.encoding, Pills.pills[encType], encType);
+    Pills.update = function (channel) {
+      updateFieldDef(Spec.spec.encoding, Pills.pills[channel], channel);
     };
 
-    Pills.dragStart = function (pill, encType) {
+    Pills.dragStart = function (pill, channel) {
       Pills.pills.dragging = pill;
-      Pills.pills.etDragFrom = encType;
+      Pills.pills.etDragFrom = channel;
     };
 
     Pills.dragStop = function () {

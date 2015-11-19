@@ -7,7 +7,7 @@ angular.module('polestar')
       restrict: 'E',
       replace: true,
       scope: {
-        encType: '=',
+        channel: '=',
         enc: '=',
 
         schema: '=fieldDefSchema',
@@ -31,7 +31,7 @@ angular.module('polestar')
         scope.pills = Pills.pills;
 
         function fieldPill(){
-          return Pills.pills[scope.encType];
+          return Pills.pills[scope.channel];
         }
 
         propsPopup = new Drop({
@@ -44,11 +44,11 @@ angular.module('polestar')
         scope.fieldInfoPopupContent =  element.find('.shelf-functions')[0];
 
         scope.removeField = function() {
-          Pills.remove(scope.encType);
+          Pills.remove(scope.channel);
         };
 
         scope.fieldDragStart = function() {
-          Pills.dragStart(Pills[scope.encType], scope.encType);
+          Pills.dragStart(Pills[scope.channel], scope.channel);
         };
 
         scope.fieldDragStop = function() {
@@ -70,15 +70,15 @@ angular.module('polestar')
 
           // TODO validate timeUnit / aggregate
 
-          Pills.dragDrop(scope.encType);
-          Logger.logInteraction(Logger.actions.FIELD_DROP, scope.enc[scope.encType]);
+          Pills.dragDrop(scope.channel);
+          Logger.logInteraction(Logger.actions.FIELD_DROP, scope.enc[scope.channel]);
         };
 
-        scope.$watch('enc[encType]', function(fieldDef) {
-          Pills.pills[scope.encType] = fieldDef ? _.cloneDeep(fieldDef) : {};
+        scope.$watch('enc[channel]', function(fieldDef) {
+          Pills.pills[scope.channel] = fieldDef ? _.cloneDeep(fieldDef) : {};
         }, true);
 
-        scope.$watchGroup(['allowedCasting[Dataset.dataschema.byName[enc[encType].name].type]', 'enc[encType].aggregate'], function(arr){
+        scope.$watchGroup(['allowedCasting[Dataset.dataschema.byName[enc[channel].name].type]', 'enc[channel].aggregate'], function(arr){
           var allowedTypes = arr[0], aggregate=arr[1];
           scope.allowedTypes = aggregate === 'count' ? [Type.QUANTITATIVE] : allowedTypes;
         });
