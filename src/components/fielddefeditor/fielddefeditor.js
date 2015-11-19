@@ -16,14 +16,11 @@ angular.module('polestar')
       link: function(scope, element /*, attrs*/) {
         var propsPopup, funcsPopup;
 
-        var Type = vl.Type;
-
-
         scope.allowedCasting = {
-          quantitative: [Type.QUANTITATIVE, Type.ORDINAL, Type.NOMINAL],
-          ordinal: [Type.ORDINAL, Type.NOMINAL],
-          nominal: [Type.NOMINAL, Type.ORDINAL],
-          temporal: [Type.TEMPORAL, Type.ORDINAL, Type.NOMINAL]
+          quantitative: [vl.type.QUANTITATIVE, vl.type.ORDINAL, vl.type.NOMINAL],
+          ordinal: [vl.type.ORDINAL, vl.type.NOMINAL],
+          nominal: [vl.type.NOMINAL, vl.type.ORDINAL],
+          temporal: [vl.type.TEMPORAL, vl.type.ORDINAL, vl.type.NOMINAL]
         };
 
         scope.Dataset = Dataset;
@@ -80,7 +77,7 @@ angular.module('polestar')
 
         scope.$watchGroup(['allowedCasting[Dataset.dataschema.byName[enc[channel].name].type]', 'enc[channel].aggregate'], function(arr){
           var allowedTypes = arr[0], aggregate=arr[1];
-          scope.allowedTypes = aggregate === 'count' ? [Type.QUANTITATIVE] : allowedTypes;
+          scope.allowedTypes = aggregate === 'count' ? [vl.type.QUANTITATIVE] : allowedTypes;
         });
 
 

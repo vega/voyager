@@ -9,7 +9,7 @@
  */
 angular.module('polestar')
   .service('Pills', function (consts, vl, Spec, _, $window) {
-    var Type = vl.Type;
+    var Type = vl.type;
     var encSchemaProps = vl.schema.schema.properties.encoding.properties;
 
     function instantiate(channel) {
