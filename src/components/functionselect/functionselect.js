@@ -87,8 +87,8 @@ angular.module('polestar')
           }
 
           var isOrdinalShelf = ['row','col','shape'].indexOf(scope.channel) !== -1,
-            isQ = type === vl.Type.QUANTITATIVE,
-            isT = type === vl.Type.TEMPORAL;
+            isQ = type === vl.type.QUANTITATIVE,
+            isT = type === vl.type.TEMPORAL;
 
           if(pill.name === '*' && pill.aggregate === COUNT){
             scope.func.list=[COUNT];
