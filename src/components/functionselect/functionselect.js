@@ -6,7 +6,7 @@ angular.module('polestar')
       templateUrl: 'components/functionselect/functionselect.html',
       restrict: 'E',
       scope: {
-        encType: '=',
+        channel: '=',
         schema: '=',
         fieldDef: '='
       },
@@ -20,7 +20,7 @@ angular.module('polestar')
         };
 
         function fieldPill() {
-          return Pills ? Pills.pills[scope.encType] : null;
+          return Pills ? Pills.pills[scope.channel] : null;
         }
 
         function getFns(type) {
@@ -66,8 +66,8 @@ angular.module('polestar')
           pill.timeUnit = getFns(type).indexOf(selectedFunc) !== -1 ? selectedFunc : undefined;
 
           if(!_.isEqual(oldPill, pill)){
-            Pills.pills[scope.encType] = pill;
-            Pills.update(scope.encType);
+            Pills.pills[scope.channel] = pill;
+            Pills.update(scope.channel);
           }
         });
 
@@ -86,7 +86,7 @@ angular.module('polestar')
             maxbins = pill.bin.maxbins;
           }
 
-          var isOrdinalShelf = ['row','col','shape'].indexOf(scope.encType) !== -1,
+          var isOrdinalShelf = ['row','col','shape'].indexOf(scope.channel) !== -1,
             isQ = type === vl.Type.QUANTITATIVE,
             isT = type === vl.Type.TEMPORAL;
 

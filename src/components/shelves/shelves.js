@@ -18,7 +18,7 @@ angular.module('polestar')
         };
 
         $scope.transpose = function(){
-          vl.Encoding.transpose(Spec.spec);
+          vl.spec.transpose(Spec.spec);
         };
 
         $scope.clear = function(){

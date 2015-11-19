@@ -25,9 +25,9 @@ angular.module('polestar')
     };
 
     Spec._removeEmptyFieldDefs = function(spec) {
-      spec.encoding = _.omit(spec.encoding, function(fieldDef, encType) {
+      spec.encoding = _.omit(spec.encoding, function(fieldDef, channel) {
         return !fieldDef || (fieldDef.name === undefined && fieldDef.value === undefined) ||
-          (spec.marktype && ! vl.schema.schema.properties.encoding.properties[encType].supportedMarktypes[spec.marktype]);
+          (spec.marktype && ! vl.schema.schema.properties.encoding.properties[channel].supportedMarktypes[spec.marktype]);
       });
     };
 
