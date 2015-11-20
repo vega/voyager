@@ -121,7 +121,7 @@ angular.module('voyager')
         return f.selected;
       });
 
-      console.log('gen time – projections ', vl.fieldDef.shorthands(selectedFields), ' :', (endProjection-start), 'aggregates:', (endAggregates - endProjection), 'encodings:'+ (end-endAggregates), 'total:', (end-start));
+      console.log('gen time – projections ', vl.shorthand.parseFieldDefs(selectedFields), ' :', (endProjection-start), 'aggregates:', (endAggregates - endProjection), 'encodings:'+ (end-endAggregates), 'total:', (end-start));
     };
 
     Visrec.update.clusters = function(limit) {
@@ -143,22 +143,22 @@ angular.module('voyager')
     };
 
     function genClusters(fieldSet) {
-      var encodings = cp.gen.specs([], fieldSet, Dataset.stats, {
+      var specs = cp.gen.specs([], fieldSet, Dataset.stats, {
         data: Config.getData(),
         config: Config.getConfig()
       });
 
-      var clusters = cp.cluster(encodings)
+      var clusters = cp.cluster(specs)
         .map(function(cluster) {
           return cluster.map(function(spec) {
-            var encoding = vl.Encoding.fromSpec(spec, {});
+            var encoding = new vl.compiler.Model(spec, {}); // FIXME find if there are way to avoid creating this internal object
 
             return {
               fieldSetKey: fieldSet.key,
               fieldSet: fieldSet,
               vlSpec: spec,
               encoding: encoding,
-              shorthand: encoding.toShorthand(),
+              shorthand: vl.shorthand.shorten(spec),
               score: spec.score,
               scoreFeatures: spec.scoreFeatures
             };
