@@ -30,7 +30,7 @@ angular.module('polestar')
 
 
     /** copy value from the pill to the fieldDef */
-    function updateFieldDef(enc, pill, channel){
+    function updateFieldDef(encoding, pill, channel){
       var type = pill.type,
         supportedRole = vl.channel.getSupportedRole(channel),
         dimensionOnly = supportedRole.dimension && !supportedRole.measure;
@@ -68,7 +68,7 @@ angular.module('polestar')
           }
         }
       }
-      enc[channel] = base;
+      encoding[channel] = base;
     }
 
     Pills.remove = function (channel) {
@@ -90,24 +90,24 @@ angular.module('polestar')
     };
 
     Pills.dragDrop = function (etDragTo) {
-      var enc = _.clone(Spec.spec.encoding),
+      var encoding = _.clone(Spec.spec.encoding),
         etDragFrom = Pills.pills.etDragFrom;
-      // update the clone of the enc
-      // console.log('dragDrop', enc, Pills, 'from:', etDragFrom, Pills.pills[etDragFrom]);
+      // update the clone of the encoding
+      // console.log('dragDrop', encoding, Pills, 'from:', etDragFrom, Pills.pills[etDragFrom]);
       if(etDragFrom){
         // if pill is dragged from another shelf, not the schemalist
         //
         // console.log('pillDragFrom', Pills.pills[etDragFrom]);
-        updateFieldDef(enc, Pills.pills[etDragFrom] || {}, etDragFrom);
+        updateFieldDef(encoding, Pills.pills[etDragFrom] || {}, etDragFrom);
       }
-      updateFieldDef(enc, Pills.pills[etDragTo] || {}, etDragTo);
+      updateFieldDef(encoding, Pills.pills[etDragTo] || {}, etDragTo);
 
       // console.log('Pills.dragDrop',
-      //   'from:', etDragFrom, Pills.pills[etDragFrom], enc[etDragFrom],
-      //   'to:', etDragTo, Pills.pills[etDragTo], enc[etDragTo]);
+      //   'from:', etDragFrom, Pills.pills[etDragFrom], encoding[etDragFrom],
+      //   'to:', etDragTo, Pills.pills[etDragTo], encoding[etDragTo]);
 
-      // Finally, update the enc only once to prevent glitches
-      Spec.spec.encoding = enc;
+      // Finally, update the encoding only once to prevent glitches
+      Spec.spec.encoding = encoding;
       etDragFrom = null;
     };
 

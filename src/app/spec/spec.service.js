@@ -47,7 +47,7 @@ angular.module('polestar')
     }
 
     Spec.parseShorthand = function(newShorthand) {
-      var newSpec = vl.Encoding.parseShorthand(newShorthand, Config.config).toSpec();
+      var newSpec = vl.shorthand.parseShorthand(newShorthand, null, Config.config);
       Spec.parseSpec(newSpec);
     };
 
@@ -77,7 +77,7 @@ angular.module('polestar')
       Spec._removeEmptyFieldDefs(spec);
       deleteNulls(spec);
 
-      // we may have removed enc
+      // we may have removed encoding
       if (!('encoding' in spec)) {
         spec.encoding = {};
       }
@@ -96,7 +96,7 @@ angular.module('polestar')
         });
       } else {
         vl.extend(spec.config, Config.large());
-        var encoding = vl.Encoding.fromSpec(spec),
+        var encoding = new vl.compiler.Model(spec), // FIXME: consider if there are way to avoid calling vl.Model
           chart = Spec.chart;
 
         chart.fieldSet =  Spec.spec.encoding;
