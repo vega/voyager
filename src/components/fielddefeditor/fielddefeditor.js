@@ -8,7 +8,7 @@ angular.module('polestar')
       replace: true,
       scope: {
         channel: '=',
-        enc: '=',
+        encoding: '=',
 
         schema: '=fieldDefSchema',
         marktype: '='
@@ -68,14 +68,14 @@ angular.module('polestar')
           // TODO validate timeUnit / aggregate
 
           Pills.dragDrop(scope.channel);
-          Logger.logInteraction(Logger.actions.FIELD_DROP, scope.enc[scope.channel]);
+          Logger.logInteraction(Logger.actions.FIELD_DROP, scope.encoding[scope.channel]);
         };
 
-        scope.$watch('enc[channel]', function(fieldDef) {
+        scope.$watch('encoding[channel]', function(fieldDef) {
           Pills.pills[scope.channel] = fieldDef ? _.cloneDeep(fieldDef) : {};
         }, true);
 
-        scope.$watchGroup(['allowedCasting[Dataset.dataschema.byName[enc[channel].name].type]', 'enc[channel].aggregate'], function(arr){
+        scope.$watchGroup(['allowedCasting[Dataset.dataschema.byName[encoding[channel].name].type]', 'encoding[channel].aggregate'], function(arr){
           var allowedTypes = arr[0], aggregate=arr[1];
           scope.allowedTypes = aggregate === 'count' ? [vl.type.QUANTITATIVE] : allowedTypes;
         });

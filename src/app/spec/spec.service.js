@@ -77,7 +77,7 @@ angular.module('polestar')
       Spec._removeEmptyFieldDefs(spec);
       deleteNulls(spec);
 
-      // we may have removed enc
+      // we may have removed encoding
       if (!('encoding' in spec)) {
         spec.encoding = {};
       }
