@@ -143,12 +143,12 @@ angular.module('voyager')
     };
 
     function genClusters(fieldSet) {
-      var encodings = cp.gen.specs([], fieldSet, Dataset.stats, {
+      var specs = cp.gen.specs([], fieldSet, Dataset.stats, {
         data: Config.getData(),
         config: Config.getConfig()
       });
 
-      var clusters = cp.cluster(encodings)
+      var clusters = cp.cluster(specs)
         .map(function(cluster) {
           return cluster.map(function(spec) {
             var encoding = new vl.compiler.Model(spec, {}); // FIXME find if there are way to avoid creating this internal object
