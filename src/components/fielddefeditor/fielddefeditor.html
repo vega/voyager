@@ -12,7 +12,7 @@
      jqyoui-droppable="{onDrop:'fieldDropped'}"
      data-jqyoui-options="{activeClass: 'drop-active'}">
 
-      <field-info ng-show="encoding[channel].name"
+      <field-info ng-show="encoding[channel].field"
         ng-class="{expanded: funcsExpanded}"
         field-def="encoding[channel]"
         show-type="true"
@@ -30,7 +30,7 @@
         >
       </field-info>
 
-      <span class="placeholder" ng-if="!encoding[channel].name">
+      <span class="placeholder" ng-if="!encoding[channel].field">
         drop a field here
       </span>
   </div>

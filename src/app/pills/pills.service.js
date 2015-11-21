@@ -22,7 +22,7 @@ angular.module('polestar')
 
     Pills.getSchemaPill = function(fieldDef) {
       return {
-        name: fieldDef.name,
+        field: fieldDef.field,
         type: fieldDef.type,
         aggregate: fieldDef.aggregate
       };
@@ -36,7 +36,7 @@ angular.module('polestar')
         dimensionOnly = supportedRole.dimension && !supportedRole.measure;
 
       // auto cast binning / time binning for dimension only encoding type.
-      if (pill.name && dimensionOnly) {
+      if (pill.field && dimensionOnly) {
         if (pill.aggregate==='count') {
           pill = {};
           $window.alert('COUNT not supported here!');
@@ -46,7 +46,7 @@ angular.module('polestar')
         } else if(type === Type.TEMPORAL && !pill.timeUnit) {
           pill.timeUnit = consts.defaultTimeFn;
         }
-      } else if (!pill.name) {
+      } else if (!pill.field) {
         // no name, it's actually the empty shelf that
         // got processed in the opposite direction
         pill = {};
@@ -58,7 +58,7 @@ angular.module('polestar')
       // console.log('updateFieldDef', channel, base, '<-', pill);
       for (var prop in shelfProps) {
         if (pill[prop]) {
-          if (prop==='value' && pill.name) {
+          if (prop==='value' && pill.field) {
             // only copy value if name is not defined
             // (which should never be the case)
             delete base[prop];

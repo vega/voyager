@@ -75,7 +75,7 @@ angular.module('polestar')
           Pills.pills[scope.channel] = fieldDef ? _.cloneDeep(fieldDef) : {};
         }, true);
 
-        scope.$watchGroup(['allowedCasting[Dataset.dataschema.byName[encoding[channel].name].type]', 'encoding[channel].aggregate'], function(arr){
+        scope.$watchGroup(['allowedCasting[Dataset.dataschema.byName[encoding[channel].field].type]', 'encoding[channel].aggregate'], function(arr){
           var allowedTypes = arr[0], aggregate=arr[1];
           scope.allowedTypes = aggregate === 'count' ? [vl.type.QUANTITATIVE] : allowedTypes;
         });

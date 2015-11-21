@@ -78,7 +78,7 @@ angular.module('polestar')
             return;
           }
 
-          var type = pill.name ? pill.type : '';
+          var type = pill.field ? pill.type : '';
           var schema = scope.schema.properties;
 
           // hack: save the maxbins
@@ -90,7 +90,7 @@ angular.module('polestar')
             isQ = type === vl.type.QUANTITATIVE,
             isT = type === vl.type.TEMPORAL;
 
-          if(pill.name === '*' && pill.aggregate === COUNT){
+          if(pill.field === '*' && pill.aggregate === COUNT){
             scope.func.list=[COUNT];
             scope.func.selected = COUNT;
           } else {

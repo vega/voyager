@@ -26,7 +26,7 @@ angular.module('polestar')
 
     Spec._removeEmptyFieldDefs = function(spec) {
       spec.encoding = _.omit(spec.encoding, function(fieldDef, channel) {
-        return !fieldDef || (fieldDef.name === undefined && fieldDef.value === undefined) ||
+        return !fieldDef || (fieldDef.field === undefined && fieldDef.value === undefined) ||
           (spec.marktype && ! vl.schema.schema.properties.encoding.properties[channel].supportedMarktypes[spec.marktype]);
       });
     };
