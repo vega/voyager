@@ -33,9 +33,9 @@ describe('Directive: functionList', function() {
       }
     };
     scope.pills = {
-      x: { type: 'quantitative', name: 'x'},
+      x: { type: 'quantitative', field: 'x'},
       y: null,
-      color: { type: 'temporal', name: 'c'},
+      color: { type: 'temporal', field: 'c'},
       update: function() {}
     };
     scope.channel = 'x';

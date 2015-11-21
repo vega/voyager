@@ -1,12 +1,12 @@
 <div class="field-list-item full-width"
-  ng-mouseover="Fields.highlighted[fieldDef.name] = true"
-  ng-mouseout="Fields.highlighted[fieldDef.name] = false"
+  ng-mouseover="Fields.highlighted[fieldDef.field] = true"
+  ng-mouseout="Fields.highlighted[fieldDef.field] = false"
 >
 
   <i class="fa selection clickable"
-    ng-class="{'fa-check-square': Fields.isSelected(fieldDef.name), 'fa-square': Fields.isSelected(fieldDef.name) === undefined, 'fa-minus-circle': Fields.isSelected(fieldDef.name) === false}"
-    ng-click="Fields.toggleSelected(fieldDef.name)"
-    ng-dblclick="consts.enableExclude && Fields.setSelected(fieldDef.name, false)"
+    ng-class="{'fa-check-square': Fields.isSelected(fieldDef.field), 'fa-square': Fields.isSelected(fieldDef.field) === undefined, 'fa-minus-circle': Fields.isSelected(fieldDef.field) === false}"
+    ng-click="Fields.toggleSelected(fieldDef.field)"
+    ng-dblclick="consts.enableExclude && Fields.setSelected(fieldDef.field, false)"
   ></i>
 
   <field-info
@@ -16,34 +16,34 @@
     disable-count-caret="true"
     show-info="true"
     popup-content="popupContent"
-    action="Fields.toggleSelected(fieldDef.name)"
+    action="Fields.toggleSelected(fieldDef.field)"
     class="flex-grow-1 list-item clickable"
-    ng-class="{selected: Fields.isSelected(fieldDef.name), excluded: Fields.isSelected(fieldDef.name)===false, highlighted: Fields.highlighted[fieldDef.name]}"
+    ng-class="{selected: Fields.isSelected(fieldDef.field), excluded: Fields.isSelected(fieldDef.field)===false, highlighted: Fields.highlighted[fieldDef.field]}"
     ></field-info>
 
   <div class="drop-container">
     <div class="popup-menu popup-functions" ng-show="(fieldDef.type!=='ordinal' && fieldDef.aggregate!=='count') || consts.enableExclude">
       <div style="width:150px">
-        <function-list field-def="Fields.fields[fieldDef.name]"></function-list>
+        <function-list field-def="Fields.fields[fieldDef.field]"></function-list>
       </div>
 
       <div class="inclusion" ng-show="consts.enableExclude">
         <h4>Field</h4>
         <div>
-          <a ng-class="{inactive: Fields.isSelected(fieldDef.name) !== true}"
-            ng-click="Fields.setSelected(fieldDef.name, true)">
+          <a ng-class="{inactive: Fields.isSelected(fieldDef.field) !== true}"
+            ng-click="Fields.setSelected(fieldDef.field, true)">
             <i class="fa fa-check-square"></i> Include
           </a>
         </div>
         <div>
-          <a ng-class="{inactive: Fields.isSelected(fieldDef.name) !== undefined}"
-            ng-click="Fields.setSelected(fieldDef.name, undefined)">
+          <a ng-class="{inactive: Fields.isSelected(fieldDef.field) !== undefined}"
+            ng-click="Fields.setSelected(fieldDef.field, undefined)">
             <i class="fa fa-square"></i> Optional
           </a>
         </div>
         <div>
-          <a ng-class="{inactive: Fields.isSelected(fieldDef.name) !== false}"
-            ng-click="Fields.setSelected(fieldDef.name, false)">
+          <a ng-class="{inactive: Fields.isSelected(fieldDef.field) !== false}"
+            ng-click="Fields.setSelected(fieldDef.field, false)">
             <i class="fa fa-minus-circle"></i> Exclude
           </a>
         </div>
