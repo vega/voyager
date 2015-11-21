@@ -121,7 +121,7 @@ angular.module('voyager')
         return f.selected;
       });
 
-      console.log('gen time – projections ', vl.shorthand.parseFieldDefs(selectedFields), ' :', (endProjection-start), 'aggregates:', (endAggregates - endProjection), 'encodings:'+ (end-endAggregates), 'total:', (end-start));
+      console.log('gen time – projections ', vl.shorthand.shortenFieldDefs(selectedFields), ' :', (endProjection-start), 'aggregates:', (endAggregates - endProjection), 'encodings:'+ (end-endAggregates), 'total:', (end-start));
     };
 
     Visrec.update.clusters = function(limit) {

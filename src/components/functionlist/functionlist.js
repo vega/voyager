@@ -17,7 +17,7 @@ angular.module('voyager')
         };
 
         function getTimeUnits(type) {
-          return type === vl.type.TEMPORAL ? vl.schema.timeUnits : [];
+          return type === vl.type.TEMPORAL ? vl.timeunit.TIMEUNITS : [];
         }
 
         function getAggrs(type) {
