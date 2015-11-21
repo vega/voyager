@@ -86,7 +86,7 @@ angular.module('polestar')
             maxbins = pill.bin.maxbins;
           }
 
-          var isOrdinalShelf = ['row','col','shape'].indexOf(scope.channel) !== -1,
+          var isOrdinalShelf = ['row','column','shape'].indexOf(scope.channel) !== -1,
             isQ = type === vl.type.QUANTITATIVE,
             isT = type === vl.type.TEMPORAL;
 
