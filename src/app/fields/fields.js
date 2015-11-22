@@ -23,7 +23,7 @@ angular.module('voyager')
 
       Fields.fields = _(dataschema).reduce(function(d, fieldDef){
         resetField(fieldDef);
-        d[fieldDef.name] = fieldDef;
+        d[fieldDef.field] = fieldDef;
         return d;
       }, {});
       Fields.highlighted = {};

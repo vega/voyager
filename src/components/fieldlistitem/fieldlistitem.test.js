@@ -23,7 +23,7 @@ describe('Directive: fieldListItem', function() {
     scope = $rootScope.$new();
     scope.fieldDef = {
       selected: false,
-      name: 'a'
+      field: 'a'
     };
 
     $compile = _$compile_;

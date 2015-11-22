@@ -17,7 +17,7 @@ angular.module('voyager')
         };
 
         function getTimeUnits(type) {
-          return type === vl.type.TEMPORAL ? vl.timeunit.TIMEUNITS : [];
+          return type === vl.type.TEMPORAL ? vl.timeUnit.TIMEUNITS : [];
         }
 
         function getAggrs(type) {
@@ -48,7 +48,7 @@ angular.module('voyager')
             return;
           }
 
-          var type = fieldDef.name ? fieldDef.type : '';
+          var type = fieldDef.field ? fieldDef.type : '';
 
           if (vl.fieldDef.isCount(fieldDef)) {
             scope.func.list=[COUNT];

@@ -10,10 +10,10 @@
         show-type='true'
         ng-class="{
           selected: true,
-          highlighted: (Fields.highlighted||{})[fieldDef.name]
+          highlighted: (Fields.highlighted||{})[fieldDef.field]
         }"
-        ng-mouseover="(Fields.highlighted||{})[fieldDef.name] = true"
-        ng-mouseout="(Fields.highlighted||{})[fieldDef.name] = false"
+        ng-mouseover="(Fields.highlighted||{})[fieldDef.field] = true"
+        ng-mouseout="(Fields.highlighted||{})[fieldDef.field] = false"
       ></field-info></div>
       <div class="explanation">Here are some recommended visualizations of the fields you have selected</div>
     </div>
@@ -60,10 +60,10 @@
       show-type='true'
       ng-class="{
         selected: true,
-        highlighted: (Fields.highlighted||{})[fieldDef.name]
+        highlighted: (Fields.highlighted||{})[fieldDef.field]
       }"
-      ng-mouseover="(Fields.highlighted||{})[fieldDef.name] = true"
-      ng-mouseout="(Fields.highlighted||{})[fieldDef.name] = false"
+      ng-mouseover="(Fields.highlighted||{})[fieldDef.field] = true"
+      ng-mouseout="(Fields.highlighted||{})[fieldDef.field] = false"
     ></field-info>
     <span class="description"> + other fields</span>
     </div>

@@ -15,7 +15,7 @@ angular.module('voyager')
         scope.popupContent = element.find('.popup-functions')[0];
       },
       controller: function($scope, Dataset) {
-        $scope.stats = Dataset.stats[$scope.fieldDef.name];
+        $scope.stats = Dataset.stats[$scope.fieldDef.field];
       }
     };
   });
