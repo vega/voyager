@@ -34,15 +34,15 @@ describe('Directive: functionSelect', function() {
       }
     };
     scope.pills = {
-      x: { type: 'quantitative', name: 'x'},
-      y: { aggregate: 'count', name:'*'},
-      color: { type: 'temporal', name: 'c'},
+      x: { type: 'quantitative', field: 'x'},
+      y: { aggregate: 'count', field:'*'},
+      color: { type: 'temporal', field: 'c'},
       update: function() {}
     };
     scope.encoding = {
-      x: { type: 'quantitative', name: 'x'},
-      y: { aggregate: 'count', name:'*'},
-      color: { type: 'temporal', name: 'c'},
+      x: { type: 'quantitative', field: 'x'},
+      y: { aggregate: 'count', field:'*'},
+      color: { type: 'temporal', field: 'c'},
     };
     scope.channel = 'x';
     scope.channel2 = 'y';
@@ -69,7 +69,7 @@ describe('Directive: functionSelect', function() {
     element = angular.element('<function-select  field-def="encoding[channel2]" channel="channel2" pills="pills" schema="schema"></function-select>');
     element = $compile(element)(scope);
     scope.$digest();
-    scope.pills.y = { aggregate:'count', name: '*'};
+    scope.pills.y = { aggregate:'count', field: '*'};
     scope.$digest();
     expect(element.find('input').length).to.eql(1);
   });
