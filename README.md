@@ -78,14 +78,14 @@ If you plan to make changes to these dependencies and observe the changes withou
 
 In each of your dependency repository, run
 
-```
+```sh
 cd path/to/dependency-repo
 bower link
 ```
 
 Then go to this project's directory and run
 
-```
+```sh
 bower link datalib
 bower link vega-lite
 bower link vega-lite-ui
