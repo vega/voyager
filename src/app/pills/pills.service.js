@@ -9,7 +9,6 @@
  */
 angular.module('polestar')
   .service('Pills', function (consts, vl, Spec, _, $window) {
-    var Type = vl.type;
     var encSchemaProps = vl.schema.schema.properties.encoding.properties;
 
     function instantiate(channel) {
@@ -40,10 +39,10 @@ angular.module('polestar')
         if (pill.aggregate==='count') {
           pill = {};
           $window.alert('COUNT not supported here!');
-        } else if (type === Type.QUANTITATIVE && !pill.bin) {
+        } else if (type === vl.type.QUANTITATIVE && !pill.bin) {
           pill.aggregate = undefined;
           pill.bin = {maxbins: vl.bin.MAXBINS_DEFAULT};
-        } else if(type === Type.TEMPORAL && !pill.timeUnit) {
+        } else if(type === vl.type.TEMPORAL && !pill.timeUnit) {
           pill.timeUnit = consts.defaultTimeFn;
         }
       } else if (!pill.field) {

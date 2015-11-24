@@ -8,7 +8,7 @@
  * Service in the polestar.
  */
 angular.module('polestar')
-  .service('Spec', function(_, vl, ZSchema, Alerts, Config, Dataset) {
+  .service('Spec', function(_, dl, vl, ZSchema, Alerts, Config, Dataset) {
     var Spec = {
       /** @type {Object} verbose spec edited by the UI */
       spec: null,
@@ -39,7 +39,7 @@ angular.module('polestar')
         // This is why I hate js
         if (spec[i] === null ||
           spec[i] === undefined ||
-          (_.isObject(spec[i]) && vl.keys(spec[i]).length === 0) ||
+          (_.isObject(spec[i]) && dl.keys(spec[i]).length === 0) ||
           spec[i] === []) {
           delete spec[i];
         }
@@ -95,7 +95,7 @@ angular.module('polestar')
           msg: validator.getLastErrors()
         });
       } else {
-        vl.extend(spec.config, Config.large());
+        dl.extend(spec.config, Config.large());
         var encoding = new vl.compiler.Model(spec), // FIXME: consider if there are way to avoid calling vl.Model
           chart = Spec.chart;
 
