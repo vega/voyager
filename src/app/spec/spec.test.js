@@ -9,6 +9,7 @@ describe('Service: Spec', function() {
 
   beforeEach(module('polestar', function($provide) {
     $provide.constant('vl', vl); // vl is loaded by karma
+    $provide.constant('dl', dl); // dl is loaded by karma
   }));
 
   // instantiate service
@@ -31,7 +32,7 @@ describe('Service: Spec', function() {
       it('should be cleaned', function() {
         var spec = vl.schema.instantiate();
         Spec._removeEmptyFieldDefs(spec);
-        expect(vl.keys(spec.encoding).length).to.eql(3);  // color, size, shape
+        expect(dl.keys(spec.encoding).length).to.eql(3);  // color, size, shape
       });
     });
   });
