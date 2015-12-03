@@ -27,6 +27,8 @@ angular.module('polestar')
 
         scope.pills = Pills.pills;
 
+        scope.vl = vl;
+
         function fieldPill(){
           return Pills.pills[scope.channel];
         }
