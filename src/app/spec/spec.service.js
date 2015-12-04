@@ -27,7 +27,7 @@ angular.module('polestar')
     Spec._removeEmptyFieldDefs = function(spec) {
       spec.encoding = _.omit(spec.encoding, function(fieldDef, channel) {
         return !fieldDef || (fieldDef.field === undefined && fieldDef.value === undefined) ||
-          (spec.marktype && ! vl.channel.supportMarktype(channel, spec.marktype));
+          (spec.mark && ! vl.channel.supportMark(channel, spec.mark));
       });
     };
 
@@ -59,8 +59,8 @@ angular.module('polestar')
     Spec.instantiate = function() {
       var spec = vl.schema.instantiate();
 
-      // we need to set the marktype because it doesn't have a default.
-      spec.marktype = vl.schema.schema.properties.marktype.enum[0];
+      // we need to set the mark because it doesn't have a default.
+      spec.mark = vl.schema.schema.properties.mark.enum[0];
       spec.config = Config.config;
       spec.data = Config.data;
       return spec;

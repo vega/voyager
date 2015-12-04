@@ -1,5 +1,5 @@
 <div class="shelf-group">
-  <div class="shelf" ng-class="{disabled: !vl.channel.supportMarktype(channel, marktype)}">
+  <div class="shelf" ng-class="{disabled: !vl.channel.supportMark(channel, mark)}">
     <div class="shelf-label"
       ng-class="{expanded: propsExpanded}">
       <i class="fa fa-caret-down"></i>
@@ -8,7 +8,7 @@
     <!--<field-drop field-def="encoding[channel]" types="schema.properties.type.enum"></field-drop>-->
     <div class="field-drop"
      ng-model="pills[channel]"
-     data-drop="vl.channel.supportMarktype(channel, marktype)"
+     data-drop="vl.channel.supportMark(channel, mark)"
      jqyoui-droppable="{onDrop:'fieldDropped'}"
      data-jqyoui-options="{activeClass: 'drop-active'}">
 
