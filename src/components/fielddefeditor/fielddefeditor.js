@@ -11,7 +11,7 @@ angular.module('polestar')
         encoding: '=',
 
         schema: '=fieldDefSchema',
-        marktype: '='
+        mark: '='
       },
       link: function(scope, element /*, attrs*/) {
         var propsPopup, funcsPopup;

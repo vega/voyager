@@ -14,7 +14,7 @@ angular.module('polestar')
         $scope.pills = Pills;
 
         $scope.markChange = function() {
-          Logger.logInteraction(Logger.actions.MARK_CHANGE, Spec.spec.marktype);
+          Logger.logInteraction(Logger.actions.MARK_CHANGE, Spec.spec.mark);
         };
 
         $scope.transpose = function(){
