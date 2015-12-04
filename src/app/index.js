@@ -59,7 +59,7 @@ angular.module('voyager', ['vlui',
     });
   }])
   .config(function(consts) {
-    window.vl.extend(consts, {
+    window.dl.extend(consts, {
       debug: true,
       debugInList: true,
       numInitClusters: 15,
