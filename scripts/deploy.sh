@@ -36,6 +36,7 @@ mv gh-pages/.git dist
 rm -rf gh-pages
 cd dist
 git add .
-git commit -am "release version=$version gitsha=$gitsha"
+git commit -am "release $version $gitsha"
+git tag -am "Release v$version." "v$version"
 git push
 cd ..
