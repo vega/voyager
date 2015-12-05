@@ -22,7 +22,7 @@
     "feature": "gulp feature",
     "release": "gulp release",
     "deploy": "npm run lint && npm run test && bash -x scripts/deploy.sh",
-    "build": "gulp",
+    "build": "gulp build",
     "start": "gulp serve",
     "start-dist": "gulp serve:dist",
     "lint": "gulp jshint",
