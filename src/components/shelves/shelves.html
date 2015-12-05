@@ -4,60 +4,60 @@
 
   <div class="shelf-pane shelf-encoding-pane full-width">
     <h3>Positional</h3>
-    <field-def-editor enc-type="'x'"
-      enc="Spec.spec.encoding"
-      marktype="Spec.spec.marktype"
+    <field-def-editor channel="'x'"
+      encoding="Spec.spec.encoding"
+      mark="Spec.spec.mark"
       field-def-schema="schema.properties.encoding.properties.x">
     </field-def-editor>
     <field-def-editor
-      enc-type="'y'"
-      enc="Spec.spec.encoding"
-      marktype="Spec.spec.marktype"
+      channel="'y'"
+      encoding="Spec.spec.encoding"
+      mark="Spec.spec.mark"
       field-def-schema="schema.properties.encoding.properties.y">
     </field-def-editor>
-    <field-def-editor enc-type="'col'"
-      enc="Spec.spec.encoding"
-      marktype="Spec.spec.marktype"
-      field-def-schema="schema.properties.encoding.properties.col"
+    <field-def-editor channel="'column'"
+      encoding="Spec.spec.encoding"
+      mark="Spec.spec.mark"
+      field-def-schema="schema.properties.encoding.properties.column"
     >
     </field-def-editor>
-    <field-def-editor enc-type="'row'"
-      enc="Spec.spec.encoding"
-      marktype="Spec.spec.marktype"
+    <field-def-editor channel="'row'"
+      encoding="Spec.spec.encoding"
+      mark="Spec.spec.mark"
       field-def-schema="schema.properties.encoding.properties.row">
     </field-def-editor>
   </div>
   <div class="shelf-pane shelf-marks-pane full-width">
     <div class="right">
-      <select class="markselect" ng-model="Spec.spec.marktype"
+      <select class="markselect" ng-model="Spec.spec.mark"
               ng-options="type for type in ['point', 'tick', 'bar', 'line', 'area', 'text']"
               ng-change="markChange()"></select>
     </div>
     <h3>Marks</h3>
 
-    <field-def-editor enc-type="'size'"
-      enc="Spec.spec.encoding"
-      marktype="Spec.spec.marktype"
+    <field-def-editor channel="'size'"
+      encoding="Spec.spec.encoding"
+      mark="Spec.spec.mark"
       field-def-schema="schema.properties.encoding.properties.size">
     </field-def-editor>
-    <field-def-editor enc-type="'color'"
-      enc="Spec.spec.encoding"
-      marktype="Spec.spec.marktype"
+    <field-def-editor channel="'color'"
+      encoding="Spec.spec.encoding"
+      mark="Spec.spec.mark"
       field-def-schema="schema.properties.encoding.properties.color">
     </field-def-editor>
-    <field-def-editor enc-type="'shape'"
-      enc="Spec.spec.encoding"
-      marktype="Spec.spec.marktype"
+    <field-def-editor channel="'shape'"
+      encoding="Spec.spec.encoding"
+      mark="Spec.spec.mark"
       field-def-schema="schema.properties.encoding.properties.shape">
     </field-def-editor>
-    <field-def-editor enc-type="'detail'"
-      enc="Spec.spec.encoding"
-      marktype="Spec.spec.marktype"
+    <field-def-editor channel="'detail'"
+      encoding="Spec.spec.encoding"
+      mark="Spec.spec.mark"
       field-def-schema="schema.properties.encoding.properties.detail">
     </field-def-editor>
-    <field-def-editor enc-type="'text'"
-      enc="Spec.spec.encoding"
-      marktype="Spec.spec.marktype"
+    <field-def-editor channel="'text'"
+      encoding="Spec.spec.encoding"
+      mark="Spec.spec.mark"
       field-def-schema="schema.properties.encoding.properties.text">
     </field-def-editor>
   </div>

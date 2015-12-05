@@ -13,7 +13,7 @@ describe('Directive: propertyEditor', function() {
 
     scope.id = 'foo';
     scope.type = 'boolean';
-    scope.name = 'bar';
+    scope.field = 'bar';
     scope.enum = undefined;
     scope.group = {
       bar: 'value'

@@ -1,40 +1,36 @@
 'use strict';
 
 angular.module('polestar')
-  .directive('fieldDefEditor', function(Dataset, Pills, _, Drop, Logger) {
+  .directive('fieldDefEditor', function(Dataset, Pills, _, Drop, Logger, vl) {
     return {
       templateUrl: 'components/fielddefeditor/fielddefeditor.html',
       restrict: 'E',
       replace: true,
       scope: {
-        encType: '=',
-        enc: '=',
+        channel: '=',
+        encoding: '=',
 
         schema: '=fieldDefSchema',
-        marktype: '='
+        mark: '='
       },
       link: function(scope, element /*, attrs*/) {
         var propsPopup, funcsPopup;
 
         scope.allowedCasting = {
-          Q: ['Q', 'O', 'N'],
-          O: ['O', 'N'],
-          N: ['N', 'O'],
-          T: ['T', 'O', 'N'],
-          G: ['G', 'O', 'N']
+          quantitative: [vl.type.QUANTITATIVE, vl.type.ORDINAL, vl.type.NOMINAL],
+          ordinal: [vl.type.ORDINAL, vl.type.NOMINAL],
+          nominal: [vl.type.NOMINAL, vl.type.ORDINAL],
+          temporal: [vl.type.TEMPORAL, vl.type.ORDINAL, vl.type.NOMINAL]
         };
 
         scope.Dataset = Dataset;
-        scope.typeNames = {
-          Q: 'Quantitative',
-          T: 'Temporal',
-          O: 'Ordinal',
-          N: 'Nominal'
-        };
+
         scope.pills = Pills.pills;
 
+        scope.vl = vl;
+
         function fieldPill(){
-          return Pills.pills[scope.encType];
+          return Pills.pills[scope.channel];
         }
 
         propsPopup = new Drop({
@@ -47,11 +43,11 @@ angular.module('polestar')
         scope.fieldInfoPopupContent =  element.find('.shelf-functions')[0];
 
         scope.removeField = function() {
-          Pills.remove(scope.encType);
+          Pills.remove(scope.channel);
         };
 
         scope.fieldDragStart = function() {
-          Pills.dragStart(Pills[scope.encType], scope.encType);
+          Pills.dragStart(Pills[scope.channel], scope.channel);
         };
 
         scope.fieldDragStop = function() {
@@ -73,27 +69,17 @@ angular.module('polestar')
 
           // TODO validate timeUnit / aggregate
 
-          Pills.dragDrop(scope.encType);
-          Logger.logInteraction(Logger.actions.FIELD_DROP, scope.enc[scope.encType]);
+          Pills.dragDrop(scope.channel);
+          Logger.logInteraction(Logger.actions.FIELD_DROP, scope.encoding[scope.channel]);
         };
 
-        // when each of the fieldPill property in fieldDef changes, update the pill
-        // ['name', 'type', 'aggregate', 'bin', 'timeUnit'].forEach( function(prop) {
-        //   scope.$watch('enc[encType].'+prop, function(val){
-        //     var pill = fieldPill();
-        //     if(pill && val !== pill[prop]){
-        //       pill[prop] = val;
-        //     }
-        //   }, true);
-        // });
-
-        scope.$watch('enc[encType]', function(field) {
-          Pills.pills[scope.encType] = field ? _.cloneDeep(field) : {};
+        scope.$watch('encoding[channel]', function(fieldDef) {
+          Pills.pills[scope.channel] = fieldDef ? _.cloneDeep(fieldDef) : {};
         }, true);
 
-        scope.$watchGroup(['allowedCasting[Dataset.dataschema.byName[enc[encType].name].type]', 'enc[encType].aggregate'], function(arr){
+        scope.$watchGroup(['allowedCasting[Dataset.dataschema.byName[encoding[channel].field].type]', 'encoding[channel].aggregate'], function(arr){
           var allowedTypes = arr[0], aggregate=arr[1];
-          scope.allowedTypes = aggregate === 'count' ? ['Q'] : allowedTypes;
+          scope.allowedTypes = aggregate === 'count' ? [vl.type.QUANTITATIVE] : allowedTypes;
         });
 
 

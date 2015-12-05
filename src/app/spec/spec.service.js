@@ -8,7 +8,7 @@
  * Service in the polestar.
  */
 angular.module('polestar')
-  .service('Spec', function(_, vl, ZSchema, Alerts, Config, Dataset) {
+  .service('Spec', function(_, dl, vl, ZSchema, Alerts, Config, Dataset) {
     var Spec = {
       /** @type {Object} verbose spec edited by the UI */
       spec: null,
@@ -25,9 +25,9 @@ angular.module('polestar')
     };
 
     Spec._removeEmptyFieldDefs = function(spec) {
-      spec.encoding = _.omit(spec.encoding, function(fieldDef, encType) {
-        return !fieldDef || (fieldDef.name === undefined && fieldDef.value === undefined) ||
-          (spec.marktype && ! vl.schema.schema.properties.encoding.properties[encType].supportedMarktypes[spec.marktype]);
+      spec.encoding = _.omit(spec.encoding, function(fieldDef, channel) {
+        return !fieldDef || (fieldDef.field === undefined && fieldDef.value === undefined) ||
+          (spec.mark && ! vl.channel.supportMark(channel, spec.mark));
       });
     };
 
@@ -39,7 +39,7 @@ angular.module('polestar')
         // This is why I hate js
         if (spec[i] === null ||
           spec[i] === undefined ||
-          (_.isObject(spec[i]) && vl.keys(spec[i]).length === 0) ||
+          (_.isObject(spec[i]) && dl.keys(spec[i]).length === 0) ||
           spec[i] === []) {
           delete spec[i];
         }
@@ -47,7 +47,7 @@ angular.module('polestar')
     }
 
     Spec.parseShorthand = function(newShorthand) {
-      var newSpec = vl.Encoding.parseShorthand(newShorthand, Config.config).toSpec();
+      var newSpec = vl.shorthand.parseShorthand(newShorthand, null, Config.config);
       Spec.parseSpec(newSpec);
     };
 
@@ -59,8 +59,8 @@ angular.module('polestar')
     Spec.instantiate = function() {
       var spec = vl.schema.instantiate();
 
-      // we need to set the marktype because it doesn't have a default.
-      spec.marktype = vl.schema.schema.properties.marktype.enum[0];
+      // we need to set the mark because it doesn't have a default.
+      spec.mark = vl.schema.schema.properties.mark.enum[0];
       spec.config = Config.config;
       spec.data = Config.data;
       return spec;
@@ -77,7 +77,7 @@ angular.module('polestar')
       Spec._removeEmptyFieldDefs(spec);
       deleteNulls(spec);
 
-      // we may have removed enc
+      // we may have removed encoding
       if (!('encoding' in spec)) {
         spec.encoding = {};
       }
@@ -95,14 +95,14 @@ angular.module('polestar')
           msg: validator.getLastErrors()
         });
       } else {
-        vl.extend(spec.config, Config.large());
-        var encoding = vl.Encoding.fromSpec(spec),
+        dl.extend(spec.config, Config.large());
+        var encoding = new vl.compiler.Model(spec), // FIXME: consider if there are way to avoid calling vl.Model
           chart = Spec.chart;
 
         chart.fieldSet =  Spec.spec.encoding;
         chart.vlSpec = spec;
         chart.cleanSpec = encoding.toSpec(false);
-        chart.shorthand = encoding.toShorthand();
+        chart.shorthand = vl.shorthand.shorten(spec);
       }
     };
 

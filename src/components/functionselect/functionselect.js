@@ -1,14 +1,14 @@
 'use strict';
 
 angular.module('polestar')
-  .directive('functionSelect', function(_, vl, Pills, Logger) {
+  .directive('functionSelect', function(_, consts, vl, Pills, Logger) {
     return {
       templateUrl: 'components/functionselect/functionselect.html',
       restrict: 'E',
       scope: {
-        encType: '=',
+        channel: '=',
         schema: '=',
-        field: '='
+        fieldDef: '='
       },
       link: function(scope /*,element, attrs*/) {
         var BIN='bin', RAW='', COUNT='count', maxbins;
@@ -20,7 +20,7 @@ angular.module('polestar')
         };
 
         function fieldPill() {
-          return Pills ? Pills.pills[scope.encType] : null;
+          return Pills ? Pills.pills[scope.channel] : null;
         }
 
         function getFns(type) {
@@ -61,24 +61,24 @@ angular.module('polestar')
 
           // reset field def
           // HACK: we're temporarily storing the maxbins in the pill
-          pill.bin = selectedFunc === BIN ? {maxbins: maxbins || vl.schema.MAXBINS_DEFAULT} : undefined;
+          pill.bin = selectedFunc === BIN ? {maxbins: maxbins || vl.bin.MAXBINS_DEFAULT} : undefined;
           pill.aggregate = getAggrs(type).indexOf(selectedFunc) !== -1 ? selectedFunc : undefined;
           pill.timeUnit = getFns(type).indexOf(selectedFunc) !== -1 ? selectedFunc : undefined;
 
           if(!_.isEqual(oldPill, pill)){
-            Pills.pills[scope.encType] = pill;
-            Pills.update(scope.encType);
+            Pills.pills[scope.channel] = pill;
+            Pills.update(scope.channel);
           }
         });
 
         // when parent objects modify the field
-        scope.$watch('field', function(pill) {
+        scope.$watch('fieldDef', function(pill) {
           // only run this if schema is not null
           if (!scope.schema || !pill) {
             return;
           }
 
-          var type = pill.name ? pill.type : '';
+          var type = pill.field ? pill.type : '';
           var schema = scope.schema.properties;
 
           // hack: save the maxbins
@@ -86,20 +86,21 @@ angular.module('polestar')
             maxbins = pill.bin.maxbins;
           }
 
-          var isOrdinalShelf = ['row','col','shape'].indexOf(scope.encType) !== -1,
-            isQ = type==='Q', isT = type==='T';
+          var isOrdinalShelf = ['row','column','shape'].indexOf(scope.channel) !== -1,
+            isQ = type === vl.type.QUANTITATIVE,
+            isT = type === vl.type.TEMPORAL;
 
-          if(pill.name==='*' && pill.aggregate===COUNT){
+          if(pill.field === '*' && pill.aggregate === COUNT){
             scope.func.list=[COUNT];
             scope.func.selected = COUNT;
           } else {
-            scope.func.list = ( isOrdinalShelf && (isQ||isT) ? [] : [''])
+            scope.func.list = ( isOrdinalShelf && (isQ || isT) ? [] : [''])
               .concat(getFns(type))
               .concat(getAggrs(type).filter(function(x) { return x !== COUNT; }))
               .concat(schema.bin && schema.bin.supportedTypes[type] ? ['bin'] : []);
 
             var defaultVal = (isOrdinalShelf &&
-              (isQ && BIN) || (isT && vl.schema.defaultTimeFn)
+              (isQ && BIN) || (isT && consts.defaultTimeFn)
             )|| RAW;
 
             var selected = pill.bin ? 'bin' :

@@ -1,20 +1,20 @@
 <div class="shelf-group">
-  <div class="shelf" ng-class="{disabled: !schema.supportedMarktypes[marktype]}">
+  <div class="shelf" ng-class="{disabled: !vl.channel.supportMark(channel, mark)}">
     <div class="shelf-label"
       ng-class="{expanded: propsExpanded}">
       <i class="fa fa-caret-down"></i>
-      {{ encType }}
+      {{ channel }}
     </div>
-    <!--<field-drop field-def="enc[encType]" types="schema.properties.type.enum"></field-drop>-->
+    <!--<field-drop field-def="encoding[channel]" types="schema.properties.type.enum"></field-drop>-->
     <div class="field-drop"
-     ng-model="pills[encType]"
-     data-drop="schema.supportedMarktypes[marktype]"
+     ng-model="pills[channel]"
+     data-drop="vl.channel.supportMark(channel, mark)"
      jqyoui-droppable="{onDrop:'fieldDropped'}"
      data-jqyoui-options="{activeClass: 'drop-active'}">
 
-      <field-info ng-show="enc[encType].name"
+      <field-info ng-show="encoding[channel].field"
         ng-class="{expanded: funcsExpanded}"
-        field="enc[encType]"
+        field-def="encoding[channel]"
         show-type="true"
         show-caret="true"
         disable-count-caret="true"
@@ -24,52 +24,69 @@
         class="selected draggable full-width"
 
         data-drag="true"
-        ng-model="pills[encType]"
+        ng-model="pills[channel]"
         jqyoui-draggable="{onStart: 'fieldDragStart', onStop:'fieldDragStop'}"
         data-jqyoui-options="{revert: 'invalid', helper: 'clone'}"
         >
       </field-info>
 
-      <span class="placeholder" ng-if="!enc[encType].name">
+      <span class="placeholder" ng-if="!encoding[channel].field">
         drop a field here
       </span>
   </div>
   </div>
   <div class="drop-container">
-    <div class="popup-menu shelf-properties shelf-properties-{{encType}}">
+    <div class="popup-menu shelf-properties shelf-properties-{{channel}}">
       <div>
-        <property-editor ng-show="schema.properties.value" id="encType + 'value'" type="schema.properties.value.type" enum="schema.properties.value.enum" prop-name="'value'" group="enc[encType]" description="schema.properties.value.description" min="schema.properties.value.minimum" max="schema.properties.value.maximum" role="schema.properties.value.role" default="schema.properties.value.default"></property-editor>
+        <property-editor ng-show="schema.properties.value"
+          id="channel + 'value'"
+          type="schema.properties.value.type"
+          enum="schema.properties.value.enum"
+          prop-name="'value'"
+          group="encoding[channel]"
+          description="schema.properties.value.description"
+          min="schema.properties.value.minimum"
+          max="schema.properties.value.maximum"
+          role="schema.properties.value.role"
+          default="schema.properties.value.default"
+        ></property-editor>
       </div>
 
       <div ng-repeat="group in ['legend', 'scale', 'text', 'axis', 'bin']"
            ng-show="schema.properties[group]">
         <h4>{{ group }}</h4>
         <div ng-repeat="(propName, scaleProp) in schema.properties[group].properties"
-             ng-init="id = encType + group + $index"
-             ng-show="scaleProp.supportedTypes ? scaleProp.supportedTypes[enc[encType].type] : true">
-          <property-editor id="id" type="scaleProp.type" enum="scaleProp.enum" prop-name="propName" group="enc[encType][group]" description="scaleProp.description" min="scaleProp.minimum" max="scaleProp.maximum" role="scaleProp.role" default="scaleProp.default"></property-editor>
+             ng-init="id = channel + group + $index"
+             ng-show="scaleProp.supportedTypes ? scaleProp.supportedTypes[encoding[channel].type] : true">
+          <property-editor id="id"
+            type="scaleProp.type"
+            enum="scaleProp.enum"
+            prop-name="propName"
+            group="encoding[channel][group]"
+            description="scaleProp.description"
+            min="scaleProp.minimum"
+            max="scaleProp.maximum"
+            role="scaleProp.role"
+            default="scaleProp.default"
+          ></property-editor>
         </div>
       </div>
     </div>
-    <div class="popup-menu shelf-functions shelf-functions-{{encType}}">
+    <div class="popup-menu shelf-functions shelf-functions-{{channel}}">
       <div class="mb5">
         <h4>Types</h4>
         <span ng-if="allowedTypes.length<=1">
-          {{typeNames[enc[encType].type]}}
+          {{encoding[channel].type}}
         </span>
         <label class="type-label"
           ng-if="allowedTypes.length>1"
           ng-repeat="type in allowedTypes">
-          <input type="radio" ng-value="type" ng-model="enc[encType].type">
-          {{typeNames[type]}}
+          <input type="radio" ng-value="type" ng-model="encoding[channel].type">
+          {{type}}
         </label>
-        <!-- <select class="type-select" ng-model="enc[encType].type"
-                ng-options="type as typeNames[type] for type in schema.properties.type.enum track by type">
-        </select> -->
       </div>
 
-      <function-select field="enc[encType]" enc-type="encType" schema="schema"></function-select>
-
+      <function-select field-def="encoding[channel]" channel="channel" schema="schema"></function-select>
       <!-- <a class="remove-field" ng-click="removeField()">Remove Field</a> -->
     </div>
   </div>

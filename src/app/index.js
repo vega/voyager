@@ -55,10 +55,10 @@ angular.module('polestar', [
   .constant('dl', window.dl)
   .constant('jsondiffpatch', window.jsondiffpatch)
   .config(function(consts) {
-    window.vl.extend(consts, {
+    window.dl.extend(consts, {
       appId: 'polestar',
       // set this if you want to load app with a specific spec
-      initialSpec: window.initialSpec || undefined,
+      initialSpec: window.initialSpec || undefined
     });
   })
   .config(function(uiZeroclipConfigProvider) {

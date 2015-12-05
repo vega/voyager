@@ -36,7 +36,7 @@ describe('Directive: schemaListItem', function () {
   }));
 
   it('should make hidden element visible', inject(function ($compile) {
-    element = angular.element('<schema-list-item field="{name:\'a\'}"></schema-list-item>');
+    element = angular.element('<schema-list-item field-def="{field:\'a\'}"></schema-list-item>');
     element = $compile(element)(scope);
     scope.$digest();
     expect(element.find('span.field-info').length).to.eql(1);

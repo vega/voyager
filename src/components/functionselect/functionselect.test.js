@@ -17,59 +17,59 @@ describe('Directive: functionSelect', function() {
       properties: {
         aggregate: {
           supportedEnums: {
-            Q: ['a', 'b'],
+            quantitative: ['a', 'b'],
             undefined: []
           }
         },
         timeUnit: {
           supportedEnums: {
-            T: ['f1','f2']
+            temporal: ['f1','f2']
           }
         },
         bin: {
           supportedTypes: {
-            Q: true
+            quantitative: true
           }
         }
       }
     };
     scope.pills = {
-      x: { type: 'Q', name: 'x'},
-      y: { aggregate: 'count', name:'*'},
-      color: { type: 'T', name: 'c'},
+      x: { type: 'quantitative', field: 'x'},
+      y: { aggregate: 'count', field:'*'},
+      color: { type: 'temporal', field: 'c'},
       update: function() {}
     };
-    scope.enc = {
-      x: { type: 'Q', name: 'x'},
-      y: { aggregate: 'count', name:'*'},
-      color: { type: 'T', name: 'c'},
+    scope.encoding = {
+      x: { type: 'quantitative', field: 'x'},
+      y: { aggregate: 'count', field:'*'},
+      color: { type: 'temporal', field: 'c'},
     };
-    scope.encType = 'x';
-    scope.encType2 = 'y';
-    scope.encType3 = 'color';
+    scope.channel = 'x';
+    scope.channel2 = 'y';
+    scope.channel3 = 'color';
 
     $compile = _$compile_;
   }));
 
   it('should have correct number of radio', function() {
-    element = angular.element('<function-select field="enc[encType]" enc-type="encType" pills="pills" schema="schema"></function-select>');
+    element = angular.element('<function-select field-def="encoding[channel]" channel="channel" pills="pills" schema="schema"></function-select>');
     element = $compile(element)(scope);
     scope.$digest();
     expect(element.find('input').length).to.eql(4);
   });
 
   it('should have correct number of radio', function() {
-    element = angular.element('<function-select  field="enc[encType3]" enc-type="encType3" pills="pills" schema="schema"></function-select>');
+    element = angular.element('<function-select  field-def="encoding[channel3]" channel="channel3" pills="pills" schema="schema"></function-select>');
     element = $compile(element)(scope);
     scope.$digest();
     expect(element.find('input').length).to.eql(3);
   });
 
   it('should not show other options for count field', function() {
-    element = angular.element('<function-select  field="enc[encType2]" enc-type="encType2" pills="pills" schema="schema"></function-select>');
+    element = angular.element('<function-select  field-def="encoding[channel2]" channel="channel2" pills="pills" schema="schema"></function-select>');
     element = $compile(element)(scope);
     scope.$digest();
-    scope.pills.y = { aggregate:'count', name: '*'};
+    scope.pills.y = { aggregate:'count', field: '*'};
     scope.$digest();
     expect(element.find('input').length).to.eql(1);
   });
