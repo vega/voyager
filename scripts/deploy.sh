@@ -38,5 +38,5 @@ cd dist
 git add .
 git commit -am "release $version $gitsha"
 git tag -am "Release v$version." "v$version"
-git push
+git push --tags
 cd ..
