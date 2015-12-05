@@ -5,15 +5,15 @@
 
     <div class="card vis-list-header">
       <div><span class="description">Explore visualizations of </span>
-      <field-info ng-repeat="(name, field) in Fields.selected"
-        field='field'
+      <field-info ng-repeat="(name, fieldDef) in Fields.selected"
+        field-def='fieldDef'
         show-type='true'
         ng-class="{
           selected: true,
-          highlighted: (Fields.highlighted||{})[field.name]
+          highlighted: (Fields.highlighted||{})[fieldDef.field]
         }"
-        ng-mouseover="(Fields.highlighted||{})[field.name] = true"
-        ng-mouseout="(Fields.highlighted||{})[field.name] = false"
+        ng-mouseover="(Fields.highlighted||{})[fieldDef.field] = true"
+        ng-mouseout="(Fields.highlighted||{})[fieldDef.field] = false"
       ></field-info></div>
       <div class="explanation">Here are some recommended visualizations of the fields you have selected</div>
     </div>
@@ -55,15 +55,15 @@
   <div ng-if="Fields.selected.length > 0"
     class="card vis-list-header">
     <div><span class="description">Explore visualizations of </span>
-    <field-info ng-repeat="(name, field) in Fields.selected"
-      field='field'
+    <field-info ng-repeat="(name, fieldDef) in Fields.selected"
+      field-def='fieldDef'
       show-type='true'
       ng-class="{
         selected: true,
-        highlighted: (Fields.highlighted||{})[field.name]
+        highlighted: (Fields.highlighted||{})[fieldDef.field]
       }"
-      ng-mouseover="(Fields.highlighted||{})[field.name] = true"
-      ng-mouseout="(Fields.highlighted||{})[field.name] = false"
+      ng-mouseover="(Fields.highlighted||{})[fieldDef.field] = true"
+      ng-mouseout="(Fields.highlighted||{})[fieldDef.field] = false"
     ></field-info>
     <span class="description"> + other fields</span>
     </div>

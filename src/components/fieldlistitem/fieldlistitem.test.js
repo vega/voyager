@@ -5,7 +5,6 @@ describe('Directive: fieldListItem', function() {
   // load the directive's module
   beforeEach(module('voyager'));
 
-
   var element, scope, $compile;
 
   beforeEach(module('voyager', function($provide) {
@@ -22,16 +21,16 @@ describe('Directive: fieldListItem', function() {
 
   beforeEach(inject(function ($rootScope, _$compile_) {
     scope = $rootScope.$new();
-    scope.field = {
+    scope.fieldDef = {
       selected: false,
-      name: 'a'
+      field: 'a'
     };
 
     $compile = _$compile_;
   }));
 
   it('should make hidden element visible', function() {
-    element = angular.element('<field-list-item field="field"></field-list-item>');
+    element = angular.element('<field-list-item field-def="fieldDef"></field-list-item>');
     element = $compile(element)(scope);
     scope.$digest();
 

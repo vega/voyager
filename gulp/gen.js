@@ -77,8 +77,8 @@ function genDirective(dir){
   });
 
   // create spec file
-  fetchUrl(GIST_URL + 'directive.spec.js', function(str) {
-    fs.writeFileSync(dirpath + ldir + '.spec.js' , replace(str, {
+  fetchUrl(GIST_URL + 'directive.test.js', function(str) {
+    fs.writeFileSync(dirpath + ldir + '.test.js' , replace(str, {
       __appname__: getAppName(),
       __directive__: dir,
       '__directive_lower__': ldir,
@@ -105,28 +105,28 @@ function genItem(rootpath, item, fileurl, specurl, itemtype){
 
   // create spec file
   fetchUrl(specurl, function(str) {
-    fs.writeFileSync(dirpath + filename + '.' + itemtype + '.spec.js' , replace(str, template));
+    fs.writeFileSync(dirpath + filename + '.' + itemtype + '.test.js' , replace(str, template));
   });
 }
 
 function genService(srv){
   genItem(APP_PATH, srv, GIST_URL + 'service.js',
-    GIST_URL + 'service.spec.js', 'service');
+    GIST_URL + 'service.test.js', 'service');
 }
 
 function genFilter(f){
-  genItem(COMP_PATH, f, GIST_URL + 'filter.js', GIST_URL + 'filter.spec.js', 'filter');
+  genItem(COMP_PATH, f, GIST_URL + 'filter.js', GIST_URL + 'filter.test.js', 'filter');
 }
 
 function genFactory(f){
-  genItem(APP_PATH, f, GIST_URL + 'factory.js', GIST_URL + 'factory.spec.js', 'factory');
+  genItem(APP_PATH, f, GIST_URL + 'factory.js', GIST_URL + 'factory.test.js', 'factory');
 }
 
 function genController(c){
   // controller name should be title case (Ctrl suffix is already appended in the template)
   var Cc = c.substr(0,1).toUpperCase() + c.substr(1);
 
-  genItem(APP_PATH, Cc, GIST_URL + 'controller.js', GIST_URL + 'controller.spec.js', 'controller');
+  genItem(APP_PATH, Cc, GIST_URL + 'controller.js', GIST_URL + 'controller.test.js', 'controller');
 }
 
 gulp.task('gen', function() {

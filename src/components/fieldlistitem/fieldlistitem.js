@@ -7,7 +7,7 @@ angular.module('voyager')
       restrict: 'E',
       replace: true,
       scope: {
-        field: '='
+        fieldDef: '='
       },
       link: function postLink (scope, element /*, attrs*/) {
         scope.consts = consts;
@@ -15,7 +15,7 @@ angular.module('voyager')
         scope.popupContent = element.find('.popup-functions')[0];
       },
       controller: function($scope, Dataset) {
-        $scope.stats = Dataset.stats[$scope.field.name];
+        $scope.stats = Dataset.stats[$scope.fieldDef.field];
       }
     };
   });

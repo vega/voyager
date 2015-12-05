@@ -6,7 +6,7 @@ angular.module('voyager')
       templateUrl: 'components/functionlist/functionlist.html',
       restrict: 'E',
       scope: {
-        field: '='
+        fieldDef: '='
       },
       link: function(scope /*,element, attrs*/) {
         var BIN='bin', RAW='raw', COUNT='count', ANY = 'AUTO';
@@ -17,7 +17,7 @@ angular.module('voyager')
         };
 
         function getTimeUnits(type) {
-          return type === 'T' ? vl.schema.timeUnits : [];
+          return type === vl.type.TEMPORAL ? vl.timeUnit.TIMEUNITS : [];
         }
 
         function getAggrs(type) {
@@ -26,43 +26,43 @@ angular.module('voyager')
 
         // when the function select is updated, propagates change the parent
         scope.functionChanged = function(selectedFunc) {
-          var field = scope.field,
-            type = field ? field.type : '';
+          var fieldDef = scope.fieldDef,
+            type = fieldDef ? fieldDef.type : '';
 
-          if (!field) {
+          if (!fieldDef) {
             return; // not ready
           }
 
-          field._bin = selectedFunc === BIN || undefined;
-          field._aggregate = getAggrs(type).indexOf(selectedFunc) !== -1 ? selectedFunc : undefined;
-          field._timeUnit = getTimeUnits(type).indexOf(selectedFunc) !== -1 ? selectedFunc : undefined;
-          field._raw = selectedFunc === RAW || undefined;
-          field._any = selectedFunc === ANY || undefined;
+          fieldDef._bin = selectedFunc === BIN || undefined;
+          fieldDef._aggregate = getAggrs(type).indexOf(selectedFunc) !== -1 ? selectedFunc : undefined;
+          fieldDef._timeUnit = getTimeUnits(type).indexOf(selectedFunc) !== -1 ? selectedFunc : undefined;
+          fieldDef._raw = selectedFunc === RAW || undefined;
+          fieldDef._any = selectedFunc === ANY || undefined;
 
           Logger.logInteraction(Logger.actions.FUNC_CHANGE, selectedFunc);
         };
 
-        scope.$watch('field', function (field) {
+        scope.$watch('fieldDef', function (fieldDef) {
           // only run this if schema is not null
-          if (!field) {
+          if (!fieldDef) {
             return;
           }
 
-          var type = field.name ? field.type : '';
+          var type = fieldDef.field ? fieldDef.type : '';
 
-          if (vl.encDef.isCount(field)) {
+          if (vl.fieldDef.isCount(fieldDef)) {
             scope.func.list=[COUNT];
             scope.func.selected = COUNT;
           } else {
-            var isO = type==='O';
+            var isO = type === vl.type.ORDINAL;
             scope.func.list = ( isO ? [RAW] : [ANY, RAW])
               .concat(getTimeUnits(type))
               .concat(getAggrs(type).filter(function(x) { return x !== COUNT; }))
-              .concat(type ==='Q' ? [BIN] : []);
+              .concat(type === vl.type.QUANTITATIVE ? [BIN] : []);
 
-            scope.func.selected = field._bin ? BIN :
-              field._raw ? RAW :
-              field._aggregate || field._timeUnit || ( isO ? RAW : ANY );
+            scope.func.selected = fieldDef._bin ? BIN :
+              fieldDef._raw ? RAW :
+              fieldDef._aggregate || fieldDef._timeUnit || ( isO ? RAW : ANY );
           }
 
         }, true);

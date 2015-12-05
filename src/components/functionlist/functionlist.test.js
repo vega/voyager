@@ -16,31 +16,31 @@ describe('Directive: functionList', function() {
       properties: {
         aggregate: {
           supportedEnums: {
-            Q: ['a', 'b'],
+            quantitative: ['a', 'b'],
             undefined: []
           }
         },
         timeUnit: {
           supportedEnums: {
-            T: ['f1','f2']
+            temporal: ['f1','f2']
           }
         },
         bin: {
           supportedTypes: {
-            Q: true
+            quantitative: true
           }
         }
       }
     };
     scope.pills = {
-      x: { type: 'Q', name: 'x'},
+      x: { type: 'quantitative', field: 'x'},
       y: null,
-      color: { type: 'T', name: 'c'},
+      color: { type: 'temporal', field: 'c'},
       update: function() {}
     };
-    scope.encType = 'x';
-    scope.encType2 = 'y';
-    scope.encType3 = 'color';
+    scope.channel = 'x';
+    scope.channel2 = 'y';
+    scope.channel3 = 'color';
   }));
 
   it('should have correct number of radio', function() {
