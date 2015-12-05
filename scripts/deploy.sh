@@ -30,7 +30,7 @@ git clone git@github.com:vega/voyager.git gh-pages
 cd gh-pages
 git checkout gh-pages
 cd ..
-gulp
+npm run build
 rm -rf dist/.git
 mv gh-pages/.git dist
 rm -rf gh-pages

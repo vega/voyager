@@ -18,8 +18,8 @@
   "license": "BSD-3-Clause",
   "scripts": {
     "postinstall": "bower install",
-    "deploy": "npm run lint && npm run test && scripts/deploy.sh",
-    "build": "gulp",
+    "deploy": "npm run lint && npm run test && bash -x scripts/deploy.sh",
+    "build": "gulp build",
     "start": "gulp serve",
     "start-dist": "gulp serve:dist",
     "lint": "gulp jshint",
