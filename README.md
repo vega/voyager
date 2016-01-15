@@ -109,7 +109,7 @@ Use `publish.sh` to:
 
 ## Acknowledgement
 
-Voyager's development is led by Kanit Wongsuphasawat, Dominik Moritz, and Jeffrey Heer at the University of Washington [Interactive Data Lab](http://idl.cs.washington.edu), in collaboration with [UW eScience Institute](http://escience.washington.edu/) and [Tableau Research](http://research.tableau.com)
+Voyager's development is led by Kanit Wongsuphasawat, Dominik Moritz, and Jeffrey Heer at the University of Washington [Interactive Data Lab](http://idl.cs.washington.edu), in collaboration with [UW eScience Institute](http://escience.washington.edu/), [Tableau Research](http://research.tableau.com) and [Bocoup](https://bocoup.com/). 
 
 We used [generator-gulp-angular](https://github.com/Swiip/generator-gulp-angular) for bootstrapping our project.
 
