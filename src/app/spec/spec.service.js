@@ -96,12 +96,11 @@ angular.module('polestar')
         });
       } else {
         dl.extend(spec.config, Config.large());
-        var encoding = new vl.compiler.Model(spec), // FIXME: consider if there are way to avoid calling vl.Model
-          chart = Spec.chart;
+        var chart = Spec.chart;
 
         chart.fieldSet =  Spec.spec.encoding;
         chart.vlSpec = spec;
-        chart.cleanSpec = encoding.toSpec(false);
+        chart.cleanSpec = vl.compile(spec).spec;
         chart.shorthand = vl.shorthand.shorten(spec);
       }
     };
