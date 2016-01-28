@@ -53,7 +53,7 @@ angular.module('polestar')
 
     // takes a partial spec
     Spec.parseSpec = function(newSpec) {
-      Spec.spec = vl.schema.util.merge(Spec.instantiate(), newSpec);
+      Spec.spec = vl.schema.util.mergeDeep(Spec.instantiate(), newSpec);
     };
 
     Spec.instantiate = function() {
