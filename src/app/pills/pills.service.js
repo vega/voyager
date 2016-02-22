@@ -8,11 +8,9 @@
  * Service in the polestar.
  */
 angular.module('polestar')
-  .service('Pills', function (consts, vl, Spec, _, $window) {
-    var encSchemaProps = vl.schema.schema.properties.encoding.properties;
-
-    function instantiate(channel) {
-      return vl.schema.util.instantiate(encSchemaProps[channel]);
+  .service('Pills', function (consts, vl, Spec, _, $window, Schema) {
+    function instantiate() {
+      return {};
     }
 
     var Pills = {
@@ -53,8 +51,8 @@ angular.module('polestar')
 
       // filter unsupported properties
       var base = instantiate(channel),
-        shelfProps = encSchemaProps[channel].properties;
-      // console.log('updateFieldDef', channel, base, '<-', pill);
+        shelfProps = Schema.getChannelSchema(channel).properties;
+
       for (var prop in shelfProps) {
         if (pill[prop]) {
           if (prop==='value' && pill.field) {

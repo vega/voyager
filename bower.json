@@ -29,6 +29,7 @@
     "angular-mocks": "~1.4.9"
   },
   "resolutions": {
-    "angular": ">=1.4.5"
+    "angular": ">=1.4.5",
+    "angular-zeroclipboard": "~0.8.0"
   }
 }

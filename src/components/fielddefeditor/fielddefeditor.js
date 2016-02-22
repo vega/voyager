@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('polestar')
-  .directive('fieldDefEditor', function(Dataset, Pills, _, Drop, Logger, vl) {
+  .directive('fieldDefEditor', function(Dataset, Pills, _, Drop, Logger, vl, Schema) {
     return {
       templateUrl: 'components/fielddefeditor/fielddefeditor.html',
       restrict: 'E',
@@ -61,7 +61,7 @@ angular.module('polestar')
           }
 
           // validate type
-          var types = scope.schema.properties.type.enum;
+          var types = Schema.schema.definitions.Type.enum;
           if (!_.contains(types, pill.type)) {
             // if existing type is not supported
             pill.type = types[0];

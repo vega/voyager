@@ -8,7 +8,7 @@
  * Service in the polestar.
  */
 angular.module('polestar')
-  .service('Spec', function(_, dl, vl, ZSchema, Alerts, Config, Dataset) {
+  .service('Spec', function(_, dl, vl, ZSchema, Alerts, Config, Dataset, Schema) {
     var Spec = {
       /** @type {Object} verbose spec edited by the UI */
       spec: null,
@@ -53,17 +53,20 @@ angular.module('polestar')
 
     // takes a partial spec
     Spec.parseSpec = function(newSpec) {
-      Spec.spec = vl.schema.util.mergeDeep(Spec.instantiate(), newSpec);
+      // TODO: revise this
+      Spec.spec = vl.util.mergeDeep(Spec.instantiate(), newSpec);
     };
 
     Spec.instantiate = function() {
-      var spec = vl.schema.instantiate();
-
-      // we need to set the mark because it doesn't have a default.
-      spec.mark = vl.schema.schema.properties.mark.enum[0];
-      spec.config = Config.config;
-      spec.data = Config.data;
-      return spec;
+      return {
+        data: Config.data,
+        mark: 'point',
+        encoding: _.keys(Schema.schema.definitions.Encoding.properties).reduce(function(e, c) {
+          e[c] = {};
+          return e;
+        }, {}),
+        config: Config.config
+      };
     };
 
     Spec.reset = function() {
@@ -85,7 +88,18 @@ angular.module('polestar')
 
       validator.setRemoteReference('http://json-schema.org/draft-04/schema', {});
 
-      var schema = vl.schema.schema;
+      var schema = Schema.schema;
+
+      ZSchema.registerFormat('color', function (str) {
+        // valid colors are in list or hex color
+        return /^#([0-9a-f]{3}){1,2}$/i.test(str);
+        // TODO: support color name
+      });
+      ZSchema.registerFormat('font', function () {
+        // right now no fonts are valid
+        return false;
+      });
+
       // now validate the spec
       var valid = validator.validate(spec, schema);
 
@@ -100,7 +114,7 @@ angular.module('polestar')
 
         chart.fieldSet =  Spec.spec.encoding;
         chart.vlSpec = spec;
-        chart.cleanSpec = vl.compile(spec).spec;
+        chart.cleanSpec = spec; // TODO: eliminate
         chart.shorthand = vl.shorthand.shorten(spec);
       }
     };
