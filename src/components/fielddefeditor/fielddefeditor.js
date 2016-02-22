@@ -62,7 +62,7 @@ angular.module('polestar')
 
           // validate type
           var types = Schema.schema.definitions.Type.enum;
-          if (!_.contains(types, pill.type)) {
+          if (!_.includes(types, pill.type)) {
             // if existing type is not supported
             pill.type = types[0];
           }
