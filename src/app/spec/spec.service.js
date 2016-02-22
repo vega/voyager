@@ -84,6 +84,9 @@ angular.module('polestar')
       if (!('encoding' in spec)) {
         spec.encoding = {};
       }
+      if (!('config' in spec)) {
+        spec.config = {};
+      }
       var validator = new ZSchema();
 
       validator.setRemoteReference('http://json-schema.org/draft-04/schema', {});
