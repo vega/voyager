@@ -60,7 +60,7 @@ angular.module('polestar')
 
           // reset field def
           // HACK: we're temporarily storing the maxbins in the pill
-          pill.bin = selectedFunc === BIN ? {maxbins: maxbins || vl.bin.MAXBINS_DEFAULT} : undefined;
+          pill.bin = selectedFunc === BIN ? true : undefined;
           pill.aggregate = getAggrs(type).indexOf(selectedFunc) !== -1 ? selectedFunc : undefined;
           pill.timeUnit = getFns(type).indexOf(selectedFunc) !== -1 ? selectedFunc : undefined;
 
