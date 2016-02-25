@@ -9,8 +9,6 @@ angular.module('polestar')
       scope: {
         channel: '=',
         encoding: '=',
-
-        schema: '=fieldDefSchema',
         mark: '='
       },
       link: function(scope, element /*, attrs*/) {
@@ -24,6 +22,7 @@ angular.module('polestar')
         };
 
         scope.Dataset = Dataset;
+        scope.schema = Schema.getChannelSchema(scope.channel);
 
         scope.pills = Pills.pills;
 
