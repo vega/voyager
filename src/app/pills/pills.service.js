@@ -25,7 +25,6 @@ angular.module('polestar')
       };
     };
 
-
     /** copy value from the pill to the fieldDef */
     function updateFieldDef(encoding, pill, channel){
       var type = pill.type,

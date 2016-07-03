@@ -33,7 +33,6 @@ describe('Directive: fieldDefEditor', function() {
     element = angular.element('<field-def-editor channel="channel" encoding="encoding" schema="{properties:{}}"></field-def-editor>');
     element = $compile(element)(scope);
     scope.$digest();
-
     expect(element.find('.shelf-label').text().trim()).to.eql('x');
   });
 

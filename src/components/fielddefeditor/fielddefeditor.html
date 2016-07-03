@@ -52,7 +52,7 @@
         ></property-editor>
       </div>
 
-      <div ng-repeat="group in ['legend', 'scale', 'text', 'axis', 'bin']"
+      <div ng-repeat="group in ['legend', 'scale', 'axis', 'bin']"
            ng-show="schema.properties[group]">
         <h4>{{ group }}</h4>
         <div ng-repeat="(propName, scaleProp) in schema.properties[group].properties"

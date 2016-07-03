@@ -1,5 +1,5 @@
 'use strict';
-/* global vl, dl */
+/* global vl, vg */
 /* jshint expr:true */
 
 describe('Service: Spec', function() {
@@ -9,7 +9,7 @@ describe('Service: Spec', function() {
 
   beforeEach(module('polestar', function($provide) {
     $provide.constant('vl', vl); // vl is loaded by karma
-    $provide.constant('dl', dl); // dl is loaded by karma
+    $provide.constant('vg', vg); // vg is loaded by karma
   }));
 
   // instantiate service
@@ -32,7 +32,7 @@ describe('Service: Spec', function() {
       it('should be cleaned', function() {
         var spec = Spec.instantiate();
         Spec._removeEmptyFieldDefs(spec);
-        expect(dl.keys(spec.encoding).length).to.eql(16);  // color, shape, text
+        expect(vg.util.keys(spec.encoding).length).to.eql(16);  // color, shape, text
       });
     });
   });

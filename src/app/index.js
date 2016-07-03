@@ -52,10 +52,9 @@ angular.module('polestar', [
   .constant('Drop', window.Drop)
   .constant('Blob', window.Blob)
   .constant('URL', window.URL)
-  .constant('dl', window.dl)
   .constant('jsondiffpatch', window.jsondiffpatch)
   .config(function(consts) {
-    window.dl.extend(consts, {
+    window.vg.util.extend(consts, {
       appId: 'polestar',
       // set this if you want to load app with a specific spec
       initialSpec: window.initialSpec || undefined

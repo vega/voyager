@@ -53,6 +53,9 @@ angular.module('polestar')
           Pills.dragStop();
         };
 
+        /**
+         * Event handler for dropping pill.
+         */
         scope.fieldDropped = function() {
           var pill = fieldPill();
           if (funcsPopup) {
