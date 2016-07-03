@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('voyager')
-  .directive('functionList', function(_, vl, Logger) {
+  .directive('functionList', function(_, vl, Logger, Schema) {
     return {
       templateUrl: 'components/functionlist/functionlist.html',
       restrict: 'E',
@@ -21,7 +21,10 @@ angular.module('voyager')
         }
 
         function getAggrs(type) {
-          return vl.schema.aggregate.supportedEnums[type];
+          if (type === 'quantitative' ){
+            return Schema.schema.definitions.AggregateOp.enum;
+          }
+          return [];
         }
 
         // when the function select is updated, propagates change the parent

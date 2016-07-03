@@ -151,13 +151,11 @@ angular.module('voyager')
       var clusters = cp.cluster(specs)
         .map(function(cluster) {
           return cluster.map(function(spec) {
-            var encoding = new vl.compiler.Model(spec, {}); // FIXME find if there are way to avoid creating this internal object
 
             return {
               fieldSetKey: fieldSet.key,
               fieldSet: fieldSet,
               vlSpec: spec,
-              encoding: encoding,
               shorthand: vl.shorthand.shorten(spec),
               score: spec.score,
               scoreFeatures: spec.scoreFeatures
