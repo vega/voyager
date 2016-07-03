@@ -40,8 +40,7 @@ angular.module('voyager', ['vlui',
     'ngOrderObjectBy',
     'Chronicle',
     'ngTouch',
-    'angular-google-analytics',
-    'ngSanitize'])
+    'angular-google-analytics'])
   .constant('_', window._)
   .constant('jQuery', window.$)
   .constant('vl', window.vl)
@@ -51,7 +50,6 @@ angular.module('voyager', ['vlui',
   .constant('URL', window.URL)
   .constant('Tether', window.Tether)
   .constant('Drop', window.Drop)
-  .constant('dl', window.dl)
   .config(['uiZeroclipConfigProvider', function(uiZeroclipConfigProvider) {
     // config ZeroClipboard
     uiZeroclipConfigProvider.setZcConf({
@@ -59,7 +57,7 @@ angular.module('voyager', ['vlui',
     });
   }])
   .config(function(consts) {
-    window.dl.extend(consts, {
+    window.vg.util.extend(consts, {
       debug: true,
       debugInList: true,
       numInitClusters: 15,
