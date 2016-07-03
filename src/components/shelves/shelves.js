@@ -10,7 +10,6 @@ angular.module('polestar')
       replace: true,
       controller: function($scope, vl, Spec, Config, Dataset, Logger, Pills) {
         $scope.Spec = Spec;
-        $scope.schema = vl.schema.schema;
         $scope.pills = Pills;
 
         $scope.markChange = function() {

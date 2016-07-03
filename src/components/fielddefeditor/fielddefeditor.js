@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('polestar')
-  .directive('fieldDefEditor', function(Dataset, Pills, _, Drop, Logger, vl) {
+  .directive('fieldDefEditor', function(Dataset, Pills, _, Drop, Logger, vl, Schema) {
     return {
       templateUrl: 'components/fielddefeditor/fielddefeditor.html',
       restrict: 'E',
@@ -9,8 +9,6 @@ angular.module('polestar')
       scope: {
         channel: '=',
         encoding: '=',
-
-        schema: '=fieldDefSchema',
         mark: '='
       },
       link: function(scope, element /*, attrs*/) {
@@ -24,6 +22,7 @@ angular.module('polestar')
         };
 
         scope.Dataset = Dataset;
+        scope.schema = Schema.getChannelSchema(scope.channel);
 
         scope.pills = Pills.pills;
 
@@ -54,6 +53,9 @@ angular.module('polestar')
           Pills.dragStop();
         };
 
+        /**
+         * Event handler for dropping pill.
+         */
         scope.fieldDropped = function() {
           var pill = fieldPill();
           if (funcsPopup) {
@@ -61,8 +63,8 @@ angular.module('polestar')
           }
 
           // validate type
-          var types = scope.schema.properties.type.enum;
-          if (!_.contains(types, pill.type)) {
+          var types = Schema.schema.definitions.Type.enum;
+          if (!_.includes(types, pill.type)) {
             // if existing type is not supported
             pill.type = types[0];
           }

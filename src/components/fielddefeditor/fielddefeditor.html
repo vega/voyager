@@ -2,7 +2,7 @@
   <div class="shelf" ng-class="{disabled: !vl.channel.supportMark(channel, mark)}">
     <div class="shelf-label"
       ng-class="{expanded: propsExpanded}">
-      <i class="fa fa-caret-down"></i>
+      <!-- <i class="fa fa-caret-down"></i> -->
       {{ channel }}
     </div>
     <!--<field-drop field-def="encoding[channel]" types="schema.properties.type.enum"></field-drop>-->
@@ -52,7 +52,7 @@
         ></property-editor>
       </div>
 
-      <div ng-repeat="group in ['legend', 'scale', 'text', 'axis', 'bin']"
+      <div ng-repeat="group in ['legend', 'scale', 'axis', 'bin']"
            ng-show="schema.properties[group]">
         <h4>{{ group }}</h4>
         <div ng-repeat="(propName, scaleProp) in schema.properties[group].properties"
@@ -86,7 +86,7 @@
         </label>
       </div>
 
-      <function-select field-def="encoding[channel]" channel="channel" schema="schema"></function-select>
+      <function-select field-def="encoding[channel]" channel="channel"></function-select>
       <!-- <a class="remove-field" ng-click="removeField()">Remove Field</a> -->
     </div>
   </div>

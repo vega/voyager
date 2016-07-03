@@ -1,13 +1,12 @@
 'use strict';
 
 angular.module('polestar')
-  .directive('functionSelect', function(_, consts, vl, Pills, Logger) {
+  .directive('functionSelect', function(_, consts, vl, Pills, Logger, Schema) {
     return {
       templateUrl: 'components/functionselect/functionselect.html',
       restrict: 'E',
       scope: {
         channel: '=',
-        schema: '=',
         fieldDef: '='
       },
       link: function(scope /*,element, attrs*/) {
@@ -24,9 +23,9 @@ angular.module('polestar')
         }
 
         function getFns(type) {
-          var schema = (scope.schema || {}).properties;
-          if (schema && schema.timeUnit && (!schema.timeUnit.supportedTypes || schema.timeUnit.supportedTypes[type])) {
-            return (schema.timeUnit.supportedEnums ? schema.timeUnit.supportedEnums[type] : schema.timeUnit.enum) || [];
+
+          if (type === 'temporal') {
+            return Schema.schema.definitions.TimeUnit.enum;
           }
           return [];
         }
@@ -36,10 +35,10 @@ angular.module('polestar')
             return [COUNT];
           }
 
-          var schema = scope.schema.properties;
-
-          if (schema && schema.aggregate && (!schema.aggregate.supportedTypes || schema.aggregate.supportedTypes[type])){
-            return (schema.aggregate.supportedEnums ? schema.aggregate.supportedEnums[type] : schema.aggregate.enum) || [];
+          // HACK
+          // TODO: make this correct for temporal as well
+          if (type === 'quantitative' ){
+            return Schema.schema.definitions.AggregateOp.enum;
           }
           return [];
         }
@@ -61,7 +60,7 @@ angular.module('polestar')
 
           // reset field def
           // HACK: we're temporarily storing the maxbins in the pill
-          pill.bin = selectedFunc === BIN ? {maxbins: maxbins || vl.bin.MAXBINS_DEFAULT} : undefined;
+          pill.bin = selectedFunc === BIN ? true : undefined;
           pill.aggregate = getAggrs(type).indexOf(selectedFunc) !== -1 ? selectedFunc : undefined;
           pill.timeUnit = getFns(type).indexOf(selectedFunc) !== -1 ? selectedFunc : undefined;
 
@@ -73,13 +72,11 @@ angular.module('polestar')
 
         // when parent objects modify the field
         scope.$watch('fieldDef', function(pill) {
-          // only run this if schema is not null
-          if (!scope.schema || !pill) {
+          if (!pill) {
             return;
           }
 
           var type = pill.field ? pill.type : '';
-          var schema = scope.schema.properties;
 
           // hack: save the maxbins
           if (pill.bin) {
@@ -97,11 +94,12 @@ angular.module('polestar')
             scope.func.list = ( isOrdinalShelf && (isQ || isT) ? [] : [''])
               .concat(getFns(type))
               .concat(getAggrs(type).filter(function(x) { return x !== COUNT; }))
-              .concat(schema.bin && schema.bin.supportedTypes[type] ? ['bin'] : []);
+              // TODO: check supported type based on primitive data?
+              .concat(type === 'quantitative' ? ['bin'] : []);
 
             var defaultVal = (isOrdinalShelf &&
               (isQ && BIN) || (isT && consts.defaultTimeFn)
-            )|| RAW;
+            ) || RAW;
 
             var selected = pill.bin ? 'bin' :
               pill.aggregate || pill.timeUnit ||
