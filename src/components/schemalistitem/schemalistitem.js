@@ -16,10 +16,14 @@ angular.module('polestar')
         fieldDef:'='
       },
       link: function postLink(scope) {
-        scope.getSchemaPill = Pills.getSchemaPill;
-
         scope.fieldDragStart = function() {
-          scope.pill = Pills.getSchemaPill(scope.fieldDef);
+          var fieldDef = scope.fieldDef;
+
+          scope.pill = {
+            field: fieldDef.field,
+            type: fieldDef.type,
+            aggregate: fieldDef.aggregate
+          };
           Pills.dragStart(scope.pill, null);
         };
 

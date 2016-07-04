@@ -17,14 +17,6 @@ angular.module('polestar')
       pills: {}
     };
 
-    Pills.getSchemaPill = function(fieldDef) {
-      return {
-        field: fieldDef.field,
-        type: fieldDef.type,
-        aggregate: fieldDef.aggregate
-      };
-    };
-
     /** copy value from the pill to the fieldDef */
     function updateFieldDef(encoding, pill, channel){
       var type = pill.type,
