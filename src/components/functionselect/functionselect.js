@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('polestar')
+angular.module('voyager2')
   .directive('functionSelect', function(_, consts, vl, Pills, Logger, Schema) {
     return {
       templateUrl: 'components/functionselect/functionselect.html',

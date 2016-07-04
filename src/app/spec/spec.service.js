@@ -2,12 +2,12 @@
 
 /**
  * @ngdoc service
- * @name polestar.Spec
+ * @name voyager2.Spec
  * @description
  * # Spec
- * Service in the polestar.
+ * Service in the voyager2.
  */
-angular.module('polestar')
+angular.module('voyager2')
   .service('Spec', function(_, vg, vl, ZSchema, Alerts, Config, Dataset, Schema) {
     var Spec = {
       /** @type {Object} verbose spec edited by the UI */

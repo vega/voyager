@@ -5,7 +5,7 @@
 describe('Directive: schemaListItem', function () {
 
   // load the directive's module
-  beforeEach(module('polestar', function($provide) {
+  beforeEach(module('voyager2', function($provide) {
     // mock vega
     $provide.constant('vg', {
       parse: {

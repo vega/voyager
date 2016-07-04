@@ -2,12 +2,12 @@
 
 /**
  * @ngdoc service
- * @name polestar.Pills
+ * @name voyager2.Pills
  * @description
  * # Pills
- * Service in the polestar.
+ * Service in the voyager2.
  */
-angular.module('polestar')
+angular.module('voyager2')
   .service('Pills', function (consts, vl, Spec, _, $window, Schema) {
     function instantiate() {
       return {};

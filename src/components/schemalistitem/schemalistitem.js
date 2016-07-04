@@ -2,11 +2,11 @@
 
 /**
  * @ngdoc directive
- * @name polestar.directive:schemaListItem
+ * @name voyager2.directive:schemaListItem
  * @description
  * # schemaListItem
  */
-angular.module('polestar')
+angular.module('voyager2')
   .directive('schemaListItem', function (Pills) {
     return {
       templateUrl: 'components/schemalistitem/schemalistitem.html',

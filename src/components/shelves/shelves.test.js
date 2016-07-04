@@ -6,9 +6,9 @@
 describe('Directive: shelves', function() {
 
   // load the directive's module
-  beforeEach(module('polestar'));
+  beforeEach(module('voyager2'));
 
-  beforeEach(module('polestar', function($provide) {
+  beforeEach(module('voyager2', function($provide) {
     $provide.constant('vl', vl); // vl is loaded by karma
   }));
 
@@ -16,7 +16,7 @@ describe('Directive: shelves', function() {
     scope,
     deferred;
 
-  beforeEach(module('polestar', function($provide) {
+  beforeEach(module('voyager2', function($provide) {
     // add Directive suffix to mock directives
     $provide.value('fieldDefEditorDirective', {});
     $provide.value('functionSelectDirective', {});

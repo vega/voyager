@@ -6,7 +6,7 @@
  * @description
  * # propertyEditor
  */
-angular.module('polestar')
+angular.module('voyager2')
   .directive('propertyEditor', function () {
     return {
       templateUrl: 'components/propertyeditor/propertyeditor.html',
@@ -25,7 +25,7 @@ angular.module('polestar')
       },
       link: function postLink(scope /*, element, attrs*/) {
         scope.hasAuto = scope.default === undefined;
-        
+
         //TODO(kanitw): consider renaming
         scope.automodel = { value: false };
 

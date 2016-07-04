@@ -4,9 +4,9 @@
 
 describe('Directive: vlSpecEditor', function() {
   // load the directive's module
-  beforeEach(module('polestar'));
+  beforeEach(module('voyager2'));
 
-  beforeEach(module('polestar', function($provide) {
+  beforeEach(module('voyager2', function($provide) {
     $provide.constant('vl', vl); // vl is loaded by karma
 
     // mock directive (trodrigues's answer in http://stackoverflow.com/questions/17533052)
@@ -18,7 +18,7 @@ describe('Directive: vlSpecEditor', function() {
   var element,
     scope;
 
-  beforeEach(module('polestar', function($provide) {
+  beforeEach(module('voyager2', function($provide) {
     var mock = {
       cleanSpec: {},
       shorthand: 'point.'

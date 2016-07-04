@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('polestar')
+angular.module('voyager2')
   .directive('shelves', function() {
 
     return {

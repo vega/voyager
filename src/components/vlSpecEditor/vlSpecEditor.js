@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('polestar')
+angular.module('voyager2')
   .directive('vlSpecEditor', function(Spec) {
     return {
       templateUrl: 'components/vlSpecEditor/vlSpecEditor.html',

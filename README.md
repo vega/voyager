@@ -1,22 +1,22 @@
-# Pole✭ (Polestar) -- Alpha
+# Pole✭ (Voyager2) -- Alpha
 
-[![Build Status](https://travis-ci.org/vega/polestar.svg)](https://travis-ci.org/vega/polestar)
+[![Build Status](https://travis-ci.org/uwdata/voyager2.svg)](https://travis-ci.org/uwdata/voyager2)
 
-PoleStar is Tableau-style User Interface for visual analysis, building on top
-of [Vega-Lite](https://github.com/vega/vega-lite). Try our [online
-demo](http://vega.github.io/polestar/). Also, be sure to check out [related
+Voyager2 is Tableau-style User Interface for visual analysis with support for partial specification, building on top
+of [Vega-Lite](https://github.com/vega/vega-lite) and [CompassQL](https://github.com/uwdata/compassql). Try our [online
+demo](http://uwdata.github.io/voyager2/). Also, be sure to check out [related
 projects](https://vega.github.io/).
 
 **This project is an [alpha](http://en.wikipedia.org/wiki/Software_release_life_cycle#Alpha) software.
 We are working on improving its code and documentation.**
 
-If you are using Polestar for your project(s), please let us know what are you using it for by emailing us at [Vega-Lite \[at\] cs.washington.edu](mailto:vega-lite@cs.washington.edu).  Feedbacks are also welcomed.
-If you find a bug or have a feature request, please [create an issue](https://github.com/vega/polestar/issues/new).
+If you are using Voyager2 for your project(s), please let us know what are you using it for by emailing us at [Vega-Lite \[at\] cs.washington.edu](mailto:vega-lite@cs.washington.edu).  Feedbacks are also welcomed.
+If you find a bug or have a feature request, please [create an issue](https://github.com/uwdata/voyager2/issues/new).
 
 
 ## Team
 
-Polestar's development is led by Dominik Moritz, Kanit Wongsuphasawat, and Jeffrey Heer at the University of Washington [Interactive Data Lab](http://idl.cs.washington.edu), in collaboration with [UW eScience Institute](http://escience.washington.edu/) and [Tableau Research](http://research.tableau.com)
+Voyager2's development is led by Dominik Moritz, Kanit Wongsuphasawat, and Jeffrey Heer at the University of Washington [Interactive Data Lab](http://idl.cs.washington.edu), in collaboration with [UW eScience Institute](http://escience.washington.edu/) and [Tableau Research](http://research.tableau.com)
 
 ## Setup Instruction
 
@@ -27,7 +27,7 @@ Make sure you have node.js. (We recommend using [homebrew](http://brew.sh) and s
 `cd` into your local clone of the repository, and install all the npm and bower dependencies (bower will auto-run when npm finishes):
 
 ```sh
-cd polestar
+cd voyager2
 npm install
 ```
 
@@ -54,7 +54,7 @@ All source code are under `src/`
 - `src/data/` contains all data that we use in the application
 - `src/vendor` contains
 
-@kanitw created [`gulp/gen.js`](https://github.com/vega/polestar/blob/master/gulp/gen.js) for help generating angular components.
+@kanitw created [`gulp/gen.js`](https://github.com/uwdata/voyager2/blob/master/gulp/gen.js) for help generating angular components.
 For example, you can run `gulp gen -d directiveName` and this would create all relevant files including the javascript file, the template file, the stylesheet file and the test spec.
 
 #### Coding Style
@@ -72,7 +72,7 @@ Managing front-end dependencies with [Bower](http://bower.io) requires the `bowe
 npm install -g bower
 ```
 
-This project depends on [Datalib](https://github.com/vega/datalib) for data processing, [Vega-Lite](https://github.com/vega/vega-lite) as a formal model for visualization, and [Vega-Lite-ui](https://github.com/vega/vega-lite-ui), which contains shared components between Polestar and Voyager.
+This project depends on [Datalib](https://github.com/vega/datalib) for data processing, [Vega-Lite](https://github.com/vega/vega-lite) as a formal model for visualization, and [Vega-Lite-ui](https://github.com/vega/vega-lite-ui), which contains shared components between Voyager2 and Voyager.
 
 If you plan to make changes to these dependencies and observe the changes without publishing / copying compiled libraries all the time, use [`bower link`](https://oncletom.io/2013/live-development-bower-component/).
 

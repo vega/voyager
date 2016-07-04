@@ -6,7 +6,7 @@
 describe('Service: Pills', function () {
 
   // load the service's module
-  beforeEach(module('polestar', function($provide) {
+  beforeEach(module('voyager2', function($provide) {
     $provide.constant('vl', vl);
   }));
 

@@ -1,10 +1,10 @@
 {
-  "name": "polestar",
+  "name": "voyager2",
   "version": "0.10.0",
   "description": "Visualization specification interface.",
   "repository": {
     "type": "git",
-    "url": "https://github.com/vega/polestar.git"
+    "url": "https://github.com/uwdata/voyager2.git"
   },
   "author": {
     "name": "UW Interactive Data Lab",

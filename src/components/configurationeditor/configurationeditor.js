@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('polestar')
+angular.module('voyager2')
   .directive('configurationEditor', function() {
     return {
       templateUrl: 'components/configurationeditor/configurationeditor.html',

@@ -33,7 +33,7 @@
 'use strict';
 /* globals window */
 
-angular.module('polestar', [
+angular.module('voyager2', [
     'vlui',
     'ngSanitize',
     'ngTouch',
@@ -55,7 +55,7 @@ angular.module('polestar', [
   .constant('jsondiffpatch', window.jsondiffpatch)
   .config(function(consts) {
     window.vg.util.extend(consts, {
-      appId: 'polestar',
+      appId: 'voyager2',
       // set this if you want to load app with a specific spec
       initialSpec: window.initialSpec || undefined
     });
@@ -67,10 +67,10 @@ angular.module('polestar', [
     });
   })
   .config(function(localStorageServiceProvider) {
-    localStorageServiceProvider.setPrefix('polestar');
+    localStorageServiceProvider.setPrefix('voyager2');
   })
   .config(function (AnalyticsProvider, consts) {
     if (consts.embeddedData) return;
     AnalyticsProvider
-      .setAccount({ tracker: 'UA-44428446-4', name: 'polestar', trackEvent: true });
+      .setAccount({ tracker: 'UA-44428446-4', name: 'voyager2', trackEvent: true });
   });

@@ -2,11 +2,11 @@
 
 /**
  * @ngdoc directive
- * @name polestar.directive:nullFilterDirective
+ * @name voyager2.directive:nullFilterDirective
  * @description
  * # nullFilterDirective
  */
-angular.module('polestar')
+angular.module('voyager2')
   .directive('nullFilterDirective', function (Spec) {
     return {
       templateUrl: 'components/nullfilterdirective/nullfilterdirective.html',

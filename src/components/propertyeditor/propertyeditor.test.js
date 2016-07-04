@@ -3,7 +3,7 @@
 describe('Directive: propertyEditor', function() {
 
   // load the directive's module
-  beforeEach(module('polestar'));
+  beforeEach(module('voyager2'));
 
   var element,
     scope;

@@ -5,14 +5,14 @@
 describe('Directive: schemaList', function() {
 
   // load the directive's module
-  beforeEach(module('polestar', function($provide) {
+  beforeEach(module('voyager2', function($provide) {
     $provide.constant('vl', vl);
   }));
 
   var element,
     scope;
 
-  beforeEach(module('polestar', function($provide) {
+  beforeEach(module('voyager2', function($provide) {
     var mockDataset = {
       dataschema: ['foo', 'bar', 'baz'],
       stats: {

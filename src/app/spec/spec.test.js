@@ -5,9 +5,9 @@
 describe('Service: Spec', function() {
 
   // load the service's module
-  beforeEach(module('polestar'));
+  beforeEach(module('voyager2'));
 
-  beforeEach(module('polestar', function($provide) {
+  beforeEach(module('voyager2', function($provide) {
     $provide.constant('vl', vl); // vl is loaded by karma
     $provide.constant('vg', vg); // vg is loaded by karma
   }));
