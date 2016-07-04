@@ -14,6 +14,8 @@ angular.module('voyager2')
       link: function(scope, element /*, attrs*/) {
         var propsPopup, funcsPopup;
 
+        // TODO(https://github.com/vega/vega-lite-ui/issues/187):
+        // consider if we can use validator / cql instead
         scope.allowedCasting = {
           quantitative: [vl.type.QUANTITATIVE, vl.type.ORDINAL, vl.type.NOMINAL],
           ordinal: [vl.type.ORDINAL, vl.type.NOMINAL],
@@ -27,10 +29,6 @@ angular.module('voyager2')
         scope.pills = Pills.pills;
 
         scope.vl = vl;
-
-        function fieldPill(){
-          return Pills.pills[scope.channel];
-        }
 
         propsPopup = new Drop({
           content: element.find('.shelf-properties')[0],
@@ -57,7 +55,7 @@ angular.module('voyager2')
          * Event handler for dropping pill.
          */
         scope.fieldDropped = function() {
-          var pill = fieldPill();
+          var pill = Pills.get(scope.channel);
           if (funcsPopup) {
             funcsPopup = null;
           }
@@ -76,7 +74,7 @@ angular.module('voyager2')
         };
 
         scope.$watch('encoding[channel]', function(fieldDef) {
-          Pills.pills[scope.channel] = fieldDef ? _.cloneDeep(fieldDef) : {};
+          Pills.set(scope.channel, fieldDef ? _.cloneDeep(fieldDef) : {});
         }, true);
 
         scope.$watchGroup(['allowedCasting[Dataset.dataschema.byName[encoding[channel].field].type]', 'encoding[channel].aggregate'], function(arr){
