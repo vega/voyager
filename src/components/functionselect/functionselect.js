@@ -18,10 +18,6 @@ angular.module('polestar')
           list: [RAW]
         };
 
-        function fieldPill() {
-          return Pills ? Pills.pills[scope.channel] : null;
-        }
-
         function getFns(type) {
 
           if (type === 'temporal') {
@@ -50,7 +46,7 @@ angular.module('polestar')
         // FIXME func.selected logic should be all moved to selectChanged
         // when the function select is updated, propagates change the parent
         scope.$watch('func.selected', function(selectedFunc) {
-          var oldPill = fieldPill(),
+          var oldPill = Pills.get(scope.channel),
             pill = _.clone(oldPill),
             type = pill ? pill.type : '';
 
@@ -65,7 +61,9 @@ angular.module('polestar')
           pill.timeUnit = getFns(type).indexOf(selectedFunc) !== -1 ? selectedFunc : undefined;
 
           if(!_.isEqual(oldPill, pill)){
-            Pills.pills[scope.channel] = pill;
+            Pills.set(scope.channel, pill);
+
+            // FIXME figure out why we need to manually update
             Pills.update(scope.channel);
           }
         });
