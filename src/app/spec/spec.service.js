@@ -144,7 +144,7 @@ angular.module('voyager2')
           pill.timeUnit = consts.defaultTimeFn;
         }
       } else if (!pill.field) {
-        // no name, it's actually the empty shelf that
+        // no field, it's actually the empty shelf that
         // got processed in the opposite direction
         pill = {};
       }
@@ -156,7 +156,7 @@ angular.module('voyager2')
       for (var prop in shelfProps) {
         if (pill[prop]) {
           if (prop==='value' && pill.field) {
-            // only copy value if name is not defined
+            // only copy value if field is not defined
             // (which should never be the case)
             delete base[prop];
           } else {
@@ -169,11 +169,17 @@ angular.module('voyager2')
     }
 
     Pills.listener = {
-      update: function(channelId, pill) {
+      set: function(channelId, pill) {
         updateChannelDef(Spec.spec.encoding, pill, channelId);
       },
       remove: function(channelId) {
         updateChannelDef(Spec.spec.encoding, {}, channelId); // remove all pill detail from the fieldDef
+      },
+      update: function(spec) {
+        Spec.update(spec);
+      },
+      reset: function() {
+        Spec.reset();
       },
       dragDrop: function(cidDragTo, cidDragFrom) {
         // Make a copy and update the clone of the encoding to prevent glitches
