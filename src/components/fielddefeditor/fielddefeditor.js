@@ -73,6 +73,7 @@ angular.module('polestar')
           Logger.logInteraction(Logger.actions.FIELD_DROP, scope.encoding[scope.channel]);
         };
 
+        // If some external action changes the fieldDef, we also need to update the pill
         scope.$watch('encoding[channel]', function(fieldDef) {
           Pills.set(scope.channel, fieldDef ? _.cloneDeep(fieldDef) : {});
         }, true);
@@ -81,9 +82,6 @@ angular.module('polestar')
           var allowedTypes = arr[0], aggregate=arr[1];
           scope.allowedTypes = aggregate === 'count' ? [vl.type.QUANTITATIVE] : allowedTypes;
         });
-
-
       }
-
     };
   });

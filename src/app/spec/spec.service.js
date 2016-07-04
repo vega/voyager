@@ -144,7 +144,7 @@ angular.module('polestar')
           pill.timeUnit = consts.defaultTimeFn;
         }
       } else if (!pill.field) {
-        // no name, it's actually the empty shelf that
+        // no field, it's actually the empty shelf that
         // got processed in the opposite direction
         pill = {};
       }
@@ -156,7 +156,7 @@ angular.module('polestar')
       for (var prop in shelfProps) {
         if (pill[prop]) {
           if (prop==='value' && pill.field) {
-            // only copy value if name is not defined
+            // only copy value if field is not defined
             // (which should never be the case)
             delete base[prop];
           } else {
