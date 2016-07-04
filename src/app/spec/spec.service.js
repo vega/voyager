@@ -169,7 +169,7 @@ angular.module('polestar')
     }
 
     Pills.listener = {
-      update: function(channelId, pill) {
+      set: function(channelId, pill) {
         updateChannelDef(Spec.spec.encoding, pill, channelId);
       },
       remove: function(channelId) {

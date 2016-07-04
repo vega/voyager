@@ -61,10 +61,7 @@ angular.module('polestar')
           pill.timeUnit = getFns(type).indexOf(selectedFunc) !== -1 ? selectedFunc : undefined;
 
           if(!_.isEqual(oldPill, pill)){
-            Pills.set(scope.channel, pill);
-
-            // FIXME figure out why we need to manually update
-            Pills.update(scope.channel);
+            Pills.set(scope.channel, pill, true /* propagate change */);
           }
         });
 
