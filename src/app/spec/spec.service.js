@@ -175,6 +175,12 @@ angular.module('polestar')
       remove: function(channelId) {
         updateChannelDef(Spec.spec.encoding, {}, channelId); // remove all pill detail from the fieldDef
       },
+      update: function(spec) {
+        Spec.update(spec);
+      },
+      reset: function() {
+        Spec.reset();
+      },
       dragDrop: function(cidDragTo, cidDragFrom) {
         // Make a copy and update the clone of the encoding to prevent glitches
         var encoding = _.clone(Spec.spec.encoding);

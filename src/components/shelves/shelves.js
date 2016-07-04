@@ -6,13 +6,13 @@ angular.module('polestar')
     return {
       templateUrl: 'components/shelves/shelves.html',
       restrict: 'E',
-      scope: {},
+      scope: {
+        spec: '='
+      },
       replace: true,
-      controller: function($scope, vl, Spec, Config, Dataset, Logger) {
-        $scope.Spec = Spec;
-
+      controller: function($scope, vl, Config, Dataset, Logger, Pills) {
         $scope.markChange = function() {
-          Logger.logInteraction(Logger.actions.MARK_CHANGE, Spec.spec.mark);
+          Logger.logInteraction(Logger.actions.MARK_CHANGE, scope.spec.mark);
         };
 
         $scope.transpose = function(){
@@ -20,14 +20,14 @@ angular.module('polestar')
         };
 
         $scope.clear = function(){
-          Spec.reset();
+          Pills.reset();
         };
 
-        $scope.$watch('Spec.spec', function(spec) {
+        $scope.$watch('spec', function(spec) {
           Logger.logInteraction(Logger.actions.SPEC_CHANGE, spec);
 
-          Spec.update(spec);
-        }, true /* watch equality rather than reference */);
+          Pills.update(spec);
+        }, true); //, true /* watch equality rather than reference */);
       }
     };
   });
