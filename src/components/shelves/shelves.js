@@ -8,9 +8,8 @@ angular.module('polestar')
       restrict: 'E',
       scope: {},
       replace: true,
-      controller: function($scope, vl, Spec, Config, Dataset, Logger, Pills) {
+      controller: function($scope, vl, Spec, Config, Dataset, Logger) {
         $scope.Spec = Spec;
-        $scope.pills = Pills;
 
         $scope.markChange = function() {
           Logger.logInteraction(Logger.actions.MARK_CHANGE, Spec.spec.mark);
