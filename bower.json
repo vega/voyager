@@ -10,7 +10,7 @@
     "jquery": "~2.2.0",
     "fontawesome": "~4.5.0",
     "vega-lite-ui": "~0.10.0",
-    "viscompass": "~0.6.2",
+    "viscompass": "~0.7.1",
     "zeptojs": "~1.1.6"
   }
 }
