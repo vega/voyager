@@ -73,7 +73,9 @@ angular.module('polestar')
       Spec.spec = Spec.instantiate();
     };
 
-    // takes a full spec, validates it and then rebuilds everything
+    /**
+     * Takes a full spec, validates it and then rebuilds all members of the chart object.
+     */
     Spec.update = function(spec) {
       spec = _.cloneDeep(spec || Spec.spec);
 
