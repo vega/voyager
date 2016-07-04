@@ -70,7 +70,7 @@ angular.module('polestar')
           // TODO validate timeUnit / aggregate
 
           Pills.dragDrop(scope.channel);
-          Logger.logInteraction(Logger.actions.FIELD_DROP, scope.encoding[scope.channel]);
+          Logger.logInteraction(Logger.actions.FIELD_DROP, pill, pill);
         };
 
         // If some external action changes the fieldDef, we also need to update the pill
