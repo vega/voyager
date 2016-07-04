@@ -46,7 +46,6 @@
     "gulp-flatten": "~0.2.0",
     "gulp-inject": "~3.0.0",
     "gulp-jshint": "~2.0.0",
-    "gulp-karma": "~0.0.5",
     "gulp-load-plugins": "~1.2.0",
     "gulp-minify-html": "~1.0.5",
     "gulp-ng-annotate": "^1.1.0",
