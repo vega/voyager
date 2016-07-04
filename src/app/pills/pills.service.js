@@ -8,95 +8,80 @@
  * Service in the polestar.
  */
 angular.module('polestar')
-  .service('Pills', function (consts, vl, Spec, _, $window, Schema) {
-    function instantiate() {
-      return {};
-    }
-
+  .service('Pills', function () {
     var Pills = {
-      pills: {}
+      // Functions
+      get: get,
+      set: set,
+      // Event
+      dragStart: dragStart,
+      dragStop: dragStop,
+      // Event, with handler in the listener
+      update: update,
+      remove: remove,
+      dragDrop: dragDrop,
+
+      // Data
+      // TODO: split between encoding related and non-encoding related
+      pills: {},
+      /** pill being dragged */
+      dragging: null,
+      /** channelId that's the pill is being dragged from */
+      cidDragFrom: null,
+      /** Listener  */
+      listener: null
     };
 
-    /** copy value from the pill to the fieldDef */
-    function updateFieldDef(encoding, pill, channel){
-      var type = pill.type,
-        supportedRole = vl.channel.getSupportedRole(channel),
-        dimensionOnly = supportedRole.dimension && !supportedRole.measure;
-
-      // auto cast binning / time binning for dimension only encoding type.
-      if (pill.field && dimensionOnly) {
-        if (pill.aggregate==='count') {
-          pill = {};
-          $window.alert('COUNT not supported here!');
-        } else if (type === vl.type.QUANTITATIVE && !pill.bin) {
-          pill.aggregate = undefined;
-          pill.bin = {maxbins: vl.bin.MAXBINS_DEFAULT};
-        } else if(type === vl.type.TEMPORAL && !pill.timeUnit) {
-          pill.timeUnit = consts.defaultTimeFn;
-        }
-      } else if (!pill.field) {
-        // no name, it's actually the empty shelf that
-        // got processed in the opposite direction
-        pill = {};
-      }
-
-      // filter unsupported properties
-      var base = instantiate(channel),
-        shelfProps = Schema.getChannelSchema(channel).properties;
-
-      for (var prop in shelfProps) {
-        if (pill[prop]) {
-          if (prop==='value' && pill.field) {
-            // only copy value if name is not defined
-            // (which should never be the case)
-            delete base[prop];
-          } else {
-            //FXIME In some case this should be merge / recursive merge instead ?
-            base[prop] = pill[prop];
-          }
-        }
-      }
-      encoding[channel] = base;
+    /**
+     * Set a fieldDef of a pill of a given channelId
+     */
+    function set(channelId, fieldDef) {
+      Pills.pills[channelId] = fieldDef;
     }
 
-    Pills.remove = function (channel) {
-      delete Pills.pills[channel];
-      updateFieldDef(Spec.spec.encoding, {}, channel); // remove all pill detail from the fieldDef
-    };
+    /**
+     * Get a fieldDef of a pill of a given channelId
+     */
+    function get(channelId) {
+      return Pills.pills[channelId];
+    }
 
-    Pills.update = function (channel) {
-      updateFieldDef(Spec.spec.encoding, Pills.pills[channel], channel);
-    };
-
-    Pills.dragStart = function (pill, channel) {
-      Pills.pills.dragging = pill;
-      Pills.pills.etDragFrom = channel;
-    };
-
-    Pills.dragStop = function () {
-      delete Pills.pills.dragging;
-    };
-
-    Pills.dragDrop = function (etDragTo) {
-      var encoding = _.clone(Spec.spec.encoding),
-        etDragFrom = Pills.pills.etDragFrom;
-      // update the clone of the encoding
-      // console.log('dragDrop', encoding, Pills, 'from:', etDragFrom, Pills.pills[etDragFrom]);
-      if(etDragFrom){
-        // if pill is dragged from another shelf, not the schemalist
-        //
-        // console.log('pillDragFrom', Pills.pills[etDragFrom]);
-        updateFieldDef(encoding, Pills.pills[etDragFrom] || {}, etDragFrom);
+    function remove(channelId) {
+      delete Pills.pills[channelId];
+      if (Pills.listener) {
+        Pills.listener.remove(channelId);
       }
-      updateFieldDef(encoding, Pills.pills[etDragTo] || {}, etDragTo);
+    }
 
-      // console.log('Pills.dragDrop',
-      //   'from:', etDragFrom, Pills.pills[etDragFrom], encoding[etDragFrom],
-      //   'to:', etDragTo, Pills.pills[etDragTo], encoding[etDragTo]);
+    /** Updating the pill (e.g., via function select) */
+    function update(channelId) {
+      if (Pills.listener) {
+        Pills.listener.update(channelId, Pills.pills[channelId]);
+      }
+    };
 
-      // Finally, update the encoding only once to prevent glitches
-      Spec.spec.encoding = encoding;
-      etDragFrom = null;
+    /**
+     * @param {any} pill pill being dragged
+     * @param {any} cidDragFrom channel id that the pill is dragged from
+     */
+    function dragStart(pill, cidDragFrom) {
+      Pills.dragging = pill;
+      Pills.cidDragFrom = cidDragFrom;
+    };
+
+    /** Stop pill dragging */
+    function dragStop() {
+      Pills.dragging = null;
+    };
+
+    /**
+     * When a pill is dropped
+     * @param cidDragTo  channelId that's the pill is being dragged to
+     */
+    function dragDrop(cidDragTo) {
+      if (Pills.listener) {
+        Pills.listener.dragDrop(cidDragTo, Pills.cidDragFrom)
+      }
     };
 
     return Pills;
