@@ -8,7 +8,7 @@
  * Service in the voyager2.
  */
 angular.module('voyager2')
-  .service('Spec', function(_, vg, vl, ZSchema, Alerts, Config, Dataset, Schema, Pills) {
+  .service('Spec', function(ANY, _, vg, vl, ZSchema, Alerts, Config, Dataset, Schema, Pills) {
     var Spec = {
       /** @type {Object} verbose spec edited by the UI */
       spec: null,
@@ -57,11 +57,13 @@ angular.module('voyager2')
       Spec.spec = vl.util.mergeDeep(Spec.instantiate(), newSpec);
     };
 
+    var keys =  _.keys(Schema.schema.definitions.Encoding.properties).concat([ANY]);
+
     Spec.instantiate = function() {
       return {
         data: Config.data,
         mark: 'point',
-        encoding: _.keys(Schema.schema.definitions.Encoding.properties).reduce(function(e, c) {
+        encoding: keys.reduce(function(e, c) {
           e[c] = {};
           return e;
         }, {}),
@@ -129,7 +131,7 @@ angular.module('voyager2')
     /** copy value from the pill to the fieldDef */
     function updateChannelDef(encoding, pill, channel){
       var type = pill.type,
-        supportedRole = vl.channel.getSupportedRole(channel),
+        supportedRole = channel === ANY ? {measure: true, dimension : true} : vl.channel.getSupportedRole(channel),
         dimensionOnly = supportedRole.dimension && !supportedRole.measure;
 
       // auto cast binning / time binning for dimension only encoding type.
