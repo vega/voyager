@@ -152,7 +152,7 @@ angular.module('polestar')
       }
 
       // filter unsupported properties
-      var base = instantiatePill(channel),
+      var fieldDef = instantiatePill(channel),
         shelfProps = Schema.getChannelSchema(channel).properties;
 
       for (var prop in shelfProps) {
@@ -160,14 +160,14 @@ angular.module('polestar')
           if (prop==='value' && pill.field) {
             // only copy value if field is not defined
             // (which should never be the case)
-            delete base[prop];
+            delete fieldDef[prop];
           } else {
             //FXIME In some case this should be merge / recursive merge instead ?
-            base[prop] = pill[prop];
+            fieldDef[prop] = pill[prop];
           }
         }
       }
-      encoding[channel] = base;
+      encoding[channel] = fieldDef;
     }
 
     Pills.listener = {
@@ -186,18 +186,18 @@ angular.module('polestar')
       dragDrop: function(cidDragTo, cidDragFrom) {
         // Make a copy and update the clone of the encoding to prevent glitches
         var encoding = _.clone(Spec.spec.encoding);
-        // console.log('dragDrop', encoding, Pills, 'from:', etDragFrom, Pills.pills[etDragFrom]);
+        // console.log('dragDrop', encoding, Pills, 'from:', cidDragFrom, Pills.get(cidDragFrom));
 
         // If pill is dragged from another shelf, not the schemalist
         if (cidDragFrom) {
-          // console.log('pillDragFrom', Pills.pills[etDragFrom]);
-          updateChannelDef(encoding, Pills.pills[cidDragFrom] || {}, cidDragFrom);
+          // console.log('pillDragFrom', Pills.get(cidDragFrom));
+          updateChannelDef(encoding, Pills.get(cidDragFrom) || {}, cidDragFrom);
         }
-        updateChannelDef(encoding, Pills.pills[cidDragTo] || {}, cidDragTo);
+        updateChannelDef(encoding, Pills.get(cidDragTo) || {}, cidDragTo);
 
         // console.log('Pills.dragDrop',
-        //   'from:', etDragFrom, Pills.pills[etDragFrom], encoding[etDragFrom],
-        //   'to:', etDragTo, Pills.pills[etDragTo], encoding[etDragTo]);
+        //   'from:', cidDragFrom, Pills.get(cidDragFrom), encoding[cidDragFrom],
+        //   'to:', cidDragTo, Pills.get(cidDragTo), encoding[cidDragTo]);
 
         // Finally, update the encoding only once to prevent glitches
         Spec.spec.encoding = encoding;
