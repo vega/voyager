@@ -50,7 +50,7 @@ angular.module('voyager2')
       Spec.spec = vl.util.mergeDeep(Spec.instantiate(), newSpec);
     };
 
-    var keys =  _.keys(Schema.schema.definitions.Encoding.properties).concat([ANY]);
+    var keys =  _.keys(Schema.schema.definitions.Encoding.properties).concat([ANY+0]);
 
     Spec.instantiate = function() {
       return {
@@ -121,7 +121,7 @@ angular.module('voyager2')
         // TODO: transform
         encodings: vg.util.keys(spec.encoding).reduce(function(encodings, channel) {
           encodings.push(vg.util.extend(
-            { channel: channel === ANY ? '?' : channel },
+            { channel: Pills.isAnyChannel(channel) ? '?' : channel },
             spec.encoding[channel]
           ));
           return encodings;
@@ -142,9 +142,11 @@ angular.module('voyager2')
 
     /** copy value from the pill to the fieldDef */
     function updateChannelDef(encoding, pill, channel){
-      var type = pill.type,
-        supportedRole = channel === ANY ? {measure: true, dimension : true} : vl.channel.getSupportedRole(channel),
-        dimensionOnly = supportedRole.dimension && !supportedRole.measure;
+      var type = pill.type;
+      var supportedRole = Pills.isAnyChannel(channel) ?
+        {measure: true, dimension : true} :
+        vl.channel.getSupportedRole(channel);
+      var dimensionOnly = supportedRole.dimension && !supportedRole.measure;
 
       // auto cast binning / time binning for dimension only encoding type.
       if (pill.field && dimensionOnly) {
@@ -187,7 +189,13 @@ angular.module('voyager2')
         updateChannelDef(Spec.spec.encoding, pill, channelId);
       },
       remove: function(channelId) {
-        updateChannelDef(Spec.spec.encoding, {}, channelId); // remove all pill detail from the fieldDef
+        if (Pills.isAnyChannel(channelId)) {
+          // For ANY channel, completely remove it from the encoding
+          delete Spec.spec.encoding[channelId];
+        } else {
+          // For typically channels, remove all pill detail from the fieldDef, but keep the object
+          updateChannelDef(Spec.spec.encoding, {}, channelId);
+        }
       },
       update: function(spec) {
         Spec.update(spec);
@@ -203,13 +211,31 @@ angular.module('voyager2')
         // If pill is dragged from another shelf, not the schemalist
         if (cidDragFrom) {
           // console.log('pillDragFrom', Pills.get(cidDragFrom));
-          updateChannelDef(encoding, Pills.get(cidDragFrom) || {}, cidDragFrom);
+          if (Pills.isAnyChannel(cidDragFrom) && !Pills.isAnyChannel(cidDragTo)) {
+            // For Dragging a pill ANY channel to non-ANY channel,
+            // we can  completely remove it from the encoding
+            delete encoding[cidDragFrom];
+          } else {
+            // For typically channels, replace the pill or
+            // remove all pill detail from the fieldDef but keep the object
+            updateChannelDef(encoding, Pills.get(cidDragFrom) || {}, cidDragFrom);
+          }
         }
-        updateChannelDef(encoding, Pills.get(cidDragTo) || {}, cidDragTo);
 
+        var pillDragToWasEmpty = !(encoding[cidDragTo] || {}).field;
+        updateChannelDef(encoding, Pills.get(cidDragTo) || {}, cidDragTo);
         // console.log('Pills.dragDrop',
-        //   'from:', cidDragFrom, Pills.get(cidDragFrom), encoding[cidDragFrom],
-        //   'to:', cidDragTo, Pills.get(cidDragTo), encoding[cidDragTo]);
+          // 'from:', cidDragFrom, Pills.get(cidDragFrom), encoding[cidDragFrom],
+          // 'to:', cidDragTo, Pills.get(cidDragTo), encoding[cidDragTo]);
+
+        // If a pill is dragged from non-ANY channel to an empty ANY channel
+        if (Pills.isAnyChannel(cidDragTo) && pillDragToWasEmpty) {
+          if (!cidDragFrom || !Pills.isAnyChannel(cidDragFrom)) {
+            // If drag new field from schema or from normal shelf, add new any
+            var newAnyChannel = Pills.getNextAnyChannelId();
+            updateChannelDef(encoding, {}, newAnyChannel);
+          }
+        }
 
         // Finally, update the encoding only once to prevent glitches
         Spec.spec.encoding = encoding;
