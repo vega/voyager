@@ -55,7 +55,7 @@ angular.module('voyager2')
     Spec.instantiate = function() {
       return {
         data: Config.data,
-        mark: 'point',
+        mark: ANY,
         encoding: keys.reduce(function(e, c) {
           e[c] = {};
           return e;
@@ -82,41 +82,40 @@ angular.module('voyager2')
       if (!('config' in spec)) {
         spec.config = {};
       }
-      var validator = new ZSchema();
+      // var validator = new ZSchema();
+      // validator.setRemoteReference('http://json-schema.org/draft-04/schema', {});
 
-      validator.setRemoteReference('http://json-schema.org/draft-04/schema', {});
+      // var schema = Schema.schema;
 
-      var schema = Schema.schema;
+      // ZSchema.registerFormat('color', function (str) {
+      //   // valid colors are in list or hex color
+      //   return /^#([0-9a-f]{3}){1,2}$/i.test(str);
+      //   // TODO: support color name
+      // });
+      // ZSchema.registerFormat('font', function () {
+      //   // right now no fonts are valid
+      //   return false;
+      // });
 
-      ZSchema.registerFormat('color', function (str) {
-        // valid colors are in list or hex color
-        return /^#([0-9a-f]{3}){1,2}$/i.test(str);
-        // TODO: support color name
-      });
-      ZSchema.registerFormat('font', function () {
-        // right now no fonts are valid
-        return false;
-      });
+      // // now validate the spec
+      // var valid = validator.validate(spec, schema);
 
-      // now validate the spec
-      var valid = validator.validate(spec, schema);
-
-      if (!valid) {
-        //FIXME: move this dependency to directive/controller layer
-        Alerts.add({
-          msg: validator.getLastErrors()
-        });
-      } else {
+      // if (!valid) {
+      //   //FIXME: move this dependency to directive/controller layer
+      //   Alerts.add({
+      //     msg: validator.getLastErrors()
+      //   });
+      // } else {
         vg.util.extend(spec.config, Config.small());
         Spec.query = getQuery(spec);
         Spec.result = cql.query(Spec.query, Dataset.schema, Dataset.stats);
-      }
+      // }
     };
 
     function getQuery(spec) {
       var specQuery = {
         data: Config.data,
-        mark: spec.mark,
+        mark: spec.mark === ANY ? '?' : spec.mark,
         // TODO: transform
         encodings: vg.util.keys(spec.encoding).reduce(function(encodings, channel) {
           encodings.push(vg.util.extend(
@@ -129,7 +128,8 @@ angular.module('voyager2')
       };
 
       return {
-        spec: specQuery
+        spec: specQuery,
+        orderBy: 'effectiveness'
         // TODO: determine groupBy rule
       };
     }
