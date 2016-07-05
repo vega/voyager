@@ -44,8 +44,8 @@ angular.module('voyager')
           Modals.open('encoding-variations');
         };
 
-        scope.isInList = function(fieldSetKey) {
-          return fieldSetKey in Visrec.chartClusters;
+        scope.isInList = function(chart) {
+          return chart.fieldSetKey in Visrec.chartClusters;
         };
 
         function updateFields() {
