@@ -9,7 +9,7 @@
  */
 angular.module('voyager2')
   // TODO: rename to Query once it's complete independent from Polestar
-  .service('Spec', function(ANY, _, vg, vl, cql, ZSchema, Alerts, Config, Dataset, Schema, Pills) {
+  .service('Spec', function(ANY, _, vg, vl, cql, ZSchema, Alerts, Config, Dataset, Schema, Pills, $window, consts) {
     var Spec = {
       /** @type {Object} verbose spec edited by the UI */
       spec: null,
@@ -134,7 +134,7 @@ angular.module('voyager2')
       };
     }
 
-    function instantiatePill(channel) {
+    function instantiatePill(channel) { // jshint ignore:line
       return {};
     }
 
