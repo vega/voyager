@@ -51,21 +51,8 @@
     </div>
 
     <div class="pane vis-pane">
-      <vl-plot-group class="card abs-100 no-top-margin no-right-margin full-vl-plot-group"
-          chart="Spec.chart"
-          show-bookmark="true"
-          show-filter-null="true"
-          show-log="true"
-          show-mark-type="true"
-          show-sort="true"
-          show-transpose="true"
-          config-set="large"
-
-          show-label="true"
-          tooltip="true"
-
-          always-scrollable="true"
-          ></vl-plot-group>
+      <vl-plot-group-list model-group="Spec.result">
+      </vl-plot-group-list>
     </div>
   </div>
   <div class="hflex full-width dev-panel" ng-if="showDevPanel">

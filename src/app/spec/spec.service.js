@@ -8,20 +8,13 @@
  * Service in the voyager2.
  */
 angular.module('voyager2')
-  .service('Spec', function(ANY, _, vg, vl, ZSchema, Alerts, Config, Dataset, Schema, Pills) {
+  // TODO: rename to Query once it's complete independent from Polestar
+  .service('Spec', function(ANY, _, vg, vl, cql, ZSchema, Alerts, Config, Dataset, Schema, Pills) {
     var Spec = {
       /** @type {Object} verbose spec edited by the UI */
       spec: null,
-      chart:{
-        /** @type {Object} concise spec generated */
-        vlSpec: null,
-        /** @type {Encoding} encoding object from the spec */
-        encoding: null,
-        /** @type {String} generated vl shorthand */
-        shorthand: null,
-        /** @type {Object} generated vega spec */
-        vgSpec: null
-      }
+      /** @type {Query} */
+      query: null
     };
 
     Spec._removeEmptyFieldDefs = function(spec) {
@@ -114,15 +107,32 @@ angular.module('voyager2')
           msg: validator.getLastErrors()
         });
       } else {
-        vg.util.extend(spec.config, Config.large());
-        var chart = Spec.chart;
-
-        chart.fieldSet =  Spec.spec.encoding;
-        chart.vlSpec = spec;
-        chart.cleanSpec = spec; // TODO: eliminate
-        chart.shorthand = vl.shorthand.shorten(spec);
+        vg.util.extend(spec.config, Config.small());
+        Spec.query = getQuery(spec);
+        Spec.result = cql.query(Spec.query, Dataset.schema, Dataset.stats);
       }
     };
+
+    function getQuery(spec) {
+      var specQuery = {
+        data: Config.data,
+        mark: spec.mark,
+        // TODO: transform
+        encodings: vg.util.keys(spec.encoding).reduce(function(encodings, channel) {
+          encodings.push(vg.util.extend(
+            { channel: channel === ANY ? '?' : channel },
+            spec.encoding[channel]
+          ));
+          return encodings;
+        }, []),
+        config: spec.config
+      };
+
+      return {
+        spec: specQuery
+        // TODO: determine groupBy rule
+      };
+    }
 
     function instantiatePill(channel) {
       return {};
