@@ -124,7 +124,7 @@ angular.module('polestar')
       }
     };
 
-    function instantiatePill(channel) {
+    function instantiatePill(channel) { // jshint ignore:line
       return {};
     }
 
@@ -138,7 +138,6 @@ angular.module('polestar')
       if (pill.field && dimensionOnly) {
         if (pill.aggregate==='count') {
           pill = {};
-          $window.alert('COUNT not supported here!');
         } else if (type === vl.type.QUANTITATIVE && !pill.bin) {
           pill.aggregate = undefined;
           pill.bin = {maxbins: vl.bin.MAXBINS_DEFAULT};
