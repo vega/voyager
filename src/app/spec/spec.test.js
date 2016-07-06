@@ -32,7 +32,7 @@ describe('Service: Spec', function() {
       it('should be cleaned', function() {
         var spec = Spec.instantiate();
         Spec._removeEmptyFieldDefs(spec);
-        expect(vg.util.keys(spec.encoding).length).to.eql(16);  // color, shape, text
+        expect(vg.util.keys(spec.encoding).length).to.eql(15);  // color, shape, text
       });
     });
   });
