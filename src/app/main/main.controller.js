@@ -1,9 +1,10 @@
 'use strict';
 
 angular.module('voyager2')
-  .controller('MainCtrl', function($scope, $document, Spec, Dataset, Config, consts, Chronicle, Logger, Bookmarks, Modals) {
+  .controller('MainCtrl', function($scope, $document, Spec, Dataset, Wildcards, Config, consts, Chronicle, Logger, Bookmarks, Modals) {
     $scope.Spec = Spec;
     $scope.Dataset = Dataset;
+    $scope.Wildcards = Wildcards;
     $scope.Config = Config;
     $scope.Bookmarks = Bookmarks;
     $scope.consts = consts;
