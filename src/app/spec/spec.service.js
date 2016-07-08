@@ -109,8 +109,10 @@ angular.module('voyager2')
       //   });
       // } else {
         vg.util.extend(spec.config, Config.small());
-        Spec.query = getQuery(spec);
-        Spec.result = cql.query(Spec.query, Dataset.schema, Dataset.tmpStats);
+        var query = Spec.cleanQuery = getQuery(spec);
+        var output = cql.query(query, Dataset.schema);
+        Spec.query = output.query;
+        Spec.result = output.result;
       // }
     };
 
