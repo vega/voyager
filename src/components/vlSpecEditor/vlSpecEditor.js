@@ -11,7 +11,7 @@ angular.module('polestar')
 
         scope.parseShorthand = Spec.parseShorthand;
         scope.parseVegalite = function(specJSON) {
-          Spec.parseSpec(JSON.parse(specJSON));
+          Spec.reset(JSON.parse(specJSON));
         };
       }
     };

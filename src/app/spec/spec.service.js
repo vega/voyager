@@ -48,17 +48,11 @@ angular.module('polestar')
 
     Spec.parseShorthand = function(newShorthand) {
       var newSpec = vl.shorthand.parseShorthand(newShorthand, null, Config.config);
-      Spec.parseSpec(newSpec);
+      Spec.reset(newSpec);
     };
 
-    // takes a partial spec
-    Spec.parseSpec = function(newSpec) {
-      // TODO: revise this
-      Spec.spec = vl.util.mergeDeep(Spec.instantiate(), newSpec);
-    };
-
-    Spec.instantiate = function() {
-      return {
+    Spec.reset = function(loadSpec) {
+      var spec = {
         data: Config.data,
         mark: 'point',
         encoding: _.keys(Schema.schema.definitions.Encoding.properties).reduce(function(e, c) {
@@ -67,10 +61,12 @@ angular.module('polestar')
         }, {}),
         config: Config.config
       };
-    };
 
-    Spec.reset = function() {
-      Spec.spec = Spec.instantiate();
+      if (loadSpec) { 
+        spec = vl.util.mergeDeep(spec, loadSpec);
+      }
+
+      Spec.spec = spec;
     };
 
     /**
