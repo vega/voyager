@@ -42,7 +42,6 @@ angular.module('voyager', ['vlui',
     'ngTouch',
     'angular-google-analytics'])
   .constant('_', window._)
-  .constant('jQuery', window.$)
   .constant('vl', window.vl)
   .constant('vg', window.vg)
   .constant('cp', window.cp)
