@@ -39,4 +39,6 @@ git add .
 git commit -am "release $version $gitsha"
 git tag -am "Release v$version." "v$version"
 git push --tags
+git push
 cd ..
+
