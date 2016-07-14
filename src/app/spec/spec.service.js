@@ -51,6 +51,8 @@ angular.module('polestar')
       }
     }
 
+    var CHANNELS = _.keys(Schema.schema.definitions.Encoding.properties);
+
     Spec.reset = function(oldSpec) {
       var oldFilter = null;
       if (oldSpec) {
@@ -71,7 +73,7 @@ angular.module('polestar')
           // This is not Vega-Lite filter object, but rather our FilterModel
           filter: FilterManager.reset(oldFilter)
         },
-        encoding: _.keys(Schema.schema.definitions.Encoding.properties).reduce(function(e, c) {
+        encoding: CHANNELS.reduce(function(e, c) {
           e[c] = {};
           return e;
         }, {}),
