@@ -1,12 +1,13 @@
 'use strict';
 
 angular.module('polestar')
-  .controller('MainCtrl', function($scope, $document, Spec, Dataset, Config, consts, Chronicle, Logger, Bookmarks, Modals) {
+  .controller('MainCtrl', function($scope, $document, Spec, Dataset, Config, consts, Chronicle, Logger, Bookmarks, Modals, FilterManager) {
     $scope.Spec = Spec;
     $scope.Dataset = Dataset;
     $scope.Config = Config;
     $scope.Logger = Logger;
     $scope.Bookmarks = Bookmarks;
+    $scope.FilterManager = FilterManager;
     $scope.consts = consts;
     $scope.showDevPanel = false;
     $scope.embedded = !!consts.embeddedData;

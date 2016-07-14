@@ -31,7 +31,11 @@
             <span class="dataset-name">{{Dataset.currentDataset.name}}</span>
           </div>
         </div>
-        <schema-list field-defs="Dataset.schema.fieldSchemas" order-by="Dataset.fieldOrder" show-count="true"></schema-list>
+        <schema-list field-defs="Dataset.schema.fieldSchemas"
+          order-by="Dataset.fieldOrder"
+          show-count="true"
+          filter-manager="FilterManager"
+        ></schema-list>
         <div id="footer">
           <ul class="menu">
             <span ng-show="consts.debug">
@@ -47,7 +51,7 @@
       </div>
     </div>
     <div class="pane encoding-pane">
-      <shelves spec="Spec.spec"></shelves>
+      <shelves spec="Spec.spec" filter-manager="FilterManager"></shelves>
     </div>
 
     <div class="pane vis-pane">

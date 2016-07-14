@@ -8,7 +8,7 @@
  * Service in the polestar.
  */
 angular.module('polestar')
-  .service('Spec', function(_, vg, vl, cql, ZSchema, Alerts, Config, Dataset, Schema, Pills, Chart, consts) {
+  .service('Spec', function(_, vg, vl, cql, ZSchema, Alerts, Config, Dataset, Schema, Pills, Chart, consts, FilterManager) {
     var Spec = {
       /** @type {Object} verbose spec edited by the UI */
       spec: null,
@@ -51,12 +51,25 @@ angular.module('polestar')
       }
     }
 
-    Spec.reset = function(loadSpec) {
+    Spec.reset = function(oldSpec) {
+      var oldFilter = null;
+      if (oldSpec) {
+        // Store oldFilter, copy oldSpec that exclude transform.filter
+        oldFilter = (oldSpec.transform || {}).filter;
+        var transform = _.without(oldSpec.transform || {}, 'filter');
+        oldSpec = _.without(oldSpec, 'transform');
+        if (transform) {
+          oldSpec.transform = transform;
+        }
+      }
+
       var spec = {
         data: Config.data,
         mark: 'point',
         transform: {
-          filterInvalid: undefined
+          filterInvalid: undefined,
+          // This is not Vega-Lite filter object, but rather our FilterModel
+          filter: FilterManager.reset(oldFilter)
         },
         encoding: _.keys(Schema.schema.definitions.Encoding.properties).reduce(function(e, c) {
           e[c] = {};
@@ -65,8 +78,8 @@ angular.module('polestar')
         config: Config.config
       };
 
-      if (loadSpec) {
-        spec = vl.util.mergeDeep(spec, loadSpec);
+      if (oldSpec) {
+        spec = vl.util.mergeDeep(spec, oldSpec);
       }
 
       Spec.spec = spec;
@@ -78,8 +91,19 @@ angular.module('polestar')
     Spec.update = function(spec) {
       spec = _.cloneDeep(spec || Spec.spec);
 
+
       Spec._removeEmptyFieldDefs(spec);
       deleteNulls(spec);
+
+      if (spec.transform && spec.transform.filter) {
+        delete spec.transform.filter;
+      }
+
+      var filter = FilterManager.getVlFilter();
+      if (filter) {
+        spec.transform = spec.transform || {};
+        spec.transform.filter = filter;
+      }
 
       // we may have removed encoding
       if (!('encoding' in spec)) {
@@ -103,6 +127,8 @@ angular.module('polestar')
         // right now no fonts are valid
         return false;
       });
+
+      console.log('Spec.update', spec);
 
       // now validate the spec
       var valid = validator.validate(spec, schema);
