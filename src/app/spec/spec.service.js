@@ -133,7 +133,8 @@ angular.module('voyager2')
 
       return {
         spec: specQuery,
-        orderBy: 'effectiveness'
+        groupBy: ['field', 'aggregate', 'bin', 'timeUnit', 'channel'], // do not group by mark
+        chooseBy: 'effectiveness'
         // TODO: determine groupBy rule
       };
     }
