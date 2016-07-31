@@ -9,7 +9,7 @@ describe('Directive: cqlQueryEditor', function() {
   beforeEach(module('voyager2', function($provide) {
     $provide.constant('vl', vl); // vl is loaded by karma
 
-    $provide.value('Spec', {query: {}});
+    $provide.value('Spec', {cleanQuery: {}});
 
     // mock directive (trodrigues's answer in http://stackoverflow.com/questions/17533052)
     $provide.factory('uiZeroclipDirective', function() {return {};});
