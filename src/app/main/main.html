@@ -50,11 +50,28 @@
       </div>
     </div>
     <div class="pane encoding-pane">
-      <shelves spec="Spec.spec" support-any="true"></shelves>
+      <!-- true shelf -->
+      <shelves
+        ng-show="!Spec.previewedSpec"
+        spec="Spec.spec"
+        preview="false"
+        support-any="true"
+      ></shelves>
+      <!-- preview shelf -->
+      <shelves
+        class="preview"
+        ng-show="Spec.previewedSpec"
+        spec="Spec.previewedSpec || Spec.emptySpec"
+        preview="true"
+        support-any="true"
+      ></shelves>
     </div>
 
     <div class="pane vis-pane">
-      <vl-plot-group-list model-group="Spec.result">
+      <vl-plot-group-list
+        model-group="Spec.result"
+        enable-pills-preview="true"
+      >
       </vl-plot-group-list>
     </div>
   </div>

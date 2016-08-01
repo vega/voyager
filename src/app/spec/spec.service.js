@@ -10,11 +10,31 @@
 angular.module('voyager2')
   // TODO: rename to Query once it's complete independent from Polestar
   .service('Spec', function(ANY, _, vg, vl, cql, ZSchema, Alerts, Config, Dataset, Schema, Pills, $window, consts) {
+    var keys =  _.keys(Schema.schema.definitions.Encoding.properties).concat([ANY+0]);
+
+    function instantiate() {
+      return {
+        data: Config.data,
+        mark: ANY,
+        encoding: keys.reduce(function(e, c) {
+          e[c] = {};
+          return e;
+        }, {}),
+        config: Config.config
+      };
+    }
+
     var Spec = {
       /** @type {Object} verbose spec edited by the UI */
       spec: null,
+      /** Spec that we are previewing */
+      previewedSpec: null,
+      /** Spec that we can instantiate */
+      emptySpec: instantiate(),
       /** @type {Query} */
-      query: null
+      query: null,
+
+      instantiate: instantiate
     };
 
     Spec._removeEmptyFieldDefs = function(spec) {
@@ -44,28 +64,30 @@ angular.module('voyager2')
       Spec.parseSpec(newSpec);
     };
 
+    function parse(spec) {
+      return vl.util.mergeDeep(instantiate(), spec);
+    }
+
     // takes a partial spec
     Spec.parseSpec = function(newSpec) {
       // TODO: revise this
-      Spec.spec = vl.util.mergeDeep(Spec.instantiate(), newSpec);
+      Spec.spec = parse(newSpec);
     };
 
-    var keys =  _.keys(Schema.schema.definitions.Encoding.properties).concat([ANY+0]);
+    Spec.preview = function(spec) {
+      var enumSpecIndex = cql.modelGroup.getTopItem(Spec.result).enumSpecIndex;
 
-    Spec.instantiate = function() {
-      return {
-        data: Config.data,
-        mark: ANY,
-        encoding: keys.reduce(function(e, c) {
-          e[c] = {};
-          return e;
-        }, {}),
-        config: Config.config
-      };
+      // TODO: replace with !enumSpecIndex.isEmpty() once we have it.
+      var queryIsAmbiguous = enumSpecIndex.mark || keys(enumSpecIndex.encodingIndicesByProperty).length > 0;
+      if (queryIsAmbiguous && spec) {
+        Spec.previewedSpec = parse(spec);
+      } else {
+        Spec.previewedSpec = null;
+      }
     };
 
     Spec.reset = function() {
-      Spec.spec = Spec.instantiate();
+      Spec.spec = instantiate();
     };
 
     /**
@@ -206,6 +228,9 @@ angular.module('voyager2')
       },
       parse: function(spec) {
         Spec.parseSpec(spec);
+      },
+      preview: function(spec) {
+        Spec.preview(spec);
       },
       update: function(spec) {
         Spec.update(spec);
