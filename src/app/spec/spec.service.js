@@ -204,6 +204,9 @@ angular.module('voyager2')
           updateChannelDef(Spec.spec.encoding, {}, channelId);
         }
       },
+      parse: function(spec) {
+        Spec.parseSpec(spec);
+      },
       update: function(spec) {
         Spec.update(spec);
       },
