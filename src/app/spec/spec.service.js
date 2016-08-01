@@ -123,8 +123,12 @@ angular.module('voyager2')
         // TODO: transform
         encodings: vg.util.keys(spec.encoding).reduce(function(encodings, channel) {
           encodings.push(vg.util.extend(
+            // Add channel
             { channel: Pills.isAnyChannel(channel) ? '?' : channel },
-            spec.encoding[channel]
+            // Field Def
+            spec.encoding[channel],
+            // Remove Title
+            {title: undefined}
           ));
           return encodings;
         }, []),
