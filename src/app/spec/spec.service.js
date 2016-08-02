@@ -9,7 +9,7 @@
  */
 angular.module('voyager2')
   // TODO: rename to Query once it's complete independent from Polestar
-  .service('Spec', function(ANY, _, vg, vl, cql, ZSchema, Alerts, Config, Dataset, Schema, Pills, $window, consts) {
+  .service('Spec', function(ANY, _, vg, vl, cql, util, ZSchema, Alerts, Config, Dataset, Schema, Pills, $window, consts) {
     var keys =  _.keys(Schema.schema.definitions.Encoding.properties).concat([ANY+0]);
 
     function instantiate() {
@@ -74,12 +74,17 @@ angular.module('voyager2')
       Spec.spec = parse(newSpec);
     };
 
-    Spec.preview = function(spec) {
-      var enumSpecIndex = cql.modelGroup.getTopItem(Spec.result).enumSpecIndex;
+    function isAllChannelAndFieldSpecific() {
+      var topItem = cql.modelGroup.getTopItem(Spec.result);
+      if (!topItem) {
+        return true;
+      }
+      var enumSpecIndex = topItem.enumSpecIndex;
+      return util.keys(enumSpecIndex.encodingIndicesByProperty).length == 0;
+    }
 
-      // TODO: replace with !enumSpecIndex.isEmpty() once we have it.
-      var queryIsAmbiguous = enumSpecIndex.mark || keys(enumSpecIndex.encodingIndicesByProperty).length > 0;
-      if (queryIsAmbiguous && spec) {
+    Spec.preview = function(spec) {
+      if (!isAllChannelAndFieldSpecific() && spec) {
         Spec.previewedSpec = parse(spec);
       } else {
         Spec.previewedSpec = null;
@@ -213,6 +218,7 @@ angular.module('voyager2')
       encoding[channel] = fieldDef;
     }
 
+
     Pills.listener = {
       set: function(channelId, pill) {
         updateChannelDef(Spec.spec.encoding, pill, channelId);
@@ -224,6 +230,43 @@ angular.module('voyager2')
         } else {
           // For typically channels, remove all pill detail from the fieldDef, but keep the object
           updateChannelDef(Spec.spec.encoding, {}, channelId);
+        }
+      },
+      add: function(fieldDef) {
+        var oldMarkIsEnumSpec = cql.enumSpec.isEnumSpec(Spec.cleanQuery.spec.mark);
+        if (isAllChannelAndFieldSpecific() && !cql.enumSpec.isEnumSpec(fieldDef.field)) {
+          // Call CompassQL to run query and load the top-ranked result
+          var specQuery = Spec.cleanQuery.spec;
+          var encQ = _.clone(fieldDef);
+          encQ.channel = cql.enumSpec.SHORT_ENUM_SPEC;
+          specQuery.encodings.push(encQ);
+
+          var query = {
+            spec: specQuery,
+            chooseBy: 'effectiveness'
+          };
+
+          var output = cql.query(query, Dataset.schema);
+          var result = output.result;
+
+          // The top spec will always have specific mark.
+          // We need to restore the mark to ANY if applicable.
+          var topSpec = cql.modelGroup.getTopItem(result).toSpec();
+          if (oldMarkIsEnumSpec) {
+            topSpec.mark = ANY;
+          }
+          Spec.parseSpec(topSpec);
+        } else {
+          var encoding = _.clone(Spec.spec.encoding);
+          // Just add to any channel because CompassQL do not support partial filling yet.
+          var emptyAnyChannel = Pills.getEmptyAnyChannelId();
+          updateChannelDef(encoding, _.clone(fieldDef), emptyAnyChannel);
+
+          // Add new any as a placeholder
+          var newAnyChannel = Pills.getNextAnyChannelId();
+          updateChannelDef(encoding, {}, newAnyChannel);
+
+          Spec.spec.encoding = encoding;
         }
       },
       parse: function(spec) {
