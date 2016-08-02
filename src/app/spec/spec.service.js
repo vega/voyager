@@ -80,7 +80,7 @@ angular.module('voyager2')
         return true;
       }
       var enumSpecIndex = topItem.enumSpecIndex;
-      return util.keys(enumSpecIndex.encodingIndicesByProperty).length == 0;
+      return util.keys(enumSpecIndex.encodingIndicesByProperty).length === 0;
     }
 
     Spec.preview = function(spec) {
