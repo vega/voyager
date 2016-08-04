@@ -164,9 +164,12 @@ angular.module('voyager2')
 
       return {
         spec: specQuery,
-        groupBy: ['field', 'aggregate', 'bin', 'timeUnit', 'channel'], // do not group by mark
-        chooseBy: 'effectiveness'
         // TODO: determine groupBy rule
+        groupBy: ['field', 'aggregate', 'bin', 'timeUnit', 'channel'], // do not group by mark
+        chooseBy: 'effectiveness',
+        config: {
+          omitTableWithOcclusion: false
+        }
       };
     }
 
@@ -243,7 +246,8 @@ angular.module('voyager2')
 
           var query = {
             spec: specQuery,
-            chooseBy: 'effectiveness'
+            chooseBy: 'effectiveness',
+            config: {omitTableWithOcclusion: false}
           };
 
           var output = cql.query(query, Dataset.schema);
