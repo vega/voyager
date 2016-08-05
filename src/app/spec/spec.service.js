@@ -9,7 +9,7 @@
  */
 angular.module('voyager2')
   // TODO: rename to Query once it's complete independent from Polestar
-  .service('Spec', function(ANY, _, vg, vl, cql, util, ZSchema, Alerts, Chart, Config, Dataset, Schema, Pills, $window, consts) {
+  .service('Spec', function(ANY, _, vg, vl, cql, util, ZSchema, Alerts, Alternatives, Chart, Config, Dataset, Schema, Pills, $window, consts) {
     var keys =  _.keys(Schema.schema.definitions.Encoding.properties).concat([ANY+0]);
 
     function instantiate() {
@@ -37,7 +37,8 @@ angular.module('voyager2')
       result: null,
       isSpecific: true,
       chart: Chart.getChart(null),
-
+      hasPlot: false, // HACK
+      alternatives: {},
       instantiate: instantiate
     };
 
@@ -144,11 +145,26 @@ angular.module('voyager2')
         Spec.query = output.query;
         var topItem = cql.modelGroup.getTopItem(output.result);
         Spec.isSpecific = isAllChannelAndFieldSpecific(topItem);
+        Spec.hasPlot = Spec.query && Spec.query.spec.encodings.length > 0;
+        Spec.alternatives = {};
 
         if (Spec.isSpecific) {
           Spec.chart = Chart.getChart(topItem);
+
+          if (Dataset.schema) {
+            if (query.spec.encodings.length > 0) {
+              ['addCategoricalField', 'addQuantitativeField', 'summarize', 'disaggregate', 'alternativeEncodings'].forEach(function(suggestionType) {
+                Spec.alternatives[suggestionType] = Alternatives.query(suggestionType, query, Spec.chart.vlSpec);
+              });
+            } else {
+              ['histograms'].forEach(function(suggestionType) {
+                Spec.alternatives[suggestionType] = Alternatives.query(suggestionType, query, Spec.chart.vlSpec);
+              });
+            }
+          }
         } else {
           Spec.result = output.result;
+          Spec.chart = Chart.getChart(null);
         }
 
       // }

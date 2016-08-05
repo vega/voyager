@@ -26,6 +26,12 @@ $iron: #ccc;
   min-height: 100px;
 }
 
+.full-vl-plot-group {
+  flex-grow: 1;
+  flex-shrink: 0;
+  min-height: 300px;
+}
+
 #dataset-select {
   width: 90px;
 }
@@ -58,6 +64,11 @@ null-filter-directive {
 .pane.vis-pane{
   flex-grow: 1;
   margin-top: 1px;
+}
+
+.vis-pane-container {
+  display: flex;
+  flex-direction: column;
 }
 
 .pane.config-pane {
