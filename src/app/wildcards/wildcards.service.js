@@ -6,17 +6,17 @@ angular.module('voyager2')
     var Wildcards = {
       list: [
         {
-          title: 'Any Categorical Field',
+          title: 'Categorical Fields',
           field: '?',
           type: {values: [vl.type.NOMINAL, vl.type.ORDINAL]}
         },
         {
-          title: 'Any Temporal Field',
+          title: 'Temporal Fields',
           field: '?',
           type: vl.type.TEMPORAL
         },
         {
-          title: 'Any Quantitative Field',
+          title: 'Quantitative Fields',
           field: '?',
           type: vl.type.QUANTITATIVE
         }
