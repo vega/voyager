@@ -9,7 +9,7 @@
  */
 angular.module('voyager2')
   // TODO: rename to Query once it's complete independent from Polestar
-  .service('Spec', function(ANY, _, vg, vl, cql, util, ZSchema, Alerts, Config, Dataset, Schema, Pills, $window, consts) {
+  .service('Spec', function(ANY, _, vg, vl, cql, util, ZSchema, Alerts, Chart, Config, Dataset, Schema, Pills, $window, consts) {
     var keys =  _.keys(Schema.schema.definitions.Encoding.properties).concat([ANY+0]);
 
     function instantiate() {
@@ -33,6 +33,10 @@ angular.module('voyager2')
       emptySpec: instantiate(),
       /** @type {Query} */
       query: null,
+
+      result: null,
+      isSpecific: true,
+      chart: Chart.getChart(null),
 
       instantiate: instantiate
     };
@@ -74,8 +78,7 @@ angular.module('voyager2')
       Spec.spec = parse(newSpec);
     };
 
-    function isAllChannelAndFieldSpecific() {
-      var topItem = cql.modelGroup.getTopItem(Spec.result);
+    function isAllChannelAndFieldSpecific(topItem) {
       if (!topItem) {
         return true;
       }
@@ -84,7 +87,7 @@ angular.module('voyager2')
     }
 
     Spec.preview = function(spec) {
-      if (!isAllChannelAndFieldSpecific() && spec) {
+      if (!Spec.isSpecific && spec) {
         Spec.previewedSpec = parse(spec);
       } else {
         Spec.previewedSpec = null;
@@ -139,7 +142,15 @@ angular.module('voyager2')
         var query = Spec.cleanQuery = getQuery(spec);
         var output = cql.query(query, Dataset.schema);
         Spec.query = output.query;
-        Spec.result = output.result;
+        var topItem = cql.modelGroup.getTopItem(output.result);
+        Spec.isSpecific = isAllChannelAndFieldSpecific(topItem);
+
+        if (Spec.isSpecific) {
+          Spec.chart = Chart.getChart(topItem);
+        } else {
+          Spec.result = output.result;
+        }
+
       // }
     };
 
@@ -237,7 +248,7 @@ angular.module('voyager2')
       },
       add: function(fieldDef) {
         var oldMarkIsEnumSpec = cql.enumSpec.isEnumSpec(Spec.cleanQuery.spec.mark);
-        if (isAllChannelAndFieldSpecific() && !cql.enumSpec.isEnumSpec(fieldDef.field)) {
+        if (Spec.isSpecific && !cql.enumSpec.isEnumSpec(fieldDef.field)) {
           // Call CompassQL to run query and load the top-ranked result
           var specQuery = Spec.cleanQuery.spec;
           var encQ = _.clone(fieldDef);

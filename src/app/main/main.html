@@ -67,7 +67,26 @@
     </div>
 
     <div class="pane vis-pane">
+      <vl-plot-group
+        ng-if="Spec.isSpecific"
+        class="card abs-100 no-top-margin no-right-margin full-vl-plot-group"
+        chart="Spec.chart"
+        show-bookmark="true"
+        show-filter-null="true"
+        show-log="true"
+        show-mark-type="true"
+        show-sort="true"
+        show-transpose="true"
+        config-set="large"
+
+        show-label="true"
+        tooltip="true"
+
+        always-scrollable="true"
+      ></vl-plot-group>
+
       <vl-plot-group-list
+        ng-if="!Spec.isSpecific"
         model-group="Spec.result"
         enable-pills-preview="true"
       >
