@@ -18,7 +18,7 @@ angular.module('voyager2')
 
       // Don't include the specified visualization in the recommendation list
       var filteredItems = output.result.items.filter(function(item) {
-        var topItem = cql.modelGroup.getTopItem(item);
+        var topItem = item.getTopSpecQueryModel();
         return !mainSpec || !_.isEqual(mainSpec, topItem.toSpec());
       });
       // TODO: filter original from result
