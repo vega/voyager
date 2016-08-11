@@ -39,6 +39,7 @@ angular.module('voyager2')
       chart: Chart.getChart(null),
       hasPlot: false, // HACK
       alternatives: [],
+      alternativesIndex: {},
       histograms: null,
       instantiate: instantiate
     };
@@ -154,25 +155,38 @@ angular.module('voyager2')
 
           if (Dataset.schema) {
             if (query.spec.encodings.length > 0) {
-              Spec.alternatives = [{
+              var suggestionTypes = [];
+
+              suggestionTypes.push({
                 type: 'summarize',
                 title: 'Summarize'
-              }, {
-                type: 'addCategoricalField',
-                title: 'Add Categorical Field'
-              }, {
+              });
+
+              suggestionTypes.push({
                 type: 'addQuantitativeField',
                 title: 'Add Quantitative Field'
-              }, {
+              });
+
+              suggestionTypes.push({
+                type: 'addCategoricalField',
+                title: 'Add Categorical Field'
+              });
+
+              suggestionTypes.push({
                 type: 'alternativeEncodings',
                 title: 'Re-Encode'
-              }, {
+              });
+
+              suggestionTypes.push({
                 type: 'disaggregate',
                 title: 'Disaggregate'
-              }].map(function(suggestion) {
+              });
+
+              Spec.alternatives = suggestionTypes.map(function(suggestion) {
                 suggestion.output = Alternatives.query(suggestion.type, query, Spec.chart);
                 return suggestion;
               });
+
             } else {
               Spec.histograms = Alternatives.query('histograms', query, Spec.chart);
             }
