@@ -11,6 +11,8 @@ angular.module('voyager2')
     $scope.showDevPanel = false;
     $scope.embedded = !!consts.embeddedData;
 
+    $scope.hideExplore = false;
+
     // undo/redo support
     $scope.canUndo = false;
     $scope.canRedo = false;

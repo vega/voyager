@@ -26,14 +26,6 @@ $iron: #ccc;
   min-height: 100px;
 }
 
-.main-vl-plot-group {
-  flex-grow: 1;
-  flex-shrink: 0;
-  min-height: 300px;
-  max-height: 600px;
-  background: white;
-}
-
 #dataset-select {
   width: 90px;
 }
@@ -74,6 +66,22 @@ null-filter-directive {
 
 .specified-vis-pane {
   background: rgba(255,255,255,0.6);
+  flex-shrink: 0;
+
+  .main-vl-plot-group {
+    flex-grow: 1;
+    flex-shrink: 0;
+    min-height: 300px;
+    max-height: 600px;
+    background: white;
+  }
+
+  &.expand {
+    flex-grow: 1;
+    .main-vl-plot-group {
+      max-height: initial;
+    }
+  }
 }
 
 .queried-vis-pane {
@@ -85,6 +93,10 @@ null-filter-directive {
 .alternatives-pane {
   margin-top: 20px;
   background: rgba(255,255,255,0.4);
+
+  &.collapse h2 {
+    margin-bottom: 0;
+  }
 }
 
 .histogram-list {
