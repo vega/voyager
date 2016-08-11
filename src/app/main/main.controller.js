@@ -12,6 +12,10 @@ angular.module('voyager2')
     $scope.embedded = !!consts.embeddedData;
 
     $scope.hideExplore = false;
+    $scope.toggleHideExplore = function() {
+      $scope.hideExplore = !$scope.hideExplore;
+    };
+
     $scope.suggestionType = null;
     $scope.setSuggestionType = function(type) {
       $scope.suggestionType = type;

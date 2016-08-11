@@ -134,7 +134,7 @@
                 ng-class="{active: $parent.suggestionType === suggestion.type}">
                 {{suggestion.title}}
               </a>
-              <a ng-click="hideExplore=!hideExplore;">
+              <a ng-click="toggleHideExplore()">
               <span ng-show="hideExplore">Show</span>
               <span ng-show="!hideExplore">Hide</span>
             </a>
