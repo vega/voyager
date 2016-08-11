@@ -154,11 +154,11 @@ angular.module('voyager2')
           if (Dataset.schema) {
             if (query.spec.encodings.length > 0) {
               ['addCategoricalField', 'addQuantitativeField', 'summarize', 'disaggregate', 'alternativeEncodings'].forEach(function(suggestionType) {
-                Spec.alternatives[suggestionType] = Alternatives.query(suggestionType, query, Spec.chart.vlSpec);
+                Spec.alternatives[suggestionType] = Alternatives.query(suggestionType, query, Spec.chart);
               });
             } else {
               ['histograms'].forEach(function(suggestionType) {
-                Spec.alternatives[suggestionType] = Alternatives.query(suggestionType, query, Spec.chart.vlSpec);
+                Spec.alternatives[suggestionType] = Alternatives.query(suggestionType, query, Spec.chart);
               });
             }
           }

@@ -12,14 +12,15 @@ angular.module('voyager2')
       histograms: histograms
     };
 
-    function query(suggestionType, query, mainSpec) {
+    function query(suggestionType, query, mainChart) {
       var alternativeQuery = Alternatives[suggestionType](query);
       var output = cql.query(alternativeQuery, Dataset.schema);
 
       // Don't include the specified visualization in the recommendation list
       var filteredItems = output.result.items.filter(function(item) {
         var topItem = item.getTopSpecQueryModel();
-        return !mainSpec || !_.isEqual(mainSpec, topItem.toSpec());
+        return !mainChart || !mainChart.shorthand ||
+          topItem.toShorthand() !== mainChart.shorthand;
       });
       // TODO: filter original from result
       return filteredItems.length ? util.extend({}, output, {items: filteredItems}) : null;
