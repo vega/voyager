@@ -121,14 +121,16 @@
           </vl-plot-group-list>
         </div>
         <div class="alternatives-pane card" ng-class="{collapse: hideExplore}" ng-if="Spec.isSpecific && Spec.hasPlot">
-          <a class="right" ng-click="hideExplore=!hideExplore;">
-            <span ng-show="hideExplore">Show</span>
-            <span ng-show="!hideExplore">Hide</span>
-          </a>
-          <h2>Explore</h2>
+          <div class="alternatives-header">
+            <a class="right" ng-click="hideExplore=!hideExplore;">
+              <span ng-show="hideExplore">Show</span>
+              <span ng-show="!hideExplore">Hide</span>
+            </a>
+            <h2>Refine</h2>
+          </div>
           <div class="alternatives-content" ng-if="!hideExplore">
             <div class="description">
-              Here are modifications to your visualization that you might want to consider.
+              Here are refinement to your visualization that you might want to consider.
             </div>
 
             <vl-plot-group-list
