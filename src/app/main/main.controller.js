@@ -12,6 +12,10 @@ angular.module('voyager2')
     $scope.embedded = !!consts.embeddedData;
 
     $scope.hideExplore = false;
+    $scope.suggestionType = null;
+    $scope.setSuggestionType = function(type) {
+      $scope.suggestionType = type;
+    };
 
     // undo/redo support
     $scope.canUndo = false;

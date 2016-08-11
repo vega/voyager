@@ -97,6 +97,15 @@ null-filter-directive {
   &.collapse h2 {
     margin-bottom: 0;
   }
+
+  .alternatives-jump {
+    a {
+      margin-left: 8px;
+    }
+    a.active {
+      font-weight: bold;
+    }
+  }
 }
 
 .histogram-list {

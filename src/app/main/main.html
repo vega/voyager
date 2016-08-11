@@ -122,10 +122,24 @@
         </div>
         <div class="alternatives-pane card" ng-class="{collapse: hideExplore}" ng-if="Spec.isSpecific && Spec.hasPlot">
           <div class="alternatives-header">
-            <a class="right" ng-click="hideExplore=!hideExplore;">
+            <div class="right alternatives-jump">
+              <a ng-if="!hideExplore"
+                 ng-click="setSuggestionType(null)"
+                 ng-class="{active: suggestionType===null}">
+                All
+              </a>
+              <a ng-if="!hideExplore"
+                ng-repeat="suggestion in Spec.alternatives"
+                ng-click="$parent.setSuggestionType(suggestion.type);"
+                md-parent-scope="this"
+                ng-class="{active: $parent.suggestionType === suggestion.type}">
+                {{suggestion.title}}
+              </a>
+              <a ng-click="hideExplore=!hideExplore;">
               <span ng-show="hideExplore">Show</span>
               <span ng-show="!hideExplore">Hide</span>
             </a>
+            </div>
             <h2>Refine</h2>
           </div>
           <div class="alternatives-content" ng-if="!hideExplore">
@@ -135,8 +149,9 @@
 
             <vl-plot-group-list
               ng-repeat="suggestion in Spec.alternatives"
+              ng-if="suggestion.output && (!$parent.suggestionType || $parent.suggestionType === suggestion.type)"
+              id="alternatives-{{suggestion.type}}"
               list-title="suggestion.title"
-              ng-if="suggestion.output"
               items="suggestion.output.items"
               enable-pills-preview="true"
               priority="$index * 1000"
