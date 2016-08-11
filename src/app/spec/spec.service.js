@@ -38,7 +38,8 @@ angular.module('voyager2')
       isSpecific: true,
       chart: Chart.getChart(null),
       hasPlot: false, // HACK
-      alternatives: {},
+      alternatives: [],
+      histograms: null,
       instantiate: instantiate
     };
 
@@ -146,20 +147,34 @@ angular.module('voyager2')
         var topItem = output.result.getTopSpecQueryModel();
         Spec.isSpecific = isAllChannelAndFieldSpecific(topItem);
         Spec.hasPlot = Spec.query && Spec.query.spec.encodings.length > 0;
-        Spec.alternatives = {};
+        Spec.alternatives = [];
 
         if (Spec.isSpecific) {
           Spec.chart = Chart.getChart(topItem);
 
           if (Dataset.schema) {
             if (query.spec.encodings.length > 0) {
-              ['addCategoricalField', 'addQuantitativeField', 'summarize', 'disaggregate', 'alternativeEncodings'].forEach(function(suggestionType) {
-                Spec.alternatives[suggestionType] = Alternatives.query(suggestionType, query, Spec.chart);
+              Spec.alternatives = [{
+                type: 'summarize',
+                title: 'Summarize'
+              }, {
+                type: 'addCategoricalField',
+                title: 'Add Categorical Field'
+              }, {
+                type: 'addQuantitativeField',
+                title: 'Add Quantitative Field'
+              }, {
+                type: 'alternativeEncodings',
+                title: 'Re-Encode'
+              }, {
+                type: 'disaggregate',
+                title: 'Disaggregate'
+              }].map(function(suggestion) {
+                suggestion.output = Alternatives.query(suggestion.type, query, Spec.chart);
+                return suggestion;
               });
             } else {
-              ['histograms'].forEach(function(suggestionType) {
-                Spec.alternatives[suggestionType] = Alternatives.query(suggestionType, query, Spec.chart);
-              });
+              Spec.histograms = Alternatives.query('histograms', query, Spec.chart);
             }
           }
         } else {
