@@ -68,84 +68,105 @@
 
     <div class="pane vis-pane">
       <div class="vis-pane-container abs-100 scroll-y">
-        <vl-plot-group
-          ng-if="Spec.isSpecific && Spec.hasPlot"
-          class="card no-top-margin no-right-margin full-vl-plot-group"
-          chart="Spec.chart"
-          show-bookmark="true"
-          show-filter-null="true"
-          show-log="true"
-          show-mark-type="true"
-          show-sort="true"
-          show-transpose="true"
-          config-set="large"
+        <div class="specified-vis-pane card no-top-margin" ng-if="Spec.isSpecific"> <!-- && -->
+          <h2>Result</h2>
+          <vl-plot-group
+            ng-if="Spec.hasPlot"
+            class="main-vl-plot-group card"
+            chart="Spec.chart"
+            show-bookmark="true"
+            show-filter-null="true"
+            show-log="true"
+            show-mark-type="true"
+            show-sort="true"
+            show-transpose="true"
+            config-set="large"
 
-          show-label="true"
-          tooltip="true"
+            show-label="true"
+            tooltip="true"
 
-          always-scrollable="true"
-        ></vl-plot-group>
+            always-scrollable="true"
+          ></vl-plot-group>
+          <div ng-if="!Spec.hasPlot">
+            <div class="description">
+              No specified visualization yet.  Start exploring by dragging a field to encoding pane on the left or
+              examining univariate summaries below.
+            </div>
 
-        <vl-plot-group-list
-          list-title="Visualizations that Matches Specification"
-          ng-if="!Spec.isSpecific"
-          items="Spec.result.items"
-          enable-pills-preview="true"
-          priority="1000"
-        >
-        </vl-plot-group-list>
+            <vl-plot-group-list
+              ng-if="!Spec.hasPlot"
+              class="histogram-list"
+              list-title="Univariate Summaries"
+              items="Spec.alternatives.histograms.items"
+              enable-pills-preview="true"
+              priority="2000"
+              initial-limit="20"
+            >
+            </vl-plot-group-list>
+          </div>
+        </div>
+        <div class="queried-vis-pane no-top-margin card" ng-if="!Spec.isSpecific">
+          <h2>Output(s)</h2>
+          <div class="description">
+            Here are some recommended visualizations that matches your specification in the encoding pane.
+          </div>
+          <vl-plot-group-list
+            items="Spec.result.items"
+            enable-pills-preview="true"
+            priority="1000"
+          >
+          </vl-plot-group-list>
+        </div>
+        <div class="alternatives-pane card" ng-if="Spec.isSpecific && Spec.hasPlot">
+          <div class="alternatives-header">
+            <h2>Explore</h2>
+          </div>
+          <div class="description">
+            Here are modifications to your visualization that you might want to consider.
+          </div>
 
-        <vl-plot-group-list
-          list-title="Univariate Summaries"
-          ng-if="Spec.alternatives.histograms"
-          items="Spec.alternatives.histograms.items"
-          enable-pills-preview="true"
-          priority="2000"
-          initial-limit="20"
-        >
-        </vl-plot-group-list>
+          <vl-plot-group-list
+            list-title="Summarize"
+            ng-if="Spec.alternatives.summarize"
+            items="Spec.alternatives.summarize.items"
+            enable-pills-preview="true"
+            priority="3000"
+          >
+          </vl-plot-group-list>
 
-        <vl-plot-group-list
-          list-title="Summarize"
-          ng-if="Spec.alternatives.summarize"
-          items="Spec.alternatives.summarize.items"
-          enable-pills-preview="true"
-          priority="3000"
-        >
-        </vl-plot-group-list>
-
-        <vl-plot-group-list
-          list-title="Add Categorical Field"
-          ng-if="Spec.alternatives.addCategoricalField"
-          items="Spec.alternatives.addCategoricalField.items"
-          enable-pills-preview="true"
-          priority="5000"
-        >
-        </vl-plot-group-list>
-        <vl-plot-group-list
-          list-title="Add Quantitative Field"
-          ng-if="Spec.alternatives.addQuantitativeField"
-          items="Spec.alternatives.addQuantitativeField.items"
-          enable-pills-preview="true"
-          priority="5000"
-        >
-        </vl-plot-group-list>
-        <vl-plot-group-list
-          list-title="Alternative Encodings"
-          ng-if="Spec.alternatives.alternativeEncodings"
-          items="Spec.alternatives.alternativeEncodings.items"
-          enable-pills-preview="true"
-          priority="6000"
-        >
-        </vl-plot-group-list>
-        <vl-plot-group-list
-          list-title="Disaggregate"
-          ng-if="Spec.alternatives.disaggregate"
-          items="Spec.alternatives.disaggregate.items"
-          enable-pills-preview="true"
-          priority="4000"
-        >
-        </vl-plot-group-list>
+          <vl-plot-group-list
+            list-title="Add Categorical Field"
+            ng-if="Spec.alternatives.addCategoricalField"
+            items="Spec.alternatives.addCategoricalField.items"
+            enable-pills-preview="true"
+            priority="5000"
+          >
+          </vl-plot-group-list>
+          <vl-plot-group-list
+            list-title="Add Quantitative Field"
+            ng-if="Spec.alternatives.addQuantitativeField"
+            items="Spec.alternatives.addQuantitativeField.items"
+            enable-pills-preview="true"
+            priority="5000"
+          >
+          </vl-plot-group-list>
+          <vl-plot-group-list
+            list-title="Alternative Encodings"
+            ng-if="Spec.alternatives.alternativeEncodings"
+            items="Spec.alternatives.alternativeEncodings.items"
+            enable-pills-preview="true"
+            priority="6000"
+          >
+          </vl-plot-group-list>
+          <vl-plot-group-list
+            list-title="Disaggregate"
+            ng-if="Spec.alternatives.disaggregate"
+            items="Spec.alternatives.disaggregate.items"
+            enable-pills-preview="true"
+            priority="4000"
+          >
+          </vl-plot-group-list>
+        </div>
       </div>
     </div>
   </div>

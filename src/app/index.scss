@@ -26,11 +26,12 @@ $iron: #ccc;
   min-height: 100px;
 }
 
-.full-vl-plot-group {
+.main-vl-plot-group {
   flex-grow: 1;
   flex-shrink: 0;
   min-height: 300px;
   max-height: 600px;
+  background: white;
 }
 
 #dataset-select {
@@ -50,21 +51,44 @@ null-filter-directive {
   .card {
     background-color: #E2E9F3;
   }
-  h2, h3 {
-    color: #38425D;
-  }
 }
-
 
 .pane.data-pane {
   width: 200px;
   flex-shrink: 0;
 }
 
+.pane.encoding-pane, .pane.vis-pane {
+  h2, h3 {
+    color: #38425D;
+  }
+}
 
-.pane.vis-pane{
+.pane.vis-pane {
   flex-grow: 1;
   margin-top: 1px;
+  .description {
+    margin-bottom: 20px;
+  }
+}
+
+.specified-vis-pane {
+  background: rgba(255,255,255,0.6);
+}
+
+.queried-vis-pane {
+  background: #e7f2f3;
+  // background: hsla(186,80%,95%,0.4);
+  min-height: 100%;
+}
+
+.alternatives-pane {
+  margin-top: 20px;
+  background: rgba(255,255,255,0.4);
+}
+
+.histogram-list {
+  opacity: 0.8;
 }
 
 .vis-pane-container {
