@@ -21,6 +21,10 @@ angular.module('voyager2')
       $scope.suggestionType = type;
     };
 
+    $scope.scrollToTop = function() {
+      $document.find('.vis-pane-container').scrollTop(0);
+    };
+
     // undo/redo support
     $scope.canUndo = false;
     $scope.canRedo = false;

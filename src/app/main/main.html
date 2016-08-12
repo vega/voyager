@@ -103,6 +103,7 @@
               enable-pills-preview="true"
               priority="2000"
               initial-limit="20"
+              post-select-action="scrollToTop()"
             >
             </vl-plot-group-list>
           </div>
@@ -116,6 +117,7 @@
             items="Spec.result.items"
             enable-pills-preview="true"
             priority="1000"
+            post-select-action="scrollToTop()"
           >
           </vl-plot-group-list>
         </div>
@@ -154,6 +156,7 @@
               items="suggestion.output.items"
               enable-pills-preview="true"
               priority="$index * 1000"
+              post-select-action="$parent.scrollToTop()"
             >
             </vl-plot-group-list>
           </div>
