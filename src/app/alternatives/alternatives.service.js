@@ -117,8 +117,8 @@ angular.module('voyager2')
       return {
         spec: newSpecQ,
         groupBy: GROUP_BY_SIMILAR_DATA_AND_TRANSFORM,
-        chooseBy: 'effectiveness',
         orderBy: 'aggregationQuality',
+        chooseBy: 'effectiveness',
         config: {
           autoAddCount: true,
           omitRaw: true
@@ -184,8 +184,12 @@ angular.module('voyager2')
       });
       return {
         spec: newSpecQ,
-        groupBy: GROUP_BY_FIELD,
-        orderBy: 'aggregationQuality',
+        nest: [{
+          groupBy: GROUP_BY_FIELD
+        },{
+          groupBy: GROUP_BY_SIMILAR_DATA_AND_TRANSFORM,
+          orderBy: 'aggregationQuality'
+        }],
         chooseBy: 'effectiveness',
         config: {
           autoAddCount: true
