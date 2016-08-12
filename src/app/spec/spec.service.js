@@ -62,7 +62,7 @@ angular.module('polestar')
         config: Config.config
       };
 
-      if (loadSpec) { 
+      if (loadSpec) {
         spec = vl.util.mergeDeep(spec, loadSpec);
       }
 
@@ -195,6 +195,20 @@ angular.module('polestar')
         //   'to:', cidDragTo, Pills.get(cidDragTo), encoding[cidDragTo]);
 
         // Finally, update the encoding only once to prevent glitches
+        Spec.spec.encoding = encoding;
+      },
+      transpose: function() {
+        var encoding = _.clone(Spec.spec.encoding);
+        var oldXEnc = encoding.x;
+        var oldYEnc = encoding.y;
+        encoding.y = oldXEnc;
+        encoding.x = oldYEnc;
+
+        var oldRowEnc = encoding.row;
+        var oldColEnc = encoding.column;
+        encoding.row = oldColEnc;
+        encoding.column = oldRowEnc;
+
         Spec.spec.encoding = encoding;
       }
     };
