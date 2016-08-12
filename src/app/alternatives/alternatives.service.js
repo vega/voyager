@@ -22,7 +22,7 @@ angular.module('voyager2')
     function getAlternatives(query, chart) {
       var isAggregate = cql.query.spec.isAggregate(query.spec);
 
-      var suggestionTypes = [];
+      var alternativeTypes = [];
 
       var hasT = false;
       query.spec.encodings.forEach(function(encQ) {
@@ -36,53 +36,53 @@ angular.module('voyager2')
       var hasStyleChannel = spec.encoding.color || spec.encoding.size || spec.encoding.shape || spec.encoding.opacity;
       var hasOpenFacet = !spec.encoding.row || !spec.encoding.column;
 
-      suggestionTypes.push({
+      alternativeTypes.push({
         type: 'summarize',
         title: 'Summaries'
       });
 
       if (hasOpenPosition || !hasStyleChannel) {
-        suggestionTypes.push({
+        alternativeTypes.push({
           type: 'addQuantitativeField',
           title: 'Add Quantitative Field'
         });
       }
 
       if (hasOpenPosition || !hasStyleChannel || hasOpenFacet) {
-        suggestionTypes.push({
+        alternativeTypes.push({
           type: 'addCategoricalField',
           title: 'Add Categorical Field'
         });
       }
 
       if (!hasT && hasOpenPosition) {
-        suggestionTypes.push({
+        alternativeTypes.push({
           type: 'addTemporalField',
           title: 'Add Temporal Field'
         });
       }
 
-      suggestionTypes.push({
+      alternativeTypes.push({
         type: 'alternativeEncodings',
         title: 'Re-Encode'
       });
 
       if (isAggregate) {
-        suggestionTypes.push({
+        alternativeTypes.push({
           type: 'disaggregate',
           title: 'Disaggregate'
         });
       }
 
 
-      return suggestionTypes.map(function(suggestion) {
-        suggestion.output = executeQuery(suggestion.type, query, chart);
-        return suggestion;
+      return alternativeTypes.map(function(alternative) {
+        alternative.output = executeQuery(alternative.type, query, chart);
+        return alternative;
       });
     }
 
-    function executeQuery(suggestionType, query, mainChart) {
-      var alternativeQuery = Alternatives[suggestionType](query);
+    function executeQuery(alternativeType, query, mainChart) {
+      var alternativeQuery = Alternatives[alternativeType](query);
       var output = cql.query(alternativeQuery, Dataset.schema);
 
       // Don't include the specified visualization in the recommendation list

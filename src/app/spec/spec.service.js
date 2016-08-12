@@ -39,7 +39,6 @@ angular.module('voyager2')
       chart: Chart.getChart(null),
       hasPlot: false, // HACK
       alternatives: [],
-      alternativesIndex: {},
       histograms: null,
       instantiate: instantiate
     };

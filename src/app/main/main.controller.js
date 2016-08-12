@@ -16,9 +16,9 @@ angular.module('voyager2')
       $scope.hideExplore = !$scope.hideExplore;
     };
 
-    $scope.suggestionType = null;
-    $scope.setSuggestionType = function(type) {
-      $scope.suggestionType = type;
+    $scope.alternativeType = null;
+    $scope.setAlternativeType = function(type) {
+      $scope.alternativeType = type;
     };
 
     $scope.scrollToTop = function() {
@@ -27,12 +27,12 @@ angular.module('voyager2')
 
     $scope.$watch('Spec.alternatives', function(alternatives) {
       for (var i = 0 ; i < alternatives.length; i++) {
-        if ($scope.suggestionType === alternatives[i].type) {
+        if ($scope.alternativeType === alternatives[i].type) {
           return;
         }
       }
       // at this point we don't have the suggestion type available, thus reset
-      $scope.setSuggestionType(null);
+      $scope.setAlternativeType(null);
     });
 
     // undo/redo support

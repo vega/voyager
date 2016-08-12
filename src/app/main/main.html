@@ -110,9 +110,9 @@
         </div>
         <div class="queried-vis-pane no-top-margin card" ng-if="!Spec.isSpecific">
           <h2>Result(s)</h2>
-          <div class="description">
+          <!--<div class="description">
             Here are some recommended visualizations that matches your specification in the encoding pane.
-          </div>
+          </div>-->
           <vl-plot-group-list
             items="Spec.result.items"
             enable-pills-preview="true"
@@ -125,16 +125,16 @@
           <div class="alternatives-header">
             <div class="right alternatives-jump">
               <a ng-if="!hideExplore"
-                 ng-click="setSuggestionType(null)"
-                 ng-class="{active: suggestionType===null}">
+                 ng-click="setAlternativeType(null)"
+                 ng-class="{active: alternativeType===null}">
                 All
               </a>
-              <a ng-repeat="suggestion in Spec.alternatives"
-                ng-if="!hideExplore && suggestion.output"
-                ng-click="$parent.setSuggestionType(suggestion.type);"
+              <a ng-repeat="alternative in Spec.alternatives"
+                ng-if="!hideExplore && alternative.output"
+                ng-click="$parent.setAlternativeType(alternative.type);"
                 md-parent-scope="this"
-                ng-class="{active: $parent.suggestionType === suggestion.type}">
-                {{suggestion.title}}
+                ng-class="{active: $parent.alternativeType === alternative.type}">
+                {{alternative.title}}
               </a>
               <a ng-click="toggleHideExplore()">
                 <span ng-show="hideExplore">Show</span>
@@ -149,11 +149,11 @@
             </div>-->
 
             <vl-plot-group-list
-              ng-repeat="suggestion in Spec.alternatives"
-              ng-if="suggestion.output && (!$parent.suggestionType || $parent.suggestionType === suggestion.type)"
-              id="alternatives-{{suggestion.type}}"
-              list-title="suggestion.title"
-              items="suggestion.output.items"
+              ng-repeat="alternative in Spec.alternatives"
+              ng-if="alternative.output && (!$parent.alternativeType || $parent.alternativeType === alternative.type)"
+              id="alternatives-{{alternative.type}}"
+              list-title="alternative.title"
+              items="alternative.output.items"
               enable-pills-preview="true"
               priority="$index * 1000"
               post-select-action="$parent.scrollToTop()"
