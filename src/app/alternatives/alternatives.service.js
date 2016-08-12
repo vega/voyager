@@ -228,7 +228,7 @@ angular.module('voyager2')
         channel: cql.enumSpec.SHORT_ENUM_SPEC,
         field: cql.enumSpec.SHORT_ENUM_SPEC,
         type: {
-          values: [vl.type.Type.NOMINAL, vl.type.Type.ORDINAL]
+          enum: [vl.type.Type.NOMINAL, vl.type.Type.ORDINAL]
         }
       });
       return {

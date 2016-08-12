@@ -8,7 +8,7 @@ angular.module('voyager2')
         {
           title: 'Categorical Fields',
           field: '?',
-          type: {values: [vl.type.NOMINAL, vl.type.ORDINAL]}
+          type: {enum: [vl.type.NOMINAL, vl.type.ORDINAL]}
         },
         {
           title: 'Temporal Fields',
