@@ -188,7 +188,14 @@ angular.module('voyager2')
           groupBy: GROUP_BY_FIELD
         },{
           groupBy: GROUP_BY_SIMILAR_DATA_AND_TRANSFORM,
-          orderBy: 'aggregationQuality'
+          orderGroupBy: 'aggregationQuality'
+        }],
+        chooseBy: 'effectiveness',
+        config: {
+          autoAddCount: true
+        }
+      };
+    }
         }],
         chooseBy: 'effectiveness',
         config: {
