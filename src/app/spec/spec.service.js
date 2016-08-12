@@ -173,6 +173,11 @@ angular.module('voyager2')
               });
 
               suggestionTypes.push({
+                type: 'addTemporalField',
+                title: 'Add Temporal Field'
+              });
+
+              suggestionTypes.push({
                 type: 'alternativeEncodings',
                 title: 'Re-Encode'
               });

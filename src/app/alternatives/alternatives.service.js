@@ -9,6 +9,7 @@ angular.module('voyager2')
       disaggregate: disaggregate,
       addCategoricalField: addCategoricalField,
       addQuantitativeField: addQuantitativeField,
+      addTemporalField: addTemporalField,
       histograms: histograms
     };
 
@@ -196,6 +197,22 @@ angular.module('voyager2')
         }
       };
     }
+
+    function addTemporalField(query) {
+      var newSpecQ = util.duplicate(query.spec);
+      newSpecQ.encodings.push({
+        channel: cql.enumSpec.SHORT_ENUM_SPEC,
+        timeUnit: cql.enumSpec.SHORT_ENUM_SPEC,
+        field: cql.enumSpec.SHORT_ENUM_SPEC,
+        type: vl.type.Type.TEMPORAL
+      });
+      return {
+        spec: newSpecQ,
+        nest: [{
+          groupBy: GROUP_BY_FIELD
+        },{
+          groupBy: GROUP_BY_SIMILAR_DATA_AND_TRANSFORM,
+          orderGroupBy: 'aggregationQuality'
         }],
         chooseBy: 'effectiveness',
         config: {
