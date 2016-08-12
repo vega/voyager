@@ -7,7 +7,7 @@
           <div class="controls">
             <a ng-show="Bookmarks.isSupported" class="command" ng-click="showModal('bookmark-list')">
               <i class="fa fa-bookmark"></i>
-              Bookmarks ({{Bookmarks.length}})
+              Bookmarks ({{Bookmarks.list.length}})
             </a>
             <a class="command" ng-click="chron.undo()" ng-class="{disabled: !canUndo}"><i class="fa fa-undo"></i> Undo</a>
             <a class="command" ng-click="chron.redo()" ng-class="{disabled: !canRedo}"><i class="fa fa-repeat"></i> Redo</a>

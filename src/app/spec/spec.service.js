@@ -215,7 +215,6 @@ angular.module('voyager2')
       if (pill.field && dimensionOnly) {
         if (pill.aggregate==='count') {
           pill = {};
-          $window.alert('COUNT not supported here!');
         } else if (type === vl.type.QUANTITATIVE && !pill.bin) {
           pill.aggregate = undefined;
           pill.bin = {maxbins: vl.bin.MAXBINS_DEFAULT};
@@ -358,6 +357,20 @@ angular.module('voyager2')
         }
 
         // Finally, update the encoding only once to prevent glitches
+        Spec.spec.encoding = encoding;
+      },
+      transpose: function() {
+        var encoding = _.clone(Spec.spec.encoding);
+        var oldXEnc = encoding.x;
+        var oldYEnc = encoding.y;
+        encoding.y = oldXEnc;
+        encoding.x = oldYEnc;
+
+        var oldRowEnc = encoding.row;
+        var oldColEnc = encoding.column;
+        encoding.row = oldColEnc;
+        encoding.column = oldRowEnc;
+
         Spec.spec.encoding = encoding;
       }
     };
