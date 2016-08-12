@@ -20,37 +20,60 @@ angular.module('voyager2')
     }
 
     function getAlternatives(query, chart) {
+      var isAggregate = cql.query.spec.isAggregate(query.spec);
+
       var suggestionTypes = [];
+
+      var hasT = false;
+      query.spec.encodings.forEach(function(encQ) {
+        if (encQ.type === vl.type.TEMPORAL) {
+          hasT = true;
+        }
+      });
+
+      var spec = chart.vlSpec;
+      var hasOpenPosition = !spec.encoding.x || !spec.encoding.y;
+      var hasStyleChannel = spec.encoding.color || spec.encoding.size || spec.encoding.shape || spec.encoding.opacity;
+      var hasOpenFacet = !spec.encoding.row || !spec.encoding.column;
 
       suggestionTypes.push({
         type: 'summarize',
         title: 'Summaries'
       });
 
-      suggestionTypes.push({
-        type: 'addQuantitativeField',
-        title: 'Add Quantitative Field'
-      });
+      if (hasOpenPosition || !hasStyleChannel) {
+        suggestionTypes.push({
+          type: 'addQuantitativeField',
+          title: 'Add Quantitative Field'
+        });
+      }
 
-      suggestionTypes.push({
-        type: 'addCategoricalField',
-        title: 'Add Categorical Field'
-      });
+      if (hasOpenPosition || !hasStyleChannel || hasOpenFacet) {
+        suggestionTypes.push({
+          type: 'addCategoricalField',
+          title: 'Add Categorical Field'
+        });
+      }
 
-      suggestionTypes.push({
-        type: 'addTemporalField',
-        title: 'Add Temporal Field'
-      });
+      if (!hasT && hasOpenPosition) {
+        suggestionTypes.push({
+          type: 'addTemporalField',
+          title: 'Add Temporal Field'
+        });
+      }
 
       suggestionTypes.push({
         type: 'alternativeEncodings',
         title: 'Re-Encode'
       });
 
-      suggestionTypes.push({
-        type: 'disaggregate',
-        title: 'Disaggregate'
-      });
+      if (isAggregate) {
+        suggestionTypes.push({
+          type: 'disaggregate',
+          title: 'Disaggregate'
+        });
+      }
+
 
       return suggestionTypes.map(function(suggestion) {
         suggestion.output = executeQuery(suggestion.type, query, chart);
