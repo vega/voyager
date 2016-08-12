@@ -155,45 +155,11 @@ angular.module('voyager2')
 
           if (Dataset.schema) {
             if (query.spec.encodings.length > 0) {
-              var suggestionTypes = [];
 
-              suggestionTypes.push({
-                type: 'summarize',
-                title: 'Summaries'
-              });
-
-              suggestionTypes.push({
-                type: 'addQuantitativeField',
-                title: 'Add Quantitative Field'
-              });
-
-              suggestionTypes.push({
-                type: 'addCategoricalField',
-                title: 'Add Categorical Field'
-              });
-
-              suggestionTypes.push({
-                type: 'addTemporalField',
-                title: 'Add Temporal Field'
-              });
-
-              suggestionTypes.push({
-                type: 'alternativeEncodings',
-                title: 'Re-Encode'
-              });
-
-              suggestionTypes.push({
-                type: 'disaggregate',
-                title: 'Disaggregate'
-              });
-
-              Spec.alternatives = suggestionTypes.map(function(suggestion) {
-                suggestion.output = Alternatives.query(suggestion.type, query, Spec.chart);
-                return suggestion;
-              });
+              Spec.alternatives = Alternatives.getAlternatives(query, Spec.chart);
 
             } else {
-              Spec.histograms = Alternatives.query('histograms', query, Spec.chart);
+              Spec.histograms = Alternatives.getHistograms(query, Spec.chart);
             }
           }
         } else {

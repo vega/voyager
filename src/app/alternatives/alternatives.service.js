@@ -3,17 +3,62 @@
 angular.module('voyager2')
   .service('Alternatives', function (ANY, vl, cql, util, Dataset, _) {
     var Alternatives = {
-      query: query,
       alternativeEncodings: alternativeEncodings,
       summarize: summarize,
       disaggregate: disaggregate,
       addCategoricalField: addCategoricalField,
       addQuantitativeField: addQuantitativeField,
       addTemporalField: addTemporalField,
-      histograms: histograms
+      histograms: histograms,
+
+      getHistograms: getHistograms,
+      getAlternatives: getAlternatives
     };
 
-    function query(suggestionType, query, mainChart) {
+    function getHistograms(query, chart) {
+      return executeQuery('histograms', query, chart);
+    }
+
+    function getAlternatives(query, chart) {
+      var suggestionTypes = [];
+
+      suggestionTypes.push({
+        type: 'summarize',
+        title: 'Summaries'
+      });
+
+      suggestionTypes.push({
+        type: 'addQuantitativeField',
+        title: 'Add Quantitative Field'
+      });
+
+      suggestionTypes.push({
+        type: 'addCategoricalField',
+        title: 'Add Categorical Field'
+      });
+
+      suggestionTypes.push({
+        type: 'addTemporalField',
+        title: 'Add Temporal Field'
+      });
+
+      suggestionTypes.push({
+        type: 'alternativeEncodings',
+        title: 'Re-Encode'
+      });
+
+      suggestionTypes.push({
+        type: 'disaggregate',
+        title: 'Disaggregate'
+      });
+
+      return suggestionTypes.map(function(suggestion) {
+        suggestion.output = executeQuery(suggestion.type, query, chart);
+        return suggestion;
+      });
+    }
+
+    function executeQuery(suggestionType, query, mainChart) {
       var alternativeQuery = Alternatives[suggestionType](query);
       var output = cql.query(alternativeQuery, Dataset.schema);
 
