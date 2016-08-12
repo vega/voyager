@@ -159,7 +159,7 @@ angular.module('voyager2')
 
               suggestionTypes.push({
                 type: 'summarize',
-                title: 'Summarize'
+                title: 'Summaries'
               });
 
               suggestionTypes.push({
