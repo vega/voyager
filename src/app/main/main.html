@@ -129,8 +129,8 @@
                  ng-class="{active: suggestionType===null}">
                 All
               </a>
-              <a ng-if="!hideExplore"
-                ng-repeat="suggestion in Spec.alternatives"
+              <a ng-repeat="suggestion in Spec.alternatives"
+                ng-if="!hideExplore && suggestion.output"
                 ng-click="$parent.setSuggestionType(suggestion.type);"
                 md-parent-scope="this"
                 ng-class="{active: $parent.suggestionType === suggestion.type}">

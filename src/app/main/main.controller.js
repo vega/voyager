@@ -25,6 +25,16 @@ angular.module('voyager2')
       $document.find('.vis-pane-container').scrollTop(0);
     };
 
+    $scope.$watch('Spec.alternatives', function(alternatives) {
+      for (var i = 0 ; i < alternatives.length; i++) {
+        if ($scope.suggestionType === alternatives[i].type) {
+          return;
+        }
+      }
+      // at this point we don't have the suggestion type available, thus reset
+      $scope.setSuggestionType(null);
+    });
+
     // undo/redo support
     $scope.canUndo = false;
     $scope.canRedo = false;
