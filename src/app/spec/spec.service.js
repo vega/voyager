@@ -296,12 +296,24 @@ angular.module('voyager2')
         if (Spec.isSpecific && !cql.enumSpec.isEnumSpec(fieldDef.field)) {
           // Call CompassQL to run query and load the top-ranked result
           var specQuery = Spec.cleanQuery.spec;
-          var encQ = _.clone(fieldDef);
-          encQ.channel = cql.enumSpec.SHORT_ENUM_SPEC;
+          var encQ = _.extend(
+            {},
+            fieldDef,
+            {
+              channel: cql.enumSpec.SHORT_ENUM_SPEC
+            },
+            fieldDef.aggregate === 'count' ? {} : {
+              aggregate: cql.enumSpec.SHORT_ENUM_SPEC,
+              bin: cql.enumSpec.SHORT_ENUM_SPEC,
+              timeUnit: cql.enumSpec.SHORT_ENUM_SPEC
+            }
+          );
           specQuery.encodings.push(encQ);
 
           var query = {
             spec: specQuery,
+            groupBy: ['field', 'aggregate', 'bin', 'timeUnit', 'stack'],
+            orderBy: 'aggregationQuality',
             chooseBy: 'effectiveness',
             config: {omitTableWithOcclusion: false}
           };
