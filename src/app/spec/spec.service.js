@@ -200,10 +200,17 @@ angular.module('voyager2')
         config: spec.config
       };
 
+      var hasAnyField = _.some(specQuery.encodings, function(encQ) {
+        return cql.enumSpec.isEnumSpec(encQ.field);
+      });
+
+      var groupBy = hasAnyField ?
+        ['field', 'aggregate', 'bin', 'timeUnit', 'stack'] :
+        ['field', 'aggregate', 'bin', 'timeUnit', 'stack', 'channel']; // do not group by mark
+
       return {
         spec: specQuery,
-        // TODO: determine groupBy rule
-        groupBy: ['field', 'aggregate', 'bin', 'timeUnit', 'channel'], // do not group by mark
+        groupBy: groupBy,
         chooseBy: 'effectiveness',
         config: {
           omitTableWithOcclusion: false
