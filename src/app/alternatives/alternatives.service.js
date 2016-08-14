@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('voyager2')
-  .service('Alternatives', function (ANY, vl, cql, util, Dataset, _) {
+  .service('Alternatives', function (ANY, vl, cql, util, Dataset) {
     var Alternatives = {
       alternativeEncodings: alternativeEncodings,
       summarize: summarize,
