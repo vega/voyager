@@ -209,7 +209,7 @@ angular.module('polestar')
         Spec.spec.encoding[channelId].sort = sort;
       },
       transpose: function() {
-        Spec.spec = Chart.transpose(Spec.spec);
+        Chart.transpose(Spec.spec);
       }
     };
 
