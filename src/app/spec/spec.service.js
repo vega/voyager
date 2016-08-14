@@ -8,7 +8,7 @@
  * Service in the polestar.
  */
 angular.module('polestar')
-  .service('Spec', function(_, vg, vl, ZSchema, Alerts, Config, Dataset, Schema, Pills) {
+  .service('Spec', function(_, vg, vl, ZSchema, Alerts, Config, Dataset, Schema, Pills, Chart) {
     var Spec = {
       /** @type {Object} verbose spec edited by the UI */
       spec: null,
@@ -209,18 +209,7 @@ angular.module('polestar')
         Spec.spec.encoding[channelId].sort = sort;
       },
       transpose: function() {
-        var encoding = _.clone(Spec.spec.encoding);
-        var oldXEnc = encoding.x;
-        var oldYEnc = encoding.y;
-        encoding.y = oldXEnc;
-        encoding.x = oldYEnc;
-
-        var oldRowEnc = encoding.row;
-        var oldColEnc = encoding.column;
-        encoding.row = oldColEnc;
-        encoding.column = oldRowEnc;
-
-        Spec.spec.encoding = encoding;
+        Spec.spec = Chart.transpose(Spec.spec);
       }
     };
 
