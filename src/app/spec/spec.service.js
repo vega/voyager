@@ -371,7 +371,7 @@ angular.module('voyager2')
         Spec.spec.encoding[channelId].sort = sort;
       },
       transpose: function() {
-        Spec.spec = Chart.transpose(Spec.spec);
+        Chart.transpose(Spec.spec);
       }
     };
 
