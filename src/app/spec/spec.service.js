@@ -359,19 +359,19 @@ angular.module('voyager2')
         // Finally, update the encoding only once to prevent glitches
         Spec.spec.encoding = encoding;
       },
+      rescale: function (channelId, scaleType) {
+        var fieldDef = Spec.spec.encoding[channelId];
+        if (fieldDef.scale) {
+          fieldDef.scale.type = scaleType;
+        } else {
+          fieldDef.scale = {type: scaleType};
+        }
+      },
+      sort: function(channelId, sort) {
+        Spec.spec.encoding[channelId].sort = sort;
+      },
       transpose: function() {
-        var encoding = _.clone(Spec.spec.encoding);
-        var oldXEnc = encoding.x;
-        var oldYEnc = encoding.y;
-        encoding.y = oldXEnc;
-        encoding.x = oldYEnc;
-
-        var oldRowEnc = encoding.row;
-        var oldColEnc = encoding.column;
-        encoding.row = oldColEnc;
-        encoding.column = oldRowEnc;
-
-        Spec.spec.encoding = encoding;
+        Spec.spec = Chart.transpose(Spec.spec);
       }
     };
 
