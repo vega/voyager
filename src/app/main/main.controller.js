@@ -14,11 +14,21 @@ angular.module('voyager2')
     $scope.hideExplore = false;
     $scope.toggleHideExplore = function() {
       $scope.hideExplore = !$scope.hideExplore;
+      if ($scope.hideExplore) {
+        Logger.logInteraction(Logger.actions.TOGGLE_HIDE_ALTERNATIVES, Spec.chart.shorthand);
+      } else {
+        Logger.logInteraction(Logger.actions.TOGGLE_SHOW_ALTERNATIVES, Spec.chart.shorthand);
+      }
     };
 
     $scope.alternativeType = null;
-    $scope.setAlternativeType = function(type) {
+    $scope.setAlternativeType = function(type, automatic) {
       $scope.alternativeType = type;
+      if (!automatic) {
+        Logger.logInteraction(Logger.actions.SET_ALTERNATIVES_TYPE, type, {
+          shorthand: Spec.chart.shorthand
+        });
+      }
     };
 
     $scope.scrollToTop = function() {
@@ -32,7 +42,7 @@ angular.module('voyager2')
         }
       }
       // at this point we don't have the suggestion type available, thus reset
-      $scope.setAlternativeType(null);
+      $scope.setAlternativeType(null, true);
     });
 
     // undo/redo support

@@ -9,7 +9,9 @@
  */
 angular.module('voyager2')
   // TODO: rename to Query once it's complete independent from Polestar
-  .service('Spec', function(ANY, _, vg, vl, cql, util, ZSchema, Alerts, Alternatives, Chart, Config, Dataset, Schema, Pills, $window, consts) {
+  .service('Spec', function(ANY, _, vg, vl, cql, util, ZSchema, consts,
+      Alerts, Alternatives, Chart, Config, Dataset, Logger, Schema, Pills) {
+
     var keys =  _.keys(Schema.schema.definitions.Encoding.properties).concat([ANY+0]);
 
     function instantiate() {
@@ -89,10 +91,17 @@ angular.module('voyager2')
     }
 
     Spec.preview = function(spec) {
-      if (!Spec.isSpecific && spec) {
-        Spec.previewedSpec = parse(spec);
-      } else {
-        Spec.previewedSpec = null;
+      if (!Spec.isSpecific) { // FIXME allow more preview
+        if (spec) {
+          Spec.previewedSpec = parse(spec);
+
+          Logger.logInteraction(Logger.actions.SPEC_PREVIEW_ENABLED, Spec.chart.shorthand, {
+            spec: spec
+          });
+        } else {
+          Spec.previewedSpec = null;
+          Logger.logInteraction(Logger.actions.SPEC_PREVIEW_DISABLED, Spec.chart.shorthand);
+        }
       }
     };
 
