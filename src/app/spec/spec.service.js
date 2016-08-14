@@ -96,17 +96,15 @@ angular.module('voyager2')
     }
 
     Spec.preview = function(spec) {
-      if (!Spec.isSpecific) { // FIXME allow more preview
-        if (spec) {
-          Spec.previewedSpec = parse(spec);
+      if (spec) {
+        Spec.previewedSpec = parse(spec);
 
-          Logger.logInteraction(Logger.actions.SPEC_PREVIEW_ENABLED, Spec.chart.shorthand, {
-            spec: spec
-          });
-        } else {
-          Spec.previewedSpec = null;
-          Logger.logInteraction(Logger.actions.SPEC_PREVIEW_DISABLED, Spec.chart.shorthand);
-        }
+        Logger.logInteraction(Logger.actions.SPEC_PREVIEW_ENABLED, Spec.chart.shorthand, {
+          spec: spec
+        });
+      } else {
+        Spec.previewedSpec = null;
+        Logger.logInteraction(Logger.actions.SPEC_PREVIEW_DISABLED, Spec.chart.shorthand);
       }
     };
 
