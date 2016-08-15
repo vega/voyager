@@ -52,6 +52,9 @@ angular.module('voyager2')
     // bookmark
     $scope.showModal = function(modalId) {
       Modals.open(modalId);
+      if (modalId == 'bookmark-list') {
+        Logger.logInteraction(Logger.actions.BOOKMARK_OPEN);
+      }
     };
 
     if (Bookmarks.isSupported) {
