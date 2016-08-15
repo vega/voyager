@@ -18,6 +18,9 @@ angular.module('voyager')
 
     $scope.showModal = function(modalId) {
       Modals.open(modalId);
+      if (modalId == 'bookmark-list') {
+        Logger.logInteraction(Logger.actions.BOOKMARK_OPEN);
+      }
     };
 
     $scope.toggleDevPanel = function() {
