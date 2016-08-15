@@ -58,7 +58,9 @@ angular.module('voyager2', [
     window.vg.util.extend(consts, {
       appId: 'voyager2',
       // set this if you want to load app with a specific spec
-      initialSpec: window.initialSpec || undefined
+      initialSpec: window.initialSpec || undefined,
+      debugInList: true
+
     });
   })
   .config(function(uiZeroclipConfigProvider) {
