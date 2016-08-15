@@ -8,7 +8,7 @@
  * Service in the polestar.
  */
 angular.module('polestar')
-  .service('Spec', function(_, vg, vl, ZSchema, Alerts, Config, Dataset, Schema, Pills) {
+  .service('Spec', function(_, vg, vl, ZSchema, Alerts, Config, Dataset, Schema, Pills, consts) {
     var Spec = {
       /** @type {Object} verbose spec edited by the UI */
       spec: null,
@@ -67,7 +67,7 @@ angular.module('polestar')
         config: Config.config
       };
 
-      if (loadSpec) { 
+      if (loadSpec) {
         spec = vl.util.mergeDeep(spec, loadSpec);
       }
 
