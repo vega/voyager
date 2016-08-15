@@ -281,6 +281,11 @@ angular.module('voyager2')
       },
       add: function(fieldDef) {
         var oldMarkIsEnumSpec = cql.enumSpec.isEnumSpec(Spec.cleanQuery.spec.mark);
+
+        Logger.logInteraction(Logger.actions.ADD_FIELD, fieldDef, {
+          from: Spec.chart.shorthand
+        });
+
         if (Spec.isSpecific && !cql.enumSpec.isEnumSpec(fieldDef.field)) {
           // Call CompassQL to run query and load the top-ranked result
           var specQuery = Spec.cleanQuery.spec;
@@ -328,6 +333,7 @@ angular.module('voyager2')
 
           Spec.spec.encoding = encoding;
         }
+
       },
       parse: function(spec) {
         Spec.parseSpec(spec);
