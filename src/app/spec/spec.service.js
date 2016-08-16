@@ -111,7 +111,7 @@ angular.module('polestar')
         chart.fieldSet =  Spec.spec.encoding;
         chart.vlSpec = spec;
         chart.cleanSpec = spec; // TODO: eliminate
-        chart.shorthand = cql.shorthand.vlSpec(spec);
+        chart.shorthand = cql.query.shorthand.vlSpec(spec);
       }
     };
 
