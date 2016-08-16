@@ -61,6 +61,9 @@ angular.module('polestar', [
       logToWebSql: false // log user interactions (for user study)
     });
   })
+  .config(function(vl) {
+    vl.config.defaultConfig.countTitle = 'COUNT';
+  })
   .config(function(uiZeroclipConfigProvider) {
     // config ZeroClipboard
     uiZeroclipConfigProvider.setZcConf({
