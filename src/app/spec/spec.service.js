@@ -8,7 +8,7 @@
  * Service in the polestar.
  */
 angular.module('polestar')
-  .service('Spec', function(_, vg, vl, ZSchema, Alerts, Config, Dataset, Schema, Pills, Chart) {
+  .service('Spec', function(_, vg, vl, cql, ZSchema, Alerts, Config, Dataset, Schema, Pills, Chart, consts) {
     var Spec = {
       /** @type {Object} verbose spec edited by the UI */
       spec: null,
@@ -45,11 +45,6 @@ angular.module('polestar')
         }
       }
     }
-
-    Spec.parseShorthand = function(newShorthand) {
-      var newSpec = vl.shorthand.parseShorthand(newShorthand, null, Config.config);
-      Spec.reset(newSpec);
-    };
 
     Spec.reset = function(loadSpec) {
       var spec = {
@@ -116,7 +111,7 @@ angular.module('polestar')
         chart.fieldSet =  Spec.spec.encoding;
         chart.vlSpec = spec;
         chart.cleanSpec = spec; // TODO: eliminate
-        chart.shorthand = vl.shorthand.shorten(spec);
+        chart.shorthand = cql.shorthand.vlSpec(spec);
       }
     };
 

@@ -9,7 +9,6 @@ angular.module('polestar')
       link: function postLink(scope /*, element, attrs*/) {
         scope.Spec = Spec;
 
-        scope.parseShorthand = Spec.parseShorthand;
         scope.parseVegalite = function(specJSON) {
           Spec.reset(JSON.parse(specJSON));
         };
