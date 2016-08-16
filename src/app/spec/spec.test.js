@@ -24,7 +24,6 @@ describe('Service: Spec', function() {
 
   it('functions should be defined', function() {
     expect(Spec.reset).to.be.defined;
-    expect(Spec.parseShorthand).to.be.defined;
   });
 
   describe('_removeEmptyFieldDefs', function() {

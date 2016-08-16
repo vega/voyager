@@ -72,10 +72,6 @@ angular.module('voyager2')
       }
     }
 
-    Spec.parseShorthand = function(newShorthand) {
-      var newSpec = vl.shorthand.parseShorthand(newShorthand, null, Config.config);
-      Spec.parseSpec(newSpec);
-    };
 
     function parse(spec) {
       return vl.util.mergeDeep(instantiate(), spec);
