@@ -59,8 +59,8 @@ angular.module('voyager2', [
       appId: 'voyager2',
       // set this if you want to load app with a specific spec
       initialSpec: window.initialSpec || undefined,
-      debugInList: true
-
+      debugInList: true,
+      logToWebSql: true // log user interactions (for user study)
     });
   })
   .config(function(uiZeroclipConfigProvider) {

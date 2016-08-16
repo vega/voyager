@@ -12,5 +12,8 @@
     "vega-lite-ui": "~0.13.1",
     "zeptojs": "~1.1.6",
     "z-schema": "~3.16.1"
+  },
+  "resolutions": {
+    "angular": "~1.5.7"
   }
 }

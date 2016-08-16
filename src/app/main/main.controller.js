@@ -6,6 +6,7 @@ angular.module('voyager2')
     $scope.Dataset = Dataset;
     $scope.Wildcards = Wildcards;
     $scope.Config = Config;
+    $scope.Logger = Logger;
     $scope.Bookmarks = Bookmarks;
     $scope.consts = consts;
     $scope.showDevPanel = false;

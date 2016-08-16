@@ -167,7 +167,15 @@
       </div>
     </div>
   </div>
+
   <div class="hflex full-width dev-panel" ng-if="showDevPanel">
+    <div class="pane" ng-show="consts.logToWebSql">
+      <div class="card">
+        <div>userid: {{Logger.userid}}</div>
+        <button ng-click="Logger.clear()">Clear logs</button><br/>
+        <button ng-click="Logger.export()">Download logs</button>
+      </div>
+    </div>
     <div class="pane config-pane">
       <div class="card scroll-y  abs-100">
         <configuration-editor></configuration-editor>
