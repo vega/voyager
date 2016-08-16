@@ -63,6 +63,9 @@ angular.module('voyager2', [
       logToWebSql: true // log user interactions (for user study)
     });
   })
+  .config(function(vl) {
+    vl.config.defaultConfig.countTitle = 'COUNT';
+  })
   .config(function(uiZeroclipConfigProvider) {
     // config ZeroClipboard
     uiZeroclipConfigProvider.setZcConf({
