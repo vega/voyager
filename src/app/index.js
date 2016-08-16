@@ -60,6 +60,9 @@ angular.module('polestar', [
       initialSpec: window.initialSpec || undefined
     });
   })
+  .config(function(vl) {
+    vl.config.defaultConfig.countTitle = 'COUNT';
+  })
   .config(function(uiZeroclipConfigProvider) {
     // config ZeroClipboard
     uiZeroclipConfigProvider.setZcConf({
