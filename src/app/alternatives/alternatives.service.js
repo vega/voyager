@@ -16,7 +16,12 @@ angular.module('voyager2')
     };
 
     function getHistograms(query, chart) {
-      return executeQuery('histograms', query, chart);
+      return {
+        type: 'histograms',
+        title: 'Univariate Summaries',
+        limit: 12,
+        output: executeQuery('histograms', query, chart)
+      };
     }
 
     function getAlternatives(query, chart) {

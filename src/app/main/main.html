@@ -91,22 +91,8 @@
             always-scrollable="true"
           ></vl-plot-group>
           <div ng-if="!Spec.hasPlot">
-            <div class="description">
-              No specified visualization yet.  Start exploring by dragging a field to encoding pane on the left or
-              examining univariate summaries below.
-            </div>
-
-            <vl-plot-group-list
-              ng-if="!Spec.hasPlot"
-              class="histogram-list"
-              list-title="'Univariate Summaries'"
-              items="Spec.histograms.items"
-              enable-pills-preview="true"
-              priority="2000"
-              initial-limit="12"
-              post-select-action="scrollToTop()"
-            >
-            </vl-plot-group-list>
+            No specified visualization yet.  Start exploring by dragging a field to encoding pane on the left or
+            examining univariate summaries below.
           </div>
         </div>
         <div class="queried-vis-pane no-top-margin card" ng-if="!Spec.isSpecific">
@@ -123,16 +109,16 @@
           >
           </vl-plot-group-list>
         </div>
-        <div class="alternatives-pane card" ng-class="{collapse: hideExplore}" ng-if="Spec.isSpecific && Spec.hasPlot">
+        <div class="alternatives-pane card" ng-class="{collapse: hideExplore}" ng-if="Spec.isSpecific">
           <div class="alternatives-header">
             <div class="right alternatives-jump">
-              <a ng-if="!hideExplore"
+              <a ng-if="!hideExplore && Spec.alternatives.length > 1"
                  ng-click="setAlternativeType(null)"
                  ng-class="{active: alternativeType===null}">
                 All
               </a>
               <a ng-repeat="alternative in Spec.alternatives"
-                ng-if="!hideExplore && alternative.output"
+                ng-if="!hideExplore && Spec.alternatives.length > 1 && alternative.output"
                 ng-click="$parent.setAlternativeType(alternative.type);"
                 md-parent-scope="this"
                 ng-class="{active: $parent.alternativeType === alternative.type}">
@@ -158,6 +144,7 @@
               items="alternative.output.items"
               enable-pills-preview="true"
               priority="$index * 1000"
+              initial-limit="alternative.limit || null"
               post-select-action="$parent.scrollToTop()"
             >
             </vl-plot-group-list>
