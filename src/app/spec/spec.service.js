@@ -181,15 +181,24 @@ angular.module('voyager2')
         data: Config.data,
         mark: spec.mark === ANY ? '?' : spec.mark,
         // TODO: transform
-        encodings: vg.util.keys(spec.encoding).reduce(function(encodings, channel) {
-          encodings.push(vg.util.extend(
+        encodings: vg.util.keys(spec.encoding).reduce(function(encodings, channelId) {
+          var encQ = vg.util.extend(
             // Add channel
-            { channel: Pills.isAnyChannel(channel) ? '?' : channel },
+            { channel: Pills.isAnyChannel(channelId) ? '?' : channelId },
             // Field Def
-            spec.encoding[channel],
+            spec.encoding[channelId],
             // Remove Title
             {title: undefined}
-          ));
+          );
+
+          if (cql.enumSpec.isEnumSpec(encQ.field)) {
+            // replace the name so we should it's the field from this channelId
+            encQ.field = {
+              name: 'f' + channelId
+            };
+          }
+
+          encodings.push(encQ);
           return encodings;
         }, []),
         config: spec.config
