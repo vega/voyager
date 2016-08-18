@@ -96,7 +96,9 @@
           </div>
         </div>
         <div class="queried-vis-pane no-top-margin card" ng-if="!Spec.isSpecific">
-          <h2>Result(s)</h2>
+          <h2>
+            Result<span ng-show="Spec.result.items.length>1">s</span>
+          </h2>
           <!--<div class="description">
             Here are some recommended visualizations that matches your specification in the encoding pane.
           </div>-->
