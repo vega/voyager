@@ -401,6 +401,12 @@ angular.module('voyager2')
       },
       transpose: function() {
         Chart.transpose(Spec.spec);
+      },
+      isEnumeratedChannel: function(channelId) {
+        return !Spec.spec.encoding[channelId].field;
+      },
+      isEnumeratedField: function(channelId) {
+        return cql.enumSpec.isEnumSpec(Spec.spec.encoding[channelId].field);
       }
     };
 
