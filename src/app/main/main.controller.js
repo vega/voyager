@@ -24,8 +24,10 @@ angular.module('voyager2')
 
     $scope.alternativeType = null;
     $scope.setAlternativeType = function(type, automatic) {
+      $scope.hideExplore = false;
       $scope.alternativeType = type;
       if (!automatic) {
+        Logger.logInteraction(Logger.actions.TOGGLE_SHOW_ALTERNATIVES, Spec.chart.shorthand);
         Logger.logInteraction(Logger.actions.SET_ALTERNATIVES_TYPE, type, {
           shorthand: Spec.chart.shorthand
         });

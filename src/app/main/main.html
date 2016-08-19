@@ -120,7 +120,7 @@
                 All
               </a>
               <a ng-repeat="alternative in Spec.alternatives"
-                ng-if="!hideExplore && Spec.alternatives.length > 1 && alternative.output"
+                ng-if="Spec.alternatives.length > 1 && alternative.output"
                 ng-click="$parent.setAlternativeType(alternative.type);"
                 md-parent-scope="this"
                 ng-class="{active: $parent.alternativeType === alternative.type}">
