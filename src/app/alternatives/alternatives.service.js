@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('voyager2')
-  .service('Alternatives', function (ANY, vl, cql, util, Dataset) {
+  .service('Alternatives', function (ANY, vl, cql, util, Chart, Dataset) {
     var Alternatives = {
       alternativeEncodings: alternativeEncodings,
       summarize: summarize,
@@ -20,7 +20,7 @@ angular.module('voyager2')
         type: 'histograms',
         title: 'Univariate Summaries',
         limit: 12,
-        output: executeQuery('histograms', query, chart)
+        charts: executeQuery('histograms', query, chart)
       };
     }
 
@@ -79,9 +79,8 @@ angular.module('voyager2')
         });
       }
 
-
       return alternativeTypes.map(function(alternative) {
-        alternative.output = executeQuery(alternative.type, query, chart);
+        alternative.charts = executeQuery(alternative.type, query, chart);
         return alternative;
       });
     }
@@ -91,13 +90,13 @@ angular.module('voyager2')
       var output = cql.query(alternativeQuery, Dataset.schema);
 
       // Don't include the specified visualization in the recommendation list
-      var filteredItems = output.result.items.filter(function(item) {
-        var topItem = item.getTopSpecQueryModel();
-        return !mainChart || !mainChart.shorthand ||
-          topItem.toShorthand() !== mainChart.shorthand;
-      });
-      // TODO: filter original from result
-      return filteredItems.length ? util.extend({}, output, {items: filteredItems}) : null;
+      return output.result.items
+        .filter(function(item) {
+          var topItem = item.getTopSpecQueryModel();
+          return !mainChart || !mainChart.shorthand ||
+            topItem.toShorthand() !== mainChart.shorthand;
+        })
+        .map(Chart.getChart);
     }
 
     function makeEnumSpec(val) {

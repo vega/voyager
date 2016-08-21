@@ -97,13 +97,13 @@
         </div>
         <div class="queried-vis-pane no-top-margin card" ng-if="!Spec.isSpecific">
           <h2>
-            Result<span ng-show="Spec.result.items.length>1">s</span>
+            Result<span ng-show="Spec.charts.length>1">s</span>
           </h2>
           <!--<div class="description">
             Here are some recommended visualizations that matches your specification in the encoding pane.
           </div>-->
           <vl-plot-group-list
-            items="Spec.result.items"
+            charts="Spec.charts"
             enable-pills-preview="true"
             priority="1000"
             list-title="'Results'"
@@ -122,7 +122,7 @@
                 All
               </a>
               <a ng-repeat="alternative in Spec.alternatives"
-                ng-if="Spec.alternatives.length > 1 && alternative.output"
+                ng-if="alternative.charts.length"
                 ng-click="$parent.setAlternativeType(alternative.type);"
                 md-parent-scope="this"
                 ng-class="{active: $parent.alternativeType === alternative.type}">
@@ -139,13 +139,14 @@
             <!--<div class="description">
               Here are refinement to your visualization that you might want to consider.
             </div>-->
+            {{Spec.alternatives.charts}}
 
             <vl-plot-group-list
               ng-repeat="alternative in Spec.alternatives"
-              ng-if="alternative.output && (!$parent.alternativeType || $parent.alternativeType === alternative.type)"
+              ng-if="alternative.charts.length > 0 && (!$parent.alternativeType || $parent.alternativeType === alternative.type)"
               id="alternatives-{{alternative.type}}"
               list-title="alternative.title"
-              items="alternative.output.items"
+              charts="alternative.charts"
               enable-pills-preview="true"
               priority="$index * 1000"
               initial-limit="alternative.limit || null"

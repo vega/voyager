@@ -39,8 +39,8 @@ angular.module('voyager2')
       /** @type {Query} */
       query: null,
 
-      result: null,
       isSpecific: true,
+      charts: null,
       chart: Chart.getChart(null),
       hasPlot: false, // HACK
       alternatives: [],
@@ -161,6 +161,7 @@ angular.module('voyager2')
 
         if (Spec.isSpecific) {
           Spec.chart = Chart.getChart(topItem);
+          Spec.charts = null;
 
           if (Dataset.schema) {
             if (query.spec.encodings.length > 0) {
@@ -171,7 +172,7 @@ angular.module('voyager2')
             }
           }
         } else {
-          Spec.result = output.result;
+          Spec.charts = output.result.items.map(Chart.getChart);
           Spec.chart = Chart.getChart(null);
         }
 
