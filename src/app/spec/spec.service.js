@@ -17,6 +17,9 @@ angular.module('voyager2')
     function instantiate() {
       return {
         data: Config.data,
+        transform: {
+          filterInvalid: false
+        },
         mark: ANY,
         encoding: keys.reduce(function(e, c) {
           e[c] = {};
@@ -71,7 +74,6 @@ angular.module('voyager2')
         }
       }
     }
-
 
     function parse(spec) {
       return vl.util.mergeDeep(instantiate(), spec);
@@ -180,7 +182,9 @@ angular.module('voyager2')
       var specQuery = {
         data: Config.data,
         mark: spec.mark === ANY ? '?' : spec.mark,
-        // TODO: transform
+
+        // TODO: support transform enumeration
+        transform: spec.transform,
         encodings: vg.util.keys(spec.encoding).reduce(function(encodings, channelId) {
           var encQ = vg.util.extend(
             // Add channel
@@ -407,6 +411,9 @@ angular.module('voyager2')
       },
       isEnumeratedField: function(channelId) {
         return cql.enumSpec.isEnumSpec(Spec.spec.encoding[channelId].field);
+      },
+      toggleFilterInvalid: function () {
+        Spec.spec.transform.filterInvalid = !Spec.spec.transform.filterInvalid;
       }
     };
 
