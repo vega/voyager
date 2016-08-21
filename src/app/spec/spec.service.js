@@ -55,6 +55,9 @@ angular.module('polestar')
       var spec = {
         data: Config.data,
         mark: 'point',
+        transform: {
+          filterInvalid: false
+        },
         encoding: _.keys(Schema.schema.definitions.Encoding.properties).reduce(function(e, c) {
           e[c] = {};
           return e;
@@ -210,6 +213,9 @@ angular.module('polestar')
       },
       transpose: function() {
         Chart.transpose(Spec.spec);
+      },
+      toggleFilterInvalid: function () {
+        Spec.spec.transform.filterInvalid = !Spec.spec.transform.filterInvalid;
       }
     };
 
