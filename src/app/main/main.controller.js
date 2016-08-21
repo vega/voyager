@@ -5,6 +5,7 @@ angular.module('polestar')
     $scope.Spec = Spec;
     $scope.Dataset = Dataset;
     $scope.Config = Config;
+    $scope.Logger = Logger;
     $scope.Bookmarks = Bookmarks;
     $scope.consts = consts;
     $scope.showDevPanel = false;
@@ -17,6 +18,9 @@ angular.module('polestar')
     // bookmark
     $scope.showModal = function(modalId) {
       Modals.open(modalId);
+      if (modalId == 'bookmark-list') {
+        Logger.logInteraction(Logger.actions.BOOKMARK_OPEN);
+      }
     };
 
     if (Bookmarks.isSupported) {
