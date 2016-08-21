@@ -18,7 +18,7 @@ angular.module('voyager2')
       return {
         data: Config.data,
         transform: {
-          filterInvalid: false
+          filterInvalid: undefined
         },
         mark: ANY,
         encoding: keys.reduce(function(e, c) {
@@ -413,7 +413,7 @@ angular.module('voyager2')
         return cql.enumSpec.isEnumSpec(Spec.spec.encoding[channelId].field);
       },
       toggleFilterInvalid: function () {
-        Spec.spec.transform.filterInvalid = !Spec.spec.transform.filterInvalid;
+        Spec.spec.transform.filterInvalid = Spec.spec.transform.filterInvalid ? undefined : true;
       }
     };
 
