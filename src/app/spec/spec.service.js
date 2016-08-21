@@ -93,16 +93,23 @@ angular.module('voyager2')
       return util.keys(enumSpecIndex.encodingIndicesByProperty).length === 0;
     }
 
-    Spec.preview = function(spec) {
-      if (spec) {
+    Spec.preview = function(enable, chart, listTitle) {
+      if (enable) {
+        var spec = chart.vlSpec;
         Spec.previewedSpec = parse(spec);
 
-        Logger.logInteraction(Logger.actions.SPEC_PREVIEW_ENABLED, Spec.chart.shorthand, {
-          spec: spec
+        Logger.logInteraction(Logger.actions.SPEC_PREVIEW_ENABLED, chart.shorthand, {
+          list: listTitle
         });
       } else {
-        Spec.previewedSpec = null;
-        Logger.logInteraction(Logger.actions.SPEC_PREVIEW_DISABLED, Spec.chart.shorthand);
+        if (Spec.previewedSpec !== null) {
+          // If it's already null, do nothing.  We have multiple even triggering preview(null)
+          // as sometimes when lagged, the unpreview event is not triggered.
+          Spec.previewedSpec = null;
+          Logger.logInteraction(Logger.actions.SPEC_PREVIEW_DISABLED, chart.shorthand, {
+            list: listTitle
+          });
+        }
       }
     };
 
@@ -347,9 +354,7 @@ angular.module('voyager2')
       parse: function(spec) {
         Spec.parseSpec(spec);
       },
-      preview: function(spec) {
-        Spec.preview(spec);
-      },
+      preview: Spec.preview,
       update: function(spec) {
         Spec.update(spec);
       },
