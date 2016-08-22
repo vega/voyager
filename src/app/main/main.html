@@ -67,15 +67,18 @@
     </div>
 
     <div class="pane vis-pane">
-      <div class="vis-pane-container abs-100 scroll-y">
+      <div class="vis-pane-container abs-100"
+          ng-class="{'scroll-y': !hideExplore, 'no-scroll-y': hideExplore}"
+        >
         <div class="specified-vis-pane vflex card no-top-margin"
              ng-if="Spec.isSpecific"
-             ng-class="{expand: hideExplore}"
+             ng-class="{expand: hideExplore, 'no-scroll-y': hideExplore}"
           >
           <h2>Result</h2>
           <vl-plot-group
             ng-if="Spec.hasPlot"
             class="main-vl-plot-group card"
+            ng-class="{'no-scroll-y': hideExplore}"
             chart="Spec.chart"
             show-bookmark="true"
             show-debug="true"
@@ -84,6 +87,7 @@
             show-sort="true"
             show-transpose="true"
 
+            always-scrollable="hideExplore"
             overflow="true"
             show-label="true"
             tooltip="true"
