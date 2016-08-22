@@ -345,7 +345,9 @@ angular.module('voyager2')
 
           // Add new any as a placeholder
           var newAnyChannel = Pills.getNextAnyChannelId();
-          updateChannelDef(encoding, {}, newAnyChannel);
+          if (newAnyChannel !== null) {
+            updateChannelDef(encoding, {}, newAnyChannel);
+          }
 
           Spec.spec.encoding = encoding;
         }
@@ -391,7 +393,9 @@ angular.module('voyager2')
           if (!cidDragFrom || !Pills.isAnyChannel(cidDragFrom)) {
             // If drag new field from schema or from normal shelf, add new any
             var newAnyChannel = Pills.getNextAnyChannelId();
-            updateChannelDef(encoding, {}, newAnyChannel);
+            if (newAnyChannel !== null) {
+              updateChannelDef(encoding, {}, newAnyChannel);
+            }
           }
         }
 

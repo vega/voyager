@@ -9,7 +9,7 @@
     "angular-tooltips": "~1.0.7",
     "chronicle": "~1.0.10",
     "fontawesome": "~4.5.0",
-    "vega-lite-ui": "~0.14.0",
+    "vega-lite-ui": "~0.15.0",
     "zeptojs": "~1.1.6",
     "z-schema": "~3.16.1"
   },

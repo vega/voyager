@@ -61,7 +61,8 @@ angular.module('voyager2', [
       initialSpec: window.initialSpec || undefined,
       debugInList: true,
       logLevel: 'DEBUG',
-      logToWebSql: true // log user interactions (for user study)
+      logToWebSql: true, // log user interactions (for user study)
+      maxAnyShelf: 3
     });
   })
   .config(function(vl) {
