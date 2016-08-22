@@ -74,7 +74,7 @@
              ng-if="Spec.isSpecific"
              ng-class="{expand: hideExplore, 'no-scroll-y': hideExplore}"
           >
-          <h2>Result</h2>
+          <h2>View</h2>
           <vl-plot-group
             ng-if="Spec.hasPlot"
             class="main-vl-plot-group card"
@@ -100,7 +100,7 @@
         </div>
         <div class="queried-vis-pane no-top-margin card" ng-if="!Spec.isSpecific">
           <h2>
-            Result<span ng-show="Spec.charts.length>1">s</span>
+            View<span ng-show="Spec.charts.length>1">s</span>
           </h2>
           <!--<div class="description">
             Here are some recommended visualizations that matches your specification in the encoding pane.
