@@ -227,6 +227,7 @@ angular.module('voyager2')
       return {
         spec: specQuery,
         groupBy: groupBy,
+        orderBy: 'effectiveness', // FIXME
         chooseBy: 'effectiveness',
         config: {
           omitTableWithOcclusion: false
