@@ -8,17 +8,20 @@ angular.module('voyager2')
         {
           title: 'Categorical Fields',
           field: '?',
-          type: {enum: [vl.type.NOMINAL, vl.type.ORDINAL]}
+          type: {enum: [vl.type.NOMINAL, vl.type.ORDINAL]},
+          immutable: true
         },
         {
           title: 'Temporal Fields',
           field: '?',
-          type: vl.type.TEMPORAL
+          type: vl.type.TEMPORAL,
+          immutable: true
         },
         {
           title: 'Quantitative Fields',
           field: '?',
-          type: vl.type.QUANTITATIVE
+          type: vl.type.QUANTITATIVE,
+          immutable: true
         }
       ]
     };
