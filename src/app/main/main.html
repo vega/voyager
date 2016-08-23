@@ -73,7 +73,7 @@
 
     <div class="pane vis-pane">
       <div class="vis-pane-container abs-100"
-          ng-class="{'scroll-y': !hideExplore, 'no-scroll-y': hideExplore}"
+          ng-class="{'scroll-y': !hideExplore || !Spec.isSpecific, 'no-scroll-y': hideExplore && Spec.isSpecific}"
         >
         <div class="specified-vis-pane vflex card no-top-margin"
              ng-if="Spec.isSpecific"
