@@ -131,9 +131,15 @@
                 ng-class="{active: $parent.alternativeType === alternative.type}">
                 {{alternative.title}}
               </a>
-              <a ng-click="toggleHideExplore()">
-                <span ng-show="hideExplore">Show</span>
-                <span ng-show="!hideExplore">Hide</span>
+              <a class="toggle-hide-explore" ng-click="toggleHideExplore()">
+                <span ng-show="hideExplore">
+                  Show
+                  <i class="fa fa-toggle-up"></i>
+                </span>
+                <span ng-show="!hideExplore">
+                  Hide
+                  <i class="fa fa-toggle-down"></i>
+                </span>
               </a>
             </div>
             <h2>Related Views</h2>

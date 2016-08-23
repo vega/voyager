@@ -95,6 +95,8 @@ null-filter-directive {
   margin-top: 20px;
   background: rgba(255,255,255,0.4);
 
+
+
   &.collapse h2 {
     margin-bottom: 0;
   }
@@ -105,6 +107,10 @@ null-filter-directive {
     }
     a.active {
       font-weight: bold;
+    }
+
+    a.toggle-hide-explore {
+      margin-left: 16px;
     }
   }
 }
