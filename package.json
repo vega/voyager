@@ -1,6 +1,6 @@
 {
   "name": "voyager2",
-  "version": "0.1.13",
+  "version": "0.1.14",
   "description": "Visualization specification interface.",
   "repository": {
     "type": "git",

@@ -49,6 +49,15 @@ null-filter-directive {
 .pane.data-pane {
   width: 200px;
   flex-shrink: 0;
+
+  .add-wildcard {
+    a {
+      color: #95a4b9;
+      &:hover {
+        color: #c9d9f1;
+      }
+    }
+  }
 }
 
 .pane.encoding-pane, .pane.vis-pane {

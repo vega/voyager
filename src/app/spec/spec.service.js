@@ -10,7 +10,7 @@
 angular.module('voyager2')
   // TODO: rename to Query once it's complete independent from Polestar
   .service('Spec', function(ANY, _, vg, vl, cql, util, ZSchema, consts,
-      Alerts, Alternatives, Chart, Config, Dataset, Logger, Schema, Pills) {
+      Alerts, Alternatives, Chart, Config, Dataset, Logger, Pills, Schema, Wildcards) {
 
     var keys =  _.keys(Schema.schema.definitions.Encoding.properties).concat([ANY+0]);
 
@@ -210,7 +210,8 @@ angular.module('voyager2')
           if (cql.enumSpec.isEnumSpec(encQ.field)) {
             // replace the name so we should it's the field from this channelId
             encQ.field = {
-              name: 'f' + channelId
+              name: 'f' + channelId,
+              enum: encQ.field.enum
             };
           }
 
@@ -451,7 +452,11 @@ angular.module('voyager2')
       },
       toggleFilterInvalid: function () {
         Spec.spec.transform.filterInvalid = Spec.spec.transform.filterInvalid ? undefined : true;
-      }
+      },
+      addWildcard: Wildcards.addItem,
+      addWildcardField: Wildcards.addField,
+      removeWildcard: Wildcards.removeItem,
+      removeWildcardField: Wildcards.removeField,
     };
 
     Spec.reset();
