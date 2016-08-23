@@ -32,9 +32,14 @@
           </div>
         </div>
         <h3>Fields</h3>
-        <schema-list field-defs="Dataset.dataschema" order-by="Dataset.fieldOrder" show-add="true"></schema-list>
+        <schema-list field-defs="Dataset.dataschema"
+          order-by="Dataset.fieldOrder"
+          show-add="true">
+        </schema-list>
         <h3>Wildcards</h3>
-        <schema-list field-defs="Wildcards.list" show-add="true"></schema-list>
+        <schema-list field-defs="Wildcards.list"
+          show-add="true"
+        ></schema-list>
         <div id="footer">
           <ul class="menu">
             <span ng-show="consts.debug">
