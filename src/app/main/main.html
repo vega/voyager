@@ -31,7 +31,7 @@
             <span class="dataset-name">{{Dataset.currentDataset.name}}</span>
           </div>
         </div>
-        <schema-list field-defs="Dataset.dataschema" order-by="Dataset.fieldOrder"></schema-list>
+        <schema-list field-defs="Dataset.schema.fieldSchemas" order-by="Dataset.fieldOrder" show-count="true"></schema-list>
         <div id="footer">
           <ul class="menu">
             <span ng-show="consts.debug">
