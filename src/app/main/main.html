@@ -82,7 +82,7 @@
           >
           <h2>View</h2>
           <vl-plot-group
-            ng-if="Spec.hasPlot"
+            ng-if="!Spec.isEmptyPlot && Spec.chart"
             class="main-vl-plot-group card"
             ng-class="{'no-scroll-y': hideExplore}"
             chart="Spec.chart"
@@ -99,9 +99,9 @@
             tooltip="true"
             toggle-shelf="true"
           ></vl-plot-group>
-          <div ng-if="!Spec.hasPlot">
-            No specified visualization yet.  Start exploring by dragging a field to encoding pane on the left or
-            examining univariate summaries below.
+          <div ng-if="Spec.isEmptyPlot">
+            No specified visualization yet.  Start exploring by dragging a field to
+            encoding pane on the left or examining univariate summaries below.
           </div>
         </div>
         <div class="queried-vis-pane no-top-margin card" ng-if="!Spec.isSpecific">
@@ -112,6 +112,7 @@
             Here are some recommended visualizations that matches your specification in the encoding pane.
           </div>-->
           <vl-plot-group-list
+            ng-if="Spec.charts"
             charts="Spec.charts"
             enable-pills-preview="true"
             priority="1000"
@@ -121,6 +122,10 @@
             initial-limit="12"
           >
           </vl-plot-group-list>
+          <div ng-if="!Spec.charts">
+            No visualizations satisfy your encoding specification.
+            You might want to undo last change or further modify the specification.
+          </div>
         </div>
         <div class="alternatives-pane card" ng-class="{collapse: hideExplore}" ng-if="Spec.isSpecific">
           <div class="alternatives-header">

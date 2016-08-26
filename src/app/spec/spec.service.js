@@ -42,7 +42,7 @@ angular.module('voyager2')
       isSpecific: true,
       charts: null,
       chart: Chart.getChart(null),
-      hasPlot: false, // HACK
+      isEmptyPlot: true,
       alternatives: [],
       histograms: null,
       instantiate: instantiate
@@ -85,9 +85,9 @@ angular.module('voyager2')
       Spec.spec = parse(newSpec);
     };
 
-    function isAllChannelAndFieldSpecific(topItem) {
+    function isAllChannelAndFieldSpecific(topItem, isEmptyPlot) {
       if (!topItem) {
-        return true;
+        return isEmptyPlot; // If it's specific no way we get empty result!
       }
       var enumSpecIndex = topItem.enumSpecIndex;
       return util.keys(enumSpecIndex.encodingIndicesByProperty).length === 0;
@@ -162,11 +162,12 @@ angular.module('voyager2')
         var output = cql.query(query, Dataset.schema);
         Spec.query = output.query;
         var topItem = output.result.getTopSpecQueryModel();
-        Spec.isSpecific = isAllChannelAndFieldSpecific(topItem);
-        Spec.hasPlot = Spec.query && Spec.query.spec.encodings.length > 0;
+        Spec.isEmptyPlot = !Spec.query || Spec.query.spec.encodings.length === 0;
+        Spec.isSpecific = isAllChannelAndFieldSpecific(topItem, Spec.isEmptyPlot);
         Spec.alternatives = [];
 
-        if (Spec.isSpecific) {
+
+        if (Spec.isSpecific || Spec.isEmptyPlot) {
           Spec.chart = Chart.getChart(topItem);
           Spec.charts = null;
 
@@ -178,11 +179,13 @@ angular.module('voyager2')
               Spec.alternatives = [Alternatives.getHistograms(query, Spec.chart)];
             }
           }
-        } else {
+        } else if (topItem) {
           Spec.charts = output.result.items.map(Chart.getChart);
           Spec.chart = Chart.getChart(null);
+        } else {
+          Spec.charts = null;
+          Spec.chart = null;
         }
-
       // }
     };
 
