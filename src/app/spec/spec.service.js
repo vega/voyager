@@ -187,6 +187,7 @@ angular.module('voyager2')
           Spec.chart = null;
         }
       // }
+      return Spec;
     };
 
     function getQuery(spec) {
@@ -362,7 +363,7 @@ angular.module('voyager2')
       },
       preview: Spec.preview,
       update: function(spec) {
-        Spec.update(spec);
+        return Spec.update(spec);
       },
       reset: function() {
         Spec.reset();
