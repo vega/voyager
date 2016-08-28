@@ -190,8 +190,8 @@ angular.module('voyager2')
       return Spec;
     };
 
-    function getQuery(spec) {
-      var specQuery = {
+    function getSpecQuery(spec) {
+      return {
         data: Config.data,
         mark: spec.mark === ANY ? '?' : spec.mark,
 
@@ -219,6 +219,10 @@ angular.module('voyager2')
         }, []),
         config: spec.config
       };
+    }
+
+    function getQuery(spec) {
+      var specQuery = getSpecQuery(spec);
 
       var hasAnyField = _.some(specQuery.encodings, function(encQ) {
         return cql.enumSpec.isEnumSpec(encQ.field);
@@ -357,6 +361,24 @@ angular.module('voyager2')
           Spec.spec.encoding = encoding;
         }
 
+      },
+      select: function(spec) {
+        var specQuery = getSpecQuery(spec);
+        specQuery.mark = '?';
+
+        var query = {
+          spec: specQuery,
+          chooseBy: 'effectiveness'
+        };
+        var output = cql.query(query, Dataset.schema);
+        var result = output.result;
+
+        if (result.getTopSpecQueryModel().getMark() === spec.mark) {
+          // make a copy and replace mark with '?'
+          spec = util.duplicate(spec);
+          spec.mark = ANY;
+        }
+        Spec.parseSpec(spec);
       },
       parse: function(spec) {
         Spec.parseSpec(spec);
