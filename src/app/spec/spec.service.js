@@ -173,10 +173,10 @@ angular.module('voyager2')
 
           if (Dataset.schema) {
             if (query.spec.encodings.length > 0) {
-              Spec.alternatives = Alternatives.getAlternatives(query, Spec.chart);
+              Spec.alternatives = Alternatives.getAlternatives(query, Spec.chart, topItem);
 
             } else {
-              Spec.alternatives = [Alternatives.getHistograms(query, Spec.chart)];
+              Spec.alternatives = Alternatives.getHistograms(query, Spec.chart, topItem);
             }
           }
         } else if (topItem) {

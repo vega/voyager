@@ -15,94 +15,6 @@ angular.module('voyager2')
       getAlternatives: getAlternatives
     };
 
-    function getHistograms(query, chart) {
-      return {
-        type: 'histograms',
-        title: 'Univariate Summaries',
-        limit: 12,
-        charts: executeQuery('histograms', query, chart)
-      };
-    }
-
-    function getAlternatives(query, chart) {
-      var isAggregate = cql.query.spec.isAggregate(query.spec);
-
-      var alternativeTypes = [];
-
-      var hasT = false;
-      query.spec.encodings.forEach(function(encQ) {
-        if (encQ.type === vl.type.TEMPORAL) {
-          hasT = true;
-        }
-      });
-
-      var spec = chart.vlSpec;
-      var hasOpenPosition = !spec.encoding.x || !spec.encoding.y;
-      var hasStyleChannel = spec.encoding.color || spec.encoding.size || spec.encoding.shape || spec.encoding.opacity;
-      var hasOpenFacet = !spec.encoding.row || !spec.encoding.column;
-
-      alternativeTypes.push({
-        type: 'summarize',
-        title: 'Summaries'
-      });
-
-      if (hasOpenPosition || !hasStyleChannel) {
-        alternativeTypes.push({
-          type: 'addQuantitativeField',
-          title: 'Add Quantitative Field'
-        });
-      }
-
-      if (hasOpenPosition || !hasStyleChannel || hasOpenFacet) {
-        alternativeTypes.push({
-          type: 'addCategoricalField',
-          title: 'Add Categorical Field'
-        });
-      }
-
-      if (!hasT && hasOpenPosition) {
-        alternativeTypes.push({
-          type: 'addTemporalField',
-          title: 'Add Temporal Field'
-        });
-      }
-
-      alternativeTypes.push({
-        type: 'alternativeEncodings',
-        title: 'Re-Encode'
-      });
-
-      if (isAggregate) {
-        alternativeTypes.push({
-          type: 'disaggregate',
-          title: 'Disaggregate'
-        });
-      }
-
-      return alternativeTypes.map(function(alternative) {
-        alternative.charts = executeQuery(alternative.type, query, chart);
-        return alternative;
-      });
-    }
-
-    function executeQuery(alternativeType, query, mainChart) {
-      var alternativeQuery = Alternatives[alternativeType](query);
-      var output = cql.query(alternativeQuery, Dataset.schema);
-
-      // Don't include the specified visualization in the recommendation list
-      return output.result.items
-        .filter(function(item) {
-          var topItem = item.getTopSpecQueryModel();
-          return !mainChart || !mainChart.shorthand ||
-            topItem.toShorthand() !== mainChart.shorthand;
-        })
-        .map(Chart.getChart);
-    }
-
-    function makeEnumSpec(val) {
-      return cql.enumSpec.isEnumSpec(val) ? val : cql.enumSpec.SHORT_ENUM_SPEC;
-    }
-
     var GROUP_BY_SIMILAR_ENCODINGS = [
       cql.property.Property.FIELD,
       cql.property.Property.AGGREGATE,
@@ -134,6 +46,110 @@ angular.module('voyager2')
       }
     ];
 
+    function getHistograms(query, chart, topItem) {
+      var alternative = {
+        type: 'histograms',
+        title: 'Univariate Summaries',
+        limit: 12
+      };
+      return [
+        util.extend(alternative, {
+          charts: executeQuery(alternative, query, chart, topItem)
+        })
+      ];
+    }
+
+    function getAlternatives(query, chart, topItem) {
+      var isAggregate = cql.query.spec.isAggregate(query.spec);
+
+      var alternativeTypes = [];
+
+      var hasT = false;
+      query.spec.encodings.forEach(function(encQ) {
+        if (encQ.type === vl.type.TEMPORAL) {
+          hasT = true;
+        }
+      });
+
+      var spec = chart.vlSpec;
+      var hasOpenPosition = !spec.encoding.x || !spec.encoding.y;
+      var hasStyleChannel = spec.encoding.color || spec.encoding.size || spec.encoding.shape || spec.encoding.opacity;
+      var hasOpenFacet = !spec.encoding.row || !spec.encoding.column;
+
+      if (!isAggregate) {
+        alternativeTypes.push({
+          type: 'summarize',
+          title: 'Summarize',
+          filterGroupBy: GROUP_BY_SIMILAR_DATA_AND_TRANSFORM
+        });
+      }
+
+      if (hasOpenPosition || !hasStyleChannel) {
+        alternativeTypes.push({
+          type: 'addQuantitativeField',
+          title: 'Add Quantitative Field'
+        });
+      }
+
+      if (hasOpenPosition || !hasStyleChannel || hasOpenFacet) {
+        alternativeTypes.push({
+          type: 'addCategoricalField',
+          title: 'Add Categorical Field'
+        });
+      }
+
+      if (!hasT && hasOpenPosition) {
+        alternativeTypes.push({
+          type: 'addTemporalField',
+          title: 'Add Temporal Field'
+        });
+      }
+
+      alternativeTypes.push({
+        type: 'alternativeEncodings',
+        title: 'Re-Encode',
+        filterGroupBy: GROUP_BY_SIMILAR_ENCODINGS
+      });
+
+      if (isAggregate) {
+        alternativeTypes.push({
+          type: 'summarize',
+          title: 'Re-summarize',
+          filterGroupBy: GROUP_BY_SIMILAR_DATA_AND_TRANSFORM
+        });
+
+        alternativeTypes.push({
+          type: 'disaggregate',
+          title: 'Disaggregate'
+        });
+      }
+
+      return alternativeTypes.map(function(alternative) {
+        alternative.charts = executeQuery(alternative, query, chart, topItem);
+        return alternative;
+      });
+    }
+
+    function executeQuery(alternative, query, mainChart, mainTopItem) {
+      var alternativeQuery = Alternatives[alternative.type](query);
+      var output = cql.query(alternativeQuery, Dataset.schema);
+
+      // Don't include the specified visualization in the recommendation list
+      return output.result.items
+        .filter(function(item) {
+          var topItem = item.getTopSpecQueryModel();
+          return !mainChart || !mainChart.shorthand ||(
+            topItem.toShorthand(alternative.filterGroupBy) !==
+            mainTopItem.toShorthand(alternative.filterGroupBy)
+          );
+        })
+        .map(Chart.getChart);
+    }
+
+    function makeEnumSpec(val) {
+      return cql.enumSpec.isEnumSpec(val) ? val : cql.enumSpec.SHORT_ENUM_SPEC;
+    }
+
     /**
      * Namespace for template methods for making a new SpecQuery
      */
@@ -160,6 +176,7 @@ angular.module('voyager2')
 
       // For convert encoding for summary
       newSpecQ.encodings = newSpecQ.encodings.reduce(function (encodings, encQ) {
+        // encQ.channel = makeEnumSpec(encQ.channel);
         if (cql.enumSpec.isEnumSpec(encQ.type)) {
           // This is just in case we support type = enumSpec in the future
           encQ.aggregate = makeEnumSpec(encQ.aggregate);
@@ -190,7 +207,7 @@ angular.module('voyager2')
       return {
         spec: newSpecQ,
         groupBy: GROUP_BY_SIMILAR_DATA_AND_TRANSFORM,
-        orderBy: 'aggregationQuality',
+        orderBy: ['aggregationQuality', 'effectiveness'],
         chooseBy: 'effectiveness',
         config: {
           autoAddCount: true,
@@ -207,6 +224,7 @@ angular.module('voyager2')
           return encQ.aggregate !== 'count';
         })
         .map(function (encQ) {
+          // encQ.channel = makeEnumSpec(encQ.channel);
           if (cql.enumSpec.isEnumSpec(encQ.type) || encQ.type === vl.type.Type.QUANTITATIVE) {
             delete encQ.aggregate;
             delete encQ.bin;
