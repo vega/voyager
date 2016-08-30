@@ -316,6 +316,7 @@ angular.module('voyager2')
         spec: {
           data: query.spec.data,
           mark: cql.enumSpec.SHORT_ENUM_SPEC,
+          transform: query.spec.transform,
           encodings: [
             { channel: cql.enumSpec.SHORT_ENUM_SPEC, field: cql.enumSpec.SHORT_ENUM_SPEC, bin: cql.enumSpec.SHORT_ENUM_SPEC, timeUnit: cql.enumSpec.SHORT_ENUM_SPEC, type: cql.enumSpec.SHORT_ENUM_SPEC },
             { channel: cql.enumSpec.SHORT_ENUM_SPEC, field: '*', aggregate: vl.aggregate.AggregateOp.COUNT, type: vl.type.Type.QUANTITATIVE }
