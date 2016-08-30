@@ -14,6 +14,6 @@
     "z-schema": "~3.16.1"
   },
   "resolutions": {
-    "angular": "1.5.7"
+    "angular": "1.5.8"
   }
 }
