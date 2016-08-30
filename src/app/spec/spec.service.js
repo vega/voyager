@@ -58,8 +58,8 @@ angular.module('polestar')
       if (oldSpec) {
         // Store oldFilter, copy oldSpec that exclude transform.filter
         oldFilter = (oldSpec.transform || {}).filter;
-        var transform = _.without(oldSpec.transform || {}, 'filter');
-        oldSpec = _.without(oldSpec, 'transform');
+        var transform = _.omit(oldSpec.transform || {}, 'filter');
+        oldSpec = _.omit(oldSpec, 'transform');
         if (transform) {
           oldSpec.transform = transform;
         }
