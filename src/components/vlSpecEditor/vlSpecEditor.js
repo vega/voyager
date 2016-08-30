@@ -10,7 +10,7 @@ angular.module('polestar')
         scope.Spec = Spec;
 
         scope.parseVegalite = function(specJSON) {
-          Spec.reset(JSON.parse(specJSON));
+          Spec.parseSpec(JSON.parse(specJSON));
         };
       }
     };

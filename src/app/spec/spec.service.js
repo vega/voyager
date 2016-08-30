@@ -8,7 +8,25 @@
  * Service in the polestar.
  */
 angular.module('polestar')
-  .service('Spec', function(_, vg, vl, cql, ZSchema, Alerts, Config, Dataset, Schema, Pills, Chart, consts, FilterManager) {
+  .service('Spec', function(_, vg, vl, cql, ZSchema, Alerts, Config, Dataset, Schema, Pills, Chart, consts, util, FilterManager) {
+
+    var keys =  _.keys(Schema.schema.definitions.Encoding.properties);
+
+    function instantiate() {
+      return {
+        data: Config.data,
+        transform: {
+          filterInvalid: undefined
+        },
+        mark: 'point',
+        encoding: keys.reduce(function(e, c) {
+          e[c] = {};
+          return e;
+        }, {}),
+        config: Config.config
+      };
+    }
+
     var Spec = {
       /** @type {Object} verbose spec edited by the UI */
       spec: null,
@@ -51,10 +69,10 @@ angular.module('polestar')
       }
     }
 
-    var CHANNELS = _.keys(Schema.schema.definitions.Encoding.properties);
-
-    Spec.reset = function(oldSpec) {
+    function parse(spec) {
+      var oldSpec = util.duplicate(spec);
       var oldFilter = null;
+
       if (oldSpec) {
         // Store oldFilter, copy oldSpec that exclude transform.filter
         oldFilter = (oldSpec.transform || {}).filter;
@@ -65,25 +83,23 @@ angular.module('polestar')
         }
       }
 
-      var spec = {
-        data: Config.data,
-        mark: 'point',
-        transform: {
-          filterInvalid: undefined,
-          // This is not Vega-Lite filter object, but rather our FilterModel
-          filter: FilterManager.reset(oldFilter)
-        },
-        encoding: CHANNELS.reduce(function(e, c) {
-          e[c] = {};
-          return e;
-        }, {}),
-        config: Config.config
-      };
+      var newSpec = vl.util.mergeDeep(instantiate(), oldSpec);
 
-      if (oldSpec) {
-        spec = vl.util.mergeDeep(spec, oldSpec);
-      }
+      // This is not Vega-Lite filter object, but rather our FilterModel
+      newSpec.transform.filter = FilterManager.reset(oldFilter);
 
+      return newSpec;
+    }
+
+    // takes a partial spec
+    Spec.parseSpec = function(newSpec) {
+      // TODO: revise this
+      Spec.spec = parse(newSpec);
+    };
+
+    Spec.reset = function() {
+      var spec = instantiate();
+      spec.transform.filter = FilterManager.reset();
       Spec.spec = spec;
     };
 

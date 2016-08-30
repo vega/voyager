@@ -42,7 +42,7 @@ angular.module('polestar')
       Config.updateDataset(Dataset.dataset);
 
       if (consts.initialSpec) {
-        Spec.reset(consts.initialSpec);
+        Spec.parseSpec(consts.initialSpec);
       }
 
       $scope.chron = Chronicle.record('Spec.spec', $scope, true,
