@@ -10,7 +10,7 @@
 angular.module('voyager2')
   // TODO: rename to Query once it's complete independent from Polestar
   .service('Spec', function(ANY, _, vg, vl, cql, util, ZSchema, consts,
-      Alerts, Alternatives, Chart, Config, Dataset, Logger, Pills, Schema, Wildcards) {
+      Alerts, Alternatives, Chart, Config, Dataset, Logger, Pills, Schema, Wildcards, FilterManager) {
 
     var keys =  _.keys(Schema.schema.definitions.Encoding.properties).concat([ANY+0]);
 
@@ -76,7 +76,25 @@ angular.module('voyager2')
     }
 
     function parse(spec) {
-      return vl.util.mergeDeep(instantiate(), spec);
+      var oldSpec = util.duplicate(spec);
+      var oldFilter = null;
+
+      if (oldSpec) {
+        // Store oldFilter, copy oldSpec that exclude transform.filter
+        oldFilter = (oldSpec.transform || {}).filter;
+        var transform = _.omit(oldSpec.transform || {}, 'filter');
+        oldSpec = _.omit(oldSpec, 'transform');
+        if (transform) {
+          oldSpec.transform = transform;
+        }
+      }
+
+      var newSpec = vl.util.mergeDeep(instantiate(), oldSpec);
+
+      // This is not Vega-Lite filter object, but rather our FilterModel
+      newSpec.transform.filter = FilterManager.reset(oldFilter);
+
+      return newSpec;
     }
 
     // takes a partial spec
@@ -86,7 +104,9 @@ angular.module('voyager2')
     };
 
     Spec.reset = function() {
-      Spec.spec = instantiate();
+      var spec = instantiate();
+      spec.transform.filter = FilterManager.reset();
+      Spec.spec = spec;
     };
 
     /**
@@ -95,8 +115,19 @@ angular.module('voyager2')
     Spec.update = function(spec) {
       spec = _.cloneDeep(spec || Spec.spec);
 
+
       Spec._removeEmptyFieldDefs(spec);
       deleteNulls(spec);
+
+      if (spec.transform && spec.transform.filter) {
+        delete spec.transform.filter;
+      }
+
+      var filter = FilterManager.getVlFilter();
+      if (filter) {
+        spec.transform = spec.transform || {};
+        spec.transform.filter = filter;
+      }
 
       // we may have removed encoding
       if (!('encoding' in spec)) {
@@ -130,7 +161,7 @@ angular.module('voyager2')
       //   });
       // } else {
         vg.util.extend(spec.config, Config.small());
-        var query = Spec.cleanQuery = getQuery(spec);
+        var query = Spec.cleanQuery = getQuery(spec, true);
         var output = cql.query(query, Dataset.schema);
         Spec.query = output.query;
         var topItem = output.result.getTopSpecQueryModel();
@@ -190,7 +221,23 @@ angular.module('voyager2')
       }
     };
 
-    function getSpecQuery(spec) {
+    function getSpecQuery(spec, convertFilter /*HACK*/) {
+      if (convertFilter) {
+        spec = util.duplicate(spec);
+
+
+        // HACK convert filter manager to proper filter spec
+        if (spec.transform && spec.transform.filter) {
+          delete spec.transform.filter;
+        }
+
+        var filter = FilterManager.getVlFilter();
+        if (filter) {
+          spec.transform = spec.transform || {};
+          spec.transform.filter = filter;
+        }
+      }
+
       return {
         data: Config.data,
         mark: spec.mark === ANY ? '?' : spec.mark,
@@ -222,8 +269,8 @@ angular.module('voyager2')
       };
     }
 
-    function getQuery(spec) {
-      var specQuery = getSpecQuery(spec);
+    function getQuery(spec, convertFilter /*HACK */) {
+      var specQuery = getSpecQuery(spec, convertFilter);
 
       var hasAnyField = _.some(specQuery.encodings, function(encQ) {
         return cql.enumSpec.isEnumSpec(encQ.field);
