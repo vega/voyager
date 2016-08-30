@@ -85,34 +85,6 @@ angular.module('voyager2')
       Spec.spec = parse(newSpec);
     };
 
-    function isAllChannelAndFieldSpecific(topItem, isEmptyPlot) {
-      if (!topItem) {
-        return isEmptyPlot; // If it's specific no way we get empty result!
-      }
-      var enumSpecIndex = topItem.enumSpecIndex;
-      return util.keys(enumSpecIndex.encodingIndicesByProperty).length === 0;
-    }
-
-    Spec.preview = function(enable, chart, listTitle) {
-      if (enable) {
-        var spec = chart.vlSpec;
-        Spec.previewedSpec = parse(spec);
-
-        Logger.logInteraction(Logger.actions.SPEC_PREVIEW_ENABLED, chart.shorthand, {
-          list: listTitle
-        });
-      } else {
-        if (Spec.previewedSpec !== null) {
-          // If it's already null, do nothing.  We have multiple even triggering preview(null)
-          // as sometimes when lagged, the unpreview event is not triggered.
-          Spec.previewedSpec = null;
-          Logger.logInteraction(Logger.actions.SPEC_PREVIEW_DISABLED, chart.shorthand, {
-            list: listTitle
-          });
-        }
-      }
-    };
-
     Spec.reset = function() {
       Spec.spec = instantiate();
     };
@@ -188,6 +160,34 @@ angular.module('voyager2')
         }
       // }
       return Spec;
+    };
+
+    function isAllChannelAndFieldSpecific(topItem, isEmptyPlot) {
+      if (!topItem) {
+        return isEmptyPlot; // If it's specific no way we get empty result!
+      }
+      var enumSpecIndex = topItem.enumSpecIndex;
+      return util.keys(enumSpecIndex.encodingIndicesByProperty).length === 0;
+    }
+
+    Spec.preview = function(enable, chart, listTitle) {
+      if (enable) {
+        var spec = chart.vlSpec;
+        Spec.previewedSpec = parse(spec);
+
+        Logger.logInteraction(Logger.actions.SPEC_PREVIEW_ENABLED, chart.shorthand, {
+          list: listTitle
+        });
+      } else {
+        if (Spec.previewedSpec !== null) {
+          // If it's already null, do nothing.  We have multiple even triggering preview(null)
+          // as sometimes when lagged, the unpreview event is not triggered.
+          Spec.previewedSpec = null;
+          Logger.logInteraction(Logger.actions.SPEC_PREVIEW_DISABLED, chart.shorthand, {
+            list: listTitle
+          });
+        }
+      }
     };
 
     function getSpecQuery(spec) {
