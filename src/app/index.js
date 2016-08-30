@@ -56,9 +56,10 @@ angular.module('polestar', [
   .config(function(consts) {
     window.vg.util.extend(consts, {
       appId: 'polestar',
+      logLevel: 'DEBUG',
+      logToWebSql: true, // log user interactions (for user study)
       // set this if you want to load app with a specific spec
       initialSpec: window.initialSpec || undefined,
-      logToWebSql: false // log user interactions (for user study)
     });
   })
   .config(function(vl) {
