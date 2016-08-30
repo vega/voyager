@@ -8,7 +8,7 @@
  * Service in the polestar.
  */
 angular.module('polestar')
-  .service('Spec', function(_, vg, vl, cql, ZSchema, Alerts, Config, Dataset, Schema, Pills, Chart, consts, util, FilterManager) {
+  .service('Spec', function(_, vg, vl, cql, ZSchema, Alerts, Config, Dataset, Schema, Pills, Chart, consts, util, FilterManager, ANY) {
 
     var keys =  _.keys(Schema.schema.definitions.Encoding.properties);
 
@@ -130,40 +130,110 @@ angular.module('polestar')
       if (!('config' in spec)) {
         spec.config = {};
       }
-      var validator = new ZSchema();
+      // var validator = new ZSchema();
 
-      validator.setRemoteReference('http://json-schema.org/draft-04/schema', {});
+      // validator.setRemoteReference('http://json-schema.org/draft-04/schema', {});
 
-      var schema = Schema.schema;
+      // var schema = Schema.schema;
 
-      ZSchema.registerFormat('color', function (str) {
-        // valid colors are in list or hex color
-        return /^#([0-9a-f]{3}){1,2}$/i.test(str);
-        // TODO: support color name
-      });
-      ZSchema.registerFormat('font', function () {
-        // right now no fonts are valid
-        return false;
-      });
+      // ZSchema.registerFormat('color', function (str) {
+      //   // valid colors are in list or hex color
+      //   return /^#([0-9a-f]{3}){1,2}$/i.test(str);
+      //   // TODO: support color name
+      // });
+      // ZSchema.registerFormat('font', function () {
+      //   // right now no fonts are valid
+      //   return false;
+      // });
 
-      // now validate the spec
-      var valid = validator.validate(spec, schema);
+      // // now validate the spec
+      // var valid = validator.validate(spec, schema);
 
-      if (!valid) {
-        //FIXME: move this dependency to directive/controller layer
-        Alerts.add({
-          msg: validator.getLastErrors()
-        });
-      } else {
-        vg.util.extend(spec.config, Config.large());
-        var chart = Spec.chart;
-
-        chart.fieldSet =  Spec.spec.encoding;
-        chart.vlSpec = spec;
-        chart.cleanSpec = spec; // TODO: eliminate
-        chart.shorthand = cql.query.shorthand.vlSpec(spec);
-      }
+      // if (!valid) {
+      //   //FIXME: move this dependency to directive/controller layer
+      //   Alerts.add({
+      //     msg: validator.getLastErrors()
+      //   });
+      // } else {
+        vg.util.extend(spec.config, Config.small());
+        var query = Spec.cleanQuery = getQuery(spec, true);
+        var output = cql.query(query, Dataset.schema);
+        Spec.query = output.query;
+        var topItem = output.result.getTopSpecQueryModel();
+        Spec.chart = Chart.getChart(topItem);
+    // }
+      return Spec;
     };
+
+    function getSpecQuery(spec, convertFilter /*HACK*/) {
+      if (convertFilter) {
+        spec = util.duplicate(spec);
+
+
+        // HACK convert filter manager to proper filter spec
+        if (spec.transform && spec.transform.filter) {
+          delete spec.transform.filter;
+        }
+
+        var filter = FilterManager.getVlFilter();
+        if (filter) {
+          spec.transform = spec.transform || {};
+          spec.transform.filter = filter;
+        }
+      }
+
+      return {
+        data: Config.data,
+        mark: spec.mark === ANY ? '?' : spec.mark,
+
+        // TODO: support transform enumeration
+        transform: spec.transform,
+        encodings: vg.util.keys(spec.encoding).reduce(function(encodings, channelId) {
+          var encQ = vg.util.extend(
+            // Add channel
+            { channel: Pills.isAnyChannel(channelId) ? '?' : channelId },
+            // Field Def
+            spec.encoding[channelId],
+            // Remove Title
+            {title: undefined}
+          );
+
+          if (cql.enumSpec.isEnumSpec(encQ.field)) {
+            // replace the name so we should it's the field from this channelId
+            encQ.field = {
+              name: 'f' + channelId,
+              enum: encQ.field.enum
+            };
+          }
+
+          encodings.push(encQ);
+          return encodings;
+        }, []),
+        config: spec.config
+      };
+    }
+
+    function getQuery(spec, convertFilter /*HACK */) {
+      var specQuery = getSpecQuery(spec, convertFilter);
+
+      var hasAnyField = _.some(specQuery.encodings, function(encQ) {
+        return cql.enumSpec.isEnumSpec(encQ.field);
+      });
+
+      var groupBy = hasAnyField ?
+        ['field', 'aggregate', 'bin', 'timeUnit', 'stack'] :
+        ['field', 'aggregate', 'bin', 'timeUnit', 'stack', 'channel']; // do not group by mark
+
+      return {
+        spec: specQuery,
+        groupBy: groupBy,
+        orderBy: ['aggregationQuality', 'effectiveness'], // FIXME add field order
+        chooseBy: 'effectiveness',
+        config: {
+          omitTableWithOcclusion: false
+        }
+      };
+    }
 
     function instantiatePill(channel) { // jshint ignore:line
       return {};
