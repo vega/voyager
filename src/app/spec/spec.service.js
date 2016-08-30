@@ -8,7 +8,7 @@
  * Service in the polestar.
  */
 angular.module('polestar')
-  .service('Spec', function(_, vg, vl, cql, ZSchema, Alerts, Config, Dataset, Schema, Pills, Chart, consts, util, FilterManager, ANY) {
+  .service('Spec', function(_, vg, vl, cql, ZSchema, Alerts, Config, Dataset, Schema, Pills, Chart, consts, util, FilterManager, ANY, Logger) {
 
     var keys =  _.keys(Schema.schema.definitions.Encoding.properties);
 
@@ -39,7 +39,8 @@ angular.module('polestar')
         shorthand: null,
         /** @type {Object} generated vega spec */
         vgSpec: null
-      }
+      },
+      isSpecific: true // Polestar always have specific spec (except for mark)
     };
 
     Spec._removeEmptyFieldDefs = function(spec) {
@@ -286,6 +287,85 @@ angular.module('polestar')
       },
       remove: function(channelId) {
         updateChannelDef(Spec.spec.encoding, {}, channelId); // remove all pill detail from the fieldDef
+      },
+      add: function(fieldDef) {
+        var oldMarkIsEnumSpec = cql.enumSpec.isEnumSpec(Spec.cleanQuery.spec.mark);
+
+        Logger.logInteraction(Logger.actions.ADD_FIELD, fieldDef, {
+          from: Spec.chart.shorthand
+        });
+
+        if (Spec.isSpecific && !cql.enumSpec.isEnumSpec(fieldDef.field)) {
+          // Call CompassQL to run query and load the top-ranked result
+          var specQuery = Spec.cleanQuery.spec;
+          var encQ = _.extend(
+            {},
+            fieldDef,
+            {
+              channel: cql.enumSpec.SHORT_ENUM_SPEC
+            },
+            fieldDef.aggregate === 'count' ? {} : {
+              aggregate: cql.enumSpec.SHORT_ENUM_SPEC,
+              bin: cql.enumSpec.SHORT_ENUM_SPEC,
+              timeUnit: cql.enumSpec.SHORT_ENUM_SPEC
+            }
+          );
+          specQuery.encodings.push(encQ);
+
+          var query = {
+            spec: specQuery,
+            groupBy: ['field', 'aggregate', 'bin', 'timeUnit', 'stack'],
+            orderBy: 'aggregationQuality',
+            chooseBy: 'effectiveness',
+            config: {omitTableWithOcclusion: false}
+          };
+
+          var output = cql.query(query, Dataset.schema);
+          var result = output.result;
+
+          // The top spec will always have specific mark.
+          // We need to restore the mark to ANY if applicable.
+          var topSpec = result.getTopSpecQueryModel().toSpec();
+          if (oldMarkIsEnumSpec) {
+            topSpec.mark = ANY;
+          }
+          Spec.parseSpec(topSpec);
+        } else {
+          var encoding = _.clone(Spec.spec.encoding);
+          // Just add to any channel because CompassQL do not support partial filling yet.
+          var emptyAnyChannel = Pills.getEmptyAnyChannelId();
+          updateChannelDef(encoding, _.clone(fieldDef), emptyAnyChannel);
+
+          // Add new any as a placeholder
+          var newAnyChannel = Pills.getNextAnyChannelId();
+          if (newAnyChannel !== null) {
+            updateChannelDef(encoding, {}, newAnyChannel);
+          }
+
+          Spec.spec.encoding = encoding;
+        }
+
+      },
+      select: function(spec) {
+        var specQuery = getSpecQuery(spec);
+        specQuery.mark = '?';
+
+        var query = {
+          spec: specQuery,
+          chooseBy: 'effectiveness'
+        };
+        var output = cql.query(query, Dataset.schema);
+        var result = output.result;
+
+        if (result.getTopSpecQueryModel().getMark() === spec.mark) {
+          // make a copy and replace mark with '?'
+          spec = util.duplicate(spec);
+          spec.mark = ANY;
+        }
+        Spec.parseSpec(spec);
+      },
+      parse: function(spec) {
+        Spec.parseSpec(spec);
       },
       update: function(spec) {
         Spec.update(spec);
