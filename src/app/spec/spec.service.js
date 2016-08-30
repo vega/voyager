@@ -130,8 +130,6 @@ angular.module('polestar')
         return false;
       });
 
-      console.log('Spec.update', spec);
-
       // now validate the spec
       var valid = validator.validate(spec, schema);
 
