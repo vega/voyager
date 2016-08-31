@@ -30,16 +30,7 @@ angular.module('polestar')
     var Spec = {
       /** @type {Object} verbose spec edited by the UI */
       spec: null,
-      chart:{
-        /** @type {Object} concise spec generated */
-        vlSpec: null,
-        /** @type {Encoding} encoding object from the spec */
-        encoding: null,
-        /** @type {String} generated vl shorthand */
-        shorthand: null,
-        /** @type {Object} generated vega spec */
-        vgSpec: null
-      },
+      chart: Chart.getChart(null),
       isSpecific: true // Polestar always have specific spec (except for mark)
     };
 
