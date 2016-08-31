@@ -148,6 +148,9 @@ angular.module('polestar')
       //   });
       // } else {
         vg.util.extend(spec.config, Config.small());
+
+        if (!Dataset.schema) { return Spec; }
+
         var query = getQuery(spec);
         if (_.isEqual(query, Spec.cleanQuery)) {
           return Spec; // no need to update charts
