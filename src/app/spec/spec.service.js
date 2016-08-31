@@ -18,7 +18,7 @@ angular.module('polestar')
         transform: {
           filterInvalid: undefined
         },
-        mark: 'point',
+        mark: ANY,
         encoding: keys.reduce(function(e, c) {
           e[c] = {};
           return e;
@@ -148,7 +148,11 @@ angular.module('polestar')
       //   });
       // } else {
         vg.util.extend(spec.config, Config.small());
-        var query = Spec.cleanQuery = getQuery(spec, true);
+        var query = getQuery(spec);
+        if (_.isEqual(query, Spec.cleanQuery)) {
+          return Spec; // no need to update charts
+        }
+        Spec.cleanQuery = query;
         var output = cql.query(query, Dataset.schema);
         Spec.query = output.query;
         var topItem = output.result.getTopSpecQueryModel();
