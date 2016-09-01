@@ -79,8 +79,8 @@ angular.module('voyager2')
       if (!isAggregate) {
         alternativeTypes.push({
           type: 'summarize',
-          title: 'Summarize',
-          filterGroupBy: GROUP_BY_SIMILAR_DATA_AND_TRANSFORM
+          title: 'Summaries',
+          filterGroupBy: GROUP_BY_SIMILAR_DATA_AND_TRANSFORM,
           limit: 2
         });
       }
@@ -88,40 +88,40 @@ angular.module('voyager2')
       if (hasOpenPosition || !hasStyleChannel) {
         alternativeTypes.push({
           type: 'addQuantitativeField',
-          title: 'Add Quantitative Field'
+          title: 'Adding Quantities'
         });
       }
 
       if (hasOpenPosition || !hasStyleChannel || hasOpenFacet) {
         alternativeTypes.push({
           type: 'addCategoricalField',
-          title: 'Add Categorical Field'
+          title: 'Adding Categories'
         });
       }
 
       if (!hasT && hasOpenPosition) {
         alternativeTypes.push({
           type: 'addTemporalField',
-          title: 'Add Temporal Field'
+          title: 'Adding Time'
         });
       }
 
       alternativeTypes.push({
         type: 'alternativeEncodings',
-        title: 'Re-Encode',
+        title: 'Alternative Encodings',
         filterGroupBy: GROUP_BY_SIMILAR_ENCODINGS
       });
 
       if (isAggregate) {
         alternativeTypes.push({
           type: 'summarize',
-          title: 'Re-summarize',
+          title: 'Summaries',
           filterGroupBy: GROUP_BY_SIMILAR_DATA_AND_TRANSFORM
         });
 
         alternativeTypes.push({
           type: 'disaggregate',
-          title: 'Disaggregate'
+          title: 'Raw Plots'
         });
       }
 
