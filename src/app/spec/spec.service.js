@@ -164,11 +164,11 @@ angular.module('voyager2')
 
         if (!Dataset.schema) { return Spec; }
 
-        var query = getQuery(spec);
-        if (_.isEqual(query, Spec.cleanQuery)) {
+        var query = Spec.cleanQuery = getQuery(spec);
+        if (_.isEqual(query, Spec.oldCleanQuery)) {
           return Spec; // no need to update charts
         }
-        Spec.cleanQuery = query;
+        Spec.oldCleanQuery = _.cloneDeep(query);
         var output = cql.query(query, Dataset.schema);
         Spec.query = output.query;
         var topItem = output.result.getTopSpecQueryModel();
