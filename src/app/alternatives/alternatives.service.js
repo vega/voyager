@@ -81,6 +81,7 @@ angular.module('voyager2')
           type: 'summarize',
           title: 'Summarize',
           filterGroupBy: GROUP_BY_SIMILAR_DATA_AND_TRANSFORM
+          limit: 2
         });
       }
 
