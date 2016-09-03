@@ -4,7 +4,15 @@ angular.module('voyager2')
   // TODO: rename to Query once it's complete independent from Polestar
   .service('Wildcards', function(ANY, vl, cql, Dataset, Alerts) {
     var Wildcards = {
-      list: [
+      list: null,
+      addItem: addItem,
+      addField: addField,
+      removeItem: removeItem,
+      removeField: removeField
+    };
+
+    function reset() {
+      Wildcards.list = [
         {
           title: 'Categorical Fields',
           field: '?',
@@ -23,12 +31,11 @@ angular.module('voyager2')
           type: vl.type.QUANTITATIVE,
           immutable: true
         }
-      ],
-      addItem: addItem,
-      addField: addField,
-      removeItem: removeItem,
-      removeField: removeField
-    };
+      ];
+    }
+    reset();
+
+    Dataset.onUpdate.push(reset);
 
     function addItem(fieldDef) {
       var wildcard = {
