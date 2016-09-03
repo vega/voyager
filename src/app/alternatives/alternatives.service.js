@@ -88,21 +88,21 @@ angular.module('voyager2')
       if (hasOpenPosition || !hasStyleChannel) {
         alternativeTypes.push({
           type: 'addQuantitativeField',
-          title: 'Adding Quantities'
+          title: 'Add Quantitative Field'
         });
       }
 
       if (hasOpenPosition || !hasStyleChannel || hasOpenFacet) {
         alternativeTypes.push({
           type: 'addCategoricalField',
-          title: 'Adding Categories'
+          title: 'Add Categorical Field'
         });
       }
 
       if (!hasT && hasOpenPosition) {
         alternativeTypes.push({
           type: 'addTemporalField',
-          title: 'Adding Time'
+          title: 'Add Temporal Field'
         });
       }
 
@@ -112,18 +112,18 @@ angular.module('voyager2')
         filterGroupBy: GROUP_BY_SIMILAR_ENCODINGS
       });
 
-      if (isAggregate) {
-        alternativeTypes.push({
-          type: 'summarize',
-          title: 'Summaries',
-          filterGroupBy: GROUP_BY_SIMILAR_DATA_AND_TRANSFORM
-        });
+      // if (isAggregate) {
+      //   alternativeTypes.push({
+      //     type: 'summarize',
+      //     title: 'Summaries',
+      //     filterGroupBy: GROUP_BY_SIMILAR_DATA_AND_TRANSFORM
+      //   });
 
-        alternativeTypes.push({
-          type: 'disaggregate',
-          title: 'Raw Plots'
-        });
-      }
+      //   alternativeTypes.push({
+      //     type: 'disaggregate',
+      //     title: 'Disaggregate'
+      //   });
+      // }
 
       return alternativeTypes.map(function(alternative) {
         alternative.charts = executeQuery(alternative, query, chart, topItem);
