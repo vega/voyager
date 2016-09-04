@@ -83,7 +83,7 @@ angular.module('voyager2')
       }
 
       $scope.chron = Chronicle.record('Spec.spec', $scope, true,
-        ['Dataset.dataset', 'Config.config']);
+        ['Dataset.dataset', 'Config.config', 'FilterManager.filterIndex']);
 
       $scope.canUndoRedo = function() {
         $scope.canUndo = $scope.chron.canUndo();
