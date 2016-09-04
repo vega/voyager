@@ -279,13 +279,39 @@ angular.module('voyager2')
     function getQuery(spec, convertFilter /*HACK */) {
       var specQuery = getSpecQuery(spec, convertFilter);
 
-      var hasAnyField = _.some(specQuery.encodings, function(encQ) {
-        return cql.enumSpec.isEnumSpec(encQ.field);
-      });
+      var hasAnyField = false, hasAnyFn = false;
 
-      var groupBy = hasAnyField ?
-        ['field', 'aggregate', 'bin', 'timeUnit', 'stack'] :
-        ['field', 'aggregate', 'bin', 'timeUnit', 'stack', 'channel']; // do not group by mark
+      for (var i = 0; i < specQuery.encodings.length; i++) {
+        var encQ = specQuery.encodings[i];
+        if (encQ.autoCount === false) continue;
+
+        if (cql.enumSpec.isEnumSpec(encQ.field)) {
+          hasAnyField = true;
+        }
+
+        if (cql.enumSpec.isEnumSpec(encQ.aggregate) ||
+            cql.enumSpec.isEnumSpec(encQ.bin) ||
+            cql.enumSpec.isEnumSpec(encQ.timeUnit)) {
+          hasAnyFn = true;
+        }
+      }
+
+      /* jshint ignore:start */
+      var groupBy = hasAnyField ? ['field', 'aggregate', 'bin', 'timeUnit', 'stack'] :
+        // group transposes, group differnt mark together
+        [
+          'field',
+          'aggregate', 'bin', 'timeUnit', 'stack',
+          {
+            "property": "channel",
+            "replace": {
+              "x": "xy", "y": "xy",
+              "color": "style", "size": "style", "shape": "style", "opacity": "style",
+              "row": "facet", "column": "facet"
+            }
+          }
+        ];
+      /* jshint ignore:end */
 
       return {
         spec: specQuery,
