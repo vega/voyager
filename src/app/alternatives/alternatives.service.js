@@ -222,7 +222,7 @@ angular.module('voyager2')
       return {
         spec: newSpecQ,
         groupBy: GROUP_BY_SIMILAR_DATA_AND_TRANSFORM,
-        orderBy: ['aggregationQuality', 'effectiveness'],
+        orderBy: ['aggregationQuality', 'effectiveness', 'fieldOrder'],
         chooseBy: 'effectiveness',
         config: {
           autoAddCount: true,
@@ -338,7 +338,7 @@ angular.module('voyager2')
           ]
         },
         groupBy: GROUP_BY_SIMILAR_DATA_AND_TRANSFORM,
-        // FIXME: missing orderBy field order
+        orderBy: 'fieldOrder',
         chooseBy: 'effectiveness',
         config: { autoAddCount: false }
       };
