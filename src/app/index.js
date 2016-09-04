@@ -62,7 +62,7 @@ angular.module('voyager2', [
       debugInList: true,
       logLevel: 'DEBUG',
       logToWebSql: true, // log user interactions (for user study)
-      maxAnyShelf: 3
+      maxAnyShelf: 4
     });
   })
   .config(function(vl) {
