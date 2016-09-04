@@ -109,11 +109,12 @@ angular.module('polestar')
         delete spec.transform.filter;
       }
 
+      spec.transform = spec.transform || {};
       var filter = FilterManager.getVlFilter();
-      if (filter) {
-        spec.transform = spec.transform || {};
+      if (filter || spec.transform.filter) {
         spec.transform.filter = filter;
       }
+
 
       // we may have removed encoding
       if (!('encoding' in spec)) {
