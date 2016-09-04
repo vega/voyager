@@ -105,7 +105,7 @@ angular.module('voyager2')
 
     Spec.reset = function(hard) {
       var spec = instantiate();
-      spec.transform.filter = FilterManager.reset(hard);
+      spec.transform.filter = FilterManager.reset(null, hard);
       Spec.spec = spec;
     };
 
