@@ -322,9 +322,17 @@ angular.module('polestar')
           var output = cql.query(query, Dataset.schema);
           var result = output.result;
 
+          var topItem = result.getTopSpecQueryModel();
+
+          if (!topItem) {
+            // No Top Item
+            Alerts.add('Cannot automatically adding this field anymore');
+            return;
+          }
+
           // The top spec will always have specific mark.
           // We need to restore the mark to ANY if applicable.
-          var topSpec = result.getTopSpecQueryModel().toSpec();
+          var topSpec = topItem.toSpec();
           if (oldMarkIsEnumSpec) {
             topSpec.mark = ANY;
           }
