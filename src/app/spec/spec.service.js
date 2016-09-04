@@ -311,7 +311,6 @@ angular.module('voyager2')
             }
           }
         ];
-      /* jshint ignore:end */
 
       return {
         spec: specQuery,
@@ -322,6 +321,7 @@ angular.module('voyager2')
           omitTableWithOcclusion: false
         }
       };
+      /* jshint ignore:end */
     }
 
     function instantiatePill(channel) { // jshint ignore:line
