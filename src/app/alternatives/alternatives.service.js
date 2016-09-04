@@ -307,6 +307,7 @@ angular.module('voyager2')
       var newSpecQ = util.duplicate(query.spec);
       newSpecQ.encodings.push({
         channel: cql.enumSpec.SHORT_ENUM_SPEC,
+        hasFn: true,
         timeUnit: cql.enumSpec.SHORT_ENUM_SPEC,
         field: cql.enumSpec.SHORT_ENUM_SPEC,
         type: vl.type.Type.TEMPORAL
