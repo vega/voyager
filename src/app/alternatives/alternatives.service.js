@@ -85,17 +85,24 @@ angular.module('voyager2')
         });
       }
 
-      if (hasOpenPosition || !hasStyleChannel) {
+      if (hasOpenPosition) {
         alternativeTypes.push({
           type: 'addQuantitativeField',
           title: 'Add Quantitative Field'
         });
       }
 
-      if (hasOpenPosition || !hasStyleChannel || hasOpenFacet) {
+      if (hasOpenPosition || !hasStyleChannel) {
         alternativeTypes.push({
           type: 'addCategoricalField',
           title: 'Add Categorical Field'
+        });
+      }
+
+      if (!hasOpenPosition && !hasStyleChannel) {
+        alternativeTypes.push({
+          type: 'addQuantitativeField',
+          title: 'Add Quantitative Field'
         });
       }
 
@@ -111,6 +118,13 @@ angular.module('voyager2')
         title: 'Alternative Encodings',
         filterGroupBy: GROUP_BY_SIMILAR_ENCODINGS
       });
+
+      if (!(hasOpenPosition || !hasStyleChannel) && hasOpenFacet) {
+        alternativeTypes.push({
+          type: 'addCategoricalField',
+          title: 'Add Categorical Field'
+        });
+      }
 
       // if (isAggregate) {
       //   alternativeTypes.push({
