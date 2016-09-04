@@ -89,9 +89,9 @@ angular.module('polestar')
       Spec.spec = parse(newSpec);
     };
 
-    Spec.reset = function() {
+    Spec.reset = function(hard) {
       var spec = instantiate();
-      spec.transform.filter = FilterManager.reset();
+      spec.transform.filter = FilterManager.reset(hard);
       Spec.spec = spec;
     };
 
@@ -419,7 +419,9 @@ angular.module('polestar')
     };
 
     Spec.reset();
-    Dataset.onUpdate.push(Spec.reset);
+    Dataset.onUpdate.push(function() {
+      Spec.reset(true);
+    });
 
     return Spec;
   });
