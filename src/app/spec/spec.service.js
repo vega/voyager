@@ -48,9 +48,9 @@ angular.module('voyager2')
       histograms: null,
       instantiate: instantiate,
       groupByLabel: {
-        field: 'Show views with different fields',
-        fieldTransform: 'Show views with different fields and transforms',
-        encoding: 'Show views with different encodings',
+        field: 'Showing views with different fields',
+        fieldTransform: 'Showing views with different fields and transforms',
+        encoding: 'Showing views with different encodings',
       },
       autoGroupBy: null
     };
@@ -330,7 +330,7 @@ angular.module('voyager2')
       spec.encoding = vl.util.mergeDeep(spec.encoding, encoding);
       spec.config = specQuery.config;
 
-      spec.groupBy = query.groupBy;
+      spec.groupBy = 'auto'; // query.groupBy;
       spec.autoAddCount = (query.config || {}).autoAddCount;
       return spec;
     }
