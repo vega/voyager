@@ -299,20 +299,7 @@ angular.module('voyager2')
       }
 
       /* jshint ignore:start */
-      var groupBy = hasAnyField ? ['field', 'aggregate', 'bin', 'timeUnit', 'stack'] :
-        // group transposes, group differnt mark together
-        [
-          'field',
-          'aggregate', 'bin', 'timeUnit', 'stack',
-          {
-            "property": "channel",
-            "replace": {
-              "x": "xy", "y": "xy",
-              "color": "style", "size": "style", "shape": "style", "opacity": "style",
-              "row": "facet", "column": "facet"
-            }
-          }
-        ];
+      var groupBy = hasAnyField ? 'fieldTransform' : 'encoding';
 
       return {
         spec: specQuery,

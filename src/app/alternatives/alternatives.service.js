@@ -178,7 +178,7 @@ angular.module('voyager2')
       // TODO: extend config
       return {
         spec: newSpecQ,
-        groupBy: GROUP_BY_SIMILAR_ENCODINGS,
+        groupBy: 'encoding',
         // fieldOrder, aggregationQuality should be the same, since we have similar fields and aggregates
         orderBy: ['fieldOrder', 'aggregationQuality', 'effectiveness'],
         chooseBy: ['aggregationQuality', 'effectiveness']
@@ -223,7 +223,7 @@ angular.module('voyager2')
       // TODO: extend config
       return {
         spec: newSpecQ,
-        groupBy: GROUP_BY_SIMILAR_DATA_AND_TRANSFORM,
+        groupBy: 'fieldTransform',
         // fieldOrder should be the same, since we have similar fields
         orderBy: ['fieldOrder', 'aggregationQuality', 'effectiveness'],
         // aggregationQuality should be the same with group with similar transform
@@ -253,7 +253,7 @@ angular.module('voyager2')
 
       return {
         spec: newSpecQ,
-        groupBy: GROUP_BY_SIMILAR_DATA_AND_TRANSFORM,
+        groupBy: 'fieldTransform',
         // field order would be actually the same
         orderBy: ['fieldOrder', 'aggregationQuality', 'effectiveness'],
         chooseBy: ['aggregationQuality', 'effectiveness'],
@@ -275,7 +275,7 @@ angular.module('voyager2')
       });
       return {
         spec: newSpecQ,
-        groupBy: GROUP_BY_FIELD,
+        groupBy: 'field',
         // FieldOrder should dominates everything else
         orderBy: ['fieldOrder', 'aggregationQuality', 'effectiveness'],
         // aggregationQuality should be the same
@@ -297,7 +297,7 @@ angular.module('voyager2')
       });
       return {
         spec: newSpecQ,
-        groupBy: GROUP_BY_FIELD,
+        groupBy: 'field',
         // FieldOrder should dominates everything else
         orderBy: ['fieldOrder', 'aggregationQuality', 'effectiveness'],
         chooseBy: ['aggregationQuality', 'effectiveness'],
@@ -318,7 +318,7 @@ angular.module('voyager2')
       });
       return {
         spec: newSpecQ,
-        groupBy: GROUP_BY_FIELD,
+        groupBy: 'field',
         // FieldOrder should dominates everything else
         orderBy: ['fieldOrder', 'aggregationQuality', 'effectiveness'],
         chooseBy: ['aggregationQuality', 'effectiveness'],
@@ -339,7 +339,7 @@ angular.module('voyager2')
             { channel: cql.enumSpec.SHORT_ENUM_SPEC, field: '*', aggregate: vl.aggregate.AggregateOp.COUNT, type: vl.type.Type.QUANTITATIVE }
           ]
         },
-        groupBy: GROUP_BY_SIMILAR_DATA_AND_TRANSFORM,
+        groupBy: 'fieldTransform',
         // FieldOrder should dominates everything else
         orderBy: ['fieldOrder', 'aggregationQuality', 'effectiveness'],
         // aggregationQuality should be the same
