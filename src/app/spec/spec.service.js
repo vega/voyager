@@ -373,6 +373,13 @@ angular.module('voyager2')
       encoding[channel] = fieldDef;
     }
 
+    function addNewAnyChannel(encoding) {
+      var newAnyChannel = Pills.getNextAnyChannelId();
+      if (newAnyChannel !== null) {
+        updateChannelDef(encoding, {}, newAnyChannel);
+      }
+    }
+
 
     Pills.listener = {
       set: function(channelId, pill) {
@@ -382,6 +389,12 @@ angular.module('voyager2')
         if (Pills.isAnyChannel(channelId)) {
           // For ANY channel, completely remove it from the encoding
           delete Spec.spec.encoding[channelId];
+          // Check if we remove the last available any channel shelf
+          var emptyAnyChannel = Pills.getEmptyAnyChannelId();
+          if (!emptyAnyChannel) {
+            // if so, add one back!
+            addNewAnyChannel(Spec.spec.encoding);
+          }
         } else {
           // For typically channels, remove all pill detail from the fieldDef, but keep the object
           updateChannelDef(Spec.spec.encoding, {}, channelId);
@@ -444,10 +457,7 @@ angular.module('voyager2')
           updateChannelDef(encoding, _.clone(fieldDef), emptyAnyChannel);
 
           // Add new any as a placeholder
-          var newAnyChannel = Pills.getNextAnyChannelId();
-          if (newAnyChannel !== null) {
-            updateChannelDef(encoding, {}, newAnyChannel);
-          }
+          addNewAnyChannel(encoding);
 
           Spec.spec.encoding = encoding;
         }
