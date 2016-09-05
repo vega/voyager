@@ -50,7 +50,7 @@ angular.module('voyager2')
       var alternative = {
         type: 'histograms',
         title: 'Univariate Summaries',
-        limit: 12
+        limit: 20
       };
       return [
         util.extend(alternative, {
