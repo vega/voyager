@@ -50,11 +50,12 @@ angular.module('voyager2')
       var alternative = {
         type: 'histograms',
         title: 'Univariate Summaries',
-        limit: 20
+        limit: 20,
+        query: histograms(query)
       };
       return [
         util.extend(alternative, {
-          charts: executeQuery(alternative, query, chart, topItem)
+          charts: executeQuery(alternative, chart, topItem)
         })
       ];
     }
@@ -140,14 +141,14 @@ angular.module('voyager2')
       // }
 
       return alternativeTypes.map(function(alternative) {
-        alternative.charts = executeQuery(alternative, query, chart, topItem);
+        alternative.query = Alternatives[alternative.type](query);
+        alternative.charts = executeQuery(alternative, chart, topItem);
         return alternative;
       });
     }
 
-    function executeQuery(alternative, query, mainChart, mainTopItem) {
-      var alternativeQuery = Alternatives[alternative.type](query);
-      var output = cql.query(alternativeQuery, Dataset.schema);
+    function executeQuery(alternative, mainChart, mainTopItem) {
+      var output = cql.query(alternative.query, Dataset.schema);
 
       // Don't include the specified visualization in the recommendation list
       return output.result.items
