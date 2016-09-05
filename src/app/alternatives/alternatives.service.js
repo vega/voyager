@@ -263,9 +263,10 @@ angular.module('voyager2')
       newSpecQ.encodings.push({
         channel: cql.enumSpec.SHORT_ENUM_SPEC,
         field: cql.enumSpec.SHORT_ENUM_SPEC,
-        type: {
-          enum: [vl.type.Type.NOMINAL, vl.type.Type.ORDINAL]
-        }
+        type: vl.type.Type.NOMINAL
+        // type: {
+        //   enum: [vl.type.Type.NOMINAL, vl.type.Type.ORDINAL]
+        // }
       });
       return {
         spec: newSpecQ,

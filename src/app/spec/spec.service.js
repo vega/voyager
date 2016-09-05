@@ -26,7 +26,8 @@ angular.module('voyager2')
           return e;
         }, {}),
         config: Config.config,
-        groupBy: 'auto'
+        groupBy: 'auto',
+        autoAddCount: false
       };
     }
 
@@ -235,6 +236,25 @@ angular.module('voyager2')
         }
       }
     };
+    Spec.previewQuery = function(enable, query, listTitle) {
+      if (enable) {
+        if (!query) return;
+        Spec.previewedSpec = parseQuery(query);
+
+        Logger.logInteraction(Logger.actions.SPEC_PREVIEW_ENABLED, cql.query.shorthand.spec(query.spec), {
+          list: listTitle
+        });
+      } else {
+        if (Spec.previewedSpec !== null) {
+          // If it's already null, do nothing.  We have multiple even triggering preview(null)
+          // as sometimes when lagged, the unpreview event is not triggered.
+          Spec.previewedSpec = null;
+          Logger.logInteraction(Logger.actions.SPEC_PREVIEW_DISABLED, cql.query.shorthand.spec(query.spec), {
+          list: listTitle
+        });
+        }
+      }
+    };
 
     function getSpecQuery(spec, convertFilter /*HACK*/) {
       if (convertFilter) {
@@ -284,6 +304,37 @@ angular.module('voyager2')
       };
     }
 
+    function parseQuery(query) {
+      var specQuery = util.duplicate(query.spec);
+      // Mark -> ANY
+      var spec = instantiate();
+
+      if (cql.enumSpec.isEnumSpec(specQuery.mark)) {
+        spec.mark = ANY;
+      } else {
+        spec.mark = specQuery.mark;
+      }
+
+      spec.transform = _.omit(specQuery.transform || {}, 'filter');
+      // This is not Vega-Lite filter object, but rather our FilterModel
+      spec.transform.filter = FilterManager.reset(specQuery.transform.filter);
+
+      var anyCount = 0;
+
+      var encoding = specQuery.encodings.reduce(function(e, encQ) {
+        // Channel -> ANY0, ANY1
+        var channel = cql.enumSpec.isEnumSpec(encQ.channel) ? ANY + (anyCount++) : encQ.channel;
+        e[channel] = encQ;
+        return e;
+      }, {});
+      spec.encoding = vl.util.mergeDeep(spec.encoding, encoding);
+      spec.config = specQuery.config;
+
+      spec.groupBy = query.groupBy;
+      spec.autoAddCount = (query.config || {}).autoAddCount;
+      return spec;
+    }
+
     function getQuery(spec, convertFilter /*HACK */) {
       var specQuery = getSpecQuery(spec, convertFilter);
 
@@ -319,7 +370,8 @@ angular.module('voyager2')
         orderBy: ['fieldOrder', 'aggregationQuality', 'effectiveness'],
         chooseBy: ['aggregationQuality', 'effectiveness'],
         config: {
-          omitTableWithOcclusion: false
+          omitTableWithOcclusion: false,
+          autoAddCount: spec.autoAddCount
         }
       };
       /* jshint ignore:end */
@@ -486,10 +538,14 @@ angular.module('voyager2')
         }
         Spec.parseSpec(spec);
       },
+      selectQuery: function(query) {
+        Spec.spec = parseQuery(query);
+      },
       parse: function(spec) {
         Spec.parseSpec(spec);
       },
       preview: Spec.preview,
+      previewQuery: Spec.previewQuery,
       update: function(spec) {
         return Spec.update(spec);
       },

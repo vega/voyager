@@ -110,6 +110,11 @@
         <div class="queried-vis-pane no-top-margin card" ng-if="!Spec.isSpecific">
           <div class="right">
             <label>
+              <input type="checkbox" ng-model="Spec.spec.autoAddCount"/>
+              Auto-Add Count
+            </label>
+            <span style="display: inline-block; width: 10px">&nbsp;</span>
+            <label>
               Clustering:
               <select ng-model="Spec.spec.groupBy"
                 ng-change="groupByChanged()">
@@ -174,8 +179,6 @@
             <!--<div class="description">
               Here are refinement to your visualization that you might want to consider.
             </div>-->
-            {{Spec.alternatives.charts}}
-
             <vl-plot-group-list
               ng-repeat="alternative in Spec.alternatives"
               ng-if="alternative.charts.length > 0 && (!$parent.alternativeType || $parent.alternativeType === alternative.type)"
@@ -186,6 +189,8 @@
               priority="$index * 1000"
               initial-limit="alternative.limit || null"
               post-select-action="$parent.scrollToTop()"
+              show-query-select="true"
+              query="alternative.query"
             >
             </vl-plot-group-list>
           </div>
