@@ -526,10 +526,7 @@ angular.module('voyager2')
         if (Pills.isAnyChannel(cidDragTo) && pillDragToWasEmpty) {
           if (!cidDragFrom || !Pills.isAnyChannel(cidDragFrom)) {
             // If drag new field from schema or from normal shelf, add new any
-            var newAnyChannel = Pills.getNextAnyChannelId();
-            if (newAnyChannel !== null) {
-              updateChannelDef(encoding, {}, newAnyChannel);
-            }
+            addNewAnyChannel(encoding);
           }
         }
 
