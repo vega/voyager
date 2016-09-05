@@ -178,8 +178,9 @@ angular.module('voyager2')
       return {
         spec: newSpecQ,
         groupBy: GROUP_BY_SIMILAR_ENCODINGS,
-        orderBy: 'effectiveness',
-        chooseBy: 'effectiveness'
+        // fieldOrder, aggregationQuality should be the same, since we have similar fields and aggregates
+        orderBy: ['fieldOrder', 'aggregationQuality', 'effectiveness'],
+        chooseBy: ['aggregationQuality', 'effectiveness']
       };
     }
 
@@ -222,8 +223,10 @@ angular.module('voyager2')
       return {
         spec: newSpecQ,
         groupBy: GROUP_BY_SIMILAR_DATA_AND_TRANSFORM,
-        orderBy: ['aggregationQuality', 'effectiveness', 'fieldOrder'],
-        chooseBy: 'effectiveness',
+        // fieldOrder should be the same, since we have similar fields
+        orderBy: ['fieldOrder', 'aggregationQuality', 'effectiveness'],
+        // aggregationQuality should be the same with group with similar transform
+        chooseBy: ['aggregationQuality', 'effectiveness'],
         config: {
           autoAddCount: true,
           omitRaw: true
@@ -250,8 +253,9 @@ angular.module('voyager2')
       return {
         spec: newSpecQ,
         groupBy: GROUP_BY_SIMILAR_DATA_AND_TRANSFORM,
-        orderBy: 'aggregationQuality',
-        chooseBy: 'effectiveness',
+        // field order would be actually the same
+        orderBy: ['fieldOrder', 'aggregationQuality', 'effectiveness'],
+        chooseBy: ['aggregationQuality', 'effectiveness'],
         config: {
           autoAddCount: false,
           omitAggregate: true
@@ -271,8 +275,10 @@ angular.module('voyager2')
       return {
         spec: newSpecQ,
         groupBy: GROUP_BY_FIELD,
-        orderBy: 'aggregationQuality',
-        chooseBy: 'effectiveness',
+        // FieldOrder should dominates everything else
+        orderBy: ['fieldOrder', 'aggregationQuality', 'effectiveness'],
+        // aggregationQuality should be the same
+        chooseBy: ['aggregationQuality', 'effectiveness'],
         config: {
           autoAddCount: true
         }
@@ -290,13 +296,10 @@ angular.module('voyager2')
       });
       return {
         spec: newSpecQ,
-        nest: [{
-          groupBy: GROUP_BY_FIELD
-        },{
-          groupBy: GROUP_BY_SIMILAR_DATA_AND_TRANSFORM,
-          orderGroupBy: 'aggregationQuality'
-        }],
-        chooseBy: 'effectiveness',
+        groupBy: GROUP_BY_FIELD,
+        // FieldOrder should dominates everything else
+        orderBy: ['fieldOrder', 'aggregationQuality', 'effectiveness'],
+        chooseBy: ['aggregationQuality', 'effectiveness'],
         config: {
           autoAddCount: true
         }
@@ -314,13 +317,10 @@ angular.module('voyager2')
       });
       return {
         spec: newSpecQ,
-        nest: [{
-          groupBy: GROUP_BY_FIELD
-        },{
-          groupBy: GROUP_BY_SIMILAR_DATA_AND_TRANSFORM,
-          orderGroupBy: 'aggregationQuality'
-        }],
-        chooseBy: 'effectiveness',
+        groupBy: GROUP_BY_FIELD,
+        // FieldOrder should dominates everything else
+        orderBy: ['fieldOrder', 'aggregationQuality', 'effectiveness'],
+        chooseBy: ['aggregationQuality', 'effectiveness'],
         config: {
           autoAddCount: true
         }
@@ -339,8 +339,10 @@ angular.module('voyager2')
           ]
         },
         groupBy: GROUP_BY_SIMILAR_DATA_AND_TRANSFORM,
-        orderBy: 'fieldOrder',
-        chooseBy: 'effectiveness',
+        // FieldOrder should dominates everything else
+        orderBy: ['fieldOrder', 'aggregationQuality', 'effectiveness'],
+        // aggregationQuality should be the same
+        chooseBy: ['aggregationQuality', 'effectiveness'],
         config: { autoAddCount: false }
       };
     }

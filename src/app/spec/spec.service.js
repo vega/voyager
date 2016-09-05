@@ -317,8 +317,8 @@ angular.module('voyager2')
       return {
         spec: specQuery,
         groupBy: groupBy,
-        orderBy: ['aggregationQuality', 'effectiveness'], // FIXME add field order
-        chooseBy: 'effectiveness',
+        orderBy: ['fieldOrder', 'aggregationQuality', 'effectiveness'],
+        chooseBy: ['aggregationQuality', 'effectiveness'],
         config: {
           omitTableWithOcclusion: false
         }
