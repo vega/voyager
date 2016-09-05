@@ -211,6 +211,7 @@ angular.module('voyager2')
 
     Spec.preview = function(enable, chart, listTitle) {
       if (enable) {
+        if (!chart) return;
         var spec = chart.vlSpec;
         Spec.previewedSpec = parse(spec);
 
