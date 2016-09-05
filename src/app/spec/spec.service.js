@@ -404,7 +404,7 @@ angular.module('voyager2')
         var oldMarkIsEnumSpec = cql.enumSpec.isEnumSpec(Spec.cleanQuery.spec.mark);
 
         Logger.logInteraction(Logger.actions.ADD_FIELD, fieldDef, {
-          from: Spec.chart.shorthand
+          from: cql.query.shorthand.spec(Spec.query.spec)
         });
 
         if (Spec.isSpecific && !cql.enumSpec.isEnumSpec(fieldDef.field)) {
@@ -454,6 +454,12 @@ angular.module('voyager2')
           var encoding = _.clone(Spec.spec.encoding);
           // Just add to any channel because CompassQL do not support partial filling yet.
           var emptyAnyChannel = Pills.getEmptyAnyChannelId();
+
+          if (!emptyAnyChannel) {
+            Alerts.add('You cannot add too many fields to the wildcard shelves!');
+            return;
+          }
+
           updateChannelDef(encoding, _.clone(fieldDef), emptyAnyChannel);
 
           // Add new any as a placeholder
