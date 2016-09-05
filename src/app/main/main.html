@@ -110,7 +110,7 @@
         <div class="queried-vis-pane no-top-margin card" ng-if="!Spec.isSpecific">
           <div class="right">
             <label>
-              <input type="checkbox" ng-model="Spec.spec.autoAddCount"/>
+              <input type="checkbox" ng-model="Spec.spec.autoAddCount" ng-change="autoAddCountChanged()"/>
               Auto-Add Count
             </label>
             <span style="display: inline-block; width: 10px">&nbsp;</span>

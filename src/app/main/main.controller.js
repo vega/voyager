@@ -42,6 +42,9 @@ angular.module('voyager2')
     $scope.groupByChanged = function() {
       Logger.logInteraction(Logger.actions.GROUP_BY_CHANGED, Spec.spec.groupBy);
     };
+    $scope.autoAddCountChanged = function() {
+      Logger.logInteraction(Logger.actions.AUTO_ADD_COUNT_CHANGED, Spec.spec.autoAddCount);
+    };
 
     $scope.$watch('Spec.alternatives', function(alternatives) {
       for (var i = 0 ; i < alternatives.length; i++) {
