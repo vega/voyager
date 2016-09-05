@@ -603,10 +603,10 @@ angular.module('voyager2')
         Chart.transpose(Spec.spec);
       },
       isEnumeratedChannel: function(channelId) {
-        return !Spec.spec.encoding[channelId].field;
+        return Spec.spec.encoding[channelId] && !Spec.spec.encoding[channelId].field;
       },
       isEnumeratedField: function(channelId) {
-        return cql.enumSpec.isEnumSpec(Spec.spec.encoding[channelId].field);
+        return Spec.spec.encoding[channelId] && cql.enumSpec.isEnumSpec(Spec.spec.encoding[channelId].field);
       },
       toggleFilterInvalid: function () {
         Spec.spec.transform.filterInvalid = Spec.spec.transform.filterInvalid ? undefined : true;
