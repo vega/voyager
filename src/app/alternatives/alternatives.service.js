@@ -15,6 +15,7 @@ angular.module('voyager2')
       getAlternatives: getAlternatives
     };
 
+    // TODO: import these from CQL once we export them!
     var GROUP_BY_SIMILAR_ENCODINGS = [
       cql.property.Property.FIELD,
       cql.property.Property.AGGREGATE,
@@ -37,13 +38,6 @@ angular.module('voyager2')
       cql.property.Property.BIN,
       cql.property.Property.TIMEUNIT,
       cql.property.Property.TYPE,
-    ];
-
-    var GROUP_BY_FIELD = [
-      {
-        property: cql.property.Property.FIELD,
-        replace: {'*': ''}
-      }
     ];
 
     function getHistograms(query, chart, topItem) {
