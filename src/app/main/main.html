@@ -108,6 +108,18 @@
           </div>
         </div>
         <div class="queried-vis-pane no-top-margin card" ng-if="!Spec.isSpecific">
+          <div class="right">
+            <label>
+              Clustering:
+              <select ng-model="Spec.spec.groupBy"
+                ng-change="groupByChanged()">
+                <option value="auto">Auto ({{Spec.groupByLabel[Spec.autoGroupBy]}})</option>
+                <option value="field">{{Spec.groupByLabel.field}}</option>
+                <option value="fieldTransform">{{Spec.groupByLabel.fieldTransform}}</option>
+                <option value="encoding">{{Spec.groupByLabel.encoding}}</option>
+              </select>
+            </label>
+          </div>
           <h2>
             Specified View<span ng-show="Spec.charts.length>1">s</span>
           </h2>

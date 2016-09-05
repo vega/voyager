@@ -25,7 +25,8 @@ angular.module('voyager2')
           e[c] = {};
           return e;
         }, {}),
-        config: Config.config
+        config: Config.config,
+        groupBy: 'auto'
       };
     }
 
@@ -38,14 +39,19 @@ angular.module('voyager2')
       emptySpec: instantiate(),
       /** @type {Query} */
       query: null,
-
       isSpecific: true,
       charts: null,
       chart: Chart.getChart(null),
       isEmptyPlot: true,
       alternatives: [],
       histograms: null,
-      instantiate: instantiate
+      instantiate: instantiate,
+      groupByLabel: {
+        field: 'Show views with different fields',
+        fieldTransform: 'Show views with different fields and transforms',
+        encoding: 'Show views with different encodings',
+      },
+      autoGroupBy: null
     };
 
     Spec._removeEmptyFieldDefs = function(spec) {
@@ -299,7 +305,13 @@ angular.module('voyager2')
       }
 
       /* jshint ignore:start */
-      var groupBy = hasAnyField ? 'fieldTransform' : 'encoding';
+      var groupBy = spec.groupBy;
+
+      if (spec.groupBy === 'auto') {
+        groupBy = Spec.autoGroupBy = hasAnyField ?
+          (hasAnyFn ? 'fieldTransform' : 'field') :
+          'encoding';
+      }
 
       return {
         spec: specQuery,

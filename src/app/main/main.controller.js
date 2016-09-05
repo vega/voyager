@@ -39,6 +39,10 @@ angular.module('voyager2')
       $document.find('.vis-pane-container').scrollTop(0);
     };
 
+    $scope.groupByChanged = function() {
+      Logger.logInteraction(Logger.actions.GROUP_BY_CHANGED, Spec.spec.groupBy);
+    };
+
     $scope.$watch('Spec.alternatives', function(alternatives) {
       for (var i = 0 ; i < alternatives.length; i++) {
         if ($scope.alternativeType === alternatives[i].type) {
