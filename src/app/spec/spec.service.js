@@ -338,7 +338,7 @@ angular.module('voyager2')
     function getQuery(spec, convertFilter /*HACK */) {
       var specQuery = getSpecQuery(spec, convertFilter);
 
-      var hasAnyField = false, hasAnyFn = false;
+      var hasAnyField = false, hasAnyFn = false, hasAnyChannel = false;
 
       for (var i = 0; i < specQuery.encodings.length; i++) {
         var encQ = specQuery.encodings[i];
@@ -352,6 +352,10 @@ angular.module('voyager2')
             cql.enumSpec.isEnumSpec(encQ.bin) ||
             cql.enumSpec.isEnumSpec(encQ.timeUnit)) {
           hasAnyFn = true;
+        }
+
+        if (cql.enumSpec.isEnumSpec(encQ.channel)) {
+          hasAnyChannel = true;
         }
       }
 
@@ -371,7 +375,7 @@ angular.module('voyager2')
         chooseBy: ['aggregationQuality', 'effectiveness'],
         config: {
           omitTableWithOcclusion: false,
-          autoAddCount: spec.autoAddCount
+          autoAddCount: (hasAnyField || hasAnyFn || hasAnyChannel) && spec.autoAddCount
         }
       };
       /* jshint ignore:end */
