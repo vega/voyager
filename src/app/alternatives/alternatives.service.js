@@ -203,6 +203,7 @@ angular.module('voyager2')
                 // For other Q, it should be either aggregate or binned
                 encQ.aggregate = makeEnumSpec(encQ.aggregate);
                 encQ.bin = makeEnumSpec(encQ.bin);
+                encQ.hasFn = true;
               }
               break;
             case vl.type.Type.TEMPORAL:
