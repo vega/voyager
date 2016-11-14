@@ -1,20 +1,18 @@
-# Pole✭ (Voyager2) -- Alpha
+# Voyager 2 -- Alpha
 
 Voyager2 is Tableau-style User Interface for visual analysis with support for partial specification, building on top
-of [Vega-Lite](https://github.com/vega/vega-lite) and [CompassQL](https://github.com/uwdata/compassql). Try our [online
-demo](http://uwdata.github.io/voyager2/). Also, be sure to check out [related
-projects](https://vega.github.io/).
+of [Vega-Lite](https://github.com/vega/vega-lite) and [CompassQL](https://github.com/vega/compassql). 
 
 **This project is an [alpha](http://en.wikipedia.org/wiki/Software_release_life_cycle#Alpha) software.
-We are working on improving its code and documentation.**
+We are working on improving its code and documentation. Please subscribe to our [mailing list](https://groups.google.com/forum/#!forum/data-voyager).**
 
-If you are using Voyager2 for your project(s), please let us know what are you using it for by emailing us at [Vega-Lite \[at\] cs.washington.edu](mailto:vega-lite@cs.washington.edu).  Feedbacks are also welcomed.
-If you find a bug or have a feature request, please [create an issue](https://github.com/uwdata/voyager2/issues/new).
+
+Feedbacks are also welcomed. If you find a bug or have a feature request, please [create an issue](https://github.com/uwdata/voyager2/issues/new).
 
 
 ## Team
 
-Voyager2's development is led by Dominik Moritz, Kanit Wongsuphasawat, and Jeffrey Heer at the University of Washington [Interactive Data Lab](http://idl.cs.washington.edu), in collaboration with [UW eScience Institute](http://escience.washington.edu/) and [Tableau Research](http://research.tableau.com)
+Voyager2's development is led by Kanit Wongsuphasawat and Jeffrey Heer at the University of Washington [Interactive Data Lab](http://idl.cs.washington.edu), in collaboration with [UW eScience Institute](http://escience.washington.edu/) and [Tableau Research](http://research.tableau.com)
 
 ## Setup Instruction
 
