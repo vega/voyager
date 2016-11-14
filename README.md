@@ -1,7 +1,5 @@
 # Pole✭ (Voyager2) -- Alpha
 
-[![Build Status](https://travis-ci.org/uwdata/voyager2.svg)](https://travis-ci.org/uwdata/voyager2)
-
 Voyager2 is Tableau-style User Interface for visual analysis with support for partial specification, building on top
 of [Vega-Lite](https://github.com/vega/vega-lite) and [CompassQL](https://github.com/uwdata/compassql). Try our [online
 demo](http://uwdata.github.io/voyager2/). Also, be sure to check out [related
