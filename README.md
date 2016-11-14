@@ -4,7 +4,7 @@ Voyager2 is Tableau-style User Interface for visual analysis with support for pa
 of [Vega-Lite](https://github.com/vega/vega-lite) and [CompassQL](https://github.com/vega/compassql). 
 
 **This project is an [alpha](http://en.wikipedia.org/wiki/Software_release_life_cycle#Alpha) software.
-We are working on improving its code and documentation. Please subscribe to our [mailing list](https://groups.google.com/forum/#!forum/data-voyager).**
+We are working on improving its code and documentation. Please subscribe to our [mailing list](https://groups.google.com/forum/#!forum/data-voyager) to follow our updates.**
 
 
 Feedbacks are also welcomed. If you find a bug or have a feature request, please [create an issue](https://github.com/uwdata/voyager2/issues/new).
