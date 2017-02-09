@@ -1,0 +1,37 @@
+{
+  "name": "voyager",
+  "version": "2.0.0-alpha.0",
+  "description": "",
+  "author": {
+    "name": "UW Interactive Data Lab",
+    "url": "http://idl.cs.washington.edu"
+  },
+  "collaborators": [
+    "Kanit Wongsuphasawat <kanitw@gmail.com> (http://kanitw.yellowpigz.com)",
+    "Dominik Moritz <domoritz@cs.washington.edu> (http://domoritz.de)",
+    "Jeffrey Heer <jheer@uw.edu> (http://jheer.org)"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vega/voyager.git"
+  },
+  "license": "BSD-3-Clause",
+  "scripts": {
+    "build": "webpack -d"
+  },
+  "devDependencies": {
+    "awesome-typescript-loader": "^3.0.3",
+    "source-map-loader": "^0.1.6",
+    "tslint": "~4.3.1",
+    "typescript": "^2.1.5",
+    "vega-lite": "2.0.0-alpha.0",
+    "webpack": "^1"
+  },
+  "dependencies": {
+    "@types/react": "^15.0.8",
+    "@types/react-dom": "^0.14.23",
+    "react": "^15.4.2",
+    "react-dom": "^15.4.2",
+    "tslint-react": "^2.3.0"
+  }
+}
