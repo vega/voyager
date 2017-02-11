@@ -19,19 +19,25 @@
   "scripts": {
     "build": "webpack -d"
   },
-  "devDependencies": {
-    "awesome-typescript-loader": "^3.0.3",
-    "source-map-loader": "^0.1.6",
-    "tslint": "~4.3.1",
-    "typescript": "^2.1.5",
-    "vega-lite": "2.0.0-alpha.0",
-    "webpack": "^1"
-  },
   "dependencies": {
-    "@types/react": "^15.0.8",
-    "@types/react-dom": "^0.14.23",
+    "compassql": "^0.8.0",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
-    "tslint-react": "^2.3.0"
+    "react-redux": "^5.0.2",
+    "redux-logger": "^2.8.1",
+    "vega-lite": "2.0.0-alpha.1"
+  },
+  "devDependencies": {
+    "@types/react": "^15.0.8",
+    "@types/react-dom": "^0.14.23",
+    "autoprefixer": "6.4.1",
+    "codecov": "^1.0.1",
+    "jest": "^18.1.0",
+    "source-map-loader": "^0.1.6",
+    "ts-loader": "^2.0.0",
+    "tslint": "~4.3.1",
+    "tslint-react": "^2.3.0",
+    "typescript": "^2.1.5",
+    "webpack": "^1"
   }
 }
