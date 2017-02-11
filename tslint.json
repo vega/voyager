@@ -12,6 +12,7 @@
     "no-arg": true,
     "no-any": false,
     "jsdoc-format": true,
+    "interface-name": [true, "never-prefix"],
     "adjacent-overload-signatures": true,
     "member-access": true,
     "semicolon": [true, "always"],
