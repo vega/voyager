@@ -1,13 +1,15 @@
 {
   "compilerOptions": {
     "outDir": "./dist/",
-    "sourceMap": true,
-    "noImplicitAny": true,
     "module": "commonjs",
+    "noImplicitAny": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "sourceMap": true,
     "target": "es5",
     "jsx": "react"
   },
   "include": [
-    "./src/**/*"
+    "./src/**/*",
+    "./node_modules/compassql/typings/*.d.ts"
   ]
 }
