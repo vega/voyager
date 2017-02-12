@@ -1,3 +1,5 @@
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
+
 module.exports = {
   entry: "./src/index.tsx",
   output: {
@@ -21,11 +23,10 @@ module.exports = {
 
       {
         test: /\.scss$/,
-        use: [
-          "style-loader",
-          "css-loader",
-          "sass-loader"
-        ]
+        use: ExtractTextPlugin.extract({
+          fallback: "style-loader",
+          use: ["css-loader", "sass-loader"]
+        })
       }
     ]
   },
@@ -38,4 +39,10 @@ module.exports = {
     "react": "React",
     "react-dom": "ReactDOM"
   },
+  plugins: [
+    new ExtractTextPlugin({
+      filename: "style.css",
+      disable: false
+    })
+  ]
 };
