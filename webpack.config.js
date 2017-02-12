@@ -11,6 +11,12 @@ module.exports = {
   devtool: 'cheap-eval-source-map',
   // devtool: "source-map", // this is better for production
 
+  devServer: {
+    contentBase: __dirname,
+    compress: true,
+    port: 9000
+  },
+
   resolve: {
     // Add '.ts' and '.tsx' as resolvable extensions.
     extensions: [".webpack.js", ".web.js", ".ts", ".tsx", ".js"]
