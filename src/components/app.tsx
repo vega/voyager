@@ -1,7 +1,7 @@
 import * as React from 'react';
 
+import {Data} from './data/data';
 import {Header} from './header/header';
-import {SchemaList} from './schemalist/schemalist';
 
 
 export class App extends React.Component<any, {}> {
@@ -10,7 +10,7 @@ export class App extends React.Component<any, {}> {
       <div className="root">
         <Header/>
         <div>
-          <SchemaList/>
+          <Data/>
         </div>
       </div>
     );
