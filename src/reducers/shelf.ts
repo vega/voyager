@@ -4,7 +4,7 @@ import {DEFAULT_SHELF_SPEC, UnitShelf} from '../models';
 import {isWildcard} from 'compassql/src/wildcard';
 
 export function shelfReducer(shelf: Readonly<UnitShelf>, action: Action): UnitShelf {
-  switch(action.type) {
+  switch (action.type) {
     case 'shelf-reset':
       return DEFAULT_SHELF_SPEC;
 

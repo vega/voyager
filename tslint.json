@@ -1,5 +1,5 @@
 {
-  "extends": ["tslint:recommended", "tslint-react"],
+  "extends": ["tslint:latest", "tslint-react"],
   "rules": {
     "ban": true,
     "interface-name": [true, "never-prefix"],
