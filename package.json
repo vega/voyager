@@ -18,6 +18,7 @@
   "license": "BSD-3-Clause",
   "scripts": {
     "build": "webpack -d",
+    "watch": "webpack -d --watch",
     "clean": "find -E dist  -regex '.*\\.(js|js.map|d.ts)' -delete",
     "lint": "tslint -c tslint.json 'src/**/*.(ts|tsx)' --exclude '**/*.d.ts'",
     "test": "jest --no-cache --coverage"
