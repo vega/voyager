@@ -6,10 +6,12 @@
     "suppressImplicitAnyIndexErrors": true,
     "sourceMap": true,
     "target": "es5",
-    "jsx": "react"
+    "jsx": "react",
+    "importHelpers": true
   },
   "include": [
     "./src/**/*",
-    "./node_modules/compassql/typings/*.d.ts"
+    "./node_modules/compassql/typings/*.d.ts",
+    "node_modules/@types/**/*.d.ts"
   ]
 }

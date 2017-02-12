@@ -47,7 +47,8 @@ export const DEFAULT_SHELF_SPEC: Readonly<UnitShelf> = {
 export function toSpecQuery(spec: UnitShelf): SpecQuery {
   return {
     mark: spec.mark,
-    encodings: specificEncodingsToEncodingQueries(spec.encoding).concat(spec.anyEncodings)
+    encodings: specificEncodingsToEncodingQueries(spec.encoding).concat(spec.anyEncodings),
+    config: spec.config
   };
 }
 
