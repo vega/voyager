@@ -17,6 +17,7 @@
   },
   "license": "BSD-3-Clause",
   "scripts": {
+    "start": "webpack-dev-server --open",
     "build": "webpack -d",
     "watch": "webpack -d --watch",
     "clean": "find -E dist  -regex '.*\\.(js|js.map|d.ts)' -delete",
@@ -70,7 +71,8 @@
     "tslint-config-standard": "^4.0.0",
     "tslint-react": "^2.3.0",
     "typescript": "^2.1.5",
-    "webpack": "2.2.1"
+    "webpack": "2.2.1",
+    "webpack-dev-server": "2.3"
   },
   "jest": {
     "transform": {
