@@ -4,8 +4,9 @@ import {SHORT_WILDCARD} from 'compassql/src/wildcard';
 
 import {Config} from 'vega-lite/src/config';
 import {Encoding} from 'vega-lite/src/encoding';
-import {Mark} from 'vega-lite/src/mark';
+import {Mark as VLMark} from 'vega-lite/src/mark';
 
+export type Mark = VLMark | SHORT_WILDCARD;
 
 export type SpecificEncoding = {
   [P in keyof Encoding]: Encoding[P]; // TODO: change Encoding[P] to sub-part of EncodingQuery
@@ -20,7 +21,7 @@ export type SpecificEncoding = {
 export interface UnitShelf {
   // TODO: add other top-level specs.
 
-  mark: Mark | SHORT_WILDCARD;
+  mark: Mark;
 
   // TODO: add transform
 

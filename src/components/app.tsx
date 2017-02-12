@@ -4,6 +4,8 @@ import * as React from 'react';
 
 import {Data} from './data/data';
 import {Header} from './header/header';
+import {ShelfContainer} from './shelf';
+import {ViewContainer} from './view';
 
 
 export class App extends React.Component<any, {}> {
@@ -13,6 +15,8 @@ export class App extends React.Component<any, {}> {
         <Header/>
         <div>
           <Data/>
+          <ShelfContainer/>
+          <ViewContainer/>
         </div>
       </div>
     );
