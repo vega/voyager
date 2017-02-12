@@ -19,22 +19,24 @@
   "scripts": {
     "build": "webpack -d",
     "clean": "find -E dist  -regex '.*\\.(js|js.map|d.ts)' -delete",
-    "lint": "tslint -c tslint.json 'src/**/*.ts' --exclude '**/*.d.ts'",
+    "lint": "tslint -c tslint.json 'src/**/*.(ts|tsx)' --exclude '**/*.d.ts'",
     "test": "jest --no-cache --coverage"
   },
   "dependencies": {
-    "@types/jest": "^18.1.1",
     "compassql": "^0.8.3",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
     "react-redux": "^5.0.2",
+    "redux": "^3.6.0",
     "redux-logger": "^2.8.1",
     "tslib": "^1.5.0",
     "vega-lite": "2.0.0-alpha.1"
   },
   "devDependencies": {
+    "@types/jest": "^18.1.1",
     "@types/react": "^15.0.8",
     "@types/react-dom": "^0.14.23",
+    "@types/react-redux": "^4.4.36",
     "autoprefixer": "6.4.1",
     "codecov": "^1.0.1",
     "jest": "~18",
@@ -50,7 +52,10 @@
     "transform": {
       ".(ts|tsx)": "<rootDir>/node_modules/ts-jest/preprocessor.js"
     },
-    "testPathIgnorePatterns": ["<rootDir>/dist/", "<rootDir>/node_modules/"],
+    "testPathIgnorePatterns": [
+      "<rootDir>/dist/",
+      "<rootDir>/node_modules/"
+    ],
     "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
     "testResultsProcessor": "<rootDir>/node_modules/ts-jest/coverageprocessor.js",
     "moduleFileExtensions": [
