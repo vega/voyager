@@ -1,4 +1,4 @@
-import {UnitShelf, DEFAULT_SHELF_SPEC} from './shelf';
+import {DEFAULT_SHELF_SPEC, UnitShelf} from './shelf';
 export * from './shelf';
 
 export interface State {
