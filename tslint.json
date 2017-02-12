@@ -1,6 +1,7 @@
 {
   "extends": ["tslint:latest", "tslint-react"],
   "rules": {
+    "arrow-parens": false,
     "ban": true,
     "interface-name": [true, "never-prefix"],
     "no-consecutive-blank-lines": [true, 3],
