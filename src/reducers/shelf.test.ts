@@ -12,9 +12,9 @@ describe('reducers/shelf', () => {
     });
   });
 
-  describe('shelf-change-mark-type', () => {
+  describe('shelf-mark-change-type', () => {
     it('should return shelf spec with new mark', () => {
-      const shelf = shelfReducer(DEFAULT_SHELF_SPEC, {type: 'shelf-change-mark-type', mark: 'area'});
+      const shelf = shelfReducer(DEFAULT_SHELF_SPEC, {type: 'shelf-mark-change-type', mark: 'area'});
       expect(shelf.mark).toBe('area');
     });
   });

@@ -5,7 +5,7 @@ import {Mark} from 'vega-lite/src/mark';
 
 export type ShelfAction =
   ShelfClear |
-  ShelfChangeMarkType |
+  ShelfMarkChangeType |
   ShelfFieldAdd | ShelfFieldChannelRemove | ShelfFieldWildcardChannelRemove;
 
 export interface ShelfClear {
@@ -14,8 +14,8 @@ export interface ShelfClear {
 
 // Mark
 
-export interface ShelfChangeMarkType {
-  type: 'shelf-change-mark-type';
+export interface ShelfMarkChangeType {
+  type: 'shelf-mark-change-type';
   mark: Mark;
 }
 

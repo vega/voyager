@@ -8,7 +8,7 @@ export function shelfReducer(shelf: Readonly<UnitShelf>, action: Action): UnitSh
     case 'shelf-reset':
       return DEFAULT_SHELF_SPEC;
 
-    case 'shelf-change-mark-type':
+    case 'shelf-mark-change-type':
       return {
         ...shelf,
         mark: action.mark
@@ -52,4 +52,5 @@ export function shelfReducer(shelf: Readonly<UnitShelf>, action: Action): UnitSh
         ]
       };
   }
+  return shelf;
 }
