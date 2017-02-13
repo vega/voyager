@@ -3,9 +3,9 @@ import {ConnectDropTarget, DropTarget, DropTargetCollector, DropTargetSpec} from
 
 import { DraggableType } from '../../constants';
 import {ShelfChannel, ShelfFieldDef} from '../../models';
-import {Field} from '../Field';
+import {Field} from '../field';
 
-import './EncodingShelf.scss';
+import './encoding-shelf.scss';
 
 import * as classNames from 'classnames';
 import {ActionHandler} from '../../actions/index';

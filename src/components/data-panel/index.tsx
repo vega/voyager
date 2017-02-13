@@ -2,7 +2,7 @@ import * as React from 'react';
 import {connect} from 'react-redux';
 
 import {Data, State} from '../../models';
-import {FieldList} from './fieldlist';
+import {FieldList} from './field-list';
 
 export interface DataPanelProps {
   data: Data;

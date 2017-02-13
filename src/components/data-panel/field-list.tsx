@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {Schema} from '../../models';
 
-import {Field} from '../Field';
+import {Field} from '../field';
 
 
 export interface FieldListProps {

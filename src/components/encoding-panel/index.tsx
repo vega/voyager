@@ -6,8 +6,8 @@ import {ActionHandler} from '../../actions/index';
 import {createDispatchHandler} from '../../actions/redux-action';
 import {SHELF_CLEAR, ShelfAction} from '../../actions/shelf';
 import {State, UnitShelf} from '../../models';
-import {EncodingShelf} from './EncodingShelf';
-import {MarkShelf} from './MarkShelf';
+import {EncodingShelf} from './encoding-shelf';
+import {MarkShelf} from './mark-shelf';
 
 interface EncodingPanelProps extends ActionHandler<ShelfAction> {
   shelf: UnitShelf;
