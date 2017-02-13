@@ -4,19 +4,22 @@ import {DragElementWrapper, DragSource, DragSourceCollector, DragSourceSpec} fro
 import {DraggableType} from '../../constants';
 import {FieldDef} from '../../models';
 
-export interface FieldProps {
-  fieldDef: FieldDef;
-
-  draggable: boolean;
-
-  // ======  React-dnd ======
-
+/**
+ * Props for react-dnd of Field
+ */
+export interface FieldDragSourceProps {
   // Call this function inside render()
   // to let React DnD handle the drag events:
   connectDragSource?: DragElementWrapper<any>;
 
   // You can ask the monitor about the current drag state:
   isDragging?: boolean;
+}
+
+export interface FieldProps extends FieldDragSourceProps {
+  fieldDef: FieldDef;
+
+  draggable: boolean;
 };
 
 
@@ -26,9 +29,9 @@ class FieldBase extends React.Component<FieldProps, {}> {
     const {field, type} = this.props.fieldDef;
 
     const component = (
-      <div className="FieldInfo">
+      <span className="FieldInfo">
         {field} ({type.charAt(0)})
-      </div>
+      </span>
     );
 
     // Wrap with connect dragSource if it is injected
@@ -45,7 +48,7 @@ const fieldSource: DragSourceSpec<FieldProps> = {
 /**
  * Specifies which props to inject into your component.
  */
-const collect: DragSourceCollector = (connect, monitor) => {
+const collect: DragSourceCollector = (connect, monitor): FieldDragSourceProps => {
   return {
     // Call this function inside render()
     // to let React DnD handle the drag events:
