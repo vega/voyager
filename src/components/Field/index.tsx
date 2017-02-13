@@ -2,7 +2,7 @@ import * as React from 'react';
 import {DragElementWrapper, DragSource, DragSourceCollector, DragSourceSpec} from 'react-dnd';
 
 import {DraggableType} from '../../constants';
-import {FieldDef} from '../../models';
+import {ShelfFieldDef} from '../../models';
 
 /**
  * Props for react-dnd of Field
@@ -17,7 +17,7 @@ export interface FieldDragSourceProps {
 }
 
 export interface FieldProps extends FieldDragSourceProps {
-  fieldDef: FieldDef;
+  fieldDef: ShelfFieldDef;
 
   draggable: boolean;
 

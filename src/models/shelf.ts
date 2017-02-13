@@ -2,14 +2,16 @@ import {EncodingQuery} from 'compassql/src/query/encoding';
 import {SpecQuery} from 'compassql/src/query/spec';
 import {SHORT_WILDCARD} from 'compassql/src/wildcard';
 
+import {Channel} from 'vega-lite/src/channel';
 import {Config} from 'vega-lite/src/config';
 import {Encoding} from 'vega-lite/src/encoding';
+import {FieldDef} from 'vega-lite/src/fieldDef';
 import {Mark as VLMark} from 'vega-lite/src/mark';
 
-export {Channel} from 'vega-lite/src/channel';
-export {FieldDef} from 'vega-lite/src/fieldDef';
 
-export type Mark = VLMark | SHORT_WILDCARD;
+export type ShelfChannel = Channel | SHORT_WILDCARD;
+export type ShelfMark = VLMark | SHORT_WILDCARD;
+export type ShelfFieldDef = FieldDef;
 
 export type SpecificEncoding = {
   [P in keyof Encoding]: Encoding[P]; // TODO: change Encoding[P] to sub-part of EncodingQuery
@@ -24,7 +26,7 @@ export type SpecificEncoding = {
 export interface UnitShelf {
   // TODO: add other top-level specs.
 
-  mark: Mark;
+  mark: ShelfMark;
 
   // TODO: add transform
 

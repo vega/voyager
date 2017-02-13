@@ -1,7 +1,4 @@
-import {SHORT_WILDCARD} from 'compassql/src/wildcard';
-import {Channel} from 'vega-lite/src/channel';
-import {FieldDef} from 'vega-lite/src/fielddef';
-import {Mark} from 'vega-lite/src/mark';
+import {ShelfChannel, ShelfFieldDef, ShelfMark} from '../models';
 
 export type ShelfAction =
   ShelfClear |
@@ -13,10 +10,9 @@ export interface ShelfClear {
 };
 
 // Mark
-
 export interface ShelfMarkChangeType {
   type: 'shelf-mark-change-type';
-  mark: Mark;
+  mark: ShelfMark;
 }
 
 // Field
@@ -26,15 +22,14 @@ export interface ShelfMarkChangeType {
  */
 export interface ShelfFieldAdd {
   type: 'shelf-field-add';
-  channel: Channel | SHORT_WILDCARD;
-  fieldDef: FieldDef;
-
+  channel: ShelfChannel;
+  fieldDef: ShelfFieldDef;
   index?: number;
 }
 
 export interface ShelfFieldRemove {
   type: 'shelf-field-remove';
-  channel: Channel | SHORT_WILDCARD;
+  channel: ShelfChannel;
 
   index?: number;
 }

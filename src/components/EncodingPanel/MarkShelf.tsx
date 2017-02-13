@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import {Mark} from '../../models';
+import {ShelfMark} from '../../models';
 
 import {SHORT_WILDCARD} from 'compassql/src/wildcard';
 import {PRIMITIVE_MARKS} from 'vega-lite/src/mark';
@@ -14,11 +14,11 @@ const options = ALL_MARKS.map(mark => (
 ));
 
 export interface MarkShelfDispatcher {
-  onMarkChange: (mark: Mark) => void;
+  onMarkChange: (mark: ShelfMark) => void;
 }
 
 interface MarkShelfProps extends MarkShelfDispatcher {
-  mark: Mark;
+  mark: ShelfMark;
 }
 
 /**
@@ -39,6 +39,6 @@ export class MarkShelf extends React.Component<MarkShelfProps, {}> {
     );
   }
   private onMarkChange(event: any) {
-    this.props.onMarkChange(event.target.value as Mark);
+    this.props.onMarkChange(event.target.value as ShelfMark);
   }
 }

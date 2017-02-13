@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {Channel} from 'vega-lite/src/channel';
 import {Mark} from 'vega-lite/src/mark';
 
-import {FieldDef, State, UnitShelf} from '../../models';
+import {ShelfFieldDef, State, UnitShelf} from '../../models';
 import {EncodingShelf, EncodingShelfDispatchProps} from './EncodingShelf';
 import {MarkShelf, MarkShelfDispatcher} from './MarkShelf';
 
@@ -37,7 +37,12 @@ class EncodingPanelBase extends React.Component<EncodingPanelProps, {}> {
     );
   }
 
+  /**
+   * Return encoding shelf for normal (non-wildcard channels).
+   */
   private encodingShelf(channel: Channel) {
+    // This one can't be wildcard, thus we use VL's Channel, not our ShelfChannel
+
     const {encoding} = this.props.shelf;
     const {onFieldDrop, onFieldRemove} = this.props;
 
@@ -70,7 +75,7 @@ export const EncodingPanel = connect(
           mark: mark
         });
       },
-      onFieldDrop(channel: Channel, fieldDef: FieldDef, index?: number) {
+      onFieldDrop(channel: Channel, fieldDef: ShelfFieldDef, index?: number) {
         dispatch({
           type: 'shelf-field-add',
           channel,

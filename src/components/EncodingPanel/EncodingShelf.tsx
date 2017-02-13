@@ -2,7 +2,7 @@ import * as React from 'react';
 import {ConnectDropTarget, DropTarget, DropTargetCollector, DropTargetSpec} from 'react-dnd';
 
 import { DraggableType } from '../../constants';
-import {Channel, FieldDef} from '../../models';
+import {ShelfChannel, ShelfFieldDef} from '../../models';
 import {Field} from '../Field';
 
 import './EncodingShelf.scss';
@@ -19,14 +19,14 @@ export interface EncodingShelfDropTargetProps {
 }
 
 export interface EncodingShelfDispatchProps {
-  onFieldDrop: (channel: Channel, fieldDef: FieldDef, index?: number) => void;
+  onFieldDrop: (channel: ShelfChannel, fieldDef: ShelfFieldDef, index?: number) => void;
 
-  onFieldRemove: (channel: Channel, index?: number) => void;
+  onFieldRemove: (channel: ShelfChannel, index?: number) => void;
 }
 
 export interface EncodingShelfProps extends EncodingShelfDropTargetProps, EncodingShelfDispatchProps {
-  channel: Channel;
-  fieldDef: FieldDef;
+  channel: ShelfChannel;
+  fieldDef: ShelfFieldDef;
 }
 
 const encodingShelfTarget: DropTargetSpec<EncodingShelfProps> = {
@@ -37,7 +37,7 @@ const encodingShelfTarget: DropTargetSpec<EncodingShelfProps> = {
       return;
     }
 
-    const item = monitor.getItem() as FieldDef;
+    const item = monitor.getItem() as ShelfFieldDef;
     props.onFieldDrop(props.channel, item);
   }
 };
