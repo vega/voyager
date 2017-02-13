@@ -12,7 +12,7 @@
     "ordered-imports": [
       true, "lowercase-last"
     ],
-    "quotemark": [true, "avoid-escape", "single"],
+    "quotemark": [true, "avoid-escape", "single", "jsx-double"],
     "switch-default": false,
     "trailing-comma": [false]
   }
