@@ -2,7 +2,7 @@ import './app.scss';
 
 import * as React from 'react';
 
-import {Data} from './data/data';
+import {DataContainer} from './data';
 import {Header} from './header/header';
 import {ShelfContainer} from './shelf';
 import {ViewContainer} from './view';
@@ -14,7 +14,7 @@ export class App extends React.Component<any, {}> {
       <div className="root">
         <Header/>
         <div>
-          <Data/>
+          <DataContainer/>
           <ShelfContainer/>
           <ViewContainer/>
         </div>
