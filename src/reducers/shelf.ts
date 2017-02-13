@@ -1,7 +1,7 @@
 import {Action, SHELF_CLEAR, SHELF_FIELD_ADD, SHELF_FIELD_REMOVE, SHELF_MARK_CHANGE_TYPE} from '../actions';
-import {DEFAULT_SHELF_SPEC, UnitShelf} from '../models';
+import {DEFAULT_SHELF_SPEC, isWildcardChannelId, UnitShelf} from '../models';
 
-import {isWildcard} from 'compassql/src/wildcard';
+import {SHORT_WILDCARD} from 'compassql/src/wildcard';
 
 export function shelfReducer(shelf: Readonly<UnitShelf>, action: Action): UnitShelf {
   switch (action.type) {
@@ -17,15 +17,15 @@ export function shelfReducer(shelf: Readonly<UnitShelf>, action: Action): UnitSh
     }
 
     case SHELF_FIELD_ADD: {
-      const {channel, fieldDef} = action.payload;
-      if (isWildcard(channel)) {
+      const {shelfId, fieldDef} = action.payload;
+      if (isWildcardChannelId(shelfId)) {
         // FIXME take index into account
         return {
           ...shelf,
           anyEncodings: [
             ...shelf.anyEncodings,
             {
-              channel: channel,
+              channel: SHORT_WILDCARD,
               ...fieldDef
             }
           ]
@@ -35,16 +35,16 @@ export function shelfReducer(shelf: Readonly<UnitShelf>, action: Action): UnitSh
           ...shelf,
           encoding: {
             ...shelf.encoding,
-            [channel]: fieldDef
+            [shelfId.channel]: fieldDef
           }
         };
       }
     }
 
     case SHELF_FIELD_REMOVE: {
-      const {channel, index} = action.payload;
-      if (isWildcard(channel)) {
-        // FIXME throw error if action.index is not provided.
+      const shelfId = action.payload;
+      if (isWildcardChannelId(shelfId)) {
+        const index = shelfId.index;
         return {
           ...shelf,
           anyEncodings: [
@@ -53,7 +53,7 @@ export function shelfReducer(shelf: Readonly<UnitShelf>, action: Action): UnitSh
           ]
         };
       } else {
-        const {[channel]: _, ...encoding} = shelf.encoding;
+        const {[shelfId.channel]: _, ...encoding} = shelf.encoding;
         return {
           ...shelf,
           encoding: encoding

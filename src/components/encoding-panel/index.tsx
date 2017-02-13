@@ -59,7 +59,7 @@ class EncodingPanelBase extends React.Component<EncodingPanelProps, {}> {
     return (
       <EShelf
         key={channel}
-        channel={channel}
+        id={{channel}}
         fieldDef={encoding[channel]}
         handleAction={handleAction}
       />

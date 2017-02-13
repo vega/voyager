@@ -51,9 +51,16 @@ class FieldBase extends React.Component<FieldProps, {}> {
   }
 };
 
+export interface DraggedFieldIdentifier {
+  fieldDef: ShelfFieldDef;
+
+}
+
 const fieldSource: DragSourceSpec<FieldProps> = {
-  beginDrag(props) {
-    return props.fieldDef;
+  beginDrag(props): DraggedFieldIdentifier {
+    return {
+      fieldDef: props.fieldDef,
+    };
   }
 };
 

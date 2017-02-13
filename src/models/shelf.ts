@@ -9,7 +9,25 @@ import {FieldDef} from 'vega-lite/src/fieldDef';
 import {Mark as VLMark} from 'vega-lite/src/mark';
 
 
-export type ShelfChannel = Channel | SHORT_WILDCARD;
+/**
+ * Identifier of shelf -- either a channel name for non-wildcard channel or
+ * index number for wildcard channel.
+ */
+export type ShelfId = ShelfChannelId | ShelfWildcardChannelId;
+
+export interface ShelfChannelId {
+  channel: Channel;
+};
+
+export interface ShelfWildcardChannelId {
+  channel: SHORT_WILDCARD;
+  index: number;
+};
+
+export function isWildcardChannelId(shelfId: ShelfId): shelfId is ShelfWildcardChannelId {
+  return shelfId.channel === SHORT_WILDCARD;
+}
+
 export type ShelfMark = VLMark | SHORT_WILDCARD;
 export type ShelfFieldDef = FieldDef;
 

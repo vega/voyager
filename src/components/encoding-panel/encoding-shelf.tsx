@@ -2,14 +2,17 @@ import * as React from 'react';
 import {ConnectDropTarget, DropTarget, DropTargetCollector, DropTargetSpec} from 'react-dnd';
 
 import { DraggableType } from '../../constants';
-import {ShelfChannel, ShelfFieldDef} from '../../models';
+import {ShelfFieldDef} from '../../models';
 import {Field} from '../field';
 
 import './encoding-shelf.scss';
 
 import * as classNames from 'classnames';
+import {SHORT_WILDCARD} from 'compassql/src/wildcard';
 import {ActionHandler} from '../../actions/index';
 import {SHELF_FIELD_ADD, SHELF_FIELD_REMOVE, ShelfEncodingAction} from '../../actions/shelf';
+import {ShelfId} from '../../models';
+import {DraggedFieldIdentifier} from '../field/index';
 
 /**
  * Props for react-dnd of EncodingShelf
@@ -21,7 +24,8 @@ export interface EncodingShelfDropTargetProps {
 }
 
 export interface EncodingShelfProps extends EncodingShelfDropTargetProps, ActionHandler<ShelfEncodingAction> {
-  channel: ShelfChannel;
+  id: ShelfId;
+
   fieldDef: ShelfFieldDef;
 }
 
@@ -33,10 +37,10 @@ const encodingShelfTarget: DropTargetSpec<EncodingShelfProps> = {
       return;
     }
 
-    const item = monitor.getItem() as ShelfFieldDef;
+    const {fieldDef} = monitor.getItem() as DraggedFieldIdentifier;
     props.handleAction({
       type: SHELF_FIELD_ADD,
-      payload: {channel: props.channel, fieldDef: item}
+      payload: {shelfId: props.id, fieldDef}
     });
   }
 };
@@ -56,7 +60,8 @@ class EncodingShelfBase extends React.Component<EncodingShelfProps, {}> {
     this.onRemove = this.onRemove.bind(this);
   }
   public render() {
-    const {channel, connectDropTarget, fieldDef, isOver} = this.props;
+    const {id, connectDropTarget, fieldDef, isOver} = this.props;
+    const channelName = id.channel === SHORT_WILDCARD ? 'any' : id.channel;
 
     const classes = classNames({
       EncodingShelf: true,
@@ -70,17 +75,17 @@ class EncodingShelfBase extends React.Component<EncodingShelfProps, {}> {
 
     return connectDropTarget(
       <div className={classes}>
-        <span>{channel}: </span>
+        <span>{channelName}: </span>
         {fieldDef ? field : FieldPlaceholder()}
       </div>
     );
   }
   private onRemove() {
-    const {channel, handleAction} = this.props;
+    const {id, handleAction} = this.props;
 
     handleAction({
       type: SHELF_FIELD_REMOVE,
-      payload: {channel}
+      payload: id
     });
   }
 }

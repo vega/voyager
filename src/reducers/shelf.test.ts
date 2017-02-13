@@ -27,7 +27,7 @@ describe('reducers/shelf', () => {
         DEFAULT_SHELF_SPEC,
         {
           type: SHELF_FIELD_ADD,
-          payload: {channel: 'x', fieldDef: {field: 'a', type: 'quantitative'}}
+          payload: {shelfId: {channel: 'x'}, fieldDef: {field: 'a', type: 'quantitative'}}
         }
       );
       expect(shelf.encoding.x).toEqual({field: 'a', type: 'quantitative'});
@@ -38,7 +38,7 @@ describe('reducers/shelf', () => {
         DEFAULT_SHELF_SPEC,
         {
           type: SHELF_FIELD_ADD,
-          payload: {channel: SHORT_WILDCARD, fieldDef: {field: 'a', type: 'quantitative'}}
+          payload: {shelfId: {channel: SHORT_WILDCARD, index: 0}, fieldDef: {field: 'a', type: 'quantitative'}}
         }
       );
       expect(shelf.anyEncodings[0]).toEqual({channel: SHORT_WILDCARD, field: 'a', type: 'quantitative'});
