@@ -20,6 +20,8 @@ export interface EncodingShelfDropTargetProps {
 
 export interface EncodingShelfDispatchProps {
   onFieldDrop: (channel: Channel, fieldDef: FieldDef, index?: number) => void;
+
+  onFieldRemove: (channel: Channel, index?: number) => void;
 }
 
 export interface EncodingShelfProps extends EncodingShelfDropTargetProps, EncodingShelfDispatchProps {
@@ -49,7 +51,7 @@ const collect: DropTargetCollector = (connect, monitor): EncodingShelfDropTarget
 
 class EncodingShelfBase extends React.Component<EncodingShelfProps, {}> {
   public render() {
-    const {channel, fieldDef, connectDropTarget, isOver} = this.props;
+    const {channel, connectDropTarget, fieldDef, isOver} = this.props;
 
     const classes = classNames({
       EncodingShelf: true,
@@ -59,14 +61,18 @@ class EncodingShelfBase extends React.Component<EncodingShelfProps, {}> {
     // HACK: add alias to suppress compile error for: https://github.com/Microsoft/TypeScript/issues/13526
     const F = Field as any;
 
-    const field = (<F fieldDef={fieldDef} draggable={true}/>);
+    const field = (<F fieldDef={fieldDef} draggable={true} onRemove={this.onRemove.bind(this)}/>);
 
     return connectDropTarget(
       <div className={classes}>
-        <span>{channel}</span>
+        <span>{channel}: </span>
         {fieldDef ? field : FieldPlaceholder()}
       </div>
     );
+  }
+  private onRemove() {
+    const {channel, onFieldRemove} = this.props;
+    onFieldRemove(channel);
   }
 }
 

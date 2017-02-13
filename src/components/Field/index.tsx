@@ -20,22 +20,29 @@ export interface FieldProps extends FieldDragSourceProps {
   fieldDef: FieldDef;
 
   draggable: boolean;
-};
 
+  /** Remove field handler.  If not provided, remove button will not be shown. */
+  onRemove?: () => void;
+};
 
 class FieldBase extends React.Component<FieldProps, {}> {
   public render(): JSX.Element {
-    const { connectDragSource } = this.props;
+    const {connectDragSource, onRemove} = this.props;
     const {field, type} = this.props.fieldDef;
 
+    // FIXME remove local bind
     const component = (
       <span className="FieldInfo">
         {field} ({type.charAt(0)})
+        {onRemove && <a onClick={this.onRemove.bind(this)}>x</a>}
       </span>
     );
 
     // Wrap with connect dragSource if it is injected
     return connectDragSource ? connectDragSource(component) : component;
+  }
+  private onRemove() {
+    this.props.onRemove();
   }
 };
 

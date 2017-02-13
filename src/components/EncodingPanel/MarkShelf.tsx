@@ -27,6 +27,7 @@ interface MarkShelfProps extends MarkShelfDispatcher {
 export class MarkShelf extends React.Component<MarkShelfProps, {}> {
 
   public render() {
+    // FIXME remove local bind
     return (
       <select
         className="MarkShelf"

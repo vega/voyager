@@ -39,7 +39,7 @@ class EncodingPanelBase extends React.Component<EncodingPanelProps, {}> {
 
   private encodingShelf(channel: Channel) {
     const {encoding} = this.props.shelf;
-    const {onFieldDrop} = this.props;
+    const {onFieldDrop, onFieldRemove} = this.props;
 
     // HACK: add alias to suppress compile error for: https://github.com/Microsoft/TypeScript/issues/13526
     const EShelf = EncodingShelf as any;
@@ -50,6 +50,7 @@ class EncodingPanelBase extends React.Component<EncodingPanelProps, {}> {
         channel={channel}
         fieldDef={encoding[channel]}
         onFieldDrop={onFieldDrop}
+        onFieldRemove={onFieldRemove}
       />
     );
   }
@@ -58,6 +59,7 @@ class EncodingPanelBase extends React.Component<EncodingPanelProps, {}> {
 
 export const EncodingPanel = connect(
   (state: State) => {
+    // FIXME use reselect
     return {shelf: state.shelf};
   },
   (dispatch): EncodingPanelDispatchProps => {
@@ -73,6 +75,14 @@ export const EncodingPanel = connect(
           type: 'shelf-field-add',
           channel,
           fieldDef,
+          index
+        });
+      },
+
+      onFieldRemove(channel, index?) {
+        dispatch({
+          type: 'shelf-field-remove',
+          channel,
           index
         });
       }
