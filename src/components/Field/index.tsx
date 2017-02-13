@@ -2,12 +2,12 @@ import * as React from "react";
 
 import {FieldDef} from '../../models';
 
-interface FieldInfoProps {
+interface FieldProps {
   fieldDef: FieldDef;
 };
 
 
-class FieldInfo extends React.Component<FieldInfoProps, {}> {
+class Field extends React.Component<FieldProps, {}> {
   public render(): JSX.Element {
     const {field, type} = this.props.fieldDef;
     return (
@@ -18,4 +18,4 @@ class FieldInfo extends React.Component<FieldInfoProps, {}> {
   }
 };
 
-export default FieldInfo;
+export default Field;

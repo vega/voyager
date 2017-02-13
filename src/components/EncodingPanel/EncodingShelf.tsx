@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import {Channel, FieldDef} from '../../models';
-import FieldInfo from '../FieldInfo';
+import Field from '../Field';
 
 export class EncodingShelf extends React.Component<{channel: Channel, fieldDef: FieldDef}, {}> {
   public render() {
@@ -9,7 +9,7 @@ export class EncodingShelf extends React.Component<{channel: Channel, fieldDef: 
     return (
       <div className="EncodingShelf">
         <span>{channel}</span>
-        {fieldDef ? (<FieldInfo fieldDef={fieldDef}/>) : FieldPlaceholder()}
+        {fieldDef ? (<Field fieldDef={fieldDef}/>) : FieldPlaceholder()}
       </div>
     );
   }

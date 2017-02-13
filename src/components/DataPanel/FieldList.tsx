@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {Schema} from '../../models';
 
-import FieldInfo from '../FieldInfo';
+import Field from '../Field';
 
 
 export interface FieldListProps {
@@ -15,7 +15,7 @@ export class FieldList extends React.Component<FieldListProps, {}> {
     const fieldItems = schema.fieldSchemas.map(fieldSchema => {
       const field = fieldSchema.field;
       return (
-        <FieldInfo key={field} fieldDef={fieldSchema}/>
+        <Field key={field} fieldDef={fieldSchema}/>
       );
     });
 
