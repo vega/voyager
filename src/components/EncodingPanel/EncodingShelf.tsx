@@ -7,7 +7,7 @@ export class EncodingShelf extends React.Component<{channel: Channel, fieldDef: 
   public render() {
     const {channel, fieldDef} = this.props;
     return (
-      <div className='EncodingShelf'>
+      <div className="EncodingShelf">
         <span>{channel}</span>
         {fieldDef ? FieldInfo({fieldDef}) : FieldPlaceholder()}
       </div>

@@ -1,14 +1,13 @@
 import * as React from 'react';
-
-import {UnitShelf} from '../../models';
-
-import {EncodingShelf} from './encoding-shelf';
-import {MarkShelf} from './mark-shelf';
-
+import {connect} from 'react-redux';
 import {Channel} from 'vega-lite/src/channel';
 import {Mark} from 'vega-lite/src/mark';
 
-interface ShelfProps {
+import {State, UnitShelf} from '../../models';
+import {EncodingShelf} from './EncodingShelf';
+import {MarkShelf} from './MarkShelf';
+
+interface EncodingPanelProps {
   // Props
   shelf: UnitShelf;
 
@@ -16,7 +15,7 @@ interface ShelfProps {
   onMarkChange: (mark: Mark) => void;
 }
 
-export class Shelf extends React.Component<ShelfProps, {}> {
+class EncodingPanel extends React.Component<EncodingPanelProps, {}> {
   public render() {
     const positionShelves = ['x', 'y'].map(this.encodingShelf, this);
     const facetShelves = ['row', 'column'].map(this.encodingShelf, this);
@@ -53,3 +52,19 @@ export class Shelf extends React.Component<ShelfProps, {}> {
 }
 
 
+
+export default connect(
+  (state: State) => {
+    return {shelf: state.shelf};
+  },
+  (dispatch) => {
+    return {
+      onMarkChange: (mark: Mark) => {
+        dispatch({
+          type: 'shelf-mark-change-type',
+          mark: mark
+        });
+      }
+    };
+  }
+)(EncodingPanel);

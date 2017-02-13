@@ -1,13 +1,14 @@
 import * as React from 'react';
-import {Data} from '../../models';
+import {connect} from 'react-redux';
 
+import {Data, State} from '../../models';
 import {FieldList} from './fieldlist';
 
 export interface DataPanelProps {
   data: Data;
 }
 
-export class DataPanel extends React.Component<DataPanelProps, {}> {
+class DataPanel extends React.Component<DataPanelProps, {}> {
   public render() {
     const {name, schema} = this.props.data;
 
@@ -20,3 +21,10 @@ export class DataPanel extends React.Component<DataPanelProps, {}> {
     );
   }
 }
+
+export default connect(
+  (state: State) => {
+    // FIXME: use reselect
+    return {data: state.data};
+  }
+)(DataPanel);

@@ -2,10 +2,10 @@ import './app.scss';
 
 import * as React from 'react';
 
-import {DataContainer} from './data';
-import {Header} from './header/header';
-import {ShelfContainer} from './shelf';
-import {ViewContainer} from './view';
+import DataPanel from './DataPanel';
+import EncodingPanel from './EncodingPanel';
+import Header from './Header';
+import ViewPanel from './ViewPanel';
 
 
 export class App extends React.Component<any, {}> {
@@ -14,9 +14,9 @@ export class App extends React.Component<any, {}> {
       <div className="root">
         <Header/>
         <div>
-          <DataContainer/>
-          <ShelfContainer/>
-          <ViewContainer/>
+          <DataPanel/>
+          <EncodingPanel/>
+          <ViewPanel/>
         </div>
       </div>
     );
