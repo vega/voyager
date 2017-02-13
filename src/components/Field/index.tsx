@@ -34,7 +34,7 @@ class FieldBase extends React.Component<FieldProps, {}> {
     const component = (
       <span className="FieldInfo">
         {field} ({type.charAt(0)})
-        {onRemove && <a onClick={this.onRemove.bind(this)}>x</a>}
+        {onRemove && <span> <a onClick={this.onRemove.bind(this)}>x</a></span>}
       </span>
     );
 

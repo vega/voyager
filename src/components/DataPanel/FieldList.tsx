@@ -19,7 +19,7 @@ export class FieldList extends React.Component<FieldListProps, {}> {
       // HACK: add alias to suppress compile error for: https://github.com/Microsoft/TypeScript/issues/13526
       const F = Field as any;
       return (
-        <F key={field} fieldDef={fieldDef} draggable={true}/>
+        <div key={field}><F fieldDef={fieldDef} draggable={true}/></div>
       );
     });
 

@@ -78,9 +78,9 @@ class EncodingShelfBase extends React.Component<EncodingShelfProps, {}> {
 
 function FieldPlaceholder() {
   return (
-    <div className="FieldPlaceholder">
-      Drop Field Here
-    </div>
+    <span className="FieldPlaceholder">
+      (Drop Field Here)
+    </span>
   );
 }
 
