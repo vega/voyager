@@ -1,43 +1,31 @@
 import {ShelfChannel, ShelfFieldDef, ShelfMark} from '../models';
+import { PlainReduxAction, ReduxAction } from './redux-action';
 
 export type ShelfAction =
   ShelfClear |
   ShelfMarkChangeType |
   ShelfFieldAdd | ShelfFieldRemove;
 
-export interface ShelfClear {
-  type: 'shelf-reset';
-};
+export const SHELF_CLEAR = 'SHELF_CLEAR';
+export type ShelfClear = PlainReduxAction<typeof SHELF_CLEAR>;
 
-// Mark
-export interface ShelfMarkChangeType {
-  type: 'shelf-mark-change-type';
-  mark: ShelfMark;
-}
+export const SHELF_MARK_CHANGE_TYPE = 'SHELF_MARK_CHANGE_TYPE';
+export type ShelfMarkChangeType = ReduxAction<typeof SHELF_MARK_CHANGE_TYPE, ShelfMark>;
 
 // Field
 
-/**
- * Add field to a shelf
- */
-export interface ShelfFieldAdd {
-  type: 'shelf-field-add';
+export const SHELF_FIELD_ADD = 'SHELF_FIELD_ADD';
+export type ShelfFieldAdd = ReduxAction<typeof SHELF_FIELD_ADD, {
   channel: ShelfChannel;
   fieldDef: ShelfFieldDef;
   index?: number;
-}
+}>;
 
-export interface ShelfFieldRemove {
-  type: 'shelf-field-remove';
+export const SHELF_FIELD_REMOVE = 'SHELF_FIELD_REMOVE';
+export type ShelfFieldRemove = ReduxAction<typeof SHELF_FIELD_REMOVE, {
   channel: ShelfChannel;
 
   index?: number;
-}
+}>;
 
-// TODO: add
-// export interface ShelfMoveField {
-//   type: 'shelf-move-field';
-//   fromChannel: WildcardProperty<Channel>;
-// }
-
-// Filter
+// TODO: add ShelfMoveField

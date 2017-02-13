@@ -1,28 +1,32 @@
-import {Action} from '../actions';
+import {Action, SHELF_CLEAR, SHELF_FIELD_ADD, SHELF_FIELD_REMOVE, SHELF_MARK_CHANGE_TYPE} from '../actions';
 import {DEFAULT_SHELF_SPEC, UnitShelf} from '../models';
 
 import {isWildcard} from 'compassql/src/wildcard';
 
 export function shelfReducer(shelf: Readonly<UnitShelf>, action: Action): UnitShelf {
   switch (action.type) {
-    case 'shelf-reset':
+    case SHELF_CLEAR:
       return DEFAULT_SHELF_SPEC;
 
-    case 'shelf-mark-change-type':
+    case SHELF_MARK_CHANGE_TYPE: {
+      const mark = action.payload;
       return {
         ...shelf,
-        mark: action.mark
+        mark
       };
+    }
 
-    case 'shelf-field-add':
-      if (isWildcard(action.channel)) {
+    case SHELF_FIELD_ADD: {
+      const {channel, fieldDef} = action.payload;
+      if (isWildcard(channel)) {
+        // FIXME take index into account
         return {
           ...shelf,
           anyEncodings: [
             ...shelf.anyEncodings,
             {
-              channel: action.channel,
-              ...action.fieldDef
+              channel: channel,
+              ...fieldDef
             }
           ]
         };
@@ -31,28 +35,31 @@ export function shelfReducer(shelf: Readonly<UnitShelf>, action: Action): UnitSh
           ...shelf,
           encoding: {
             ...shelf.encoding,
-            [action.channel]: action.fieldDef
+            [channel]: fieldDef
           }
         };
       }
+    }
 
-    case 'shelf-field-remove':
-      if (isWildcard(action.channel)) {
+    case SHELF_FIELD_REMOVE: {
+      const {channel, index} = action.payload;
+      if (isWildcard(channel)) {
         // FIXME throw error if action.index is not provided.
         return {
           ...shelf,
           anyEncodings: [
-            ...shelf.anyEncodings.slice(0, action.index),
-            ...shelf.anyEncodings.slice(action.index + 1),
+            ...shelf.anyEncodings.slice(0, index),
+            ...shelf.anyEncodings.slice(index + 1),
           ]
         };
       } else {
-        const {[action.channel]: _, ...encoding} = shelf.encoding;
+        const {[channel]: _, ...encoding} = shelf.encoding;
         return {
           ...shelf,
           encoding: encoding
         };
       }
+    }
   }
   return shelf;
 }

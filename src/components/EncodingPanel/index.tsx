@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import {Channel} from 'vega-lite/src/channel';
 import {Mark} from 'vega-lite/src/mark';
 
+import { SHELF_FIELD_ADD, SHELF_FIELD_REMOVE, SHELF_MARK_CHANGE_TYPE } from '../../actions/shelf';
 import {ShelfFieldDef, State, UnitShelf} from '../../models';
 import {EncodingShelf, EncodingShelfDispatchProps} from './EncodingShelf';
 import {MarkShelf, MarkShelfDispatcher} from './MarkShelf';
@@ -71,24 +72,21 @@ export const EncodingPanel = connect(
     return {
       onMarkChange(mark: Mark) {
         dispatch({
-          type: 'shelf-mark-change-type',
-          mark: mark
+          type: SHELF_MARK_CHANGE_TYPE,
+          payload: mark
         });
       },
       onFieldDrop(channel: Channel, fieldDef: ShelfFieldDef, index?: number) {
         dispatch({
-          type: 'shelf-field-add',
-          channel,
-          fieldDef,
-          index
+          type: SHELF_FIELD_ADD,
+          payload: {channel, fieldDef, index}
         });
       },
 
       onFieldRemove(channel, index?) {
         dispatch({
-          type: 'shelf-field-remove',
-          channel,
-          index
+          type: SHELF_FIELD_REMOVE,
+          payload: {channel, index}
         });
       }
     };
