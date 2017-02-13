@@ -14,8 +14,11 @@ export class FieldList extends React.Component<FieldListProps, {}> {
 
     const fieldItems = schema.fieldSchemas.map(fieldSchema => {
       const field = fieldSchema.field;
+
+      // HACK: add alias to suppress compile error for: https://github.com/Microsoft/TypeScript/issues/13526
+      const F = Field as any;
       return (
-        <Field key={field} fieldDef={fieldSchema}/>
+        <F key={field} fieldDef={fieldSchema} draggable={true}/>
       );
     });
 

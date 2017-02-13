@@ -3,16 +3,15 @@ import {connect} from 'react-redux';
 import {Channel} from 'vega-lite/src/channel';
 import {Mark} from 'vega-lite/src/mark';
 
-import {State, UnitShelf} from '../../models';
-import {EncodingShelf} from './EncodingShelf';
-import {MarkShelf} from './MarkShelf';
+import {FieldDef, State, UnitShelf} from '../../models';
+import {EncodingShelf, EncodingShelfDispatchProps} from './EncodingShelf';
+import {MarkShelf, MarkShelfDispatcher} from './MarkShelf';
 
-interface EncodingPanelProps {
-  // Props
+
+interface EncodingPanelDispatchProps extends EncodingShelfDispatchProps, MarkShelfDispatcher {}
+
+interface EncodingPanelProps extends EncodingPanelDispatchProps {
   shelf: UnitShelf;
-
-  // Dispatch
-  onMarkChange: (mark: Mark) => void;
 }
 
 class EncodingPanel extends React.Component<EncodingPanelProps, {}> {
@@ -40,29 +39,41 @@ class EncodingPanel extends React.Component<EncodingPanelProps, {}> {
 
   private encodingShelf(channel: Channel) {
     const {encoding} = this.props.shelf;
+    const {onFieldDrop} = this.props;
+
+    // HACK: add alias to suppress compile error for: https://github.com/Microsoft/TypeScript/issues/13526
+    const EShelf = EncodingShelf as any;
 
     return (
-      <EncodingShelf
+      <EShelf
         key={channel}
         channel={channel}
         fieldDef={encoding[channel]}
+        onFieldDrop={onFieldDrop}
       />
     );
   }
 }
 
 
-
 export default connect(
   (state: State) => {
     return {shelf: state.shelf};
   },
-  (dispatch) => {
+  (dispatch): EncodingPanelDispatchProps => {
     return {
-      onMarkChange: (mark: Mark) => {
+      onMarkChange(mark: Mark) {
         dispatch({
           type: 'shelf-mark-change-type',
           mark: mark
+        });
+      },
+      onFieldDrop(channel: Channel, fieldDef: FieldDef, index?: number) {
+        dispatch({
+          type: 'shelf-field-add',
+          channel,
+          fieldDef,
+          index
         });
       }
     };

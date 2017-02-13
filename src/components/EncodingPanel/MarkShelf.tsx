@@ -13,9 +13,12 @@ const options = ALL_MARKS.map(mark => (
   </option>
 ));
 
-interface MarkShelfProps {
-  mark: Mark;
+export interface MarkShelfDispatcher {
   onMarkChange: (mark: Mark) => void;
+}
+
+interface MarkShelfProps extends MarkShelfDispatcher {
+  mark: Mark;
 }
 
 /**

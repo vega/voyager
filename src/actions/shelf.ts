@@ -28,6 +28,8 @@ export interface ShelfFieldAdd {
   type: 'shelf-field-add';
   channel: Channel | SHORT_WILDCARD;
   fieldDef: FieldDef;
+
+  index?: number;
 }
 
 export interface ShelfFieldChannelRemove {

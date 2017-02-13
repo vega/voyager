@@ -24,8 +24,11 @@
     "test": "jest --no-cache --coverage"
   },
   "dependencies": {
+    "classnames": "^2.2.5",
     "compassql": "^0.8.3",
     "react": "^15.4.2",
+    "react-dnd": "^2.2.3",
+    "react-dnd-html5-backend": "^2.2.3",
     "react-dom": "^15.4.2",
     "react-redux": "^5.0.2",
     "redux": "^3.6.0",
@@ -35,8 +38,11 @@
     "vega-lite": "2.0.0-alpha.1"
   },
   "devDependencies": {
+    "@types/classnames": "^0.0.32",
     "@types/jest": "^18.1.1",
     "@types/react": "^15.0.8",
+    "@types/react-dnd": "^2.0.32",
+    "@types/react-dnd-html5-backend": "^2.1.7",
     "@types/react-dom": "^0.14.23",
     "@types/react-redux": "^4.4.36",
     "autoprefixer": "6.4.1",
