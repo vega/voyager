@@ -3975,7 +3975,7 @@ spdx-license-ids@^1.0.2:
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/spdx-license-ids/-/spdx-license-ids-1.2.2.tgz#c9df7a3424594ade6bd11900d596696dc06bac57"
 
-sprintf-js@^1.0.3, sprintf-js@~1.0.2:
+sprintf-js@~1.0.2:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/sprintf-js/-/sprintf-js-1.0.3.tgz#04e6926f662895354f3dd015203633b857297e2c"
 
@@ -4287,13 +4287,9 @@ tslib@^1.5.0:
   version "1.5.0"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.5.0.tgz#3bb50f871e5fdf9a4555a9ff237b730860048fea"
 
-tslint-react@^2.3.0:
-  version "2.3.0"
-  resolved "https://registry.yarnpkg.com/tslint-react/-/tslint-react-2.3.0.tgz#4d10ea96de278458aac3f9a7f616a442a18634a2"
-
-tslint@~4.3.1:
-  version "4.3.1"
-  resolved "https://registry.yarnpkg.com/tslint/-/tslint-4.3.1.tgz#28f679c53ca4b273688bcb6fcf0dde7ff1bb2169"
+tslint:
+  version "4.4.2"
+  resolved "https://registry.yarnpkg.com/tslint/-/tslint-4.4.2.tgz#b14cb79ae039c72471ab4c2627226b940dda19c6"
   dependencies:
     babel-code-frame "^6.20.0"
     colors "^1.1.2"
@@ -4302,8 +4298,11 @@ tslint@~4.3.1:
     glob "^7.1.1"
     optimist "~0.6.0"
     resolve "^1.1.7"
-    underscore.string "^3.3.4"
     update-notifier "^1.0.2"
+
+tslint-react@^2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/tslint-react/-/tslint-react-2.3.0.tgz#4d10ea96de278458aac3f9a7f616a442a18634a2"
 
 tty-browserify@0.0.0:
   version "0.0.0"
@@ -4365,13 +4364,6 @@ uid-number@~0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/uid-number/-/uid-number-0.0.6.tgz#0ea10e8035e8eb5b8e4449f06da1c730663baa81"
 
-underscore.string@^3.3.4:
-  version "3.3.4"
-  resolved "https://registry.yarnpkg.com/underscore.string/-/underscore.string-3.3.4.tgz#2c2a3f9f83e64762fdc45e6ceac65142864213db"
-  dependencies:
-    sprintf-js "^1.0.3"
-    util-deprecate "^1.0.2"
-
 uniq@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/uniq/-/uniq-1.0.1.tgz#b31c5ae8254844a3a8281541ce2b04b865a734ff"
@@ -4420,7 +4412,7 @@ urlgrey@>=0.4.0:
   version "0.4.4"
   resolved "https://registry.yarnpkg.com/urlgrey/-/urlgrey-0.4.4.tgz#892fe95960805e85519f1cd4389f2cb4cbb7652f"
 
-util-deprecate@^1.0.2, util-deprecate@~1.0.1:
+util-deprecate@~1.0.1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/util-deprecate/-/util-deprecate-1.0.2.tgz#450d4dc9fa70de732762fbd2d4a28981419a0ccf"
 
