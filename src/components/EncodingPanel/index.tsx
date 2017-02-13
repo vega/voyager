@@ -1,17 +1,15 @@
 import * as React from 'react';
 import {connect} from 'react-redux';
 import {Channel} from 'vega-lite/src/channel';
-import {Mark} from 'vega-lite/src/mark';
 
-import { SHELF_FIELD_ADD, SHELF_FIELD_REMOVE, SHELF_MARK_CHANGE_TYPE } from '../../actions/shelf';
-import {ShelfFieldDef, State, UnitShelf} from '../../models';
-import {EncodingShelf, EncodingShelfDispatchProps} from './EncodingShelf';
-import {MarkShelf, MarkShelfDispatcher} from './MarkShelf';
+import {ActionHandler} from '../../actions/index';
+import {createDispatchHandler} from '../../actions/redux-action';
+import {ShelfAction} from '../../actions/shelf';
+import {State, UnitShelf} from '../../models';
+import {EncodingShelf} from './EncodingShelf';
+import {MarkShelf} from './MarkShelf';
 
-
-interface EncodingPanelDispatchProps extends EncodingShelfDispatchProps, MarkShelfDispatcher {}
-
-interface EncodingPanelProps extends EncodingPanelDispatchProps {
+interface EncodingPanelProps extends ActionHandler<ShelfAction> {
   shelf: UnitShelf;
 }
 
@@ -30,7 +28,7 @@ class EncodingPanelBase extends React.Component<EncodingPanelProps, {}> {
         <h3>Mark</h3>
         <MarkShelf
           mark={this.props.shelf.mark}
-          onMarkChange={this.props.onMarkChange}
+          handleAction={this.props.handleAction}
         />
 
         {otherShelves}
@@ -45,7 +43,7 @@ class EncodingPanelBase extends React.Component<EncodingPanelProps, {}> {
     // This one can't be wildcard, thus we use VL's Channel, not our ShelfChannel
 
     const {encoding} = this.props.shelf;
-    const {onFieldDrop, onFieldRemove} = this.props;
+    const {handleAction} = this.props;
 
     // HACK: add alias to suppress compile error for: https://github.com/Microsoft/TypeScript/issues/13526
     const EShelf = EncodingShelf as any;
@@ -55,40 +53,16 @@ class EncodingPanelBase extends React.Component<EncodingPanelProps, {}> {
         key={channel}
         channel={channel}
         fieldDef={encoding[channel]}
-        onFieldDrop={onFieldDrop}
-        onFieldRemove={onFieldRemove}
+        handleAction={handleAction}
       />
     );
   }
 }
-
 
 export const EncodingPanel = connect(
   (state: State) => {
     // FIXME use reselect
     return {shelf: state.shelf};
   },
-  (dispatch): EncodingPanelDispatchProps => {
-    return {
-      onMarkChange(mark: Mark) {
-        dispatch({
-          type: SHELF_MARK_CHANGE_TYPE,
-          payload: mark
-        });
-      },
-      onFieldDrop(channel: Channel, fieldDef: ShelfFieldDef, index?: number) {
-        dispatch({
-          type: SHELF_FIELD_ADD,
-          payload: {channel, fieldDef, index}
-        });
-      },
-
-      onFieldRemove(channel, index?) {
-        dispatch({
-          type: SHELF_FIELD_REMOVE,
-          payload: {channel, index}
-        });
-      }
-    };
-  }
+  createDispatchHandler<ShelfAction>()
 )(EncodingPanelBase);

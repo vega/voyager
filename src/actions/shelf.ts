@@ -4,7 +4,9 @@ import { PlainReduxAction, ReduxAction } from './redux-action';
 export type ShelfAction =
   ShelfClear |
   ShelfMarkChangeType |
-  ShelfFieldAdd | ShelfFieldRemove;
+  ShelfEncodingAction;
+
+export type ShelfEncodingAction = ShelfFieldAdd | ShelfFieldRemove;
 
 export const SHELF_CLEAR = 'SHELF_CLEAR';
 export type ShelfClear = PlainReduxAction<typeof SHELF_CLEAR>;

@@ -8,6 +8,8 @@ import {Field} from '../Field';
 import './EncodingShelf.scss';
 
 import * as classNames from 'classnames';
+import {ActionHandler} from '../../actions/index';
+import {SHELF_FIELD_ADD, SHELF_FIELD_REMOVE, ShelfEncodingAction} from '../../actions/shelf';
 
 /**
  * Props for react-dnd of EncodingShelf
@@ -18,13 +20,7 @@ export interface EncodingShelfDropTargetProps {
   isOver: boolean;
 }
 
-export interface EncodingShelfDispatchProps {
-  onFieldDrop: (channel: ShelfChannel, fieldDef: ShelfFieldDef, index?: number) => void;
-
-  onFieldRemove: (channel: ShelfChannel, index?: number) => void;
-}
-
-export interface EncodingShelfProps extends EncodingShelfDropTargetProps, EncodingShelfDispatchProps {
+export interface EncodingShelfProps extends EncodingShelfDropTargetProps, ActionHandler<ShelfEncodingAction> {
   channel: ShelfChannel;
   fieldDef: ShelfFieldDef;
 }
@@ -38,7 +34,10 @@ const encodingShelfTarget: DropTargetSpec<EncodingShelfProps> = {
     }
 
     const item = monitor.getItem() as ShelfFieldDef;
-    props.onFieldDrop(props.channel, item);
+    props.handleAction({
+      type: SHELF_FIELD_ADD,
+      payload: {channel: props.channel, fieldDef: item}
+    });
   }
 };
 
@@ -77,8 +76,12 @@ class EncodingShelfBase extends React.Component<EncodingShelfProps, {}> {
     );
   }
   private onRemove() {
-    const {channel, onFieldRemove} = this.props;
-    onFieldRemove(channel);
+    const {channel, handleAction} = this.props;
+
+    handleAction({
+      type: SHELF_FIELD_REMOVE,
+      payload: {channel}
+    });
   }
 }
 

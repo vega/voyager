@@ -4,6 +4,8 @@ import {ShelfMark} from '../../models';
 
 import {SHORT_WILDCARD} from 'compassql/src/wildcard';
 import {PRIMITIVE_MARKS} from 'vega-lite/src/mark';
+import {ActionHandler} from '../../actions';
+import {SHELF_MARK_CHANGE_TYPE, ShelfMarkChangeType} from '../../actions/shelf';
 
 const ALL_MARKS = [SHORT_WILDCARD, ...PRIMITIVE_MARKS];
 
@@ -13,11 +15,7 @@ const options = ALL_MARKS.map(mark => (
   </option>
 ));
 
-export interface MarkShelfDispatcher {
-  onMarkChange: (mark: ShelfMark) => void;
-}
-
-interface MarkShelfProps extends MarkShelfDispatcher {
+interface MarkShelfProps extends ActionHandler<ShelfMarkChangeType> {
   mark: ShelfMark;
 }
 
@@ -44,6 +42,9 @@ export class MarkShelf extends React.Component<MarkShelfProps, {}> {
     );
   }
   private onMarkChange(event: any) {
-    this.props.onMarkChange(event.target.value as ShelfMark);
+    this.props.handleAction({
+      type: SHELF_MARK_CHANGE_TYPE,
+      payload: event.target.value as ShelfMark
+    });
   }
 }

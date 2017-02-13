@@ -21,7 +21,7 @@ export interface FieldProps extends FieldDragSourceProps {
 
   draggable: boolean;
 
-  /** Remove field handler.  If not provided, remove button will not be shown. */
+  /** Remove field event handler.  If not provided, remove button will not be shown. */
   onRemove?: () => void;
 };
 
