@@ -25,14 +25,19 @@ interface MarkShelfProps extends MarkShelfDispatcher {
  * Control for selecting mark type
  */
 export class MarkShelf extends React.Component<MarkShelfProps, {}> {
+  constructor(props: MarkShelfProps) {
+    super(props);
+
+    // Bind - https://facebook.github.io/react/docs/handling-events.html
+    this.onMarkChange = this.onMarkChange.bind(this);
+  }
 
   public render() {
-    // FIXME remove local bind
     return (
       <select
         className="MarkShelf"
         value={this.props.mark}
-        onChange={this.onMarkChange.bind(this)}
+        onChange={this.onMarkChange}
       >
         {options}
       </select>

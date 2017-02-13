@@ -26,15 +26,20 @@ export interface FieldProps extends FieldDragSourceProps {
 };
 
 class FieldBase extends React.Component<FieldProps, {}> {
+  constructor(props: FieldProps) {
+    super(props);
+
+    // Bind - https://facebook.github.io/react/docs/handling-events.html
+    this.onRemove = this.onRemove.bind(this);
+  }
   public render(): JSX.Element {
     const {connectDragSource, onRemove} = this.props;
     const {field, type} = this.props.fieldDef;
 
-    // FIXME remove local bind
     const component = (
       <span className="FieldInfo">
         {field} ({type.charAt(0)})
-        {onRemove && <span> <a onClick={this.onRemove.bind(this)}>x</a></span>}
+        {onRemove && <span> <a onClick={this.onRemove}>x</a></span>}
       </span>
     );
 

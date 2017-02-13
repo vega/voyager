@@ -50,6 +50,12 @@ const collect: DropTargetCollector = (connect, monitor): EncodingShelfDropTarget
 };
 
 class EncodingShelfBase extends React.Component<EncodingShelfProps, {}> {
+  constructor(props: EncodingShelfProps) {
+    super(props);
+
+    // Bind - https://facebook.github.io/react/docs/handling-events.html
+    this.onRemove = this.onRemove.bind(this);
+  }
   public render() {
     const {channel, connectDropTarget, fieldDef, isOver} = this.props;
 
@@ -61,7 +67,7 @@ class EncodingShelfBase extends React.Component<EncodingShelfProps, {}> {
     // HACK: add alias to suppress compile error for: https://github.com/Microsoft/TypeScript/issues/13526
     const F = Field as any;
 
-    const field = (<F fieldDef={fieldDef} draggable={true} onRemove={this.onRemove.bind(this)}/>);
+    const field = (<F fieldDef={fieldDef} draggable={true} onRemove={this.onRemove}/>);
 
     return connectDropTarget(
       <div className={classes}>
