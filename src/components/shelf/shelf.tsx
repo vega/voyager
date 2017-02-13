@@ -40,11 +40,13 @@ export class Shelf extends React.Component<ShelfProps, {}> {
   }
 
   private encodingShelf(channel: Channel) {
+    const {encoding} = this.props.shelf;
+
     return (
       <EncodingShelf
         key={channel}
         channel={channel}
-        fieldDef={{field: channel}}
+        fieldDef={encoding[channel]}
       />
     );
   }
