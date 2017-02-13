@@ -4,7 +4,7 @@ import {Channel} from 'vega-lite/src/channel';
 
 import {ActionHandler} from '../../actions/index';
 import {createDispatchHandler} from '../../actions/redux-action';
-import {ShelfAction} from '../../actions/shelf';
+import {SHELF_CLEAR, ShelfAction} from '../../actions/shelf';
 import {State, UnitShelf} from '../../models';
 import {EncodingShelf} from './EncodingShelf';
 import {MarkShelf} from './MarkShelf';
@@ -14,6 +14,12 @@ interface EncodingPanelProps extends ActionHandler<ShelfAction> {
 }
 
 class EncodingPanelBase extends React.Component<EncodingPanelProps, {}> {
+  constructor(props: EncodingPanelProps) {
+    super(props);
+
+    // Bind - https://facebook.github.io/react/docs/handling-events.html
+    this.onClear = this.onClear.bind(this);
+  }
   public render() {
     const positionShelves = ['x', 'y'].map(this.encodingShelf, this);
     const facetShelves = ['row', 'column'].map(this.encodingShelf, this);
@@ -22,6 +28,8 @@ class EncodingPanelBase extends React.Component<EncodingPanelProps, {}> {
     return (
       <div className="shelf">
         <h2>Encoding</h2>
+        <a onClick={this.onClear}>Clear</a>
+
         {positionShelves}
         {facetShelves}
 
@@ -57,7 +65,11 @@ class EncodingPanelBase extends React.Component<EncodingPanelProps, {}> {
       />
     );
   }
+  private onClear() {
+    this.props.handleAction({type: SHELF_CLEAR});
+  }
 }
+
 
 export const EncodingPanel = connect(
   (state: State) => {
