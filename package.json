@@ -34,7 +34,7 @@
     "redux": "^3.6.0",
     "redux-logger": "^2.8.1",
     "tslib": "^1.5.0",
-    "tslint": "^4.4.2",
+
     "vega-lite": "2.0.0-alpha.1"
   },
   "devDependencies": {
@@ -56,7 +56,7 @@
     "style-loader": "^0.13.1",
     "ts-jest": "~18",
     "ts-loader": "^2.0.0",
-    "tslint": "~4.3.1",
+    "tslint": "^4.4.2",
     "tslint-react": "^2.3.0",
     "typescript": "^2.1.5",
     "webpack": "2.2.1"
