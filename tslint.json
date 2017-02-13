@@ -13,6 +13,13 @@
     ],
     "quotemark": [true, "avoid-escape", "single", "jsx-double"],
     "switch-default": false,
-    "trailing-comma": [false]
+    "trailing-comma": [false],
+
+    "variable-name": [true,
+        "ban-keywords",
+        "check-format",
+        "allow-pascal-case",
+        "allow-leading-underscore"
+    ]
   }
 }
