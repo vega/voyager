@@ -37,7 +37,7 @@ describe('reducers/shelf', () => {
     });
   });
 
-  describe('shelf-field-channel-remove', () => {
+  describe('shelf-field-remove', () => {
     it('should correctly remove field from channel', () => {
       const shelf = shelfReducer(
         {
@@ -46,7 +46,7 @@ describe('reducers/shelf', () => {
             x: {field: 'a', type: 'quantitative'}
           }
         },
-        {type: 'shelf-field-channel-remove', channel: 'x'}
+        {type: 'shelf-field-remove', channel: 'x'}
       );
       expect(shelf).toEqual(DEFAULT_SHELF_SPEC);
     });
@@ -61,7 +61,7 @@ describe('reducers/shelf', () => {
             {channel: '?', field: 'a', type: 'quantitative'}
           ]
         },
-        {type: 'shelf-field-wildcard-channel-remove', index: 0}
+        {type: 'shelf-field-remove', channel: SHORT_WILDCARD, index: 0}
       );
       expect(shelf).toEqual(DEFAULT_SHELF_SPEC);
     });

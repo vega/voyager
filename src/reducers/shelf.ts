@@ -36,21 +36,23 @@ export function shelfReducer(shelf: Readonly<UnitShelf>, action: Action): UnitSh
         };
       }
 
-    case 'shelf-field-channel-remove':
-      const {[action.channel]: _, ...encoding} = shelf.encoding;
-      return {
-        ...shelf,
-        encoding: encoding
-      };
-
-    case 'shelf-field-wildcard-channel-remove':
-      return {
-        ...shelf,
-        anyEncodings: [
-          ...shelf.anyEncodings.slice(0, action.index),
-          ...shelf.anyEncodings.slice(action.index + 1),
-        ]
-      };
+    case 'shelf-field-remove':
+      if (isWildcard(action.channel)) {
+        // FIXME throw error if action.index is not provided.
+        return {
+          ...shelf,
+          anyEncodings: [
+            ...shelf.anyEncodings.slice(0, action.index),
+            ...shelf.anyEncodings.slice(action.index + 1),
+          ]
+        };
+      } else {
+        const {[action.channel]: _, ...encoding} = shelf.encoding;
+        return {
+          ...shelf,
+          encoding: encoding
+        };
+      }
   }
   return shelf;
 }

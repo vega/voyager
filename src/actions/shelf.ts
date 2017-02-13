@@ -6,7 +6,7 @@ import {Mark} from 'vega-lite/src/mark';
 export type ShelfAction =
   ShelfClear |
   ShelfMarkChangeType |
-  ShelfFieldAdd | ShelfFieldChannelRemove | ShelfFieldWildcardChannelRemove;
+  ShelfFieldAdd | ShelfFieldRemove;
 
 export interface ShelfClear {
   type: 'shelf-reset';
@@ -32,14 +32,11 @@ export interface ShelfFieldAdd {
   index?: number;
 }
 
-export interface ShelfFieldChannelRemove {
-  type: 'shelf-field-channel-remove';
-  channel: Channel;
-}
+export interface ShelfFieldRemove {
+  type: 'shelf-field-remove';
+  channel: Channel | SHORT_WILDCARD;
 
-export interface ShelfFieldWildcardChannelRemove {
-  type: 'shelf-field-wildcard-channel-remove';
-  index: number;
+  index?: number;
 }
 
 // TODO: add
