@@ -6,6 +6,9 @@ import {Config} from 'vega-lite/src/config';
 import {Encoding} from 'vega-lite/src/encoding';
 import {Mark as VLMark} from 'vega-lite/src/mark';
 
+export {Channel} from 'vega-lite/src/channel';
+export {FieldDef} from 'vega-lite/src/fieldDef';
+
 export type Mark = VLMark | SHORT_WILDCARD;
 
 export type SpecificEncoding = {

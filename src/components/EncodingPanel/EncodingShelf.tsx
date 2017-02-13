@@ -1,7 +1,7 @@
 import * as React from 'react';
 
-import {Channel} from 'vega-lite/src/channel';
-import {FieldDef} from 'vega-lite/src/FieldDef';
+import {Channel, FieldDef} from '../../models';
+import FieldInfo from '../FieldInfo';
 
 export class EncodingShelf extends React.Component<{channel: Channel, fieldDef: FieldDef}, {}> {
   public render() {
@@ -9,23 +9,10 @@ export class EncodingShelf extends React.Component<{channel: Channel, fieldDef: 
     return (
       <div className="EncodingShelf">
         <span>{channel}</span>
-        {fieldDef ? FieldInfo({fieldDef}) : FieldPlaceholder()}
+        {fieldDef ? (<FieldInfo fieldDef={fieldDef}/>) : FieldPlaceholder()}
       </div>
     );
   }
-}
-
-interface FieldInfoProps {
-  fieldDef: FieldDef;
-}
-
-function FieldInfo(props: FieldInfoProps) {
-  const fieldDef = props.fieldDef;
-  return (
-    <div className="FieldInfo">
-      {fieldDef.field}
-    </div>
-  );
 }
 
 function FieldPlaceholder() {
