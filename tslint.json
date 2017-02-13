@@ -5,6 +5,7 @@
     "ban": true,
     "interface-name": [true, "never-prefix"],
     "no-consecutive-blank-lines": [true, 3],
+    "no-default-export": true,
     "no-unused-variable": [true, "check-parameters", "react", {"ignore-pattern": "^_"}],
     "object-literal-shorthand": false,
     "object-literal-sort-keys": false,

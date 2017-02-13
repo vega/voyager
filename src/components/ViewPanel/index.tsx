@@ -7,7 +7,7 @@ export interface ViewPanelProps {
   specQuery: SpecQuery;
 }
 
-class ViewPanel extends React.Component<ViewPanelProps, {}> {
+class ViewPanelBase extends React.Component<ViewPanelProps, {}> {
   public render() {
     return (
       <div className="view">
@@ -17,11 +17,10 @@ class ViewPanel extends React.Component<ViewPanelProps, {}> {
     );
   }
 }
-
-export default connect(
+export const ViewPanel = connect(
   (state: State) => {
     // FIXME: use reselect
     const specQuery = toSpecQuery(state.shelf);
     return {specQuery: specQuery};
   }
-)(ViewPanel);
+)(ViewPanelBase);

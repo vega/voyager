@@ -3,7 +3,7 @@ import {ConnectDropTarget, DropTarget, DropTargetCollector, DropTargetSpec} from
 
 import { DraggableType } from '../../constants';
 import {Channel, FieldDef} from '../../models';
-import Field from '../Field';
+import {Field} from '../Field';
 
 import './EncodingShelf.scss';
 

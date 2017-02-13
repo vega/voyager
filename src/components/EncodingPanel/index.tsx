@@ -14,7 +14,7 @@ interface EncodingPanelProps extends EncodingPanelDispatchProps {
   shelf: UnitShelf;
 }
 
-class EncodingPanel extends React.Component<EncodingPanelProps, {}> {
+class EncodingPanelBase extends React.Component<EncodingPanelProps, {}> {
   public render() {
     const positionShelves = ['x', 'y'].map(this.encodingShelf, this);
     const facetShelves = ['row', 'column'].map(this.encodingShelf, this);
@@ -56,7 +56,7 @@ class EncodingPanel extends React.Component<EncodingPanelProps, {}> {
 }
 
 
-export default connect(
+export const EncodingPanel = connect(
   (state: State) => {
     return {shelf: state.shelf};
   },
@@ -78,4 +78,4 @@ export default connect(
       }
     };
   }
-)(EncodingPanel);
+)(EncodingPanelBase);

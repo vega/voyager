@@ -20,7 +20,7 @@ export interface FieldProps {
 };
 
 
-class Field extends React.Component<FieldProps, {}> {
+class FieldBase extends React.Component<FieldProps, {}> {
   public render(): JSX.Element {
     const { connectDragSource } = this.props;
     const {field, type} = this.props.fieldDef;
@@ -56,4 +56,4 @@ const collect: DragSourceCollector = (connect, monitor) => {
   };
 };
 
-export default DragSource(DraggableType.FIELD, fieldSource, collect)(Field) ;
+export const Field = DragSource(DraggableType.FIELD, fieldSource, collect)(FieldBase) ;

@@ -8,7 +8,7 @@ export interface DataPanelProps {
   data: Data;
 }
 
-export class DataPanel extends React.Component<DataPanelProps, {}> {
+export class DataPanelBase extends React.Component<DataPanelProps, {}> {
   public render() {
     const {name, schema} = this.props.data;
 
@@ -22,9 +22,9 @@ export class DataPanel extends React.Component<DataPanelProps, {}> {
   }
 }
 
-export default connect(
+export const DataPanel = connect(
   (state: State) => {
     // FIXME: use reselect
     return {data: state.data};
   }
-)(DataPanel);
+)(DataPanelBase);
