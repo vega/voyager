@@ -1,6 +1,8 @@
 import {SHORT_WILDCARD} from 'compassql/src/wildcard';
 
-import { SHELF_CLEAR, SHELF_FIELD_ADD, SHELF_FIELD_REMOVE, SHELF_MARK_CHANGE_TYPE } from '../actions/shelf';
+import {
+  SHELF_CLEAR, SHELF_FIELD_ADD, SHELF_FIELD_MOVE, SHELF_FIELD_REMOVE, SHELF_MARK_CHANGE_TYPE
+} from '../actions/shelf';
 import {DEFAULT_SHELF_SPEC} from '../models';
 import {shelfReducer} from './shelf';
 
@@ -42,6 +44,16 @@ describe('reducers/shelf', () => {
         }
       );
       expect(shelf.anyEncodings[0]).toEqual({channel: SHORT_WILDCARD, field: 'a', type: 'quantitative'});
+
+      const insertedShelf = shelfReducer(
+        shelf,
+        {
+          type: SHELF_FIELD_ADD,
+          payload: {shelfId: {channel: SHORT_WILDCARD, index: 0}, fieldDef: {field: 'b', type: 'quantitative'}}
+        }
+      );
+      expect(insertedShelf.anyEncodings[0]).toEqual({channel: SHORT_WILDCARD, field: 'b', type: 'quantitative'});
+      expect(insertedShelf.anyEncodings[1]).toEqual({channel: SHORT_WILDCARD, field: 'a', type: 'quantitative'});
     });
   });
 
@@ -73,4 +85,80 @@ describe('reducers/shelf', () => {
     });
   });
 
+  describe(SHELF_FIELD_MOVE, () => {
+    it('should correct move field to an empty channel', () => {
+      const shelf = shelfReducer(
+        {
+          ...DEFAULT_SHELF_SPEC,
+          encoding: {
+            x: {field: 'a', type: 'quantitative'}
+          }
+        },
+        {
+          type: SHELF_FIELD_MOVE,
+          payload: {from: {channel: 'x'}, to: {channel: 'y' }}
+        }
+      );
+      expect(shelf).toEqual({
+        ...DEFAULT_SHELF_SPEC,
+        encoding: {
+          y: {field: 'a', type: 'quantitative'}
+        }
+      });
+    });
+
+    it('should correctly swap field to if move to a non-empty channel', () => {
+      const shelf = shelfReducer(
+        {
+          ...DEFAULT_SHELF_SPEC,
+          encoding: {
+            x: {field: 'a', type: 'quantitative'},
+            y: {field: 'b', type: 'quantitative'}
+          }
+        },
+        {
+          type: SHELF_FIELD_MOVE,
+          payload: {from: {channel: 'x'}, to: {channel: 'y' }}
+        }
+      );
+      expect(shelf).toEqual({
+        ...DEFAULT_SHELF_SPEC,
+        encoding: {
+          x: {field: 'b', type: 'quantitative'},
+          y: {field: 'a', type: 'quantitative'}
+        }
+      });
+    });
+
+    it('should correctly swap field between non-wildcard channel and wildcard channel', () => {
+      const shelf = shelfReducer(
+        {
+          ...DEFAULT_SHELF_SPEC,
+          encoding: {
+            x: {field: 'a', type: 'quantitative'}
+          },
+          anyEncodings: [
+            {channel: SHORT_WILDCARD, field: 'b', type: 'quantitative'}
+          ]
+        },
+        {
+          type: SHELF_FIELD_MOVE,
+          payload: {
+            from: {channel: 'x'},
+            to: {channel: SHORT_WILDCARD, index: 0}
+          }
+        }
+      );
+
+      expect(shelf).toEqual({
+        ...DEFAULT_SHELF_SPEC,
+        encoding: {
+          x: {field: 'b', type: 'quantitative'}
+        },
+        anyEncodings: [
+          {channel: SHORT_WILDCARD, field: 'a', type: 'quantitative'}
+        ]
+      });
+    });
+  });
 });

@@ -6,3 +6,11 @@
 export const DraggableType = {
   FIELD: 'field'
 };
+
+/**
+ * Type of parent for Field Component
+ */
+export enum FieldParentType {
+  ENCODING_SHELF,
+  FIELD_LIST
+};

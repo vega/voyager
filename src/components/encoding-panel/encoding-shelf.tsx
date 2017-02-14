@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {ConnectDropTarget, DropTarget, DropTargetCollector, DropTargetSpec} from 'react-dnd';
 
-import { DraggableType } from '../../constants';
+import {DraggableType, FieldParentType} from '../../constants';
 import {ShelfFieldDef} from '../../models';
 import {Field} from '../field';
 
@@ -10,7 +10,7 @@ import './encoding-shelf.scss';
 import * as classNames from 'classnames';
 import {SHORT_WILDCARD} from 'compassql/src/wildcard';
 import {ActionHandler} from '../../actions/index';
-import {SHELF_FIELD_ADD, SHELF_FIELD_REMOVE, ShelfEncodingAction} from '../../actions/shelf';
+import {SHELF_FIELD_ADD, SHELF_FIELD_MOVE, SHELF_FIELD_REMOVE, ShelfEncodingAction} from '../../actions/shelf';
 import {ShelfId} from '../../models';
 import {DraggedFieldIdentifier} from '../field/index';
 
@@ -37,11 +37,22 @@ const encodingShelfTarget: DropTargetSpec<EncodingShelfProps> = {
       return;
     }
 
-    const {fieldDef} = monitor.getItem() as DraggedFieldIdentifier;
-    props.handleAction({
-      type: SHELF_FIELD_ADD,
-      payload: {shelfId: props.id, fieldDef}
-    });
+    const {fieldDef, parentId} = monitor.getItem() as DraggedFieldIdentifier;
+    switch (parentId.type) {
+      case FieldParentType.FIELD_LIST:
+        props.handleAction({
+          type: SHELF_FIELD_ADD,
+          payload: {shelfId: props.id, fieldDef} // TODO: rename to to:
+        });
+        break;
+      case FieldParentType.ENCODING_SHELF:
+        props.handleAction({
+          type: SHELF_FIELD_MOVE,
+          payload: {from: parentId.id, to: props.id}
+        });
+      default:
+        throw new Error('Field dragged from unregistered source type to EncodingShelf');
+    }
   }
 };
 
@@ -71,7 +82,14 @@ class EncodingShelfBase extends React.Component<EncodingShelfProps, {}> {
     // HACK: add alias to suppress compile error for: https://github.com/Microsoft/TypeScript/issues/13526
     const F = Field as any;
 
-    const field = (<F fieldDef={fieldDef} draggable={true} onRemove={this.onRemove}/>);
+    const field = (
+      <F
+        fieldDef={fieldDef}
+        parentId={{type: FieldParentType.ENCODING_SHELF, id: id}}
+        draggable={true}
+        onRemove={this.onRemove}
+      />
+    );
 
     return connectDropTarget(
       <div className={classes}>

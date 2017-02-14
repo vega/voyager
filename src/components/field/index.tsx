@@ -1,8 +1,9 @@
 import * as React from 'react';
 import {DragElementWrapper, DragSource, DragSourceCollector, DragSourceSpec} from 'react-dnd';
 
-import {DraggableType} from '../../constants';
+import {DraggableType, FieldParentType} from '../../constants';
 import {ShelfFieldDef} from '../../models';
+import {ShelfId} from '../../models/shelf';
 
 /**
  * Props for react-dnd of Field
@@ -16,8 +17,20 @@ export interface FieldDragSourceProps {
   isDragging?: boolean;
 }
 
+/**
+ * Type and Identifier of Field's parent component
+ */
+export type FieldParentId = {
+  type: typeof FieldParentType.ENCODING_SHELF,
+  id: ShelfId
+} | {
+  type: typeof FieldParentType.FIELD_LIST
+};
+
 export interface FieldProps extends FieldDragSourceProps {
   fieldDef: ShelfFieldDef;
+
+  parentId?: FieldParentId;
 
   draggable: boolean;
 
@@ -53,14 +66,13 @@ class FieldBase extends React.Component<FieldProps, {}> {
 
 export interface DraggedFieldIdentifier {
   fieldDef: ShelfFieldDef;
-
+  parentId: FieldParentId;
 }
 
 const fieldSource: DragSourceSpec<FieldProps> = {
   beginDrag(props): DraggedFieldIdentifier {
-    return {
-      fieldDef: props.fieldDef,
-    };
+    const {fieldDef, parentId} = props;
+    return {fieldDef, parentId};
   }
 };
 
