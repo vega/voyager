@@ -1,5 +1,5 @@
 {
-  "extends": ["tslint:latest", "tslint-react"],
+  "extends": ["tslint:latest", "tslint-config-standard", "tslint-microsoft-contrib", "tslint-react"],
   "rules": {
     "arrow-parens": false,
     "ban": true,
