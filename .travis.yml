@@ -1,0 +1,21 @@
+language: node_js
+node_js:
+  - "4"
+  - "6"
+script:
+  - npm run build
+  - npm run test
+  - npm run lint
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
+cache: yarn
+notifications:
+  email: never
+  slack:
+    rooms:
+      - vega-js:qSRohErJJQzUfQTlBv4hivUl
+    on_success: never
+    on_failure: change
+cache:
+  directories:
+  - $HOME/.yarn-cache
