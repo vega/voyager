@@ -8,7 +8,7 @@ import {Field} from '../field';
 import './encoding-shelf.scss';
 
 import * as classNames from 'classnames';
-import {SHORT_WILDCARD} from 'compassql/src/wildcard';
+import {isWildcard} from 'compassql/src/wildcard';
 import {ActionHandler} from '../../actions/index';
 import {
   SHELF_FIELD_ADD, SHELF_FIELD_MOVE, SHELF_FIELD_REMOVE, SHELF_FUNCTION_CHANGE, ShelfEncodingAction
@@ -77,7 +77,7 @@ class EncodingShelfBase extends React.Component<EncodingShelfProps, {}> {
 
   public render() {
     const {id, connectDropTarget, fieldDef, isOver} = this.props;
-    const channelName = id.channel === SHORT_WILDCARD ? 'any' : id.channel;
+    const channelName = isWildcard(id.channel) ? 'any' : id.channel;
 
     const classes = classNames({
       EncodingShelf: true,

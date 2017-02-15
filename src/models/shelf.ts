@@ -1,6 +1,6 @@
 import {EncodingQuery} from 'compassql/src/query/encoding';
 import {SpecQuery} from 'compassql/src/query/spec';
-import { SHORT_WILDCARD, Wildcard, WildcardProperty } from 'compassql/src/wildcard';
+import {SHORT_WILDCARD, Wildcard, WildcardProperty, isWildcard} from 'compassql/src/wildcard';
 
 import {AggregateOp} from 'vega-lite/src/aggregate';
 import {Channel} from 'vega-lite/src/channel';
@@ -22,12 +22,12 @@ export interface ShelfChannelId {
 };
 
 export interface ShelfWildcardChannelId {
-  channel: SHORT_WILDCARD;
+  channel: SHORT_WILDCARD | Wildcard<Channel>;
   index: number;
 };
 
 export function isWildcardChannelId(shelfId: ShelfId): shelfId is ShelfWildcardChannelId {
-  return shelfId.channel === SHORT_WILDCARD;
+  return isWildcard(shelfId.channel);
 }
 
 export type ShelfMark = VLMark | SHORT_WILDCARD;
@@ -47,7 +47,7 @@ export interface ShelfFieldDef {
 export type ShelfFunction = AggregateOp | 'bin' | TimeUnit | undefined;
 
 export interface ShelfAnyEncodingDef extends ShelfFieldDef {
-  channel: SHORT_WILDCARD;
+  channel: SHORT_WILDCARD  | Wildcard<Channel>;
 }
 
 export type SpecificEncoding = {
