@@ -17,6 +17,10 @@ export const DEFAULT_DATA = {
     field: 'q2',
     type: 'quantitative',
     primitiveType: 'number' as any
+  },{
+    field: 't',
+    type: 'temporal',
+    primitiveType: 'date' as any
   }, {
     field: 'n1',
     type: 'nominal',
