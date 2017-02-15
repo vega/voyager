@@ -21,7 +21,8 @@
     "watch": "webpack -d --watch",
     "clean": "find -E dist  -regex '.*\\.(js|js.map|d.ts)' -delete",
     "lint": "tslint -c tslint.json 'src/**/*.(ts|tsx)' --exclude '**/*.d.ts'",
-    "test": "jest --no-cache --coverage"
+    "test": "jest --no-cache --coverage",
+    "codecov": "jest --no-cache --coverage && codecov"
   },
   "dependencies": {
     "classnames": "^2.2.5",
@@ -75,6 +76,8 @@
       "ts",
       "tsx",
       "js"
-    ]
+    ],
+    "coverageDirectory": "./coverage/",
+    "collectCoverage": true
   }
 }
