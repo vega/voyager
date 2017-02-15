@@ -10,9 +10,12 @@ import './encoding-shelf.scss';
 import * as classNames from 'classnames';
 import {SHORT_WILDCARD} from 'compassql/src/wildcard';
 import {ActionHandler} from '../../actions/index';
-import {SHELF_FIELD_ADD, SHELF_FIELD_MOVE, SHELF_FIELD_REMOVE, ShelfEncodingAction} from '../../actions/shelf';
-import {ShelfId} from '../../models';
+import {
+  SHELF_FIELD_ADD, SHELF_FIELD_MOVE, SHELF_FIELD_REMOVE, SHELF_FUNCTION_CHANGE, ShelfEncodingAction
+} from '../../actions/shelf';
+import {ShelfFunction, ShelfId} from '../../models';
 import {DraggedFieldIdentifier} from '../field/index';
+import {FunctionChooser} from './function-chooser';
 
 /**
  * Props for react-dnd of EncodingShelf
@@ -68,8 +71,10 @@ class EncodingShelfBase extends React.Component<EncodingShelfProps, {}> {
     super(props);
 
     // Bind - https://facebook.github.io/react/docs/handling-events.html
+    this.onFunctionChange = this.onFunctionChange.bind(this);
     this.onRemove = this.onRemove.bind(this);
   }
+
   public render() {
     const {id, connectDropTarget, fieldDef, isOver} = this.props;
     const channelName = id.channel === SHORT_WILDCARD ? 'any' : id.channel;
@@ -83,12 +88,15 @@ class EncodingShelfBase extends React.Component<EncodingShelfProps, {}> {
     const F = Field as any;
 
     const field = (
-      <F
-        fieldDef={fieldDef}
-        parentId={{type: FieldParentType.ENCODING_SHELF, id: id}}
-        draggable={true}
-        onRemove={this.onRemove}
-      />
+      <span>
+        <FunctionChooser fieldDef={fieldDef} onFunctionChange={this.onFunctionChange}/>
+        <F
+          fieldDef={fieldDef}
+          parentId={{type: FieldParentType.ENCODING_SHELF, id: id}}
+          draggable={true}
+          onRemove={this.onRemove}
+        />
+      </span>
     );
 
     return connectDropTarget(
@@ -104,6 +112,18 @@ class EncodingShelfBase extends React.Component<EncodingShelfProps, {}> {
     handleAction({
       type: SHELF_FIELD_REMOVE,
       payload: id
+    });
+  }
+
+  private onFunctionChange(fn: ShelfFunction) {
+    const {id, handleAction} = this.props;
+
+    handleAction({
+      type: SHELF_FUNCTION_CHANGE,
+      payload: {
+        shelfId: id,
+        fn: fn
+      }
     });
   }
 }

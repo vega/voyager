@@ -1,7 +1,7 @@
 import {SHORT_WILDCARD} from 'compassql/src/wildcard';
 
 import {
-  SHELF_CLEAR, SHELF_FIELD_ADD, SHELF_FIELD_MOVE, SHELF_FIELD_REMOVE, SHELF_MARK_CHANGE_TYPE
+  SHELF_CLEAR, SHELF_FIELD_ADD, SHELF_FIELD_MOVE, SHELF_FIELD_REMOVE, SHELF_FUNCTION_CHANGE, SHELF_MARK_CHANGE_TYPE
 } from '../actions/shelf';
 import {DEFAULT_SHELF_SPEC} from '../models';
 import {shelfReducer} from './shelf';
@@ -158,6 +158,133 @@ describe('reducers/shelf', () => {
         anyEncodings: [
           {channel: SHORT_WILDCARD, field: 'a', type: 'quantitative'}
         ]
+      });
+    });
+  });
+
+  describe(SHELF_FUNCTION_CHANGE, () => {
+    it('should correctly change function of x-field to aggregate:mean', () => {
+      const shelf = shelfReducer(
+        {
+          ...DEFAULT_SHELF_SPEC,
+          encoding: {
+            x: {field: 'a', type: 'quantitative'}
+          }
+        },
+        {
+          type: SHELF_FUNCTION_CHANGE,
+          payload: {
+            shelfId: {channel: 'x'},
+            fn: 'mean'
+          }
+        }
+      );
+
+      expect(shelf).toEqual({
+        ...DEFAULT_SHELF_SPEC,
+        encoding: {
+          x: {aggregate: 'mean', field: 'a', type: 'quantitative'}
+        }
+      });
+    });
+
+    it('should correctly change function of x-field to timeUnit:month', () => {
+      const shelf = shelfReducer(
+        {
+          ...DEFAULT_SHELF_SPEC,
+          encoding: {
+            x: {field: 'a', type: 'temporal'}
+          }
+        },
+        {
+          type: SHELF_FUNCTION_CHANGE,
+          payload: {
+            shelfId: {channel: 'x'},
+            fn: 'month'
+          }
+        }
+      );
+
+      expect(shelf).toEqual({
+        ...DEFAULT_SHELF_SPEC,
+        encoding: {
+          x: {timeUnit: 'month', field: 'a', type: 'temporal'}
+        }
+      });
+    });
+
+    it('should correctly change function of x-field to bin:true', () => {
+      const shelf = shelfReducer(
+        {
+          ...DEFAULT_SHELF_SPEC,
+          encoding: {
+            x: {field: 'a', type: 'quantitative'}
+          }
+        },
+        {
+          type: SHELF_FUNCTION_CHANGE,
+          payload: {
+            shelfId: {channel: 'x'},
+            fn: 'bin'
+          }
+        }
+      );
+
+      expect(shelf).toEqual({
+        ...DEFAULT_SHELF_SPEC,
+        encoding: {
+          x: {bin: true, field: 'a', type: 'quantitative'}
+        }
+      });
+    });
+
+    it('should correctly change function of field with wildcard shelf to mean', () => {
+      const shelf = shelfReducer(
+        {
+          ...DEFAULT_SHELF_SPEC,
+          anyEncodings: [
+            {channel: SHORT_WILDCARD, field: 'b', type: 'quantitative'}
+          ]
+        },
+        {
+          type: SHELF_FUNCTION_CHANGE,
+          payload: {
+            shelfId: {channel: SHORT_WILDCARD, index: 0},
+            fn: 'mean'
+          }
+        }
+      );
+
+      expect(shelf).toEqual({
+        ...DEFAULT_SHELF_SPEC,
+        anyEncodings: [
+          {aggregate: 'mean', channel: SHORT_WILDCARD, field: 'b', type: 'quantitative'}
+        ]
+      });
+    });
+
+    it('should correctly change function of x-field to no function', () => {
+      const shelf = shelfReducer(
+        {
+          ...DEFAULT_SHELF_SPEC,
+          encoding: {
+            x: {aggregate: 'mean', field: 'a', type: 'quantitative'}
+          }
+        },
+        {
+          type: SHELF_FUNCTION_CHANGE,
+          payload: {
+            shelfId: {channel: 'x'},
+            fn: undefined
+          }
+        }
+      );
+
+      expect(shelf).toEqual({
+        ...DEFAULT_SHELF_SPEC,
+        encoding: {
+          x: {field: 'a', type: 'quantitative'}
+        }
       });
     });
   });

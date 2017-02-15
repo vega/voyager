@@ -1,14 +1,17 @@
-import {EncodingQuery} from 'compassql/src/query/encoding';
+
 import {SHORT_WILDCARD} from 'compassql/src/wildcard';
 
 import {Action} from '../actions';
 import {
-  SHELF_CLEAR, SHELF_FIELD_ADD, SHELF_FIELD_MOVE, SHELF_FIELD_REMOVE, SHELF_MARK_CHANGE_TYPE
+  SHELF_CLEAR, SHELF_FIELD_ADD, SHELF_FIELD_MOVE, SHELF_FIELD_REMOVE, SHELF_FUNCTION_CHANGE, SHELF_MARK_CHANGE_TYPE
 } from '../actions/shelf';
 
 
+import {AGGREGATE_OPS} from 'vega-lite/src/aggregate';
+import {TIMEUNITS} from 'vega-lite/src/timeunit';
 import {DEFAULT_SHELF_SPEC, isWildcardChannelId} from '../models';
-import {ShelfFieldDef, ShelfId, UnitShelf} from '../models/shelf';
+import {ShelfAnyEncodingDef, ShelfFieldDef, ShelfFunction, ShelfId, UnitShelf} from '../models/shelf';
+import {toSet} from '../util';
 
 export function shelfReducer(shelf: Readonly<UnitShelf>, action: Action): UnitShelf {
   switch (action.type) {
@@ -42,15 +45,46 @@ export function shelfReducer(shelf: Readonly<UnitShelf>, action: Action): UnitSh
 
       return addedShelf2;
     }
+
+    case SHELF_FUNCTION_CHANGE:  {
+      const {shelfId, fn} = action.payload;
+
+      return modifyEncoding(shelf, shelfId, (fieldDef: Readonly<ShelfFieldDef | ShelfAnyEncodingDef>) => {
+        // Remove all existing functions then assign new function
+        const {aggregate: _a, bin: _b, timeUnit: _t, hasFn: _h, ...newFieldDef} = fieldDef;
+
+        return {
+          ...newFieldDef,
+          ...(getFunctionMixins(fn))
+        };
+      });
+    }
   }
   return shelf;
+}
+
+const AGGREGATE_INDEX = toSet(AGGREGATE_OPS);
+const TIMEUNIT_INDEX = toSet(TIMEUNITS);
+
+
+function getFunctionMixins(fn: ShelfFunction) {
+  if (AGGREGATE_INDEX[fn]) {
+    return {aggregate: fn};
+  }
+  if (fn === 'bin') {
+    return {bin: true};
+  }
+  if (TIMEUNIT_INDEX[fn]) {
+    return {timeUnit: fn};
+  }
+  return undefined;
 }
 
 function addEncoding(shelf: Readonly<UnitShelf>, shelfId: ShelfId, fieldDef: ShelfFieldDef) {
   if (isWildcardChannelId(shelfId)) {
     return {
       ...shelf,
-      anyEncodings: insert<EncodingQuery>(shelf.anyEncodings, shelfId.index, {
+      anyEncodings: insert<ShelfAnyEncodingDef>(shelf.anyEncodings, shelfId.index, {
         channel: SHORT_WILDCARD,
         ...fieldDef
       })
@@ -65,6 +99,27 @@ function addEncoding(shelf: Readonly<UnitShelf>, shelfId: ShelfId, fieldDef: She
     };
   }
 }
+
+type ShelfFieldDefModifier<T extends ShelfFieldDef> = (fieldDef: Readonly<T>) => T;
+
+function modifyEncoding(shelf: Readonly<UnitShelf>, shelfId: ShelfId, modifier: ShelfFieldDefModifier<any>) {
+
+  if (isWildcardChannelId(shelfId)) {
+    return {
+      ...shelf,
+      anyEncodings: modify<ShelfAnyEncodingDef>(shelf.anyEncodings, shelfId.index, modifier)
+    };
+  } else {
+    return {
+      ...shelf,
+      encoding: {
+        ...shelf.encoding,
+        [shelfId.channel]: modifier(shelf.encoding[shelfId.channel])
+      }
+    };
+  }
+}
+
 
 function removeEncoding(shelf: Readonly<UnitShelf>, shelfId: ShelfId):
   {fieldDef: ShelfFieldDef, shelf: Readonly<UnitShelf>} {
@@ -113,5 +168,13 @@ function insert<T>(array: ReadonlyArray<T>, index: number, item: T) {
     ...array.slice(0, index),
     item,
     ...array.slice(index)
+  ];
+}
+
+function modify<T>(array: ReadonlyArray<T>, index: number, modifier: (t: Readonly<T>) => T) {
+  return [
+    ...array.slice(0, index),
+    modifier(array[index]),
+    ...array.slice(index + 1)
   ];
 }

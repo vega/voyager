@@ -1,12 +1,14 @@
 import {EncodingQuery} from 'compassql/src/query/encoding';
 import {SpecQuery} from 'compassql/src/query/spec';
-import {SHORT_WILDCARD} from 'compassql/src/wildcard';
+import { SHORT_WILDCARD, Wildcard, WildcardProperty } from 'compassql/src/wildcard';
 
+import {AggregateOp} from 'vega-lite/src/aggregate';
 import {Channel} from 'vega-lite/src/channel';
 import {Config} from 'vega-lite/src/config';
 import {Encoding} from 'vega-lite/src/encoding';
-import {FieldDef} from 'vega-lite/src/fieldDef';
 import {Mark as VLMark} from 'vega-lite/src/mark';
+import {TimeUnit} from 'vega-lite/src/timeunit';
+import {Type} from 'vega-lite/src/type';
 
 
 /**
@@ -29,10 +31,27 @@ export function isWildcardChannelId(shelfId: ShelfId): shelfId is ShelfWildcardC
 }
 
 export type ShelfMark = VLMark | SHORT_WILDCARD;
-export type ShelfFieldDef = FieldDef;
+export interface ShelfFieldDef {
+  field: WildcardProperty<string>;
+
+  aggregate?: AggregateOp | Wildcard<AggregateOp>;
+  timeUnit?: TimeUnit | Wildcard<TimeUnit>;
+
+  hasFn?: boolean;
+
+  bin?: boolean | SHORT_WILDCARD;
+
+  type?: Type;
+}
+
+export type ShelfFunction = AggregateOp | 'bin' | TimeUnit | undefined;
+
+export interface ShelfAnyEncodingDef extends ShelfFieldDef {
+  channel: SHORT_WILDCARD;
+}
 
 export type SpecificEncoding = {
-  [P in keyof Encoding]: Encoding[P]; // TODO: change Encoding[P] to sub-part of EncodingQuery
+  [P in keyof Encoding]: ShelfFieldDef;
 };
 
 /**
@@ -56,7 +75,7 @@ export interface UnitShelf {
   /**
    * List of encodingDef for wildcard channels
    */
-  anyEncodings: EncodingQuery[];
+  anyEncodings: ShelfAnyEncodingDef[];
 
   config: Config;
 }
