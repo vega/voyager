@@ -73,7 +73,6 @@ class EncodingPanelBase extends React.Component<EncodingPanelProps, {}> {
 
 export const EncodingPanel = connect(
   (state: State) => {
-    // FIXME use reselect
     return {shelf: state.shelf};
   },
   createDispatchHandler<ShelfAction>()

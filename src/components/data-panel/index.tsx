@@ -24,7 +24,6 @@ export class DataPanelBase extends React.Component<DataPanelProps, {}> {
 
 export const DataPanel = connect(
   (state: State) => {
-    // FIXME: use reselect
     return {data: state.data};
   }
 )(DataPanelBase);
