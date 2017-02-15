@@ -1,4 +1,4 @@
-import './App.scss';
+import './app.scss';
 
 import * as React from 'react';
 import { DragDropContext } from 'react-dnd';
