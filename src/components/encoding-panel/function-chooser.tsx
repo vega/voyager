@@ -23,8 +23,8 @@ export class FunctionChooser extends React.Component<FunctionChooserProps, any> 
     const fn = fieldDef.aggregate || fieldDef.timeUnit || (fieldDef.bin && 'bin' ) || undefined;
     const supportedFns = getSupportedFunction(fieldDef.type);
     const options = supportedFns.map(f => (
-      <option key={f} value={f}>
-        {f}
+      <option key={f || '-'} value={f}>
+        {f || '-'}
       </option>
     ));
 
