@@ -73,7 +73,7 @@ class EncodingPanelBase extends React.Component<EncodingPanelProps, {}> {
 
 export const EncodingPanel = connect(
   (state: State) => {
-    return {shelf: state.shelf};
+    return {shelf: state.present.shelf};
   },
   createDispatchHandler<ShelfAction>()
 )(EncodingPanelBase);

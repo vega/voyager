@@ -1,4 +1,4 @@
-
+export const HISTORY_LIMIT = 20;
 
 /**
  * Types of draggable items (for react-dnd).

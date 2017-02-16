@@ -1,5 +1,5 @@
 import {ShelfFieldDef, ShelfFunction, ShelfId, ShelfMark} from '../models';
-import { PlainReduxAction, ReduxAction } from './redux-action';
+import {PlainReduxAction, ReduxAction} from './redux-action';
 
 export type ShelfAction =
   ShelfClear |

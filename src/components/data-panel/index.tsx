@@ -24,6 +24,6 @@ export class DataPanelBase extends React.Component<DataPanelProps, {}> {
 
 export const DataPanel = connect(
   (state: State) => {
-    return {data: state.data};
+    return {data: state.present.data};
   }
 )(DataPanelBase);

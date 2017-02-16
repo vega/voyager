@@ -20,7 +20,7 @@ class ViewPanelBase extends React.Component<ViewPanelProps, {}> {
 export const ViewPanel = connect(
   (state: State) => {
     // FIXME: use reselect
-    const specQuery = toSpecQuery(state.shelf);
+    const specQuery = toSpecQuery(state.present.shelf);
     return {specQuery: specQuery};
   }
 )(ViewPanelBase);
