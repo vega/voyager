@@ -26,7 +26,7 @@
   },
   "dependencies": {
     "classnames": "^2.2.5",
-    "compassql": "^0.8.3",
+    "compassql": "^0.9.2",
     "react": "^15.4.2",
     "react-dnd": "^2.2.3",
     "react-dnd-html5-backend": "^2.2.3",

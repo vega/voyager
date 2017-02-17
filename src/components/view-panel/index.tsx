@@ -1,4 +1,4 @@
-import {SpecQuery} from 'compassql/src/query/spec';
+import {SpecQuery} from 'compassql/build/src/query/spec';
 import * as React from 'react';
 import {connect} from 'react-redux';
 import {State, toSpecQuery} from '../../models';

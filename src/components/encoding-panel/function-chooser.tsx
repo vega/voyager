@@ -1,4 +1,4 @@
-import {isWildcard} from 'compassql/src/wildcard';
+import {isWildcard} from 'compassql/build/src/wildcard';
 import * as React from 'react';
 import {Type} from 'vega-lite/src/type';
 

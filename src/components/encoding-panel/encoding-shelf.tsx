@@ -8,7 +8,7 @@ import {Field} from '../field';
 import './encoding-shelf.scss';
 
 import * as classNames from 'classnames';
-import {isWildcard} from 'compassql/src/wildcard';
+import {isWildcard} from 'compassql/build/src/wildcard';
 import {ActionHandler} from '../../actions/index';
 import {
   SHELF_FIELD_ADD, SHELF_FIELD_MOVE, SHELF_FIELD_REMOVE, SHELF_FUNCTION_CHANGE, ShelfEncodingAction
