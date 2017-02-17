@@ -8,7 +8,7 @@ export interface DataPanelProps {
   data: Data;
 }
 
-export class DataPanelBase extends React.Component<DataPanelProps, {}> {
+export class DataPanelBase extends React.PureComponent<DataPanelProps, {}> {
   public render() {
     const {name, schema} = this.props.data;
 

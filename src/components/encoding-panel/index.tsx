@@ -13,7 +13,7 @@ interface EncodingPanelProps extends ActionHandler<ShelfAction> {
   shelf: UnitShelf;
 }
 
-class EncodingPanelBase extends React.Component<EncodingPanelProps, {}> {
+class EncodingPanelBase extends React.PureComponent<EncodingPanelProps, {}> {
   constructor(props: EncodingPanelProps) {
     super(props);
 

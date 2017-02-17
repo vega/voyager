@@ -22,7 +22,7 @@ interface MarkShelfProps extends ActionHandler<ShelfMarkChangeType> {
 /**
  * Control for selecting mark type
  */
-export class MarkShelf extends React.Component<MarkShelfProps, {}> {
+export class MarkShelf extends React.PureComponent<MarkShelfProps, {}> {
   constructor(props: MarkShelfProps) {
     super(props);
 

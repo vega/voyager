@@ -6,6 +6,8 @@
 
 ## React Components
 
+- Since we guarantee that our props and states are immutable (using TypeScript's `Readonly` type wrapper), we can always use [`PureComponent`](https://facebook.github.io/react/docs/react-api.html#react.purecomponent) and rely on its shallow prop and state comparison.
+
 - Use lowercase-dash-separated-names for file names. (Using Pascal-case as filename can be problematic for OSX in general as OSX is case-insensitive.)
 - Following Redux's [Using with React](http://redux.js.org/docs/basics/UsageWithReact.html) guide, we distinguish between presentation and container components. However, instead of having event handlers (e.g., `onTodoClick` in the guide) for every single events, we pass in `handleAction` property to presentation components (which implements our `ActionHandler` interface).  For more information, see `src/actions/redux-action.ts`.
 - You can use [this plugin](https://marketplace.visualstudio.com/items?itemName=infeng.vscode-react-typescript) to generate snippets (but manually remove default exports).
