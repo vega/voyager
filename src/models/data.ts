@@ -1,5 +1,5 @@
-import {FieldSchema, Schema} from 'compassql/src/schema';
-export {FieldSchema, Schema} from 'compassql/src/schema';
+import {FieldSchema, Schema} from 'compassql/build/src/schema';
+export {FieldSchema, Schema} from 'compassql/build/src/schema';
 
 export interface Data {
   name: string;

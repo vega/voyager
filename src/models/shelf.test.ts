@@ -1,4 +1,4 @@
-import {SHORT_WILDCARD} from 'compassql/src/wildcard';
+import {SHORT_WILDCARD} from 'compassql/build/src/wildcard';
 import {toSpecQuery} from './shelf';
 
 describe('models/shelf', () => {

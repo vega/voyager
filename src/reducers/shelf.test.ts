@@ -1,4 +1,4 @@
-import {SHORT_WILDCARD} from 'compassql/src/wildcard';
+import {SHORT_WILDCARD} from 'compassql/build/src/wildcard';
 
 import {
   SHELF_CLEAR, SHELF_FIELD_ADD, SHELF_FIELD_MOVE, SHELF_FIELD_REMOVE, SHELF_FUNCTION_CHANGE, SHELF_MARK_CHANGE_TYPE

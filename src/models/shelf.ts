@@ -1,6 +1,6 @@
-import {EncodingQuery} from 'compassql/src/query/encoding';
-import {SpecQuery} from 'compassql/src/query/spec';
-import {SHORT_WILDCARD, Wildcard, WildcardProperty, isWildcard} from 'compassql/src/wildcard';
+import {EncodingQuery} from 'compassql/build/src/query/encoding';
+import {SpecQuery} from 'compassql/build/src/query/spec';
+import {SHORT_WILDCARD, Wildcard, WildcardProperty, isWildcard} from 'compassql/build/src/wildcard';
 
 import {AggregateOp} from 'vega-lite/src/aggregate';
 import {Channel} from 'vega-lite/src/channel';
