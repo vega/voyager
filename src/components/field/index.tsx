@@ -38,7 +38,7 @@ export interface FieldProps extends FieldDragSourceProps {
   onRemove?: () => void;
 };
 
-class FieldBase extends React.Component<FieldProps, {}> {
+class FieldBase extends React.PureComponent<FieldProps, {}> {
   constructor(props: FieldProps) {
     super(props);
 

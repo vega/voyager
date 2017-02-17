@@ -7,7 +7,7 @@ export interface ViewPanelProps {
   specQuery: SpecQuery;
 }
 
-class ViewPanelBase extends React.Component<ViewPanelProps, {}> {
+class ViewPanelBase extends React.PureComponent<ViewPanelProps, {}> {
   public render() {
     return (
       <div className="view">

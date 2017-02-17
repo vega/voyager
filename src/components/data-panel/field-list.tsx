@@ -9,7 +9,7 @@ export interface FieldListProps {
   schema: Schema;
 }
 
-export class FieldList extends React.Component<FieldListProps, {}> {
+export class FieldList extends React.PureComponent<FieldListProps, {}> {
   public render() {
     const {schema} = this.props;
 

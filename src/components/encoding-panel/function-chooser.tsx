@@ -10,7 +10,7 @@ export interface FunctionChooserProps {
   onFunctionChange: (fn: ShelfFunction) => void;
 }
 
-export class FunctionChooser extends React.Component<FunctionChooserProps, any> {
+export class FunctionChooser extends React.PureComponent<FunctionChooserProps, any> {
   constructor(props: FunctionChooserProps) {
     super(props);
 

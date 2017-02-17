@@ -10,7 +10,7 @@ export interface UndoRedoProps {
   onRedo: () => void;
 }
 
-class UndoRedoBase extends React.Component<UndoRedoProps, any> {
+class UndoRedoBase extends React.PureComponent<UndoRedoProps, any> {
   public render() {
     const {canUndo, canRedo, onUndo, onRedo} = this.props;
     return (

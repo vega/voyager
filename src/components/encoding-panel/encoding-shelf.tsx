@@ -66,7 +66,7 @@ const collect: DropTargetCollector = (connect, monitor): EncodingShelfDropTarget
   };
 };
 
-class EncodingShelfBase extends React.Component<EncodingShelfProps, {}> {
+class EncodingShelfBase extends React.PureComponent<EncodingShelfProps, {}> {
   constructor(props: EncodingShelfProps) {
     super(props);
 

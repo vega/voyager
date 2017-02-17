@@ -9,7 +9,7 @@ import {EncodingPanel} from './encoding-panel';
 import {Header} from './header';
 import {ViewPanel} from './view-panel';
 
-class AppBase extends React.Component<any, {}> {
+class AppBase extends React.PureComponent<any, {}> {
   public render() {
     return (
       <div className="root">
