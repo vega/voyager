@@ -2,6 +2,7 @@ import {SpecQuery} from 'compassql/build/src/query/spec';
 import * as React from 'react';
 import {connect} from 'react-redux';
 import {State, toSpecQuery} from '../../models';
+import {getSpecQuery} from '../../selectors';
 
 export interface ViewPanelProps {
   specQuery: SpecQuery;
@@ -19,8 +20,6 @@ class ViewPanelBase extends React.PureComponent<ViewPanelProps, {}> {
 }
 export const ViewPanel = connect(
   (state: State) => {
-    // FIXME: use reselect
-    const specQuery = toSpecQuery(state.present.shelf);
-    return {specQuery: specQuery};
+    return {specQuery: getSpecQuery(state)};
   }
 )(ViewPanelBase);

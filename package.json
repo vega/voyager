@@ -35,6 +35,7 @@
     "redux": "^3.6.0",
     "redux-logger": "^2.8.1",
     "redux-undo": "beta",
+    "reselect": "^2.5.4",
     "tslib": "^1.5.0",
     "vega-lite": "2.0.0-alpha.1"
   },
