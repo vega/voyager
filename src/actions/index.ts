@@ -12,15 +12,3 @@ export * from './undo-redo';
  * Union type of all actions in our application.
  */
 export type Action = DatasetAction | ShelfAction | UndoableAction;
-
-
-
-
-
-
-
-
-
-
-
-

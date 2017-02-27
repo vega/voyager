@@ -1,42 +1,44 @@
 import * as React from 'react';
-import {ExtendedUnitSpec} from 'vega-lite/src/spec';
-import * as vl from 'vega-lite';
 import * as vega from 'vega';
+import * as vl from 'vega-lite';
+import {ExtendedUnitSpec} from 'vega-lite/src/spec';
 
 export interface VegaLiteProps {
-  spec: ExtendedUnitSpec
+  spec: ExtendedUnitSpec;
 
   renderer?: 'svg' | 'canvas';
 }
 
+const CHART_REF = 'chart';
+
 export class VegaLite extends React.PureComponent<VegaLiteProps, any> {
 
-  renderVega(vlSpec: ExtendedUnitSpec) {
+  public render() {
+    return (
+      <div>
+        VL
+        <div className='chart' ref={CHART_REF}/>
+      </div>
+    );
+  }
+  protected renderVega(vlSpec: ExtendedUnitSpec) {
     const {spec} = vl.compile(vlSpec);
 
     const runtime = vega.parse(spec);
     new vega.View(runtime)
       .logLevel(vega.Warn)
-      .initialize(this.refs['chart'] as any)
+      .initialize(this.refs[CHART_REF] as any)
       .renderer(this.props.renderer || 'svg')
       .hover()
       .run();
   }
 
-  componentDidMount() {
+  protected componentDidMount() {
     this.renderVega(this.props.spec);
   }
 
-  componentWillReceiveProps(nextProps: VegaLiteProps) {
+  protected componentWillReceiveProps(nextProps: VegaLiteProps) {
     this.renderVega(nextProps.spec);
     // visual.update(nextProps.vegaSpec);
-  }
-  render() {
-    return (
-      <div>
-        VL
-        <div className='chart' ref='chart'/>
-      </div>
-    );
   }
 }

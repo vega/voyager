@@ -1,21 +1,29 @@
 {
-  "extends": ["tslint:latest", "tslint-config-standard", "tslint-microsoft-contrib", "tslint-react"],
+  "extends": ["tslint-config-standard", "tslint:latest", "tslint-react"],
   "rules": {
-    "arrow-parens": false,
+    "arrow-parens": [true, "ban-single-arg-parens"],
     "ban": true,
     "interface-name": [true, "never-prefix"],
     "no-consecutive-blank-lines": [true, 3],
     "no-default-export": true,
-    "no-unused-variable": [true, "check-parameters", "react", {"ignore-pattern": "^_"}],
+    "no-unused-variable": [true, "react", {"ignore-pattern": "^_"}],
     "object-literal-shorthand": false,
+    "object-literal-key-quotes": [
+      true, "consistent"
+    ],
     "object-literal-sort-keys": false,
+    "one-variable-per-declaration": [
+      false
+    ],
     "ordered-imports": [
       true, "lowercase-last"
     ],
-    "quotemark": [true, "avoid-escape", "single", "jsx-double"],
+    "quotemark": [true, "avoid-escape", "single"],
+    "semicolon": [
+      "always"
+    ],
     "switch-default": false,
     "trailing-comma": [false],
-
     "variable-name": [true,
         "ban-keywords",
         "check-format",

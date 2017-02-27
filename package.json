@@ -20,7 +20,8 @@
     "build": "webpack -d",
     "watch": "webpack -d --watch",
     "clean": "find -E dist  -regex '.*\\.(js|js.map|d.ts)' -delete",
-    "lint": "tslint -c tslint.json 'src/**/*.(ts|tsx)' --exclude '**/*.d.ts'",
+    "lint": "tslint -c tslint.json 'src/**/*.ts' 'src/**/*.tsx'",
+    "lint-fix": "npm run lint -- --fix",
     "test": "jest --no-cache --coverage",
     "posttest": "npm run lint",
     "codecov": "jest --no-cache --coverage && codecov"
@@ -65,9 +66,8 @@
     "style-loader": "^0.13.1",
     "ts-jest": "~18",
     "ts-loader": "^2.0.0",
-    "tslint": "^4.4.2",
+    "tslint": "^4.5.0",
     "tslint-config-standard": "^4.0.0",
-    "tslint-microsoft-contrib": "^4.0.0",
     "tslint-react": "^2.3.0",
     "typescript": "^2.1.5",
     "webpack": "2.2.1"

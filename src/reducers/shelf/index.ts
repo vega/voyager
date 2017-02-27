@@ -1,5 +1,5 @@
-import {Shelf, StateBase} from '../../models';
 import {Action} from '../../actions';
+import {Shelf} from '../../models';
 
 import {shelfSpecReducer} from './spec';
 

@@ -1,15 +1,7 @@
 import {EncodingQuery} from 'compassql/build/src/query/encoding';
 import {SpecQuery} from 'compassql/build/src/query/spec';
-import {SHORT_WILDCARD, Wildcard, WildcardProperty, isWildcard} from 'compassql/build/src/wildcard';
-
-import {AggregateOp} from 'vega-lite/src/aggregate';
-import {Channel} from 'vega-lite/src/channel';
 import {Config} from 'vega-lite/src/config';
-import {Encoding} from 'vega-lite/src/encoding';
-import {Mark as VLMark} from 'vega-lite/src/mark';
-import {TimeUnit} from 'vega-lite/src/timeunit';
-import {Type} from 'vega-lite/src/type';
-import {SpecificEncoding, ShelfAnyEncodingDef, ShelfMark} from './encoding';
+import {ShelfAnyEncodingDef, ShelfMark, SpecificEncoding} from './encoding';
 
 
 /**

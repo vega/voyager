@@ -5,7 +5,7 @@ import {Channel} from 'vega-lite/src/channel';
 import {ActionHandler} from '../../actions/index';
 import {createDispatchHandler} from '../../actions/redux-action';
 import {SHELF_CLEAR, ShelfAction} from '../../actions/shelf';
-import {State, ShelfUnitSpec} from '../../models';
+import {ShelfUnitSpec, State} from '../../models';
 import {EncodingShelf} from './encoding-shelf';
 import {MarkShelf} from './mark-shelf';
 

@@ -1,8 +1,8 @@
 import {Schema} from 'compassql/build/src/schema';
 
 import {DATASET_URL_RECEIVE, DATASET_URL_REQUEST} from '../actions/dataset';
-import {datasetReducer} from './dataset';
 import {DEFAULT_DATASET} from '../models/dataset';
+import {datasetReducer} from './dataset';
 
 describe('reducers/dataset', () => {
   describe(DATASET_URL_REQUEST, () => {

@@ -1,14 +1,15 @@
 import {Query} from 'compassql/build/src/query/query';
 import * as React from 'react';
 import {connect} from 'react-redux';
-import {State, toQuery} from '../../models';
-import {getQuery, getMainSpec} from '../../selectors';
 import {ExtendedUnitSpec} from 'vega-lite/src/spec';
+
+import {State} from '../../models';
+import {getMainSpec, getQuery} from '../../selectors';
 import {VegaLite} from '../vega-lite/index';
 
 export interface ViewPanelProps {
   query: Query;
-  mainSpec: ExtendedUnitSpec
+  mainSpec: ExtendedUnitSpec;
 }
 
 class ViewPanelBase extends React.PureComponent<ViewPanelProps, {}> {

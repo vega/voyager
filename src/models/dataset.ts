@@ -31,7 +31,7 @@ export const DEFAULT_DATASET: Dataset = {
     stats: {
       distinct: 2
     }
-  },{
+  }, {
     field: 't',
     type: 'temporal',
     primitiveType: 'date' as any,

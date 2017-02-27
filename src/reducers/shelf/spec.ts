@@ -9,10 +9,10 @@ import {
 
 import {AGGREGATE_OPS} from 'vega-lite/src/aggregate';
 import {TIMEUNITS} from 'vega-lite/src/timeunit';
-import {DEFAULT_SHELF_SPEC, isWildcardChannelId} from '../../models';
+import {isWildcardChannelId} from '../../models';
 import {ShelfAnyEncodingDef, ShelfFieldDef, ShelfFunction, ShelfId, ShelfUnitSpec} from '../../models/shelf';
-import {toSet} from '../../util';
 import {DEFAULT_SHELF_UNIT_SPEC} from '../../models/shelf/spec';
+import {toSet} from '../../util';
 
 export function shelfSpecReducer(shelf: Readonly<ShelfUnitSpec>, action: Action): ShelfUnitSpec {
   switch (action.type) {
@@ -42,12 +42,12 @@ export function shelfSpecReducer(shelf: Readonly<ShelfUnitSpec>, action: Action)
       const {fieldDef: fieldDefTo, shelf: removedShelf2} = removeEncoding(removedShelf1, to);
 
       const addedShelf1 = addEncoding(removedShelf2, to, fieldDefFrom);
-      const addedShelf2 =  addEncoding(addedShelf1, from, fieldDefTo);
+      const addedShelf2 = addEncoding(addedShelf1, from, fieldDefTo);
 
       return addedShelf2;
     }
 
-    case SHELF_FUNCTION_CHANGE:  {
+    case SHELF_FUNCTION_CHANGE: {
       const {shelfId, fn} = action.payload;
 
       return modifyEncoding(shelf, shelfId, (fieldDef: Readonly<ShelfFieldDef | ShelfAnyEncodingDef>) => {
