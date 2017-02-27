@@ -1,7 +1,7 @@
 import {SHORT_WILDCARD} from 'compassql/build/src/wildcard';
-import {toSpecQuery} from './shelf';
+import {toSpecQuery} from './spec';
 
-describe('models/shelf', () => {
+describe('models/shelf/unit', () => {
   describe('toSpecQuery', () => {
     it('should produce correct spec query', () => {
       expect(toSpecQuery({

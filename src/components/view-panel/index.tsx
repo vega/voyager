@@ -1,11 +1,11 @@
-import {SpecQuery} from 'compassql/build/src/query/spec';
+import {Query} from 'compassql/build/src/query/query';
 import * as React from 'react';
 import {connect} from 'react-redux';
-import {State, toSpecQuery} from '../../models';
-import {getSpecQuery} from '../../selectors';
+import {State, toQuery} from '../../models';
+import {getQuery} from '../../selectors';
 
 export interface ViewPanelProps {
-  specQuery: SpecQuery;
+  query: Query;
 }
 
 class ViewPanelBase extends React.PureComponent<ViewPanelProps, {}> {
@@ -13,13 +13,13 @@ class ViewPanelBase extends React.PureComponent<ViewPanelProps, {}> {
     return (
       <div className="view">
         <h2>Specified View</h2>
-        {JSON.stringify(this.props.specQuery)}
+        {JSON.stringify(this.props.query.spec)}
       </div>
     );
   }
 }
 export const ViewPanel = connect(
   (state: State) => {
-    return {specQuery: getSpecQuery(state)};
+    return {query: getQuery(state)};
   }
 )(ViewPanelBase);

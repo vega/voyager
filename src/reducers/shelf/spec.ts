@@ -1,22 +1,23 @@
 
 import {SHORT_WILDCARD} from 'compassql/build/src/wildcard';
 
-import {Action} from '../actions';
+import {Action} from '../../actions';
 import {
   SHELF_CLEAR, SHELF_FIELD_ADD, SHELF_FIELD_MOVE, SHELF_FIELD_REMOVE, SHELF_FUNCTION_CHANGE, SHELF_MARK_CHANGE_TYPE
-} from '../actions/shelf';
+} from '../../actions/shelf';
 
 
 import {AGGREGATE_OPS} from 'vega-lite/src/aggregate';
 import {TIMEUNITS} from 'vega-lite/src/timeunit';
-import {DEFAULT_SHELF_SPEC, isWildcardChannelId} from '../models';
-import {ShelfAnyEncodingDef, ShelfFieldDef, ShelfFunction, ShelfId, UnitShelf} from '../models/shelf';
-import {toSet} from '../util';
+import {DEFAULT_SHELF_SPEC, isWildcardChannelId} from '../../models';
+import {ShelfAnyEncodingDef, ShelfFieldDef, ShelfFunction, ShelfId, ShelfUnitSpec} from '../../models/shelf';
+import {toSet} from '../../util';
+import {DEFAULT_SHELF_UNIT_SPEC} from '../../models/shelf/spec';
 
-export function shelfReducer(shelf: Readonly<UnitShelf>, action: Action): UnitShelf {
+export function shelfSpecReducer(shelf: Readonly<ShelfUnitSpec>, action: Action): ShelfUnitSpec {
   switch (action.type) {
     case SHELF_CLEAR:
-      return DEFAULT_SHELF_SPEC;
+      return DEFAULT_SHELF_UNIT_SPEC;
 
     case SHELF_MARK_CHANGE_TYPE: {
       const mark = action.payload;
@@ -80,7 +81,7 @@ function getFunctionMixins(fn: ShelfFunction) {
   return undefined;
 }
 
-function addEncoding(shelf: Readonly<UnitShelf>, shelfId: ShelfId, fieldDef: ShelfFieldDef) {
+function addEncoding(shelf: Readonly<ShelfUnitSpec>, shelfId: ShelfId, fieldDef: ShelfFieldDef) {
   if (isWildcardChannelId(shelfId)) {
     return {
       ...shelf,
@@ -102,7 +103,7 @@ function addEncoding(shelf: Readonly<UnitShelf>, shelfId: ShelfId, fieldDef: She
 
 type ShelfFieldDefModifier<T extends ShelfFieldDef> = (fieldDef: Readonly<T>) => T;
 
-function modifyEncoding(shelf: Readonly<UnitShelf>, shelfId: ShelfId, modifier: ShelfFieldDefModifier<any>) {
+function modifyEncoding(shelf: Readonly<ShelfUnitSpec>, shelfId: ShelfId, modifier: ShelfFieldDefModifier<any>) {
 
   if (isWildcardChannelId(shelfId)) {
     return {
@@ -121,8 +122,8 @@ function modifyEncoding(shelf: Readonly<UnitShelf>, shelfId: ShelfId, modifier: 
 }
 
 
-function removeEncoding(shelf: Readonly<UnitShelf>, shelfId: ShelfId):
-  {fieldDef: ShelfFieldDef, shelf: Readonly<UnitShelf>} {
+function removeEncoding(shelf: Readonly<ShelfUnitSpec>, shelfId: ShelfId):
+  {fieldDef: ShelfFieldDef, shelf: Readonly<ShelfUnitSpec>} {
 
   if (isWildcardChannelId(shelfId)) {
     const index = shelfId.index;

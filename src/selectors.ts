@@ -1,12 +1,12 @@
 import { createSelector } from 'reselect'
 import {State} from './models';
-import {UnitShelf, toSpecQuery} from './models/shelf';
+import {Shelf, toQuery} from './models/shelf';
 
 const getShelf = (state: State) => state.present.shelf;
 
-export const getSpecQuery = createSelector(
+export const getQuery = createSelector(
   getShelf,
-  (shelf: UnitShelf) => {
-    return toSpecQuery(shelf);
+  (shelf: Shelf) => {
+    return toQuery(shelf);
   }
 );

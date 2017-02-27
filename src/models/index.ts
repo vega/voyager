@@ -1,7 +1,7 @@
 import {StateWithHistory} from 'redux-undo';
 
 import {Data, DEFAULT_DATA} from './data';
-import {DEFAULT_SHELF_SPEC, UnitShelf} from './shelf';
+import {DEFAULT_SHELF_SPEC, Shelf} from './shelf';
 
 
 export * from './data';
@@ -12,7 +12,7 @@ export * from './shelf';
  */
 export interface StateBase {
   data: Data;
-  shelf: UnitShelf;
+  shelf: Shelf;
 }
 
 /**

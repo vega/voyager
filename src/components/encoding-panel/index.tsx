@@ -5,12 +5,12 @@ import {Channel} from 'vega-lite/src/channel';
 import {ActionHandler} from '../../actions/index';
 import {createDispatchHandler} from '../../actions/redux-action';
 import {SHELF_CLEAR, ShelfAction} from '../../actions/shelf';
-import {State, UnitShelf} from '../../models';
+import {State, ShelfUnitSpec} from '../../models';
 import {EncodingShelf} from './encoding-shelf';
 import {MarkShelf} from './mark-shelf';
 
 interface EncodingPanelProps extends ActionHandler<ShelfAction> {
-  shelf: UnitShelf;
+  shelf: ShelfUnitSpec;
 }
 
 class EncodingPanelBase extends React.PureComponent<EncodingPanelProps, {}> {
@@ -73,7 +73,7 @@ class EncodingPanelBase extends React.PureComponent<EncodingPanelProps, {}> {
 
 export const EncodingPanel = connect(
   (state: State) => {
-    return {shelf: state.present.shelf};
+    return {shelf: state.present.shelf.spec};
   },
   createDispatchHandler<ShelfAction>()
 )(EncodingPanelBase);

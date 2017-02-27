@@ -31,6 +31,7 @@ export function isWildcardChannelId(shelfId: ShelfId): shelfId is ShelfWildcardC
 }
 
 export type ShelfMark = VLMark | SHORT_WILDCARD;
+
 export interface ShelfFieldDef {
   field: WildcardProperty<string>;
 
@@ -53,58 +54,3 @@ export interface ShelfAnyEncodingDef extends ShelfFieldDef {
 export type SpecificEncoding = {
   [P in keyof Encoding]: ShelfFieldDef;
 };
-
-/**
- * A model state for the shelf.
- * This interface provides a hybrid structure that resembles
- * ExtendedUnitSpec in Vega-Lite and SpecQuery in CompassQL,
- * but provide structure that better serves as internal structure of shelf in Voyager.
- */
-export interface UnitShelf {
-  // TODO: add other top-level specs.
-
-  mark: ShelfMark;
-
-  // TODO: add transform
-
-  /**
-   * Mapping between specific encoding channels and encoding definitions.
-   */
-  encoding: SpecificEncoding;
-
-  /**
-   * List of encodingDef for wildcard channels
-   */
-  anyEncodings: ShelfAnyEncodingDef[];
-
-  config: Config;
-}
-
-export const DEFAULT_SHELF_SPEC: Readonly<UnitShelf> = {
-  mark: 'point',
-  encoding: {},
-  anyEncodings: [],
-  config: {}
-};
-
-export function toSpecQuery(spec: UnitShelf): SpecQuery {
-  return {
-    mark: spec.mark,
-    encodings: specificEncodingsToEncodingQueries(spec.encoding).concat(spec.anyEncodings),
-    config: spec.config
-  };
-}
-
-function specificEncodingsToEncodingQueries(encoding: SpecificEncoding): EncodingQuery[] {
-  const encodings = [];
-  // Assemble definition of encodings with specific channels first
-  for (const channel in encoding) {
-    if (encoding.hasOwnProperty(channel)) {
-      encodings.push({
-        channel,
-        ...(encoding[channel])
-      });
-    }
-  }
-  return encodings;
-}
