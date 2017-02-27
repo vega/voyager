@@ -1,11 +1,11 @@
 import * as React from 'react';
 import {connect} from 'react-redux';
 
-import {Data, State} from '../../models';
+import {Dataset, State} from '../../models';
 import {FieldList} from './field-list';
 
 export interface DataPanelProps {
-  data: Data;
+  data: Dataset;
 }
 
 export class DataPanelBase extends React.PureComponent<DataPanelProps, {}> {
@@ -24,6 +24,6 @@ export class DataPanelBase extends React.PureComponent<DataPanelProps, {}> {
 
 export const DataPanel = connect(
   (state: State) => {
-    return {data: state.present.data};
+    return {data: state.present.dataset};
   }
 )(DataPanelBase);

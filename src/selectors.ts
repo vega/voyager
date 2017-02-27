@@ -9,7 +9,7 @@ import {Schema} from 'compassql/build/src/schema';
 import {ExtendedUnitSpec} from 'vega-lite/src/spec';
 
 const getShelf = (state: State) => state.present.shelf;
-const getSchema = (state: State) => state.present.data.schema;
+const getSchema = (state: State) => state.present.dataset.schema;
 
 export const getQuery = createSelector(
   getShelf,

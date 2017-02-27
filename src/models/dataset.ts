@@ -1,13 +1,13 @@
 import {FieldSchema, Schema} from 'compassql/build/src/schema';
 export {FieldSchema, Schema} from 'compassql/build/src/schema';
 
-export interface Data {
+export interface Dataset {
   name: string;
   schema: Schema;
 }
 
 // FIXME: replace this with real data
-export const DEFAULT_DATA = {
+export const DEFAULT_DATASET = {
   name: 'Sample',
   schema: new Schema([{
     field: 'q1',

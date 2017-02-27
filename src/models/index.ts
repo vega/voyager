@@ -1,17 +1,17 @@
 import {StateWithHistory} from 'redux-undo';
 
-import {Data, DEFAULT_DATA} from './data';
+import {Dataset, DEFAULT_DATASET} from './dataset';
 import {DEFAULT_SHELF_SPEC, Shelf} from './shelf';
 
 
-export * from './data';
+export * from './dataset';
 export * from './shelf';
 
 /**
  * Application state.
  */
 export interface StateBase {
-  data: Data;
+  dataset: Dataset;
   shelf: Shelf;
 }
 
@@ -21,6 +21,6 @@ export interface StateBase {
 export type State = StateWithHistory<StateBase>;
 
 export const DEFAULT_STATE: StateBase = {
-  data: DEFAULT_DATA,
+  dataset: DEFAULT_DATASET,
   shelf: DEFAULT_SHELF_SPEC
 };
