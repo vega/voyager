@@ -1,7 +1,7 @@
 import * as React from 'react'
 import {connect} from 'react-redux';
 import {State} from '../../models';
-import {UNDO, REDO} from '../../actions/undoable';
+import {UNDO, REDO} from '../../actions/undo-redo';
 
 export interface UndoRedoProps {
   canUndo: boolean;
