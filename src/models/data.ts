@@ -12,22 +12,37 @@ export const DEFAULT_DATA = {
   schema: new Schema([{
     field: 'q1',
     type: 'quantitative',
-    primitiveType: 'number' as any
+    primitiveType: 'number' as any,
+    stats: {
+      distinct: 2
+    }
   }, {
     field: 'q2',
     type: 'quantitative',
-    primitiveType: 'number' as any
+    primitiveType: 'number' as any,
+    stats: {
+      distinct: 2
+    }
   },{
     field: 't',
     type: 'temporal',
-    primitiveType: 'date' as any
+    primitiveType: 'date' as any,
+    stats: {
+      distinct: 2
+    }
   }, {
     field: 'n1',
     type: 'nominal',
-    primitiveType: 'string' as any
+    primitiveType: 'string' as any,
+    stats: {
+      distinct: 2
+    }
   }, {
     field: 'n2',
     type: 'nominal',
-    primitiveType: 'string' as any
+    primitiveType: 'string' as any,
+    stats: {
+      distinct: 2
+    }
   }] as FieldSchema[])
 };
