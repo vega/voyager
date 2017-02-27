@@ -7,7 +7,9 @@ import {isWildcard} from 'compassql/build/src/wildcard';
 import {SpecQueryModel} from 'compassql/build/src/model';
 import {Schema} from 'compassql/build/src/schema';
 import {ExtendedUnitSpec} from 'vega-lite/src/spec';
+import {Data} from 'vega-lite/src/data';
 
+const getData = (state: State) => state.present.dataset.data;
 const getShelf = (state: State) => state.present.shelf;
 const getSchema = (state: State) => state.present.dataset.schema;
 
@@ -19,9 +21,12 @@ export const getQuery = createSelector(
 );
 
 export const getMainSpec = createSelector(
-  getQuery, getSchema,
-  (query: Query, schema: Schema): ExtendedUnitSpec => {
+  getQuery, getSchema, getData,
+  (query: Query, schema: Schema, data: Data): ExtendedUnitSpec => {
     const rec = recommend(query, schema);
-    return rec.result.getTopSpecQueryModel().toSpec();
+    return {
+      data,
+      ...rec.result.getTopSpecQueryModel().toSpec()
+    };
   }
 );
