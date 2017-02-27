@@ -8,7 +8,7 @@ import {shelfSpecReducer} from './spec';
 
 
 describe('reducers/shelf/spec', () => {
-  describe(SHELF_CLEAR, () =>  {
+  describe(SHELF_CLEAR, () => {
     it('should return DEFAULT_SHELF_UNIT_SPEC', () => {
       expect(
         shelfSpecReducer({mark: 'bar', encoding: {}, anyEncodings: [], config: {}}, {type: SHELF_CLEAR}),

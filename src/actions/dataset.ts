@@ -1,11 +1,11 @@
 import {Schema} from 'compassql/build/src/schema';
+import * as fetch from 'isomorphic-fetch';
 import {Dispatch} from 'redux';
 import {ThunkAction} from 'redux-thunk';
-import * as fetch from 'isomorphic-fetch';
 
+import {State} from '../models/index';
 import {Action} from './index';
 import {ReduxAction} from './redux-action';
-import {State} from '../models/index';
 
 export type DatasetAction = DatasetUrlReceive | DatasetUrlRequest;
 export type DatasetAsyncAction = DatasetUrlLoad;
@@ -23,7 +23,7 @@ export type DatasetUrlReceive = ReduxAction<typeof DATASET_URL_RECEIVE, {
   schema: Schema
 }>;
 
-export type DatasetUrlLoad = ThunkAction<void ,State, undefined>;
+export type DatasetUrlLoad = ThunkAction<void , State, undefined>;
 
 export function datasetUrlLoad(name: string, url: string): DatasetUrlLoad {
   return (dispatch: Dispatch<Action>) => {
@@ -45,6 +45,6 @@ export function datasetUrlLoad(name: string, url: string): DatasetUrlLoad {
           payload: {name, url, schema}
         });
       }
-    )
-  }
+    );
+  };
 }

@@ -1,12 +1,13 @@
 import * as React from 'react';
 import {connect} from 'react-redux';
 
+import {ActionHandler, createDispatchHandler, DatasetAsyncAction} from '../../actions';
 import {Dataset, State} from '../../models';
-import {FieldList} from './field-list';
-import {DatasetSelector} from './dataset-selector';
-import {createDispatchHandler, ActionHandler, DatasetAsyncAction} from '../../actions';
 
-export interface DataPanelProps extends ActionHandler<DatasetAsyncAction>  {
+import {DatasetSelector} from './dataset-selector';
+import {FieldList} from './field-list';
+
+export interface DataPanelProps extends ActionHandler<DatasetAsyncAction> {
   data: Dataset;
 }
 

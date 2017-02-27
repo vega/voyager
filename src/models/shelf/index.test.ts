@@ -1,8 +1,9 @@
-import {toQuery, DEFAULT_ORDER_BY, DEFAULT_CHOOSE_BY} from './index';
+import {DEFAULT_CHOOSE_BY, DEFAULT_ORDER_BY, toQuery} from './index';
 
 describe('models/shelf', () => {
   describe('toQuery', () => {
-    it('returns a query that groups by encoding and does not auto add count if there is no wildcard', () => {
+    it('returns a query that groups by encoding and does not auto add count' +
+        'if there is no wildcard', () => {
       expect(toQuery({
         spec: {
           mark: 'point',
@@ -56,7 +57,8 @@ describe('models/shelf', () => {
       });
     });
 
-    it('returns the query that groups by field transform and auto add count if there is a wildcard field and function', () => {
+    it('returns the query that groups by field transform and auto add count' +
+        'if there is a wildcard field and function', () => {
       expect(toQuery({
         spec: {
           mark: 'point',
@@ -82,5 +84,5 @@ describe('models/shelf', () => {
         }
       });
     });
-  })
+  });
 });

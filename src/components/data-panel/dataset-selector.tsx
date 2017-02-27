@@ -1,9 +1,5 @@
 import * as React from 'react';
 
-import {ShelfMark} from '../../models';
-
-import {SHORT_WILDCARD} from 'compassql/build/src/wildcard';
-import {PRIMITIVE_MARKS} from 'vega-lite/src/mark';
 import {ActionHandler, datasetUrlLoad, DatasetUrlLoad} from '../../actions';
 import {DEFAULT_DATASETS} from '../../constants';
 

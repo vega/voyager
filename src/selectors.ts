@@ -1,13 +1,12 @@
-import { createSelector } from 'reselect'
+import {Schema} from 'compassql/build/src/schema';
+
+import {ExtendedUnitSpec} from 'vega-lite/src/spec';
+
+import {Query, query as recommend} from 'compassql/build/src/query/query';
+import {createSelector} from 'reselect';
+import {Data} from 'vega-lite/src/data';
 import {State} from './models';
 import {Shelf, toQuery} from './models/shelf';
-import {SpecQuery} from 'compassql/build/src/query/spec';
-import {query as recommend, Query} from 'compassql/build/src/query/query'; // TODO: change this to recommend
-import {isWildcard} from 'compassql/build/src/wildcard';
-import {SpecQueryModel} from 'compassql/build/src/model';
-import {Schema} from 'compassql/build/src/schema';
-import {ExtendedUnitSpec} from 'vega-lite/src/spec';
-import {Data} from 'vega-lite/src/data';
 
 const getData = (state: State) => state.present.dataset.data;
 const getShelf = (state: State) => state.present.shelf;

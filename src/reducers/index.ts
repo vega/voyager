@@ -1,11 +1,11 @@
 import undoable from 'redux-undo';
 
-import {Action, UNDO, REDO} from '../actions';
+import {Action, REDO, UNDO} from '../actions';
+import {HISTORY_LIMIT} from '../constants';
 import {StateBase} from '../models';
 
 import {datasetReducer} from './dataset';
 import {shelfReducer} from './shelf';
-import {HISTORY_LIMIT} from '../constants';
 
 function reducer(state: Readonly<StateBase>, action: Action): StateBase {
   return {

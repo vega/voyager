@@ -1,6 +1,6 @@
-import {ShelfUnitSpec, DEFAULT_SHELF_UNIT_SPEC, toSpecQuery} from './spec';
 import {Query} from 'compassql/build/src/query/query';
 import {isWildcard} from 'compassql/build/src/wildcard';
+import {DEFAULT_SHELF_UNIT_SPEC, ShelfUnitSpec, toSpecQuery} from './spec';
 
 export * from './encoding';
 export * from './spec';
@@ -21,9 +21,10 @@ export function toQuery(shelf: Shelf): Query {
   const spec = toSpecQuery(shelf.spec);
 
   let hasWildcardField = false, hasWildcardFn = false, hasWildcardChannel = false;
-  for (var i = 0; i < spec.encodings.length; i++) {
-    var encQ = spec.encodings[i];
-    if (encQ.autoCount === false) continue;
+  for (const encQ of spec.encodings) {
+    if (encQ.autoCount === false) {
+      continue;
+    }
 
     if (isWildcard(encQ.field)) {
       hasWildcardField = true;
@@ -41,7 +42,7 @@ export function toQuery(shelf: Shelf): Query {
   }
 
   // TODO: support custom groupBy
-  const groupBy =  hasWildcardFn ? 'fieldTransform' :
+  const groupBy = hasWildcardFn ? 'fieldTransform' :
     hasWildcardField ? 'field' :
     'encoding';
 

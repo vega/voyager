@@ -1,7 +1,7 @@
-import * as React from 'react'
+import * as React from 'react';
 import {connect} from 'react-redux';
+import {REDO, UNDO} from '../../actions/undo-redo';
 import {State} from '../../models';
-import {UNDO, REDO} from '../../actions/undo-redo';
 
 export interface UndoRedoProps {
   canUndo: boolean;
@@ -31,12 +31,12 @@ export const UndoRedo = connect((state: State) => {
     canUndo: state.past.length > 0,
     canRedo: state.future.length > 0
   };
-}, (dispatch) => ({
+}, dispatch => ({
   onUndo() {
     dispatch({type: UNDO});
   },
-  onRedo () {
+  onRedo() {
     dispatch({type: REDO});
   }
-}))(UndoRedoBase)
+}))(UndoRedoBase);
 
