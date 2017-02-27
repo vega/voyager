@@ -3844,6 +3844,10 @@ redux-logger@^2.8.1:
   dependencies:
     deep-diff "0.3.4"
 
+redux-thunk:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/redux-thunk/-/redux-thunk-2.2.0.tgz#e615a16e16b47a19a515766133d1e3e99b7852e5"
+
 redux-undo@beta:
   version "1.0.0-beta9-7"
   resolved "https://registry.yarnpkg.com/redux-undo/-/redux-undo-1.0.0-beta9-7.tgz#e3fcc8bc29d8c579f2c13f854287e5af0d8744ae"

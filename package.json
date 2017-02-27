@@ -35,11 +35,12 @@
     "react-redux": "^5.0.2",
     "redux": "^3.6.0",
     "redux-logger": "^2.8.1",
+    "redux-thunk": "^2.2.0",
     "redux-undo": "beta",
     "reselect": "^2.5.4",
     "tslib": "^1.5.0",
-    "vega-lite": "2.0.0-alpha.1",
-    "vega": "3.0.0-beta.22"
+    "vega": "3.0.0-beta.22",
+    "vega-lite": "2.0.0-alpha.1"
   },
   "devDependencies": {
     "@types/classnames": "^0.0.32",
