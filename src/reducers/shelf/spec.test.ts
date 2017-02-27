@@ -7,7 +7,7 @@ import {DEFAULT_SHELF_UNIT_SPEC} from '../../models';
 import {shelfSpecReducer} from './spec';
 
 
-describe('reducers/shelf', () => {
+describe('reducers/shelf/spec', () => {
   describe(SHELF_CLEAR, () =>  {
     it('should return DEFAULT_SHELF_UNIT_SPEC', () => {
       expect(

@@ -2,8 +2,8 @@
  * Helpers for implementing actions with Typescript.
  */
 
-import {Action as BaseReduxAction} from 'redux';
-import {Dispatch} from 'redux';
+import {Action as BaseReduxAction, Dispatch} from 'redux';
+import {ThunkAction} from 'redux-thunk';
 
 /**
  * Basic Redux Action of type A.
@@ -30,10 +30,11 @@ export interface ActionHandler<A> {
 /**
  * Create a handleAction object
  */
-export function createDispatchHandler<A extends BaseReduxAction>() {
+export function createDispatchHandler<A extends (BaseReduxAction | ThunkAction<any, any, any>)>() {
   return (dispatch: Dispatch<A>): ActionHandler<A> => ({
     handleAction(action: A) {
-      dispatch(action);
+      // HACK: typing here is somewhat wrong -- we should remove any
+      dispatch(action as any);
     }
   });
 }

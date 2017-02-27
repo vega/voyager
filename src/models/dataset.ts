@@ -4,6 +4,8 @@ export {FieldSchema, Schema} from 'compassql/build/src/schema';
 import {Data} from 'vega-lite/src/data';
 
 export interface Dataset {
+  isLoading: boolean;
+
   name: string;
   schema: Schema;
 
@@ -12,6 +14,8 @@ export interface Dataset {
 
 // FIXME: replace this with real data
 export const DEFAULT_DATASET: Dataset = {
+  isLoading: false,
+
   name: 'Sample',
   schema: new Schema([{
     field: 'q1',
