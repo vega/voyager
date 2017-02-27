@@ -645,6 +645,12 @@ caniuse-db@^1.0.30000346, caniuse-db@^1.0.30000525, caniuse-db@^1.0.30000527, ca
   version "1.0.30000623"
   resolved "https://registry.yarnpkg.com/caniuse-db/-/caniuse-db-1.0.30000623.tgz#6e9dc4385d00a8f587efbb23fcbed7916f186e5d"
 
+canvas@^1.6, canvas@^1.6.0:
+  version "1.6.4"
+  resolved "https://registry.yarnpkg.com/canvas/-/canvas-1.6.4.tgz#b9f53f7abb12b4f4b21c5c2d56d8cdfd479c0055"
+  dependencies:
+    nan "^2.4.0"
+
 capture-stack-trace@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/capture-stack-trace/-/capture-stack-trace-1.0.0.tgz#4a6fa07399c26bba47f0b2496b4d0fb408c5550d"
@@ -822,7 +828,7 @@ combined-stream@^1.0.5, combined-stream@~1.0.5:
   dependencies:
     delayed-stream "~1.0.0"
 
-commander@^2.9.0:
+commander@^2.9.0, commander@2:
   version "2.9.0"
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.9.0.tgz#9c99094176e12240cb22d6c5146098400fe0f7d4"
   dependencies:
@@ -1062,19 +1068,80 @@ currently-unhandled@^0.4.1:
   dependencies:
     array-find-index "^1.0.1"
 
+d3-array@1:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/d3-array/-/d3-array-1.0.2.tgz#174237bf356a852fadd6af87743d928631de7655"
+
+d3-collection@1:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/d3-collection/-/d3-collection-1.0.2.tgz#df5acb5400443e9eabe9c1379896c67e52426b39"
+
+d3-color@1:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/d3-color/-/d3-color-1.0.2.tgz#83cb4b3a9474e40795f009d97e97a15649830bbc"
+
+d3-dispatch@1:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/d3-dispatch/-/d3-dispatch-1.0.2.tgz#5b511e79a46a1f89492841c0a8f656687d5daa0a"
+
 d3-dsv@0.1:
   version "0.1.14"
   resolved "https://registry.yarnpkg.com/d3-dsv/-/d3-dsv-0.1.14.tgz#9833cd61a5a3e81e03263a1ce78f74de56a1dbb8"
 
+d3-dsv@1:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/d3-dsv/-/d3-dsv-1.0.3.tgz#049fe43c0f5f60c7ff7d376616bc76d6fc9d378f"
+  dependencies:
+    commander "2"
+    iconv-lite "0.4"
+    rw "1"
+
+d3-force@1:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/d3-force/-/d3-force-1.0.4.tgz#f84dcbb3200be41de7bc30fa71923143156758bf"
+  dependencies:
+    d3-collection "1"
+    d3-dispatch "1"
+    d3-quadtree "1"
+    d3-timer "1"
+
 d3-format@0.4:
   version "0.4.2"
   resolved "https://registry.yarnpkg.com/d3-format/-/d3-format-0.4.2.tgz#aa759c1e5aae5fa8dabc9ab7819c502fc6b56875"
+
+d3-format@1:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/d3-format/-/d3-format-1.0.2.tgz#138618320b4bbeb43b5c0ff30519079fbbd7375e"
 
 d3-geo-projection@0.2:
   version "0.2.16"
   resolved "https://registry.yarnpkg.com/d3-geo-projection/-/d3-geo-projection-0.2.16.tgz#4994ecd1033ddb1533b6c4c5528a1c81dcc29427"
   dependencies:
     brfs "^1.3.0"
+
+d3-geo@1:
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/d3-geo/-/d3-geo-1.5.0.tgz#cf32c26f61cc5130382f74d40c4d3503dd226a1f"
+  dependencies:
+    d3-array "1"
+
+d3-hierarchy@1:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/d3-hierarchy/-/d3-hierarchy-1.1.2.tgz#63d168424320fdb4f5c80df458e5bd0d9f2218e6"
+
+d3-interpolate@1:
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/d3-interpolate/-/d3-interpolate-1.1.3.tgz#e119c91b6be4941e581675ca3e1279bb92bd2c9b"
+  dependencies:
+    d3-color "1"
+
+d3-path@1:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/d3-path/-/d3-path-1.0.3.tgz#60103d0dea9a6cd6ca58de86c6d56724002d3fde"
+
+d3-quadtree@1:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/d3-quadtree/-/d3-quadtree-1.0.2.tgz#e7e873af06aaa427eaa4af094cc4cbfb350b9e38"
 
 d3-queue@1:
   version "1.2.3"
@@ -1084,15 +1151,66 @@ d3-queue@2:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/d3-queue/-/d3-queue-2.0.3.tgz#07fbda3acae5358a9c5299aaf880adf0953ed2c2"
 
+d3-request@1:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/d3-request/-/d3-request-1.0.3.tgz#63fc7dfd784607db0df5d535d7cb898fceba755a"
+  dependencies:
+    d3-collection "1"
+    d3-dispatch "1"
+    d3-dsv "1"
+    xmlhttprequest "1"
+
+d3-scale-chromatic@^1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/d3-scale-chromatic/-/d3-scale-chromatic-1.1.1.tgz#811406e8e09dab78a49dac4a32047d5d3edd0c44"
+  dependencies:
+    d3-interpolate "1"
+
+d3-scale@1:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/d3-scale/-/d3-scale-1.0.4.tgz#50e28bf6a193b706745528515ed9b3d44205a033"
+  dependencies:
+    d3-array "1"
+    d3-collection "1"
+    d3-color "1"
+    d3-format "1"
+    d3-interpolate "1"
+    d3-time "1"
+    d3-time-format "2"
+
+d3-shape@1:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/d3-shape/-/d3-shape-1.0.4.tgz#145ee100ccbec42f8e3f1996cd05c786f79fe1c6"
+  dependencies:
+    d3-path "1"
+
 d3-time-format@0.2:
   version "0.2.1"
   resolved "https://registry.yarnpkg.com/d3-time-format/-/d3-time-format-0.2.1.tgz#846e39eb7f22676692d86040c48e9fa54fd8bf18"
   dependencies:
     d3-time "~0.1.1"
 
+d3-time-format@2:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/d3-time-format/-/d3-time-format-2.0.3.tgz#3241569b74ddc9c42e0689c0e8a903579fd6280a"
+  dependencies:
+    d3-time "1"
+
 d3-time@~0.1.1, d3-time@0.1:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/d3-time/-/d3-time-0.1.1.tgz#38ce2a7bb47a4031613823dde4688e58e892ae5b"
+
+d3-time@1:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/d3-time/-/d3-time-1.0.4.tgz#2ceba09a76b7450c992a1ded4e10fc6195e69649"
+
+d3-timer@1:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/d3-timer/-/d3-timer-1.0.4.tgz#adaf7f60c7b54c99b2ffabd28c15a0c108a75321"
+
+d3-voronoi@1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/d3-voronoi/-/d3-voronoi-1.1.1.tgz#998544dca98ef0e89a6c40c0bac3510d1bc1b8b9"
 
 d3@3:
   version "3.5.17"
@@ -1847,7 +1965,7 @@ https-browserify@0.0.1:
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/https-browserify/-/https-browserify-0.0.1.tgz#3f91365cabe60b77ed0ebba24b454e3e09d95a82"
 
-iconv-lite@~0.4.13:
+iconv-lite@~0.4.13, iconv-lite@0.4:
   version "0.4.15"
   resolved "https://registry.yarnpkg.com/iconv-lite/-/iconv-lite-0.4.15.tgz#fe265a218ac6a57cfe854927e9d04c19825eddeb"
 
@@ -2848,7 +2966,7 @@ multipipe@^0.1.2:
   dependencies:
     duplexer2 "0.0.2"
 
-nan@^2.3.0, nan@^2.3.2:
+nan@^2.3.0, nan@^2.3.2, nan@^2.4.0:
   version "2.5.1"
   resolved "https://registry.yarnpkg.com/nan/-/nan-2.5.1.tgz#d5b01691253326a97a2bbee9e61c55d8d60351e2"
 
@@ -4308,7 +4426,7 @@ to-fast-properties@^1.0.1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/to-fast-properties/-/to-fast-properties-1.0.2.tgz#f3f5c0c3ba7299a7ef99427e44633257ade43320"
 
-topojson@^1.6.19:
+topojson@^1.6.19, topojson@1:
   version "1.6.27"
   resolved "https://registry.yarnpkg.com/topojson/-/topojson-1.6.27.tgz#adbe33a67e2f1673d338df12644ad20fc20b42ed"
   dependencies:
@@ -4532,6 +4650,65 @@ validate-npm-package-license@^3.0.1:
     spdx-correct "~1.0.0"
     spdx-expression-parse "~1.0.0"
 
+vega-crossfilter@>=1.0.0-beta:
+  version "1.0.0-beta"
+  resolved "https://registry.yarnpkg.com/vega-crossfilter/-/vega-crossfilter-1.0.0-beta.tgz#aa00a4f892ab169fc3e9cdaf7804df7d7d0847e6"
+  dependencies:
+    d3-array "1"
+    vega-dataflow ">=2.0.0-beta"
+    vega-util "1"
+
+vega-dataflow@>=2.0.0-beta, vega-dataflow@>=2.0.0-beta.4:
+  version "2.0.0-beta.12"
+  resolved "https://registry.yarnpkg.com/vega-dataflow/-/vega-dataflow-2.0.0-beta.12.tgz#8af39460029846ba28979a5de7f9054247d27e6c"
+  dependencies:
+    d3-array "1"
+    vega-loader ">=2.0.0-beta"
+    vega-statistics "1"
+    vega-util "^1.1"
+
+vega-encode@>=1.0.0-beta:
+  version "1.0.0-beta.11"
+  resolved "https://registry.yarnpkg.com/vega-encode/-/vega-encode-1.0.0-beta.11.tgz#614a82702d910743c3c150920dfa70f933247a52"
+  dependencies:
+    d3-array "1"
+    d3-format "1"
+    d3-interpolate "1"
+    vega-dataflow ">=2.0.0-beta.4"
+    vega-scale ">=2.0.0-beta"
+    vega-util "^1.1"
+
+vega-expression@2:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/vega-expression/-/vega-expression-2.0.0.tgz#b1f04f0ba92e0b6987a1e08b4f9f55750e47958a"
+  dependencies:
+    vega-util "1"
+
+vega-force@>=1.0.0-beta:
+  version "1.0.0-beta.2"
+  resolved "https://registry.yarnpkg.com/vega-force/-/vega-force-1.0.0-beta.2.tgz#b00f55af8653a1471d26d172c7c29edf87b826ea"
+  dependencies:
+    d3-force "1"
+    vega-dataflow ">=2.0.0-beta.4"
+    vega-util "1"
+
+vega-geo@>=1.0.0-beta:
+  version "1.0.0-beta.2"
+  resolved "https://registry.yarnpkg.com/vega-geo/-/vega-geo-1.0.0-beta.2.tgz#9c5d7d1b5177ba55d061e3877edc3c9858eacc0b"
+  dependencies:
+    d3-geo "1"
+    vega-dataflow ">=2.0.0-beta.4"
+    vega-util "1"
+
+vega-hierarchy@>=1.0.0-beta:
+  version "1.0.0-beta.2"
+  resolved "https://registry.yarnpkg.com/vega-hierarchy/-/vega-hierarchy-1.0.0-beta.2.tgz#cb10277db4ff5a1825dbd63aac6ca8d733476bf7"
+  dependencies:
+    d3-collection "1"
+    d3-hierarchy "1"
+    vega-dataflow ">=2.0.0-beta.4"
+    vega-util "1"
+
 vega-lite@2.0.0-alpha.1:
   version "2.0.0-alpha.1"
   resolved "https://registry.yarnpkg.com/vega-lite/-/vega-lite-2.0.0-alpha.1.tgz#81f9b11b39160a08216bc251e1f2409b12321ab4"
@@ -4540,9 +4717,120 @@ vega-lite@2.0.0-alpha.1:
     vega-util "~1.1.3"
     yargs "~6.6.0"
 
-vega-util@~1.1.3:
+vega-loader@>=2.0.0-beta, vega-loader@>=2.0.0-beta.5:
+  version "2.0.0-beta.5"
+  resolved "https://registry.yarnpkg.com/vega-loader/-/vega-loader-2.0.0-beta.5.tgz#8d420f4896fdd5da18cf11a164aaf39b869e9a52"
+  dependencies:
+    d3-dsv "1"
+    d3-request "1"
+    d3-time-format "2"
+    topojson "1"
+    vega-util "1"
+
+vega-parser@>=1.0.0-beta:
+  version "1.0.0-beta.33"
+  resolved "https://registry.yarnpkg.com/vega-parser/-/vega-parser-1.0.0-beta.33.tgz#d343b4e5f1a6d8e63ca7d55cb6c6031e1b477b55"
+  dependencies:
+    d3-array "1"
+    d3-color "1"
+    d3-format "1"
+    d3-time-format "2"
+    vega-dataflow ">=2.0.0-beta"
+    vega-expression "2"
+    vega-scale ">=2.0.0-beta"
+    vega-scenegraph ">=2.0.0-beta"
+    vega-util "^1.1"
+
+vega-runtime@>=1.0.0-beta:
+  version "1.0.0-beta.4"
+  resolved "https://registry.yarnpkg.com/vega-runtime/-/vega-runtime-1.0.0-beta.4.tgz#a13bed0b89e6434907c67290830f3fca3d0519e0"
+  dependencies:
+    vega-util "1"
+
+vega-scale@>=2.0.0-beta:
+  version "2.0.0-beta.3"
+  resolved "https://registry.yarnpkg.com/vega-scale/-/vega-scale-2.0.0-beta.3.tgz#145a4fcbe5792286f0ec6beba1777e27da4c041d"
+  dependencies:
+    d3-array "1"
+    d3-interpolate "1"
+    d3-scale "1"
+    d3-scale-chromatic "^1.1"
+    vega-util "1"
+
+vega-scenegraph@>=2.0.0-beta, vega-scenegraph@>=2.0.0-beta.11:
+  version "2.0.0-beta.19"
+  resolved "https://registry.yarnpkg.com/vega-scenegraph/-/vega-scenegraph-2.0.0-beta.19.tgz#d81fecc67eeaa18764412ae5b7d3fc56d0c8100b"
+  dependencies:
+    d3-path "1"
+    d3-shape "1"
+    vega-loader ">=2.0.0-beta.5"
+    vega-util "^1.1"
+  optionalDependencies:
+    canvas "^1.6"
+
+vega-statistics@1:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/vega-statistics/-/vega-statistics-1.1.2.tgz#b2a06e9f63e2cb2648236e9abbe73001869236a2"
+  dependencies:
+    d3-array "1"
+
+vega-util@^1.1, vega-util@~1.1.3, vega-util@1:
   version "1.1.4"
   resolved "https://registry.yarnpkg.com/vega-util/-/vega-util-1.1.4.tgz#82e7b983b376db0c80c69205b5b3fdf08f44a8c8"
+
+vega-view@>=1.0.0-beta:
+  version "1.0.0-beta.26"
+  resolved "https://registry.yarnpkg.com/vega-view/-/vega-view-1.0.0-beta.26.tgz#48ddf4346fa9398e97035fb2f84832a1eca64a06"
+  dependencies:
+    d3-array "1"
+    vega-dataflow ">=2.0.0-beta"
+    vega-loader ">=2.0.0-beta"
+    vega-parser ">=1.0.0-beta"
+    vega-runtime ">=1.0.0-beta"
+    vega-scenegraph ">=2.0.0-beta"
+    vega-util "1"
+
+vega-voronoi@>=1.0.0-beta:
+  version "1.0.0-beta.1"
+  resolved "https://registry.yarnpkg.com/vega-voronoi/-/vega-voronoi-1.0.0-beta.1.tgz#179ed9a4f9a391a2de5835915457d8940e394729"
+  dependencies:
+    d3-voronoi "1"
+    vega-dataflow ">=2.0.0-beta.4"
+    vega-util "1"
+
+vega-wordcloud@>=1.0.0-beta:
+  version "1.0.0-beta.4"
+  resolved "https://registry.yarnpkg.com/vega-wordcloud/-/vega-wordcloud-1.0.0-beta.4.tgz#9cc2d8f26894bf87bd42bf23cb9d18b7ff49010f"
+  dependencies:
+    vega-dataflow ">=2.0.0-beta.4"
+    vega-scale ">=2.0.0-beta"
+    vega-util "1"
+  optionalDependencies:
+    canvas "^1.6.0"
+
+vega@3.0.0-beta.22:
+  version "3.0.0-beta.22"
+  resolved "https://registry.yarnpkg.com/vega/-/vega-3.0.0-beta.22.tgz#fee315b41b8251577da563569101904592fe6f3d"
+  dependencies:
+    d3-color "1"
+    vega-crossfilter ">=1.0.0-beta"
+    vega-dataflow ">=2.0.0-beta"
+    vega-encode ">=1.0.0-beta"
+    vega-expression "2"
+    vega-force ">=1.0.0-beta"
+    vega-geo ">=1.0.0-beta"
+    vega-hierarchy ">=1.0.0-beta"
+    vega-loader ">=2.0.0-beta.5"
+    vega-parser ">=1.0.0-beta"
+    vega-runtime ">=1.0.0-beta"
+    vega-scale ">=2.0.0-beta"
+    vega-scenegraph ">=2.0.0-beta.11"
+    vega-statistics "1"
+    vega-util "^1.1"
+    vega-view ">=1.0.0-beta"
+    vega-voronoi ">=1.0.0-beta"
+    vega-wordcloud ">=1.0.0-beta"
+    yargs "4"
 
 vendors@^1.0.0:
   version "1.0.1"
@@ -4725,6 +5013,10 @@ xml-name-validator@^2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/xml-name-validator/-/xml-name-validator-2.0.1.tgz#4d8b8f1eccd3419aa362061becef515e1e559635"
 
+xmlhttprequest@1:
+  version "1.8.0"
+  resolved "https://registry.yarnpkg.com/xmlhttprequest/-/xmlhttprequest-1.8.0.tgz#67fe075c5c24fef39f9d65f5f7b7fe75171968fc"
+
 xtend@^4.0.0, "xtend@>=4.0.0 <4.1.0-0", xtend@~4.0.0, xtend@~4.0.1:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/xtend/-/xtend-4.0.1.tgz#a5c6d532be656e23db820efb943a1f04998d63af"
@@ -4756,7 +5048,7 @@ yargs-parser@^4.2.0:
   dependencies:
     camelcase "^3.0.0"
 
-yargs@^4.7.1:
+yargs@^4.7.1, yargs@4:
   version "4.8.1"
   resolved "https://registry.yarnpkg.com/yargs/-/yargs-4.8.1.tgz#c0c42924ca4aaa6b0e6da1739dfb216439f9ddc0"
   dependencies:

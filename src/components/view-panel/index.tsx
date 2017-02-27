@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import {State, toQuery} from '../../models';
 import {getQuery, getMainSpec} from '../../selectors';
 import {ExtendedUnitSpec} from 'vega-lite/src/spec';
+import {VegaLite} from '../vega-lite/index';
 
 export interface ViewPanelProps {
   query: Query;
@@ -18,6 +19,8 @@ class ViewPanelBase extends React.PureComponent<ViewPanelProps, {}> {
         {JSON.stringify(this.props.query)}
 
         {JSON.stringify(this.props.mainSpec)}
+
+        <VegaLite spec={this.props.mainSpec}/>
       </div>
     );
   }

@@ -38,7 +38,8 @@
     "redux-undo": "beta",
     "reselect": "^2.5.4",
     "tslib": "^1.5.0",
-    "vega-lite": "2.0.0-alpha.1"
+    "vega-lite": "2.0.0-alpha.1",
+    "vega": "3.0.0-beta.22"
   },
   "devDependencies": {
     "@types/classnames": "^0.0.32",
