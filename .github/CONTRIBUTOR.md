@@ -4,6 +4,8 @@
 
 - Don't use `export default` ([Why?](https://basarat.gitbooks.io/typescript/docs/tips/defaultIsBad.html)).
 
+- We make `index.ts` inside `actions/`, `models/`, and `reducers/` export everything inside it so that we can just import from `actions` without worrying about file renaming later.
+
 ## React Components
 
 - Since we guarantee that our props and states are immutable (using TypeScript's `Readonly` type wrapper), we can always use [`PureComponent`](https://facebook.github.io/react/docs/react-api.html#react.purecomponent) and rely on its shallow prop and state comparison.
@@ -17,7 +19,9 @@
 
 ### Actions
 
-- Actions should implement `ReduxAction` interfaces in `src/actions/redux-action`, which follows pattern described in https://github.com/acdlite/redux-actions.
+- Synchronous actions should implement `ReduxAction` interfaces in `src/actions/redux-action`, which follows pattern described in https://github.com/acdlite/redux-actions.
+
+- Asynchronous actions should implement `ThunkAction`.  See `actions/dataset.ts` for example.
 
 ## Vega-Lite / CompassQL Directives
 
