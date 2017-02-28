@@ -16,8 +16,8 @@ export enum FieldParentType {
 };
 
 export const DEFAULT_DATASETS = [{
-  name: undefined,
-  url: ''
+  name: '-',
+  url: undefined
 }, {
   name: 'Barley',
   description: 'Barley yield by variety across the upper midwest in 1931 and 1932',
