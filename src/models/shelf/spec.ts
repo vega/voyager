@@ -1,13 +1,13 @@
 import {EncodingQuery} from 'compassql/build/src/query/encoding';
 import {SpecQuery} from 'compassql/build/src/query/spec';
-import {Config} from 'vega-lite/src/config';
+import {Config} from 'vega-lite/build/src/config';
 import {ShelfAnyEncodingDef, ShelfMark, SpecificEncoding} from './encoding';
 
 
 /**
  * A model state for the shelf of a unit specification.
  * This interface provides a hybrid structure that resembles
- * ExtendedUnitSpec in Vega-Lite and SpecQuery in CompassQL,
+ * FacetedUnitSpec in Vega-Lite and SpecQuery in CompassQL,
  * but provide structure that better serves as internal structure of shelf in Voyager.
  */
 export interface ShelfUnitSpec {

@@ -1,3 +1,4 @@
+import {isValueQuery} from 'compassql/build/src/query/encoding';
 import {Query} from 'compassql/build/src/query/query';
 import {isWildcard} from 'compassql/build/src/wildcard';
 import {DEFAULT_SHELF_UNIT_SPEC, ShelfUnitSpec, toSpecQuery} from './spec';
@@ -22,6 +23,9 @@ export function toQuery(shelf: Shelf): Query {
 
   let hasWildcardField = false, hasWildcardFn = false, hasWildcardChannel = false;
   for (const encQ of spec.encodings) {
+    if (isValueQuery(encQ)) {
+      continue;
+    }
     if (encQ.autoCount === false) {
       continue;
     }

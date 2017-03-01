@@ -1,10 +1,10 @@
 import * as React from 'react';
 import * as vega from 'vega';
 import * as vl from 'vega-lite';
-import {ExtendedUnitSpec} from 'vega-lite/src/spec';
+import {FacetedUnitSpec} from 'vega-lite/build/src/spec';
 
 export interface VegaLiteProps {
-  spec: ExtendedUnitSpec;
+  spec: FacetedUnitSpec;
 
   renderer?: 'svg' | 'canvas';
 }
@@ -21,7 +21,7 @@ export class VegaLite extends React.PureComponent<VegaLiteProps, any> {
       </div>
     );
   }
-  protected renderVega(vlSpec: ExtendedUnitSpec) {
+  protected renderVega(vlSpec: FacetedUnitSpec) {
     const {spec} = vl.compile(vlSpec);
 
     const runtime = vega.parse(spec);

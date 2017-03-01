@@ -7,8 +7,8 @@ import {
 } from '../../actions/shelf';
 
 
-import {AGGREGATE_OPS} from 'vega-lite/src/aggregate';
-import {TIMEUNITS} from 'vega-lite/src/timeunit';
+import {AGGREGATE_OPS} from 'vega-lite/build/src/aggregate';
+import {TIMEUNITS} from 'vega-lite/build/src/timeunit';
 import {isWildcardChannelId} from '../../models';
 import {ShelfAnyEncodingDef, ShelfFieldDef, ShelfFunction, ShelfId, ShelfUnitSpec} from '../../models/shelf';
 import {DEFAULT_SHELF_UNIT_SPEC} from '../../models/shelf/spec';

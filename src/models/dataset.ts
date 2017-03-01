@@ -1,7 +1,7 @@
 import {FieldSchema, Schema} from 'compassql/build/src/schema';
 export {FieldSchema, Schema} from 'compassql/build/src/schema';
 
-import {Data} from 'vega-lite/src/data';
+import {Data} from 'vega-lite/build/src/data';
 
 export interface Dataset {
   isLoading: boolean;

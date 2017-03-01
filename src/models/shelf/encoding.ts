@@ -1,12 +1,12 @@
 
 import {isWildcard, SHORT_WILDCARD, Wildcard, WildcardProperty} from 'compassql/build/src/wildcard';
 
-import {AggregateOp} from 'vega-lite/src/aggregate';
-import {Channel} from 'vega-lite/src/channel';
-import {Encoding} from 'vega-lite/src/encoding';
-import {Mark as VLMark} from 'vega-lite/src/mark';
-import {TimeUnit} from 'vega-lite/src/timeunit';
-import {Type} from 'vega-lite/src/type';
+import {AggregateOp} from 'vega-lite/build/src/aggregate';
+import {Channel} from 'vega-lite/build/src/channel';
+import {Encoding} from 'vega-lite/build/src/encoding';
+import {Mark as VLMark} from 'vega-lite/build/src/mark';
+import {TimeUnit} from 'vega-lite/build/src/timeunit';
+import {Type} from 'vega-lite/build/src/type';
 
 
 /**
