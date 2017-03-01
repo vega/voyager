@@ -1,4 +1,4 @@
-import {SHORT_WILDCARD} from 'compassql/build/src/wildcard';
+
 
 import {
   SHELF_CLEAR, SHELF_FIELD_ADD, SHELF_FIELD_MOVE, SHELF_FIELD_REMOVE, SHELF_FUNCTION_CHANGE, SHELF_MARK_CHANGE_TYPE
@@ -6,6 +6,10 @@ import {
 import {DEFAULT_SHELF_UNIT_SPEC} from '../../models';
 import {shelfSpecReducer} from './spec';
 
+
+const SHORT_WILDCARD = '?';
+// FIXME doing property import can break the test
+// import {SHORT_WILDCARD} from 'compassql/build/src/wildcard';
 
 describe('reducers/shelf/spec', () => {
   describe(SHELF_CLEAR, () => {
