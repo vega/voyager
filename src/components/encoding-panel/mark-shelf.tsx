@@ -3,7 +3,7 @@ import * as React from 'react';
 import {ShelfMark} from '../../models';
 
 import {SHORT_WILDCARD} from 'compassql/build/src/wildcard';
-import {PRIMITIVE_MARKS} from 'vega-lite/src/mark';
+import {PRIMITIVE_MARKS} from 'vega-lite/build/src/mark';
 import {ActionHandler} from '../../actions';
 import {SHELF_MARK_CHANGE_TYPE, ShelfMarkChangeType} from '../../actions/shelf';
 

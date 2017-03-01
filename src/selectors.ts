@@ -1,10 +1,11 @@
 import {Schema} from 'compassql/build/src/schema';
 
-import {ExtendedUnitSpec} from 'vega-lite/src/spec';
+import {FacetedUnitSpec} from 'vega-lite/build/src/spec';
 
-import {Query, query as recommend} from 'compassql/build/src/query/query';
+import {Query} from 'compassql/build/src/query/query';
+import {recommend} from 'compassql/build/src/recommend';
 import {createSelector} from 'reselect';
-import {Data} from 'vega-lite/src/data';
+import {Data} from 'vega-lite/build/src/data';
 import {State} from './models';
 import {Shelf, toQuery} from './models/shelf';
 
@@ -21,7 +22,7 @@ export const getQuery = createSelector(
 
 export const getMainSpec = createSelector(
   getQuery, getSchema, getData,
-  (query: Query, schema: Schema, data: Data): ExtendedUnitSpec => {
+  (query: Query, schema: Schema, data: Data): FacetedUnitSpec => {
     const rec = recommend(query, schema);
     return {
       data,

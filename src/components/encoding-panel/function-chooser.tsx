@@ -1,6 +1,6 @@
 import {isWildcard} from 'compassql/build/src/wildcard';
 import * as React from 'react';
-import {Type} from 'vega-lite/src/type';
+import {Type} from 'vega-lite/build/src/type';
 
 import {ShelfFieldDef, ShelfFunction} from '../../models/shelf';
 

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {connect} from 'react-redux';
-import {Channel} from 'vega-lite/src/channel';
+import {Channel} from 'vega-lite/build/src/channel';
 
 import {ActionHandler} from '../../actions/index';
 import {createDispatchHandler} from '../../actions/redux-action';
