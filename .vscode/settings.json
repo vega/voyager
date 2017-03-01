@@ -8,6 +8,7 @@
     "test/**/*.test.d.ts": {"when": "$(basename).ts"},
     "coverage/**/*": true,
     "dist/**/*": true,
-    "_site/**/*": true
+    "_site/**/*": true,
+    "node_modules/**/*": true
   }
 }
