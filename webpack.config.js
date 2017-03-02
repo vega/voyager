@@ -4,9 +4,19 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var WebpackNotifierPlugin = require('webpack-notifier');
 
 module.exports = {
-  entry: path.resolve(__dirname, 'src/index.tsx'),
+  entry: {
+    bundle: path.resolve(__dirname, 'src/index.tsx'),
+    vendor: [
+      'react-redux',
+      'redux-thunk',
+      'd3',
+      'compassql',
+      'vega-lite',
+      'vega'
+    ]
+  },
   output: {
-    filename: "bundle.js",
+    filename: "[name].js",
     path: path.resolve(__dirname, 'dist')
   },
 
