@@ -1,10 +1,13 @@
+var path = require('path');
+
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var WebpackNotifierPlugin = require('webpack-notifier');
 
 module.exports = {
-  entry: "./src/index.tsx",
+  entry: path.resolve(__dirname, 'src/index.tsx'),
   output: {
     filename: "bundle.js",
-    path: __dirname + "/dist"
+    path: path.resolve(__dirname, 'dist')
   },
 
   // Enable sourcemaps for debugging webpack's output.
@@ -50,6 +53,7 @@ module.exports = {
     new ExtractTextPlugin({
       filename: "style.css",
       disable: false
-    })
+    }),
+    new WebpackNotifierPlugin()
   ]
 };

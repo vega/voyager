@@ -3306,7 +3306,7 @@ node-libs-browser@^2.0.0:
     util "^0.10.3"
     vm-browserify "0.0.4"
 
-node-notifier@^4.6.1:
+node-notifier@^4.1.0, node-notifier@^4.6.1:
   version "4.6.1"
   resolved "https://registry.yarnpkg.com/node-notifier/-/node-notifier-4.6.1.tgz#056d14244f3dcc1ceadfe68af9cff0c5473a33f3"
   dependencies:
@@ -5416,6 +5416,14 @@ webpack-dev-server@2.3:
     supports-color "^3.1.1"
     webpack-dev-middleware "^1.9.0"
     yargs "^6.0.0"
+
+webpack-notifier:
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/webpack-notifier/-/webpack-notifier-1.5.0.tgz#c010007d448cebc34defc99ecf288fa5e8c6baf6"
+  dependencies:
+    node-notifier "^4.1.0"
+    object-assign "^4.1.0"
+    strip-ansi "^3.0.1"
 
 webpack-sources@^0.1.0, webpack-sources@^0.1.4:
   version "0.1.4"
