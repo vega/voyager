@@ -24,7 +24,7 @@ export class VegaLite extends React.PureComponent<VegaLiteProps, any> {
   protected renderVega(vlSpec: FacetedUnitSpec) {
     const {spec} = vl.compile(vlSpec);
 
-    const runtime = vega.parse(spec);
+    const runtime = vega.parse(spec, vlSpec.config);
     new vega.View(runtime)
       .logLevel(vega.Warn)
       .initialize(this.refs[CHART_REF] as any)
