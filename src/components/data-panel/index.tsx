@@ -20,6 +20,8 @@ export class DataPanelBase extends React.PureComponent<DataPanelProps, {}> {
         <h2>Data</h2>
         <DatasetSelector name={name} handleAction={this.props.handleAction}/>
         <div>Name: {name}</div>
+
+        <h3>Fields</h3>
         <FieldList schema={schema}/>
       </div>
     );
