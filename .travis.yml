@@ -14,7 +14,7 @@ notifications:
   slack:
     rooms:
       - vega-js:qSRohErJJQzUfQTlBv4hivUl
-    on_success: never
+    on_success: change
     on_failure: change
 cache:
   directories:
