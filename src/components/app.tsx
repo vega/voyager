@@ -5,10 +5,10 @@ import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import * as SplitPane from 'react-split-pane';
 
-import {DataPanel} from './data-panel';
-import {EncodingPanel} from './encoding-panel';
+import {DataPane} from './data-pane';
+import {EncodingPane} from './encoding-pane';
 import {Header} from './header';
-import {ViewPanel} from './view-panel';
+import {ViewPane} from './view-pane';
 
 
 class AppBase extends React.PureComponent<any, {}> {
@@ -17,10 +17,10 @@ class AppBase extends React.PureComponent<any, {}> {
       <div className="voyager">
         <Header/>
         <SplitPane split="vertical" defaultSize={250}>
-          <DataPanel/>
+          <DataPane/>
           <SplitPane split="vertical" defaultSize={235}>
-            <EncodingPanel/>
-            <ViewPanel/>
+            <EncodingPane/>
+            <ViewPane/>
           </SplitPane>
         </SplitPane>
       </div>

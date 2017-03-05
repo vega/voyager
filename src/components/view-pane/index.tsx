@@ -26,7 +26,7 @@ class ViewPanelBase extends React.PureComponent<ViewPanelProps, {}> {
     );
   }
 }
-export const ViewPanel = connect(
+export const ViewPane = connect(
   (state: State) => {
     return {
       query: getQuery(state),

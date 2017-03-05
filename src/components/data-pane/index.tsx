@@ -28,7 +28,7 @@ export class DataPanelBase extends React.PureComponent<DataPanelProps, {}> {
   }
 }
 
-export const DataPanel = connect(
+export const DataPane = connect(
   (state: State) => {
     return {data: state.present.dataset};
   },

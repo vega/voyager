@@ -71,7 +71,7 @@ class EncodingPanelBase extends React.PureComponent<EncodingPanelProps, {}> {
 }
 
 
-export const EncodingPanel = connect(
+export const EncodingPane = connect(
   (state: State) => {
     return {shelf: state.present.shelf.spec};
   },
