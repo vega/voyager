@@ -31,7 +31,7 @@ class EncodingPanelBase extends React.PureComponent<EncodingPanelProps, {}> {
     return (
       <div className="pane" styleName="encoding-pane">
         <h2>Encoding</h2>
-        <a onClick={this.onClear}>Clear</a>
+        <a onClick={this.onClear}><i className="fa fa-eraser"/>Clear</a>
 
         {positionShelves}
         {facetShelves}

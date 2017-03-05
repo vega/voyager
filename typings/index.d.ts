@@ -11,6 +11,11 @@ declare module '*.css' {
   export = content;
 }
 
+declare module 'font-awesome-webpack' {
+  var x: any;
+  export = x;
+}
+
 declare module 'vega' {
   export function parse(spec: any, config?: any): any;
 }
