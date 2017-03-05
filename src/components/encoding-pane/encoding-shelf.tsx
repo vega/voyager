@@ -2,6 +2,9 @@ import {isWildcard} from 'compassql/build/src/wildcard';
 import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
 import {ConnectDropTarget, DropTarget, DropTargetCollector, DropTargetSpec} from 'react-dnd';
+import * as TetherComponent from 'react-tether';
+
+import * as styles from './encoding-shelf.scss';
 
 import {ActionHandler} from '../../actions/index';
 import {
@@ -10,8 +13,7 @@ import {
 import {DraggableType, FieldParentType} from '../../constants';
 import {ShelfFieldDef, ShelfFunction, ShelfId} from '../../models';
 import {DraggedFieldIdentifier, Field} from '../field/index';
-
-import * as styles from './encoding-shelf.scss';
+import {FunctionChooser} from './function-chooser';
 
 /**
  * Props for react-dnd of EncodingShelf
@@ -30,42 +32,86 @@ export interface EncodingShelfProps extends EncodingShelfDropTargetProps, Action
   fieldDef: ShelfFieldDef;
 }
 
-class EncodingShelfBase extends React.PureComponent<EncodingShelfProps, {}> {
+export interface EncodingShelfState {
+  functionPopupOpen: boolean;
+}
+
+class EncodingShelfBase extends React.PureComponent<EncodingShelfProps, EncodingShelfState> {
   constructor(props: EncodingShelfProps) {
     super(props);
+    this.state = {
+      functionPopupOpen: false
+    };
 
     // Bind - https://facebook.github.io/react/docs/handling-events.html
     this.onFunctionChange = this.onFunctionChange.bind(this);
     this.onRemove = this.onRemove.bind(this);
+    this.toggleFunctionPopup = this.toggleFunctionPopup.bind(this);
   }
 
   public render() {
-    const {id, connectDropTarget, fieldDef, item, isOver} = this.props;
+    const {id, connectDropTarget, fieldDef} = this.props;
     const channelName = isWildcard(id.channel) ? 'any' : id.channel;
-
-    // HACK: add alias to suppress compile error for: https://github.com/Microsoft/TypeScript/issues/13526
-    const F = Field as any;
-
-    /*<FunctionChooser fieldDef={fieldDef} onFunctionChange={this.onFunctionChange}/>*/
-    const field = (
-      <div styleName="field-wrapper">
-        <F
-          fieldDef={fieldDef}
-          isPill={true}
-          parentId={{type: FieldParentType.ENCODING_SHELF, id: id}}
-          draggable={true}
-          onRemove={this.onRemove}
-        />
-      </div>
-    );
 
     return connectDropTarget(
       <div styleName="encoding-shelf">
         <div styleName="shelf-label">{channelName}</div>
-        {fieldDef ? field : FieldPlaceholder(isOver, !!item)}
+        {fieldDef ? this.field() : this.fieldPlaceholder()}
       </div>
     );
   }
+
+  // TODO: consider extracting this to another file
+  private field() {
+    // HACK: add alias to suppress compile error for: https://github.com/Microsoft/TypeScript/issues/13526
+    const F = Field as any;
+
+    const {id, fieldDef} = this.props;
+
+    const caretHide = !(fieldDef.type === 'quantitative' || fieldDef.type === 'temporal');
+
+    // TODO: apply is over
+    // TODO(https://github.com/vega/voyager/issues/285): support clicking outside popup to disable
+
+    return (
+      <div styleName="field-wrapper">
+        <TetherComponent
+          attachment="top left"
+          targetAttachment="bottom left"
+        >
+          <F
+            fieldDef={fieldDef}
+            caretOnClick={this.toggleFunctionPopup}
+            caretHide={caretHide}
+            isPill={true}
+            parentId={{type: FieldParentType.ENCODING_SHELF, id: id}}
+            draggable={true}
+            onRemove={this.onRemove}
+          />
+
+          { this.state.functionPopupOpen &&
+            <FunctionChooser fieldDef={fieldDef} onFunctionChange={this.onFunctionChange}/>
+          }
+        </TetherComponent>
+      </div>
+    );
+  }
+
+  private toggleFunctionPopup() {
+    this.setState({
+      functionPopupOpen: !this.state.functionPopupOpen
+    });
+  }
+
+  private fieldPlaceholder() {
+    const {item, isOver} = this.props;
+    return (
+      <span styleName={isOver ? 'placeholder-over' : item ? 'placeholder-active' : 'placeholder'}>
+        Drop a field here
+      </span>
+    );
+  }
+
   private onRemove() {
     const {id, handleAction} = this.props;
 
@@ -88,13 +134,6 @@ class EncodingShelfBase extends React.PureComponent<EncodingShelfProps, {}> {
   }
 }
 
-function FieldPlaceholder(isOver: boolean, isActive: boolean) {
-  return (
-    <span styleName={isOver ? 'placeholder-over' : isActive ? 'placeholder-active' : 'placeholder'}>
-      Drop a field here
-    </span>
-  );
-}
 
 const encodingShelfTarget: DropTargetSpec<EncodingShelfProps> = {
   // TODO: add canDrop

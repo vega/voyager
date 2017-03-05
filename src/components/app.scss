@@ -23,6 +23,10 @@ body {
     float: right;
   }
 
+  .hidden {
+    visibility: hidden;
+  }
+
   h1 {
     @extend .noselect;
     font-size: 24px;

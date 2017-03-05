@@ -1,6 +1,9 @@
 import {isWildcard} from 'compassql/build/src/wildcard';
 import * as React from 'react';
+import * as CSSModules from 'react-css-modules';
 import {Type} from 'vega-lite/build/src/type';
+
+import * as styles from './function-chooser.scss';
 
 import {ShelfFieldDef, ShelfFunction} from '../../models/shelf';
 
@@ -10,7 +13,7 @@ export interface FunctionChooserProps {
   onFunctionChange: (fn: ShelfFunction) => void;
 }
 
-export class FunctionChooser extends React.PureComponent<FunctionChooserProps, any> {
+class FunctionChooserBase extends React.PureComponent<FunctionChooserProps, any> {
   constructor(props: FunctionChooserProps) {
     super(props);
 
@@ -32,21 +35,25 @@ export class FunctionChooser extends React.PureComponent<FunctionChooserProps, a
       throw new Error('Wildcard function not supported yet');
     } else {
       return options.length > 0 && (
-        <select
-          className="FunctionChooser"
-          value={fn}
-          onChange={this.onFunctionChange}
-        >
-          {options}
-        </select>
+        <div styleName="function-chooser">
+          Function
+          <select
+            className="FunctionChooser"
+            value={fn}
+            onChange={this.onFunctionChange}
+          >
+            {options}
+          </select>
+        </div>
       );
     }
   }
   private onFunctionChange(event: any) {
     this.props.onFunctionChange(event.target.value as ShelfFunction);
   }
-
 }
+
+export const FunctionChooser = CSSModules(FunctionChooserBase, styles);
 
 // FIXME: move this to other parts and expand with more rules and test?
 function getSupportedFunction(type: Type) {

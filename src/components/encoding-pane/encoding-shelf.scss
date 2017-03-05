@@ -3,12 +3,6 @@ $pill-height: 22px;
 $pill-min-width: 150px;
 $text-color: #212121;
 
-.encoding-shelf-is-over {
-  .shelf-placeholder {
-    background: yellow;
-  }
-}
-
 .encoding-shelf {
   background-color: hsla(224,25%,29%,0.2);
   border: 1px solid #ddd;
@@ -80,6 +74,16 @@ $text-color: #212121;
 .placeholder-active {
   @extend .placeholder-over;
   background-color: #C8E6C9;
+}
+
+.overlay-screen {
+  z-index: 1;
+
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
 }
 
 // TODO: bring some of these back

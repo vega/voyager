@@ -26,7 +26,9 @@ export interface FieldProps extends FieldDragSourceProps {
 
   isPill: boolean;
 
-  caret?: boolean;
+  caretHide?: boolean;
+
+  caretOnClick?: () => void;
 
   parentId?: FieldParentId;
 
@@ -42,12 +44,12 @@ class FieldBase extends React.PureComponent<FieldProps, {}> {
   }
 
   public render(): JSX.Element {
-    const {caret, connectDragSource, fieldDef, isPill, onRemove} = this.props;
+    const {caretHide, caretOnClick, connectDragSource, fieldDef, isPill, onRemove} = this.props;
     const {field} = fieldDef;
 
     const component = (
       <span styleName={isPill ? 'field-pill' : 'field'}>
-        {typeSpan(caret, fieldDef.type)}
+        {caretTypeSpan({caretHide, caretOnClick, type: fieldDef.type})}
         <span styleName="text">
           {field}
         </span>
@@ -81,13 +83,15 @@ const TYPE_ICONS = {
   temporal: 'fa-calendar',
 };
 
-
-function typeSpan(caret: boolean, type?: Type) {
+// We combine caret and type span so that it's easier to click
+function caretTypeSpan(props: {caretHide: boolean, caretOnClick: () => void, type: Type}) {
+  const {caretHide, caretOnClick, type} = props;
   const icon = TYPE_ICONS[type];
   const title = TYPE_NAMES[type];
 
-  return <span styleName="type-caret">
-    {caret && <i className="fa fa-caret-down"/>}
+  return <span styleName="caret-type" onClick={caretOnClick}>
+    {caretOnClick && <i className={(caretHide ? 'hidden' : '') + 'fa fa-caret-down'}/>}
+    {caretOnClick && ' '}
     {type && <i className={'fa ' + icon} styleName="type" title={title}/>}
   </span>;
 }

@@ -4155,6 +4155,12 @@ react-style-proptype@^2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/react-style-proptype/-/react-style-proptype-2.0.1.tgz#6b29b9bceb11d6be279ffee3debe1fe1edbee97b"
 
+react-tether@^0.5.6:
+  version "0.5.6"
+  resolved "https://registry.yarnpkg.com/react-tether/-/react-tether-0.5.6.tgz#b95d17fdbc3e176d4a5ecba3e2fef68fabb1aebd"
+  dependencies:
+    tether "^1.3.7"
+
 react@^15.4.2:
   version "15.4.2"
   resolved "https://registry.yarnpkg.com/react/-/react-15.4.2.tgz#41f7991b26185392ba9bae96c8889e7e018397ef"
@@ -4914,6 +4920,10 @@ test-exclude@^3.3.0:
     object-assign "^4.1.0"
     read-pkg-up "^1.0.1"
     require-main-filename "^1.0.1"
+
+tether@^1.3.7, tether@^1.4.0:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/tether/-/tether-1.4.0.tgz#0f9fa171f75bf58485d8149e94799d7ae74d1c1a"
 
 then-request@^2.0.1:
   version "2.2.0"
