@@ -7,7 +7,7 @@ import {FacetedUnitSpec} from 'vega-lite/build/src/spec';
 import {State} from '../../models';
 import {getMainSpec, getQuery} from '../../selectors';
 import {VegaLite} from '../vega-lite/index';
-import * as styles from './index.scss';
+import * as styles from './view-pane.scss';
 
 export interface ViewPanelProps {
   query: Query;

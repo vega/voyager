@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
 import {connect} from 'react-redux';
 
-import * as styles from './index.scss';
+import * as styles from './data-pane.scss';
 
 import {ActionHandler, createDispatchHandler, DatasetAsyncAction} from '../../actions';
 import {Dataset, State} from '../../models';

@@ -3,7 +3,7 @@ import * as CSSModules from 'react-css-modules';
 import {connect} from 'react-redux';
 import {Channel} from 'vega-lite/build/src/channel';
 
-import * as styles from './index.scss';
+import * as styles from './encoding-pane.scss';
 
 import {ActionHandler} from '../../actions/index';
 import {createDispatchHandler} from '../../actions/redux-action';

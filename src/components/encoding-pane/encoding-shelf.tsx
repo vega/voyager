@@ -3,16 +3,14 @@ import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
 import {ConnectDropTarget, DropTarget, DropTargetCollector, DropTargetSpec} from 'react-dnd';
 
-import {DraggableType, FieldParentType} from '../../constants';
-import {ShelfFieldDef} from '../../models';
-import {Field} from '../field';
-
 import {ActionHandler} from '../../actions/index';
 import {
   SHELF_FIELD_ADD, SHELF_FIELD_MOVE, SHELF_FIELD_REMOVE, SHELF_FUNCTION_CHANGE, ShelfEncodingAction
 } from '../../actions/shelf';
-import {ShelfFunction, ShelfId} from '../../models';
-import {DraggedFieldIdentifier} from '../field/index';
+import {DraggableType, FieldParentType} from '../../constants';
+import {ShelfFieldDef, ShelfFunction, ShelfId} from '../../models';
+import {DraggedFieldIdentifier, Field} from '../field/index';
+
 import * as styles from './encoding-shelf.scss';
 import {FunctionChooser} from './function-chooser';
 
@@ -92,7 +90,7 @@ class EncodingShelfBase extends React.PureComponent<EncodingShelfProps, {}> {
 
 function FieldPlaceholder(isOver: boolean, isActive: boolean) {
   return (
-    <span styleName={isOver ? 'placeholder-over'  : isActive ? 'placeholder-active' : 'placeholder'}>
+    <span styleName={isOver ? 'placeholder-over' : isActive ? 'placeholder-active' : 'placeholder'}>
       Drop a field here
     </span>
   );
