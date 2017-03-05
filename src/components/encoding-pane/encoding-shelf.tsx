@@ -1,20 +1,19 @@
+import {isWildcard} from 'compassql/build/src/wildcard';
 import * as React from 'react';
+import * as CSSModules from 'react-css-modules';
 import {ConnectDropTarget, DropTarget, DropTargetCollector, DropTargetSpec} from 'react-dnd';
 
 import {DraggableType, FieldParentType} from '../../constants';
 import {ShelfFieldDef} from '../../models';
 import {Field} from '../field';
 
-import * as styles from './encoding-shelf.scss';
-
-import * as classNames from 'classnames';
-import {isWildcard} from 'compassql/build/src/wildcard';
 import {ActionHandler} from '../../actions/index';
 import {
   SHELF_FIELD_ADD, SHELF_FIELD_MOVE, SHELF_FIELD_REMOVE, SHELF_FUNCTION_CHANGE, ShelfEncodingAction
 } from '../../actions/shelf';
 import {ShelfFunction, ShelfId} from '../../models';
 import {DraggedFieldIdentifier} from '../field/index';
+import * as styles from './encoding-shelf.scss';
 import {FunctionChooser} from './function-chooser';
 
 /**
@@ -79,11 +78,6 @@ class EncodingShelfBase extends React.PureComponent<EncodingShelfProps, {}> {
     const {id, connectDropTarget, fieldDef, isOver} = this.props;
     const channelName = isWildcard(id.channel) ? 'any' : id.channel;
 
-    const classes = classNames({
-      [styles.EncodingShelf]: true,
-      [styles.isOver]: isOver
-    });
-
     // HACK: add alias to suppress compile error for: https://github.com/Microsoft/TypeScript/issues/13526
     const F = Field as any;
 
@@ -100,7 +94,7 @@ class EncodingShelfBase extends React.PureComponent<EncodingShelfProps, {}> {
     );
 
     return connectDropTarget(
-      <div className={classes}>
+      <div styleName={isOver ? 'encoding-shelf-is-over' : 'encoding-shelf'}>
         <span>{channelName}: </span>
         {fieldDef ? field : FieldPlaceholder()}
       </div>
@@ -136,4 +130,6 @@ function FieldPlaceholder() {
   );
 }
 
-export const EncodingShelf = DropTarget(DraggableType.FIELD, encodingShelfTarget, collect)(EncodingShelfBase);
+export const EncodingShelf = DropTarget(DraggableType.FIELD, encodingShelfTarget, collect)(
+  CSSModules(EncodingShelfBase, styles)
+);
