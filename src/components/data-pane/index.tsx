@@ -1,5 +1,8 @@
 import * as React from 'react';
+import * as CSSModules from 'react-css-modules';
 import {connect} from 'react-redux';
+
+import * as styles from './index.scss';
 
 import {ActionHandler, createDispatchHandler, DatasetAsyncAction} from '../../actions';
 import {Dataset, State} from '../../models';
@@ -16,7 +19,7 @@ export class DataPanelBase extends React.PureComponent<DataPanelProps, {}> {
     const {name, schema} = this.props.data;
 
     return (
-      <div className="dataPane pane">
+      <div className="pane" styleName="data-pane">
         <h2>Data</h2>
         <DatasetSelector name={name} handleAction={this.props.handleAction}/>
         <div>Name: {name}</div>
@@ -33,4 +36,4 @@ export const DataPane = connect(
     return {data: state.present.dataset};
   },
   createDispatchHandler<DatasetAsyncAction>()
-)(DataPanelBase);
+)(CSSModules(DataPanelBase, styles));

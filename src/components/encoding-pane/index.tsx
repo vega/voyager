@@ -1,6 +1,9 @@
 import * as React from 'react';
+import * as CSSModules from 'react-css-modules';
 import {connect} from 'react-redux';
 import {Channel} from 'vega-lite/build/src/channel';
+
+import * as styles from './index.scss';
 
 import {ActionHandler} from '../../actions/index';
 import {createDispatchHandler} from '../../actions/redux-action';
@@ -26,7 +29,7 @@ class EncodingPanelBase extends React.PureComponent<EncodingPanelProps, {}> {
     const otherShelves = ['size', 'color', 'shape', 'detail', 'text'].map(this.encodingShelf, this);
 
     return (
-      <div className="encodingPane pane">
+      <div className="pane" styleName="encoding-pane">
         <h2>Encoding</h2>
         <a onClick={this.onClear}>Clear</a>
 
@@ -76,4 +79,4 @@ export const EncodingPane = connect(
     return {shelf: state.present.shelf.spec};
   },
   createDispatchHandler<ShelfAction>()
-)(EncodingPanelBase);
+)(CSSModules(EncodingPanelBase, styles));
