@@ -17,6 +17,8 @@ body {
 }
 
 :global .voyager {
+  font-size: 12px;
+
   h1 {
     @extend .noselect;
     font-size: 24px;
