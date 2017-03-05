@@ -7,9 +7,22 @@ module.exports = {
   entry: {
     bundle: path.resolve(__dirname, 'src/index.tsx'),
     vendor: [
+      // React
+      'react-css-modules',
+      'react-dnd',
+      'react-dnd-html5-backend',
       'react-redux',
+      'react-split-pane',
       'redux-thunk',
+      'redux-undo',
+
+      'reselect',
+
+      // Other Lib
       'd3',
+      'tslib',
+
+      // Vega Dep
       'compassql',
       'vega-lite',
       'vega'

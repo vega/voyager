@@ -30,7 +30,6 @@
   "dependencies": {
     "@types/es6-promise": "^0.0.32",
     "@types/isomorphic-fetch": "^0.0.33",
-    "classnames": "^2.2.5",
     "compassql": "^0.10.0",
     "isomorphic-fetch": "^2.2.1",
     "normalize-scss": "^6.0.0",

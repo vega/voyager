@@ -3,7 +3,6 @@ import {StateWithHistory} from 'redux-undo';
 import {Dataset, DEFAULT_DATASET} from './dataset';
 import {DEFAULT_SHELF_SPEC, Shelf} from './shelf';
 
-
 export * from './dataset';
 export * from './shelf';
 
