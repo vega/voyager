@@ -33,6 +33,7 @@
     "classnames": "^2.2.5",
     "compassql": "^0.10.0",
     "isomorphic-fetch": "^2.2.1",
+    "normalize-scss": "^6.0.0",
     "react": "^15.4.2",
     "react-dnd": "^2.2.3",
     "react-dnd-html5-backend": "^2.2.3",

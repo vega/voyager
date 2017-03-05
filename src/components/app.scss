@@ -1,3 +1,40 @@
-#root {
+@import 'normalize/import-now';
 
+html {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #E2E9F3;
+}
+
+/* prevent element from being selected http://stackoverflow.com/questions/826782 */
+.noselect {
+  user-select: none;
+  cursor: default;
+}
+
+h1 {
+  @extend .noselect;
+  font-size: 24px;
+  line-height:36px;
+  font-weight: 700;
+  margin: 0;
+}
+
+h2 {
+  @extend .noselect;
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: 700;
+  margin: 0 0 10px;
+}
+
+h3 {
+  @extend .noselect;
+  font-size: 14px;
+  font-weight: 700;
+  margin: 0 0 6px;
 }
