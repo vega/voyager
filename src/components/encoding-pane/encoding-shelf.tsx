@@ -31,40 +31,6 @@ export interface EncodingShelfProps extends EncodingShelfDropTargetProps, Action
   fieldDef: ShelfFieldDef;
 }
 
-const encodingShelfTarget: DropTargetSpec<EncodingShelfProps> = {
-  // TODO: add canDrop
-  drop(props, monitor) {
-    // Don't drop twice for nested drop target
-    if (monitor.didDrop()) {
-      return;
-    }
-
-    const {fieldDef, parentId} = monitor.getItem() as DraggedFieldIdentifier;
-    switch (parentId.type) {
-      case FieldParentType.FIELD_LIST:
-        props.handleAction({
-          type: SHELF_FIELD_ADD,
-          payload: {shelfId: props.id, fieldDef} // TODO: rename to to:
-        });
-        break;
-      case FieldParentType.ENCODING_SHELF:
-        props.handleAction({
-          type: SHELF_FIELD_MOVE,
-          payload: {from: parentId.id, to: props.id}
-        });
-      default:
-        throw new Error('Field dragged from unregistered source type to EncodingShelf');
-    }
-  }
-};
-
-const collect: DropTargetCollector = (connect, monitor): EncodingShelfDropTargetProps => {
-  return {
-    connectDropTarget: connect.dropTarget(),
-    isOver: monitor.isOver()
-  };
-};
-
 class EncodingShelfBase extends React.PureComponent<EncodingShelfProps, {}> {
   constructor(props: EncodingShelfProps) {
     super(props);
@@ -129,6 +95,40 @@ function FieldPlaceholder() {
     </span>
   );
 }
+
+const encodingShelfTarget: DropTargetSpec<EncodingShelfProps> = {
+  // TODO: add canDrop
+  drop(props, monitor) {
+    // Don't drop twice for nested drop target
+    if (monitor.didDrop()) {
+      return;
+    }
+
+    const {fieldDef, parentId} = monitor.getItem() as DraggedFieldIdentifier;
+    switch (parentId.type) {
+      case FieldParentType.FIELD_LIST:
+        props.handleAction({
+          type: SHELF_FIELD_ADD,
+          payload: {shelfId: props.id, fieldDef} // TODO: rename to to:
+        });
+        break;
+      case FieldParentType.ENCODING_SHELF:
+        props.handleAction({
+          type: SHELF_FIELD_MOVE,
+          payload: {from: parentId.id, to: props.id}
+        });
+      default:
+        throw new Error('Field dragged from unregistered source type to EncodingShelf');
+    }
+  }
+};
+
+const collect: DropTargetCollector = (connect, monitor): EncodingShelfDropTargetProps => {
+  return {
+    connectDropTarget: connect.dropTarget(),
+    isOver: monitor.isOver()
+  };
+};
 
 export const EncodingShelf = DropTarget(DraggableType.FIELD, encodingShelfTarget, collect)(
   CSSModules(EncodingShelfBase, styles)
