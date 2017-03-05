@@ -47,6 +47,12 @@
     "@types/react" "*"
     redux "^3.6.0"
 
+"@types/react-split-pane@^0.1.6":
+  version "0.1.6"
+  resolved "https://registry.yarnpkg.com/@types/react-split-pane/-/react-split-pane-0.1.6.tgz#258c8a7bbce3c0110a236da6a4aeb482cbc5e635"
+  dependencies:
+    "@types/react" "*"
+
 "@types/react@*", "@types/react@^15.0.8":
   version "15.0.10"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-15.0.10.tgz#6b2a8a4d4965e8c0ade3a43192520da1570ea350"
@@ -484,6 +490,10 @@ boom@2.x.x:
   resolved "https://registry.yarnpkg.com/boom/-/boom-2.10.1.tgz#39c8918ceff5799f83f9492a848f625add0c766f"
   dependencies:
     hoek "2.x.x"
+
+bowser@^1.6.0:
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/bowser/-/bowser-1.6.0.tgz#37fc387b616cb6aef370dab4d6bd402b74c5c54d"
 
 boxen@^1.0.0:
   version "1.0.0"
@@ -1043,6 +1053,13 @@ crypto-random-string@^1.0.0:
 css-color-names@0.0.4:
   version "0.0.4"
   resolved "https://registry.yarnpkg.com/css-color-names/-/css-color-names-0.0.4.tgz#808adc2e79cf84738069b646cb20ec27beb629e0"
+
+css-in-js-utils@^1.0.0:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/css-in-js-utils/-/css-in-js-utils-1.0.2.tgz#f7e46b172fd994f2cd6745858c9eda9065f9bc6b"
+  dependencies:
+    hyphenate-style-name "^1.0.2"
+    unitless-css-property "^1.0.2"
 
 css-loader@^0.26.1:
   version "0.26.1"
@@ -2177,6 +2194,10 @@ https-browserify@0.0.1:
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/https-browserify/-/https-browserify-0.0.1.tgz#3f91365cabe60b77ed0ebba24b454e3e09d95a82"
 
+hyphenate-style-name@^1.0.1, hyphenate-style-name@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/hyphenate-style-name/-/hyphenate-style-name-1.0.2.tgz#31160a36930adaf1fc04c6074f7eb41465d4ec4b"
+
 iconv-lite@0.2:
   version "0.2.11"
   resolved "https://registry.yarnpkg.com/iconv-lite/-/iconv-lite-0.2.11.tgz#1ce60a3a57864a292d1321ff4609ca4bb965adc8"
@@ -2237,6 +2258,13 @@ inherits@2.0.1:
 ini@~1.3.0:
   version "1.3.4"
   resolved "https://registry.yarnpkg.com/ini/-/ini-1.3.4.tgz#0537cb79daf59b59a1a517dff706c86ec039162e"
+
+inline-style-prefixer@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/inline-style-prefixer/-/inline-style-prefixer-3.0.0.tgz#4feb44053c29aa2fe2aaecac4fb3e9459f871239"
+  dependencies:
+    bowser "^1.6.0"
+    css-in-js-utils "^1.0.0"
 
 interpret@^1.0.0:
   version "1.0.1"
@@ -4041,6 +4069,17 @@ react-redux@^5.0.2:
     lodash-es "^4.2.0"
     loose-envify "^1.1.0"
 
+react-split-pane@^0.1.58:
+  version "0.1.58"
+  resolved "https://registry.yarnpkg.com/react-split-pane/-/react-split-pane-0.1.58.tgz#0e9929401ffcd4eb655d7698774945af4758b53d"
+  dependencies:
+    inline-style-prefixer "^3.0.0"
+    react-style-proptype "^2.0.1"
+
+react-style-proptype@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/react-style-proptype/-/react-style-proptype-2.0.1.tgz#6b29b9bceb11d6be279ffee3debe1fe1edbee97b"
+
 react@^15.4.2:
   version "15.4.2"
   resolved "https://registry.yarnpkg.com/react/-/react-15.4.2.tgz#41f7991b26185392ba9bae96c8889e7e018397ef"
@@ -5034,6 +5073,12 @@ unique-string@^1.0.0:
   resolved "https://registry.yarnpkg.com/unique-string/-/unique-string-1.0.0.tgz#9e1057cca851abb93398f8b33ae187b99caec11a"
   dependencies:
     crypto-random-string "^1.0.0"
+
+unitless-css-property@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/unitless-css-property/-/unitless-css-property-1.0.2.tgz#dd4b666172fba241fcf50b6b31aee126700b170a"
+  dependencies:
+    hyphenate-style-name "^1.0.1"
 
 unpipe@~1.0.0:
   version "1.0.0"
