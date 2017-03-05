@@ -45,6 +45,18 @@ $text-color: #212121;
 //     }
 }
 
+.field-wrapper {
+  flex-grow: 1;
+  box-sizing: border-box;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  height: $pill-height;
+
+  // .field-info {
+  //   margin-right: 0;
+  // }
+}
+
 .placeholder {
   display: block;
   width: 100%;
@@ -82,20 +94,7 @@ $text-color: #212121;
 // }
 
 // .shelf{
-//   .field-drop {
-//     display: flex;
-//     flex-grow: 1;
-//     width: auto;
-//     box-sizing: border-box;
-//     border: 1px solid transparent;
-//     border-radius: 3px;
-//     height: $pill-height;
-//     line-height: $pill-height;
 
-//     .field-info {
-//       margin-right: 0;
-//     }
-//   }
 // }
 // .shelf-functions {
 //   max-width: 280px;

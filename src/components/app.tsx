@@ -16,7 +16,7 @@ class AppBase extends React.PureComponent<any, {}> {
     return (
       <div className="voyager">
         <Header/>
-        <SplitPane split="vertical" defaultSize={250}>
+        <SplitPane split="vertical" defaultSize={200}>
           <DataPane/>
           <SplitPane split="vertical" defaultSize={235}>
             <EncodingPane/>

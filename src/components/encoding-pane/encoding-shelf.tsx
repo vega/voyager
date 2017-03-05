@@ -12,7 +12,6 @@ import {ShelfFieldDef, ShelfFunction, ShelfId} from '../../models';
 import {DraggedFieldIdentifier, Field} from '../field/index';
 
 import * as styles from './encoding-shelf.scss';
-import {FunctionChooser} from './function-chooser';
 
 /**
  * Props for react-dnd of EncodingShelf
@@ -47,16 +46,17 @@ class EncodingShelfBase extends React.PureComponent<EncodingShelfProps, {}> {
     // HACK: add alias to suppress compile error for: https://github.com/Microsoft/TypeScript/issues/13526
     const F = Field as any;
 
+    /*<FunctionChooser fieldDef={fieldDef} onFunctionChange={this.onFunctionChange}/>*/
     const field = (
-      <span>
-        <FunctionChooser fieldDef={fieldDef} onFunctionChange={this.onFunctionChange}/>
+      <div styleName="field-wrapper">
         <F
           fieldDef={fieldDef}
+          isPill={true}
           parentId={{type: FieldParentType.ENCODING_SHELF, id: id}}
           draggable={true}
           onRemove={this.onRemove}
         />
-      </span>
+      </div>
     );
 
     return connectDropTarget(
