@@ -10,3 +10,7 @@ declare module '*.css' {
   const content: any;
   export = content;
 }
+
+declare module 'vega' {
+  export function parse(spec: any, config?: any): any;
+}
