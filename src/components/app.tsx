@@ -14,7 +14,7 @@ import {ViewPanel} from './view-panel';
 class AppBase extends React.PureComponent<any, {}> {
   public render() {
     return (
-      <div className="root">
+      <div className="voyager">
         <Header/>
         <SplitPane split="vertical" defaultSize={250}>
           <DataPanel/>

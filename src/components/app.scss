@@ -16,25 +16,28 @@ body {
   cursor: default;
 }
 
-h1 {
-  @extend .noselect;
-  font-size: 24px;
-  line-height:36px;
-  font-weight: 700;
-  margin: 0;
+.voyager {
+  h1 {
+    @extend .noselect;
+    font-size: 24px;
+    line-height:36px;
+    font-weight: 700;
+    margin: 0;
+  }
+
+  h2 {
+    @extend .noselect;
+    font-size: 16px;
+    line-height: 20px;
+    font-weight: 700;
+    margin: 0 0 10px;
+  }
+
+  h3 {
+    @extend .noselect;
+    font-size: 14px;
+    font-weight: 700;
+    margin: 0 0 6px;
+  }
 }
 
-h2 {
-  @extend .noselect;
-  font-size: 16px;
-  line-height: 20px;
-  font-weight: 700;
-  margin: 0 0 10px;
-}
-
-h3 {
-  @extend .noselect;
-  font-size: 14px;
-  font-weight: 700;
-  margin: 0 0 6px;
-}
