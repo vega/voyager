@@ -30,17 +30,23 @@ class EncodingPanelBase extends React.PureComponent<EncodingPanelProps, {}> {
 
     return (
       <div className="pane" styleName="encoding-pane">
+        <a className="right" onClick={this.onClear}>
+          <i className="fa fa-eraser"/>
+          {' '}
+          Clear
+        </a>
         <h2>Encoding</h2>
-        <a onClick={this.onClear}><i className="fa fa-eraser"/>Clear</a>
 
         {positionShelves}
         {facetShelves}
 
+        <div className="right">
+          <MarkSelector
+            mark={this.props.shelf.mark}
+            handleAction={this.props.handleAction}
+          />
+        </div>
         <h3>Mark</h3>
-        <MarkSelector
-          mark={this.props.shelf.mark}
-          handleAction={this.props.handleAction}
-        />
 
         {otherShelves}
       </div>
