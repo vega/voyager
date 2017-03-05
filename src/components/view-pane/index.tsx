@@ -15,7 +15,7 @@ export interface ViewPanelProps {
 class ViewPanelBase extends React.PureComponent<ViewPanelProps, {}> {
   public render() {
     return (
-      <div className="view">
+      <div className="viewPane pane">
         <h2>Specified View</h2>
         {JSON.stringify(this.props.query)}
 

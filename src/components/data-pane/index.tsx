@@ -16,7 +16,7 @@ export class DataPanelBase extends React.PureComponent<DataPanelProps, {}> {
     const {name, schema} = this.props.data;
 
     return (
-      <div className="data-pane">
+      <div className="dataPane pane">
         <h2>Data</h2>
         <DatasetSelector name={name} handleAction={this.props.handleAction}/>
         <div>Name: {name}</div>

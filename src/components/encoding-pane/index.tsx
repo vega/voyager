@@ -26,7 +26,7 @@ class EncodingPanelBase extends React.PureComponent<EncodingPanelProps, {}> {
     const otherShelves = ['size', 'color', 'shape', 'detail', 'text'].map(this.encodingShelf, this);
 
     return (
-      <div className="shelf">
+      <div className="encodingPane pane">
         <h2>Encoding</h2>
         <a onClick={this.onClear}>Clear</a>
 
