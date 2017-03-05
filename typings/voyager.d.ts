@@ -3,5 +3,10 @@
 
 declare module '*.scss' {
   const content: any;
-  export default content;
+  export = content;
+}
+
+declare module '*.css' {
+  const content: any;
+  export = content;
 }

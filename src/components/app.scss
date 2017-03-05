@@ -11,12 +11,12 @@ body {
 }
 
 /* prevent element from being selected http://stackoverflow.com/questions/826782 */
-.noselect {
+:global .noselect {
   user-select: none;
   cursor: default;
 }
 
-.voyager {
+:global .voyager {
   h1 {
     @extend .noselect;
     font-size: 24px;

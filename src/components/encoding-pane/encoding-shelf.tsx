@@ -5,7 +5,7 @@ import {DraggableType, FieldParentType} from '../../constants';
 import {ShelfFieldDef} from '../../models';
 import {Field} from '../field';
 
-import './encoding-shelf.scss';
+import * as styles from './encoding-shelf.scss';
 
 import * as classNames from 'classnames';
 import {isWildcard} from 'compassql/build/src/wildcard';
@@ -80,8 +80,8 @@ class EncodingShelfBase extends React.PureComponent<EncodingShelfProps, {}> {
     const channelName = isWildcard(id.channel) ? 'any' : id.channel;
 
     const classes = classNames({
-      EncodingShelf: true,
-      isOver: isOver
+      [styles.EncodingShelf]: true,
+      [styles.isOver]: isOver
     });
 
     // HACK: add alias to suppress compile error for: https://github.com/Microsoft/TypeScript/issues/13526
