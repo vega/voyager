@@ -1,7 +1,128 @@
+$pill-radius: 3px;
+$pill-height: 22px;
+$pill-min-width: 150px;
+$text-color: #212121;
+
 .encoding-shelf-is-over {
-  background: yellow;
+  .shelf-placeholder {
+    background: yellow;
+  }
 }
 
 .encoding-shelf {
-  background: 'none';
+  background-color: hsla(224,25%,29%,0.2);
+  border: 1px solid #ddd;
+  border-radius: $pill-radius;
+  display: flex;
+  font-size: 11px;
+  margin-bottom: 4px;
+
+  width: 100%;
+  height: 22px;
 }
+
+// TODO: support wildcard
+//   &.any {
+//     background-color: hsla(185,80%,29%,0.4);
+//   }
+
+.shelf-label {
+  user-select: none;
+  display: block;
+  width: 45px;
+  margin: 0 0.2rem;
+  // text-align: right;
+  line-height: $pill-height;
+  // cursor: pointer;
+  flex-shrink: 0;
+
+  :global .fa {
+    margin-top: 4px;
+    opacity: 0.5;
+  }
+//     &.expanded .fa, &:hover .fa {
+//       opacity: 1;
+//     }
+}
+
+.placeholder {
+  display: block;
+  width: 100%;
+  padding: 0 0.5em;
+  border: 1px solid hsla(0,0%,30%,0.1);
+  background-color: white;
+  line-height: $pill-height - 2;
+  border-radius: $pill-radius;
+  text-overflow: ellipsis;
+  font-weight: normal;
+  color: #ccc;
+}
+
+.placeholder-over {
+  @extend .placeholder;
+  border: 1px dashed #4CAF50;
+  background-color: #d0efb3;
+  color: $text-color;
+}
+
+.placeholder-active {
+  @extend .placeholder-over;
+  background-color: #C8E6C9;
+}
+
+// TODO: bring some of these back
+
+// .shelf.disabled {
+//   opacity: 0.5;
+// }
+
+// /** Don't disable shelf in preview mode */
+// .preview .shelf.disabled {
+//   opacity: 1;
+// }
+
+// .shelf{
+//   .field-drop {
+//     display: flex;
+//     flex-grow: 1;
+//     width: auto;
+//     box-sizing: border-box;
+//     border: 1px solid transparent;
+//     border-radius: 3px;
+//     height: $pill-height;
+//     line-height: $pill-height;
+
+//     .field-info {
+//       margin-right: 0;
+//     }
+//   }
+// }
+// .shelf-functions {
+//   max-width: 280px;
+// }
+
+// .shelf-properties, .shelf-functions{
+//   line-height: 20px;
+
+//   label {
+//     display: inline-block;
+
+//     &.prop-label {
+//       width: 110px;
+//       text-align: right;
+//       margin-right: 3px;
+//       .name {
+//         text-overflow: ellipsis;
+//         width: 90px;
+//         overflow: hidden;
+//         display: inline-block;
+//         vertical-align: middle;
+//       }
+//     }
+
+//     &.func-label, &.type-label {
+//       min-width: 75px;
+//       margin-right: 5px;
+//     }
+//   }
+// }

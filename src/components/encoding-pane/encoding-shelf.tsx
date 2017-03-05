@@ -23,6 +23,8 @@ export interface EncodingShelfDropTargetProps {
   connectDropTarget: ConnectDropTarget;
 
   isOver: boolean;
+
+  item: Object;
 }
 
 export interface EncodingShelfProps extends EncodingShelfDropTargetProps, ActionHandler<ShelfEncodingAction> {
@@ -41,7 +43,7 @@ class EncodingShelfBase extends React.PureComponent<EncodingShelfProps, {}> {
   }
 
   public render() {
-    const {id, connectDropTarget, fieldDef, isOver} = this.props;
+    const {id, connectDropTarget, fieldDef, item, isOver} = this.props;
     const channelName = isWildcard(id.channel) ? 'any' : id.channel;
 
     // HACK: add alias to suppress compile error for: https://github.com/Microsoft/TypeScript/issues/13526
@@ -60,9 +62,9 @@ class EncodingShelfBase extends React.PureComponent<EncodingShelfProps, {}> {
     );
 
     return connectDropTarget(
-      <div styleName={isOver ? 'encoding-shelf-is-over' : 'encoding-shelf'}>
-        <span>{channelName}: </span>
-        {fieldDef ? field : FieldPlaceholder()}
+      <div styleName="encoding-shelf">
+        <div styleName="shelf-label">{channelName}</div>
+        {fieldDef ? field : FieldPlaceholder(isOver, !!item)}
       </div>
     );
   }
@@ -88,10 +90,10 @@ class EncodingShelfBase extends React.PureComponent<EncodingShelfProps, {}> {
   }
 }
 
-function FieldPlaceholder() {
+function FieldPlaceholder(isOver: boolean, isActive: boolean) {
   return (
-    <span className="FieldPlaceholder">
-      (Drop Field Here)
+    <span styleName={isOver ? 'placeholder-over'  : isActive ? 'placeholder-active' : 'placeholder'}>
+      Drop a field here
     </span>
   );
 }
@@ -126,7 +128,8 @@ const encodingShelfTarget: DropTargetSpec<EncodingShelfProps> = {
 const collect: DropTargetCollector = (connect, monitor): EncodingShelfDropTargetProps => {
   return {
     connectDropTarget: connect.dropTarget(),
-    isOver: monitor.isOver()
+    isOver: monitor.isOver(),
+    item: monitor.getItem()
   };
 };
 

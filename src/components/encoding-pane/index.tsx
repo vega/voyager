@@ -26,7 +26,7 @@ class EncodingPanelBase extends React.PureComponent<EncodingPanelProps, {}> {
   public render() {
     const positionShelves = ['x', 'y'].map(this.encodingShelf, this);
     const facetShelves = ['row', 'column'].map(this.encodingShelf, this);
-    const otherShelves = ['size', 'color', 'shape', 'detail', 'text'].map(this.encodingShelf, this);
+    const nonPositionShelves = ['size', 'color', 'shape', 'detail', 'text'].map(this.encodingShelf, this);
 
     return (
       <div className="pane" styleName="encoding-pane">
@@ -35,20 +35,28 @@ class EncodingPanelBase extends React.PureComponent<EncodingPanelProps, {}> {
           {' '}
           Clear
         </a>
-        <h2>Encoding</h2>
 
-        {positionShelves}
-        {facetShelves}
-
-        <div className="right">
-          <MarkSelector
-            mark={this.props.shelf.mark}
-            handleAction={this.props.handleAction}
-          />
+        <div styleName="shelf-group">
+          <h2>Encoding</h2>
+          {positionShelves}
         </div>
-        <h3>Mark</h3>
 
-        {otherShelves}
+        <div styleName="shelf-group">
+          <div className="right">
+            <MarkSelector
+              mark={this.props.shelf.mark}
+              handleAction={this.props.handleAction}
+            />
+          </div>
+          <h3>Mark</h3>
+          {nonPositionShelves}
+        </div>
+
+        <div styleName="shelf-group">
+          <h3>Facet</h3>
+          {facetShelves}
+        </div>
+
       </div>
     );
   }
