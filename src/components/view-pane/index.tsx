@@ -19,11 +19,13 @@ class ViewPanelBase extends React.PureComponent<ViewPanelProps, {}> {
     return (
       <div className="pane" styleName="view-pane">
         <h2>Specified View</h2>
+        <VegaLite spec={this.props.mainSpec}/>
+
         {JSON.stringify(this.props.query)}
 
         {JSON.stringify(this.props.mainSpec)}
 
-        <VegaLite spec={this.props.mainSpec}/>
+
       </div>
     );
   }
