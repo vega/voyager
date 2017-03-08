@@ -25,25 +25,21 @@ class FunctionChooserBase extends React.PureComponent<FunctionChooserProps, any>
 
     const fn = fieldDef.aggregate || fieldDef.timeUnit || (fieldDef.bin && 'bin' ) || undefined;
     const supportedFns = getSupportedFunction(fieldDef.type);
-    const options = supportedFns.map(f => (
-      <option key={f || '-'} value={f}>
+    const radios = supportedFns.map(f => (
+      <label styleName="func-label" key={f || '-'}>
+        <input type="radio" value={f} checked={f === fn} onChange={this.onFunctionChange}/>
+        {' '}
         {f || '-'}
-      </option>
+      </label>
     ));
 
     if (isWildcard(fn)) {
       throw new Error('Wildcard function not supported yet');
     } else {
-      return options.length > 0 && (
+      return radios.length > 0 && (
         <div styleName="function-chooser">
-          Function
-          <select
-            className="FunctionChooser"
-            value={fn}
-            onChange={this.onFunctionChange}
-          >
-            {options}
-          </select>
+          <h4>Function</h4>
+          {radios}
         </div>
       );
     }
