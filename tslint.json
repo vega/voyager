@@ -29,6 +29,7 @@
         "check-format",
         "allow-pascal-case",
         "allow-leading-underscore"
-    ]
+    ],
+    "jsx-no-multiline-js": false
   }
 }
