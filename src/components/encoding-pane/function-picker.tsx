@@ -3,18 +3,18 @@ import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
 import {Type} from 'vega-lite/build/src/type';
 
-import * as styles from './function-chooser.scss';
+import * as styles from './function-picker.scss';
 
 import {ShelfFieldDef, ShelfFunction} from '../../models/shelf';
 
-export interface FunctionChooserProps {
+export interface FunctionPickerProps {
   fieldDef: ShelfFieldDef;
 
   onFunctionChange: (fn: ShelfFunction) => void;
 }
 
-class FunctionChooserBase extends React.PureComponent<FunctionChooserProps, any> {
-  constructor(props: FunctionChooserProps) {
+class FunctionPickerBase extends React.PureComponent<FunctionPickerProps, any> {
+  constructor(props: FunctionPickerProps) {
     super(props);
 
     // Bind - https://facebook.github.io/react/docs/handling-events.html
@@ -49,7 +49,7 @@ class FunctionChooserBase extends React.PureComponent<FunctionChooserProps, any>
   }
 }
 
-export const FunctionChooser = CSSModules(FunctionChooserBase, styles);
+export const FunctionPicker = CSSModules(FunctionPickerBase, styles);
 
 // FIXME: move this to other parts and expand with more rules and test?
 function getSupportedFunction(type: Type) {

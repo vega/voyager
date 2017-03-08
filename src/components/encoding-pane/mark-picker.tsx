@@ -15,15 +15,15 @@ const options = ALL_MARKS.map(mark => (
   </option>
 ));
 
-interface MarkShelfProps extends ActionHandler<ShelfMarkChangeType> {
+interface MarkPickerProps extends ActionHandler<ShelfMarkChangeType> {
   mark: ShelfMark;
 }
 
 /**
  * Control for selecting mark type
  */
-export class MarkSelector extends React.PureComponent<MarkShelfProps, {}> {
-  constructor(props: MarkShelfProps) {
+export class MarkPicker extends React.PureComponent<MarkPickerProps, {}> {
+  constructor(props: MarkPickerProps) {
     super(props);
 
     // Bind - https://facebook.github.io/react/docs/handling-events.html

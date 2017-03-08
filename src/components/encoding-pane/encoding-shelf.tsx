@@ -13,7 +13,7 @@ import {
 import {DraggableType, FieldParentType} from '../../constants';
 import {ShelfFieldDef, ShelfFunction, ShelfId} from '../../models';
 import {DraggedFieldIdentifier, Field} from '../field/index';
-import {FunctionChooser} from './function-chooser';
+import {FunctionPicker} from './function-picker';
 
 /**
  * Props for react-dnd of EncodingShelf
@@ -90,7 +90,7 @@ class EncodingShelfBase extends React.PureComponent<EncodingShelfProps, Encoding
           />
 
           { this.state.functionPopupOpen &&
-            <FunctionChooser fieldDef={fieldDef} onFunctionChange={this.onFunctionChange}/>
+            <FunctionPicker fieldDef={fieldDef} onFunctionChange={this.onFunctionChange}/>
           }
         </TetherComponent>
       </div>

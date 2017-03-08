@@ -10,7 +10,7 @@ import {createDispatchHandler} from '../../actions/redux-action';
 import {SHELF_CLEAR, ShelfAction} from '../../actions/shelf';
 import {ShelfUnitSpec, State} from '../../models';
 import {EncodingShelf} from './encoding-shelf';
-import {MarkSelector} from './mark-selector';
+import {MarkPicker} from './mark-picker';
 
 interface EncodingPanelProps extends ActionHandler<ShelfAction> {
   shelf: ShelfUnitSpec;
@@ -43,7 +43,7 @@ class EncodingPanelBase extends React.PureComponent<EncodingPanelProps, {}> {
 
         <div styleName="shelf-group">
           <div className="right">
-            <MarkSelector
+            <MarkPicker
               mark={this.props.shelf.mark}
               handleAction={this.props.handleAction}
             />
