@@ -90,7 +90,7 @@ function caretTypeSpan(props: {caretHide: boolean, caretOnClick: () => void, typ
   const title = TYPE_NAMES[type];
 
   return <span styleName="caret-type" onClick={caretOnClick}>
-    {caretOnClick && <i className={(caretHide ? 'hidden' : '') + 'fa fa-caret-down'}/>}
+    {caretOnClick && <i className={(caretHide ? 'hidden ' : '') + 'fa fa-caret-down'}/>}
     {caretOnClick && ' '}
     {type && <i className={'fa ' + icon} styleName="type" title={title}/>}
   </span>;
