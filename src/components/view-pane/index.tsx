@@ -6,7 +6,7 @@ import {FacetedUnitSpec} from 'vega-lite/build/src/spec';
 
 import {State} from '../../models';
 import {getMainSpec, getQuery} from '../../selectors';
-import {VegaLite} from '../vega-lite/index';
+import {Plot} from '../plot';
 import * as styles from './view-pane.scss';
 
 export interface ViewPanelProps {
@@ -19,13 +19,11 @@ class ViewPanelBase extends React.PureComponent<ViewPanelProps, {}> {
     return (
       <div className="pane" styleName="view-pane">
         <h2>Specified View</h2>
-        <VegaLite spec={this.props.mainSpec}/>
+        <Plot spec={this.props.mainSpec}/>
 
-        {JSON.stringify(this.props.query)}
+        {/*{JSON.stringify(this.props.query)}
 
-        {JSON.stringify(this.props.mainSpec)}
-
-
+        {JSON.stringify(this.props.mainSpec)}*/}
       </div>
     );
   }

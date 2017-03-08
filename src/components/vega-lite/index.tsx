@@ -1,10 +1,10 @@
 import * as React from 'react';
 import * as vega from 'vega';
 import * as vl from 'vega-lite';
-import {FacetedUnitSpec} from 'vega-lite/build/src/spec';
+import {ExtendedSpec} from 'vega-lite/build/src/spec';
 
 export interface VegaLiteProps {
-  spec: FacetedUnitSpec;
+  spec: ExtendedSpec;
 
   renderer?: 'svg' | 'canvas';
 }
@@ -15,13 +15,10 @@ export class VegaLite extends React.PureComponent<VegaLiteProps, any> {
 
   public render() {
     return (
-      <div>
-        VL
-        <div className='chart' ref={CHART_REF}/>
-      </div>
+      <div className='chart' ref={CHART_REF}/>
     );
   }
-  protected renderVega(vlSpec: FacetedUnitSpec) {
+  protected renderVega(vlSpec: ExtendedSpec) {
     const {spec} = vl.compile(vlSpec);
 
     const runtime = vega.parse(spec, vlSpec.config);
