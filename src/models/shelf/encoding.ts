@@ -1,6 +1,7 @@
 
 import {isWildcard, SHORT_WILDCARD, Wildcard, WildcardProperty} from 'compassql/build/src/wildcard';
 
+import {EncodingQuery} from 'compassql/build/src/query/encoding';
 import {AggregateOp} from 'vega-lite/build/src/aggregate';
 import {Channel} from 'vega-lite/build/src/channel';
 import {Encoding} from 'vega-lite/build/src/encoding';
@@ -52,3 +53,19 @@ export interface ShelfAnyEncodingDef extends ShelfFieldDef {
 export type SpecificEncoding = {
   [P in keyof Encoding]: ShelfFieldDef;
 };
+
+export function fromEncodingQueries(encodings: EncodingQuery[]): {
+  encoding: SpecificEncoding, anyEncodings: ShelfAnyEncodingDef[]
+} {
+
+  return encodings.reduce((encodingMixins, encQ) => {
+    if (isWildcard(encQ.channel)) {
+      encodingMixins.anyEncodings.push(encQ);
+    } else {
+      const {channel: _, ...fieldDef} = encQ;
+      encodingMixins.encoding[encQ.channel] = fieldDef;
+    }
+
+    return encodingMixins;
+  }, {encoding: {}, anyEncodings: []});
+}

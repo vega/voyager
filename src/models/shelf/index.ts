@@ -1,6 +1,8 @@
 import {isValueQuery} from 'compassql/build/src/query/encoding';
 import {Query} from 'compassql/build/src/query/query';
-import {isWildcard} from 'compassql/build/src/wildcard';
+import {isWildcard, SHORT_WILDCARD} from 'compassql/build/src/wildcard';
+
+import {ShelfFieldDef} from './encoding';
 import {DEFAULT_SHELF_UNIT_SPEC, ShelfUnitSpec, toSpecQuery} from './spec';
 
 export * from './encoding';
@@ -59,5 +61,19 @@ export function toQuery(shelf: Shelf): Query {
       // TODO: support customAutoAddCount
       autoAddCount: (hasWildcardField || hasWildcardFn || hasWildcardChannel)
     }
+  };
+}
+
+export function autoAddFieldQuery(shelf: ShelfUnitSpec, fieldDef: ShelfFieldDef) {
+  const spec = toSpecQuery(shelf);
+  spec.encodings.push({
+    channel: SHORT_WILDCARD,
+    ...fieldDef
+  });
+
+  return {
+    spec,
+    chooseBy: 'effectiveness'
+    // TODO: customizable config
   };
 }

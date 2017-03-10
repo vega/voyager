@@ -1,7 +1,8 @@
 import {EncodingQuery} from 'compassql/build/src/query/encoding';
 import {SpecQuery} from 'compassql/build/src/query/spec';
+import {isWildcardDef} from 'compassql/build/src/wildcard';
 import {Config} from 'vega-lite/build/src/config';
-import {ShelfAnyEncodingDef, ShelfMark, SpecificEncoding} from './encoding';
+import {fromEncodingQueries, ShelfAnyEncodingDef, ShelfMark, SpecificEncoding} from './encoding';
 
 
 /**
@@ -35,6 +36,21 @@ export function toSpecQuery(spec: ShelfUnitSpec): SpecQuery {
     encodings: specificEncodingsToEncodingQueries(spec.encoding).concat(spec.anyEncodings),
     config: spec.config
   };
+}
+
+export function fromSpecQuery(spec: SpecQuery): ShelfUnitSpec {
+  const {mark, encodings, config} = spec;
+
+  if (isWildcardDef(mark)) {
+    throw new Error('Voyager 2 does not support custom wildcard mark yet');
+  }
+
+  return {
+    mark,
+    ...fromEncodingQueries(encodings),
+    config
+  };
+
 }
 
 function specificEncodingsToEncodingQueries(encoding: SpecificEncoding): EncodingQuery[] {

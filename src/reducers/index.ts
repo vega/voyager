@@ -10,7 +10,7 @@ import {shelfReducer} from './shelf';
 function reducer(state: Readonly<StateBase>, action: Action): StateBase {
   return {
     dataset: datasetReducer(state.dataset, action),
-    shelf: shelfReducer(state.shelf, action)
+    shelf: shelfReducer(state.shelf, action, state.dataset.schema)
   };
 }
 

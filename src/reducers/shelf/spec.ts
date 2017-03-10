@@ -1,9 +1,11 @@
-
-import {SHORT_WILDCARD} from 'compassql/build/src/wildcard';
+import {recommend} from 'compassql/build/src/recommend';
+import {Schema} from 'compassql/build/src/schema';
+import {isWildcard, SHORT_WILDCARD} from 'compassql/build/src/wildcard';
 
 import {Action} from '../../actions';
 import {
-  SHELF_CLEAR, SHELF_FIELD_ADD, SHELF_FIELD_MOVE, SHELF_FIELD_REMOVE, SHELF_FUNCTION_CHANGE, SHELF_MARK_CHANGE_TYPE
+  SHELF_CLEAR, SHELF_FIELD_ADD, SHELF_FIELD_AUTO_ADD, SHELF_FIELD_MOVE,
+  SHELF_FIELD_REMOVE, SHELF_FUNCTION_CHANGE, SHELF_MARK_CHANGE_TYPE
 } from '../../actions/shelf';
 
 
@@ -11,10 +13,11 @@ import {AGGREGATE_OPS} from 'vega-lite/build/src/aggregate';
 import {TIMEUNITS} from 'vega-lite/build/src/timeunit';
 import {isWildcardChannelId} from '../../models';
 import {ShelfAnyEncodingDef, ShelfFieldDef, ShelfFunction, ShelfId, ShelfUnitSpec} from '../../models/shelf';
-import {DEFAULT_SHELF_UNIT_SPEC} from '../../models/shelf/spec';
+import {autoAddFieldQuery} from '../../models/shelf/index';
+import {DEFAULT_SHELF_UNIT_SPEC, fromSpecQuery} from '../../models/shelf/spec';
 import {toSet} from '../../util';
 
-export function shelfSpecReducer(shelf: Readonly<ShelfUnitSpec>, action: Action): ShelfUnitSpec {
+export function shelfSpecReducer(shelf: Readonly<ShelfUnitSpec>, action: Action, schema: Schema): ShelfUnitSpec {
   switch (action.type) {
     case SHELF_CLEAR:
       return DEFAULT_SHELF_UNIT_SPEC;
@@ -30,6 +33,34 @@ export function shelfSpecReducer(shelf: Readonly<ShelfUnitSpec>, action: Action)
     case SHELF_FIELD_ADD: {
       const {shelfId, fieldDef} = action.payload;
       return addEncoding(shelf, shelfId, fieldDef);
+    }
+
+    case SHELF_FIELD_AUTO_ADD: {
+      const {fieldDef} = action.payload;
+
+      if (shelf.anyEncodings.length === 0) {
+        // query for the best encoding if there is no wildcard channel
+        const query = autoAddFieldQuery(shelf, fieldDef);
+        const rec = recommend(query, schema);
+        const topSpecQuery = rec.result.getTopSpecQueryModel().specQuery;
+
+        return {
+          ...fromSpecQuery(topSpecQuery),
+          // retain auto-mark if mark is previously auto
+          ...(isWildcard(shelf.mark) ? {mark: shelf.mark} : {})
+        };
+      } else {
+        return {
+          ...shelf,
+          anyEncodings: [
+            ...shelf.anyEncodings,
+            {
+              channel: SHORT_WILDCARD,
+              ...fieldDef
+            }
+          ]
+        };
+      }
     }
 
     case SHELF_FIELD_REMOVE:

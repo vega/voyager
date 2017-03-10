@@ -6,7 +6,8 @@ export type ShelfAction =
   ShelfMarkChangeType |
   ShelfEncodingAction;
 
-export type ShelfEncodingAction = ShelfFieldAdd | ShelfFieldRemove | ShelfFieldMove | ShelfFunctionChange;
+export type ShelfEncodingAction = ShelfFieldAdd | ShelfFieldAutoAdd |
+  ShelfFieldRemove | ShelfFieldMove | ShelfFunctionChange;
 
 export const SHELF_CLEAR = 'SHELF_CLEAR';
 export type ShelfClear = PlainReduxAction<typeof SHELF_CLEAR>;
@@ -19,6 +20,11 @@ export type ShelfMarkChangeType = ReduxAction<typeof SHELF_MARK_CHANGE_TYPE, She
 export const SHELF_FIELD_ADD = 'SHELF_FIELD_ADD';
 export type ShelfFieldAdd = ReduxAction<typeof SHELF_FIELD_ADD, {
   shelfId: ShelfId;
+  fieldDef: ShelfFieldDef;
+}>;
+
+export const SHELF_FIELD_AUTO_ADD = 'SHELF_FIELD_AUTO_ADD';
+export type ShelfFieldAutoAdd = ReduxAction<typeof SHELF_FIELD_AUTO_ADD, {
   fieldDef: ShelfFieldDef;
 }>;
 
@@ -41,3 +47,4 @@ export type ShelfFunctionChange = ReduxAction<typeof SHELF_FUNCTION_CHANGE, {
   shelfId: ShelfId,
   fn: ShelfFunction;
 }>;
+
