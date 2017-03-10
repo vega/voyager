@@ -1,4 +1,4 @@
-import {Schema} from 'compassql/build/src/schema';
+import {build as buildSchema, Schema} from 'compassql/build/src/schema';
 import * as fetch from 'isomorphic-fetch';
 import {Dispatch} from 'redux';
 import {ThunkAction} from 'redux-thunk';
@@ -39,7 +39,7 @@ export function datasetUrlLoad(name: string, url: string): DatasetUrlLoad {
       }
     ).then(
       data => {
-        const schema = Schema.build(data);
+        const schema = buildSchema(data);
         dispatch({
           type: DATASET_URL_RECEIVE,
           payload: {name, url, schema}

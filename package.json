@@ -30,7 +30,7 @@
   "dependencies": {
     "@types/es6-promise": "^0.0.32",
     "@types/isomorphic-fetch": "^0.0.33",
-    "compassql": "^0.10.0",
+    "compassql": "^0.11.0",
     "font-awesome": "^4.7.0",
     "font-awesome-sass-loader": "^1.0.3",
     "isomorphic-fetch": "^2.2.1",
@@ -52,7 +52,7 @@
     "tslib": "^1.5.0",
     "vega": "3.0.0-beta.22",
     "vega-datasets": "^1.8.0",
-    "vega-lite": "2.0.0-alpha.4"
+    "vega-lite": "2.0.0-alpha.7"
   },
   "devDependencies": {
     "@types/classnames": "^0.0.32",
