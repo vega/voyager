@@ -1,11 +1,12 @@
+import {isWildcard, SHORT_WILDCARD} from 'compassql/build/src/wildcard';
 import * as React from 'react';
-
-import {ShelfMark} from '../../models';
-
-import {SHORT_WILDCARD} from 'compassql/build/src/wildcard';
+import * as CSSModules from 'react-css-modules';
 import {PRIMITIVE_MARKS} from 'vega-lite/build/src/mark';
-import {ActionHandler} from '../../actions';
-import {SHELF_MARK_CHANGE_TYPE, ShelfMarkChangeType} from '../../actions/shelf';
+
+import * as styles from './mark-picker.scss';
+
+import {ActionHandler, SHELF_MARK_CHANGE_TYPE, ShelfMarkChangeType} from '../../actions';
+import {ShelfMark} from '../../models';
 
 const ALL_MARKS = [SHORT_WILDCARD, ...PRIMITIVE_MARKS];
 
@@ -22,7 +23,7 @@ interface MarkPickerProps extends ActionHandler<ShelfMarkChangeType> {
 /**
  * Control for selecting mark type
  */
-export class MarkPicker extends React.PureComponent<MarkPickerProps, {}> {
+class MarkPickerBase extends React.PureComponent<MarkPickerProps, {}> {
   constructor(props: MarkPickerProps) {
     super(props);
 
@@ -31,10 +32,11 @@ export class MarkPicker extends React.PureComponent<MarkPickerProps, {}> {
   }
 
   public render() {
+    const {mark} = this.props;
     return (
       <select
-        className="MarkShelf"
-        value={this.props.mark}
+        styleName={isWildcard(mark) ? 'mark-picker-any' : 'mark-picker'}
+        value={mark}
         onChange={this.onMarkChange}
       >
         {options}
@@ -48,3 +50,5 @@ export class MarkPicker extends React.PureComponent<MarkPickerProps, {}> {
     });
   }
 }
+
+export const MarkPicker = CSSModules(MarkPickerBase, styles);

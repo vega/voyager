@@ -1,6 +1,6 @@
 import {EncodingQuery} from 'compassql/build/src/query/encoding';
 import {SpecQuery} from 'compassql/build/src/query/spec';
-import {isWildcardDef} from 'compassql/build/src/wildcard';
+import {isWildcardDef, SHORT_WILDCARD} from 'compassql/build/src/wildcard';
 import {Config} from 'vega-lite/build/src/config';
 import {fromEncodingQueries, ShelfAnyEncodingDef, ShelfMark, SpecificEncoding} from './encoding';
 
@@ -68,7 +68,7 @@ function specificEncodingsToEncodingQueries(encoding: SpecificEncoding): Encodin
 }
 
 export const DEFAULT_SHELF_UNIT_SPEC: Readonly<ShelfUnitSpec> = {
-  mark: 'point',
+  mark: SHORT_WILDCARD,
   encoding: {},
   anyEncodings: [],
   config: {}
