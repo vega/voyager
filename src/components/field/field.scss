@@ -15,7 +15,7 @@ $any-hover-color: #666;
   overflow: hidden;
 
   :global .fa {
-    &.fa-caret-down, &.fa-times {
+    &.fa-caret-down, &.fa-times , &.fa-plus {
       padding: 2px 3px 1px;
       border-radius: 3px;
 

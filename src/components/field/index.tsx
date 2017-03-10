@@ -34,17 +34,25 @@ export interface FieldProps extends FieldDragSourceProps {
 
   draggable: boolean;
 
-  /** Remove field event handler.  If not provided, remove button will not be shown. */
+  /**
+   * Add field event handler.  If not provided, add button will disappear.
+   */
+  onAdd?: (fieldDef: ShelfFieldDef) => void;
+
+  /** Remove field event handler.  If not provided, remove button will disappear. */
   onRemove?: () => void;
 };
 
 class FieldBase extends React.PureComponent<FieldProps, {}> {
   constructor(props: FieldProps) {
     super(props);
+
+    // Bind - https://facebook.github.io/react/docs/handling-events.html
+    this.onAdd = this.onAdd.bind(this);
   }
 
   public render(): JSX.Element {
-    const {caretHide, caretOnClick, connectDragSource, fieldDef, isPill, onRemove} = this.props;
+    const {caretHide, caretOnClick, connectDragSource, fieldDef, isPill} = this.props;
     const {field} = fieldDef;
 
     const component = (
@@ -53,18 +61,28 @@ class FieldBase extends React.PureComponent<FieldProps, {}> {
         <span styleName="text">
           {field}
         </span>
-        {this.removeSpan(onRemove)}
+        {this.addSpan()}
+        {this.removeSpan()}
       </span>
     );
 
     // Wrap with connect dragSource if it is injected
     return connectDragSource ? connectDragSource(component) : component;
   }
-
-  private removeSpan(onRemove: () => void) {
+  private addSpan() {
+    return this.props.onAdd && (
+      <span><a onClick={this.onAdd}><i className="fa fa-plus"/></a></span>
+    );
+  }
+  private removeSpan() {
+    const onRemove = this.props.onRemove;
     return onRemove && (
       <span><a onClick={onRemove}><i className="fa fa-times"/></a></span>
     );
+  }
+
+  private onAdd() {
+    this.props.onAdd(this.props.fieldDef);
   }
 };
 

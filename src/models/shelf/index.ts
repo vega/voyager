@@ -64,7 +64,7 @@ export function toQuery(shelf: Shelf): Query {
   };
 }
 
-export function autoAddFieldQuery(shelf: ShelfUnitSpec, fieldDef: ShelfFieldDef) {
+export function autoAddFieldQuery(shelf: ShelfUnitSpec, fieldDef: ShelfFieldDef): Query {
   const spec = toSpecQuery(shelf);
   spec.encodings.push({
     channel: SHORT_WILDCARD,

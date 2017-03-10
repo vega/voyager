@@ -1,18 +1,28 @@
 import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
-
-import {FieldParentType} from '../../constants';
-import {Schema} from '../../models';
-
-import {Field} from '../field';
 import * as styles from './field-list.scss';
 
+import {ActionHandler} from '../../actions/redux-action';
+import {SHELF_FIELD_AUTO_ADD, ShelfFieldAutoAdd} from '../../actions/shelf';
+import {FieldParentType} from '../../constants';
+import {Schema} from '../../models';
+import {ShelfFieldDef} from '../../models/shelf/encoding';
+import {Field} from '../field';
 
-export interface FieldListProps {
+
+export interface FieldListProps extends ActionHandler<ShelfFieldAutoAdd> {
   schema: Schema;
 }
 
 class FieldListBase extends React.PureComponent<FieldListProps, {}> {
+
+  constructor(props: FieldListProps) {
+    super(props);
+
+    // Bind - https://facebook.github.io/react/docs/handling-events.html
+    this.onAdd = this.onAdd.bind(this);
+  }
+
   public render() {
     const {schema} = this.props;
 
@@ -29,6 +39,8 @@ class FieldListBase extends React.PureComponent<FieldListProps, {}> {
             isPill={true}
             draggable={true}
             parentId={{type: FieldParentType.FIELD_LIST}}
+
+            onAdd={this.onAdd}
           />
         </div>
       );
@@ -39,6 +51,14 @@ class FieldListBase extends React.PureComponent<FieldListProps, {}> {
         {fieldItems}
       </div>
     );
+  }
+
+  protected onAdd(fieldDef: ShelfFieldDef) {
+    const {handleAction} = this.props;
+    handleAction({
+      type: SHELF_FIELD_AUTO_ADD,
+      payload: {fieldDef: fieldDef}
+    });
   }
 }
 
