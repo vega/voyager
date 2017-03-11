@@ -70,7 +70,8 @@ describe('reducers/shelf/spec', () => {
   });
 
   describe(SHELF_FIELD_ADD, () => {
-    it('should query for new spec with CompassQL if there is no wildcard channel', () => {
+    it('should query for new spec with CompassQL if there is no wildcard channel in the shelf ' +
+        'and the field is not a wildcard.', () => {
       const shelf = shelfSpecReducer(
         DEFAULT_SHELF_UNIT_SPEC,
         {
@@ -87,7 +88,7 @@ describe('reducers/shelf/spec', () => {
       });
     });
 
-    it('should add the field to anyEncodings if there is a wildcard channel', () => {
+    it('should add the field to anyEncodings if there is a wildcard channel in the shelf', () => {
       const shelf = shelfSpecReducer(
         {
           ...DEFAULT_SHELF_UNIT_SPEC,
@@ -106,6 +107,23 @@ describe('reducers/shelf/spec', () => {
         anyEncodings: [
           {channel: SHORT_WILDCARD, field: 'a', type: 'quantitative'},
          {channel: SHORT_WILDCARD, field: 'b', type: 'nominal'}
+        ]
+      });
+    });
+
+    it('should add the field to anyEncodings if the field is a wildcard', () => {
+      const shelf = shelfSpecReducer(
+        DEFAULT_SHELF_UNIT_SPEC,
+        {
+          type: SHELF_FIELD_AUTO_ADD,
+          payload: {fieldDef: {field: {enum: ['a', 'b']}, type: 'nominal'}}
+        },
+        schema
+      );
+      expect(shelf).toEqual({
+        ...DEFAULT_SHELF_UNIT_SPEC,
+        anyEncodings: [
+          {channel: SHORT_WILDCARD, field: {enum: ['a', 'b']}, type: 'nominal'}
         ]
       });
     });

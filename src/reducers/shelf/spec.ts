@@ -38,18 +38,8 @@ export function shelfSpecReducer(shelf: Readonly<ShelfUnitSpec>, action: Action,
     case SHELF_FIELD_AUTO_ADD: {
       const {fieldDef} = action.payload;
 
-      if (shelf.anyEncodings.length === 0) {
-        // query for the best encoding if there is no wildcard channel
-        const query = autoAddFieldQuery(shelf, fieldDef);
-        const rec = recommend(query, schema);
-        const topSpecQuery = rec.result.getTopSpecQueryModel().specQuery;
-
-        return {
-          ...fromSpecQuery(topSpecQuery),
-          // retain auto-mark if mark is previously auto
-          ...(isWildcard(shelf.mark) ? {mark: shelf.mark} : {})
-        };
-      } else {
+      if (shelf.anyEncodings.length > 0 || isWildcard(fieldDef.field)) {
+        // If there was an encoding shelf or if the field is a wildcard, just add to wildcard shelf
         return {
           ...shelf,
           anyEncodings: [
@@ -59,6 +49,17 @@ export function shelfSpecReducer(shelf: Readonly<ShelfUnitSpec>, action: Action,
               ...fieldDef
             }
           ]
+        };
+      } else {
+        // Otherwise, query for the best encoding if there is no wildcard channel
+        const query = autoAddFieldQuery(shelf, fieldDef);
+        const rec = recommend(query, schema);
+        const topSpecQuery = rec.result.getTopSpecQueryModel().specQuery;
+
+        return {
+          ...fromSpecQuery(topSpecQuery),
+          // retain auto-mark if mark is previously auto
+          ...(isWildcard(shelf.mark) ? {mark: shelf.mark} : {})
         };
       }
     }
