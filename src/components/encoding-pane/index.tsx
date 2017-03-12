@@ -5,6 +5,7 @@ import {Channel} from 'vega-lite/build/src/channel';
 
 import * as styles from './encoding-pane.scss';
 
+import {SHORT_WILDCARD} from 'compassql/build/src/wildcard';
 import {ActionHandler} from '../../actions/index';
 import {createDispatchHandler} from '../../actions/redux-action';
 import {SHELF_CLEAR, ShelfAction} from '../../actions/shelf';
@@ -24,9 +25,13 @@ class EncodingPanelBase extends React.PureComponent<EncodingPanelProps, {}> {
     this.onClear = this.onClear.bind(this);
   }
   public render() {
+    const {anyEncodings} = this.props.shelf;
+
     const positionShelves = ['x', 'y'].map(this.encodingShelf, this);
     const facetShelves = ['row', 'column'].map(this.encodingShelf, this);
     const nonPositionShelves = ['size', 'color', 'shape', 'detail', 'text'].map(this.encodingShelf, this);
+    const wildcardShelves = [...anyEncodings.map((_, i) => i), anyEncodings.length + 1]
+                                            .map(this.wildcardShelf, this);
 
     return (
       <div className="pane" styleName="encoding-pane">
@@ -57,6 +62,11 @@ class EncodingPanelBase extends React.PureComponent<EncodingPanelProps, {}> {
           {facetShelves}
         </div>
 
+        <div styleName="shelf-group">
+          <h3>Wildcard Shelves</h3>
+          {wildcardShelves}
+        </div>
+
       </div>
     );
   }
@@ -82,6 +92,29 @@ class EncodingPanelBase extends React.PureComponent<EncodingPanelProps, {}> {
       />
     );
   }
+
+  private wildcardShelf(index: number) {
+    const {anyEncodings} = this.props.shelf;
+    const {handleAction} = this.props;
+
+    const id = {
+      channel: SHORT_WILDCARD,
+      index
+    };
+
+    // HACK: add alias to suppress compile error for: https://github.com/Microsoft/TypeScript/issues/13526
+    const EShelf = EncodingShelf as any;
+
+    return (
+      <EShelf
+        key={index}
+        id={id}
+        fieldDef={anyEncodings[index]}
+        handleAction={handleAction}
+      />
+    );
+  }
+
   private onClear() {
     this.props.handleAction({type: SHELF_CLEAR});
   }

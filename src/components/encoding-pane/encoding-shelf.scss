@@ -15,10 +15,10 @@ $text-color: #212121;
   height: 22px;
 }
 
-// TODO: support wildcard
-//   &.any {
-//     background-color: hsla(185,80%,29%,0.4);
-//   }
+.wildcard-shelf {
+  @extend .encoding-shelf;
+  background-color: hsla(185,80%,29%,0.4);
+}
 
 .shelf-label {
   user-select: none;

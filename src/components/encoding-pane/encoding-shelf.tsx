@@ -51,10 +51,12 @@ class EncodingShelfBase extends React.PureComponent<EncodingShelfProps, Encoding
 
   public render() {
     const {id, connectDropTarget, fieldDef} = this.props;
-    const channelName = isWildcard(id.channel) ? 'any' : id.channel;
+
+    const isWildcardShelf = isWildcard(id.channel);
+    const channelName = isWildcardShelf ? 'any' : id.channel;
 
     return connectDropTarget(
-      <div styleName="encoding-shelf">
+      <div styleName={isWildcardShelf ? 'wildcard-shelf' : 'encoding-shelf'}>
         <div styleName="shelf-label">{channelName}</div>
         {fieldDef ? this.field() : this.fieldPlaceholder()}
       </div>
