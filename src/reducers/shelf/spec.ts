@@ -161,16 +161,26 @@ function removeEncoding(shelf: Readonly<ShelfUnitSpec>, shelfId: ShelfId):
     const index = shelfId.index;
     const {array: anyEncodings, item} = remove(shelf.anyEncodings, index);
 
-    // Remove channel from the removed EncodingQuery.
-    const {channel: _, ...fieldDef} = item;
+    if (item) {
+      // Remove channel from the removed EncodingQuery if the removed shelf is not empty.
+      const {channel: _, ...fieldDef} = item;
 
-    return {
-      fieldDef,
-      shelf: {
-        ...shelf,
-        anyEncodings
-      }
-    };
+      return {
+        fieldDef,
+        shelf: {
+          ...shelf,
+          anyEncodings
+        }
+      };
+    } else {
+      return {
+        fieldDef: undefined,
+        shelf: {
+          ...shelf,
+          anyEncodings
+        }
+      };
+    }
   } else {
     const {[shelfId.channel]: fieldDef, ...encoding} = shelf.encoding;
     return {

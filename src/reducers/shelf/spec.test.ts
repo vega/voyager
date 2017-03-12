@@ -237,6 +237,32 @@ describe('reducers/shelf/spec', () => {
         ]
       });
     });
+
+    it('should correctly move field from non-wildcard channel to and empty wildcard channel', () => {
+      const shelf = shelfSpecReducer(
+        {
+          ...DEFAULT_SHELF_UNIT_SPEC,
+          encoding: {
+            x: {field: 'a', type: 'quantitative'}
+          }
+        },
+        {
+          type: SHELF_FIELD_MOVE,
+          payload: {
+            from: {channel: 'x'},
+            to: {channel: SHORT_WILDCARD, index: 0}
+          }
+        },
+        schema
+      );
+
+      expect(shelf).toEqual({
+        ...DEFAULT_SHELF_UNIT_SPEC,
+        anyEncodings: [
+          {channel: SHORT_WILDCARD, field: 'a', type: 'quantitative'}
+        ]
+      });
+    });
   });
 
   describe(SHELF_FUNCTION_CHANGE, () => {
