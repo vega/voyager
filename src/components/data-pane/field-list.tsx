@@ -1,11 +1,14 @@
 import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
+import {connect} from 'react-redux';
 import * as styles from './field-list.scss';
 
-import {ActionHandler} from '../../actions/redux-action';
+import {ActionHandler, createDispatchHandler} from '../../actions/redux-action';
 import {SHELF_FIELD_AUTO_ADD, ShelfFieldAutoAdd} from '../../actions/shelf';
 import {FieldParentType} from '../../constants';
+import {State} from '../../models/index';
 import {ShelfFieldDef} from '../../models/shelf/encoding';
+import {getPresetWildcardFields, getSchemaFieldDefs} from '../../selectors';
 import {Field} from '../field';
 
 
@@ -58,4 +61,22 @@ class FieldListBase extends React.PureComponent<FieldListProps, {}> {
   }
 }
 
-export const FieldList = CSSModules(FieldListBase, styles);
+const FieldListRenderer = CSSModules(FieldListBase, styles);
+
+export const FieldList = connect(
+  (state: State) => {
+    return {
+      fieldDefs: getSchemaFieldDefs(state)
+    };
+  },
+  createDispatchHandler<ShelfFieldAutoAdd>()
+)(FieldListRenderer);
+
+export const PresetWildcardFieldList = connect(
+  (state: State) => {
+    return {
+      fieldDefs: getPresetWildcardFields(state)
+    };
+  },
+  createDispatchHandler<ShelfFieldAutoAdd>()
+)(FieldListRenderer);
