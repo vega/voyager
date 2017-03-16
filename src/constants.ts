@@ -1,5 +1,7 @@
 export const HISTORY_LIMIT = 20;
 
+export const PLOT_HOVER_MIN_DURATION = 500;
+
 /**
  * Types of draggable items (for react-dnd).
  */

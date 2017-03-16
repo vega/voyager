@@ -14,7 +14,7 @@ class PlotListBase extends React.PureComponent<PlotListProps, any> {
     const {specs} = this.props;
     const plots = specs.map(spec => (
       <div styleName="plot-list-item" key={JSON.stringify(spec)}>
-        <Plot spec={spec} fit={true}/>
+        <Plot spec={spec} fit={true} scrollOnHover={true}/>
       </div>
     ));
 

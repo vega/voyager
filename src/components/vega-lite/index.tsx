@@ -35,7 +35,9 @@ export class VegaLite extends React.PureComponent<VegaLiteProps, any> {
   }
 
   protected componentWillReceiveProps(nextProps: VegaLiteProps) {
-    this.renderVega(nextProps.spec);
+    if (this.props.spec !== nextProps.spec) {
+      this.renderVega(nextProps.spec);
+    }
     // visual.update(nextProps.vegaSpec);
   }
 }
