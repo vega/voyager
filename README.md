@@ -5,7 +5,7 @@ Voyager 2 is a data exploration tool that blends manual and automated chart spec
 For more information about Voyager 2's design, please read our [CHI paper](idl.cs.washington.edu/papers/voyager2) and other related papers ([1](http://idl.cs.washington.edu/papers/compassql/), [2](http://idl.cs.washington.edu/papers/voyager/), [3](http://idl.cs.washington.edu/papers/vega-lite/)).
 
 This repository now hosts the ongoing migration of Voyager 2 to a React/Redux application,
-which is not ready for usage yet.
+which is not ready for usage yet.  Please see [.github/CONTRIBUTING.md](.github/CONTRIBUTING.md) for contribution guideline and development setup.
 
 To access former versions of Voyager, please access
 - https://github.com/vega/voyager2 for former Voyager 2 prototype built in AngularJS
