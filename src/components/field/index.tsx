@@ -1,3 +1,4 @@
+import {isWildcard} from 'compassql/build/src/wildcard';
 import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
 import {DragElementWrapper, DragSource, DragSourceCollector, DragSourceSpec} from 'react-dnd';
@@ -53,13 +54,15 @@ class FieldBase extends React.PureComponent<FieldProps, {}> {
 
   public render(): JSX.Element {
     const {caretHide, caretOnClick, connectDragSource, fieldDef, isPill} = this.props;
-    const {field} = fieldDef;
+    const {field, title} = fieldDef;
+
+    const isWildcardField = isWildcard(field);
 
     const component = (
-      <span styleName={isPill ? 'field-pill' : 'field'}>
+      <span styleName={isPill ? isWildcardField ? 'wildcard-field-pill' : 'field-pill' : 'field'}>
         {caretTypeSpan({caretHide, caretOnClick, type: fieldDef.type})}
         <span styleName="text">
-          {field}
+          {title || field}
         </span>
         {this.addSpan()}
         {this.removeSpan()}

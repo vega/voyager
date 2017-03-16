@@ -42,6 +42,8 @@ export interface ShelfFieldDef {
   bin?: boolean | SHORT_WILDCARD;
 
   type?: Type;
+
+  title?: string;
 }
 
 export type ShelfFunction = AggregateOp | 'bin' | TimeUnit | undefined;
