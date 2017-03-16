@@ -1,30 +1,38 @@
+import {SpecQueryModelGroup} from 'compassql/build/src/model';
 import {Query} from 'compassql/build/src/query/query';
 import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
 import {connect} from 'react-redux';
-import {FacetedUnitSpec} from 'vega-lite/build/src/spec';
+import {Data} from 'vega-lite/build/src/data';
 
 import {State} from '../../models';
 import {hasWildcards} from '../../models/shelf/spec';
-import {getMainSpec, getQuery} from '../../selectors';
+import {getData, getMainResult, getQuery} from '../../selectors';
 import {Plot} from '../plot';
 import * as styles from './view-pane.scss';
 
 export interface ViewPaneProps {
+  data: Data;
   query: Query;
-  mainSpec: FacetedUnitSpec;
+  mainResult: SpecQueryModelGroup;
 }
 
 class ViewPaneBase extends React.PureComponent<ViewPaneProps, {}> {
   public render() {
-    const {query} = this.props;
+    const {data, query, mainResult} = this.props;
     const isSpecific = !hasWildcards(query.spec).hasAnyWildcard;
 
     if (isSpecific) {
+      const spec = {
+        // FIXME: include data in the main spec?
+        data: data,
+        ...mainResult.getTopSpecQueryModel().toSpec()
+      };
+
       return (
         <div className="pane" styleName="view-pane-specific">
           <h2>Specified View</h2>
-          <Plot spec={this.props.mainSpec}/>
+          <Plot spec={spec}/>
 
           {/*{JSON.stringify(this.props.query)}
 
@@ -44,8 +52,11 @@ class ViewPaneBase extends React.PureComponent<ViewPaneProps, {}> {
 export const ViewPane = connect(
   (state: State) => {
     return {
+      data: getData(state),
       query: getQuery(state),
-      mainSpec: getMainSpec(state)
+
+      // FIXME: refactor the flow for this part (we should support asynchrounous request for this too)
+      mainResult: getMainResult(state)
     };
   }
 )(CSSModules(ViewPaneBase, styles));

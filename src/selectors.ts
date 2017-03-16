@@ -1,15 +1,13 @@
 import {Schema} from 'compassql/build/src/schema';
 
-import {FacetedUnitSpec} from 'vega-lite/build/src/spec';
-
+import {SpecQueryModelGroup} from 'compassql/build/src/model';
 import {Query} from 'compassql/build/src/query/query';
 import {recommend} from 'compassql/build/src/recommend';
 import {createSelector} from 'reselect';
-import {Data} from 'vega-lite/build/src/data';
 import {State} from './models';
 import {Shelf, toQuery} from './models/shelf';
 
-const getData = (state: State) => state.present.dataset.data;
+export const getData = (state: State) => state.present.dataset.data;
 const getShelf = (state: State) => state.present.shelf;
 const getSchema = (state: State) => state.present.dataset.schema;
 
@@ -20,13 +18,9 @@ export const getQuery = createSelector(
   }
 );
 
-export const getMainSpec = createSelector(
+export const getMainResult = createSelector(
   getQuery, getSchema, getData,
-  (query: Query, schema: Schema, data: Data): FacetedUnitSpec => {
-    const rec = recommend(query, schema);
-    return {
-      data,
-      ...rec.result.getTopSpecQueryModel().toSpec()
-    };
+  (query: Query, schema: Schema): SpecQueryModelGroup => {
+    return recommend(query, schema).result;
   }
 );
