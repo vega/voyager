@@ -1,9 +1,9 @@
-import {isValueQuery} from 'compassql/build/src/query/encoding';
+
 import {Query} from 'compassql/build/src/query/query';
-import {isWildcard, SHORT_WILDCARD} from 'compassql/build/src/wildcard';
+import {SHORT_WILDCARD} from 'compassql/build/src/wildcard';
 
 import {ShelfFieldDef} from './encoding';
-import {DEFAULT_SHELF_UNIT_SPEC, ShelfUnitSpec, toSpecQuery} from './spec';
+import {DEFAULT_SHELF_UNIT_SPEC, hasWildcards, ShelfUnitSpec, toSpecQuery} from './spec';
 
 export * from './encoding';
 export * from './spec';
@@ -22,30 +22,7 @@ export const DEFAULT_CHOOSE_BY = ['aggregationQuality', 'effectiveness'];
 
 export function toQuery(shelf: Shelf): Query {
   const spec = toSpecQuery(shelf.spec);
-
-  let hasWildcardField = false, hasWildcardFn = false, hasWildcardChannel = false;
-  for (const encQ of spec.encodings) {
-    if (isValueQuery(encQ)) {
-      continue;
-    }
-    if (encQ.autoCount === false) {
-      continue;
-    }
-
-    if (isWildcard(encQ.field)) {
-      hasWildcardField = true;
-    }
-
-    if ((encQ.aggregate) ||
-        (encQ.bin) ||
-        (encQ.timeUnit)) {
-      hasWildcardFn = true;
-    }
-
-    if (isWildcard(encQ.channel)) {
-      hasWildcardChannel = true;
-    }
-  }
+  const {hasWildcardField, hasWildcardFn, hasWildcardChannel} = hasWildcards(spec);
 
   // TODO: support custom groupBy
   const groupBy = hasWildcardFn ? 'fieldTransform' :

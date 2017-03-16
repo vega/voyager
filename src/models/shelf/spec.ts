@@ -1,6 +1,6 @@
-import {EncodingQuery} from 'compassql/build/src/query/encoding';
+import {EncodingQuery, isValueQuery} from 'compassql/build/src/query/encoding';
 import {SpecQuery} from 'compassql/build/src/query/spec';
-import {isWildcardDef, SHORT_WILDCARD} from 'compassql/build/src/wildcard';
+import {isWildcard, isWildcardDef, SHORT_WILDCARD} from 'compassql/build/src/wildcard';
 import {Config} from 'vega-lite/build/src/config';
 import {fromEncodingQueries, ShelfAnyEncodingDef, ShelfMark, SpecificEncoding} from './encoding';
 
@@ -50,7 +50,46 @@ export function fromSpecQuery(spec: SpecQuery): ShelfUnitSpec {
     ...fromEncodingQueries(encodings),
     config
   };
+}
 
+export interface HasWildcard {
+  hasAnyWildcard: boolean;
+  hasWildcardField: boolean;
+  hasWildcardFn: boolean;
+  hasWildcardChannel: boolean;
+}
+
+// FIXME: remove this method and rely on CompassQL's method.
+export function hasWildcards(spec: SpecQuery): HasWildcard {
+  let hasWildcardField = false, hasWildcardFn = false, hasWildcardChannel = false;
+  for (const encQ of spec.encodings) {
+    if (isValueQuery(encQ)) {
+      continue;
+    }
+    if (encQ.autoCount === false) {
+      continue;
+    }
+
+    if (isWildcard(encQ.field)) {
+      hasWildcardField = true;
+    }
+
+    if ((encQ.aggregate) ||
+        (encQ.bin) ||
+        (encQ.timeUnit)) {
+      hasWildcardFn = true;
+    }
+
+    if (isWildcard(encQ.channel)) {
+      hasWildcardChannel = true;
+    }
+  }
+  return {
+    hasAnyWildcard: hasWildcardChannel || hasWildcardField || hasWildcardFn,
+    hasWildcardField,
+    hasWildcardFn,
+    hasWildcardChannel
+  };
 }
 
 function specificEncodingsToEncodingQueries(encoding: SpecificEncoding): EncodingQuery[] {
