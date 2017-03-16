@@ -9,12 +9,12 @@ import {getMainSpec, getQuery} from '../../selectors';
 import {Plot} from '../plot';
 import * as styles from './view-pane.scss';
 
-export interface ViewPanelProps {
+export interface ViewPaneProps {
   query: Query;
   mainSpec: FacetedUnitSpec;
 }
 
-class ViewPanelBase extends React.PureComponent<ViewPanelProps, {}> {
+class ViewPaneBase extends React.PureComponent<ViewPaneProps, {}> {
   public render() {
     return (
       <div className="pane" styleName="view-pane">
@@ -35,4 +35,4 @@ export const ViewPane = connect(
       mainSpec: getMainSpec(state)
     };
   }
-)(CSSModules(ViewPanelBase, styles));
+)(CSSModules(ViewPaneBase, styles));
