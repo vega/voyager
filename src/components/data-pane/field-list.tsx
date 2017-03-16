@@ -5,13 +5,12 @@ import * as styles from './field-list.scss';
 import {ActionHandler} from '../../actions/redux-action';
 import {SHELF_FIELD_AUTO_ADD, ShelfFieldAutoAdd} from '../../actions/shelf';
 import {FieldParentType} from '../../constants';
-import {Schema} from '../../models';
 import {ShelfFieldDef} from '../../models/shelf/encoding';
 import {Field} from '../field';
 
 
 export interface FieldListProps extends ActionHandler<ShelfFieldAutoAdd> {
-  schema: Schema;
+  fieldDefs: ShelfFieldDef[];
 }
 
 class FieldListBase extends React.PureComponent<FieldListProps, {}> {
@@ -24,16 +23,15 @@ class FieldListBase extends React.PureComponent<FieldListProps, {}> {
   }
 
   public render() {
-    const {schema} = this.props;
+    const {fieldDefs} = this.props;
 
-    const fieldItems = schema.fieldSchemas.map(fieldSchema => {
-      const {field, type} = fieldSchema;
-      const fieldDef = {field, type};
+    const fieldItems = fieldDefs.map(fieldDef => {
+      const {field} = fieldDef;
 
       // HACK: add alias to suppress compile error for: https://github.com/Microsoft/TypeScript/issues/13526
       const F = Field as any;
       return (
-        <div key={field} styleName="field-list-item">
+        <div key={JSON.stringify(field)} styleName="field-list-item">
           <F
             fieldDef={fieldDef}
             isPill={true}

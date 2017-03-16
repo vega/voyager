@@ -19,6 +19,11 @@ export class DataPanelBase extends React.PureComponent<DataPanelProps, {}> {
     const {handleAction} = this.props;
     const {name, schema} = this.props.data;
 
+    const fieldDefs = schema.fieldSchemas.map(fieldSchema => {
+      const {field, type} = fieldSchema;
+      return {field, type};
+    });
+
     return (
       <div className="pane" styleName="data-pane">
         <h2>Data</h2>
@@ -26,7 +31,7 @@ export class DataPanelBase extends React.PureComponent<DataPanelProps, {}> {
         <div>Name: {name}</div>
 
         <h3>Fields</h3>
-        <FieldList schema={schema} handleAction={handleAction}/>
+        <FieldList fieldDefs={fieldDefs} handleAction={handleAction}/>
       </div>
     );
   }
