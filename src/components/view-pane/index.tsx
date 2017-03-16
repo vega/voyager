@@ -1,4 +1,4 @@
-import {SpecQueryModelGroup} from 'compassql/build/src/model';
+import {SpecQueryModel, SpecQueryModelGroup} from 'compassql/build/src/model';
 import {Query} from 'compassql/build/src/query/query';
 import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
@@ -9,6 +9,7 @@ import {State} from '../../models';
 import {hasWildcards} from '../../models/shelf/spec';
 import {getData, getMainResult, getQuery} from '../../selectors';
 import {Plot} from '../plot';
+import {PlotList} from '../plot-list';
 import * as styles from './view-pane.scss';
 
 export interface ViewPaneProps {
@@ -40,13 +41,25 @@ class ViewPaneBase extends React.PureComponent<ViewPaneProps, {}> {
         </div>
       );
     } else {
+      const specs = mainResult.items.map(item => {
+        // FIXME if (item instanceof SpecQueryModelGroup) {
+        if ('getTopSpecQueryModel' in item) {
+          const modelGroup = item as SpecQueryModelGroup;
+          // FIXME: include data in the main spec?
+          return {data, ...modelGroup.getTopSpecQueryModel().toSpec()};
+        }
+        // FIXME: include data in the main spec?
+        const model = item as SpecQueryModel;
+        return {data, ...model.toSpec()};
+      });
+
       return (
         <div className="pane" styleName="view-pane-gallery">
           <h2>Specified Views</h2>
+          <PlotList specs={specs}/>
         </div>
       );
     }
-
   }
 }
 export const ViewPane = connect(

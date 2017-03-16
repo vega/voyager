@@ -7,15 +7,16 @@ import * as styles from './plot.scss';
 import {VegaLite} from '../vega-lite/index';
 
 export interface PlotProps {
+  fit?: boolean;
   spec: ExtendedSpec;
 }
 
 class PlotBase extends React.PureComponent<PlotProps, any> {
   public render() {
-    const {spec} = this.props;
+    const {fit, spec} = this.props;
 
     return (
-      <div styleName="plot">
+      <div styleName={fit ? 'plot-fit' : 'plot'}>
         <VegaLite spec={spec}/>
       </div>
     );

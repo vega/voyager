@@ -1,0 +1,11 @@
+.plot-list {
+  display: flex;
+  align-items: stretch;
+  align-content: flex-start;
+  flex-wrap: wrap;
+}
+
+.plot-list-item {
+  margin: 3px 3px 0 0;
+  flex-grow: 1;
+}

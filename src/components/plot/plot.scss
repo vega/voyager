@@ -2,3 +2,9 @@
   background-color: white;
   text-align: center;
 }
+
+.plot-fit {
+  @extend .plot;
+  width: 100%;
+  height: 100%;
+}
