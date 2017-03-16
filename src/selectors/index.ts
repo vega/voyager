@@ -1,14 +1,11 @@
-import {Schema} from 'compassql/build/src/schema';
-
 import {SpecQueryModelGroup} from 'compassql/build/src/model';
 import {Query} from 'compassql/build/src/query/query';
 import {recommend} from 'compassql/build/src/recommend';
+import {Schema} from 'compassql/build/src/schema';
 import {SHORT_WILDCARD} from 'compassql/build/src/wildcard';
-
 import {createSelector} from 'reselect';
-import {State} from './models';
-import {Shelf, toQuery} from './models/shelf';
-import {ShelfFieldDef} from './models/shelf/encoding';
+
+import {Shelf, ShelfFieldDef, State, toQuery} from '../models';
 
 export const getData = (state: State) => state.present.dataset.data;
 const getShelf = (state: State) => state.present.shelf;
