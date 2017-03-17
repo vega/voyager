@@ -13,11 +13,9 @@ import {VegaLite} from '../vega-lite/index';
 
 export interface PlotProps extends ActionHandler<ShelfSpecLoad> {
   fieldInfos?: PlotFieldInfo[];
-
-  fit?: boolean;
+  isPlotListItem?: boolean;
   scrollOnHover?: boolean;
   showSpecifyButton?: boolean;
-
   spec: FacetedUnitSpec;
 }
 
@@ -39,14 +37,13 @@ class PlotBase extends React.PureComponent<PlotProps, any> {
     this.onSpecify = this.onSpecify.bind(this);
   }
   public render() {
-    const {fit, scrollOnHover, showSpecifyButton, spec} = this.props;
+    const {isPlotListItem, scrollOnHover, showSpecifyButton, spec} = this.props;
 
     return (
       <div
         onMouseEnter={this.onMouseEnter}
         onMouseLeave={this.onMouseLeave}
-        styleName={scrollOnHover && this.state.hovered ? 'plot-scroll' : 'plot'}
-        className={`persist-scroll ${fit ? 'fit' : ''}`}
+        styleName={isPlotListItem ? 'plot-list-item-group' : 'plot-group'}
       >
         <div styleName="plot-info">
           <div styleName="plot-command">
@@ -54,7 +51,12 @@ class PlotBase extends React.PureComponent<PlotProps, any> {
           </div>
           {this.fields()}
         </div>
-        <VegaLite spec={spec}/>
+        <div
+          styleName={scrollOnHover && this.state.hovered ? 'plot-scroll' : 'plot'}
+          className="persist-scroll"
+        >
+          <VegaLite spec={spec}/>
+        </div>
       </div>
     );
   }

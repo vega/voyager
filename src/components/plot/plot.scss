@@ -1,17 +1,25 @@
-.plot-base {
+.plot-group {
   background-color: white;
+  overflow: hidden;
   text-align: center;
   padding: 8px;
 }
 
+.plot-list-item-group {
+  @extend .plot-group;
+  margin: 4px 4px 0 0;
+  flex-grow: 1;
+  max-height: 290px;
+  display: flex;
+  flex-direction: column;
+}
+
 .plot {
-  @extend .plot-base;
   overflow: hidden;
   padding-right: 11px;
 }
 
 .plot-scroll {
-  @extend .plot-base;
   overflow: auto;
   padding-right: 0px;
 }

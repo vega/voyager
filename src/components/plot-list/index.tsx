@@ -17,16 +17,15 @@ class PlotListBase extends React.PureComponent<PlotListProps, any> {
     const plotListItems = plots.map(plot => {
       const {spec, fieldInfos} = plot;
       return (
-        <div styleName="plot-list-item" key={JSON.stringify(spec)}>
-          <Plot
-            fieldInfos={fieldInfos}
-            fit={true}
-            handleAction={handleAction}
-            scrollOnHover={true}
-            showSpecifyButton={true}
-            spec={spec}
-          />
-        </div>
+        <Plot
+          key={JSON.stringify(spec)}
+          fieldInfos={fieldInfos}
+          handleAction={handleAction}
+          isPlotListItem={true}
+          scrollOnHover={true}
+          showSpecifyButton={true}
+          spec={spec}
+        />
       );
     });
 
