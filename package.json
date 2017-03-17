@@ -67,7 +67,7 @@
     "autoprefixer": "^6.7.6",
     "codecov": "^1.0.1",
     "css-loader": "^0.26.1",
-    "extract-text-webpack-plugin": "beta",
+    "extract-text-webpack-plugin": "^2.1.0",
     "file-loader": "^0.10.1",
     "jest": "~18",
     "node-sass": "^4.5.0",
