@@ -66,7 +66,6 @@ class EncodingPanelBase extends React.PureComponent<EncodingPanelProps, {}> {
           <h3>Wildcard Shelves</h3>
           {wildcardShelves}
         </div>
-
       </div>
     );
   }
@@ -80,11 +79,8 @@ class EncodingPanelBase extends React.PureComponent<EncodingPanelProps, {}> {
     const {encoding} = this.props.shelf;
     const {handleAction} = this.props;
 
-    // HACK: add alias to suppress compile error for: https://github.com/Microsoft/TypeScript/issues/13526
-    const EShelf = EncodingShelf as any;
-
     return (
-      <EShelf
+      <EncodingShelf
         key={channel}
         id={{channel}}
         fieldDef={encoding[channel]}
@@ -102,11 +98,8 @@ class EncodingPanelBase extends React.PureComponent<EncodingPanelProps, {}> {
       index
     };
 
-    // HACK: add alias to suppress compile error for: https://github.com/Microsoft/TypeScript/issues/13526
-    const EShelf = EncodingShelf as any;
-
     return (
-      <EShelf
+      <EncodingShelf
         key={index}
         id={id}
         fieldDef={anyEncodings[index]}

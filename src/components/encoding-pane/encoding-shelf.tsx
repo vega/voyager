@@ -26,11 +26,13 @@ export interface EncodingShelfDropTargetProps {
   item: Object;
 }
 
-export interface EncodingShelfProps extends EncodingShelfDropTargetProps, ActionHandler<ShelfEncodingAction> {
+export interface EncodingShelfPropsBase extends ActionHandler<ShelfEncodingAction> {
   id: ShelfId;
 
   fieldDef: ShelfFieldDef;
 }
+
+interface EncodingShelfProps extends EncodingShelfPropsBase, EncodingShelfDropTargetProps {};
 
 export interface EncodingShelfState {
   functionPopupOpen: boolean;
@@ -169,6 +171,8 @@ const collect: DropTargetCollector = (connect, monitor): EncodingShelfDropTarget
   };
 };
 
-export const EncodingShelf = DropTarget(DraggableType.FIELD, encodingShelfTarget, collect)(
-  CSSModules(EncodingShelfBase, styles)
-);
+// HACK: do type casting to suppress compile error for: https://github.com/Microsoft/TypeScript/issues/13526
+export const EncodingShelf: () => React.PureComponent<EncodingShelfPropsBase, EncodingShelfState> =
+  DropTarget(DraggableType.FIELD, encodingShelfTarget, collect)(
+    CSSModules(EncodingShelfBase, styles)
+  ) as any;
