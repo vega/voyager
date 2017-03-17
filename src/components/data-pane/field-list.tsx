@@ -39,6 +39,7 @@ class FieldListBase extends React.PureComponent<FieldListProps, {}> {
             draggable={true}
             parentId={{type: FieldParentType.FIELD_LIST}}
 
+            onDoubleClick={this.onAdd}
             onAdd={this.onAdd}
           />
         </div>

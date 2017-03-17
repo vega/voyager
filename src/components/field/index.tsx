@@ -40,6 +40,8 @@ export interface FieldProps extends FieldDragSourceProps {
    */
   onAdd?: (fieldDef: ShelfFieldDef) => void;
 
+  onDoubleClick?: (fieldDef: ShelfFieldDef) => void;
+
   /** Remove field event handler.  If not provided, remove button will disappear. */
   onRemove?: () => void;
 };
@@ -50,6 +52,7 @@ class FieldBase extends React.PureComponent<FieldProps, {}> {
 
     // Bind - https://facebook.github.io/react/docs/handling-events.html
     this.onAdd = this.onAdd.bind(this);
+    this.onDoubleClick = this.onDoubleClick.bind(this);
   }
 
   public render(): JSX.Element {
@@ -59,7 +62,10 @@ class FieldBase extends React.PureComponent<FieldProps, {}> {
     const isWildcardField = isWildcard(field);
 
     const component = (
-      <span styleName={isPill ? isWildcardField ? 'wildcard-field-pill' : 'field-pill' : 'field'}>
+      <span
+        styleName={isPill ? isWildcardField ? 'wildcard-field-pill' : 'field-pill' : 'field'}
+        onDoubleClick={this.onDoubleClick}
+      >
         {caretTypeSpan({caretHide, caretOnClick, type: fieldDef.type})}
         <span styleName="text">
           {title || field}
@@ -86,6 +92,12 @@ class FieldBase extends React.PureComponent<FieldProps, {}> {
 
   private onAdd() {
     this.props.onAdd(this.props.fieldDef);
+  }
+
+  private onDoubleClick() {
+    if (this.props.onDoubleClick) {
+      this.props.onDoubleClick(this.props.fieldDef);
+    }
   }
 };
 
