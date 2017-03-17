@@ -23,7 +23,7 @@ export interface PlotState {
 
 class PlotBase extends React.PureComponent<PlotProps, any> {
 
-  private hoverIntervalId: number;
+  private hoverTimeoutId: number;
 
   constructor(props: PlotProps) {
     super(props);
@@ -50,6 +50,10 @@ class PlotBase extends React.PureComponent<PlotProps, any> {
     );
   }
 
+  protected componentWillUnmount() {
+    this.clearHoverTimeout();
+  }
+
   private fields() {
     const {fieldInfos} = this.props;
     if (fieldInfos) {
@@ -70,8 +74,15 @@ class PlotBase extends React.PureComponent<PlotProps, any> {
     return undefined;
   }
 
+  private clearHoverTimeout() {
+    if (this.hoverTimeoutId) {
+      clearTimeout(this.hoverTimeoutId);
+      this.hoverTimeoutId = undefined;
+    }
+  }
+
   private onMouseEnter() {
-    this.hoverIntervalId = setInterval(
+    this.hoverTimeoutId = setTimeout(
       () => {
         // TODO log action
         this.setState({hovered: true});
@@ -81,8 +92,7 @@ class PlotBase extends React.PureComponent<PlotProps, any> {
   }
 
   private onMouseLeave() {
-    clearInterval(this.hoverIntervalId);
-    this.hoverIntervalId = undefined;
+    this.clearHoverTimeout();
     if (this.state.hovered) {
       this.setState({hovered: false});
     }
