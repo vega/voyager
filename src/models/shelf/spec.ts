@@ -38,7 +38,7 @@ export function toSpecQuery(spec: ShelfUnitSpec): SpecQuery {
   };
 }
 
-export function fromSpecQuery(spec: SpecQuery): ShelfUnitSpec {
+export function fromSpecQuery(spec: SpecQuery, oldConfig?: Config): ShelfUnitSpec {
   const {mark, encodings, config} = spec;
 
   if (isWildcardDef(mark)) {
@@ -48,7 +48,7 @@ export function fromSpecQuery(spec: SpecQuery): ShelfUnitSpec {
   return {
     mark,
     ...fromEncodingQueries(encodings),
-    config
+    config: config || oldConfig
   };
 }
 

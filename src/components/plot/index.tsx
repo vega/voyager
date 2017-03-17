@@ -1,20 +1,24 @@
 import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
-import {ExtendedSpec} from 'vega-lite/build/src/spec';
+import {FacetedUnitSpec} from 'vega-lite/build/src/spec';
 
 import * as styles from './plot.scss';
 
+import {ActionHandler} from '../../actions/redux-action';
+import {SHELF_SPEC_LOAD, ShelfSpecLoad} from '../../actions/shelf';
 import {PLOT_HOVER_MIN_DURATION} from '../../constants';
 import {PlotFieldInfo} from '../../models/plot';
 import {Field} from '../field/index';
 import {VegaLite} from '../vega-lite/index';
 
-export interface PlotProps {
+export interface PlotProps extends ActionHandler<ShelfSpecLoad> {
   fieldInfos?: PlotFieldInfo[];
 
   fit?: boolean;
   scrollOnHover?: boolean;
-  spec: ExtendedSpec;
+  showSpecifyButton?: boolean;
+
+  spec: FacetedUnitSpec;
 }
 
 export interface PlotState {
@@ -29,11 +33,13 @@ class PlotBase extends React.PureComponent<PlotProps, any> {
     super(props);
     this.state = {hovered: false};
 
+    // Bind - https://facebook.github.io/react/docs/handling-events.html
     this.onMouseEnter = this.onMouseEnter.bind(this);
     this.onMouseLeave = this.onMouseLeave.bind(this);
+    this.onSpecify = this.onSpecify.bind(this);
   }
   public render() {
-    const {fit, scrollOnHover, spec} = this.props;
+    const {fit, scrollOnHover, showSpecifyButton, spec} = this.props;
 
     return (
       <div
@@ -43,6 +49,9 @@ class PlotBase extends React.PureComponent<PlotProps, any> {
         className={`persist-scroll ${fit ? 'fit' : ''}`}
       >
         <div styleName="plot-info">
+          <div styleName="plot-command">
+            {showSpecifyButton && this.specifyButton()}
+          </div>
           {this.fields()}
         </div>
         <VegaLite spec={spec}/>
@@ -96,6 +105,22 @@ class PlotBase extends React.PureComponent<PlotProps, any> {
     if (this.state.hovered) {
       this.setState({hovered: false});
     }
+  }
+
+  private onSpecify() {
+    const {handleAction, spec} = this.props;
+    handleAction({
+      type: SHELF_SPEC_LOAD,
+      payload: {spec}
+    });
+  }
+
+  private specifyButton() {
+    return <i
+      className="fa fa-server"
+      styleName="specify-button"
+      onClick={this.onSpecify}
+    />;
   }
 }
 

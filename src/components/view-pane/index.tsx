@@ -5,6 +5,8 @@ import * as CSSModules from 'react-css-modules';
 import {connect} from 'react-redux';
 import {Data} from 'vega-lite/build/src/data';
 
+import {ActionHandler, createDispatchHandler} from '../../actions/redux-action';
+import {ShelfSpecLoad} from '../../actions/shelf';
 import {State} from '../../models';
 import {plotObjects} from '../../models/plot';
 import {hasWildcards} from '../../models/shelf/spec';
@@ -13,7 +15,7 @@ import {Plot} from '../plot';
 import {PlotList} from '../plot-list';
 import * as styles from './view-pane.scss';
 
-export interface ViewPaneProps {
+export interface ViewPaneProps extends ActionHandler<ShelfSpecLoad> {
   data: Data;
   query: Query;
   mainResult: SpecQueryModelGroup;
@@ -21,7 +23,7 @@ export interface ViewPaneProps {
 
 class ViewPaneBase extends React.PureComponent<ViewPaneProps, {}> {
   public render() {
-    const {data, query, mainResult} = this.props;
+    const {data, handleAction, query, mainResult} = this.props;
     const isSpecific = !hasWildcards(query.spec).hasAnyWildcard;
 
     if (isSpecific) {
@@ -34,7 +36,7 @@ class ViewPaneBase extends React.PureComponent<ViewPaneProps, {}> {
       return (
         <div className="pane" styleName="view-pane-specific">
           <h2>Specified View</h2>
-          <Plot spec={spec}/>
+          <Plot handleAction={handleAction} spec={spec}/>
 
           {/*{JSON.stringify(this.props.query)}
 
@@ -47,7 +49,7 @@ class ViewPaneBase extends React.PureComponent<ViewPaneProps, {}> {
       return (
         <div className="pane" styleName="view-pane-gallery">
           <h2>Specified Views</h2>
-          <PlotList plots={plots}/>
+          <PlotList handleAction={handleAction} plots={plots}/>
         </div>
       );
     }
@@ -62,5 +64,6 @@ export const ViewPane = connect(
       // FIXME: refactor the flow for this part (we should support asynchrounous request for this too)
       mainResult: getMainResult(state)
     };
-  }
+  },
+  createDispatchHandler<ShelfSpecLoad>()
 )(CSSModules(ViewPaneBase, styles));

@@ -1,3 +1,4 @@
+import {fromSpec} from 'compassql/build/src/query/spec';
 import {recommend} from 'compassql/build/src/recommend';
 import {Schema} from 'compassql/build/src/schema';
 import {isWildcard, SHORT_WILDCARD} from 'compassql/build/src/wildcard';
@@ -5,7 +6,8 @@ import {isWildcard, SHORT_WILDCARD} from 'compassql/build/src/wildcard';
 import {Action} from '../../actions';
 import {
   SHELF_CLEAR, SHELF_FIELD_ADD, SHELF_FIELD_AUTO_ADD, SHELF_FIELD_MOVE,
-  SHELF_FIELD_REMOVE, SHELF_FUNCTION_CHANGE, SHELF_MARK_CHANGE_TYPE
+  SHELF_FIELD_REMOVE, SHELF_FUNCTION_CHANGE, SHELF_MARK_CHANGE_TYPE,
+  SHELF_SPEC_LOAD
 } from '../../actions/shelf';
 
 
@@ -57,7 +59,7 @@ export function shelfSpecReducer(shelf: Readonly<ShelfUnitSpec>, action: Action,
         const topSpecQuery = rec.result.getTopSpecQueryModel().specQuery;
 
         return {
-          ...fromSpecQuery(topSpecQuery),
+          ...fromSpecQuery(topSpecQuery, shelf.config),
           // retain auto-mark if mark is previously auto
           ...(isWildcard(shelf.mark) ? {mark: shelf.mark} : {})
         };
@@ -92,6 +94,16 @@ export function shelfSpecReducer(shelf: Readonly<ShelfUnitSpec>, action: Action,
         };
       });
     }
+
+    case SHELF_SPEC_LOAD:
+      const {spec} = action.payload;
+      const specQ = isWildcard(shelf.mark) ? {
+        ...fromSpec(spec),
+        mark: SHORT_WILDCARD
+      } : fromSpec(spec);
+
+      // Restore wildcard mark if the shelf previously has wildcard mark.
+      return fromSpecQuery(specQ, shelf.config);
   }
   return shelf;
 }

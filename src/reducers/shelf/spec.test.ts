@@ -12,6 +12,7 @@ const SHORT_WILDCARD = '?';
 // FIXME doing property import can break the test
 // import {SHORT_WILDCARD} from 'compassql/build/src/wildcard';
 import {Schema} from 'compassql/build/src/schema';
+import {SHELF_SPEC_LOAD} from '../../actions/shelf';
 
 const schema = new Schema([
 ]);
@@ -418,6 +419,70 @@ describe('reducers/shelf/spec', () => {
         ...DEFAULT_SHELF_UNIT_SPEC,
         encoding: {
           x: {field: 'a', type: 'quantitative'}
+        }
+      });
+    });
+  });
+
+  describe(SHELF_SPEC_LOAD, () => {
+    it('loads spec and retains wildcard mark if the shelf has wildcard mark', () => {
+      const shelf = shelfSpecReducer(
+        {
+          ...DEFAULT_SHELF_UNIT_SPEC,
+          mark: SHORT_WILDCARD
+        },
+        {
+          type: SHELF_SPEC_LOAD,
+          payload: {
+            spec: {
+              mark: 'bar',
+              encoding: {
+                x: {field: 'b', type: 'nominal'},
+                y: {aggregate: 'count', type: 'quantitative'}
+              }
+            }
+          }
+        },
+        schema
+      );
+
+      expect(shelf).toEqual({
+        ...DEFAULT_SHELF_UNIT_SPEC,
+        mark: SHORT_WILDCARD,
+        encoding: {
+          x: {field: 'b', type: 'nominal'},
+          y: {aggregate: 'count', type: 'quantitative'}
+        }
+      });
+    });
+
+    it('completely loads spec if the shelf has no wildcard mark', () => {
+      const shelf = shelfSpecReducer(
+        {
+          ...DEFAULT_SHELF_UNIT_SPEC,
+          mark: 'point'
+        },
+        {
+          type: SHELF_SPEC_LOAD,
+          payload: {
+            spec: {
+              mark: 'bar',
+              encoding: {
+                x: {field: 'b', type: 'nominal'},
+                y: {aggregate: 'count', type: 'quantitative'}
+              }
+            }
+          }
+        },
+        schema
+      );
+
+      expect(shelf).toEqual({
+        ...DEFAULT_SHELF_UNIT_SPEC,
+        mark: 'bar',
+        encoding: {
+          x: {field: 'b', type: 'nominal'},
+          y: {aggregate: 'count', type: 'quantitative'}
         }
       });
     });

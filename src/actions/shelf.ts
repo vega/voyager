@@ -1,3 +1,5 @@
+import {FacetedUnitSpec} from 'vega-lite/build/src/spec';
+
 import {ShelfFieldDef, ShelfFunction, ShelfId, ShelfMark} from '../models';
 import {PlainReduxAction, ReduxAction} from './redux-action';
 
@@ -7,7 +9,7 @@ export type ShelfAction =
   ShelfEncodingAction;
 
 export type ShelfEncodingAction = ShelfFieldAdd | ShelfFieldAutoAdd |
-  ShelfFieldRemove | ShelfFieldMove | ShelfFunctionChange;
+  ShelfFieldRemove | ShelfFieldMove | ShelfFunctionChange | ShelfSpecLoad;
 
 export const SHELF_CLEAR = 'SHELF_CLEAR';
 export type ShelfClear = PlainReduxAction<typeof SHELF_CLEAR>;
@@ -48,3 +50,7 @@ export type ShelfFunctionChange = ReduxAction<typeof SHELF_FUNCTION_CHANGE, {
   fn: ShelfFunction;
 }>;
 
+export const SHELF_SPEC_LOAD = 'SHELF_SPEC_LOAD';
+export type ShelfSpecLoad = ReduxAction<typeof SHELF_SPEC_LOAD, {
+  spec: FacetedUnitSpec
+}>;
