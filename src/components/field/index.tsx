@@ -22,7 +22,7 @@ export interface FieldDragSourceProps {
   isDragging?: boolean;
 }
 
-export interface FieldProps extends FieldDragSourceProps {
+export interface FieldPropsBase {
   fieldDef: ShelfFieldDef;
 
   isPill: boolean;
@@ -45,6 +45,8 @@ export interface FieldProps extends FieldDragSourceProps {
   /** Remove field event handler.  If not provided, remove button will disappear. */
   onRemove?: () => void;
 };
+
+export interface FieldProps extends FieldDragSourceProps, FieldPropsBase {};
 
 class FieldBase extends React.PureComponent<FieldProps, {}> {
   constructor(props: FieldProps) {
@@ -165,6 +167,9 @@ const collect: DragSourceCollector = (connect, monitor): FieldDragSourceProps =>
   };
 };
 
-export const Field = DragSource(DraggableType.FIELD, fieldSource, collect)(
-  CSSModules(FieldBase, styles)
-);
+
+// HACK: do type casting to suppress compile error for: https://github.com/Microsoft/TypeScript/issues/13526
+export const Field: () => React.PureComponent<FieldPropsBase, {}> =
+  DragSource(DraggableType.FIELD, fieldSource, collect)(
+    CSSModules(FieldBase, styles)
+  ) as any;

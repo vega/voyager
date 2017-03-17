@@ -65,9 +65,6 @@ class EncodingShelfBase extends React.PureComponent<EncodingShelfProps, Encoding
 
   // TODO: consider extracting this to another file
   private field() {
-    // HACK: add alias to suppress compile error for: https://github.com/Microsoft/TypeScript/issues/13526
-    const F = Field as any;
-
     const {id, fieldDef} = this.props;
 
     const caretHide = !(fieldDef.type === 'quantitative' || fieldDef.type === 'temporal');
@@ -81,7 +78,7 @@ class EncodingShelfBase extends React.PureComponent<EncodingShelfProps, Encoding
           attachment="top left"
           targetAttachment="bottom left"
         >
-          <F
+          <Field
             fieldDef={fieldDef}
             caretOnClick={this.toggleFunctionPopup}
             caretHide={caretHide}

@@ -29,11 +29,9 @@ class FieldListBase extends React.PureComponent<FieldListProps, {}> {
     const {fieldDefs} = this.props;
 
     const fieldItems = fieldDefs.map(fieldDef => {
-      // HACK: add alias to suppress compile error for: https://github.com/Microsoft/TypeScript/issues/13526
-      const F = Field as any;
       return (
         <div key={JSON.stringify(fieldDef)} styleName="field-list-item">
-          <F
+          <Field
             fieldDef={fieldDef}
             isPill={true}
             draggable={true}
