@@ -40,11 +40,7 @@ class PlotBase extends React.PureComponent<PlotProps, any> {
     const {isPlotListItem, scrollOnHover, showSpecifyButton, spec} = this.props;
 
     return (
-      <div
-        onMouseEnter={this.onMouseEnter}
-        onMouseLeave={this.onMouseLeave}
-        styleName={isPlotListItem ? 'plot-list-item-group' : 'plot-group'}
-      >
+      <div styleName={isPlotListItem ? 'plot-list-item-group' : 'plot-group'}>
         <div styleName="plot-info">
           <div styleName="plot-command">
             {showSpecifyButton && this.specifyButton()}
@@ -54,6 +50,8 @@ class PlotBase extends React.PureComponent<PlotProps, any> {
         <div
           styleName={scrollOnHover && this.state.hovered ? 'plot-scroll' : 'plot'}
           className="persist-scroll"
+          onMouseEnter={this.onMouseEnter}
+          onMouseLeave={this.onMouseLeave}
         >
           <VegaLite spec={spec}/>
         </div>
