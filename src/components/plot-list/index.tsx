@@ -2,12 +2,12 @@ import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
 
 import {ActionHandler} from '../../actions/redux-action';
-import {ShelfSpecLoad} from '../../actions/shelf';
+import {ShelfAction} from '../../actions/shelf';
 import {PlotObject} from '../../models/plot';
 import {Plot} from '../plot';
 import * as styles from './plot-list.scss';
 
-export interface PlotListProps extends ActionHandler<ShelfSpecLoad> {
+export interface PlotListProps extends ActionHandler<ShelfAction> {
   plots: PlotObject[];
 }
 

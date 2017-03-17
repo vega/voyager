@@ -6,7 +6,7 @@ import {connect} from 'react-redux';
 import {Data} from 'vega-lite/build/src/data';
 
 import {ActionHandler, createDispatchHandler} from '../../actions/redux-action';
-import {ShelfSpecLoad} from '../../actions/shelf';
+import {ShelfAction} from '../../actions/shelf';
 import {State} from '../../models';
 import {plotObjects} from '../../models/plot';
 import {hasWildcards} from '../../models/shelf/spec';
@@ -15,7 +15,7 @@ import {Plot} from '../plot';
 import {PlotList} from '../plot-list';
 import * as styles from './view-pane.scss';
 
-export interface ViewPaneProps extends ActionHandler<ShelfSpecLoad> {
+export interface ViewPaneProps extends ActionHandler<ShelfAction> {
   data: Data;
   query: Query;
   mainResult: SpecQueryModelGroup;
@@ -65,5 +65,5 @@ export const ViewPane = connect(
       mainResult: getMainResult(state)
     };
   },
-  createDispatchHandler<ShelfSpecLoad>()
+  createDispatchHandler<ShelfAction>()
 )(CSSModules(ViewPaneBase, styles));

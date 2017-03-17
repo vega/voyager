@@ -16,7 +16,7 @@ import {MarkPicker} from './mark-picker';
 interface EncodingPanelProps extends ActionHandler<ShelfAction> {
   spec: ShelfUnitSpec;
 
-  preview: ShelfUnitSpec;
+  specPreview: ShelfUnitSpec;
 }
 
 class EncodingPanelBase extends React.PureComponent<EncodingPanelProps, {}> {
@@ -27,6 +27,7 @@ class EncodingPanelBase extends React.PureComponent<EncodingPanelProps, {}> {
     this.onClear = this.onClear.bind(this);
   }
   public render() {
+    const {specPreview} = this.props;
     const {anyEncodings} = this.props.spec;
 
     const positionShelves = ['x', 'y'].map(this.encodingShelf, this);
@@ -43,17 +44,18 @@ class EncodingPanelBase extends React.PureComponent<EncodingPanelProps, {}> {
           Clear
         </a>
 
+        <h2>
+          Encoding
+          {specPreview && ' Preview'}
+        </h2>
+
         <div styleName="shelf-group">
-          <h2>Encoding</h2>
           {positionShelves}
         </div>
 
         <div styleName="shelf-group">
           <div className="right">
-            <MarkPicker
-              mark={this.props.spec.mark}
-              handleAction={this.props.handleAction}
-            />
+            {this.markPicker()}
           </div>
           <h3>Mark</h3>
           {nonPositionShelves}
@@ -64,6 +66,7 @@ class EncodingPanelBase extends React.PureComponent<EncodingPanelProps, {}> {
           {facetShelves}
         </div>
 
+        {/* TODO: correctly highlight field in the wildcard */}
         <div styleName="shelf-group">
           <h3>Wildcard Shelves</h3>
           {wildcardShelves}
@@ -78,8 +81,8 @@ class EncodingPanelBase extends React.PureComponent<EncodingPanelProps, {}> {
   private encodingShelf(channel: Channel) {
     // This one can't be wildcard, thus we use VL's Channel, not our ShelfChannel
 
-    const {encoding} = this.props.spec;
-    const {handleAction} = this.props;
+    const {handleAction, spec, specPreview} = this.props;
+    const {encoding} = specPreview || spec;
 
     return (
       <EncodingShelf
@@ -89,6 +92,15 @@ class EncodingPanelBase extends React.PureComponent<EncodingPanelProps, {}> {
         handleAction={handleAction}
       />
     );
+  }
+
+  private markPicker() {
+    const {handleAction, spec, specPreview} = this.props;
+    const {mark} = specPreview || spec;
+    return <MarkPicker
+      mark={mark}
+      handleAction={handleAction}
+    />;
   }
 
   private wildcardShelf(index: number) {
@@ -120,7 +132,7 @@ export const EncodingPane = connect(
   (state: State) => {
     return {
       spec: state.present.shelf.spec,
-      preview: state.present.shelf.specPreview
+      specPreview: state.present.shelf.specPreview
     };
   },
   createDispatchHandler<ShelfAction>()
