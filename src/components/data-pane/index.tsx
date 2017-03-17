@@ -24,11 +24,15 @@ export class DataPanelBase extends React.PureComponent<DataPanelProps, {}> {
         <DatasetSelector name={name} handleAction={handleAction}/>
         <div>Name: {name}</div>
 
-        <h3>Fields</h3>
-        <FieldList/>
+        <div styleName="data-pane-section">
+          <h3>Fields</h3>
+          <FieldList/>
+        </div>
 
-        <h3>Wildcard Fields</h3>
-        <PresetWildcardFieldList/>
+        <div styleName="data-pane-section">
+          <h3>Wildcard Fields</h3>
+          <PresetWildcardFieldList/>
+        </div>
       </div>
     );
   }
