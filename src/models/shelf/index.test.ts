@@ -37,7 +37,8 @@ describe('models/shelf', () => {
           },
           anyEncodings: [],
           config: {numberFormat: 'd'}
-        }
+        },
+        specPreview: null
       })).toEqual({
         spec: {
           mark: 'point',
@@ -64,7 +65,8 @@ describe('models/shelf', () => {
           },
           anyEncodings: [],
           config: {numberFormat: 'd'}
-        }
+        },
+        specPreview: null
       })).toEqual({
         spec: {
           mark: 'point',
@@ -92,7 +94,8 @@ describe('models/shelf', () => {
           },
           anyEncodings: [],
           config: {numberFormat: 'd'}
-        }
+        },
+        specPreview: null
       })).toEqual({
         spec: {
           mark: 'point',

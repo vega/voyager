@@ -8,11 +8,14 @@ import {DEFAULT_SHELF_UNIT_SPEC, hasWildcards, ShelfUnitSpec, toSpecQuery} from 
 export * from './encoding';
 export * from './spec';
 export const DEFAULT_SHELF_SPEC: Readonly<Shelf> = {
-  spec: DEFAULT_SHELF_UNIT_SPEC
+  spec: DEFAULT_SHELF_UNIT_SPEC,
+  specPreview: null
 };
 
 export interface Shelf {
   spec: ShelfUnitSpec; // TODO: support other type of specs.
+
+  specPreview: ShelfUnitSpec;
 
   // TODO: support groupBy, autoCount, orderBy
 }

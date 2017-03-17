@@ -15,6 +15,8 @@ import {MarkPicker} from './mark-picker';
 
 interface EncodingPanelProps extends ActionHandler<ShelfAction> {
   spec: ShelfUnitSpec;
+
+  preview: ShelfUnitSpec;
 }
 
 class EncodingPanelBase extends React.PureComponent<EncodingPanelProps, {}> {
@@ -118,6 +120,7 @@ export const EncodingPane = connect(
   (state: State) => {
     return {
       spec: state.present.shelf.spec,
+      preview: state.present.shelf.specPreview
     };
   },
   createDispatchHandler<ShelfAction>()

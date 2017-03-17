@@ -9,7 +9,9 @@ export type ShelfAction =
   ShelfEncodingAction;
 
 export type ShelfEncodingAction = ShelfFieldAdd | ShelfFieldAutoAdd |
-  ShelfFieldRemove | ShelfFieldMove | ShelfFunctionChange | ShelfSpecLoad;
+  ShelfFieldRemove | ShelfFieldMove | ShelfFunctionChange |
+  ShelfSpecLoad |
+  ShelfSpecPreview | ShelfSpecPreviewDisable;
 
 export const SHELF_CLEAR = 'SHELF_CLEAR';
 export type ShelfClear = PlainReduxAction<typeof SHELF_CLEAR>;
@@ -54,3 +56,11 @@ export const SHELF_SPEC_LOAD = 'SHELF_SPEC_LOAD';
 export type ShelfSpecLoad = ReduxAction<typeof SHELF_SPEC_LOAD, {
   spec: FacetedUnitSpec
 }>;
+
+export const SHELF_SPEC_PREVIEW = 'SHELF_SPEC_PREVIEW';
+export type ShelfSpecPreview = ReduxAction<typeof SHELF_SPEC_PREVIEW, {
+  spec: FacetedUnitSpec
+}>;
+
+export const SHELF_SPEC_PREVIEW_DISABLE = 'SHELF_SPEC_PREVIEW_DISABLE';
+export type ShelfSpecPreviewDisable = PlainReduxAction<typeof SHELF_SPEC_PREVIEW_DISABLE>;
