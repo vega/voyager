@@ -1,26 +1,29 @@
 import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
-import {ExtendedSpec} from 'vega-lite/build/src/spec';
 
+import {PlotObject} from '../../models/plot';
 import {Plot} from '../plot';
 import * as styles from './plot-list.scss';
 
 export interface PlotListProps {
-  specs: ExtendedSpec[];
+  plots: PlotObject[];
 }
 
 class PlotListBase extends React.PureComponent<PlotListProps, any> {
   public render() {
-    const {specs} = this.props;
-    const plots = specs.map(spec => (
-      <div styleName="plot-list-item" key={JSON.stringify(spec)}>
-        <Plot spec={spec} fit={true} scrollOnHover={true}/>
-      </div>
-    ));
+    const {plots} = this.props;
+    const plotListItems = plots.map(plot => {
+      const {spec, fieldInfos} = plot;
+      return (
+        <div styleName="plot-list-item" key={JSON.stringify(spec)}>
+          <Plot spec={spec} fieldInfos={fieldInfos} fit={true} scrollOnHover={true}/>
+        </div>
+      );
+    });
 
     return (
       <div styleName="plot-list">
-        {plots}
+        {plotListItems}
       </div>
     );
   }

@@ -5,9 +5,13 @@ import {ExtendedSpec} from 'vega-lite/build/src/spec';
 import * as styles from './plot.scss';
 
 import {PLOT_HOVER_MIN_DURATION} from '../../constants';
+import {PlotFieldInfo} from '../../models/plot';
+import {Field} from '../field/index';
 import {VegaLite} from '../vega-lite/index';
 
 export interface PlotProps {
+  fieldInfos?: PlotFieldInfo[];
+
   fit?: boolean;
   scrollOnHover?: boolean;
   spec: ExtendedSpec;
@@ -38,9 +42,32 @@ class PlotBase extends React.PureComponent<PlotProps, any> {
         styleName={scrollOnHover && this.state.hovered ? 'plot-scroll' : 'plot'}
         className={`persist-scroll ${fit ? 'fit' : ''}`}
       >
+        <div styleName="plot-info">
+          {this.fields()}
+        </div>
         <VegaLite spec={spec}/>
       </div>
     );
+  }
+
+  private fields() {
+    const {fieldInfos} = this.props;
+    if (fieldInfos) {
+      return fieldInfos.map(fieldInfo => {
+        const {fieldDef, isEnumeratedWildcardField} = fieldInfo;
+        return (
+          <div styleName="plot-field-info" key={JSON.stringify(fieldDef)}>
+            <Field
+              fieldDef={fieldDef}
+              draggable={false}
+              isEnumeratedWildcardField={isEnumeratedWildcardField}
+              isPill={false}
+            />
+          </div>
+        );
+      });
+    }
+    return undefined;
   }
 
   private onMouseEnter() {

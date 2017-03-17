@@ -1,6 +1,7 @@
 .plot-base {
   background-color: white;
   text-align: center;
+  padding: 8px;
 }
 
 .plot {
@@ -13,4 +14,13 @@
   @extend .plot-base;
   overflow: auto;
   padding-right: 0px;
+}
+
+.plot-info {
+  text-align: left;
+}
+
+.plot-field-info {
+  display: inline-block;
+  margin-right: 4px;
 }

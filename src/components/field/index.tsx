@@ -27,6 +27,8 @@ export interface FieldPropsBase {
 
   isPill: boolean;
 
+  isEnumeratedWildcardField?: boolean;
+
   caretHide?: boolean;
 
   caretOnClick?: () => void;
@@ -61,11 +63,11 @@ class FieldBase extends React.PureComponent<FieldProps, {}> {
     const {caretHide, caretOnClick, connectDragSource, fieldDef, isPill} = this.props;
     const {field, title} = fieldDef;
 
-    const isWildcardField = isWildcard(field);
+    const isWildcardField = isWildcard(field) || this.props.isEnumeratedWildcardField;
 
     const component = (
       <span
-        styleName={isPill ? isWildcardField ? 'wildcard-field-pill' : 'field-pill' : 'field'}
+        styleName={isWildcardField ? 'wildcard-field-pill' : isPill ? 'field-pill' : 'field'}
         onDoubleClick={this.onDoubleClick}
       >
         {caretTypeSpan({caretHide, caretOnClick, type: fieldDef.type})}
