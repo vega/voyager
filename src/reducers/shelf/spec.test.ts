@@ -1,5 +1,3 @@
-
-
 import {
   SHELF_CLEAR, SHELF_FIELD_ADD, SHELF_FIELD_AUTO_ADD, SHELF_FIELD_MOVE,
   SHELF_FIELD_REMOVE, SHELF_FUNCTION_CHANGE, SHELF_MARK_CHANGE_TYPE
@@ -28,14 +26,18 @@ describe('reducers/shelf/spec', () => {
 
   describe(SHELF_MARK_CHANGE_TYPE, () => {
     it('should return shelf spec with new mark', () => {
-      const shelf = shelfSpecReducer(DEFAULT_SHELF_UNIT_SPEC, {type: SHELF_MARK_CHANGE_TYPE, payload: 'area'}, schema);
-      expect(shelf.mark).toBe('area');
+      const shelfSpec = shelfSpecReducer(
+        DEFAULT_SHELF_UNIT_SPEC,
+        {type: SHELF_MARK_CHANGE_TYPE, payload: 'area'},
+        schema
+      );
+      expect(shelfSpec.mark).toBe('area');
     });
   });
 
   describe(SHELF_FIELD_ADD, () => {
     it('should correctly add field to channel', () => {
-      const shelf = shelfSpecReducer(
+      const shelfSpec = shelfSpecReducer(
         DEFAULT_SHELF_UNIT_SPEC,
         {
           type: SHELF_FIELD_ADD,
@@ -43,11 +45,11 @@ describe('reducers/shelf/spec', () => {
         },
         schema
       );
-      expect(shelf.encoding.x).toEqual({field: 'a', type: 'quantitative'});
+      expect(shelfSpec.encoding.x).toEqual({field: 'a', type: 'quantitative'});
     });
 
     it('should correctly add field to wildcard channel', () => {
-      const shelf = shelfSpecReducer(
+      const shelfSpec = shelfSpecReducer(
         DEFAULT_SHELF_UNIT_SPEC,
         {
           type: SHELF_FIELD_ADD,
@@ -55,10 +57,10 @@ describe('reducers/shelf/spec', () => {
         },
         schema
       );
-      expect(shelf.anyEncodings[0]).toEqual({channel: SHORT_WILDCARD, field: 'a', type: 'quantitative'});
+      expect(shelfSpec.anyEncodings[0]).toEqual({channel: SHORT_WILDCARD, field: 'a', type: 'quantitative'});
 
       const insertedShelf = shelfSpecReducer(
-        shelf,
+        shelfSpec,
         {
           type: SHELF_FIELD_ADD,
           payload: {shelfId: {channel: SHORT_WILDCARD, index: 0}, fieldDef: {field: 'b', type: 'quantitative'}}
@@ -73,7 +75,7 @@ describe('reducers/shelf/spec', () => {
   describe(SHELF_FIELD_ADD, () => {
     it('should query for new spec with CompassQL if there is no wildcard channel in the shelf ' +
         'and the field is not a wildcard.', () => {
-      const shelf = shelfSpecReducer(
+      const shelfSpec = shelfSpecReducer(
         DEFAULT_SHELF_UNIT_SPEC,
         {
           type: SHELF_FIELD_AUTO_ADD,
@@ -81,7 +83,7 @@ describe('reducers/shelf/spec', () => {
         },
         schema
       );
-      expect(shelf).toEqual({
+      expect(shelfSpec).toEqual({
         ...DEFAULT_SHELF_UNIT_SPEC,
         encoding: {
           x: {field: 'a', type: 'quantitative'}
@@ -90,7 +92,7 @@ describe('reducers/shelf/spec', () => {
     });
 
     it('should add the field to anyEncodings if there is a wildcard channel in the shelf', () => {
-      const shelf = shelfSpecReducer(
+      const shelfSpec = shelfSpecReducer(
         {
           ...DEFAULT_SHELF_UNIT_SPEC,
           anyEncodings: [
@@ -103,7 +105,7 @@ describe('reducers/shelf/spec', () => {
         },
         schema
       );
-      expect(shelf).toEqual({
+      expect(shelfSpec).toEqual({
         ...DEFAULT_SHELF_UNIT_SPEC,
         anyEncodings: [
           {channel: SHORT_WILDCARD, field: 'a', type: 'quantitative'},
@@ -113,7 +115,7 @@ describe('reducers/shelf/spec', () => {
     });
 
     it('should add the field to anyEncodings if the field is a wildcard', () => {
-      const shelf = shelfSpecReducer(
+      const shelfSpec = shelfSpecReducer(
         DEFAULT_SHELF_UNIT_SPEC,
         {
           type: SHELF_FIELD_AUTO_ADD,
@@ -121,7 +123,7 @@ describe('reducers/shelf/spec', () => {
         },
         schema
       );
-      expect(shelf).toEqual({
+      expect(shelfSpec).toEqual({
         ...DEFAULT_SHELF_UNIT_SPEC,
         anyEncodings: [
           {channel: SHORT_WILDCARD, field: {enum: ['a', 'b']}, type: 'nominal'}
@@ -132,7 +134,7 @@ describe('reducers/shelf/spec', () => {
 
   describe(SHELF_FIELD_REMOVE, () => {
     it('should correctly remove field from channel', () => {
-      const shelf = shelfSpecReducer(
+      const shelfSpec = shelfSpecReducer(
         {
           ...DEFAULT_SHELF_UNIT_SPEC,
           encoding: {
@@ -142,11 +144,11 @@ describe('reducers/shelf/spec', () => {
         {type: SHELF_FIELD_REMOVE, payload: {channel: 'x'}},
         schema
       );
-      expect(shelf).toEqual(DEFAULT_SHELF_UNIT_SPEC);
+      expect(shelfSpec).toEqual(DEFAULT_SHELF_UNIT_SPEC);
     });
 
     it('should correctly remove field from wildcard channel shelf', () => {
-      const shelf = shelfSpecReducer(
+      const shelfSpec = shelfSpecReducer(
         {
           ...DEFAULT_SHELF_UNIT_SPEC,
           anyEncodings: [
@@ -156,13 +158,13 @@ describe('reducers/shelf/spec', () => {
         {type: SHELF_FIELD_REMOVE, payload: {channel: SHORT_WILDCARD, index: 0}},
         schema
       );
-      expect(shelf).toEqual(DEFAULT_SHELF_UNIT_SPEC);
+      expect(shelfSpec).toEqual(DEFAULT_SHELF_UNIT_SPEC);
     });
   });
 
   describe(SHELF_FIELD_MOVE, () => {
     it('should correct move field to an empty channel', () => {
-      const shelf = shelfSpecReducer(
+      const shelfSpec = shelfSpecReducer(
         {
           ...DEFAULT_SHELF_UNIT_SPEC,
           encoding: {
@@ -175,7 +177,7 @@ describe('reducers/shelf/spec', () => {
         },
         schema
       );
-      expect(shelf).toEqual({
+      expect(shelfSpec).toEqual({
         ...DEFAULT_SHELF_UNIT_SPEC,
         encoding: {
           y: {field: 'a', type: 'quantitative'}
@@ -184,7 +186,7 @@ describe('reducers/shelf/spec', () => {
     });
 
     it('should correctly swap field to if move to a non-empty channel', () => {
-      const shelf = shelfSpecReducer(
+      const shelfSpec = shelfSpecReducer(
         {
           ...DEFAULT_SHELF_UNIT_SPEC,
           encoding: {
@@ -198,7 +200,7 @@ describe('reducers/shelf/spec', () => {
         },
         schema
       );
-      expect(shelf).toEqual({
+      expect(shelfSpec).toEqual({
         ...DEFAULT_SHELF_UNIT_SPEC,
         encoding: {
           x: {field: 'b', type: 'quantitative'},
@@ -208,7 +210,7 @@ describe('reducers/shelf/spec', () => {
     });
 
     it('should correctly swap field between non-wildcard channel and wildcard channel', () => {
-      const shelf = shelfSpecReducer(
+      const shelfSpec = shelfSpecReducer(
         {
           ...DEFAULT_SHELF_UNIT_SPEC,
           encoding: {
@@ -228,7 +230,7 @@ describe('reducers/shelf/spec', () => {
         schema
       );
 
-      expect(shelf).toEqual({
+      expect(shelfSpec).toEqual({
         ...DEFAULT_SHELF_UNIT_SPEC,
         encoding: {
           x: {field: 'b', type: 'quantitative'}
@@ -240,7 +242,7 @@ describe('reducers/shelf/spec', () => {
     });
 
     it('should correctly move field from non-wildcard channel to and empty wildcard channel', () => {
-      const shelf = shelfSpecReducer(
+      const shelfSpec = shelfSpecReducer(
         {
           ...DEFAULT_SHELF_UNIT_SPEC,
           encoding: {
@@ -257,7 +259,7 @@ describe('reducers/shelf/spec', () => {
         schema
       );
 
-      expect(shelf).toEqual({
+      expect(shelfSpec).toEqual({
         ...DEFAULT_SHELF_UNIT_SPEC,
         anyEncodings: [
           {channel: SHORT_WILDCARD, field: 'a', type: 'quantitative'}
@@ -266,7 +268,7 @@ describe('reducers/shelf/spec', () => {
     });
 
     it('correctly moves field from a wildcard channel to and a non-wildcard channel', () => {
-      const shelf = shelfSpecReducer(
+      const shelfSpec = shelfSpecReducer(
         {
           ...DEFAULT_SHELF_UNIT_SPEC,
           anyEncodings: [
@@ -283,7 +285,7 @@ describe('reducers/shelf/spec', () => {
         schema
       );
 
-      expect(shelf).toEqual({
+      expect(shelfSpec).toEqual({
         ...DEFAULT_SHELF_UNIT_SPEC,
         encoding: {
           x: {field: 'a', type: 'quantitative'}
@@ -294,7 +296,7 @@ describe('reducers/shelf/spec', () => {
 
   describe(SHELF_FUNCTION_CHANGE, () => {
     it('should correctly change function of x-field to aggregate:mean', () => {
-      const shelf = shelfSpecReducer(
+      const shelfSpec = shelfSpecReducer(
         {
           ...DEFAULT_SHELF_UNIT_SPEC,
           encoding: {
@@ -311,7 +313,7 @@ describe('reducers/shelf/spec', () => {
         schema
       );
 
-      expect(shelf).toEqual({
+      expect(shelfSpec).toEqual({
         ...DEFAULT_SHELF_UNIT_SPEC,
         encoding: {
           x: {aggregate: 'mean', field: 'a', type: 'quantitative'}
@@ -320,7 +322,7 @@ describe('reducers/shelf/spec', () => {
     });
 
     it('should correctly change function of x-field to timeUnit:month', () => {
-      const shelf = shelfSpecReducer(
+      const shelfSpec = shelfSpecReducer(
         {
           ...DEFAULT_SHELF_UNIT_SPEC,
           encoding: {
@@ -337,7 +339,7 @@ describe('reducers/shelf/spec', () => {
         schema
       );
 
-      expect(shelf).toEqual({
+      expect(shelfSpec).toEqual({
         ...DEFAULT_SHELF_UNIT_SPEC,
         encoding: {
           x: {timeUnit: 'month', field: 'a', type: 'temporal'}
@@ -346,7 +348,7 @@ describe('reducers/shelf/spec', () => {
     });
 
     it('should correctly change function of x-field to bin:true', () => {
-      const shelf = shelfSpecReducer(
+      const shelfSpec = shelfSpecReducer(
         {
           ...DEFAULT_SHELF_UNIT_SPEC,
           encoding: {
@@ -363,7 +365,7 @@ describe('reducers/shelf/spec', () => {
         schema
       );
 
-      expect(shelf).toEqual({
+      expect(shelfSpec).toEqual({
         ...DEFAULT_SHELF_UNIT_SPEC,
         encoding: {
           x: {bin: true, field: 'a', type: 'quantitative'}
@@ -372,7 +374,7 @@ describe('reducers/shelf/spec', () => {
     });
 
     it('should correctly change function of field with wildcard shelf to mean', () => {
-      const shelf = shelfSpecReducer(
+      const shelfSpec = shelfSpecReducer(
         {
           ...DEFAULT_SHELF_UNIT_SPEC,
           anyEncodings: [
@@ -389,7 +391,7 @@ describe('reducers/shelf/spec', () => {
       schema
       );
 
-      expect(shelf).toEqual({
+      expect(shelfSpec).toEqual({
         ...DEFAULT_SHELF_UNIT_SPEC,
         anyEncodings: [
           {aggregate: 'mean', channel: SHORT_WILDCARD, field: 'b', type: 'quantitative'}
@@ -398,7 +400,7 @@ describe('reducers/shelf/spec', () => {
     });
 
     it('should correctly change function of x-field to no function', () => {
-      const shelf = shelfSpecReducer(
+      const shelfSpec = shelfSpecReducer(
         {
           ...DEFAULT_SHELF_UNIT_SPEC,
           encoding: {
@@ -415,7 +417,7 @@ describe('reducers/shelf/spec', () => {
         schema
       );
 
-      expect(shelf).toEqual({
+      expect(shelfSpec).toEqual({
         ...DEFAULT_SHELF_UNIT_SPEC,
         encoding: {
           x: {field: 'a', type: 'quantitative'}
@@ -426,7 +428,7 @@ describe('reducers/shelf/spec', () => {
 
   describe(SHELF_SPEC_LOAD, () => {
     it('loads spec and retains wildcard mark if the shelf has wildcard mark', () => {
-      const shelf = shelfSpecReducer(
+      const shelfSpec = shelfSpecReducer(
         {
           ...DEFAULT_SHELF_UNIT_SPEC,
           mark: SHORT_WILDCARD
@@ -446,7 +448,7 @@ describe('reducers/shelf/spec', () => {
         schema
       );
 
-      expect(shelf).toEqual({
+      expect(shelfSpec).toEqual({
         ...DEFAULT_SHELF_UNIT_SPEC,
         mark: SHORT_WILDCARD,
         encoding: {
@@ -457,7 +459,7 @@ describe('reducers/shelf/spec', () => {
     });
 
     it('completely loads spec if the shelf has no wildcard mark', () => {
-      const shelf = shelfSpecReducer(
+      const shelfSpec = shelfSpecReducer(
         {
           ...DEFAULT_SHELF_UNIT_SPEC,
           mark: 'point'
@@ -477,7 +479,7 @@ describe('reducers/shelf/spec', () => {
         schema
       );
 
-      expect(shelf).toEqual({
+      expect(shelfSpec).toEqual({
         ...DEFAULT_SHELF_UNIT_SPEC,
         mark: 'bar',
         encoding: {

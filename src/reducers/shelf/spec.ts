@@ -19,7 +19,7 @@ import {autoAddFieldQuery} from '../../models/shelf/index';
 import {DEFAULT_SHELF_UNIT_SPEC, fromSpecQuery} from '../../models/shelf/spec';
 import {toSet} from '../../util';
 
-export function shelfSpecReducer(shelf: Readonly<ShelfUnitSpec>, action: Action, schema: Schema): ShelfUnitSpec {
+export function shelfSpecReducer(shelfSpec: Readonly<ShelfUnitSpec>, action: Action, schema: Schema): ShelfUnitSpec {
   switch (action.type) {
     case SHELF_CLEAR:
       return DEFAULT_SHELF_UNIT_SPEC;
@@ -27,25 +27,25 @@ export function shelfSpecReducer(shelf: Readonly<ShelfUnitSpec>, action: Action,
     case SHELF_MARK_CHANGE_TYPE: {
       const mark = action.payload;
       return {
-        ...shelf,
+        ...shelfSpec,
         mark
       };
     }
 
     case SHELF_FIELD_ADD: {
       const {shelfId, fieldDef} = action.payload;
-      return addEncoding(shelf, shelfId, fieldDef);
+      return addEncoding(shelfSpec, shelfId, fieldDef);
     }
 
     case SHELF_FIELD_AUTO_ADD: {
       const {fieldDef} = action.payload;
 
-      if (shelf.anyEncodings.length > 0 || isWildcard(fieldDef.field)) {
+      if (shelfSpec.anyEncodings.length > 0 || isWildcard(fieldDef.field)) {
         // If there was an encoding shelf or if the field is a wildcard, just add to wildcard shelf
         return {
-          ...shelf,
+          ...shelfSpec,
           anyEncodings: [
-            ...shelf.anyEncodings,
+            ...shelfSpec.anyEncodings,
             {
               channel: SHORT_WILDCARD,
               ...fieldDef
@@ -54,25 +54,25 @@ export function shelfSpecReducer(shelf: Readonly<ShelfUnitSpec>, action: Action,
         };
       } else {
         // Otherwise, query for the best encoding if there is no wildcard channel
-        const query = autoAddFieldQuery(shelf, fieldDef);
+        const query = autoAddFieldQuery(shelfSpec, fieldDef);
         const rec = recommend(query, schema);
         const topSpecQuery = rec.result.getTopSpecQueryModel().specQuery;
 
         return {
-          ...fromSpecQuery(topSpecQuery, shelf.config),
+          ...fromSpecQuery(topSpecQuery, shelfSpec.config),
           // retain auto-mark if mark is previously auto
-          ...(isWildcard(shelf.mark) ? {mark: shelf.mark} : {})
+          ...(isWildcard(shelfSpec.mark) ? {mark: shelfSpec.mark} : {})
         };
       }
     }
 
     case SHELF_FIELD_REMOVE:
-      return removeEncoding(shelf, action.payload).shelf;
+      return removeEncoding(shelfSpec, action.payload).shelf;
 
     case SHELF_FIELD_MOVE: {
       const {to, from} = action.payload;
 
-      const {fieldDef: fieldDefFrom, shelf: removedShelf1} = removeEncoding(shelf, from);
+      const {fieldDef: fieldDefFrom, shelf: removedShelf1} = removeEncoding(shelfSpec, from);
       const {fieldDef: fieldDefTo, shelf: removedShelf2} = removeEncoding(removedShelf1, to);
 
       const addedShelf1 = addEncoding(removedShelf2, to, fieldDefFrom);
@@ -84,7 +84,7 @@ export function shelfSpecReducer(shelf: Readonly<ShelfUnitSpec>, action: Action,
     case SHELF_FUNCTION_CHANGE: {
       const {shelfId, fn} = action.payload;
 
-      return modifyEncoding(shelf, shelfId, (fieldDef: Readonly<ShelfFieldDef | ShelfAnyEncodingDef>) => {
+      return modifyEncoding(shelfSpec, shelfId, (fieldDef: Readonly<ShelfFieldDef | ShelfAnyEncodingDef>) => {
         // Remove all existing functions then assign new function
         const {aggregate: _a, bin: _b, timeUnit: _t, hasFn: _h, ...newFieldDef} = fieldDef;
 
@@ -97,15 +97,15 @@ export function shelfSpecReducer(shelf: Readonly<ShelfUnitSpec>, action: Action,
 
     case SHELF_SPEC_LOAD:
       const {spec} = action.payload;
-      const specQ = isWildcard(shelf.mark) ? {
+      const specQ = isWildcard(shelfSpec.mark) ? {
         ...fromSpec(spec),
         mark: SHORT_WILDCARD
       } : fromSpec(spec);
 
       // Restore wildcard mark if the shelf previously has wildcard mark.
-      return fromSpecQuery(specQ, shelf.config);
+      return fromSpecQuery(specQ, shelfSpec.config);
   }
-  return shelf;
+  return shelfSpec;
 }
 
 const AGGREGATE_INDEX = toSet(AGGREGATE_OPS);

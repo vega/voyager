@@ -14,7 +14,7 @@ import {EncodingShelf} from './encoding-shelf';
 import {MarkPicker} from './mark-picker';
 
 interface EncodingPanelProps extends ActionHandler<ShelfAction> {
-  shelf: ShelfUnitSpec;
+  spec: ShelfUnitSpec;
 }
 
 class EncodingPanelBase extends React.PureComponent<EncodingPanelProps, {}> {
@@ -25,7 +25,7 @@ class EncodingPanelBase extends React.PureComponent<EncodingPanelProps, {}> {
     this.onClear = this.onClear.bind(this);
   }
   public render() {
-    const {anyEncodings} = this.props.shelf;
+    const {anyEncodings} = this.props.spec;
 
     const positionShelves = ['x', 'y'].map(this.encodingShelf, this);
     const facetShelves = ['row', 'column'].map(this.encodingShelf, this);
@@ -49,7 +49,7 @@ class EncodingPanelBase extends React.PureComponent<EncodingPanelProps, {}> {
         <div styleName="shelf-group">
           <div className="right">
             <MarkPicker
-              mark={this.props.shelf.mark}
+              mark={this.props.spec.mark}
               handleAction={this.props.handleAction}
             />
           </div>
@@ -76,7 +76,7 @@ class EncodingPanelBase extends React.PureComponent<EncodingPanelProps, {}> {
   private encodingShelf(channel: Channel) {
     // This one can't be wildcard, thus we use VL's Channel, not our ShelfChannel
 
-    const {encoding} = this.props.shelf;
+    const {encoding} = this.props.spec;
     const {handleAction} = this.props;
 
     return (
@@ -90,7 +90,7 @@ class EncodingPanelBase extends React.PureComponent<EncodingPanelProps, {}> {
   }
 
   private wildcardShelf(index: number) {
-    const {anyEncodings} = this.props.shelf;
+    const {anyEncodings} = this.props.spec;
     const {handleAction} = this.props;
 
     const id = {
@@ -116,7 +116,9 @@ class EncodingPanelBase extends React.PureComponent<EncodingPanelProps, {}> {
 
 export const EncodingPane = connect(
   (state: State) => {
-    return {shelf: state.present.shelf.spec};
+    return {
+      spec: state.present.shelf.spec,
+    };
   },
   createDispatchHandler<ShelfAction>()
 )(CSSModules(EncodingPanelBase, styles));
