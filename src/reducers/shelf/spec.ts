@@ -114,7 +114,9 @@ function getFunctionMixins(fn: ShelfFunction) {
 }
 
 function addEncoding(shelf: Readonly<ShelfUnitSpec>, shelfId: ShelfId, fieldDef: ShelfFieldDef) {
-  if (isWildcardChannelId(shelfId)) {
+  if (!fieldDef) {
+    return shelf;
+  } else if (isWildcardChannelId(shelfId)) {
     return {
       ...shelf,
       anyEncodings: insert<ShelfAnyEncodingDef>(shelf.anyEncodings, shelfId.index, {
