@@ -74,9 +74,9 @@ export function hasWildcards(spec: SpecQuery): HasWildcard {
       hasWildcardField = true;
     }
 
-    if ((encQ.aggregate) ||
-        (encQ.bin) ||
-        (encQ.timeUnit)) {
+    if (isWildcard(encQ.aggregate) ||
+        isWildcard(encQ.bin) ||
+        isWildcard(encQ.timeUnit)) {
       hasWildcardFn = true;
     }
 
