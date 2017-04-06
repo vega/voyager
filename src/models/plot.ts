@@ -32,7 +32,7 @@ export function plotObjects(modelGroup: SpecQueryModelGroup, data: Data) {
 // FIXME: include data in the main query?
 function plotObject(data: Data, specQ: SpecQueryModel): PlotObject {
 
-  const wildcardFieldIndex = toMap(specQ.wildcardIndex.encodingIndicesByProperty.get('field'));
+  const wildcardFieldIndex = toMap(specQ.wildcardIndex.encodingIndicesByProperty.get('field') || []);
   const fieldInfos: PlotFieldInfo[] = specQ.getEncodings()
     .filter(isFieldQuery)
     .map((fieldQ: FieldQuery, index): PlotFieldInfo => {
