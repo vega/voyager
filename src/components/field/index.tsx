@@ -11,6 +11,7 @@ import {ShelfAction} from '../../actions/shelf';
 import {DraggableType, FieldParentType} from '../../constants';
 import {ShelfId} from '../../models/shelf';
 import {ShelfFieldDef} from '../../models/shelf/encoding';
+import {functionName} from '../../models/shelf/encoding';
 import {getFilter} from '../../reducers/shelf/filter';
 import * as styles from './field.scss';
 
@@ -94,14 +95,20 @@ class FieldBase extends React.PureComponent<FieldProps, FieldState> {
     const {connectDragSource, fieldDef, isPill, popupComponent} = this.props;
     const {field, title} = fieldDef;
     const isWildcardField = isWildcard(field) || this.props.isEnumeratedWildcardField;
+    const fnName = functionName(fieldDef);
+
+    /** Whether the fieldDef has a function that involves field. (Count doesn't involve a specific field.) */
+    const isFieldFn = fnName && fnName !== 'count';
+
     const component = (
       <span
         styleName={isWildcardField ? 'wildcard-field-pill' : isPill ? 'field-pill' : 'field'}
         onDoubleClick={this.onDoubleClick}
       >
         {this.caretTypeSpan()}
-        <span styleName="text" title={title}>
-          {title || field}
+        {this.funcSpan(fnName)}
+        <span styleName={isFieldFn ? 'fn-text' : 'text'}>
+          {title || (field !== '*' ? field : '')}
         </span>
         {this.addFilterSpan()}
         {this.addSpan()}
@@ -198,6 +205,14 @@ class FieldBase extends React.PureComponent<FieldProps, FieldState> {
   private addFilterSpan() {
     return this.props.filterShow && (
       <span><a onClick={this.filterAddToEnd.bind(this)}><i className='fa fa-filter'/></a></span>
+    );
+  }
+
+  private funcSpan(fnName: string) {
+    return (
+      <span styleName="func" title={fnName}>
+        {fnName}
+      </span>
     );
   }
 

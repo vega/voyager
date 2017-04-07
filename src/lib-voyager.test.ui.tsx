@@ -255,7 +255,7 @@ describe('lib-voyager', () => {
               const shelves = document.querySelectorAll('.encoding-shelf__encoding-shelf');
               const shelfText = Array.prototype.map.call(shelves, (d: Node) => d.textContent);
 
-              expect(shelfText).toContain('x close');
+              expect(shelfText).toContain('x binclose');
               done();
             } catch (err) {
               done.fail(err);

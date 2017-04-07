@@ -46,6 +46,20 @@ export interface ShelfFieldDef {
   title?: string;
 }
 
+export function functionName(fieldDef: ShelfFieldDef): string {
+  const {aggregate, timeUnit, bin} = fieldDef;
+
+  const func = aggregate || timeUnit || bin || undefined;
+
+  if (isWildcard(func)) {
+    return '?';
+  }
+  if (bin) {
+    return 'bin';
+  }
+  return func;
+}
+
 export type ShelfFunction = AggregateOp | 'bin' | TimeUnit | undefined;
 
 export interface ShelfAnyEncodingDef extends ShelfFieldDef {
