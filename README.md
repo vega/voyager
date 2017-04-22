@@ -7,6 +7,13 @@ For more information about Voyager 2's design, please read our [CHI paper](idl.c
 This repository now hosts the ongoing migration of Voyager 2 to a React/Redux application,
 which is not ready for usage yet.  Please see [.github/CONTRIBUTING.md](.github/CONTRIBUTING.md) for contribution guideline and development setup.
 
+
+## Demo
+
+To access the Voyager 2 demo, please access http://vega.github.io/voyager2. (This is currently still showing Voyager from an older codebase as the newer version is still under development.)
+
+## Older Codebase
+
 To access former versions of Voyager, please access
 - https://github.com/vega/voyager2 for former Voyager 2 prototype built in AngularJS
 - `vy1` branch of this repository for the original Voyager visualization recommendation browser.
