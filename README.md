@@ -10,7 +10,7 @@ which is not ready for usage yet.  Please see [.github/CONTRIBUTING.md](.github/
 
 ## Demo
 
-To access the Voyager 2 demo, please access http://vega.github.io/voyager2. (This is currently still showing Voyager from an older codebase as the newer version is still under development.)
+To access the Voyager 2 demo, please access http://vega.github.io/voyager2. (This URL is showing Voyager from an older codebase as the newer version is still under development and is not ready for demo yet.)
 
 ## Older Codebase
 
