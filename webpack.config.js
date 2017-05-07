@@ -35,8 +35,9 @@ module.exports = {
   },
 
   // Enable sourcemaps for debugging webpack's output.
-  devtool: 'cheap-eval-source-map',
-  // devtool: "source-map", // this is better for production
+  // If it is inline, it will break CSS sourcemaps because of
+  // `extract-text-webpack-plugin`
+  devtool: 'source-map',
 
   devServer: {
     contentBase: __dirname,
@@ -82,6 +83,7 @@ module.exports = {
           }, {
             loader: "sass-loader",
              options: {
+               sourceMap: true,
                includePaths: [
                  path.resolve(__dirname, "node_modules/normalize-scss/sass")
                ]
