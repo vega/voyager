@@ -18,8 +18,8 @@
   "license": "BSD-3-Clause",
   "scripts": {
     "start": "webpack-dev-server --open",
-    "build": "webpack -d",
-    "watch": "webpack -d --watch",
+    "build": "webpack --debug",
+    "watch": "webpack --debug --watch",
     "clean": "find -E dist  -regex '.*\\.(js|js.map|d.ts)' -delete",
     "lint": "tslint -c tslint.json 'src/**/*.ts' 'src/**/*.tsx'",
     "lint-fix": "npm run lint -- --fix",
