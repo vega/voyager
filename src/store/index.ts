@@ -1,5 +1,5 @@
-import {applyMiddleware, compose, createStore, Middleware } from 'redux';
-import { createLogger } from 'redux-logger';
+import {applyMiddleware, compose, createStore, Middleware} from 'redux';
+import {createLogger} from 'redux-logger';
 import thunkMiddleware from 'redux-thunk';
 
 import {DEFAULT_STATE} from '../models';
