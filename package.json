@@ -19,6 +19,8 @@
   "scripts": {
     "start": "webpack-dev-server --open --config config/webpack.config.dev.js",
     "build": "node scripts/build.js",
+    "build-lib": "webpack -d --config webpack.lib.config.js",
+    "watch": "webpack -d --watch",
     "clean": "find -E dist  -regex '.*\\.(js|js.map|d.ts)' -delete",
     "lint": "tslint -c tslint.json 'src/**/*.ts' 'src/**/*.tsx'",
     "lint-fix": "npm run lint -- --fix",
