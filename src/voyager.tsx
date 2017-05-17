@@ -11,7 +11,7 @@ import { Provider } from 'react-redux';
 
 import 'font-awesome-sass-loader'; // TODO should this move to App?
 
-import {App, VoyagerData, VoyagerConfig} from './components/app';
+import {App, VoyagerConfig, VoyagerData} from './components/app';
 import {configureStore} from './store';
 
 type Container = string | HTMLElement;
@@ -81,6 +81,6 @@ class Voyager {
  * @param {Object}    config    [description]
  * @param {Array}     data      [description]
  */
-export function CreateVoyager(container: Container, config: Object, data: Array<Object>) {
+export function CreateVoyager(container: Container, config: Object, data: Object[]) {
   return new Voyager(container, config, data);
 }
