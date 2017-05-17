@@ -5,29 +5,8 @@ var paths = require('./paths');
 
 var NODE_ENV = process.env.NODE_ENV;
 if (!NODE_ENV) {
-  throw new Error(
-    'The NODE_ENV environment variable is required but was not specified.'
-  );
+  NODE_ENV = 'development';
 }
-
-// https://github.com/bkeepers/dotenv#what-other-env-files-can-i-use
-var dotenvFiles = [
-  paths.dotenv + '.' + NODE_ENV + '.local',
-  paths.dotenv + '.' + NODE_ENV,
-  paths.dotenv + '.local',
-  paths.dotenv,
-];
-// Load environment variables from .env* files. Suppress warnings using silent
-// if this file is missing. dotenv will never modify any environment variables
-// that have already been set.
-// https://github.com/motdotla/dotenv
-dotenvFiles.forEach(dotenvFile => {
-  if (fs.existsSync(dotenvFile)) {
-    require('dotenv').config({
-      path: dotenvFile,
-    });
-  }
-});
 
 // Grab NODE_ENV and REACT_APP_* environment variables and prepare them to be
 // injected into the application via DefinePlugin in Webpack configuration.
@@ -44,7 +23,7 @@ function getClientEnvironment(publicUrl) {
       {
         // Useful for determining whether we’re running in production mode.
         // Most importantly, it switches React into the correct mode.
-        NODE_ENV: process.env.NODE_ENV || 'development',
+        NODE_ENV: process.env.NODE_ENV, 
         // Useful for resolving the correct path to static assets in `public`.
         // For example, <img src={process.env.PUBLIC_URL + '/img/logo.png'} />.
         // This should only be used as an escape hatch. Normally you would put

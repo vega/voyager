@@ -7,7 +7,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const InterpolateHtmlPlugin = require('react-dev-utils/InterpolateHtmlPlugin');
-// const eslintFormatter = require('react-dev-utils/eslintFormatter');
 const paths = require('./paths');
 const getClientEnvironment = require('./env');
 
@@ -97,46 +96,7 @@ module.exports = {
 
       { test: /\.js$/, use: "source-map-loader", enforce: "pre" },
 
-      // First, run the linter.
-      // It's important to do this before Babel processes the JS.
-      // {
-      //   test: /\.(js|jsx)$/,
-      //   enforce: 'pre',
-      //   use: [
-      //     {
-      //       options: {
-      //         // formatter: eslintFormatter,
-      //
-      //       },
-      //       loader: require.resolve('eslint-loader'),
-      //     },
-      //   ],
-      //   include: paths.appSrc,
-      // },
-      // ** ADDING/UPDATING LOADERS **
-      // The "url" loader handles all assets unless explicitly excluded.
-      // The `exclude` list *must* be updated with every change to loader extensions.
-      // When adding a new loader, you must add its `test`
-      // as a new entry in the `exclude` list in the "url" loader.
 
-      // "file" loader makes sure those assets end up in the `build` folder.
-      // When you `import` an asset, you get its filename.
-      // {
-      //   exclude: [
-      //     /\.html$/,
-      //     /\.(js|jsx)$/,
-      //     /\.css$/,
-      //     /\.json$/,
-      //     /\.bmp$/,
-      //     /\.gif$/,
-      //     /\.jpe?g$/,
-      //     /\.png$/,
-      //   ],
-      //   loader: require.resolve('file-loader'),
-      //   options: {
-      //     name: 'static/media/[name].[hash:8].[ext]',
-      //   },
-      // },
       // "url" loader works just like "file" loader but it also embeds
       // assets smaller than specified size as data URLs to avoid requests.
       {
@@ -146,13 +106,6 @@ module.exports = {
           limit: 10000,
           name: 'static/media/[name].[hash:8].[ext]',
         },
-      },
-      // Process JS with Babel.
-      {
-        test: /\.(js|jsx)$/,
-        include: paths.appSrc,
-        loader: require.resolve('babel-loader'),
-
       },
       // The notation here is somewhat confusing.
       // "postcss" loader applies autoprefixer to our CSS.
@@ -231,7 +184,7 @@ module.exports = {
     // Generates an `index.html` file with the <script> injected.
     new HtmlWebpackPlugin({
       inject: true,
-      template: paths.appHtml,
+      template: path.resolve(__dirname, "../index.ejs"),
       minify: {
         removeComments: true,
         collapseWhitespace: true,
