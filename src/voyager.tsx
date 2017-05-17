@@ -11,61 +11,58 @@ import { Provider } from 'react-redux';
 
 import 'font-awesome-sass-loader'; // TODO should this move to App?
 
-import {App} from './components/app';
+import {App, VoyagerData, VoyagerConfig} from './components/app';
 import {configureStore} from './store';
 
 type Container = string | HTMLElement;
+
 
 /**
  * The Voyager class encapsulates the voyager application and allows for easy
  * instantiation and interaction from non-react projects.
  */
 class Voyager {
-  container: HTMLElement
-  config: Object
-  data: Array<Object>
-  store: any // TODO how to get the type/inteface for this here?
+  private container: HTMLElement;
+  private config: VoyagerConfig;
+  private data: VoyagerData;
+  private store: any; // TODO how to get the type/inteface for this here?
 
-  constructor(container: Container, config: Object, data: Array<Object>) {
+  constructor(container: Container, config: VoyagerConfig, data: VoyagerData) {
     if (typeof container === "string") {
       this.container = document.querySelector(container) as HTMLElement;
       // TODO throw error if not found
     } else {
       this.container = container as HTMLElement;
     }
-
-    console.log('container', this.container)
-
-
     this.init();
   }
 
-  init() {
+
+
+  public updateData(data: VoyagerData) {
+    this.data = data;
+    this.render(data, this.config);
+  }
+
+  public updateConfig(config: VoyagerConfig) {
+    this.config = config;
+    this.render(this.data, config);
+  }
+
+  private init() {
     this.store = configureStore();
-    this.render()
+    this.render(this.data, this.config);
   }
 
-  updateData() {
-    // Do something with the store
-
-    // Manually trigger full re-render if needed (not typical? - should be
-    // handled by dispatch cycle)
-  }
-
-  updateConfig() {
-    // Do something with the store
-
-    // Manually trigger full re-render if needed (not typical? - should be
-    // handled by dispatch cycle)
-  }
-
-
-  render() {
+  private render(data: VoyagerData, config: VoyagerConfig) {
     const store = this.store;
     const root = this.container;
     ReactDOM.render(
         <Provider store={store}>
-            <App/>
+            <App
+              data={data}
+              config={config}
+            />
         </Provider>,
         root
     );
