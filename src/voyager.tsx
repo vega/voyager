@@ -60,6 +60,7 @@ class Voyager {
     ReactDOM.render(
         <Provider store={store}>
             <App
+              dispatch={store.dispatch}
               data={data}
               config={config}
             />
