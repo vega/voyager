@@ -64,7 +64,6 @@
     "@types/react-redux": "^4.4.36",
     "@types/react-split-pane": "^0.1.6",
     "@types/redux-logger": "^3.0.0",
-    "address": "^1.0.1",
     "autoprefixer": "^6.7.6",
     "case-sensitive-paths-webpack-plugin": "^2.0.0",
     "codecov": "^1.0.1",
