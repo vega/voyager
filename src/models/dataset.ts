@@ -1,3 +1,4 @@
+import {SpecQueryModelGroup} from 'compassql/build/src/model';
 import {FieldSchema, Schema} from 'compassql/build/src/schema';
 export {FieldSchema, Schema} from 'compassql/build/src/schema';
 
@@ -10,6 +11,7 @@ export interface Dataset {
   schema: Schema;
 
   data: Data;
+  recommends: SpecQueryModelGroup;
 }
 
 // FIXME: replace this with real data
@@ -59,5 +61,7 @@ export const DEFAULT_DATASET: Dataset = {
       {q1: 1, q2: 2, t: new Date(), n1: 'a', n2: 1},
       {q1: 100, q2: 23, t: new Date(), n1: 'c', n2: 1}
     ]
-  }
+  },
+
+  recommends: {} as SpecQueryModelGroup
 };
