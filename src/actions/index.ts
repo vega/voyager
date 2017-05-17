@@ -1,5 +1,5 @@
 
-import {DatasetAction} from './dataset';
+import {DatasetAction, DatasetAsyncAction} from './dataset';
 import {ShelfAction} from './shelf';
 import {UndoableAction} from './undo-redo';
 
