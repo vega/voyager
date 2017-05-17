@@ -10,35 +10,41 @@ import {EncodingPane} from './encoding-pane';
 import {Header} from './header';
 import {ViewPane} from './view-pane';
 
-import {connect} from 'react-redux';
-import {State} from '../models';
 import {
-  createDispatchHandler,
-  datasetUrlLoad,
   ActionHandler,
   DatasetAsyncAction,
+  datasetUrlLoad,
 } from '../actions';
 
-export type VoyagerData = string | Object[];
+
+
+interface DataURL {
+  name: string;
+  url: string;
+};
+export type VoyagerData = DataURL | Object[];
 export type VoyagerConfig = Object;
 
 interface VoyagerAppProps extends ActionHandler<DatasetAsyncAction> {
   config: Object;
   data: VoyagerData;
+  dispatch: any;
 }
 
-class AppBase extends React.PureComponent<ActionHandler, {}> {
+class AppBase extends React.PureComponent<any, {}> {
+
   constructor(props: any) {
     super(props);
   }
 
   public componentWillUpdate(nextProps: any) {
-    console.log("APP, componentWillUpdate", nextProps);
+    // console.log("App:componentWillUpdate");
+    this.update();
   }
 
-  public componentWillMount(nextProps: any) {
-    console.log("APP, componenWillMount", nextProps, this.props);
-    this.onDatasetChange("Custom", this.props.data);
+  public componentWillMount() {
+    // console.log("App:componentWillMount");
+    this.update();
   }
 
   public render() {
@@ -56,16 +62,22 @@ class AppBase extends React.PureComponent<ActionHandler, {}> {
     );
   }
 
-  private onDatasetChange(name: any, url: any) {
-    this.props.handleAction(datasetUrlLoad(name, url));
+  private update(){
+    const { data } = this.props;
+    if (typeof data === "object" && data !== null) {
+      this.loadDataFromUrl(data.name, data.url);
+    } else if (Array.isArray(data)) {
+      this.loadData(data);
+    }
+  }
+
+  private loadData(data: Object[]) {
+    console.log('loadData: to be implemented: ', data);
+  }
+
+  private loadDataFromUrl(name: string, url: string) {
+    this.props.dispatch(datasetUrlLoad(name, url));
   }
 }
-
-// This is what i am trying to get to to work. so that onDatasetChange will
-// work
-export const App = connect(
-  (state: State) => state,
-  createDispatchHandler<DatasetAsyncAction>()
-)(DragDropContext(HTML5Backend)(AppBase));
 
 export const App = DragDropContext(HTML5Backend)(AppBase);

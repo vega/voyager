@@ -9,15 +9,9 @@ import {configureStore} from './store';
 
 const store = configureStore();
 
-const data = 'node_modules/vega-datasets/cars.json';
-const config = {};
-
 ReactDOM.render(
     <Provider store={store}>
-        <App
-          data={data}
-          config={config}
-        />
+        <App />
     </Provider>,
     document.getElementById('root')
 );
