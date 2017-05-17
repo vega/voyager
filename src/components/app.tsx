@@ -62,7 +62,7 @@ class AppBase extends React.PureComponent<any, {}> {
     );
   }
 
-  private update(){
+  private update() {
     const { data } = this.props;
     if (typeof data === "object" && data !== null) {
       this.loadDataFromUrl(data.name, data.url);
@@ -72,7 +72,7 @@ class AppBase extends React.PureComponent<any, {}> {
   }
 
   private loadData(data: Object[]) {
-    console.log('loadData: to be implemented: ', data);
+    // console.log('loadData: to be implemented: ', data);
   }
 
   private loadDataFromUrl(name: string, url: string) {
