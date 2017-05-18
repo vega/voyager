@@ -1,4 +1,8 @@
-import {Action, DATASET_RECOMMENDS_RECEIVE, DATASET_URL_RECEIVE, DATASET_URL_REQUEST} from '../actions';
+import {
+  Action,
+  DATASET_URL_RECEIVE,
+  DATASET_URL_REQUEST,
+} from '../actions';
 import {Dataset} from '../models';
 
 export function datasetReducer(dataset: Readonly<Dataset>, action: Action): Dataset {
@@ -17,12 +21,6 @@ export function datasetReducer(dataset: Readonly<Dataset>, action: Action): Data
         name,
         schema,
         data: {url}
-      };
-    case DATASET_RECOMMENDS_RECEIVE:
-      const { recommends } = action.payload;
-      return {
-        ...dataset,
-        recommends
       };
   }
   return dataset;

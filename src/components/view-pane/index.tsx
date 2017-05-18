@@ -26,6 +26,11 @@ class ViewPaneBase extends React.PureComponent<ViewPaneProps, {}> {
     const {data, handleAction, query, mainResult} = this.props;
     const isSpecific = !hasWildcards(query.spec).hasAnyWildcard;
 
+    // if there are no results, then nothing to render.
+    if (!mainResult) {
+      return null;
+    }
+
     if (isSpecific) {
       const spec = {
         // FIXME: include data in the main spec?

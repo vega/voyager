@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import {ActionHandler, datasetUrlLoad, DatasetUrlLoad} from '../../actions';
+import {ActionHandler, compassRecomendationsLoad, datasetUrlLoad, DatasetUrlLoad} from '../../actions';
 import {DEFAULT_DATASETS} from '../../constants';
 
 const DATASET_INDEX = DEFAULT_DATASETS.reduce((index, dataset) => {
@@ -27,6 +27,10 @@ export class DatasetSelector extends React.PureComponent<DatasetSelectorProps, {
 
     // Bind - https://facebook.github.io/react/docs/handling-events.html
     this.onDatasetChange = this.onDatasetChange.bind(this);
+  }
+
+  public componentDidUpdate() {
+    this.props.handleAction(compassRecomendationsLoad());
   }
 
   public render() {

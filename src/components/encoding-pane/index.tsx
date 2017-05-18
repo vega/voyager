@@ -6,6 +6,7 @@ import {Channel} from 'vega-lite/build/src/channel';
 import * as styles from './encoding-pane.scss';
 
 import {SHORT_WILDCARD} from 'compassql/build/src/wildcard';
+import {CompassAsyncAction, compassRecomendationsLoad} from '../../actions/compass';
 import {ActionHandler} from '../../actions/index';
 import {createDispatchHandler} from '../../actions/redux-action';
 import {SHELF_CLEAR, ShelfAction} from '../../actions/shelf';
@@ -13,11 +14,12 @@ import {ShelfUnitSpec, State} from '../../models';
 import {EncodingShelf} from './encoding-shelf';
 import {MarkPicker} from './mark-picker';
 
-interface EncodingPanelProps extends ActionHandler<ShelfAction> {
+interface EncodingPanelProps extends ActionHandler<ShelfAction | CompassAsyncAction> {
   spec: ShelfUnitSpec;
 
   specPreview: ShelfUnitSpec;
 }
+
 
 class EncodingPanelBase extends React.PureComponent<EncodingPanelProps, {}> {
   constructor(props: EncodingPanelProps) {
@@ -26,6 +28,16 @@ class EncodingPanelBase extends React.PureComponent<EncodingPanelProps, {}> {
     // Bind - https://facebook.github.io/react/docs/handling-events.html
     this.onClear = this.onClear.bind(this);
   }
+
+  public componentDidMount() {
+    this.props.handleAction(compassRecomendationsLoad());
+  }
+
+  public componentDidUpdate() {
+    this.props.handleAction(compassRecomendationsLoad());
+  }
+
+
   public render() {
     const {specPreview} = this.props;
     const {anyEncodings} = this.props.spec;
