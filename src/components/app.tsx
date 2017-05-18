@@ -5,7 +5,7 @@ import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import * as SplitPane from 'react-split-pane';
 
-import { data as VegaLiteData } from 'vega-lite';
+import {Data, InlineData, isInlineData, isUrlData, UrlData} from 'vega-lite/build/src/data';
 
 import {DataPane} from './data-pane';
 import {EncodingPane} from './encoding-pane';
@@ -20,21 +20,21 @@ import {
 
 
 export type VoyagerConfig = Object;
-export type VoyagerData = VegaLiteData.InlineData | VegaLiteData.UrlData;
+export type VoyagerData = InlineData | UrlData;
 
 interface VoyagerAppProps extends ActionHandler<DatasetAsyncAction> {
   config: Object;
-  data: VegaLiteData.Data;
+  data: Data;
   dispatch: any;
 }
 
-class AppBase extends React.PureComponent<any, {}> {
+class AppBase extends React.PureComponent<VoyagerAppProps, {}> {
 
   constructor(props: any) {
     super(props);
   }
 
-  public componentWillUpdate(nextProps: any) {
+  public componentWillUpdate(nextProps: VoyagerAppProps) {
     this.update(nextProps);
   }
 
@@ -57,22 +57,20 @@ class AppBase extends React.PureComponent<any, {}> {
     );
   }
 
-  private update(props: any) {
+  private update(props: VoyagerAppProps) {
     const { data } = props;
-    if (VegaLiteData.isUrlData) {
+    if (isUrlData(data)) {
       this.loadDataFromUrl(data);
-    } else if (VegaLiteData.isInlineData) {
+    } else if (isInlineData(data)) {
       this.loadData(data);
     }
   }
 
-
-
-  private loadData(data: VegaLiteData.InlineData) {
+  private loadData(data: InlineData) {
     // console.log('loadData: to be implemented: ', data);
   }
 
-  private loadDataFromUrl(data: VegaLiteData.UrlData) {
+  private loadDataFromUrl(data: UrlData) {
     this.props.dispatch(datasetUrlLoad("Custom Data", data.url));
   }
 }
