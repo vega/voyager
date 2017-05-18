@@ -8,10 +8,13 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
+import {Store} from 'redux';
 
 import 'font-awesome-sass-loader'; // TODO should this move to App?
+import {StateWithHistory} from 'redux-undo';
 import {isString} from 'vega-lite/build/src/util';
 import {App, VoyagerConfig, VoyagerData} from './components/app';
+import {StateBase} from './models/index';
 import {configureStore} from './store';
 
 type Container = string | HTMLElement;
@@ -25,7 +28,7 @@ class Voyager {
   private container: HTMLElement;
   private config: VoyagerConfig;
   private data: VoyagerData;
-  private store: any; // TODO how to get the type/inteface for this here?
+  private store: Store<StateWithHistory<Readonly<StateBase>>>;
 
   constructor(container: Container, config: VoyagerConfig, data: VoyagerData) {
     if (isString(container)) {
