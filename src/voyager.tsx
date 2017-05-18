@@ -81,6 +81,6 @@ class Voyager {
  * @param {Object}    config    [description]
  * @param {Array}     data      [description]
  */
-export function CreateVoyager(container: Container, config: Object, data: Object[]) {
+export function CreateVoyager(container: Container, config: Object, data: VoyagerData) {
   return new Voyager(container, config, data);
 }
