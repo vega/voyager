@@ -5,7 +5,7 @@ var WebpackNotifierPlugin = require('webpack-notifier');
 
 module.exports = {
   entry: {
-    bundle: path.resolve(__dirname, 'src/voyager.tsx'),
+    bundle: path.resolve(__dirname, 'src/lib-voyager.tsx'),
     // Bundling deps into the bundle for now...
     // vendor: [
     //   // React

@@ -35,13 +35,11 @@ class AppBase extends React.PureComponent<any, {}> {
   }
 
   public componentWillUpdate(nextProps: any) {
-    // console.log("App:componentWillUpdate");
-    this.update();
+    this.update(nextProps);
   }
 
   public componentWillMount() {
-    // console.log("App:componentWillMount");
-    this.update();
+    this.update(this.props);
   }
 
   public render() {
@@ -59,8 +57,8 @@ class AppBase extends React.PureComponent<any, {}> {
     );
   }
 
-  private update() {
-    const { data } = this.props;
+  private update(props: any) {
+    const { data } = props;
     if (VegaLiteData.isUrlData) {
       this.loadDataFromUrl(data);
     } else if (VegaLiteData.isInlineData) {
