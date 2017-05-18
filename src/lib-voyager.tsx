@@ -10,7 +10,7 @@ import * as ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 
 import 'font-awesome-sass-loader'; // TODO should this move to App?
-
+import {isString} from 'vega-lite/build/src/util';
 import {App, VoyagerConfig, VoyagerData} from './components/app';
 import {configureStore} from './store';
 
@@ -28,11 +28,11 @@ class Voyager {
   private store: any; // TODO how to get the type/inteface for this here?
 
   constructor(container: Container, config: VoyagerConfig, data: VoyagerData) {
-    if (typeof container === "string") {
+    if (isString(container)) {
       this.container = document.querySelector(container) as HTMLElement;
       // TODO throw error if not found
     } else {
-      this.container = container as HTMLElement;
+      this.container = container;
     }
     this.init();
   }
