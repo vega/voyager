@@ -40,18 +40,37 @@ class Voyager {
     this.init();
   }
 
-
-
+  /**
+   * Update the dataset currently loaded into voyager
+   *
+   * @param {VoyagerData} data
+   *
+   * @memberof Voyager
+   */
   public updateData(data: VoyagerData) {
     this.data = data;
     this.render(data, this.config);
   }
 
+  /**
+   * Update the configuration of the voyager application.
+   *
+   * @param {VoyagerConfig} config
+   *
+   * @memberof Voyager
+   */
   public updateConfig(config: VoyagerConfig) {
     this.config = config;
     this.render(this.data, config);
   }
 
+  /**
+   * Initialized the application, and renders it into the target container
+   *
+   * @private
+   *
+   * @memberof Voyager
+   */
   private init() {
     this.store = configureStore();
     this.render(this.data, this.config);
@@ -84,6 +103,6 @@ class Voyager {
  * @param {Object}    config    [description]
  * @param {Array}     data      [description]
  */
-export function CreateVoyager(container: Container, config: Object, data: VoyagerData) {
+export function CreateVoyager(container: Container, config: Object, data: VoyagerData): Voyager {
   return new Voyager(container, config, data);
 }

@@ -5,36 +5,34 @@ import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import * as SplitPane from 'react-split-pane';
 
+import { Dispatch } from 'redux';
+import { StateWithHistory } from 'redux-undo';
 import {Data, InlineData, isInlineData, isUrlData, UrlData} from 'vega-lite/build/src/data';
+import { datasetUrlLoad } from '../actions';
+import { StateBase } from '../models/index';
 
 import {DataPane} from './data-pane';
 import {EncodingPane} from './encoding-pane';
 import {Header} from './header';
 import {ViewPane} from './view-pane';
 
-import {
-  ActionHandler,
-  DatasetAsyncAction,
-  datasetUrlLoad,
-} from '../actions';
-
 
 export type VoyagerConfig = Object;
-export type VoyagerData = InlineData | UrlData;
+export type VoyagerData = Data;
 
-interface VoyagerAppProps extends ActionHandler<DatasetAsyncAction> {
-  config: Object;
-  data: Data;
-  dispatch: any;
+interface Props extends React.Props<AppBase> {
+  config?: VoyagerConfig;
+  data?: Data;
+  dispatch: Dispatch<StateWithHistory<Readonly<StateBase>>>;
 }
 
-class AppBase extends React.PureComponent<VoyagerAppProps, {}> {
+class AppBase extends React.PureComponent<Props, {}> {
 
   constructor(props: any) {
     super(props);
   }
 
-  public componentWillUpdate(nextProps: VoyagerAppProps) {
+  public componentWillUpdate(nextProps: Props) {
     this.update(nextProps);
   }
 
@@ -57,7 +55,7 @@ class AppBase extends React.PureComponent<VoyagerAppProps, {}> {
     );
   }
 
-  private update(props: VoyagerAppProps) {
+  private update(props: Props) {
     const { data } = props;
     if (isUrlData(data)) {
       this.loadDataFromUrl(data);
@@ -67,12 +65,16 @@ class AppBase extends React.PureComponent<VoyagerAppProps, {}> {
   }
 
   private loadData(data: InlineData) {
-    // console.log('loadData: to be implemented: ', data);
+    // tslint:disable-next-line:no-console
+    console.log('loadData: to be implemented: ', data);
   }
 
   private loadDataFromUrl(data: UrlData) {
-    this.props.dispatch(datasetUrlLoad("Custom Data", data.url));
+    if (this.props.dispatch) {
+      this.props.dispatch(datasetUrlLoad("Custom Data", data.url));
+    }
   }
 }
 
 export const App = DragDropContext(HTML5Backend)(AppBase);
+
