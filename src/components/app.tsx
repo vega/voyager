@@ -56,11 +56,13 @@ class AppBase extends React.PureComponent<Props, {}> {
   }
 
   private update(props: Props) {
-    const { data } = props;
-    if (isUrlData(data)) {
-      this.loadDataFromUrl(data);
-    } else if (isInlineData(data)) {
-      this.loadData(data);
+    const {data} = props;
+    if (data) {
+      if (isUrlData(data)) {
+        this.loadDataFromUrl(data);
+      } else if (isInlineData(data)) {
+        this.loadData(data);
+      }
     }
   }
 
