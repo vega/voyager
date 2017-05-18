@@ -1,11 +1,18 @@
 var path = require('path');
 
+const webpack = require('webpack');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
+const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 var WebpackNotifierPlugin = require('webpack-notifier');
+
+const getClientEnvironment = require('./env');
+// Get environment variables to inject into our app.
+var publicUrl = '';
+const env = getClientEnvironment(publicUrl);
 
 module.exports = {
   entry: {
-    bundle: path.resolve(__dirname, 'src/index.tsx'),
+    bundle: path.resolve(__dirname, '../src/index.tsx'),
     vendor: [
       // React
       'react-css-modules',
@@ -30,7 +37,11 @@ module.exports = {
   },
   output: {
     filename: "[name].js",
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, '../dist'),
+    // Add /* filename */ comments to generated require()s in the output.
+    pathinfo: true,
+    // There are also additional JS chunk files if you use code splitting.
+    chunkFilename: 'static/js/[name].chunk.js',
     publicPath: '/dist/'
   },
 
@@ -40,7 +51,7 @@ module.exports = {
   devtool: 'source-map',
 
   devServer: {
-    contentBase: __dirname,
+    contentBase: path.resolve(__dirname, '../'),
     compress: true,
     port: 9000
   },
@@ -85,7 +96,7 @@ module.exports = {
              options: {
                sourceMap: true,
                includePaths: [
-                 path.resolve(__dirname, "node_modules/normalize-scss/sass")
+                 path.resolve(__dirname, "../node_modules/normalize-scss/sass")
                ]
              }
           }]
@@ -119,10 +130,24 @@ module.exports = {
     "react-dom": "ReactDOM"
   },
   plugins: [
+    // Makes some environment variables available to the JS code, for example:
+    // if (process.env.NODE_ENV === 'development') { ... }. See `./env.js`.
+    new webpack.DefinePlugin(env.stringified),
+
+    // Watcher doesn't work well if you mistype casing in a path so we use
+    // a plugin that prints an error when you attempt to do this.
+    // See https://github.com/facebookincubator/create-react-app/issues/240
+    new CaseSensitivePathsPlugin(),
     new ExtractTextPlugin({
       filename: "style.css",
       disable: false
     }),
     new WebpackNotifierPlugin()
-  ]
+  ],
+  // Turn off performance hints during development because we don't do any
+  // splitting or minification in interest of speed. These warnings become
+  // cumbersome.
+  performance: {
+    hints: false,
+  },
 };

@@ -10,12 +10,6 @@ const loggerMiddleware = createLogger({
   level: 'debug'
 });
 
-interface Process {
-  env: any;
-};
-
-declare var process: Process;
-
 // define which middleware to use depending on environment
 let composeEnhancers = compose;
 const middleware: Middleware[] = [thunkMiddleware];

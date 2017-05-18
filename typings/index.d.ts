@@ -19,3 +19,9 @@ declare module 'font-awesome-webpack' {
 declare module 'vega' {
   export function parse(spec: any, config?: any): any;
 }
+
+interface Process {
+  env: any;
+}
+
+declare var process: Process;
