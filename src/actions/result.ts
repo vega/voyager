@@ -22,7 +22,7 @@ export type ResultRecommendsRecieve = ReduxAction<typeof RESULT_RECOMMENDS_RECEI
 }>;
 
 export type ResultRecomendationsLoad = ThunkAction<void , State, undefined>;
-export function resultRecomendationsLoad(query?: Query, schema?: Schema): ResultRecomendationsLoad {
+export function resultRequest(query?: Query, schema?: Schema): ResultRecomendationsLoad {
   return (dispatch: Dispatch<Action>, getState) => {
     if (!query) {
       query = getQuery(getState());

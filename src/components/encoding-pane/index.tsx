@@ -8,7 +8,7 @@ import * as styles from './encoding-pane.scss';
 import {SHORT_WILDCARD} from 'compassql/build/src/wildcard';
 import {ActionHandler} from '../../actions/index';
 import {createDispatchHandler} from '../../actions/redux-action';
-import {ResultAsyncAction, resultRecomendationsLoad} from '../../actions/result';
+import {ResultAsyncAction, resultRequest} from '../../actions/result';
 import {SHELF_CLEAR, ShelfAction} from '../../actions/shelf';
 import {ShelfUnitSpec, State} from '../../models';
 import {EncodingShelf} from './encoding-shelf';
@@ -30,12 +30,12 @@ class EncodingPanelBase extends React.PureComponent<EncodingPanelProps, {}> {
   }
 
   public componentDidMount() {
-    this.props.handleAction(resultRecomendationsLoad());
+    this.props.handleAction(resultRequest());
   }
 
   public componentDidUpdate(prevProps: EncodingPanelProps) {
     if (this.props.spec !== prevProps.spec) {
-      this.props.handleAction(resultRecomendationsLoad());
+      this.props.handleAction(resultRequest());
     }
   }
 
