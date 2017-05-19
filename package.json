@@ -70,7 +70,7 @@
     "case-sensitive-paths-webpack-plugin": "^2.0.0",
     "codecov": "^1.0.1",
     "css-loader": "^0.26.1",
-    "extract-text-webpack-plugin": "beta",
+    "extract-text-webpack-plugin": "^2.1.0",
     "file-loader": "^0.10.1",
     "fs-extra": "^3.0.1",
     "html-webpack-plugin": "^2.28.0",
