@@ -27,7 +27,7 @@ export type DatasetUrlReceive = ReduxAction<typeof DATASET_URL_RECEIVE, {
 export type DatasetUrlLoad = ThunkAction<void , State, undefined>;
 
 export function datasetUrlLoad(name: string, url: string): DatasetUrlLoad {
-  return (dispatch: Dispatch<Action>, getState: Function) => {
+  return (dispatch: Dispatch<Action>) => {
     dispatch({
       type: DATASET_URL_REQUEST,
       payload: {name, url}
@@ -45,7 +45,6 @@ export function datasetUrlLoad(name: string, url: string): DatasetUrlLoad {
           type: DATASET_URL_RECEIVE,
           payload: {name, url, schema}
         });
-        return { schema };
       }
     );
   };
