@@ -1,19 +1,19 @@
 import {
   Action,
-  RESULT_RECOMMENDS_RECEIVE,
-  RESULT_RECOMMENDS_REQUEST,
+  RESULT_RECEIVE,
+  RESULT_REQUEST,
 } from '../actions';
 import {Result, ResultIndex} from '../models';
 
 export function mainResultReducer(state: Readonly<Result>, action: Action): Result {
   switch (action.type) {
-    case RESULT_RECOMMENDS_REQUEST:
+    case RESULT_REQUEST:
       return {
         ...state,
         isLoading: true,
         modelGroup : null
       };
-    case RESULT_RECOMMENDS_RECEIVE:
+    case RESULT_RECEIVE:
       const { modelGroup } = action.payload;
       return {
         ...state,

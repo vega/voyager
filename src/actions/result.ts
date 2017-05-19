@@ -5,19 +5,19 @@ import {Dispatch} from 'redux';
 import {ThunkAction} from 'redux-thunk';
 import {ReduxAction} from './redux-action';
 
-import {fetchResultRecommends} from '../api/api';
+import {fetchCompassQLResult} from '../api/api';
 import {State} from '../models/index';
 import {getQuery, getSchema} from '../selectors';
 import {Action} from './index';
 
-export type ResultAction = ResultRecommendsRequest | ResultRecommendsRecieve;
+export type ResultAction = ResultRequest | ResultReceive;
 export type ResultAsyncAction = ResultRecomendationsLoad;
 
-export const RESULT_RECOMMENDS_REQUEST = 'RESULT_RECOMMENDS_REQUEST';
-export type ResultRecommendsRequest = ReduxAction<typeof RESULT_RECOMMENDS_REQUEST, {}>;
+export const RESULT_REQUEST = 'RESULT_REQUEST';
+export type ResultRequest = ReduxAction<typeof RESULT_REQUEST, {}>;
 
-export const RESULT_RECOMMENDS_RECEIVE = 'RESULT_RECOMMENDS_RECEIVE';
-export type ResultRecommendsRecieve = ReduxAction<typeof RESULT_RECOMMENDS_RECEIVE, {
+export const RESULT_RECEIVE = 'RESULT_RECEIVE';
+export type ResultReceive = ReduxAction<typeof RESULT_RECEIVE, {
   modelGroup: SpecQueryModelGroup
 }>;
 
@@ -31,12 +31,12 @@ export function resultRequest(query?: Query, schema?: Schema): ResultRecomendati
       schema = getSchema(getState());
     }
     dispatch({
-      type: RESULT_RECOMMENDS_REQUEST
+      type: RESULT_REQUEST
     });
-    return fetchResultRecommends(query, schema).then(
+    return fetchCompassQLResult(query, schema).then(
       modelGroup => {
         dispatch({
-          type: RESULT_RECOMMENDS_RECEIVE,
+          type: RESULT_RECEIVE,
           payload: { modelGroup }
         });
       }
