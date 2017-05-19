@@ -67,5 +67,5 @@ export function datasetReceive(name: string, dataset: InlineData): DatasetReceiv
       schema,
       data: dataset,
     }
-  }
+  };
 };

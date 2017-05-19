@@ -1,10 +1,10 @@
 import {
   Action,
+  DATASET_RECEIVE,
   DATASET_URL_RECEIVE,
   DATASET_URL_REQUEST,
 } from '../actions';
 import {Dataset} from '../models';
-import { DATASET_RECEIVE } from '../actions/dataset';
 
 export function datasetReducer(dataset: Readonly<Dataset>, action: Action): Dataset {
   switch (action.type) {
