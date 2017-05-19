@@ -11,7 +11,7 @@ import {getQuery, getSchema} from '../selectors';
 import {Action} from './index';
 
 export type ResultAction = ResultRequest | ResultReceive;
-export type ResultAsyncAction = ResultRecomendationsLoad;
+export type ResultAsyncAction = AsyncResultRequest;
 
 export const RESULT_REQUEST = 'RESULT_REQUEST';
 export type ResultRequest = ReduxAction<typeof RESULT_REQUEST, {}>;
@@ -21,8 +21,8 @@ export type ResultReceive = ReduxAction<typeof RESULT_RECEIVE, {
   modelGroup: SpecQueryModelGroup
 }>;
 
-export type ResultRecomendationsLoad = ThunkAction<void , State, undefined>;
-export function resultRequest(query?: Query, schema?: Schema): ResultRecomendationsLoad {
+export type AsyncResultRequest = ThunkAction<void , State, undefined>;
+export function resultRequest(query?: Query, schema?: Schema): AsyncResultRequest {
   return (dispatch: Dispatch<Action>, getState) => {
     if (!query) {
       query = getQuery(getState());
