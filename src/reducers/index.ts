@@ -5,12 +5,14 @@ import {HISTORY_LIMIT} from '../constants';
 import {StateBase} from '../models';
 
 import {datasetReducer} from './dataset';
+import {resultReducer} from './result';
 import {shelfReducer} from './shelf';
 
 function reducer(state: Readonly<StateBase>, action: Action): StateBase {
   return {
     dataset: datasetReducer(state.dataset, action),
-    shelf: shelfReducer(state.shelf, action, state.dataset.schema)
+    shelf: shelfReducer(state.shelf, action, state.dataset.schema),
+    result: resultReducer(state.result, action)
   };
 }
 

@@ -8,7 +8,7 @@ import * as SplitPane from 'react-split-pane';
 import { Dispatch } from 'redux';
 import { StateWithHistory } from 'redux-undo';
 import {Data, InlineData, isInlineData, isUrlData, UrlData} from 'vega-lite/build/src/data';
-import { datasetUrlLoad, datasetReceive } from '../actions';
+import { datasetReceive, datasetUrlLoad } from '../actions';
 import { StateBase } from '../models/index';
 
 import {DataPane} from './data-pane';
@@ -78,3 +78,4 @@ class AppBase extends React.PureComponent<Props, {}> {
 }
 
 export const App = DragDropContext(HTML5Backend)(AppBase);
+
