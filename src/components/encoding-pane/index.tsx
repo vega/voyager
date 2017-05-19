@@ -6,15 +6,15 @@ import {Channel} from 'vega-lite/build/src/channel';
 import * as styles from './encoding-pane.scss';
 
 import {SHORT_WILDCARD} from 'compassql/build/src/wildcard';
-import {CompassAsyncAction, compassRecomendationsLoad} from '../../actions/compass';
 import {ActionHandler} from '../../actions/index';
 import {createDispatchHandler} from '../../actions/redux-action';
+import {ResultAsyncAction, resultRecomendationsLoad} from '../../actions/result';
 import {SHELF_CLEAR, ShelfAction} from '../../actions/shelf';
 import {ShelfUnitSpec, State} from '../../models';
 import {EncodingShelf} from './encoding-shelf';
 import {MarkPicker} from './mark-picker';
 
-interface EncodingPanelProps extends ActionHandler<ShelfAction | CompassAsyncAction> {
+interface EncodingPanelProps extends ActionHandler<ShelfAction | ResultAsyncAction> {
   spec: ShelfUnitSpec;
 
   specPreview: ShelfUnitSpec;
@@ -30,11 +30,13 @@ class EncodingPanelBase extends React.PureComponent<EncodingPanelProps, {}> {
   }
 
   public componentDidMount() {
-    this.props.handleAction(compassRecomendationsLoad());
+    this.props.handleAction(resultRecomendationsLoad());
   }
 
-  public componentDidUpdate() {
-    this.props.handleAction(compassRecomendationsLoad());
+  public componentDidUpdate(prevProps: EncodingPanelProps) {
+    if (this.props.spec !== prevProps.spec) {
+      this.props.handleAction(resultRecomendationsLoad());
+    }
   }
 
 

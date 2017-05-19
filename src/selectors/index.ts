@@ -1,4 +1,3 @@
-import {SpecQueryModelGroup} from 'compassql/build/src/model';
 import {Schema} from 'compassql/build/src/schema';
 import {SHORT_WILDCARD} from 'compassql/build/src/wildcard';
 import {createSelector} from 'reselect';
@@ -8,7 +7,7 @@ import {Shelf, ShelfFieldDef, State, toQuery} from '../models';
 export const getData = (state: State) => state.present.dataset.data;
 export const getShelf = (state: State) => state.present.shelf;
 export const getSchema = (state: State) => state.present.dataset.schema;
-export const getRecommends = (state: State) => state.present.compass.recommends;
+export const getMainResult = (state: State) => state.present.result.main.modelGroup;
 
 export const getQuery = createSelector(
   getShelf,
@@ -16,14 +15,6 @@ export const getQuery = createSelector(
     return toQuery(shelf);
   }
 );
-
-export const getMainResult = createSelector(
-  getRecommends,
-  (recommends: SpecQueryModelGroup): SpecQueryModelGroup => {
-    return recommends;
-  }
-);
-
 
 const ALL_PRESET_WILDCARD_FIELDS: ShelfFieldDef[] = [
   {field: SHORT_WILDCARD, type: 'quantitative', title: 'Quantitative Fields'},

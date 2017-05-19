@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import {ActionHandler, compassRecomendationsLoad, datasetUrlLoad, DatasetUrlLoad} from '../../actions';
+import {ActionHandler, datasetUrlLoad, DatasetUrlLoad, resultRecomendationsLoad} from '../../actions';
 import {DEFAULT_DATASETS} from '../../constants';
 
 const DATASET_INDEX = DEFAULT_DATASETS.reduce((index, dataset) => {
@@ -30,7 +30,7 @@ export class DatasetSelector extends React.PureComponent<DatasetSelectorProps, {
   }
 
   public componentDidUpdate() {
-    this.props.handleAction(compassRecomendationsLoad());
+    this.props.handleAction(resultRecomendationsLoad());
   }
 
   public render() {

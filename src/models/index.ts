@@ -1,12 +1,12 @@
 import {StateWithHistory} from 'redux-undo';
 
-import {Compass, DEFAULT_COMPASS} from './compass';
 import {Dataset, DEFAULT_DATASET} from './dataset';
+import {DEFAULT_RESULT, ResultIndex} from './result';
 import {DEFAULT_SHELF_SPEC, Shelf} from './shelf';
 
 export * from './dataset';
 export * from './shelf';
-export * from './compass';
+export * from './result';
 
 /**
  * Application state.
@@ -14,7 +14,7 @@ export * from './compass';
 export interface StateBase {
   dataset: Dataset;
   shelf: Shelf;
-  compass: Compass;
+  result: ResultIndex;
 }
 
 /**
@@ -25,5 +25,5 @@ export type State = StateWithHistory<StateBase>;
 export const DEFAULT_STATE: StateBase = {
   dataset: DEFAULT_DATASET,
   shelf: DEFAULT_SHELF_SPEC,
-  compass: DEFAULT_COMPASS,
+  result: DEFAULT_RESULT,
 };
