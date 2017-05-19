@@ -59,5 +59,5 @@ export const DEFAULT_DATASET: Dataset = {
       {q1: 1, q2: 2, t: new Date(), n1: 'a', n2: 1},
       {q1: 100, q2: 23, t: new Date(), n1: 'c', n2: 1}
     ]
-  },
+  }
 };
