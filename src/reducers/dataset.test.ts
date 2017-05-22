@@ -1,6 +1,6 @@
 import {Schema} from 'compassql/build/src/schema';
 
-import {DATASET_URL_RECEIVE, DATASET_URL_REQUEST} from '../actions/dataset';
+import {DATASET_INLINE_RECEIVE, DATASET_URL_RECEIVE, DATASET_URL_REQUEST} from '../actions/dataset';
 import {DEFAULT_DATASET} from '../models/dataset';
 import {datasetReducer} from './dataset';
 
@@ -46,4 +46,39 @@ describe('reducers/dataset', () => {
       });
     });
   });
+
+  describe(DATASET_INLINE_RECEIVE, () => {
+    it('returns new dataset state with isLoading=false and with new name, data, and schema', () => {
+      const data = {
+        values: [
+          {"a": "A", "b": 28}, {"a": "B", "b": 55}, {"a": "C", "b": 43},
+          {"a": "D", "b": 91}, {"a": "E", "b": 81}, {"a": "F", "b": 53},
+          {"a": "G", "b": 19}, {"a": "H", "b": 87}, {"a": "I", "b": 52}
+        ]
+      };
+      const schema = {} as Schema; // Mock
+      expect(datasetReducer(
+        {
+          ...DEFAULT_DATASET,
+          isLoading: true
+        },
+        {
+          type: DATASET_INLINE_RECEIVE,
+          payload: {
+            name: 'Custom Data',
+            data,
+            schema
+          }
+        }
+      )).toEqual({
+        ...DEFAULT_DATASET,
+        isLoading: false,
+        name: 'Custom Data',
+        data,
+        schema
+      });
+    });
+  });
+
+
 });

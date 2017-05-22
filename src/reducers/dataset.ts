@@ -1,5 +1,6 @@
 import {
   Action,
+  DATASET_INLINE_RECEIVE,
   DATASET_URL_RECEIVE,
   DATASET_URL_REQUEST,
 } from '../actions';
@@ -14,14 +15,29 @@ export function datasetReducer(dataset: Readonly<Dataset>, action: Action): Data
       };
 
     case DATASET_URL_RECEIVE:
-      const {name, url, schema} = action.payload;
-      return {
-        ...dataset,
-        isLoading: false,
-        name,
-        schema,
-        data: {url}
-      };
+      {
+        const {name, url, schema} = action.payload;
+        return {
+          ...dataset,
+          isLoading: false,
+          name,
+          schema,
+          data: {url}
+        };
+      }
+
+    case DATASET_INLINE_RECEIVE:
+      {
+        const { name, data, schema } = action.payload;
+        return {
+          ...dataset,
+          isLoading: false,
+          name,
+          schema,
+          data,
+        };
+      }
+
   }
   return dataset;
 }

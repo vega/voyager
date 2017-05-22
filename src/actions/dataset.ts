@@ -3,11 +3,12 @@ import * as fetch from 'isomorphic-fetch';
 import {Dispatch} from 'redux';
 import {ThunkAction} from 'redux-thunk';
 
+import {InlineData} from 'vega-lite/build/src/data';
 import {State} from '../models/index';
 import {Action} from './index';
 import {ReduxAction} from './redux-action';
 
-export type DatasetAction = DatasetUrlReceive | DatasetUrlRequest;
+export type DatasetAction = DatasetUrlReceive | DatasetUrlRequest | DatasetReceive;
 export type DatasetAsyncAction = DatasetUrlLoad;
 
 export const DATASET_URL_REQUEST = 'DATA_URL_REQUEST';
@@ -48,4 +49,23 @@ export function datasetUrlLoad(name: string, url: string): DatasetUrlLoad {
       }
     );
   };
-}
+};
+
+export const DATASET_INLINE_RECEIVE = 'DATASET_INLINE_RECEIVE';
+export type DatasetReceive = ReduxAction<typeof DATASET_INLINE_RECEIVE, {
+  name: string,
+  data: InlineData,
+  schema: Schema,
+}>;
+
+export function datasetReceive(name: string, dataset: InlineData): DatasetReceive {
+  const schema = buildSchema(dataset.values);
+  return {
+    type: DATASET_INLINE_RECEIVE,
+    payload: {
+      name,
+      schema,
+      data: dataset,
+    }
+  };
+};
