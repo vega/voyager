@@ -1,15 +1,15 @@
 import './app.scss';
 
 import * as React from 'react';
-import { DragDropContext } from 'react-dnd';
+import {DragDropContext} from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import * as SplitPane from 'react-split-pane';
 
-import { Dispatch } from 'redux';
-import { StateWithHistory } from 'redux-undo';
+import {Dispatch} from 'redux';
+import {StateWithHistory} from 'redux-undo';
 import {Data, InlineData, isInlineData, isUrlData, UrlData} from 'vega-lite/build/src/data';
-import { datasetReceive, datasetUrlLoad } from '../actions';
-import { StateBase } from '../models/index';
+import {datasetReceive, datasetUrlLoad} from '../actions';
+import {StateBase} from '../models/index';
 
 import {DataPane} from './data-pane';
 import {EncodingPane} from './encoding-pane';

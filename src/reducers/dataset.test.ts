@@ -1,6 +1,6 @@
 import {Schema} from 'compassql/build/src/schema';
 
-import { DATASET_RECEIVE, DATASET_URL_RECEIVE, DATASET_URL_REQUEST } from '../actions/dataset';
+import {DATASET_INLINE_RECEIVE, DATASET_URL_RECEIVE, DATASET_URL_REQUEST} from '../actions/dataset';
 import {DEFAULT_DATASET} from '../models/dataset';
 import {datasetReducer} from './dataset';
 
@@ -47,7 +47,7 @@ describe('reducers/dataset', () => {
     });
   });
 
-  describe(DATASET_RECEIVE, () => {
+  describe(DATASET_INLINE_RECEIVE, () => {
     it('returns new dataset state with isLoading=false and with new name, data, and schema', () => {
       const data = {
         values: [
@@ -63,7 +63,7 @@ describe('reducers/dataset', () => {
           isLoading: true
         },
         {
-          type: DATASET_RECEIVE,
+          type: DATASET_INLINE_RECEIVE,
           payload: {
             name: 'Custom Data',
             data,

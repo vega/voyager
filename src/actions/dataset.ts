@@ -51,8 +51,8 @@ export function datasetUrlLoad(name: string, url: string): DatasetUrlLoad {
   };
 };
 
-export const DATASET_RECEIVE = 'DATASET_RECEIVE';
-export type DatasetReceive = ReduxAction<typeof DATASET_RECEIVE, {
+export const DATASET_INLINE_RECEIVE = 'DATASET_INLINE_RECEIVE';
+export type DatasetReceive = ReduxAction<typeof DATASET_INLINE_RECEIVE, {
   name: string,
   data: InlineData,
   schema: Schema,
@@ -61,7 +61,7 @@ export type DatasetReceive = ReduxAction<typeof DATASET_RECEIVE, {
 export function datasetReceive(name: string, dataset: InlineData): DatasetReceive {
   const schema = buildSchema(dataset.values);
   return {
-    type: DATASET_RECEIVE,
+    type: DATASET_INLINE_RECEIVE,
     payload: {
       name,
       schema,
