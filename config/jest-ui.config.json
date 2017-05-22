@@ -1,0 +1,13 @@
+{
+  "roots": [
+    "<rootDir>../lib/"
+  ],
+  "testPathIgnorePatterns": [
+    "<rootDir>/node_modules/"
+  ],
+  "testRegex": "(test\\.ui\\.(ts|tsx|jsx|js)\\.js$)",
+  "moduleFileExtensions": [
+    "js"
+  ],
+  "collectCoverage": false
+}
