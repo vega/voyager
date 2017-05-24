@@ -60,7 +60,7 @@
   },
   "devDependencies": {
     "@types/classnames": "^0.0.32",
-    "@types/jest": "19.0.2",
+    "@types/jest": "19.2.3",
     "@types/react": "^15.0.8",
     "@types/react-css-modules": "^3.7.6",
     "@types/react-dnd": "^2.0.32",
