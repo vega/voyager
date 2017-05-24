@@ -3,7 +3,7 @@
 const path = require('path');
 const webpack = require('webpack');
 // const config = require('../config/webpack.config.dev');
-const config = require('../webpack.lib.config');
+const config = require('../config/webpack.lib.config');
 const glob = require('glob');
 
 

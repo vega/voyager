@@ -1,6 +1,6 @@
 {
-  "roots": [
-    "lib/"
+  "testPathDirs": [
+    "<rootDir>/lib/"
   ],
   "testPathIgnorePatterns": [
     "<rootDir>/node_modules/"
@@ -9,6 +9,5 @@
   "moduleFileExtensions": [
     "js"
   ],
-  "collectCoverage": true,
-  "mapCoverage": true
+  "collectCoverage": false
 }
