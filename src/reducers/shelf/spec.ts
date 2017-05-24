@@ -56,7 +56,7 @@ export function shelfSpecReducer(shelfSpec: Readonly<ShelfUnitSpec>, action: Act
         // Otherwise, query for the best encoding if there is no wildcard channel
         const query = autoAddFieldQuery(shelfSpec, fieldDef);
         const rec = recommend(query, schema);
-        const topSpecQuery = rec.result.getTopSpecQueryModel().specQuery;
+        const topSpecQuery = rec.result.getTopSpecQueryItem().specQuery;
 
         return {
           ...fromSpecQuery(topSpecQuery, shelfSpec.config),

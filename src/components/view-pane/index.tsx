@@ -35,7 +35,7 @@ class ViewPaneBase extends React.PureComponent<ViewPaneProps, {}> {
       const spec = {
         // FIXME: include data in the main spec?
         data: data,
-        ...mainResult.getTopSpecQueryModel().toSpec()
+        ...mainResult.getTopSpecQueryItem().toSpec()
       };
 
       return (

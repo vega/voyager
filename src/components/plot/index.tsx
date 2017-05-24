@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
-import {FacetedUnitSpec} from 'vega-lite/build/src/spec';
+import {FacetedCompositeUnitSpec} from 'vega-lite/build/src/spec';
 
 import * as styles from './plot.scss';
 
@@ -16,7 +16,7 @@ export interface PlotProps extends ActionHandler<ShelfAction> {
   isPlotListItem?: boolean;
   scrollOnHover?: boolean;
   showSpecifyButton?: boolean;
-  spec: FacetedUnitSpec;
+  spec: FacetedCompositeUnitSpec;
 }
 
 export interface PlotState {
