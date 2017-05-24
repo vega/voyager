@@ -8,7 +8,7 @@ import {fromEncodingQueries, ShelfAnyEncodingDef, ShelfMark, SpecificEncoding} f
 /**
  * A model state for the shelf of a unit specification.
  * This interface provides a hybrid structure that resembles
- * FacetedUnitSpec in Vega-Lite and SpecQuery in CompassQL,
+ * FacetedCompositeUnitSpec in Vega-Lite and SpecQuery in CompassQL,
  * but provide structure that better serves as internal structure of shelf in Voyager.
  */
 export interface ShelfUnitSpec {

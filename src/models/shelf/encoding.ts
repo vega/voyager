@@ -53,7 +53,7 @@ export interface ShelfAnyEncodingDef extends ShelfFieldDef {
 }
 
 export type SpecificEncoding = {
-  [P in keyof Encoding]: ShelfFieldDef;
+  [P in keyof Encoding<string>]: ShelfFieldDef;
 };
 
 export function fromEncodingQueries(encodings: EncodingQuery[]): {

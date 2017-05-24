@@ -1,10 +1,10 @@
 import * as React from 'react';
 import * as vega from 'vega';
 import * as vl from 'vega-lite';
-import {ExtendedSpec} from 'vega-lite/build/src/spec';
+import {TopLevelExtendedSpec} from 'vega-lite/build/src/spec';
 
 export interface VegaLiteProps {
-  spec: ExtendedSpec;
+  spec: TopLevelExtendedSpec;
 
   renderer?: 'svg' | 'canvas';
 }
@@ -18,7 +18,7 @@ export class VegaLite extends React.PureComponent<VegaLiteProps, any> {
       <div className='chart' ref={CHART_REF}/>
     );
   }
-  protected renderVega(vlSpec: ExtendedSpec) {
+  protected renderVega(vlSpec: TopLevelExtendedSpec) {
     const {spec} = vl.compile(vlSpec);
 
     const runtime = vega.parse(spec, vlSpec.config);

@@ -2,7 +2,7 @@ import {SpecQueryModel, SpecQueryModelGroup} from 'compassql/build/src/model';
 import {FieldQuery, isFieldQuery} from 'compassql/build/src/query/encoding';
 import {toMap} from 'compassql/build/src/util';
 import {Data} from 'vega-lite/build/src/data';
-import {FacetedUnitSpec} from 'vega-lite/build/src/spec';
+import {FacetedCompositeUnitSpec} from 'vega-lite/build/src/spec';
 
 import {ShelfFieldDef} from './shelf/encoding';
 
@@ -14,15 +14,15 @@ export interface PlotFieldInfo {
 export interface PlotObject {
   fieldInfos: PlotFieldInfo[];
 
-  spec: FacetedUnitSpec;
+  spec: FacetedCompositeUnitSpec;
 }
 
 export function plotObjects(modelGroup: SpecQueryModelGroup, data: Data) {
   return modelGroup.items.map(item => {
     // FIXME if (item instanceof SpecQueryModelGroup) {
-    if ('getTopSpecQueryModel' in item) {
+    if ('getTopSpecQueryItem' in item) {
       const childModelGroup = item as SpecQueryModelGroup;
-      return plotObject(data, childModelGroup.getTopSpecQueryModel());
+      return plotObject(data, childModelGroup.getTopSpecQueryItem());
     }
     // FIXME: include data in the main spec?
     return plotObject(data, item as SpecQueryModel);
