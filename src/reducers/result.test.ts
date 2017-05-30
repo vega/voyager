@@ -1,4 +1,6 @@
-import {SpecQueryModelGroup} from 'compassql/build/src/model';
+import {SpecQueryGroup} from 'compassql/build/src/model';
+import { PlotObject } from '../models/plot';
+
 
 import {RESULT_RECEIVE, RESULT_REQUEST} from '../actions/result';
 import {DEFAULT_RESULT_MAIN} from '../models/result';
@@ -19,7 +21,7 @@ describe('reducers/compass', () => {
 
   describe(RESULT_RECEIVE, () => {
     it('returns new compass state with isLoading=false and new recommends', () => {
-      const modelGroup = {} as SpecQueryModelGroup; // Mock
+      const modelGroup = {} as SpecQueryGroup<PlotObject>; // Mock
       expect(mainResultReducer(
         {
           ...DEFAULT_RESULT_MAIN,

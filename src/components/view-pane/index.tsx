@@ -1,4 +1,4 @@
-import {SpecQueryModelGroup} from 'compassql/build/src/model';
+import {SpecQueryGroup} from 'compassql/build/src/model';
 import {Query} from 'compassql/build/src/query/query';
 import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
@@ -8,7 +8,7 @@ import {Data} from 'vega-lite/build/src/data';
 import {ActionHandler, createDispatchHandler} from '../../actions/redux-action';
 import {ShelfAction} from '../../actions/shelf';
 import {State} from '../../models';
-import {plotObjects} from '../../models/plot';
+import {extractPlotObjects, PlotObject} from '../../models/plot';
 import {hasWildcards} from '../../models/shelf/spec';
 import {getData, getMainResult, getQuery} from '../../selectors';
 import {Plot} from '../plot';
@@ -18,7 +18,7 @@ import * as styles from './view-pane.scss';
 export interface ViewPaneProps extends ActionHandler<ShelfAction> {
   data: Data;
   query: Query;
-  mainResult: SpecQueryModelGroup;
+  mainResult: SpecQueryGroup<PlotObject>;
 }
 
 class ViewPaneBase extends React.PureComponent<ViewPaneProps, {}> {
@@ -35,7 +35,7 @@ class ViewPaneBase extends React.PureComponent<ViewPaneProps, {}> {
       const spec = {
         // FIXME: include data in the main spec?
         data: data,
-        ...mainResult.getTopSpecQueryItem().toSpec()
+        ...mainResult.getTopSpecQueryItem().spec
       };
 
       return (
@@ -49,7 +49,7 @@ class ViewPaneBase extends React.PureComponent<ViewPaneProps, {}> {
         </div>
       );
     } else {
-      const plots = plotObjects(mainResult, data);
+      const plots = extractPlotObjects(mainResult, data);
 
       return (
         <div className="pane" styleName="view-pane-gallery">
