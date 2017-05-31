@@ -17,7 +17,7 @@ export interface PlotObject {
   spec: FacetedCompositeUnitSpec;
 }
 
-export function extractPlotObjects(modelGroup: SpecQueryGroup<PlotObject>, data: Data) {
+export function extractPlotObjects(modelGroup: SpecQueryGroup<PlotObject>) {
   return modelGroup.items.map(item => {
     if (isSpecQueryGroup<PlotObject>(item)) {
       const childModelGroup = item as SpecQueryGroup<PlotObject>;

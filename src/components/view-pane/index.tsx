@@ -49,7 +49,7 @@ class ViewPaneBase extends React.PureComponent<ViewPaneProps, {}> {
         </div>
       );
     } else {
-      const plots = extractPlotObjects(mainResult, data);
+      const plots = extractPlotObjects(mainResult);
 
       return (
         <div className="pane" styleName="view-pane-gallery">
