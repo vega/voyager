@@ -1,6 +1,6 @@
 import {StateWithHistory} from 'redux-undo';
 
-import { VoyagerConfig, DEFAULT_VOYAGER_CONFIG } from './config';
+import {DEFAULT_VOYAGER_CONFIG, VoyagerConfig} from './config';
 import {Dataset, DEFAULT_DATASET} from './dataset';
 import {DEFAULT_RESULT, ResultIndex} from './result';
 import {DEFAULT_SHELF_SPEC, Shelf} from './shelf';

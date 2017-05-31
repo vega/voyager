@@ -16,3 +16,4 @@ export function configReducer(state: Readonly<VoyagerConfig>, action: Action): V
   }
   return state;
 }
+

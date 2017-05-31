@@ -23,3 +23,4 @@ export const rootReducer = undoable(reducer, {
   undoType: UNDO,
   redoType: REDO
 });
+
