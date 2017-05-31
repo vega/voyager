@@ -15,7 +15,7 @@ let composeEnhancers = compose;
 const middleware: Middleware[] = [thunkMiddleware];
 
 // when not in production enable redux tools and add logger middleware
-if (process.env.NODE_ENV !== 'production') {
+if (process.env.NODE_ENV !== 'production' && process.env.NODE_ENV !== 'test') {
   composeEnhancers =
     (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
   middleware.push(loggerMiddleware);
