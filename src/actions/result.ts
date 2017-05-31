@@ -24,17 +24,11 @@ export type ResultReceive = ReduxAction<typeof RESULT_RECEIVE, {
 }>;
 
 export type AsyncResultRequest = ThunkAction<void , State, undefined>;
-export function resultRequest(query?: Query, schema?: Schema, data?: Data): AsyncResultRequest {
+export function resultRequest(): AsyncResultRequest {
   return (dispatch: Dispatch<Action>, getState) => {
-    if (!query) {
-      query = getQuery(getState());
-    }
-    if (!schema) {
-      schema = getSchema(getState());
-    }
-    if (!data) {
-      data = getData(getState());
-    }
+    const query = getQuery(getState());
+    const schema = getSchema(getState());
+    const data = getData(getState());
     dispatch({
       type: RESULT_REQUEST
     });
