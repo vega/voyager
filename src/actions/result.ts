@@ -1,9 +1,6 @@
 import {SpecQueryGroup} from 'compassql/build/src/model';
-import {Query} from 'compassql/build/src/query/query';
-import {Schema} from 'compassql/build/src/schema';
 import {Dispatch} from 'redux';
 import {ThunkAction} from 'redux-thunk';
-import {Data} from 'vega-lite/build/src/data';
 import {PlotObject} from '../models/plot';
 import {ReduxAction} from './redux-action';
 
