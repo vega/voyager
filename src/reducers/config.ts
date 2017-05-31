@@ -2,7 +2,7 @@ import {
   Action,
   SET_CONFIG,
 } from '../actions';
-import { VoyagerConfig } from '../components/app';
+import {VoyagerConfig} from '../models/config';
 
 export function configReducer(state: Readonly<VoyagerConfig>, action: Action): VoyagerConfig {
   switch (action.type) {

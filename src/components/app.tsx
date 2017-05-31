@@ -11,15 +11,13 @@ import {Data, InlineData, isInlineData, isUrlData, UrlData} from 'vega-lite/buil
 import {datasetReceive, datasetUrlLoad, setConfig} from '../actions';
 import {StateBase} from '../models/index';
 
+import {VoyagerConfig} from '../models/config';
 import {DataPane} from './data-pane';
 import {EncodingPane} from './encoding-pane';
 import {Header} from './header';
 import {ViewPane} from './view-pane';
 
 
-export interface VoyagerConfig {
-  showDataSourceSelector?: boolean;
-};
 export type VoyagerData = Data;
 
 interface Props extends React.Props<AppBase> {

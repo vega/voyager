@@ -1,4 +1,4 @@
-import {VoyagerConfig} from '../components/app';
+import {VoyagerConfig} from '../models/config';
 import {ReduxAction} from './redux-action';
 
 export type ConfigAction = SetConfig;

@@ -6,7 +6,7 @@ import * as styles from './data-pane.scss';
 
 import {ActionHandler, createDispatchHandler, DatasetAsyncAction, ShelfFieldAutoAdd} from '../../actions';
 import {Dataset, State} from '../../models';
-import {VoyagerConfig} from '../app';
+import {VoyagerConfig} from '../../models/config';
 import {DatasetSelector} from './dataset-selector';
 import {FieldList, PresetWildcardFieldList} from './field-list';
 

@@ -1,6 +1,6 @@
 import {StateWithHistory} from 'redux-undo';
 
-import {VoyagerConfig} from '../components/app';
+import { VoyagerConfig, DEFAULT_VOYAGER_CONFIG } from './config';
 import {Dataset, DEFAULT_DATASET} from './dataset';
 import {DEFAULT_RESULT, ResultIndex} from './result';
 import {DEFAULT_SHELF_SPEC, Shelf} from './shelf';
@@ -25,9 +25,7 @@ export interface StateBase {
 export type State = StateWithHistory<StateBase>;
 
 export const DEFAULT_STATE: StateBase = {
-  config: {
-    showDataSourceSelector: true,
-  },
+  config: DEFAULT_VOYAGER_CONFIG,
   dataset: DEFAULT_DATASET,
   shelf: DEFAULT_SHELF_SPEC,
   result: DEFAULT_RESULT,
