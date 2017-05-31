@@ -25,7 +25,9 @@ export interface StateBase {
 export type State = StateWithHistory<StateBase>;
 
 export const DEFAULT_STATE: StateBase = {
-  config: {},
+  config: {
+    showDataSourceSelector: true,
+  },
   dataset: DEFAULT_DATASET,
   shelf: DEFAULT_SHELF_SPEC,
   result: DEFAULT_RESULT,

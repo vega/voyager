@@ -6,22 +6,25 @@ import * as styles from './data-pane.scss';
 
 import {ActionHandler, createDispatchHandler, DatasetAsyncAction, ShelfFieldAutoAdd} from '../../actions';
 import {Dataset, State} from '../../models';
+import {VoyagerConfig} from '../app';
 import {DatasetSelector} from './dataset-selector';
 import {FieldList, PresetWildcardFieldList} from './field-list';
 
 export interface DataPanelProps extends ActionHandler<DatasetAsyncAction | ShelfFieldAutoAdd> {
   data: Dataset;
+  config: VoyagerConfig;
 }
 
 export class DataPanelBase extends React.PureComponent<DataPanelProps, {}> {
   public render() {
     const {handleAction} = this.props;
     const {name} = this.props.data;
+    const {showDataSourceSelector} = this.props.config;
 
     return (
       <div className="pane" styleName="data-pane">
         <h2>Data</h2>
-        <DatasetSelector name={name} handleAction={handleAction}/>
+        {showDataSourceSelector ? <DatasetSelector name={name} handleAction={handleAction}/> : undefined}
         <div>Name: {name}</div>
 
         <div styleName="data-pane-section">
@@ -40,7 +43,10 @@ export class DataPanelBase extends React.PureComponent<DataPanelProps, {}> {
 
 export const DataPane = connect(
   (state: State) => {
-    return {data: state.present.dataset};
+    return {
+      data: state.present.dataset,
+      config: state.present.config
+    };
   },
   createDispatchHandler<DatasetAsyncAction>()
 )(CSSModules(DataPanelBase, styles));

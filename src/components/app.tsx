@@ -17,7 +17,9 @@ import {Header} from './header';
 import {ViewPane} from './view-pane';
 
 
-export type VoyagerConfig = Object;
+export interface VoyagerConfig {
+  showDataSourceSelector?: boolean;
+};
 export type VoyagerData = Data;
 
 interface Props extends React.Props<AppBase> {
