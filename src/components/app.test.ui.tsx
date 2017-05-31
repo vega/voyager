@@ -10,9 +10,8 @@ import {configureStore} from '../store';
 import {App} from './app';
 
 describe('Voyager', () => {
-
   describe('instantiation via component', () => {
-    test('renders voyager', done => {
+    it('renders voyager', done => {
       const config = {};
       const data: any = undefined;
       const store = configureStore();
@@ -39,8 +38,7 @@ describe('Voyager', () => {
       }, 10);
     });
 
-
-    test('renders voyager with custom data', done => {
+    it('renders voyager with custom data', done => {
       const config = {};
       const data: any = {
         "values": [
@@ -64,14 +62,10 @@ describe('Voyager', () => {
           );
 
           const fieldList = wrapper.find('.field-list__field-list-item');
-          const fields = fieldList.children();
+          const fields = fieldList.children().map(d => d.text());
 
-          // expect(fieldList.get(0).text()).toBe("fieldA"); // TODO Fix;
-          // expect(fieldList.get(0).text()).toBe("fieldB");
-
-          expect(fields.length).toBe(2 + 3); // voyager adds some extra fields
-
-
+          expect(fields).toContain('fieldA');
+          expect(fields).toContain('fieldB');
 
           done();
         } catch (err) {
@@ -81,5 +75,4 @@ describe('Voyager', () => {
     });
 
   });
-
 });

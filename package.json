@@ -81,7 +81,7 @@
     "jest": "~18",
     "node-sass": "^4.5.0",
     "postcss-loader": "^1.3.3",
-    "react-addons-test-utils": "^15.5.1",
+    "react-addons-test-utils": "15.4.2",
     "react-dev-utils": "^0.5.2",
     "sass-loader": "^5.0.1",
     "source-map-loader": "^0.1.6",

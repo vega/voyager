@@ -25,7 +25,7 @@ describe('lib-voyager', () => {
   });
 
   describe('instantiation via component', () => {
-    test('renders voyager', done => {
+    it('renders voyager', done => {
       const config = {};
       const data: any = undefined;
       const store = configureStore();
@@ -57,7 +57,7 @@ describe('lib-voyager', () => {
   });
 
   describe('instantiation', () => {
-    test('renders voyager on instantiation with DOM Node', done => {
+    it('renders voyager on instantiation with DOM Node', done => {
       const config = {};
       const data: any = undefined;
 
