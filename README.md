@@ -39,6 +39,12 @@ const data = {};
 const voyagerInstance = libVoyager.CreateVoyager(container, config, data)
 ```
 
+You currently also need to include the CSS. Note that this has not yet been optimized for embedding (it will take over the whole screen)
+
+```html
+<link rel="stylesheet" type="text/css" href="./node_modules/voyager/lib/style.css">
+```
+
 ### API
 
 The voyager _module_ exposes 1 function.
