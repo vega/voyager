@@ -95,13 +95,10 @@ class Voyager {
 /**
  * Create an instance of the voyager application.
  *
- * Currently a very thin wrapper around the constructor. It may end up that the
- * factory function isn't worth it, but it may provide some useful abstraction
- * as to how one os acutally created.
  * @param {Container} container css selector or HTMLElement that will be the parent
  *                              element of the application
- * @param {Object}    config    [description]
- * @param {Array}     data      [description]
+ * @param {Object}    config    configuration options
+ * @param {Array}     data      data object. Can be a string or an array of objects.
  */
 export function CreateVoyager(container: Container, config: Object, data: VoyagerData): Voyager {
   return new Voyager(container, config, data);
