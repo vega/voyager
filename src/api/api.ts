@@ -3,15 +3,16 @@ import * as fetch from 'isomorphic-fetch';
 import {SpecQueryGroup} from 'compassql/build/src/model';
 import {Query} from 'compassql/build/src/query/query';
 import {recommend} from 'compassql/build/src/recommend';
-import {Schema} from 'compassql/build/src/schema';
+import {build as buildSchema, Schema} from 'compassql/build/src/schema';
 import {Data} from 'vega-lite/build/src/data';
 import {convertToPlotObjectsGroup, PlotObject} from '../models/plot';
 
-export function fetchCompassQLResult(query: Query, schema: Schema, data: Data, config?: any) {
+export function fetchCompassQLRecommend(query: Query, schema: Schema, data: Data, config?: any) {
 
   if (config && config.serverUrl) {
+    const endpoint = "recommend";
 
-    return fetch(config.serverUrl, {
+    return fetch(`${config.serverUrl}/${endpoint}` , {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -40,4 +41,32 @@ export function fetchCompassQLResult(query: Query, schema: Schema, data: Data, c
       resolve(convertToPlotObjectsGroup(modelGroup, data));
     });
   }
+}
+
+export function fetchCompassQLBuildSchema(data: any, config?: any) {
+
+  if (config && config.serverUrl) {
+    const endpoint = "build";
+
+    return fetch(`${config.serverUrl}/${endpoint}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      credentials: "same-origin",
+      body: JSON.stringify({
+        data
+      })
+    }).then(
+      response => {
+        return response.json();
+      }
+    );
+
+  } else {
+    return new Promise(resolve => {
+      resolve(buildSchema(data));
+    });
+  }
+
 }

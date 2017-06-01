@@ -4,7 +4,7 @@ import {ThunkAction} from 'redux-thunk';
 import {PlotObject} from '../models/plot';
 import {ReduxAction} from './redux-action';
 
-import {fetchCompassQLResult} from '../api/api';
+import {fetchCompassQLRecommend} from '../api/api';
 import {State} from '../models/index';
 import {getData, getQuery, getSchema} from '../selectors';
 import {Action} from './index';
@@ -30,7 +30,7 @@ export function resultRequest(): AsyncResultRequest {
       type: RESULT_REQUEST
     });
     // TODO: pass in config
-    return fetchCompassQLResult(query, schema, data).then(
+    return fetchCompassQLRecommend(query, schema, data).then(
       modelGroup => {
         dispatch({
           type: RESULT_RECEIVE,
