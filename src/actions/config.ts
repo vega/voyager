@@ -7,12 +7,3 @@ export const SET_CONFIG = 'SET_CONFIG';
 export type SetConfig = ReduxAction<typeof SET_CONFIG, {
   config: VoyagerConfig
 }>;
-
-export function setConfig(config: VoyagerConfig): SetConfig {
-  return {
-    type: SET_CONFIG,
-    payload: {
-      config,
-    }
-  };
-};

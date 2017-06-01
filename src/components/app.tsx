@@ -8,7 +8,7 @@ import * as SplitPane from 'react-split-pane';
 import {Dispatch} from 'redux';
 import {StateWithHistory} from 'redux-undo';
 import {Data, InlineData, isInlineData, isUrlData, UrlData} from 'vega-lite/build/src/data';
-import {datasetReceive, datasetUrlLoad, setConfig} from '../actions';
+import { datasetReceive, datasetUrlLoad, SET_CONFIG } from '../actions';
 import {StateBase} from '../models/index';
 
 import {VoyagerConfig} from '../models/config';
@@ -79,7 +79,12 @@ class AppBase extends React.PureComponent<Props, {}> {
   }
 
   private setConfig(config: VoyagerConfig) {
-    this.props.dispatch(setConfig(config));
+    this.props.dispatch({
+      type: SET_CONFIG,
+      payload: {
+        config,
+      }
+    });
   }
 }
 
