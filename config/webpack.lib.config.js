@@ -21,7 +21,9 @@ module.exports = {
     pathinfo: true,
     // There are also additional JS chunk files if you use code splitting.
     chunkFilename: 'static/js/[name].chunk.js',
-    publicPath: '/lib/'
+    publicPath: '/lib/',
+    library: 'voyager',
+    libraryTarget: 'umd',
   },
 
   // Enable sourcemaps for debugging webpack's output.
