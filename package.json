@@ -15,11 +15,12 @@
     "type": "git",
     "url": "https://github.com/vega/voyager.git"
   },
+  "main": "lib/bundle.js",
   "license": "BSD-3-Clause",
   "scripts": {
     "start": "webpack-dev-server --open --config config/webpack.config.dev.js",
     "build": "node scripts/build.js",
-    "build:lib": "webpack -d --config webpack.lib.config.js",
+    "build:lib": "webpack -d --config config/webpack.lib.config.js",
     "watch": "webpack -d --watch",
     "clean": "find -E dist  -regex '.*\\.(js|js.map|d.ts)' -delete",
     "lint": "tslint -c tslint.json 'src/**/*.ts' 'src/**/*.tsx'",
