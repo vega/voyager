@@ -1,6 +1,6 @@
 {
   "testPathDirs": [
-    "<rootDir>/lib/"
+    "<rootDir>/lib-test/"
   ],
   "testPathIgnorePatterns": [
     "<rootDir>/node_modules/"
