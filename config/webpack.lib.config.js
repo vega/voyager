@@ -15,7 +15,7 @@ module.exports = {
     bundle: path.resolve(__dirname, '../src/lib-voyager.tsx'),
   },
   output: {
-    filename: "[name].js",
+    filename: "lib-voyager.js",
     path: path.resolve(__dirname, '../lib'),
     // Add /* filename */ comments to generated require()s in the output.
     pathinfo: true,

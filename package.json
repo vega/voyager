@@ -15,7 +15,7 @@
     "type": "git",
     "url": "https://github.com/vega/voyager.git"
   },
-  "main": "lib/bundle.js",
+  "main": "lib/lib-voyager.js",
   "license": "BSD-3-Clause",
   "scripts": {
     "start": "webpack-dev-server --open --config config/webpack.config.dev.js",
