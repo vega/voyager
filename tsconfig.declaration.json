@@ -1,0 +1,28 @@
+{
+  "compilerOptions": {
+    "outDir": "./dist/",
+    "rootDir": "./",
+    "target": "es5",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "isolatedModules": false,
+    "jsx": "react",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "declaration": true,
+    "noImplicitAny": true,
+    "removeComments": false,
+    "noLib": false,
+    "preserveConstEnums": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "sourceMap": true
+  },
+  "include": [
+    "./node_modules/compassql/typings/*.d.ts",
+    "./node_modules/vega-lite/typings/*.d.ts",
+    "node_modules/@types/**/*.d.ts",
+    "./typings/*.d.ts",
+    "src/models/*.ts"
+  ]
+
+}
