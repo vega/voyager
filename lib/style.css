@@ -415,14 +415,6 @@ template {
 [hidden] {
   display: none; }
 
-html {
-  height: 100%; }
-
-body {
-  margin: 0;
-  padding: 0;
-  background-color: #E2E9F3; }
-
 /* prevent element from being selected http://stackoverflow.com/questions/826782 */
 .noselect, .voyager h1, .voyager h2, .voyager h3 {
   -webkit-user-select: none;
@@ -432,7 +424,20 @@ body {
   cursor: default; }
 
 .voyager {
-  font-size: 12px; }
+  font-size: 12px;
+  margin: 0;
+  padding: 0;
+  background-color: #E2E9F3;
+  height: inherit;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column; }
+  .voyager .SplitPane {
+    position: relative !important; }
   .voyager .right {
     float: right; }
   .voyager .hidden {
