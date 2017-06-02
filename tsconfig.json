@@ -1,13 +1,21 @@
 {
   "compilerOptions": {
     "outDir": "./dist/",
-    "module": "commonjs",
-    "noImplicitAny": true,
-    "suppressImplicitAnyIndexErrors": true,
-    "sourceMap": true,
+    "rootDir": "./",
     "target": "es5",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "isolatedModules": false,
     "jsx": "react",
-    "importHelpers": true
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "declaration": false,
+    "noImplicitAny": true,
+    "removeComments": false,
+    "noLib": false,
+    "preserveConstEnums": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "sourceMap": true
   },
   "include": [
     "./node_modules/compassql/typings/*.d.ts",
@@ -16,4 +24,5 @@
     "./typings/*.d.ts",
     "./src/**/*"
   ]
+
 }
