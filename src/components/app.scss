@@ -1,14 +1,6 @@
 @import 'normalize/import-now';
 
-html {
-  height: 100%;
-}
 
-body {
-  margin: 0;
-  padding: 0;
-  background-color: #E2E9F3;
-}
 
 /* prevent element from being selected http://stackoverflow.com/questions/826782 */
 :global .noselect {
@@ -18,6 +10,19 @@ body {
 
 :global .voyager {
   font-size: 12px;
+  margin: 0;
+  padding: 0;
+  background-color: #E2E9F3;
+  height: inherit;
+
+  display: flex;
+  flex-direction: column;
+
+  // We need to override the position: absolute in the split pane component
+  // See https://github.com/tomkp/react-split-pane/issues/23
+  .SplitPane {
+    position: relative !important;
+  }
 
   .right {
     float: right;
