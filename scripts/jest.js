@@ -15,6 +15,7 @@ const glob = require('glob');
 // so that we do not clobber the built library.
 config.output.publicPath = '/lib-test/';
 config.output.path = path.resolve(__dirname, '../lib-test');
+config.output.filename = '[name].js';
 
 
 const basedir = path.resolve(__dirname, '../src');
