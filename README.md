@@ -30,14 +30,49 @@ Using npm or yarn? Add the following to your package.json then run `npm install`
 
 ### Example Use
 
+Instantiation
+
 ```js
 const libVoyager = require('voyager');
 
 const container = document.getElementById("voyager-embed");
-const config = {};
-const data = {};
+const config = undefined;
+const data = undefined;
 const voyagerInstance = libVoyager.CreateVoyager(container, config, data)
 ```
+
+Initializing with data
+
+```js
+const data: any = {
+  "values": [
+    {"fieldA": "A", "fieldB": 28}, {"fieldA": "B", "fieldB": 55}, {"fieldA": "C", "fieldB": 43},
+    {"fieldA": "D", "fieldB": 91}, {"fieldA": "E", "fieldB": 81}, {"fieldA": "F", "fieldB": 53},
+    {"fieldA": "G", "fieldB": 19}, {"fieldA": "H", "fieldB": 87}, {"fieldA": "I", "fieldB": 52}
+  ]
+};
+
+const voyagerInstance = libVoyager.CreateVoyager(container, undefined, data)
+```
+
+Updating Data
+
+```js
+
+const voyagerInstance = libVoyager.CreateVoyager(container, undefined, undefined)
+
+const data: any = {
+  "values": [
+    {"fieldA": "A", "fieldB": 28}, {"fieldA": "B", "fieldB": 55}, {"fieldA": "C", "fieldB": 43},
+    {"fieldA": "D", "fieldB": 91}, {"fieldA": "E", "fieldB": 81}, {"fieldA": "F", "fieldB": 53},
+    {"fieldA": "G", "fieldB": 19}, {"fieldA": "H", "fieldB": 87}, {"fieldA": "I", "fieldB": 52}
+  ]
+};
+
+voyagerInstance.updateData(data);
+```
+
+### CSS
 
 You currently also need to include the CSS. Note that this has not yet been optimized for embedding (it will take over the whole screen)
 
@@ -45,7 +80,7 @@ You currently also need to include the CSS. Note that this has not yet been opti
 <link rel="stylesheet" type="text/css" href="./node_modules/voyager/lib/style.css">
 ```
 
-### API
+## API
 
 The voyager _module_ exposes 1 function.
 
@@ -57,8 +92,8 @@ The voyager _module_ exposes 1 function.
  *
  * @param {Container} container css selector or HTMLElement that will be the parent
  *                              element of the application
- * @param {Object}    config    configuration options
- * @param {Array}     data      data object. Can be a string or an array of objects.
+ * @param {Object|undefined}    config    Optional: configuration options
+ * @param {Array|undefined}     data      Optional: data object. Can be a string or an array of objects.
  */
 ```
 
