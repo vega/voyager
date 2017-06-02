@@ -8,16 +8,16 @@ import * as SplitPane from 'react-split-pane';
 import {Dispatch} from 'redux';
 import {StateWithHistory} from 'redux-undo';
 import {Data, InlineData, isInlineData, isUrlData, UrlData} from 'vega-lite/build/src/data';
-import {datasetReceive, datasetUrlLoad} from '../actions';
+import { datasetReceive, datasetUrlLoad, SET_CONFIG } from '../actions';
 import {StateBase} from '../models/index';
 
+import {VoyagerConfig} from '../models/config';
 import {DataPane} from './data-pane';
 import {EncodingPane} from './encoding-pane';
 import {Header} from './header';
 import {ViewPane} from './view-pane';
 
 
-export type VoyagerConfig = Object;
 export type VoyagerData = Data;
 
 interface Props extends React.Props<AppBase> {
@@ -56,7 +56,7 @@ class AppBase extends React.PureComponent<Props, {}> {
   }
 
   private update(props: Props) {
-    const { data } = props;
+    const { data, config } = props;
     if (data) {
       if (isUrlData(data)) {
         this.loadDataFromUrl(data);
@@ -64,6 +64,8 @@ class AppBase extends React.PureComponent<Props, {}> {
         this.loadData(data);
       }
     }
+
+    this.setConfig(config);
   }
 
   private loadData(data: InlineData) {
@@ -74,6 +76,15 @@ class AppBase extends React.PureComponent<Props, {}> {
     if (this.props.dispatch) {
       this.props.dispatch(datasetUrlLoad("Custom Data", data.url));
     }
+  }
+
+  private setConfig(config: VoyagerConfig) {
+    this.props.dispatch({
+      type: SET_CONFIG,
+      payload: {
+        config,
+      }
+    });
   }
 }
 

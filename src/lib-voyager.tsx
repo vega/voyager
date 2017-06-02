@@ -13,7 +13,8 @@ import {Store} from 'redux';
 import 'font-awesome-sass-loader'; // TODO should this move to App?
 import {StateWithHistory} from 'redux-undo';
 import {isString} from 'vega-lite/build/src/util';
-import {App, VoyagerConfig, VoyagerData} from './components/app';
+import {App, VoyagerData} from './components/app';
+import {VoyagerConfig} from './models/config';
 import {StateBase} from './models/index';
 import {configureStore} from './store';
 
