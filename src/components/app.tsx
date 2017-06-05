@@ -65,7 +65,9 @@ class AppBase extends React.PureComponent<Props, {}> {
       }
     }
 
-    this.setConfig(config);
+    if (config) {
+      this.setConfig(config);
+    }
   }
 
   private loadData(data: InlineData) {
