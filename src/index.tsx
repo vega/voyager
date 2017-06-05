@@ -6,10 +6,13 @@ import 'font-awesome-sass-loader';
 
 import { Data } from 'vega-lite/build/src/data';
 import { App } from './components/app';
+import { VoyagerConfig } from './models/config';
 import { configureStore } from './store';
 
 const store = configureStore();
-const config = {};
+const config: VoyagerConfig = {
+  showDataSourceSelector: true
+};
 const data: Data = undefined;
 
 ReactDOM.render(
