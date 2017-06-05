@@ -8,7 +8,7 @@ import * as SplitPane from 'react-split-pane';
 import {Dispatch} from 'redux';
 import {StateWithHistory} from 'redux-undo';
 import {Data, InlineData, isInlineData, isUrlData, UrlData} from 'vega-lite/build/src/data';
-import { datasetReceive, datasetUrlLoad, SET_CONFIG } from '../actions';
+import {datasetLoad, datasetUrlLoad, SET_CONFIG} from '../actions';
 import {StateBase} from '../models/index';
 
 import {VoyagerConfig} from '../models/config';
@@ -56,7 +56,7 @@ class AppBase extends React.PureComponent<Props, {}> {
   }
 
   private update(props: Props) {
-    const { data, config } = props;
+    const { data, config, dispatch } = props;
     if (data) {
       if (isUrlData(data)) {
         this.loadDataFromUrl(data);
@@ -71,7 +71,7 @@ class AppBase extends React.PureComponent<Props, {}> {
   }
 
   private loadData(data: InlineData) {
-    this.props.dispatch(datasetReceive("Custom Data", data));
+    this.props.dispatch(datasetLoad("Custom Data", data));
   }
 
   private loadDataFromUrl(data: UrlData) {
