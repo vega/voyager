@@ -2,11 +2,13 @@ import {build as buildSchema, Schema} from 'compassql/build/src/schema';
 import * as fetch from 'isomorphic-fetch';
 import {Dispatch} from 'redux';
 import {ThunkAction} from 'redux-thunk';
+import {ActionCreators} from 'redux-undo';
 
 import {InlineData} from 'vega-lite/build/src/data';
 import {State} from '../models/index';
 import {Action} from './index';
 import {ReduxAction} from './redux-action';
+import {SHELF_CLEAR} from './shelf';
 
 export type DatasetAction = DatasetUrlReceive | DatasetUrlRequest | DatasetReceive;
 export type DatasetAsyncAction = DatasetUrlLoad;
@@ -29,6 +31,16 @@ export type DatasetUrlLoad = ThunkAction<void , State, undefined>;
 
 export function datasetUrlLoad(name: string, url: string): DatasetUrlLoad {
   return (dispatch: Dispatch<Action>) => {
+
+    // Clear the shelf
+    dispatch({
+      type: SHELF_CLEAR
+    });
+
+    // Clear the history
+    dispatch(ActionCreators.clearHistory());
+
+    // Get the new dataset
     dispatch({
       type: DATASET_URL_REQUEST,
       payload: {name, url}
@@ -58,14 +70,28 @@ export type DatasetReceive = ReduxAction<typeof DATASET_INLINE_RECEIVE, {
   schema: Schema,
 }>;
 
-export function datasetReceive(name: string, dataset: InlineData): DatasetReceive {
-  const schema = buildSchema(dataset.values);
-  return {
-    type: DATASET_INLINE_RECEIVE,
-    payload: {
-      name,
-      schema,
-      data: dataset,
-    }
+export type DatasetLoad = ThunkAction<void , State, undefined>;
+export function datasetLoad(name: string, dataset: InlineData): DatasetLoad {
+  return (dispatch: Dispatch<Action>) => {
+
+    // Clear the shelf
+    dispatch({
+      type: SHELF_CLEAR
+    });
+
+    // Clear the history
+    dispatch(ActionCreators.clearHistory());
+
+    // Get the new dataset
+    const schema = buildSchema(dataset.values);
+    dispatch({
+      type: DATASET_INLINE_RECEIVE,
+      payload: {
+        name,
+        schema,
+        data: dataset,
+      }
+    });
+
   };
 };
