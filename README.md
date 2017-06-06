@@ -13,3 +13,108 @@ Since this new version of Voyager is not ready for demo / usage yet, you can acc
 
 - The __Voyager 2__ visualization tool, which blends manual and automated chart specification – demo at http://vega.github.io/voyager2 and source code at https://github.com/vega/voyager2
 - The __Voyager 1__ visualization browser -- demo at http://vega.github.io/voyager and source code in the `vy1` branch of this repository.
+
+## Embed Voyager
+
+This repository also hosts an experimental interface that allows for embedding voyager in another web application. The following sections document how to use it.
+
+### Installation
+
+Using npm or yarn? Add the following to your package.json then run `npm install` or `yarn`.
+
+```
+"voyager": "git://github.com/vega/voyager.git"
+```
+
+
+
+### Example Use
+
+Instantiation
+
+```js
+const libVoyager = require('voyager');
+
+const container = document.getElementById("voyager-embed");
+const config = undefined;
+const data = undefined;
+const voyagerInstance = libVoyager.CreateVoyager(container, config, data)
+```
+
+Initializing with data
+
+```js
+const data: any = {
+  "values": [
+    {"fieldA": "A", "fieldB": 28}, {"fieldA": "B", "fieldB": 55}, {"fieldA": "C", "fieldB": 43},
+    {"fieldA": "D", "fieldB": 91}, {"fieldA": "E", "fieldB": 81}, {"fieldA": "F", "fieldB": 53},
+    {"fieldA": "G", "fieldB": 19}, {"fieldA": "H", "fieldB": 87}, {"fieldA": "I", "fieldB": 52}
+  ]
+};
+
+const voyagerInstance = libVoyager.CreateVoyager(container, undefined, data)
+```
+
+Updating Data
+
+```js
+
+const voyagerInstance = libVoyager.CreateVoyager(container, undefined, undefined)
+
+const data: any = {
+  "values": [
+    {"fieldA": "A", "fieldB": 28}, {"fieldA": "B", "fieldB": 55}, {"fieldA": "C", "fieldB": 43},
+    {"fieldA": "D", "fieldB": 91}, {"fieldA": "E", "fieldB": 81}, {"fieldA": "F", "fieldB": 53},
+    {"fieldA": "G", "fieldB": 19}, {"fieldA": "H", "fieldB": 87}, {"fieldA": "I", "fieldB": 52}
+  ]
+};
+
+voyagerInstance.updateData(data);
+```
+
+### CSS
+
+You currently also need to include the CSS. Note that this has not yet been optimized for embedding (it will take over the whole screen)
+
+```html
+<link rel="stylesheet" type="text/css" href="./node_modules/voyager/lib/style.css">
+```
+
+## API
+
+The voyager _module_ exposes 1 function.
+
+#### CreateVoyager(container, config, data)
+
+```js
+/**
+ * Create an instance of the voyager application and return it.
+ *
+ * @param {Container} container css selector or HTMLElement that will be the parent
+ *                              element of the application
+ * @param {Object|undefined}    config    Optional: configuration options
+ * @param {Array|undefined}     data      Optional: data object. Can be a string or an array of objects.
+ */
+```
+
+An _instance_ of voyager exposes the following two methods
+
+#### updateData(data)
+
+```js
+/**
+   * Update the dataset currently loaded into voyager
+   *
+   * @param {VoyagerData} data
+   */
+```
+
+#### updateConfig(config)
+
+```js
+  /**
+   * Update the configuration of the voyager application.
+   *
+   * @param {VoyagerConfig} config
+   */
+```

@@ -51,8 +51,6 @@ describe('lib-voyager', () => {
         done();
       }, 10);
 
-
-
     });
   });
 
@@ -74,28 +72,9 @@ describe('lib-voyager', () => {
     });
   });
 
-  describe.skip('data', () => {
-    let originalTimeout: number;
-    beforeEach(done => {
-      jest.useRealTimers();
-      // tslint:disable-next-line:no-string-literal
-      originalTimeout = jasmine['DEFAULT_TIMEOUT_INTERVAL'];
-      // tslint:disable-next-line:no-string-literal
-      jasmine['DEFAULT_TIMEOUT_INTERVAL'] = 20000;
-      done();
-    });
-
-    afterEach(done => {
-      // tslint:disable-next-line:no-string-literal
-      jasmine['DEFAULT_TIMEOUT_INTERVAL'] = originalTimeout;
-      jest.useFakeTimers();
-      done();
-    });
-
-
+  describe('data', () => {
     test('initialize with custom data', done => {
 
-      const config = {};
       const data: any = {
         "values": [
           {"fieldA": "A", "fieldB": 28}, {"fieldA": "B", "fieldB": 55}, {"fieldA": "C", "fieldB": 43},
@@ -106,40 +85,32 @@ describe('lib-voyager', () => {
 
       setTimeout(() => {
         try {
-          CreateVoyager(container, config, data);
+          const voyagerInst = CreateVoyager(container, undefined, undefined);
+          const header = document.querySelector('header');
+          expect(header.textContent).toContain('Voyager 2');
 
-          setTimeout(() => {
-            const fieldList = document.querySelectorAll('.field-list__field-list-item');
-            const fields = Array.prototype.map.call(fieldList, (d: Node) => d.textContent);
+          let fieldList = document.querySelectorAll('.field-list__field-list-item');
+          let fields = Array.prototype.map.call(fieldList, (d: Node) => d.textContent);
 
-            expect(fieldList.length).toBe(2);
-            expect(fields).toBe(['fieldA', 'fieldB']);
-            done();
-          }, 4000);
+          expect(fields).toContain('q1');
+          expect(fields).toContain('q2');
 
-          // tslint:disable-next-line:no-string-literal
-          // const _store = voyager['store'];
-          // _store.subscribe(() => {
-          //   const state = _store.getState();
-          //   console.log('store has changed', state, state.past[0]["dataset"])
-          //   if (state.present.dataset.name === "Custom Data") {
+          voyagerInst.updateData(data);
 
-          //     const fieldList = document.querySelectorAll('.field-list__field-list-item');
-          //     const fields = Array.prototype.map.call(fieldList, (d: Node) => d.textContent);
-          //     console.log("WE GOT OUR DATA")
-          //     console.log("FEFFE", fields)
-          //     expect(fieldList.length).toBe(2);
-          //     expect(fields).toBe(['fieldA', 'fieldB']);
-          //     done();
-          //   }
-          // });
+          fieldList = document.querySelectorAll('.field-list__field-list-item');
+          fields = Array.prototype.map.call(fieldList, (d: Node) => d.textContent);
 
+          expect(fields).toContain('fieldA');
+          expect(fields).toContain('fieldB');
 
+          expect(fields).not.toContain('q1');
+          expect(fields).not.toContain('q2');
+
+          done();
         } catch (err) {
           done.fail(err);
         }
       }, 10);
-
     });
   });
 });
