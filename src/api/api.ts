@@ -1,4 +1,4 @@
-import * as fetch from 'isomorphic-fetch';
+import 'isomorphic-fetch';
 
 import {SpecQueryGroup} from 'compassql/build/src/model';
 import {Query} from 'compassql/build/src/query/query';
@@ -7,7 +7,8 @@ import {build as buildSchema, Schema} from 'compassql/build/src/schema';
 import {Data} from 'vega-lite/build/src/data';
 import {convertToPlotObjectsGroup, PlotObject} from '../models/plot';
 
-export function fetchCompassQLRecommend(query: Query, schema: Schema, data: Data, config?: any) {
+export function fetchCompassQLRecommend(query: Query, schema: Schema, data: Data, config?: any):
+  Promise<SpecQueryGroup<PlotObject>> {
 
   if (config && config.serverUrl) {
     const endpoint = "recommend";
@@ -43,7 +44,8 @@ export function fetchCompassQLRecommend(query: Query, schema: Schema, data: Data
   }
 }
 
-export function fetchCompassQLBuildSchema(data: any, config?: any) {
+export function fetchCompassQLBuildSchema(data: any, config?: any):
+  Promise<Schema> {
 
   if (config && config.serverUrl) {
     const endpoint = "build";
@@ -60,6 +62,10 @@ export function fetchCompassQLBuildSchema(data: any, config?: any) {
     }).then(
       response => {
         return response.json();
+      }
+    ).then(
+      fields => {
+        return new Schema(fields);
       }
     );
 
