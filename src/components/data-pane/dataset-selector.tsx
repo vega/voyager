@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import {ActionHandler, datasetUrlLoad, DatasetUrlLoad, resultRequest} from '../../actions';
+import {ActionHandler, datasetLoad, DatasetLoad, resultRequest} from '../../actions';
 import {DEFAULT_DATASETS} from '../../constants';
 
 const DATASET_INDEX = DEFAULT_DATASETS.reduce((index, dataset) => {
@@ -14,7 +14,7 @@ const options = DEFAULT_DATASETS.map(dataset => (
   </option>
 ));
 
-interface DatasetSelectorProps extends ActionHandler<DatasetUrlLoad> {
+interface DatasetSelectorProps extends ActionHandler<DatasetLoad> {
   name: string;
 }
 
@@ -45,8 +45,8 @@ export class DatasetSelector extends React.PureComponent<DatasetSelectorProps, {
     );
   }
   private onDatasetChange(event: any) {
-    const name = event.target.value;
-    const url = DATASET_INDEX[name].url;
-    this.props.handleAction(datasetUrlLoad(name, url));
+    const name: string = event.target.value;
+    const url: string = DATASET_INDEX[name].url;
+    this.props.handleAction(datasetLoad(name, {url}));
   }
 }
