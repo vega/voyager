@@ -74,6 +74,14 @@ export function datasetUrlLoad(name: string, url: string): DatasetUrlLoad {
 export type DatasetReceive = ThunkAction<void , State, undefined>;
 export function datasetReceive(name: string, dataset: InlineData): DatasetReceive {
   return (dispatch: Dispatch<Action>) => {
+    // Clear the shelf
+    dispatch({
+      type: SHELF_CLEAR
+    });
+
+    // Clear the history
+    dispatch(ActionCreators.clearHistory());
+
     return fetchCompassQLBuildSchema(dataset.values).then(
       schema => {
         dispatch({
