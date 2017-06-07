@@ -1,10 +1,11 @@
-import {build as buildSchema, Schema} from 'compassql/build/src/schema';
+import {Schema} from 'compassql/build/src/schema';
 import * as fetch from 'isomorphic-fetch';
 import {Dispatch} from 'redux';
 import {ThunkAction} from 'redux-thunk';
 import {ActionCreators} from 'redux-undo';
 
 import {Data, InlineData, isInlineData, isUrlData} from 'vega-lite/build/src/data';
+import {fetchCompassQLBuildSchema} from '../api/api';
 import {State} from '../models/index';
 import {Action} from './index';
 import {ReduxAction} from './redux-action';
@@ -52,22 +53,23 @@ export function datasetLoad(name: string, dataset: Data): DatasetLoad {
       });
 
       return fetch(url)
-        // TODO: handle error
-        .then(response => response.json())
-        .then(data => {
-          const schema = buildSchema(data);
+        .then(response => response.json()) // TODO: handle error
+        .then(data => fetchCompassQLBuildSchema(data)) // TODO: handle error
+        .then(schema => {
           dispatch({
             type: DATASET_URL_RECEIVE,
             payload: {name, url, schema}
           });
         });
     } else if (isInlineData(dataset)) {
-      const schema = buildSchema(dataset.values);
-      const data = dataset;
-      dispatch({
-        type: DATASET_INLINE_RECEIVE,
-        payload: { name, schema, data }
-      });
+      return fetchCompassQLBuildSchema(dataset.values) // TODO: handle error
+        .then(schema => {
+          const data = dataset;
+          dispatch({
+            type: DATASET_INLINE_RECEIVE,
+            payload: { name, schema, data }
+          });
+        });
     } else {
       throw new Error('dataset load error: dataset type not detected');
     }

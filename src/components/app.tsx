@@ -81,4 +81,3 @@ class AppBase extends React.PureComponent<Props, {}> {
 }
 
 export const App = DragDropContext(HTML5Backend)(AppBase);
-
