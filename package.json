@@ -20,7 +20,7 @@
   "scripts": {
     "start": "webpack-dev-server --open --config config/webpack.config.dev.js",
     "build": "node scripts/build.js",
-    "postbuild": "tsc --project ./tsconfig.json --outDir ./build && tsc --project ./tsconfig.declaration.json",
+    "postbuild": "tsc && tsc --project ./tsconfig.declaration.json",
     "build:lib": "webpack -d --config config/webpack.lib.config.js",
     "watch": "webpack -d --watch",
     "clean": "find -E dist  -regex '.*\\.(js|js.map|d.ts)' -delete",

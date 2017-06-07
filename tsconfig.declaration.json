@@ -4,18 +4,10 @@
     "rootDir": "./",
     "target": "es5",
     "module": "commonjs",
-    "moduleResolution": "node",
-    "isolatedModules": false,
     "jsx": "react",
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
-    "declaration": true,
     "noImplicitAny": true,
-    "removeComments": false,
-    "noLib": false,
-    "preserveConstEnums": true,
     "suppressImplicitAnyIndexErrors": true,
-    "sourceMap": true
+    "declaration": true
   },
   "include": [
     "./node_modules/compassql/typings/*.d.ts",
