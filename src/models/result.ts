@@ -1,10 +1,11 @@
-import {SpecQueryModelGroup} from 'compassql/build/src/model';
+import {SpecQueryGroup} from 'compassql/build/src/model';
+import {PlotObject} from '../models/plot';
 
 
 export interface Result {
   isLoading: boolean;
 
-  modelGroup: SpecQueryModelGroup | null;
+  modelGroup: SpecQueryGroup<PlotObject> | null;
 }
 
 export interface ResultIndex {
