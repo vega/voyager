@@ -34,15 +34,10 @@ export type DatasetReceive = ReduxAction<typeof DATASET_INLINE_RECEIVE, {
   schema: Schema,
 }>;
 
+
 export type DatasetLoad = ThunkAction<void , State, undefined>;
 export function datasetLoad(name: string, dataset: Data): DatasetLoad {
   return (dispatch: Dispatch<Action>) => {
-    // Clear the shelf
-    dispatch({ type: SHELF_CLEAR });
-
-    // Clear the history
-    dispatch(ActionCreators.clearHistory());
-
     // Get the new dataset
     if (isUrlData(dataset)) {
       const url = dataset.url;
@@ -60,6 +55,10 @@ export function datasetLoad(name: string, dataset: Data): DatasetLoad {
             type: DATASET_URL_RECEIVE,
             payload: {name, url, schema}
           });
+
+          // Clear history and shelf
+          dispatch({ type: SHELF_CLEAR });
+          dispatch(ActionCreators.clearHistory());
         });
     } else if (isInlineData(dataset)) {
       return fetchCompassQLBuildSchema(dataset.values) // TODO: handle error
@@ -69,9 +68,15 @@ export function datasetLoad(name: string, dataset: Data): DatasetLoad {
             type: DATASET_INLINE_RECEIVE,
             payload: { name, schema, data }
           });
+
+          // Clear history and shelf
+          dispatch({ type: SHELF_CLEAR });
+          dispatch(ActionCreators.clearHistory());
         });
     } else {
       throw new Error('dataset load error: dataset type not detected');
     }
+
+
   };
 };
