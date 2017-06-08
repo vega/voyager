@@ -5,6 +5,7 @@ node_js:
 script:
   - npm run build
   - npm run codecov
+  - npm run test:ui
   - npm run lint
 after_success:
   - bash <(curl -s https://codecov.io/bash)
