@@ -16,7 +16,7 @@ module.exports = {
   },
   output: {
     filename: "lib-voyager.js",
-    path: path.resolve(__dirname, '../build/'),
+    path: path.resolve(__dirname, '../build'),
     // Add /* filename */ comments to generated require()s in the output.
     pathinfo: true,
     // There are also additional JS chunk files if you use code splitting.

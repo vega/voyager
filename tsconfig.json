@@ -1,13 +1,12 @@
 {
   "compilerOptions": {
-    "outDir": "./dist/",
-    "module": "commonjs",
-    "noImplicitAny": true,
-    "suppressImplicitAnyIndexErrors": true,
-    "sourceMap": true,
+    "outDir": "./build/",
+    "rootDir": "./",
     "target": "es5",
+    "module": "commonjs",
     "jsx": "react",
-    "importHelpers": true
+    "noImplicitAny": true,
+    "suppressImplicitAnyIndexErrors": true
   },
   "include": [
     "./node_modules/compassql/typings/*.d.ts",
