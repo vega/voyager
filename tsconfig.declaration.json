@@ -6,14 +6,15 @@
     "module": "commonjs",
     "jsx": "react",
     "noImplicitAny": true,
-    "suppressImplicitAnyIndexErrors": true
+    "suppressImplicitAnyIndexErrors": true,
+    "declaration": true
   },
   "include": [
     "./node_modules/compassql/typings/*.d.ts",
-    "./node_modules/vega-lite/typings/vega.d.ts",
+    "./node_modules/vega-lite/typings/*.d.ts",
     "node_modules/@types/**/*.d.ts",
     "./typings/*.d.ts",
-    "./src/**/*"
+    "src/models/*.ts"
   ]
 
 }
