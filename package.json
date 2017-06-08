@@ -29,7 +29,9 @@
     "test:logic": "jest --no-cache --coverage",
     "test:ui": "NODE_ENV=test node scripts/jest.js",
     "posttest": "npm run lint",
-    "codecov": "jest --no-cache --coverage && codecov"
+    "codecov": "jest --no-cache --coverage && codecov",
+    "publish": "npm run clean && npm run lint && npm run test && scripts/publish.sh",
+    "deploy": "npm run clean && npm run lint && npm run test && npm run build && node scripts/deploy.js"
   },
   "dependencies": {
     "compassql": "0.12.1",
@@ -80,6 +82,7 @@
     "fetch-mock": "^5.11.0",
     "file-loader": "^0.10.1",
     "fs-extra": "^3.0.1",
+    "gh-pages": "^1.0.0",
     "html-webpack-plugin": "^2.28.0",
     "jest": "~18",
     "node-sass": "^4.5.0",
