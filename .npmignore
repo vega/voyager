@@ -1,0 +1,11 @@
+/coverage
+/scripts
+/test
+/.*
+
+build/test
+codecov.yml
+tsconfig.json
+tsconfig.*.json
+tslint.json
+yarn.lock
