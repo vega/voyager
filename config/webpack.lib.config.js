@@ -16,12 +16,12 @@ module.exports = {
   },
   output: {
     filename: "lib-voyager.js",
-    path: path.resolve(__dirname, '../lib'),
+    path: path.resolve(__dirname, '../build/'),
     // Add /* filename */ comments to generated require()s in the output.
     pathinfo: true,
     // There are also additional JS chunk files if you use code splitting.
     chunkFilename: 'static/js/[name].chunk.js',
-    publicPath: '/lib/',
+    publicPath: '/build/',
     library: 'voyager',
     libraryTarget: 'umd',
   },
