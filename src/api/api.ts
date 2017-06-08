@@ -7,6 +7,8 @@ import {build as buildSchema, Schema} from 'compassql/build/src/schema';
 import {Data} from 'vega-lite/build/src/data';
 import {convertToPlotObjectsGroup, PlotObject} from '../models/plot';
 
+export {Query, Schema, Data};
+
 export function fetchCompassQLRecommend(query: Query, schema: Schema, data: Data, config?: any):
   Promise<SpecQueryGroup<PlotObject>> {
 
