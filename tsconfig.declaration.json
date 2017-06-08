@@ -1,19 +1,19 @@
 {
   "compilerOptions": {
-    "outDir": "./lib/",
+    "outDir": "./build/",
+    "rootDir": "./",
+    "target": "es5",
     "module": "commonjs",
+    "jsx": "react",
     "noImplicitAny": true,
     "suppressImplicitAnyIndexErrors": true,
-    "sourceMap": true,
-    "target": "es5",
-    "jsx": "react",
-    "importHelpers": true
+    "declaration": true
   },
   "include": [
     "./node_modules/compassql/typings/*.d.ts",
-    "./node_modules/vega-lite/typings/vega.d.ts",
+    "./node_modules/vega-lite/typings/*.d.ts",
     "node_modules/@types/**/*.d.ts",
     "./typings/*.d.ts",
-    "./src/**/*"
+    "src/models/*.ts"
   ]
 }
