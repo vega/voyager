@@ -48,7 +48,7 @@ npm run build:lib
 
 # 2. NPM PUBLISH
 
-#npm publish
+npm publish
 
 # exit if npm publish failed
 rc=$?
