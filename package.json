@@ -1,6 +1,6 @@
 {
   "name": "datavoyager",
-  "version": "2.0.0-alpha.1",
+  "version": "2.0.0-alpha.2",
   "description": "",
   "author": {
     "name": "UW Interactive Data Lab",
@@ -31,8 +31,7 @@
     "test:ui": "NODE_ENV=test node scripts/jest.js",
     "posttest": "npm run lint",
     "codecov": "jest --no-cache --coverage && codecov",
-    "publish": "npm run clean && npm run lint && npm run test && scripts/publish.sh",
-    "deploy": "npm run clean && npm run lint && npm run test && npm run build && node scripts/deploy.js"
+    "deploy": "npm run clean && npm run lint && npm run test && scripts/publish.sh #node scripts/deploy.js"
   },
   "dependencies": {
     "compassql": "0.12.1",
