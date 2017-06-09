@@ -56,7 +56,7 @@ describe('api/api', () => {
       );
     });
     it('should return results for remote recommend', () => {
-      fetchMock.postOnce('*', []);
+      fetchMock.postOnce('*', {fields: []});
       expect.assertions(1);
 
       return fetchCompassQLBuildSchema(data, {serverUrl: 'http://localhost'}).then(
