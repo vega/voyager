@@ -11,6 +11,8 @@ import {Action} from './index';
 import {ReduxAction} from './redux-action';
 import {SHELF_CLEAR} from './shelf';
 
+import {getConfig} from '../selectors';
+
 export type DatasetAction = DatasetUrlReceive | DatasetUrlRequest | DatasetReceive;
 export type DatasetAsyncAction = DatasetLoad;
 
@@ -37,7 +39,9 @@ export type DatasetReceive = ReduxAction<typeof DATASET_INLINE_RECEIVE, {
 
 export type DatasetLoad = ThunkAction<void , State, undefined>;
 export function datasetLoad(name: string, dataset: Data): DatasetLoad {
-  return (dispatch: Dispatch<Action>) => {
+  return (dispatch: Dispatch<Action>, getState) => {
+
+    const config = getConfig(getState());
     // Get the new dataset
     if (isUrlData(dataset)) {
       const url = dataset.url;
@@ -49,7 +53,7 @@ export function datasetLoad(name: string, dataset: Data): DatasetLoad {
 
       return fetch(url)
         .then(response => response.json()) // TODO: handle error
-        .then(data => fetchCompassQLBuildSchema(data)) // TODO: handle error
+        .then(data => fetchCompassQLBuildSchema(data, config)) // TODO: handle error
         .then(schema => {
           dispatch({
             type: DATASET_URL_RECEIVE,
@@ -61,7 +65,7 @@ export function datasetLoad(name: string, dataset: Data): DatasetLoad {
           dispatch(ActionCreators.clearHistory());
         });
     } else if (isInlineData(dataset)) {
-      return fetchCompassQLBuildSchema(dataset.values) // TODO: handle error
+      return fetchCompassQLBuildSchema(dataset.values, config) // TODO: handle error
         .then(schema => {
           const data = dataset;
           dispatch({
