@@ -1,4 +1,5 @@
 import undoable, {excludeAction, StateWithHistory} from 'redux-undo';
+import {toSet} from 'vega-util';
 
 import {Action, REDO, UNDO} from '../actions';
 import {HISTORY_LIMIT} from '../constants';
@@ -44,11 +45,18 @@ function reducer(state: Readonly<StateBase>, action: Action): StateBase {
 
 /**
  * Exclude these actions from the history completely.
+ *
+ *
  */
-const excludeActionsInHistory = [DATASET_INLINE_RECEIVE,
+const ACTIONS_EXCLUDED_FROM_HISTORY = [
+  // These actions are automatically re-triggered by some of the shelf components after
+  // every state change. Including UNDO/REDO.
   RESULT_RECEIVE,
   RESULT_REQUEST,
+  // These actions are not (at least at the moment) trigerrable from a user action.
+  // They are either initialization options or triggered by an api call when embedding voyager.
   SET_CONFIG,
+  DATASET_INLINE_RECEIVE,
 ];
 
 /**
@@ -58,11 +66,10 @@ const excludeActionsInHistory = [DATASET_INLINE_RECEIVE,
  * of the preceding user action if one is available. If none is available it will be put
  * into its own group.
  */
-const userActions = [
+const USER_ACTIONS = toSet([
   // Dataset Actions
   DATASET_URL_REQUEST,
   DATASET_URL_RECEIVE,
-  DATASET_INLINE_RECEIVE,
   // Shelf Actions,
   SHELF_CLEAR,
   SHELF_MARK_CHANGE_TYPE,
@@ -74,7 +81,7 @@ const userActions = [
   SHELF_SPEC_LOAD,
   SHELF_SPEC_PREVIEW,
   SHELF_SPEC_PREVIEW_DISABLE,
-];
+]);
 
 let _groupId = 0;
 function getNextGroupId(): number {
@@ -82,10 +89,10 @@ function getNextGroupId(): number {
   return _groupId;
 }
 
-const groupAction = (action: Action, currentState: State, previousHistory: StateWithHistory<State>): any => {
+function groupAction(action: Action, currentState: State, previousHistory: StateWithHistory<State>): any {
   const currentActionType = action.type;
 
-  if (userActions.indexOf(currentActionType) >= 0) {
+  if (USER_ACTIONS[currentActionType]) {
     const nextGroupID = currentActionType + getNextGroupId();
     return nextGroupID;
   } else {
@@ -99,7 +106,7 @@ export const rootReducer = undoable(reducer, {
   undoType: UNDO,
   redoType: REDO,
   groupBy: groupAction,
-  filter: excludeAction(excludeActionsInHistory),
+  filter: excludeAction(ACTIONS_EXCLUDED_FROM_HISTORY),
   debug: true,
 });
 
