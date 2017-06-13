@@ -23,6 +23,7 @@ export type VoyagerData = Data;
 interface Props extends React.Props<AppBase> {
   config?: VoyagerConfig;
   data?: Data;
+  applicationState?: Readonly<StateBase>;
   dispatch: Dispatch<StateWithHistory<Readonly<StateBase>>>;
 }
 
@@ -77,6 +78,13 @@ class AppBase extends React.PureComponent<Props, {}> {
         config,
       }
     });
+  }
+
+  private setApplicationState(state: Readonly<StateBase>): void {
+    // TODO
+    // This function would actually do whatever is necessary with redux to set the whole state
+    // tree (possibly just triggering an action that handles this.)
+    return;
   }
 }
 

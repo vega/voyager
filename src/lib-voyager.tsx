@@ -65,6 +65,20 @@ class Voyager {
     this.render(this.data, config);
   }
 
+  public getApplicationState(): Readonly<StateBase> {
+    return this.store.getState().present;
+  }
+
+  public setApplicationState(state: Readonly<StateBase>): void {
+    // TODO
+    return;
+  }
+
+  public onStateChange(callback: Function): void {
+    // TODO
+    return;
+  }
+
   /**
    * Initialized the application, and renders it into the target container
    *

@@ -15,12 +15,23 @@ const config: VoyagerConfig = {
 };
 const data: Data = undefined;
 
+// These two values would come from a module that would be responsible for
+// defining a persistence strategy (getState and saveState basically).
+
+let initialState = undefined;
+let onStateChange = undefined;
+
+// Something along these lines is done. we may provide a custom function if we want to filter
+// the state before it goes to the callback.
+store.subscribe(onStateChange);
+
 ReactDOM.render(
     <Provider store={store}>
         <App
             config={config}
             data={data}
             dispatch={store.dispatch}
+            state={initialState}
         />
     </Provider>,
     document.getElementById('root')
