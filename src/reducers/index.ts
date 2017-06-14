@@ -7,8 +7,6 @@ import {StateBase} from '../models';
 
 import {SET_CONFIG} from '../actions/config';
 import {
-  DATASET_INLINE_RECEIVE,
-  DATASET_URL_RECEIVE,
   DATASET_URL_REQUEST,
 } from '../actions/dataset';
 import {
@@ -56,7 +54,6 @@ const ACTIONS_EXCLUDED_FROM_HISTORY = [
   // These actions are not (at least at the moment) trigerrable from a user action.
   // They are either initialization options or triggered by an api call when embedding voyager.
   SET_CONFIG,
-  DATASET_INLINE_RECEIVE,
 ];
 
 /**
@@ -69,7 +66,6 @@ const ACTIONS_EXCLUDED_FROM_HISTORY = [
 const USER_ACTIONS = toSet([
   // Dataset Actions
   DATASET_URL_REQUEST,
-  DATASET_URL_RECEIVE,
   // Shelf Actions,
   SHELF_CLEAR,
   SHELF_MARK_CHANGE_TYPE,
@@ -82,6 +78,17 @@ const USER_ACTIONS = toSet([
   SHELF_SPEC_PREVIEW,
   SHELF_SPEC_PREVIEW_DISABLE,
 ]);
+
+/**
+ * Actions that are to be grouped with actions that precede them.
+ *
+ * This list is here for documentation purposes
+ *
+ * DATASET_INLINE_RECEIVE,
+ * DATASET_URL_RECEIVE,
+ */
+
+
 
 let _groupId = 0;
 function getNextGroupId(): number {
@@ -107,6 +114,4 @@ export const rootReducer = undoable(reducer, {
   redoType: REDO,
   groupBy: groupAction,
   filter: excludeAction(ACTIONS_EXCLUDED_FROM_HISTORY),
-  debug: true,
 });
-
