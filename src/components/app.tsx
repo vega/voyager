@@ -6,7 +6,7 @@ import HTML5Backend from 'react-dnd-html5-backend';
 import * as SplitPane from 'react-split-pane';
 
 import {Dispatch} from 'redux';
-import {StateWithHistory} from 'redux-undo';
+import {ActionCreators, StateWithHistory} from 'redux-undo';
 import {Data} from 'vega-lite/build/src/data';
 import {datasetLoad, SET_CONFIG} from '../actions';
 import {StateBase} from '../models/index';
@@ -37,6 +37,7 @@ class AppBase extends React.PureComponent<Props, {}> {
   }
 
   public componentWillMount() {
+    this.props.dispatch(ActionCreators.clearHistory());
     this.update(this.props);
   }
 
