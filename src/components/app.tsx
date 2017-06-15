@@ -37,6 +37,9 @@ class AppBase extends React.PureComponent<Props, {}> {
   }
 
   public componentWillMount() {
+    // Clear history as redux-undo seems to always put the first action after
+    // an init into the history. This ensures we start with a fresh history once
+    // the app is about to start.
     this.props.dispatch(ActionCreators.clearHistory());
     this.update(this.props);
   }

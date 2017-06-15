@@ -6,14 +6,13 @@ import {HISTORY_LIMIT} from '../constants';
 import {StateBase} from '../models';
 
 import {SET_CONFIG} from '../actions/config';
+
 import {
+  DATASET_INLINE_RECEIVE,
+  DATASET_URL_RECEIVE,
   DATASET_URL_REQUEST,
-} from '../actions/dataset';
-import {
   RESULT_RECEIVE,
   RESULT_REQUEST,
-} from '../actions/result';
-import {
   SHELF_CLEAR,
   SHELF_FIELD_ADD,
   SHELF_FIELD_AUTO_ADD,
@@ -24,7 +23,8 @@ import {
   SHELF_SPEC_LOAD,
   SHELF_SPEC_PREVIEW,
   SHELF_SPEC_PREVIEW_DISABLE,
-} from '../actions/shelf';
+} from '../actions';
+
 import { State } from '../models/index';
 import {configReducer} from './config';
 import {datasetReducer} from './dataset';
@@ -46,7 +46,7 @@ function reducer(state: Readonly<StateBase>, action: Action): StateBase {
  *
  *
  */
-const ACTIONS_EXCLUDED_FROM_HISTORY = [
+export const ACTIONS_EXCLUDED_FROM_HISTORY: string[] = [
   // These actions are automatically re-triggered by some of the shelf components after
   // every state change. Including UNDO/REDO.
   RESULT_RECEIVE,
@@ -54,6 +54,10 @@ const ACTIONS_EXCLUDED_FROM_HISTORY = [
   // These actions are not (at least at the moment) trigerrable from a user action.
   // They are either initialization options or triggered by an api call when embedding voyager.
   SET_CONFIG,
+  // Undo and Redo actions will not be put in the history, but listing them here
+  // allows to check that every action is put in one of these lists.
+  UNDO,
+  REDO,
 ];
 
 /**
@@ -63,7 +67,7 @@ const ACTIONS_EXCLUDED_FROM_HISTORY = [
  * of the preceding user action if one is available. If none is available it will be put
  * into its own group.
  */
-const USER_ACTIONS = toSet([
+export const USER_ACTIONS: Object = toSet([
   // Dataset Actions
   DATASET_URL_REQUEST,
   // Shelf Actions,
@@ -87,6 +91,11 @@ const USER_ACTIONS = toSet([
  * DATASET_INLINE_RECEIVE,
  * DATASET_URL_RECEIVE,
  */
+
+export const GROUPED_ACTIONS: string[] = [
+  DATASET_INLINE_RECEIVE,
+  DATASET_URL_RECEIVE,
+];
 
 
 
