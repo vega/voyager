@@ -12,7 +12,7 @@ import {Schema} from 'compassql/build/src/schema';
 
 describe('api/api', () => {
   describe('fetchCompassQLRecommend', () => {
-    const schema = new Schema([]);
+    const schema = new Schema({fields: []});
     const data = {url: 'a/file/path'};
     const q: Query = {
       spec: {
@@ -51,7 +51,7 @@ describe('api/api', () => {
       expect.assertions(1);
       return fetchCompassQLBuildSchema(data).then(
         result => {
-          return expect(result.fields().length).toEqual(0);
+          return expect(result.fieldNames().length).toEqual(0);
         }
       );
     });
@@ -61,7 +61,7 @@ describe('api/api', () => {
 
       return fetchCompassQLBuildSchema(data, {serverUrl: 'http://localhost'}).then(
         result => {
-          return expect(result.fields().length).toEqual(0);
+          return expect(result.fieldNames().length).toEqual(0);
         }
       );
     });

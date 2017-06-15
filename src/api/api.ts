@@ -67,7 +67,7 @@ export function fetchCompassQLBuildSchema(data: any, config?: any):
       }
     ).then(
       fields => {
-        return new Schema(fields.fields);
+        return new Schema({fields: fields.fields});
       }
     );
 

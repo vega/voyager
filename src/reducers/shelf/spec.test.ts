@@ -12,8 +12,7 @@ const SHORT_WILDCARD = '?';
 import {Schema} from 'compassql/build/src/schema';
 import {SHELF_SPEC_LOAD} from '../../actions/shelf';
 
-const schema = new Schema([
-]);
+const schema = new Schema({fields: []});
 
 describe('reducers/shelf/spec', () => {
   describe(SHELF_CLEAR, () => {

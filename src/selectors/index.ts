@@ -40,8 +40,8 @@ export const getSchemaFieldDefs = createSelector(
   getSchema,
   (schema: Schema): ShelfFieldDef[] => {
     return schema.fieldSchemas.map(fieldSchema => {
-      const {field, type} = fieldSchema;
-      return {field, type};
+      const {name, vlType} = fieldSchema;
+      return {field: name, type: vlType};
     });
   }
 );
