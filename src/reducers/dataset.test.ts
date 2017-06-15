@@ -23,7 +23,7 @@ describe('reducers/dataset', () => {
   describe(DATASET_URL_RECEIVE, () => {
     it('returns new dataset state with isLoading=false and with new name, data, and schema', () => {
       const url = 'http://cars.com';
-      const schema = {} as Schema; // Mock
+      const schema = new Schema({fields: []});
       expect(datasetReducer(
         {
           ...DEFAULT_DATASET,
@@ -56,7 +56,7 @@ describe('reducers/dataset', () => {
           {"a": "G", "b": 19}, {"a": "H", "b": 87}, {"a": "I", "b": 52}
         ]
       };
-      const schema = {} as Schema; // Mock
+      const schema = new Schema({fields: []});
       expect(datasetReducer(
         {
           ...DEFAULT_DATASET,
