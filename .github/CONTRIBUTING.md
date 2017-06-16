@@ -1,23 +1,3 @@
-# Project Setup
-
-## Install Dependencies
-
-We use [`yarn`](https://yarnpkg.com/en/) to manage dependencies as it provides more reliable dependency list that the traditional npm.
-
-Once you have yarn installed, you can run `yarn install`.
-
-## Build Voyager
-
-With all dependencies installed, you can run `npm run build` to build the project.
-You can also use `npm run watch` for continuous build.
-
-## Running Current Voyager Prototype
-
-Currently we use `npm run watch` and `python -m SimpleHTTPServer <port>` to serve the app.
-
-In the future, we plan to migrate to use `webpack-dev-server` with hot module loading support. (See #250 -- help wanted!)
-
-
 # Coding Convention
 
 ## General
