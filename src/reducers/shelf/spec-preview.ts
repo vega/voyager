@@ -5,7 +5,8 @@ import {SHELF_SPEC_PREVIEW, SHELF_SPEC_PREVIEW_DISABLE} from '../../actions/shel
 import {DEFAULT_SHELF_UNIT_SPEC, fromSpecQuery, ShelfUnitSpec} from '../../models/shelf/spec';
 
 
-export function shelfSpecPreviewReducer(preview: Readonly<ShelfUnitSpec> = DEFAULT_SHELF_UNIT_SPEC, action: Action): ShelfUnitSpec {
+export function shelfSpecPreviewReducer(preview: Readonly<ShelfUnitSpec> = DEFAULT_SHELF_UNIT_SPEC,
+                                        action: Action): ShelfUnitSpec {
   switch (action.type) {
     case SHELF_SPEC_PREVIEW:
       const {spec} = action.payload;

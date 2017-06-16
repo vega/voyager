@@ -20,7 +20,9 @@ import {DEFAULT_SHELF_UNIT_SPEC, fromSpecQuery} from '../../models/shelf/spec';
 import {toSet} from '../../util';
 
 
-export function shelfSpecReducer(shelfSpec: Readonly<ShelfUnitSpec> = DEFAULT_SHELF_UNIT_SPEC, action: Action, schema: Schema): ShelfUnitSpec {
+export function shelfSpecReducer(shelfSpec: Readonly<ShelfUnitSpec> = DEFAULT_SHELF_UNIT_SPEC,
+                                 action: Action,
+                                 schema: Schema): ShelfUnitSpec {
   switch (action.type) {
     case SHELF_CLEAR:
       return DEFAULT_SHELF_UNIT_SPEC;
