@@ -19,6 +19,7 @@
   "license": "BSD-3-Clause",
   "scripts": {
     "start": "webpack-dev-server --open --config config/webpack.config.dev.js",
+    "start:server": "cross-env SERVER=\"http://localhost:3000\" webpack-dev-server --open --config config/webpack.config.dev.js",
     "build": "node scripts/build.js",
     "postbuild": "tsc && tsc --project ./tsconfig.declaration.json",
     "build:lib": "webpack -d --config config/webpack.lib.config.js",
@@ -76,6 +77,7 @@
     "autoprefixer": "^6.7.6",
     "case-sensitive-paths-webpack-plugin": "^2.0.0",
     "codecov": "^1.0.1",
+    "cross-env": "^5.0.1",
     "css-loader": "^0.26.1",
     "enzyme": "^2.8.2",
     "extract-text-webpack-plugin": "beta",
