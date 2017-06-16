@@ -3,7 +3,7 @@ import {toSet} from 'vega-util';
 
 import {Action, REDO, UNDO} from '../actions';
 import {HISTORY_LIMIT} from '../constants';
-import {StateBase} from '../models';
+import {DEFAULT_STATE, State, StateBase} from '../models';
 
 import {SET_CONFIG} from '../actions/config';
 
@@ -13,6 +13,7 @@ import {
   DATASET_URL_REQUEST,
   RESULT_RECEIVE,
   RESULT_REQUEST,
+  SET_APPLICATION_STATE,
   SHELF_CLEAR,
   SHELF_FIELD_ADD,
   SHELF_FIELD_AUTO_ADD,
@@ -25,26 +26,28 @@ import {
   SHELF_SPEC_PREVIEW_DISABLE,
 } from '../actions';
 
-import { State } from '../models/index';
 import {configReducer} from './config';
 import {datasetReducer} from './dataset';
 import {resultReducer} from './result';
 import {shelfReducer} from './shelf';
+import {stateReducer} from './state';
 
 
-function reducer(state: Readonly<StateBase>, action: Action): StateBase {
-  return {
-    config: configReducer(state.config, action),
-    dataset: datasetReducer(state.dataset, action),
-    shelf: shelfReducer(state.shelf, action, state.dataset.schema),
-    result: resultReducer(state.result, action)
-  };
+function reducer(state: Readonly<StateBase> = DEFAULT_STATE, action: Action): StateBase {
+  if (action.type === SET_APPLICATION_STATE) {
+    return stateReducer(state, action);
+  } else {
+    return {
+      config: configReducer(state.config, action),
+      dataset: datasetReducer(state.dataset, action),
+      shelf: shelfReducer(state.shelf, action, state.dataset.schema),
+      result: resultReducer(state.result, action)
+    };
+  }
 }
 
 /**
  * Exclude these actions from the history completely.
- *
- *
  */
 export const ACTIONS_EXCLUDED_FROM_HISTORY: string[] = [
   // These actions are automatically re-triggered by some of the shelf components after
@@ -58,6 +61,8 @@ export const ACTIONS_EXCLUDED_FROM_HISTORY: string[] = [
   // allows to check that every action is put in one of these lists.
   UNDO,
   REDO,
+  // Reset app state completely
+  SET_APPLICATION_STATE,
 ];
 
 /**
@@ -96,8 +101,6 @@ export const GROUPED_ACTIONS: string[] = [
   DATASET_INLINE_RECEIVE,
   DATASET_URL_RECEIVE,
 ];
-
-
 
 let _groupId = 0;
 function getNextGroupId(): number {
