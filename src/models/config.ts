@@ -3,5 +3,5 @@ export interface VoyagerConfig {
 };
 
 export const DEFAULT_VOYAGER_CONFIG = {
-  showDataSourceSelector: false
+  showDataSourceSelector: true
 };
