@@ -16,13 +16,13 @@ import {getConfig} from '../selectors';
 export type DatasetAction = DatasetUrlReceive | DatasetUrlRequest | DatasetReceive;
 export type DatasetAsyncAction = DatasetLoad;
 
-export const DATASET_URL_REQUEST = 'DATA_URL_REQUEST';
+export const DATASET_URL_REQUEST = 'DATASET_URL_REQUEST';
 export type DatasetUrlRequest = ReduxAction<typeof DATASET_URL_REQUEST, {
   name: string,
   url: string
 }>;
 
-export const DATASET_URL_RECEIVE = 'DATA_URL_RECEIVE';
+export const DATASET_URL_RECEIVE = 'DATASET_URL_RECEIVE';
 export type DatasetUrlReceive = ReduxAction<typeof DATASET_URL_RECEIVE, {
   name: string,
   url: string,

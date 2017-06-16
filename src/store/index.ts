@@ -1,9 +1,11 @@
 import {applyMiddleware, compose, createStore, Middleware} from 'redux';
 import {createLogger} from 'redux-logger';
 import thunkMiddleware from 'redux-thunk';
+import {StateWithHistory} from 'redux-undo';
 
-import {DEFAULT_STATE} from '../models';
+import { DEFAULT_STATE, StateBase } from '../models';
 import {rootReducer} from '../reducers';
+
 
 const loggerMiddleware = createLogger({
   collapsed: true,
@@ -22,9 +24,17 @@ if (process.env.NODE_ENV !== 'production' && process.env.NODE_ENV !== 'test') {
 }
 
 export function configureStore(initialState = DEFAULT_STATE) {
+  const initialStateWithHistory: StateWithHistory<Readonly<StateBase>> = {
+    past: [],
+    present: initialState,
+    future: [],
+    _latestUnfiltered: null,
+    group: null,
+  };
+
   const store = createStore(
     rootReducer,
-    {past: [], present: initialState, future: []},
+    initialStateWithHistory,
     composeEnhancers(applyMiddleware(...middleware))
   );
   return store;
