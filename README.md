@@ -14,6 +14,28 @@ Since this new version of Voyager is not ready for demo / usage yet, you can acc
 - The __Voyager 2__ visualization tool, which blends manual and automated chart specification – demo at http://vega.github.io/voyager2 and source code at https://github.com/vega/voyager2
 - The __Voyager 1__ visualization browser -- demo at http://vega.github.io/voyager and source code in the `vy1` branch of this repository.
 
+
+## Project Setup
+
+### Install Dependencies
+
+We use [`yarn`](https://yarnpkg.com/en/) to manage dependencies as it provides more reliable dependency list that the traditional npm.
+
+Once you have yarn installed, you can run `yarn install`.
+
+
+### Running Current Voyager Prototype
+
+With all dependencies installed, you can use `yarn run start` to serve the app.
+
+### Building Voyager
+
+Just in case you want to link a dependent project to a local version of Voyager, you can run `yarn run build` to build the project.
+
+### Developing Voyager
+
+For development convention, please see [.github/CONTRIBUTING.md](.github/CONTRIBUTING.md).
+
 ## Embed Voyager
 
 This repository also hosts an experimental interface that allows for embedding voyager in another web application. The following sections document how to use it.
