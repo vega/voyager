@@ -4,15 +4,15 @@ import {ACTIONS_EXCLUDED_FROM_HISTORY, GROUPED_ACTIONS, USER_ACTIONS} from './in
 describe('reducers/index', () => {
   describe("Action Groups", () => {
     it('All actions should be in a group', () => {
-      const actionsInIndex = ACTIONS_EXCLUDED_FROM_HISTORY.concat(
+      const actionsInIndex = [].concat(
+        ACTIONS_EXCLUDED_FROM_HISTORY,
         GROUPED_ACTIONS,
-        Object.keys(USER_ACTIONS),
+        USER_ACTIONS
       );
 
       for (const action of ACTION_TYPES) {
         expect(actionsInIndex).toContain(action);
       }
-
     });
   });
 });

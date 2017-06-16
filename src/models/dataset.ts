@@ -17,42 +17,43 @@ export const DEFAULT_DATASET: Dataset = {
   isLoading: false,
 
   name: 'Sample',
-  schema: new Schema([{
-    field: 'q1',
-    type: 'quantitative',
-    primitiveType: 'number' as any,
+  schema: new Schema({fields:
+  [{
+    name: 'q1',
+    vlType: 'quantitative',
+    type: 'number' as any,
     stats: {
       distinct: 2
     }
   }, {
-    field: 'q2',
-    type: 'quantitative',
-    primitiveType: 'number' as any,
+    name: 'q2',
+    vlType: 'quantitative',
+    type: 'number' as any,
     stats: {
       distinct: 2
     }
   }, {
-    field: 't',
-    type: 'temporal',
-    primitiveType: 'date' as any,
+    name: 't',
+    vlType: 'temporal',
+    type: 'date' as any,
     stats: {
       distinct: 2
     }
   }, {
-    field: 'n1',
-    type: 'nominal',
-    primitiveType: 'string' as any,
+    name: 'n1',
+    vlType: 'nominal',
+    type: 'string' as any,
     stats: {
       distinct: 2
     }
   }, {
-    field: 'n2',
-    type: 'nominal',
-    primitiveType: 'string' as any,
+    name: 'n2',
+    vlType: 'nominal',
+    type: 'string' as any,
     stats: {
       distinct: 2
     }
-  }] as FieldSchema[]),
+  }] as FieldSchema[]}),
 
   data: {
     values: [

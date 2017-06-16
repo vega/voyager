@@ -26,6 +26,7 @@ import {
   SHELF_SPEC_PREVIEW_DISABLE,
 } from '../actions';
 
+import {ActionType} from '../actions';
 import {configReducer} from './config';
 import {datasetReducer} from './dataset';
 import {resultReducer} from './result';
@@ -49,7 +50,7 @@ function reducer(state: Readonly<StateBase> = DEFAULT_STATE, action: Action): St
 /**
  * Exclude these actions from the history completely.
  */
-export const ACTIONS_EXCLUDED_FROM_HISTORY: string[] = [
+export const ACTIONS_EXCLUDED_FROM_HISTORY: ActionType[] = [
   // These actions are automatically re-triggered by some of the shelf components after
   // every state change. Including UNDO/REDO.
   RESULT_RECEIVE,
@@ -72,7 +73,7 @@ export const ACTIONS_EXCLUDED_FROM_HISTORY: string[] = [
  * of the preceding user action if one is available. If none is available it will be put
  * into its own group.
  */
-export const USER_ACTIONS: Object = toSet([
+export const USER_ACTIONS: ActionType[] = [
   // Dataset Actions
   DATASET_URL_REQUEST,
   // Shelf Actions,
@@ -86,7 +87,10 @@ export const USER_ACTIONS: Object = toSet([
   SHELF_SPEC_LOAD,
   SHELF_SPEC_PREVIEW,
   SHELF_SPEC_PREVIEW_DISABLE,
-]);
+];
+
+
+export const USER_ACTION_INDEX: Object = toSet(USER_ACTIONS);
 
 /**
  * Actions that are to be grouped with actions that precede them.
@@ -97,7 +101,7 @@ export const USER_ACTIONS: Object = toSet([
  * DATASET_URL_RECEIVE,
  */
 
-export const GROUPED_ACTIONS: string[] = [
+export const GROUPED_ACTIONS: ActionType[] = [
   DATASET_INLINE_RECEIVE,
   DATASET_URL_RECEIVE,
 ];
@@ -111,7 +115,7 @@ function getNextGroupId(): number {
 function groupAction(action: Action, currentState: State, previousHistory: StateWithHistory<State>): any {
   const currentActionType = action.type;
 
-  if (USER_ACTIONS[currentActionType]) {
+  if (USER_ACTION_INDEX[currentActionType]) {
     const nextGroupID = currentActionType + getNextGroupId();
     return nextGroupID;
   } else {

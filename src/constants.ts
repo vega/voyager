@@ -1,3 +1,5 @@
+import { VoyagerConfig } from './models/config';
+
 export const HISTORY_LIMIT = 20;
 
 export const PLOT_HOVER_MIN_DURATION = 500;
@@ -85,3 +87,10 @@ export const DEFAULT_DATASETS = [{
     url: BASE_DATA_DIR + dataset.url
   };
 });
+
+const SERVER = process.env.SERVER;
+
+export const VOYAGER_CONFIG: VoyagerConfig = {
+  showDataSourceSelector: true,
+  serverUrl: SERVER
+};

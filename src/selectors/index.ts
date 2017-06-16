@@ -27,7 +27,7 @@ export const getPresetWildcardFields = createSelector(
   getSchema,
   (schema: Schema): ShelfFieldDef[] => {
     const typeIndex = schema.fieldSchemas.reduce((index, fieldSchema) => {
-      index[fieldSchema.type] = true;
+      index[fieldSchema.vlType] = true;
       return index;
     }, {});
 
@@ -40,8 +40,8 @@ export const getSchemaFieldDefs = createSelector(
   getSchema,
   (schema: Schema): ShelfFieldDef[] => {
     return schema.fieldSchemas.map(fieldSchema => {
-      const {field, type} = fieldSchema;
-      return {field, type};
+      const {name, vlType} = fieldSchema;
+      return {field: name, type: vlType};
     });
   }
 );
