@@ -4,9 +4,9 @@ import {
   DATASET_URL_RECEIVE,
   DATASET_URL_REQUEST,
 } from '../actions';
-import {Dataset} from '../models';
+import {Dataset, DEFAULT_DATASET} from '../models';
 
-export function datasetReducer(dataset: Readonly<Dataset>, action: Action): Dataset {
+export function datasetReducer(dataset: Readonly<Dataset> = DEFAULT_DATASET, action: Action): Dataset {
   switch (action.type) {
     case DATASET_URL_REQUEST:
       return {

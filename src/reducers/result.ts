@@ -3,9 +3,9 @@ import {
   RESULT_RECEIVE,
   RESULT_REQUEST,
 } from '../actions';
-import {Result, ResultIndex} from '../models';
+import {DEFAULT_RESULT, DEFAULT_RESULT_MAIN, Result, ResultIndex} from '../models';
 
-export function mainResultReducer(state: Readonly<Result>, action: Action): Result {
+export function mainResultReducer(state: Readonly<Result> = DEFAULT_RESULT_MAIN, action: Action): Result {
   switch (action.type) {
     case RESULT_REQUEST:
       return {
@@ -24,7 +24,7 @@ export function mainResultReducer(state: Readonly<Result>, action: Action): Resu
   return state;
 }
 
-export function resultReducer(state: Readonly<ResultIndex>, action: Action) {
+export function resultReducer(state: Readonly<ResultIndex> = DEFAULT_RESULT, action: Action) {
   return {
     main: mainResultReducer(state.main, action)
   };
