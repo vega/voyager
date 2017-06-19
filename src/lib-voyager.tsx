@@ -110,7 +110,7 @@ class Voyager {
   public onStateChange(onChange: Function): Function {
     let currentState: any;
 
-    function handleChange() {
+    const handleChange = () => {
       const nextState = this.store.getState();
       if (nextState !== currentState) {
         currentState = nextState;

@@ -9,6 +9,7 @@ import {Provider} from 'react-redux';
 import {App} from './components/app';
 import {CreateVoyager} from './lib-voyager';
 import {configureStore} from './store';
+import { StateBase } from '../build/src/models/index';
 
 describe('lib-voyager', () => {
   let container: HTMLElement;
@@ -73,7 +74,7 @@ describe('lib-voyager', () => {
   });
 
   describe('data', () => {
-    test('initialize with custom data', done => {
+    it('initialize with custom data', done => {
 
       const data: any = {
         "values": [
@@ -117,4 +118,100 @@ describe('lib-voyager', () => {
       }, 10);
     });
   });
+
+
+  describe('applicationState', () => {
+    it('gets initial application state', done => {
+
+      setTimeout(() => {
+        try {
+          const voyagerInst = CreateVoyager(container, undefined, undefined);
+
+          const state = voyagerInst.getApplicationState();
+
+          expect(state).toHaveProperty('config');
+          expect(state).toHaveProperty('dataset');
+          expect(state).toHaveProperty('result');
+          expect(state).toHaveProperty('shelf');
+
+          done();
+
+        } catch (err) {
+          done.fail(err);
+        }
+      }, 10);
+    });
+
+    it('sets application state', done => {
+
+      setTimeout(() => {
+        try {
+          const voyagerInst = CreateVoyager(container, undefined, undefined);
+          const state = voyagerInst.getApplicationState();
+
+          expect(state).toHaveProperty('config');
+
+          const originalConfigOption = state.config.showDataSourceSelector;
+          state.config.showDataSourceSelector = !state.config.showDataSourceSelector;
+
+          voyagerInst.setApplicationState(state);
+
+          setTimeout(() => {
+            const newState = voyagerInst.getApplicationState();
+
+            expect(newState).toHaveProperty('config');
+            expect(newState).toHaveProperty('dataset');
+            expect(newState).toHaveProperty('result');
+            expect(newState).toHaveProperty('shelf');
+
+            expect(newState.config.showDataSourceSelector).toEqual(!originalConfigOption);
+
+            done();
+          }, 100);
+
+        } catch (err) {
+          done.fail(err);
+        }
+      }, 10);
+    });
+
+    it('subscribes to state changes', done => {
+
+      setTimeout(() => {
+        try {
+          const voyagerInst = CreateVoyager(container, undefined, undefined);
+
+          const aState = voyagerInst.getApplicationState();
+          const originalConfigOption = aState.config.showDataSourceSelector;
+          aState.config.showDataSourceSelector = !aState.config.showDataSourceSelector;
+
+          const handleStateChange = (state: any) => {
+            expect(state).toHaveProperty('config');
+            expect(state).toHaveProperty('dataset');
+            expect(state).toHaveProperty('result');
+            expect(state).toHaveProperty('shelf');
+
+            expect(state.config.showDataSourceSelector).toEqual(!originalConfigOption);
+
+            done();
+          };
+
+          voyagerInst.onStateChange(handleStateChange);
+
+          setTimeout(() => {
+            voyagerInst.setApplicationState(aState);
+          }, 50);
+
+
+
+        } catch (err) {
+          done.fail(err);
+        }
+      }, 10);
+    });
+
+  });
+
+
+
 });
