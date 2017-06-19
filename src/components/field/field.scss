@@ -56,6 +56,9 @@ $any-hover-color: #666;
 
 .text {
   flex-grow: 1;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 // .field-info {
