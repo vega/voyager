@@ -9,7 +9,6 @@ import {Provider} from 'react-redux';
 import {App} from './components/app';
 import {CreateVoyager} from './lib-voyager';
 import {configureStore} from './store';
-import { StateBase } from '../build/src/models/index';
 
 describe('lib-voyager', () => {
   let container: HTMLElement;

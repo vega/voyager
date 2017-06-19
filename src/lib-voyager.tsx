@@ -116,7 +116,7 @@ class Voyager {
         currentState = nextState;
         onChange(currentState.present);
       }
-    }
+    };
 
     const unsubscribe = this.store.subscribe(handleChange);
     return unsubscribe;
