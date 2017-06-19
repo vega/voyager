@@ -2,6 +2,7 @@ import {ConfigAction} from './config';
 import {DatasetAction} from './dataset';
 import {ResultAction} from './result';
 import {ShelfAction} from './shelf';
+import {ApplicationStateAction} from './state';
 import {UndoableAction} from './undo-redo';
 
 
@@ -11,11 +12,13 @@ export * from './result';
 export * from './redux-action';
 export * from './shelf';
 export * from './undo-redo';
+export * from './state';
 
 /**
  * Union type of all actions in our application.
  */
-export type Action = DatasetAction | ShelfAction | UndoableAction | ResultAction | ConfigAction;
+export type Action = DatasetAction | ShelfAction | UndoableAction |
+  ResultAction | ConfigAction | ApplicationStateAction;
 
 export type ActionType = Action['type'];
 
@@ -43,6 +46,8 @@ const ACTION_TYPE_INDEX: {[k in ActionType]: 1} = {
 
   UNDO: 1,
   REDO: 1,
+
+  SET_APPLICATION_STATE: 1,
 };
 
 /** An array of all possible action types. */

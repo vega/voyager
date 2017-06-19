@@ -8,7 +8,7 @@ import * as SplitPane from 'react-split-pane';
 import {Dispatch} from 'redux';
 import {ActionCreators, StateWithHistory} from 'redux-undo';
 import {Data} from 'vega-lite/build/src/data';
-import {datasetLoad, SET_CONFIG} from '../actions';
+import {datasetLoad, SET_APPLICATION_STATE, SET_CONFIG} from '../actions';
 import {StateBase} from '../models/index';
 
 import {VoyagerConfig} from '../models/config';
@@ -23,6 +23,7 @@ export type VoyagerData = Data;
 interface Props extends React.Props<AppBase> {
   config?: VoyagerConfig;
   data?: Data;
+  applicationState?: Readonly<StateBase>;
   dispatch: Dispatch<StateWithHistory<Readonly<StateBase>>>;
 }
 
@@ -59,14 +60,19 @@ class AppBase extends React.PureComponent<Props, {}> {
     );
   }
 
-  private update(props: Props) {
-    const { data, config, dispatch } = props;
+  private update(nextProps: Props) {
+    const { data, config, applicationState, dispatch } = nextProps;
     if (data) {
       this.setData(data);
     }
 
     if (config) {
       this.setConfig(config);
+    }
+
+    if (applicationState) {
+      // Note that this will overwrite other passed in props
+      this.setApplicationState(applicationState);
     }
   }
 
@@ -79,6 +85,15 @@ class AppBase extends React.PureComponent<Props, {}> {
       type: SET_CONFIG,
       payload: {
         config,
+      }
+    });
+  }
+
+  private setApplicationState(state: Readonly<StateBase>): void {
+    this.props.dispatch({
+      type: SET_APPLICATION_STATE,
+      payload: {
+        state,
       }
     });
   }

@@ -3,7 +3,7 @@ import {toSet} from 'vega-util';
 
 import {Action, REDO, UNDO} from '../actions';
 import {HISTORY_LIMIT} from '../constants';
-import {StateBase} from '../models';
+import {DEFAULT_STATE, State, StateBase} from '../models';
 
 import {SET_CONFIG} from '../actions/config';
 
@@ -13,6 +13,7 @@ import {
   DATASET_URL_REQUEST,
   RESULT_RECEIVE,
   RESULT_REQUEST,
+  SET_APPLICATION_STATE,
   SHELF_CLEAR,
   SHELF_FIELD_ADD,
   SHELF_FIELD_AUTO_ADD,
@@ -26,20 +27,24 @@ import {
 } from '../actions';
 
 import {ActionType} from '../actions';
-import { State } from '../models/index';
 import {configReducer} from './config';
 import {datasetReducer} from './dataset';
 import {resultReducer} from './result';
 import {shelfReducer} from './shelf';
+import {stateReducer} from './state';
 
 
-function reducer(state: Readonly<StateBase>, action: Action): StateBase {
-  return {
-    config: configReducer(state.config, action),
-    dataset: datasetReducer(state.dataset, action),
-    shelf: shelfReducer(state.shelf, action, state.dataset.schema),
-    result: resultReducer(state.result, action)
-  };
+function reducer(state: Readonly<StateBase> = DEFAULT_STATE, action: Action): StateBase {
+  if (action.type === SET_APPLICATION_STATE) {
+    return stateReducer(state, action);
+  } else {
+    return {
+      config: configReducer(state.config, action),
+      dataset: datasetReducer(state.dataset, action),
+      shelf: shelfReducer(state.shelf, action, state.dataset.schema),
+      result: resultReducer(state.result, action)
+    };
+  }
 }
 
 /**
@@ -57,6 +62,8 @@ export const ACTIONS_EXCLUDED_FROM_HISTORY: ActionType[] = [
   // allows to check that every action is put in one of these lists.
   UNDO,
   REDO,
+  // Reset app state completely
+  SET_APPLICATION_STATE,
 ];
 
 /**
@@ -82,7 +89,8 @@ export const USER_ACTIONS: ActionType[] = [
   SHELF_SPEC_PREVIEW_DISABLE,
 ];
 
-export const USER_ACTION_INDEX = toSet(USER_ACTIONS);
+
+export const USER_ACTION_INDEX: Object = toSet(USER_ACTIONS);
 
 /**
  * Actions that are to be grouped with actions that precede them.
