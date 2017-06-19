@@ -62,7 +62,6 @@ class FieldBase extends React.PureComponent<FieldProps, {}> {
   public render(): JSX.Element {
     const {caretHide, caretOnClick, connectDragSource, fieldDef, isPill} = this.props;
     const {field, title} = fieldDef;
-
     const isWildcardField = isWildcard(field) || this.props.isEnumeratedWildcardField;
 
     const component = (
@@ -71,7 +70,7 @@ class FieldBase extends React.PureComponent<FieldProps, {}> {
         onDoubleClick={this.onDoubleClick}
       >
         {caretTypeSpan({caretHide, caretOnClick, type: fieldDef.type})}
-        <span styleName="text">
+        <span styleName="text" title={title}>
           {title || field}
         </span>
         {this.addSpan()}
