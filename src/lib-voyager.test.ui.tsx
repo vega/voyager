@@ -42,9 +42,9 @@ describe('lib-voyager', () => {
             </Provider>,
           );
 
-          const header = wrapper.find('header');
-          expect(header.exists());
-          expect(header.text()).toContain('Voyager 2');
+          const dataPaneHeader = wrapper.find('.data-pane__data-pane h2');
+          expect(dataPaneHeader.exists());
+          expect(dataPaneHeader.text()).toContain('Data');
         } catch (err) {
           done.fail(err);
         }
@@ -62,8 +62,8 @@ describe('lib-voyager', () => {
       setTimeout(() => {
         try {
           CreateVoyager(container, config, data);
-          const header = document.querySelector('header');
-          expect(header.textContent).toContain('Voyager 2');
+          const dataPaneHeader = document.querySelector('.data-pane__data-pane h2');
+          expect(dataPaneHeader.textContent).toContain('Data');
           done();
         } catch (err) {
           done.fail(err);
@@ -86,8 +86,8 @@ describe('lib-voyager', () => {
       setTimeout(() => {
         try {
           const voyagerInst = CreateVoyager(container, undefined, undefined);
-          const header = document.querySelector('header');
-          expect(header.textContent).toContain('Voyager 2');
+          const dataPaneHeader = document.querySelector('.data-pane__data-pane h2');
+          expect(dataPaneHeader.textContent).toContain('Data');
 
           setTimeout(() => {
             let fieldList = document.querySelectorAll('.field-list__field-list-item');

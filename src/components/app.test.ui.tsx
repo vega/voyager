@@ -28,9 +28,9 @@ describe('Voyager', () => {
             </Provider>,
           );
 
-          const header = wrapper.find('header');
-          expect(header.exists());
-          expect(header.text()).toContain('Voyager 2');
+          const dataPaneHeader = wrapper.find('.data-pane__data-pane h2');
+          expect(dataPaneHeader.exists());
+          expect(dataPaneHeader.text()).toContain('Data');
         } catch (err) {
           done.fail(err);
         }
