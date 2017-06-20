@@ -4,7 +4,7 @@ import * as CSSModules from 'react-css-modules';
 import * as styles from './controls.scss';
 import { UndoRedo } from './undo-redo';
 
-class ControlsBase extends React.Component<any, any> {
+class ControlsBase extends React.PureComponent<any, {}> {
   public render() {
     return (
       <div styleName='controls'>
