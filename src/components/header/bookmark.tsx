@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-export class Bookmark extends React.PureComponent<any, {}> {
+export class Bookmark extends React.PureComponent<{}, {}> {
   public render() {
     return (
       <button>

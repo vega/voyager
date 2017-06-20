@@ -3,7 +3,7 @@ import * as CSSModules from 'react-css-modules';
 import {Controls} from './controls';
 import * as styles from './header.scss';
 
-export class HeaderBase extends React.PureComponent<any, {}> {
+export class HeaderBase extends React.PureComponent<{}, {}> {
   public render() {
     return (
       <div styleName='header'>
