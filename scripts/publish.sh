@@ -32,7 +32,6 @@ version=$(cat package.json | jq .version | sed -e 's/^"//'  -e 's/"$//')
 # swap to head so we don't commit compiled file to master along with tags
 git checkout head
 npm run build
-npm run build:lib
 
 # add the compiled files, commit and tag!
 git add build/ -f
@@ -44,7 +43,6 @@ git tag -am "Release v$version." "v$version"
 git checkout master
 git push --tags
 npm run build # rebuild -- so compiled files are back for linked bower
-npm run build:lib
 
 # 2. NPM PUBLISH
 
