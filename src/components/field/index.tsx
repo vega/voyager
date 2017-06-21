@@ -46,6 +46,8 @@ export interface FieldPropsBase {
 
   /** Remove field event handler.  If not provided, remove button will disappear. */
   onRemove?: () => void;
+
+  currType?: Type;
 };
 
 export interface FieldProps extends FieldDragSourceProps, FieldPropsBase {};
@@ -60,7 +62,7 @@ class FieldBase extends React.PureComponent<FieldProps, {}> {
   }
 
   public render(): JSX.Element {
-    const {caretHide, caretOnClick, connectDragSource, fieldDef, isPill} = this.props;
+    const {caretHide, caretOnClick, connectDragSource, fieldDef, isPill, currType} = this.props;
     const {field, title} = fieldDef;
     const isWildcardField = isWildcard(field) || this.props.isEnumeratedWildcardField;
 
@@ -69,7 +71,7 @@ class FieldBase extends React.PureComponent<FieldProps, {}> {
         styleName={isWildcardField ? 'wildcard-field-pill' : isPill ? 'field-pill' : 'field'}
         onDoubleClick={this.onDoubleClick}
       >
-        {caretTypeSpan({caretHide, caretOnClick, type: fieldDef.type})}
+        {caretTypeSpan({caretHide, caretOnClick, type: currType})}
         <span styleName="text" title={title}>
           {title || field}
         </span>
