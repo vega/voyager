@@ -18,6 +18,7 @@ declare module 'font-awesome-webpack' {
 
 declare module 'vega' {
   export function parse(spec: any, config?: any): any;
+  export function read(data: any, schema: any, dateParse?: any): any;
 }
 
 interface Process {

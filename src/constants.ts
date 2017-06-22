@@ -21,10 +21,8 @@ export enum FieldParentType {
 
 const BASE_DATA_DIR = (process.env.NODE_ENV === 'production') ? 'datasets/' : 'node_modules/vega-datasets/';
 
-export const DEFAULT_DATASETS = [{
-  name: '-',
-  url: undefined
-}, {
+export const DEFAULT_DATASETS = [
+{
   name: 'Barley',
   description: 'Barley yield by variety across the upper midwest in 1931 and 1932',
   url: 'data/barley.json',

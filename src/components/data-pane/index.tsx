@@ -7,7 +7,7 @@ import * as styles from './data-pane.scss';
 import {ActionHandler, createDispatchHandler, DatasetAsyncAction, ShelfFieldAutoAdd} from '../../actions';
 import {Dataset, State} from '../../models';
 import {VoyagerConfig} from '../../models/config';
-import {DatasetSelector} from './dataset-selector';
+import {DataSelector} from './data-selector';
 import {FieldList, PresetWildcardFieldList} from './field-list';
 
 export interface DataPanelProps extends ActionHandler<DatasetAsyncAction | ShelfFieldAutoAdd> {
@@ -17,15 +17,17 @@ export interface DataPanelProps extends ActionHandler<DatasetAsyncAction | Shelf
 
 export class DataPanelBase extends React.PureComponent<DataPanelProps, {}> {
   public render() {
-    const {handleAction} = this.props;
     const {name} = this.props.data;
     const {showDataSourceSelector} = this.props.config;
+
+    const dataName = (
+      <div>Name: {name}</div>
+    );
 
     return (
       <div className="pane" styleName="data-pane">
         <h2>Data</h2>
-        {showDataSourceSelector ? <DatasetSelector name={name} handleAction={handleAction}/> : undefined}
-        <div>Name: {name}</div>
+        {showDataSourceSelector ? <DataSelector /> : dataName}
 
         <div styleName="data-pane-section">
           <h3>Fields</h3>
