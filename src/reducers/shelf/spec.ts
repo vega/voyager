@@ -1,7 +1,9 @@
+import {getTopSpecQueryItem} from 'compassql/build/src/model';
 import {fromSpec} from 'compassql/build/src/query/spec';
 import {recommend} from 'compassql/build/src/recommend';
 import {Schema} from 'compassql/build/src/schema';
 import {isWildcard, SHORT_WILDCARD} from 'compassql/build/src/wildcard';
+
 
 import {Action} from '../../actions';
 import {
@@ -59,7 +61,7 @@ export function shelfSpecReducer(shelfSpec: Readonly<ShelfUnitSpec> = DEFAULT_SH
         // Otherwise, query for the best encoding if there is no wildcard channel
         const query = autoAddFieldQuery(shelfSpec, fieldDef);
         const rec = recommend(query, schema);
-        const topSpecQuery = rec.result.getTopSpecQueryItem().specQuery;
+        const topSpecQuery = getTopSpecQueryItem(rec.result).specQuery;
 
         return {
           ...fromSpecQuery(topSpecQuery, shelfSpec.config),

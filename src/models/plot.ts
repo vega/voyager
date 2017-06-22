@@ -1,4 +1,10 @@
-import {isSpecQueryGroup, SpecQueryGroup, SpecQueryModel, SpecQueryModelGroup} from 'compassql/build/src/model';
+import {
+  getTopSpecQueryItem,
+  isSpecQueryGroup,
+  SpecQueryGroup,
+  SpecQueryModel,
+  SpecQueryModelGroup,
+} from 'compassql/build/src/model';
 import {FieldQuery, isFieldQuery} from 'compassql/build/src/query/encoding';
 import {toMap} from 'compassql/build/src/util';
 import {Data} from 'vega-lite/build/src/data';
@@ -21,7 +27,7 @@ export function extractPlotObjects(modelGroup: SpecQueryGroup<PlotObject>) {
   return modelGroup.items.map(item => {
     if (isSpecQueryGroup<PlotObject>(item)) {
       const childModelGroup = item as SpecQueryGroup<PlotObject>;
-      return childModelGroup.getTopSpecQueryItem();
+      return getTopSpecQueryItem(childModelGroup);
     }
     return item as PlotObject;
   });
@@ -31,14 +37,19 @@ export function convertToPlotObjectsGroup(modelGroup: SpecQueryModelGroup, data:
   const items = modelGroup.items.map(item => {
     if (isSpecQueryGroup<SpecQueryModel>(item)) {
       const childModelGroup = item as SpecQueryModelGroup;
-      return plotObject(data, childModelGroup.getTopSpecQueryItem());
+      return plotObject(data, getTopSpecQueryItem(childModelGroup));
     }
     // FIXME: include data in the main spec?
     return plotObject(data, item as SpecQueryModel);
   });
 
-  return new SpecQueryGroup<PlotObject>(modelGroup.name, modelGroup.path,
-    items, modelGroup.groupBy, modelGroup.orderGroupBy);
+  return {
+    name: modelGroup.name,
+    path: modelGroup.path,
+    items: items,
+    groupBy: modelGroup.groupBy,
+    orderGroupBy: modelGroup.orderGroupBy,
+  };
 }
 
 // FIXME: include data in the main query?

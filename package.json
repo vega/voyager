@@ -36,7 +36,7 @@
     "deploy": "npm run clean && npm run lint && npm run test && scripts/publish.sh #node scripts/deploy.js"
   },
   "dependencies": {
-    "compassql": "0.14.0",
+    "compassql": "^0.14.1",
     "font-awesome": "^4.7.0",
     "font-awesome-sass-loader": "^1.0.3",
     "isomorphic-fetch": "^2.2.1",

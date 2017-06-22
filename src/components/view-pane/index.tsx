@@ -1,4 +1,4 @@
-import {SpecQueryGroup} from 'compassql/build/src/model';
+import {getTopSpecQueryItem, SpecQueryGroup} from 'compassql/build/src/model';
 import {Query} from 'compassql/build/src/query/query';
 import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
@@ -35,7 +35,7 @@ class ViewPaneBase extends React.PureComponent<ViewPaneProps, {}> {
       const spec = {
         // FIXME: include data in the main spec?
         data: data,
-        ...mainResult.getTopSpecQueryItem().spec
+        ...getTopSpecQueryItem(mainResult).spec
       };
 
       return (
