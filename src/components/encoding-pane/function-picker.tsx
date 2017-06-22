@@ -1,11 +1,9 @@
+import {ExpandedType} from 'compassql/build/src/query/ExpandedType';
 import {isWildcard} from 'compassql/build/src/wildcard';
 import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
-import {Type} from 'vega-lite/build/src/type';
-
-import * as styles from './function-picker.scss';
-
 import {ShelfFieldDef, ShelfFunction} from '../../models/shelf';
+import * as styles from './function-picker.scss';
 
 export interface FunctionPickerProps {
   fieldDef: ShelfFieldDef;
@@ -52,7 +50,7 @@ class FunctionPickerBase extends React.PureComponent<FunctionPickerProps, any> {
 export const FunctionPicker = CSSModules(FunctionPickerBase, styles);
 
 // FIXME: move this to other parts and expand with more rules and test?
-function getSupportedFunction(type: Type) {
+function getSupportedFunction(type: ExpandedType) {
   switch (type) {
     case 'quantitative':
       return [

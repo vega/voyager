@@ -1,14 +1,12 @@
+import {ExpandedType} from 'compassql/build/src/query/ExpandedType';
 import {isWildcard} from 'compassql/build/src/wildcard';
 import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
 import {DragElementWrapper, DragSource, DragSourceCollector, DragSourceSpec} from 'react-dnd';
-
-import * as styles from './field.scss';
-
-import {Type} from 'vega-lite/build/src/type';
 import {DraggableType, FieldParentType} from '../../constants';
 import {ShelfFieldDef} from '../../models';
 import {ShelfId} from '../../models/shelf';
+import * as styles from './field.scss';
 
 /**
  * Props for react-dnd of Field
@@ -104,6 +102,7 @@ class FieldBase extends React.PureComponent<FieldProps, {}> {
   }
 };
 
+// FIXME add icon for key
 const TYPE_NAMES = {
   nominal: 'text',
   ordinal: 'text-ordinal',
@@ -120,7 +119,7 @@ const TYPE_ICONS = {
 };
 
 // We combine caret and type span so that it's easier to click
-function caretTypeSpan(props: {caretHide: boolean, caretOnClick: () => void, type: Type}) {
+function caretTypeSpan(props: {caretHide: boolean, caretOnClick: () => void, type: ExpandedType}) {
   const {caretHide, caretOnClick, type} = props;
   const icon = TYPE_ICONS[type];
   const title = TYPE_NAMES[type];
