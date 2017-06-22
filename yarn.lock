@@ -5995,6 +5995,10 @@ vega-datasets:
   version "1.8.0"
   resolved "https://registry.yarnpkg.com/vega-datasets/-/vega-datasets-1.8.0.tgz#a614ca655164e4f1a5e4477864d1091350d4eac8"
 
+"vega-datasets@github:vega/vega-datasets#gh-pages":
+  version "1.8.0"
+  resolved "https://codeload.github.com/vega/vega-datasets/tar.gz/26bddc53d6112cff239436cdc85f56249c39e9e0"
+
 vega-encode@>=1.0.0-beta:
   version "1.0.0-beta.11"
   resolved "https://registry.yarnpkg.com/vega-encode/-/vega-encode-1.0.0-beta.11.tgz#614a82702d910743c3c150920dfa70f933247a52"
@@ -6108,13 +6112,9 @@ vega-statistics@1:
   dependencies:
     d3-array "1"
 
-vega-util@1, vega-util@^1.3.0:
+vega-util@1, vega-util@^1.1, vega-util@^1.2, vega-util@^1.3.0:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/vega-util/-/vega-util-1.3.0.tgz#cf338e0d8210b9d369ce8cfa6727c39a89d4fe9f"
-
-vega-util@^1.1:
-  version "1.1.4"
-  resolved "https://registry.yarnpkg.com/vega-util/-/vega-util-1.1.4.tgz#82e7b983b376db0c80c69205b5b3fdf08f44a8c8"
 
 vega-view@>=1.0.0-beta:
   version "1.0.0-beta.26"
@@ -6146,13 +6146,13 @@ vega-wordcloud@>=1.0.0-beta:
   optionalDependencies:
     canvas "^1.6.0"
 
-vega@3.0.0-beta.22:
-  version "3.0.0-beta.22"
-  resolved "https://registry.yarnpkg.com/vega/-/vega-3.0.0-beta.22.tgz#fee315b41b8251577da563569101904592fe6f3d"
+vega@3.0.0-beta.38:
+  version "3.0.0-beta.38"
+  resolved "https://registry.yarnpkg.com/vega/-/vega-3.0.0-beta.38.tgz#456a059060c5ac4b61dc17e607f534404423ed23"
   dependencies:
-    d3-color "1"
     vega-crossfilter ">=1.0.0-beta"
     vega-dataflow ">=2.0.0-beta"
+    vega-datasets vega/vega-datasets#gh-pages
     vega-encode ">=1.0.0-beta"
     vega-expression "2"
     vega-force ">=1.0.0-beta"
@@ -6164,7 +6164,7 @@ vega@3.0.0-beta.22:
     vega-scale ">=2.0.0-beta"
     vega-scenegraph ">=2.0.0-beta.11"
     vega-statistics "1"
-    vega-util "^1.1"
+    vega-util "^1.2"
     vega-view ">=1.0.0-beta"
     vega-voronoi ">=1.0.0-beta"
     vega-wordcloud ">=1.0.0-beta"
