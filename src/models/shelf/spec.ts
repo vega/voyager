@@ -1,4 +1,4 @@
-import {EncodingQuery, isValueQuery} from 'compassql/build/src/query/encoding';
+import {EncodingQuery, isAutoCountQuery, isValueQuery} from 'compassql/build/src/query/encoding';
 import {SpecQuery} from 'compassql/build/src/query/spec';
 import {isWildcard, isWildcardDef, SHORT_WILDCARD} from 'compassql/build/src/wildcard';
 import {Config} from 'vega-lite/build/src/config';
@@ -65,23 +65,24 @@ export function hasWildcards(spec: SpecQuery): HasWildcard {
   for (const encQ of spec.encodings) {
     if (isValueQuery(encQ)) {
       continue;
-    }
-    if (encQ.autoCount === false) {
-      continue;
-    }
+    } else if (isAutoCountQuery(encQ)) {
+      if (isWildcard(encQ.autoCount)) {
+        hasWildcardFn = true;
+      }
+    } else { // encQ is FieldQuery
+      if (isWildcard(encQ.field)) {
+        hasWildcardField = true;
+      }
 
-    if (isWildcard(encQ.field)) {
-      hasWildcardField = true;
-    }
+      if (isWildcard(encQ.aggregate) ||
+          isWildcard(encQ.bin) ||
+          isWildcard(encQ.timeUnit)) {
+        hasWildcardFn = true;
+      }
 
-    if (isWildcard(encQ.aggregate) ||
-        isWildcard(encQ.bin) ||
-        isWildcard(encQ.timeUnit)) {
-      hasWildcardFn = true;
-    }
-
-    if (isWildcard(encQ.channel)) {
-      hasWildcardChannel = true;
+      if (isWildcard(encQ.channel)) {
+        hasWildcardChannel = true;
+      }
     }
   }
   return {
