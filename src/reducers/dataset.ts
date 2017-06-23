@@ -37,7 +37,25 @@ export function datasetReducer(dataset: Readonly<Dataset> = DEFAULT_DATASET, act
           data,
         };
       }
+  }
+  return schemaReducer(dataset, action);
+}
 
+export function schemaReducer(dataset: Readonly<Dataset> = DEFAULT_DATASET, action: Action) {
+  switch (action) {
+    // TODO:
+      return {
+        ...dataset,
+        schema: changeFieldType(dataset.schema, /*params: field, type */)
+      }
   }
   return dataset;
+}
+
+export function changeFieldType(schema: Schema, /*params*/) {
+  // read tableSchema
+
+  // do immutable array update for the right one
+
+  return new Schema(updatedTableSchema);
 }
