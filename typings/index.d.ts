@@ -21,6 +21,14 @@ declare module 'vega' {
   export function read(data: any, schema: any, dateParse?: any): any;
 }
 
+declare module 'react-modal' {
+  const Modal: any;
+  export default Modal;
+}
+
+declare const Modal: any;
+
+
 interface Process {
   env: any;
 }

@@ -2,11 +2,6 @@ import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
 import {connect} from 'react-redux';
 
-// declare const Modal: any;
-declare module 'react-modal' {
-  const Modal: any;
-  export default Modal;
-}
 import Modal from 'react-modal';
 // import {default as modal} from 'react-modal';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
