@@ -18,7 +18,16 @@ declare module 'font-awesome-webpack' {
 
 declare module 'vega' {
   export function parse(spec: any, config?: any): any;
+  export function read(data: any, schema: any, dateParse?: any): any;
 }
+
+declare module 'react-modal' {
+  const Modal: any;
+  export default Modal;
+}
+
+declare const Modal: any;
+
 
 interface Process {
   env: any;
