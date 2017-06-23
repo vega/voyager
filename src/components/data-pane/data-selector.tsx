@@ -28,7 +28,6 @@ import {Dataset, State} from '../../models';
 export interface DataSelectorProps extends ActionHandler<DatasetAsyncAction> {
   data: Dataset;
   name: string;
-  selectorOpen: boolean;
 }
 
 export class DataSelectorBase extends React.PureComponent<DataSelectorProps, any> {
@@ -87,10 +86,14 @@ export class DataSelectorBase extends React.PureComponent<DataSelectorProps, any
   }
 
   private renderDataset(dataset: NamedData) {
-    return (
-      <li key={dataset.name} styleName='dataset-list-element'>
+    const selected = (dataset.name == this.props.name) ? styles['element-selected'] : null;
 
-      <a onClick={this.onDatasetChange.bind(this, dataset)}><i className="fa fa-database" /> {dataset.name}</a>
+    return (
+      <li key={dataset.name} className={`${styles['dataset-list-element']} ${selected}` } >
+
+      <a onClick={this.onDatasetChange.bind(this, dataset)}>
+        <i className="fa fa-database" /> {dataset.name}
+      </a>
       </li>
     );
   }
@@ -113,6 +116,8 @@ export class DataSelectorBase extends React.PureComponent<DataSelectorProps, any
           <input id='data-file' type='file' onChange={this.onFileChange} />
         </div>
         <p>Upload a data file, or paste data in CSV format into the input.</p>
+        <div styleName='dropzone-target'>
+        </div>
       </div>
     );
   }
@@ -194,6 +199,7 @@ export const DataSelector = connect(
   (state: State) => {
     return {
       data: state.present.dataset,
+      name: state.present.dataset.name,
     };
   },
   createDispatchHandler<DatasetAsyncAction>()

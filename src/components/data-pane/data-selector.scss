@@ -1,15 +1,11 @@
 .data-selector {
-  :global .form-group {
-    margin-top: 1em;
-  }
+  z-index: 1;
 }
 
 .modal {
   display: flex;
   margin: 50px auto;
   width: calc( 100% - 100px);
-  max-height: calc( 100% - 100px);
-  overflow: hidden;
   padding: 6px;
   background-color: #E2E9F3;
   border: 1px solid #aaa;
@@ -115,6 +111,12 @@
   width: 49%;
 }
 
+.dataset-list-element.element-selected {
+  background-color: #eef0f7;
+  border: 1px solid #aeb8d4;
+  border-radius: 3px;
+}
+
 .dataset-list-element:hover {
   color: #72757B;
 }
@@ -124,6 +126,10 @@
   display: inline-block;
   vertical-align: top;
   margin-left: 20px;
+
+  :global .form-group {
+    margin-top: 1em;
+  }
 
   label {
     width: 50px;
@@ -135,10 +141,14 @@
 }
 
 .paste-panel {
-  width: 40%;
+  width: 44%;
   display: inline-block;
   vertical-align: top;
   margin-left: 20px;
+
+  :global .form-group {
+    margin-top: 1em;
+  }
 
   label {
     width: 50px;
@@ -149,7 +159,8 @@
   }
 
   textarea {
-    min-height: 100px;
+    min-height: 200px;
+    width: 90%;
   }
 }
 
