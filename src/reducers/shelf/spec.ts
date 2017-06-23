@@ -134,7 +134,7 @@ function addEncoding(shelf: Readonly<ShelfUnitSpec>, shelfId: ShelfId, fieldDef:
   } else if (isWildcardChannelId(shelfId)) {
     return {
       ...shelf,
-      anyEncodings: insert<ShelfAnyEncodingDef>(shelf.anyEncodings, shelfId.index, {
+      anyEncodings: insertItemToArray<ShelfAnyEncodingDef>(shelf.anyEncodings, shelfId.index, {
         channel: SHORT_WILDCARD,
         ...fieldDef
       })
@@ -157,7 +157,7 @@ function modifyEncoding(shelf: Readonly<ShelfUnitSpec>, shelfId: ShelfId, modifi
   if (isWildcardChannelId(shelfId)) {
     return {
       ...shelf,
-      anyEncodings: modify<ShelfAnyEncodingDef>(shelf.anyEncodings, shelfId.index, modifier)
+      anyEncodings: modifyItemInArray<ShelfAnyEncodingDef>(shelf.anyEncodings, shelfId.index, modifier)
     };
   } else {
     return {
@@ -176,7 +176,7 @@ function removeEncoding(shelf: Readonly<ShelfUnitSpec>, shelfId: ShelfId):
 
   if (isWildcardChannelId(shelfId)) {
     const index = shelfId.index;
-    const {array: anyEncodings, item} = remove(shelf.anyEncodings, index);
+    const {array: anyEncodings, item} = removeItemFromArray(shelf.anyEncodings, index);
 
     if (item) {
       // Remove channel from the removed EncodingQuery if the removed shelf is not empty.
@@ -213,7 +213,7 @@ function removeEncoding(shelf: Readonly<ShelfUnitSpec>, shelfId: ShelfId):
 /**
  * Immutable array splice
  */
-function remove(array: ReadonlyArray<any>, index: number) {
+function removeItemFromArray(array: ReadonlyArray<any>, index: number) {
   return {
     item: array[index],
     array: [
@@ -223,7 +223,7 @@ function remove(array: ReadonlyArray<any>, index: number) {
   };
 }
 
-function insert<T>(array: ReadonlyArray<T>, index: number, item: T) {
+function insertItemToArray<T>(array: ReadonlyArray<T>, index: number, item: T) {
   return [
     ...array.slice(0, index),
     item,
@@ -231,7 +231,7 @@ function insert<T>(array: ReadonlyArray<T>, index: number, item: T) {
   ];
 }
 
-function modify<T>(array: ReadonlyArray<T>, index: number, modifier: (t: Readonly<T>) => T) {
+function modifyItemInArray<T>(array: ReadonlyArray<T>, index: number, modifier: (t: Readonly<T>) => T) {
   return [
     ...array.slice(0, index),
     modifier(array[index]),
