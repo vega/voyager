@@ -81,10 +81,10 @@ export class DataSelectorBase extends React.PureComponent<DataSelectorProps, any
   }
 
   private renderDataset(dataset: NamedData) {
-    const selected = (dataset.name == this.props.name) ? styles['element-selected'] : null;
+    const selected = (dataset.name === this.props.name) ? styles['element-selected'] : null;
 
     return (
-      <li key={dataset.name} className={`${styles['dataset-list-element']} ${selected}` } >
+      <li key={dataset.name} className={`${styles['dataset-list-element']} ${selected}`} >
 
       <a onClick={this.onDatasetChange.bind(this, dataset)}>
         <i className="fa fa-database" /> {dataset.name}
@@ -111,8 +111,7 @@ export class DataSelectorBase extends React.PureComponent<DataSelectorProps, any
           <input id='data-file' type='file' onChange={this.onFileChange} />
         </div>
         <p>Upload a data file, or paste data in CSV format into the input.</p>
-        <div styleName='dropzone-target'>
-        </div>
+        <div styleName='dropzone-target' />
       </div>
     );
   }
