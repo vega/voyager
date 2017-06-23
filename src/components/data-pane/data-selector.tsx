@@ -41,10 +41,6 @@ export class DataSelectorBase extends React.PureComponent<DataSelectorProps, any
     this.handleTextChange = this.handleTextChange.bind(this);
   }
 
-  public componentDidMount() {
-    this.openModal();
-  }
-
   public render() {
     return (
       <div styleName='data-selector'>
