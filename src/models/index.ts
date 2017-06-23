@@ -3,6 +3,7 @@ import {StateWithHistory} from 'redux-undo';
 import {FieldSchema, Schema, TableSchema} from 'compassql/build/src/schema';
 
 import {Data} from 'vega-lite/build/src/data';
+import {duplicate} from "vega-lite/build/src/util";
 import {DEFAULT_VOYAGER_CONFIG, VoyagerConfig} from './config';
 import {Dataset, DEFAULT_DATASET} from './dataset';
 import {DEFAULT_RESULT, ResultIndex} from './result';
@@ -64,7 +65,7 @@ export function toSerializable(state: Readonly<StateBase>): SerializableState {
 
 export function fromSerializable(serializable: SerializableState): Readonly<StateBase> {
   // We make a clone of this object to not modify the input param.
-  const deserialized = JSON.parse(JSON.stringify(serializable));
+  const deserialized = duplicate(serializable) as any;
 
   // Add a schema object with a hydrated version of the table schema
   deserialized.dataset.schema = new Schema(deserialized.tableschema);

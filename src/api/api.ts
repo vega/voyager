@@ -31,16 +31,6 @@ export function fetchCompassQLRecommend(query: Query, schema: Schema, data: Data
       response => {
         return response.json();
       }
-    ).then(
-      fields => {
-        return {
-          name: fields.name,
-          path: fields.path,
-          items: fields.items,
-          groupBy: fields.groupBy,
-          orderGroupBy: fields.orderGroupBy,
-        };
-      }
     );
   } else {
     return new Promise(resolve => {
