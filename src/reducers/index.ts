@@ -9,6 +9,7 @@ import {SET_CONFIG} from '../actions/config';
 
 import {
   DATASET_INLINE_RECEIVE,
+  DATASET_SCHEMA_CHANGE_FIELD_TYPE,
   DATASET_URL_RECEIVE,
   DATASET_URL_REQUEST,
   RESULT_RECEIVE,
@@ -75,6 +76,7 @@ export const ACTIONS_EXCLUDED_FROM_HISTORY: ActionType[] = [
  */
 export const USER_ACTIONS: ActionType[] = [
   // Dataset Actions
+  DATASET_SCHEMA_CHANGE_FIELD_TYPE,
   DATASET_URL_REQUEST,
   // Shelf Actions,
   SHELF_CLEAR,

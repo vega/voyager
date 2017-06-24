@@ -13,6 +13,15 @@ import {SHELF_CLEAR} from './shelf';
 
 import {getConfig} from '../selectors';
 
+import {PrimitiveType} from 'compassql/build/src/schema';
+
+export type FieldAction = DatasetSchemaChangeFieldType;
+export const DATASET_SCHEMA_CHANGE_FIELD_TYPE = 'DATASET_SCHEMA_CHANGE_FIELD_TYPE';
+export type DatasetSchemaChangeFieldType = ReduxAction<typeof DATASET_SCHEMA_CHANGE_FIELD_TYPE, {
+  field: string,
+  type: PrimitiveType
+}>;
+
 export type DatasetAction = DatasetUrlReceive | DatasetUrlRequest | DatasetReceive;
 export type DatasetAsyncAction = DatasetLoad;
 

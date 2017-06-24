@@ -1,10 +1,13 @@
 import {
   Action,
   DATASET_INLINE_RECEIVE,
+  DATASET_SCHEMA_CHANGE_FIELD_TYPE,
   DATASET_URL_RECEIVE,
   DATASET_URL_REQUEST,
 } from '../actions';
 import {Dataset, DEFAULT_DATASET} from '../models';
+
+import {FieldSchema, PrimitiveType, Schema} from 'compassql/build/src/schema';
 
 export function datasetReducer(dataset: Readonly<Dataset> = DEFAULT_DATASET, action: Action): Dataset {
   switch (action.type) {
@@ -42,20 +45,33 @@ export function datasetReducer(dataset: Readonly<Dataset> = DEFAULT_DATASET, act
 }
 
 export function schemaReducer(dataset: Readonly<Dataset> = DEFAULT_DATASET, action: Action) {
-  switch (action) {
-    // TODO:
+  switch (action.type) {
+    case DATASET_SCHEMA_CHANGE_FIELD_TYPE:
+      const {field, type} = action.payload;
       return {
         ...dataset,
-        schema: changeFieldType(dataset.schema, /*params: field, type */)
-      }
+        schema: changeFieldType(dataset.schema, field, type)
+      };
   }
   return dataset;
 }
 
-export function changeFieldType(schema: Schema, /*params*/) {
-  // read tableSchema
+export function changeFieldType(schema: Schema, field: string, type: PrimitiveType) {
+  const changedFieldSchema: FieldSchema = {
+    ...schema.fieldSchema(field),
+    type
+  };
 
-  // do immutable array update for the right one
+  const originalTableSchema = schema.tableSchema();
+  const updatedTableSchemaFields: FieldSchema[] = originalTableSchema.fields.map(fieldSchema => {
+    if (fieldSchema.name !== field) {
+      return fieldSchema;
+    }
+    return changedFieldSchema;
+  });
 
-  return new Schema(updatedTableSchema);
+  return new Schema({
+    ...originalTableSchema,
+    fields: updatedTableSchemaFields
+  });
 }

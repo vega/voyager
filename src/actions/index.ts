@@ -1,4 +1,5 @@
 import {ConfigAction} from './config';
+import {FieldAction} from './dataset';
 import {DatasetAction} from './dataset';
 import {ResultAction} from './result';
 import {ShelfAction} from './shelf';
@@ -17,13 +18,15 @@ export * from './state';
 /**
  * Union type of all actions in our application.
  */
-export type Action = DatasetAction | ShelfAction | UndoableAction |
+export type Action = FieldAction | DatasetAction | ShelfAction | UndoableAction |
   ResultAction | ConfigAction | ApplicationStateAction;
 
 export type ActionType = Action['type'];
 
 // Use type to enforce that ACTION_TYPE_INDEX contains all action types.
 const ACTION_TYPE_INDEX: {[k in ActionType]: 1} = {
+  DATASET_SCHEMA_CHANGE_FIELD_TYPE: 1,
+
   DATASET_URL_REQUEST: 1,
   DATASET_URL_RECEIVE: 1,
   DATASET_INLINE_RECEIVE: 1,
