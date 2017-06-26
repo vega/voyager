@@ -4,7 +4,6 @@ import * as vega from 'vega';
 import * as vl from 'vega-lite';
 import {TopLevelExtendedSpec} from 'vega-lite/build/src/spec';
 import * as vegaTooltip from 'vega-tooltip';
-import * as styles from './vega-lite.scss';
 
 export interface VegaLiteProps {
   spec: TopLevelExtendedSpec;
@@ -14,13 +13,13 @@ export interface VegaLiteProps {
 
 const CHART_REF = 'chart';
 
-export class VegaLiteBase extends React.PureComponent<VegaLiteProps, any> {
+export class VegaLite extends React.PureComponent<VegaLiteProps, any> {
 
   public render() {
     return (
       <div>
         <div className='chart' ref={CHART_REF}/>
-        <div id="vis-tooltip" styleName="vg-tooltip"/>
+        <div id="vis-tooltip" className="vg-tooltip"/>
       </div>
     );
   }
@@ -48,5 +47,3 @@ export class VegaLiteBase extends React.PureComponent<VegaLiteProps, any> {
     // visual.update(nextProps.vegaSpec);
   }
 }
-
-export const VegaLite = CSSModules(VegaLiteBase, styles);
