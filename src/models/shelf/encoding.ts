@@ -2,7 +2,7 @@
 import {isWildcard, SHORT_WILDCARD, Wildcard, WildcardProperty} from 'compassql/build/src/wildcard';
 
 import {EncodingQuery} from 'compassql/build/src/query/encoding';
-import {ExpandedType} from 'compassql/build/src/query/expandedType';
+import {ExpandedType} from 'compassql/build/src/query/expandedtype';
 import {AggregateOp} from 'vega-lite/build/src/aggregate';
 import {Channel} from 'vega-lite/build/src/channel';
 import {Encoding} from 'vega-lite/build/src/encoding';

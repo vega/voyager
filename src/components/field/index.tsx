@@ -1,4 +1,4 @@
-import {ExpandedType} from 'compassql/build/src/query/expandedType';
+import {ExpandedType} from 'compassql/build/src/query/expandedtype';
 import {isWildcard} from 'compassql/build/src/wildcard';
 import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
