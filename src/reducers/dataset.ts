@@ -7,7 +7,7 @@ import {
 } from '../actions';
 import {Dataset, DEFAULT_DATASET} from '../models';
 
-import {ExpandedType} from 'compassql/build/src/query/expandedType';
+import {ExpandedType} from 'compassql/build/src/query/expandedtype';
 import {FieldSchema, Schema} from 'compassql/build/src/schema';
 
 export function datasetReducer(dataset: Readonly<Dataset> = DEFAULT_DATASET, action: Action): Dataset {

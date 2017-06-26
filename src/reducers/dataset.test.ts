@@ -1,4 +1,4 @@
-import {ExpandedType} from 'compassql/build/src/query/expandedType';
+import {ExpandedType} from 'compassql/build/src/query/expandedtype';
 import {FieldSchema, Schema} from 'compassql/build/src/schema';
 
 import {DATASET_INLINE_RECEIVE, DATASET_SCHEMA_CHANGE_FIELD_TYPE,

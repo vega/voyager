@@ -13,7 +13,7 @@ import {SHELF_CLEAR} from './shelf';
 
 import {getConfig} from '../selectors';
 
-import {ExpandedType} from 'compassql/build/src/query/expandedType';
+import {ExpandedType} from 'compassql/build/src/query/expandedtype';
 
 export const DATASET_SCHEMA_CHANGE_FIELD_TYPE = 'DATASET_SCHEMA_CHANGE_FIELD_TYPE';
 export type DatasetSchemaChangeFieldType = ReduxAction<typeof DATASET_SCHEMA_CHANGE_FIELD_TYPE, {
