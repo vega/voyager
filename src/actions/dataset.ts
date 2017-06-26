@@ -13,13 +13,13 @@ import {SHELF_CLEAR} from './shelf';
 
 import {getConfig} from '../selectors';
 
-import {PrimitiveType} from 'compassql/build/src/schema';
+import {ExpandedType} from 'compassql/build/src/query/expandedType';
 
 export type FieldAction = DatasetSchemaChangeFieldType;
 export const DATASET_SCHEMA_CHANGE_FIELD_TYPE = 'DATASET_SCHEMA_CHANGE_FIELD_TYPE';
 export type DatasetSchemaChangeFieldType = ReduxAction<typeof DATASET_SCHEMA_CHANGE_FIELD_TYPE, {
   field: string,
-  type: PrimitiveType
+  vlType: ExpandedType
 }>;
 
 export type DatasetAction = DatasetUrlReceive | DatasetUrlRequest | DatasetReceive;

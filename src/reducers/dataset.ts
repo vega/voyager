@@ -7,7 +7,8 @@ import {
 } from '../actions';
 import {Dataset, DEFAULT_DATASET} from '../models';
 
-import {FieldSchema, PrimitiveType, Schema} from 'compassql/build/src/schema';
+import {ExpandedType} from 'compassql/build/src/query/expandedType';
+import {FieldSchema, Schema} from 'compassql/build/src/schema';
 
 export function datasetReducer(dataset: Readonly<Dataset> = DEFAULT_DATASET, action: Action): Dataset {
   switch (action.type) {
@@ -47,19 +48,19 @@ export function datasetReducer(dataset: Readonly<Dataset> = DEFAULT_DATASET, act
 export function schemaReducer(dataset: Readonly<Dataset> = DEFAULT_DATASET, action: Action) {
   switch (action.type) {
     case DATASET_SCHEMA_CHANGE_FIELD_TYPE:
-      const {field, type} = action.payload;
+      const {field, vlType} = action.payload;
       return {
         ...dataset,
-        schema: changeFieldType(dataset.schema, field, type)
+        schema: changeFieldType(dataset.schema, field, vlType)
       };
   }
   return dataset;
 }
 
-export function changeFieldType(schema: Schema, field: string, type: PrimitiveType) {
+export function changeFieldType(schema: Schema, field: string, vlType: ExpandedType) {
   const changedFieldSchema: FieldSchema = {
     ...schema.fieldSchema(field),
-    type
+    vlType
   };
 
   const originalTableSchema = schema.tableSchema();
