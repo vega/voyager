@@ -1,7 +1,9 @@
-import {Schema} from 'compassql/build/src/schema';
+import {ExpandedType} from 'compassql/build/src/query/expandedType';
+import {FieldSchema, Schema} from 'compassql/build/src/schema';
 
-import {DATASET_INLINE_RECEIVE, DATASET_URL_RECEIVE, DATASET_URL_REQUEST} from '../actions/dataset';
-import {DEFAULT_DATASET} from '../models/dataset';
+import {DATASET_INLINE_RECEIVE, DATASET_SCHEMA_CHANGE_FIELD_TYPE,
+        DATASET_URL_RECEIVE, DATASET_URL_REQUEST} from '../actions/dataset';
+import {Dataset, DEFAULT_DATASET} from '../models/dataset';
 import {datasetReducer} from './dataset';
 
 describe('reducers/dataset', () => {
@@ -81,4 +83,55 @@ describe('reducers/dataset', () => {
   });
 
 
+  describe(DATASET_SCHEMA_CHANGE_FIELD_TYPE, () => {
+    it('returns updated field schema with vlType changed', () => {
+      const data = {
+        values: [
+          {q1: 1},
+          {q1: 100}
+        ]
+      };
+
+      const simpleDataset: Dataset = {
+        isLoading: false,
+        name: 'Test',
+        schema: new Schema({fields:
+        [{
+          name: 'q1',
+          vlType: 'quantitative',
+          type: 'number' as any,
+          stats: {
+            distinct: 2
+          }
+        }] as FieldSchema[]}),
+
+        data: data
+      };
+
+      const changedSchema = new Schema({fields:
+        [{
+          name: 'q1',
+          vlType: 'nominal',
+          type: 'number' as any,
+          stats: {
+            distinct: 2
+          }
+        }] as FieldSchema[]
+      });
+
+      expect(datasetReducer(
+        simpleDataset,
+        {
+          type: DATASET_SCHEMA_CHANGE_FIELD_TYPE,
+          payload: {
+            field: 'q1',
+            vlType: ExpandedType.NOMINAL
+          }
+        }
+      )).toEqual({
+        ...simpleDataset,
+        schema: changedSchema
+      });
+    });
+  });
 });
