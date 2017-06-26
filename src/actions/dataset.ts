@@ -15,14 +15,13 @@ import {getConfig} from '../selectors';
 
 import {ExpandedType} from 'compassql/build/src/query/expandedType';
 
-export type FieldAction = DatasetSchemaChangeFieldType;
 export const DATASET_SCHEMA_CHANGE_FIELD_TYPE = 'DATASET_SCHEMA_CHANGE_FIELD_TYPE';
 export type DatasetSchemaChangeFieldType = ReduxAction<typeof DATASET_SCHEMA_CHANGE_FIELD_TYPE, {
   field: string,
-  vlType: ExpandedType
+  type: ExpandedType
 }>;
 
-export type DatasetAction = DatasetUrlReceive | DatasetUrlRequest | DatasetReceive;
+export type DatasetAction = DatasetUrlReceive | DatasetSchemaChangeFieldType | DatasetUrlRequest | DatasetReceive;
 export type DatasetAsyncAction = DatasetLoad;
 
 export const DATASET_URL_REQUEST = 'DATASET_URL_REQUEST';

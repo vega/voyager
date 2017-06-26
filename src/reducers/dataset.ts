@@ -48,19 +48,19 @@ export function datasetReducer(dataset: Readonly<Dataset> = DEFAULT_DATASET, act
 export function schemaReducer(dataset: Readonly<Dataset> = DEFAULT_DATASET, action: Action) {
   switch (action.type) {
     case DATASET_SCHEMA_CHANGE_FIELD_TYPE:
-      const {field, vlType} = action.payload;
+      const {field, type} = action.payload;
       return {
         ...dataset,
-        schema: changeFieldType(dataset.schema, field, vlType)
+        schema: changeFieldType(dataset.schema, field, type)
       };
   }
   return dataset;
 }
 
-export function changeFieldType(schema: Schema, field: string, vlType: ExpandedType) {
+export function changeFieldType(schema: Schema, field: string, type: ExpandedType) {
   const changedFieldSchema: FieldSchema = {
     ...schema.fieldSchema(field),
-    vlType
+    vlType: type
   };
 
   const originalTableSchema = schema.tableSchema();

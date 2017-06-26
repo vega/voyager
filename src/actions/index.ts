@@ -1,5 +1,4 @@
 import {ConfigAction} from './config';
-import {FieldAction} from './dataset';
 import {DatasetAction} from './dataset';
 import {ResultAction} from './result';
 import {ShelfAction} from './shelf';
@@ -18,7 +17,7 @@ export * from './state';
 /**
  * Union type of all actions in our application.
  */
-export type Action = FieldAction | DatasetAction | ShelfAction | UndoableAction |
+export type Action = DatasetAction | ShelfAction | UndoableAction |
   ResultAction | ConfigAction | ApplicationStateAction;
 
 export type ActionType = Action['type'];

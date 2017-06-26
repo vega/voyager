@@ -125,7 +125,7 @@ describe('reducers/dataset', () => {
           type: DATASET_SCHEMA_CHANGE_FIELD_TYPE,
           payload: {
             field: 'q1',
-            vlType: ExpandedType.NOMINAL
+            type: ExpandedType.NOMINAL
           }
         }
       )).toEqual({
