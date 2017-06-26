@@ -1,5 +1,9 @@
 import {StateWithHistory} from 'redux-undo';
 
+import {FieldSchema, Schema, TableSchema} from 'compassql/build/src/schema';
+
+import {Data} from 'vega-lite/build/src/data';
+import {duplicate} from "vega-lite/build/src/util";
 import {DEFAULT_VOYAGER_CONFIG, VoyagerConfig} from './config';
 import {Dataset, DEFAULT_DATASET} from './dataset';
 import {DEFAULT_RESULT, ResultIndex} from './result';
@@ -30,3 +34,42 @@ export const DEFAULT_STATE: StateBase = {
   shelf: DEFAULT_SHELF_SPEC,
   result: DEFAULT_RESULT,
 };
+
+export interface SerializableState {
+  config: VoyagerConfig;
+  shelf: Shelf;
+  result: ResultIndex;
+  dataset: {
+    isLoading: boolean;
+    name: string;
+    data: Data
+  };
+  tableschema: TableSchema<FieldSchema>;
+}
+
+export function toSerializable(state: Readonly<StateBase>): SerializableState {
+  const asSerializable = {
+    config: state.config,
+    shelf: state.shelf,
+    result: state.result,
+    dataset: {
+      isLoading: state.dataset.isLoading,
+      name: state.dataset.name,
+      data: state.dataset.data,
+    },
+    tableschema: state.dataset.schema.tableSchema(),
+  };
+
+  return asSerializable;
+}
+
+export function fromSerializable(serializable: SerializableState): Readonly<StateBase> {
+  // We make a clone of this object to not modify the input param.
+  const deserialized = duplicate(serializable) as any;
+
+  // Add a schema object with a hydrated version of the table schema
+  deserialized.dataset.schema = new Schema(deserialized.tableschema);
+  delete deserialized.dataset.tableschema;
+
+  return deserialized;
+}

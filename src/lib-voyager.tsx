@@ -15,10 +15,11 @@ import {StateWithHistory} from 'redux-undo';
 import {isString} from 'vega-lite/build/src/util';
 import {App, VoyagerData} from './components/app';
 import {VoyagerConfig} from './models/config';
-import {StateBase} from './models/index';
+import {fromSerializable, SerializableState, StateBase, toSerializable} from './models/index';
 import {configureStore} from './store';
 
 type Container = string | HTMLElement;
+
 
 
 /**
@@ -78,11 +79,11 @@ class Voyager {
    *
    * @memberof Voyager
    */
-  public setApplicationState(state: Readonly<StateBase>): void {
+  public setApplicationState(state: SerializableState): void {
     this.data = undefined;
     this.config = undefined;
 
-    this.renderFromState(state);
+    this.renderFromState(fromSerializable(state));
   }
 
   /**
@@ -93,8 +94,8 @@ class Voyager {
    *
    * @memberof Voyager
    */
-  public getApplicationState(): Readonly<StateBase> {
-    return this.store.getState().present;
+  public getApplicationState(): SerializableState {
+    return toSerializable(this.store.getState().present);
   }
 
   /**

@@ -31,11 +31,6 @@ export function fetchCompassQLRecommend(query: Query, schema: Schema, data: Data
       response => {
         return response.json();
       }
-    ).then(
-      fields => {
-        return new SpecQueryGroup<PlotObject>(fields.name, fields.path,
-          fields.items, fields.groupBy, fields.orderGroupBy);
-      }
     );
   } else {
     return new Promise(resolve => {

@@ -1,7 +1,7 @@
 import {Channel} from 'vega-lite/build/src/channel';
 import {Mark} from 'vega-lite/build/src/mark';
 
-import {SpecQueryGroup, SpecQueryModel} from 'compassql/build/src/model';
+import {getTopSpecQueryItem, SpecQueryModel} from 'compassql/build/src/model';
 import {SpecQuery} from 'compassql/build/src/query/spec';
 import {Schema} from 'compassql/build/src/schema';
 
@@ -20,7 +20,11 @@ describe('models/plot', () => {
 
   function buildSpecQueryModelGroup(specQs: SpecQuery[]) {
     const items = specQs.map(specQ => buildSpecQueryModel(specQ));
-    return new SpecQueryGroup<SpecQueryModel>('a name', 'path', items);
+    return {
+      name: 'a name',
+      path: 'path',
+      items: items,
+    };
   }
 
   describe('convertToPlotObjectsGroup', () => {
@@ -38,7 +42,7 @@ describe('models/plot', () => {
 
       const plotObjectGroup = convertToPlotObjectsGroup(group, data);
       // should have a spec
-      expect(plotObjectGroup.getTopSpecQueryItem().spec).toEqual(
+      expect(getTopSpecQueryItem(plotObjectGroup).spec).toEqual(
         {
           data: { url: 'a/data/set.csv' },
           mark: 'bar',
