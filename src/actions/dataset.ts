@@ -13,7 +13,15 @@ import {SHELF_CLEAR} from './shelf';
 
 import {getConfig} from '../selectors';
 
-export type DatasetAction = DatasetUrlReceive | DatasetUrlRequest | DatasetReceive;
+import {ExpandedType} from 'compassql/build/src/query/expandedtype';
+
+export const DATASET_SCHEMA_CHANGE_FIELD_TYPE = 'DATASET_SCHEMA_CHANGE_FIELD_TYPE';
+export type DatasetSchemaChangeFieldType = ReduxAction<typeof DATASET_SCHEMA_CHANGE_FIELD_TYPE, {
+  field: string,
+  type: ExpandedType
+}>;
+
+export type DatasetAction = DatasetUrlReceive | DatasetSchemaChangeFieldType | DatasetUrlRequest | DatasetReceive;
 export type DatasetAsyncAction = DatasetLoad;
 
 export const DATASET_URL_REQUEST = 'DATASET_URL_REQUEST';
