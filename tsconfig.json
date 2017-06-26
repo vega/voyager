@@ -9,6 +9,7 @@
     "suppressImplicitAnyIndexErrors": true
   },
   "include": [
+    "./node_modules/vega-tooltip/build/src/*.d.ts",
     "./node_modules/compassql/typings/*.d.ts",
     "./node_modules/vega-lite/typings/*.d.ts",
     "node_modules/@types/**/*.d.ts",
