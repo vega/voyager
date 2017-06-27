@@ -4,9 +4,9 @@ import {connect} from 'react-redux';
 import * as TetherComponent from 'react-tether';
 import * as styles from './field-list.scss';
 
-import { ExpandedType } from 'compassql/build/src/query/expandedtype';
-import { PrimitiveType, Schema } from 'compassql/build/src/schema';
-import { DatasetSchemaChangeFieldType } from '../../actions/dataset';
+import {ExpandedType} from 'compassql/build/src/query/expandedtype';
+import {PrimitiveType, Schema, FieldSchema} from 'compassql/build/src/schema';
+import {DatasetSchemaChangeFieldType} from '../../actions/dataset';
 import {ActionHandler, createDispatchHandler} from '../../actions/redux-action';
 import {SHELF_FIELD_AUTO_ADD, ShelfFieldAutoAdd} from '../../actions/shelf';
 import {FieldParentType} from '../../constants';
@@ -39,7 +39,7 @@ class FieldListBase extends React.PureComponent<FieldListProps, FieldListState> 
   }
 
   public render() {
-    const {fieldDefs, handleAction, schema} = this.props;
+    const {fieldDefs, schema} = this.props;
     const fieldItems = [];
     for (let i = 0; i < fieldDefs.length; i++) {
       const fieldDef = fieldDefs[i];
@@ -48,7 +48,8 @@ class FieldListBase extends React.PureComponent<FieldListProps, FieldListState> 
       if (fieldSchemas && fieldSchemas[i]) {
         type = fieldSchemas[i].type;
       }
-      const hideTypeChanger = type !== PrimitiveType.NUMBER;
+      const hideTypeChanger = (type !== PrimitiveType.NUMBER && type !== PrimitiveType.INTEGER)
+        || fieldDef.field === '?';
       fieldItems.push (
         <div key={JSON.stringify(fieldDef)} styleName="field-list-item">
           <TetherComponent
@@ -60,16 +61,11 @@ class FieldListBase extends React.PureComponent<FieldListProps, FieldListState> 
               draggable={true}
               parentId={{type: FieldParentType.FIELD_LIST}}
               caretHide={hideTypeChanger}
-              caretOnClick={this.handleCaretClick.bind(this, fieldDef)}
+              caretOnClick={this.handleCaretClick.bind(this, fieldDef.field)}
               onDoubleClick={this.onAdd}
               onAdd={this.onAdd}
             />
-            {!hideTypeChanger && this.state.selectedField === fieldDef.field.toString() &&
-            <TypeChanger
-              fieldDef={fieldDef}
-              types={this.getTypes(type)}
-              handleAction={handleAction}
-            />}
+            {!hideTypeChanger && this.renderTypeChanger(fieldDef, type)}
           </TetherComponent>
       </div>);
     }
@@ -89,20 +85,34 @@ class FieldListBase extends React.PureComponent<FieldListProps, FieldListState> 
     });
   }
 
-  private handleCaretClick(fieldDef: ShelfFieldDef) {
-    const field = fieldDef.field;
+  private renderTypeChanger(fieldDef: ShelfFieldDef, primitiveType: PrimitiveType) {
+    const {handleAction} = this.props;
+    if (typeof fieldDef.field === 'string' && this.state.selectedField === fieldDef.field) {
+      return (
+        <TypeChanger
+          field={fieldDef.field}
+          type={fieldDef.type}
+          types={this.getTypes(primitiveType)}
+          handleAction={handleAction}
+        />
+      );
+    }
+  }
+
+  private handleCaretClick(field: string) {
     if (this.state.selectedField === field) {
       this.setState({
         selectedField: null
       });
     } else {
       this.setState({
-        selectedField: field.toString()
+        selectedField: field
       });
     }
   }
-  private getTypes(type: PrimitiveType): ExpandedType[] {
-    if (type === PrimitiveType.NUMBER) {
+
+  private getTypes(primitiveType: PrimitiveType): ExpandedType[] {
+    if (primitiveType === PrimitiveType.NUMBER) {
       return [ExpandedType.QUANTITATIVE, ExpandedType.NOMINAL];
     } else {
       return [];

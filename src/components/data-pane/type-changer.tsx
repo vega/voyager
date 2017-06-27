@@ -1,41 +1,31 @@
 import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
 
-import { ExpandedType } from 'compassql/build/src/query/expandedtype';
+import {ExpandedType} from 'compassql/build/src/query/expandedtype';
 import {DATASET_SCHEMA_CHANGE_FIELD_TYPE, DatasetSchemaChangeFieldType} from '../../actions/dataset';
 import {ActionHandler} from '../../actions/redux-action';
-import {ShelfFieldDef} from '../../models/shelf/encoding';
 import * as styles from './type-changer.scss';
 
 export interface TypeChangerProps extends ActionHandler<DatasetSchemaChangeFieldType> {
-  fieldDef: ShelfFieldDef;
+  field: string;
+  type: ExpandedType;
   types: ExpandedType[];
 }
 
-export interface TypeChangerState {
-  selectedType: ExpandedType;
-}
-
-class TypeChangerBase extends React.PureComponent<TypeChangerProps, TypeChangerState> {
-  constructor(props: TypeChangerProps) {
-    super(props);
-    this.state = {
-      selectedType: this.props.fieldDef.type
-    };
-  }
+class TypeChangerBase extends React.PureComponent<TypeChangerProps, {}> {
   public render() {
     const {types} = this.props;
     return (
       <div styleName='type-changer'>
         <h4>Type</h4>
-        {types.map(ele => {
+        {types.map(type => {
           return (
-            <label key={ele}>
-              <input type='radio' value={ele} name='type'
+            <label key={type}>
+              <input type='radio' value={type} name='type'
                 onChange={this.onTypeChange.bind(this)}
-                checked={this.state.selectedType === ele}
+                checked={this.props.type === type}
               />
-              <span styleName='type'> {ele} </span>
+              <span styleName='type'> {type} </span>
             </label>
           );
         })}
@@ -45,16 +35,13 @@ class TypeChangerBase extends React.PureComponent<TypeChangerProps, TypeChangerS
 
   protected onTypeChange(e: any) {
     const type = e.target.value;
-    const {handleAction, fieldDef} = this.props;
+    const {handleAction, field} = this.props;
     handleAction({
       type: DATASET_SCHEMA_CHANGE_FIELD_TYPE,
       payload: {
-        field: fieldDef.field.toString(),
+        field: field,
         type: type
       }
-    });
-    this.setState({
-      selectedType: type
     });
   }
 }
