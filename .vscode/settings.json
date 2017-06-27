@@ -11,5 +11,7 @@
     "_site/**/*": true,
     "node_modules/**/*": true
   },
+  "files.trimTrailingWhitespace": true,
+  "tslint.autoFixOnSave": true,
   "tsimporter.spaceBetweenBraces": false
 }
