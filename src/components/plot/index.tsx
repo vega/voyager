@@ -4,8 +4,8 @@ import {FacetedCompositeUnitSpec} from 'vega-lite/build/src/spec';
 
 import * as styles from './plot.scss';
 
-declare const require: any;
-const ClipboardButton = require('react-clipboard.js');
+import * as ClipboardButton from 'react-clipboard.js';
+
 import {ActionHandler} from '../../actions/redux-action';
 import {SHELF_SPEC_LOAD, SHELF_SPEC_PREVIEW, SHELF_SPEC_PREVIEW_DISABLE, ShelfAction} from '../../actions/shelf';
 import {PLOT_HOVER_MIN_DURATION} from '../../constants';

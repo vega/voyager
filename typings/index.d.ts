@@ -28,6 +28,16 @@ declare module 'react-modal' {
 
 declare const Modal: any;
 
+interface ClipboardButtonProps {
+  onSuccess?: any;
+  'data-clipboard-text': string;
+}
+
+declare module 'react-clipboard.js' {
+  const ClipboardButton: any;
+  export = ClipboardButton;
+}
+
 
 interface Process {
   env: any;
