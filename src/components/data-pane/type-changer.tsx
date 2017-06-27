@@ -1,11 +1,11 @@
 import { ExpandedType } from 'compassql/build/src/query/expandedtype';
 import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
+import { connect } from 'react-redux';
 import {DATASET_SCHEMA_CHANGE_FIELD_TYPE, DatasetSchemaChangeFieldType} from '../../actions/dataset';
 import { ActionHandler, createDispatchHandler } from '../../actions/redux-action';
 import { ShelfFieldDef } from '../../models/shelf/encoding';
 import * as styles from './type-changer.scss';
-import { connect } from 'react-redux';
 
 export interface TypeChangerProps extends ActionHandler<DatasetSchemaChangeFieldType> {
   fieldDef: ShelfFieldDef;

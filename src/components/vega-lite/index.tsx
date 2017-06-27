@@ -1,5 +1,4 @@
 import * as React from 'react';
-import * as CSSModules from 'react-css-modules';
 import * as vega from 'vega';
 import * as vl from 'vega-lite';
 import {TopLevelExtendedSpec} from 'vega-lite/build/src/spec';
