@@ -1,7 +1,10 @@
 import * as React from 'react';
+import * as CSSModules from 'react-css-modules';
 import * as vega from 'vega';
 import * as vl from 'vega-lite';
 import {TopLevelExtendedSpec} from 'vega-lite/build/src/spec';
+import * as vegaTooltip from 'vega-tooltip';
+import * as styles from './vega-lite.scss';
 
 export interface VegaLiteProps {
   spec: TopLevelExtendedSpec;
@@ -11,23 +14,27 @@ export interface VegaLiteProps {
 
 const CHART_REF = 'chart';
 
-export class VegaLite extends React.PureComponent<VegaLiteProps, any> {
+export class VegaLiteBase extends React.PureComponent<VegaLiteProps, any> {
 
   public render() {
     return (
-      <div className='chart' ref={CHART_REF}/>
+      <div>
+        <div className='chart' ref={CHART_REF}/>
+        <div id="vis-tooltip" styleName="vg-tooltip"/>
+      </div>
     );
   }
   protected renderVega(vlSpec: TopLevelExtendedSpec) {
     const {spec} = vl.compile(vlSpec);
 
     const runtime = vega.parse(spec, vlSpec.config);
-    new vega.View(runtime)
+    const view = new vega.View(runtime)
       .logLevel(vega.Warn)
       .initialize(this.refs[CHART_REF] as any)
       .renderer(this.props.renderer || 'svg')
       .hover()
       .run();
+    vegaTooltip.vega(view);
   }
 
   protected componentDidMount() {
@@ -41,3 +48,5 @@ export class VegaLite extends React.PureComponent<VegaLiteProps, any> {
     // visual.update(nextProps.vegaSpec);
   }
 }
+
+export const VegaLite = CSSModules(VegaLiteBase, styles);
