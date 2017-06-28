@@ -6,12 +6,12 @@ import * as styles from './field-list.scss';
 
 import {ExpandedType} from 'compassql/build/src/query/expandedtype';
 import {PrimitiveType, Schema} from 'compassql/build/src/schema';
-import {ShelfFieldDef} from '../../../build/src/models/shelf/encoding';
 import {DatasetSchemaChangeFieldType} from '../../actions/dataset';
 import {ActionHandler, createDispatchHandler} from '../../actions/redux-action';
 import {SHELF_FIELD_AUTO_ADD, ShelfFieldAutoAdd} from '../../actions/shelf';
 import {FieldParentType} from '../../constants';
 import {State} from '../../models/index';
+import {ShelfFieldDef} from '../../models/shelf/encoding';
 import {getPresetWildcardFields, getSchema, getSchemaFieldDefs} from '../../selectors';
 import {Field} from '../field';
 import {TypeChanger} from './type-changer';
