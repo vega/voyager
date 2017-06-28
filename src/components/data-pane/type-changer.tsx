@@ -9,23 +9,23 @@ import * as styles from './type-changer.scss';
 export interface TypeChangerProps extends ActionHandler<DatasetSchemaChangeFieldType> {
   field: string;
   type: ExpandedType;
-  types: ExpandedType[];
+  validTypes: ExpandedType[];
 }
 
 class TypeChangerBase extends React.PureComponent<TypeChangerProps, {}> {
   public render() {
-    const {types} = this.props;
+    const {validTypes} = this.props;
     return (
       <div styleName='type-changer'>
         <h4>Type</h4>
-        {types.map(type => {
+        {validTypes.map(validType => {
           return (
-            <label key={type}>
-              <input type='radio' value={type} name='type'
+            <label key={validType}>
+              <input type='radio' value={validType} name='type'
                 onChange={this.onTypeChange.bind(this)}
-                checked={this.props.type === type}
+                checked={this.props.type === validType}
               />
-              <span styleName='type'> {type} </span>
+              <span styleName='type'> {validType} </span>
             </label>
           );
         })}

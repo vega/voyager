@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import * as styles from './data-pane.scss';
 
 import {ActionHandler, createDispatchHandler, DatasetAsyncAction, ShelfFieldAutoAdd} from '../../actions';
-import { DatasetSchemaChangeFieldType } from '../../actions/dataset';
+import {DatasetSchemaChangeFieldType} from '../../actions/dataset';
 import {Dataset, State} from '../../models';
 import {VoyagerConfig} from '../../models/config';
 import {DataSelector} from './data-selector';
