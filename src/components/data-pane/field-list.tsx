@@ -40,17 +40,14 @@ class FieldListBase extends React.PureComponent<FieldListProps, FieldListState> 
 
   public render() {
     const {fieldDefs, schema} = this.props;
-    const fieldItems = [];
-    for (let i = 0; i < fieldDefs.length; i++) {
-      const fieldDef = fieldDefs[i];
-      const fieldSchemas = schema.fieldSchemas;
-      let type: PrimitiveType;
-      if (fieldSchemas && fieldSchemas[i]) {
-        type = fieldSchemas[i].type;
+    const fieldItems = fieldDefs.map(fieldDef => {
+      let primitiveType;
+      if (typeof fieldDef.field === 'string') {
+        primitiveType = schema.primitiveType(fieldDef.field);
       }
-      const hideTypeChanger = (type !== PrimitiveType.NUMBER && type !== PrimitiveType.INTEGER)
-        || fieldDef.field === '?';
-      fieldItems.push (
+      const hideTypeChanger = (primitiveType !== PrimitiveType.NUMBER && primitiveType !== PrimitiveType.INTEGER)
+        || typeof fieldDef.field !== 'string';
+      return (
         <div key={JSON.stringify(fieldDef)} styleName="field-list-item">
           <TetherComponent
              attachment="top left"
@@ -65,11 +62,10 @@ class FieldListBase extends React.PureComponent<FieldListProps, FieldListState> 
               onDoubleClick={this.onAdd}
               onAdd={this.onAdd}
             />
-            {!hideTypeChanger && this.renderTypeChanger(fieldDef, type)}
+            {!hideTypeChanger && this.renderTypeChanger(fieldDef, primitiveType)}
           </TetherComponent>
       </div>);
-    }
-
+    });
     return (
       <div className="FieldList">
         {fieldItems}
