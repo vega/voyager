@@ -36,13 +36,14 @@
     "deploy": "npm run clean && npm run lint && npm run test && scripts/publish.sh #node scripts/deploy.js"
   },
   "dependencies": {
-    "compassql": "^0.17.0",
     "@types/d3-selection": "^1.1.0",
+    "compassql": "^0.17.0",
     "font-awesome": "^4.7.0",
     "font-awesome-sass-loader": "^1.0.3",
     "isomorphic-fetch": "^2.2.1",
     "normalize-scss": "^6.0.0",
     "react": "^15.4.2",
+    "react-clipboard.js": "^1.1.2",
     "react-css-modules": "^4.1.0",
     "react-dnd": "^2.2.3",
     "react-dnd-html5-backend": "^2.2.3",
