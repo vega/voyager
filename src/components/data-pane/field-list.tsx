@@ -5,7 +5,7 @@ import * as TetherComponent from 'react-tether';
 import * as styles from './field-list.scss';
 
 import {ExpandedType} from 'compassql/build/src/query/expandedtype';
-import {PrimitiveType, Schema, FieldSchema} from 'compassql/build/src/schema';
+import {PrimitiveType, Schema} from 'compassql/build/src/schema';
 import {DatasetSchemaChangeFieldType} from '../../actions/dataset';
 import {ActionHandler, createDispatchHandler} from '../../actions/redux-action';
 import {SHELF_FIELD_AUTO_ADD, ShelfFieldAutoAdd} from '../../actions/shelf';
