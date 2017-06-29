@@ -4,13 +4,13 @@ import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
 import {connect} from 'react-redux';
 import {Data} from 'vega-lite/build/src/data';
-
+import {Transform} from 'vega-lite/build/src/transform';
 import {ActionHandler, createDispatchHandler} from '../../actions/redux-action';
 import {ShelfAction} from '../../actions/shelf';
 import {State} from '../../models';
 import {extractPlotObjects, PlotObject} from '../../models/plot';
 import {hasWildcards} from '../../models/shelf/spec';
-import {getData, getMainResult, getQuery} from '../../selectors';
+import {getData, getFilters, getMainResult, getQuery} from '../../selectors';
 import {Plot} from '../plot';
 import {PlotList} from '../plot-list';
 import * as styles from './view-pane.scss';
@@ -18,12 +18,13 @@ import * as styles from './view-pane.scss';
 export interface ViewPaneProps extends ActionHandler<ShelfAction> {
   data: Data;
   query: Query;
+  filters: Transform[];
   mainResult: SpecQueryGroup<PlotObject>;
 }
 
 class ViewPaneBase extends React.PureComponent<ViewPaneProps, {}> {
   public render() {
-    const {data, handleAction, query, mainResult} = this.props;
+    const {data, handleAction, filters, query, mainResult} = this.props;
     const isSpecific = !hasWildcards(query.spec).hasAnyWildcard;
 
     // if there are no results, then nothing to render.
@@ -35,6 +36,7 @@ class ViewPaneBase extends React.PureComponent<ViewPaneProps, {}> {
       const spec = {
         // FIXME: include data in the main spec?
         data: data,
+        transform: filters,
         ...getTopSpecQueryItem(mainResult).spec
       };
 
@@ -65,7 +67,7 @@ export const ViewPane = connect(
     return {
       data: getData(state),
       query: getQuery(state),
-
+      filters: getFilters(state),
       // FIXME: refactor the flow for this part (we should support asynchrounous request for this too)
       mainResult: getMainResult(state)
     };

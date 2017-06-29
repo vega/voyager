@@ -215,7 +215,7 @@ function removeEncoding(shelf: Readonly<ShelfUnitSpec>, shelfId: ShelfId):
 /**
  * Immutable array splice
  */
-function removeItemFromArray(array: ReadonlyArray<any>, index: number) {
+export function removeItemFromArray(array: ReadonlyArray<any>, index: number) {
   return {
     item: array[index],
     array: [
@@ -225,7 +225,7 @@ function removeItemFromArray(array: ReadonlyArray<any>, index: number) {
   };
 }
 
-function insertItemToArray<T>(array: ReadonlyArray<T>, index: number, item: T) {
+export function insertItemToArray<T>(array: ReadonlyArray<T>, index: number, item: T) {
   return [
     ...array.slice(0, index),
     item,
@@ -233,7 +233,7 @@ function insertItemToArray<T>(array: ReadonlyArray<T>, index: number, item: T) {
   ];
 }
 
-function modifyItemInArray<T>(array: ReadonlyArray<T>, index: number, modifier: (t: Readonly<T>) => T) {
+export function modifyItemInArray<T>(array: ReadonlyArray<T>, index: number, modifier: (t: Readonly<T>) => T) {
   return [
     ...array.slice(0, index),
     modifier(array[index]),

@@ -1,10 +1,10 @@
 import {ConfigAction} from './config';
 import {DatasetAction} from './dataset';
+import {FilterAction} from './filter';
 import {ResultAction} from './result';
 import {ShelfAction} from './shelf';
 import {ApplicationStateAction} from './state';
 import {UndoableAction} from './undo-redo';
-
 
 export * from './config';
 export * from './dataset';
@@ -13,12 +13,13 @@ export * from './redux-action';
 export * from './shelf';
 export * from './undo-redo';
 export * from './state';
+export * from './filter';
 
 /**
  * Union type of all actions in our application.
  */
 export type Action = DatasetAction | ShelfAction | UndoableAction |
-  ResultAction | ConfigAction | ApplicationStateAction;
+  ResultAction | ConfigAction | ApplicationStateAction | FilterAction;
 
 export type ActionType = Action['type'];
 
@@ -50,6 +51,11 @@ const ACTION_TYPE_INDEX: {[k in ActionType]: 1} = {
   REDO: 1,
 
   SET_APPLICATION_STATE: 1,
+
+  ADD_RANGE_FILTER: 1,
+  REMOVE_RANGE_FILTER: 1,
+  ADD_ONE_OF_FILTER: 1,
+  REMOVE_ONE_OF_FILTER: 1
 };
 
 /** An array of all possible action types. */

@@ -2,8 +2,8 @@ import {EncodingQuery, isAutoCountQuery, isValueQuery} from 'compassql/build/src
 import {SpecQuery} from 'compassql/build/src/query/spec';
 import {isWildcard, isWildcardDef, SHORT_WILDCARD} from 'compassql/build/src/wildcard';
 import {Config} from 'vega-lite/build/src/config';
+import {Transform} from 'vega-lite/build/src/transform';
 import {fromEncodingQueries, ShelfAnyEncodingDef, ShelfMark, SpecificEncoding} from './encoding';
-
 
 /**
  * A model state for the shelf of a unit specification.
@@ -13,8 +13,6 @@ import {fromEncodingQueries, ShelfAnyEncodingDef, ShelfMark, SpecificEncoding} f
  */
 export interface ShelfUnitSpec {
   mark: ShelfMark;
-
-  // TODO: add transform
 
   /**
    * Mapping between specific encoding channels and encoding definitions.
@@ -27,6 +25,8 @@ export interface ShelfUnitSpec {
   anyEncodings: ShelfAnyEncodingDef[];
 
   config: Config;
+
+  filters?: Transform[];
 }
 
 
