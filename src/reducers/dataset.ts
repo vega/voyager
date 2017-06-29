@@ -68,7 +68,7 @@ export function schemaReducer(dataset: Readonly<Dataset> = DEFAULT_DATASET, acti
   return dataset;
 }
 
-function updateSchema(schema: Schema, changedFieldSchema: FieldSchema, field: string) {
+function updateSchema(schema: Schema, field: string, changedFieldSchema: FieldSchema) {
   const originalTableSchema = schema.tableSchema();
   const updatedTableSchemaFields: FieldSchema[] = originalTableSchema.fields.map(fieldSchema => {
     if (fieldSchema.name !== field) {
@@ -84,19 +84,9 @@ function updateSchema(schema: Schema, changedFieldSchema: FieldSchema, field: st
 }
 
 export function changeFieldType(schema: Schema, field: string, type: ExpandedType) {
-  const changedFieldSchema: FieldSchema = {
-    ...schema.fieldSchema(field),
-    vlType: type
-  };
-
-  return updateSchema(schema, changedFieldSchema, field);
+  return updateSchema(schema, field, {...schema.fieldSchema(field), vlType: type});
 }
 
 export function changeOrdinalDomain(schema: Schema, field: string, domain: string[]) {
-  const changedFieldSchema: FieldSchema = {
-    ...schema.fieldSchema(field),
-    ordinalDomain: domain
-  };
-
-  return updateSchema(schema, changedFieldSchema, field);
+  return updateSchema(schema, field, {...schema.fieldSchema(field), ordinalDomain: domain});
 }
