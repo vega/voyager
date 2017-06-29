@@ -2,6 +2,7 @@ import {
   Action,
   DATASET_INLINE_RECEIVE,
   DATASET_SCHEMA_CHANGE_FIELD_TYPE,
+  DATASET_SCHEMA_CHANGE_ORDINAL_DOMAIN,
   DATASET_URL_RECEIVE,
   DATASET_URL_REQUEST,
 } from '../actions';
@@ -12,57 +13,62 @@ import {FieldSchema, Schema} from 'compassql/build/src/schema';
 
 export function datasetReducer(dataset: Readonly<Dataset> = DEFAULT_DATASET, action: Action): Dataset {
   switch (action.type) {
-    case DATASET_URL_REQUEST:
+    case DATASET_URL_REQUEST: {
       return {
         ...dataset,
         isLoading: true
       };
+    }
 
-    case DATASET_URL_RECEIVE:
-      {
-        const {name, url, schema} = action.payload;
-        return {
-          ...dataset,
-          isLoading: false,
-          name,
-          schema,
-          data: {url}
-        };
-      }
+    case DATASET_URL_RECEIVE: {
+      const {name, url, schema} = action.payload;
+      return {
+        ...dataset,
+        isLoading: false,
+        name,
+        schema,
+        data: {url}
+      };
+    }
 
-    case DATASET_INLINE_RECEIVE:
-      {
-        const { name, data, schema } = action.payload;
-        return {
-          ...dataset,
-          isLoading: false,
-          name,
-          schema,
-          data,
-        };
-      }
+    case DATASET_INLINE_RECEIVE: {
+      const { name, data, schema } = action.payload;
+      return {
+        ...dataset,
+        isLoading: false,
+        name,
+        schema,
+        data,
+      };
+    }
   }
+
   return schemaReducer(dataset, action);
 }
 
 export function schemaReducer(dataset: Readonly<Dataset> = DEFAULT_DATASET, action: Action) {
   switch (action.type) {
-    case DATASET_SCHEMA_CHANGE_FIELD_TYPE:
+    case DATASET_SCHEMA_CHANGE_FIELD_TYPE: {
       const {field, type} = action.payload;
       return {
         ...dataset,
         schema: changeFieldType(dataset.schema, field, type)
       };
+    }
+
+    case DATASET_SCHEMA_CHANGE_ORDINAL_DOMAIN: {
+      const {field, domain} = action.payload;
+      return {
+        ...dataset,
+        schema: changeOrdinalDomain(dataset.schema, field, domain)
+      };
+    }
   }
+
   return dataset;
 }
 
-export function changeFieldType(schema: Schema, field: string, type: ExpandedType) {
-  const changedFieldSchema: FieldSchema = {
-    ...schema.fieldSchema(field),
-    vlType: type
-  };
-
+function updateSchema(schema: Schema, changedFieldSchema: FieldSchema, field: string) {
   const originalTableSchema = schema.tableSchema();
   const updatedTableSchemaFields: FieldSchema[] = originalTableSchema.fields.map(fieldSchema => {
     if (fieldSchema.name !== field) {
@@ -75,4 +81,22 @@ export function changeFieldType(schema: Schema, field: string, type: ExpandedTyp
     ...originalTableSchema,
     fields: updatedTableSchemaFields
   });
+}
+
+export function changeFieldType(schema: Schema, field: string, type: ExpandedType) {
+  const changedFieldSchema: FieldSchema = {
+    ...schema.fieldSchema(field),
+    vlType: type
+  };
+
+  return updateSchema(schema, changedFieldSchema, field);
+}
+
+export function changeOrdinalDomain(schema: Schema, field: string, domain: string[]) {
+  const changedFieldSchema: FieldSchema = {
+    ...schema.fieldSchema(field),
+    ordinalDomain: domain
+  };
+
+  return updateSchema(schema, changedFieldSchema, field);
 }
