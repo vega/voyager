@@ -4,7 +4,7 @@ import {FacetedCompositeUnitSpec} from 'vega-lite/build/src/spec';
 
 import * as styles from './plot.scss';
 
-import * as ClipboardButton from 'react-clipboard.js';
+import * as CopyToClipboard from 'react-copy-to-clipboard';
 
 import {ActionHandler} from '../../actions/redux-action';
 import {SHELF_SPEC_LOAD, SHELF_SPEC_PREVIEW, SHELF_SPEC_PREVIEW_DISABLE, ShelfAction} from '../../actions/shelf';
@@ -50,8 +50,8 @@ class PlotBase extends React.PureComponent<PlotProps, any> {
         <div styleName="plot-info">
           <div styleName="plot-command">
             {showSpecifyButton && this.specifyButton()}
+            <span id='copied' style={{display: 'none'}}> copied </span>
             {this.copySpecButton()}
-            <span id='copied' style={{display: 'none'}}>copied</span>
           </div>
           <span
             onMouseEnter={this.onPreviewMouseEnter}
@@ -172,17 +172,17 @@ class PlotBase extends React.PureComponent<PlotProps, any> {
 
   private copySpecButton() {
     return (
-      <ClipboardButton
-        onSuccess={this.copied.bind(this)}
-        data-clipboard-text={JSON.stringify(this.props.spec, null, 2)}>
-        copy
-      </ClipboardButton>
+      <CopyToClipboard
+        onCopy={this.copied.bind(this)}
+        text={JSON.stringify(this.props.spec, null, 2)}>
+        <span> <i className='fa fa-clipboard' styleName='copy-button'/> </span>
+      </CopyToClipboard>
     );
   }
 
   private copied() {
     const copiedIndicator = document.getElementById('copied');
-    copiedIndicator.style.display = 'block';
+    copiedIndicator.style.display = 'inline';
     window.setTimeout(() => {
       copiedIndicator.style.display = 'none';
     }, 1000);
