@@ -1,5 +1,6 @@
 import {FieldQuery} from 'compassql/build/src/query/encoding';
 import {Schema} from 'compassql/build/src/schema';
+import {isWildcard} from 'compassql/build/src/wildcard';
 import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
 import {ConnectDropTarget, DropTarget, DropTargetCollector, DropTargetSpec} from 'react-dnd';
@@ -11,7 +12,6 @@ import {DraggedFieldIdentifier} from '../field';
 import * as styles from './filter-shelf.scss';
 import {OneOfFilterShelf} from './one-of-filter-shelf';
 import {RangeFilterShelf} from './range-filter-shelf';
-
 /**
  * Props for react-dnd of FilterShelf
  */
@@ -99,7 +99,7 @@ const filterShelfTarget: DropTargetSpec<FilterShelfProps> = {
       return;
     }
     const {filter} = monitor.getItem() as DraggedFieldIdentifier;
-    if (filter.field === '?') {
+    if (isWildcard(filter.field)) {
       throw new Error ('Cannot add wildcard filter');
     }
     props.handleAction({
