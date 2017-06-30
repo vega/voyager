@@ -28,14 +28,14 @@ declare module 'react-modal' {
 
 declare const Modal: any;
 
-interface ClipboardButtonProps {
-  onSuccess?: any;
-  'data-clipboard-text': string;
+interface CopyToClipboard {
+  onCopy?: any;
+  text: string;
 }
 
-declare module 'react-clipboard.js' {
-  const ClipboardButton: any;
-  export = ClipboardButton;
+declare module 'react-copy-to-clipboard' {
+  const CopyToClipboard: any;
+  export = CopyToClipboard;
 }
 
 
