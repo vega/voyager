@@ -1,13 +1,12 @@
 
-import {FilterTransform} from 'vega-lite/build/src/transform';
+import {OneOfFilter, RangeFilter} from 'vega-lite/build/src/filter';
 import {FILTER_ADD, FILTER_REMOVE} from '../../actions/filter';
 import {DEFAULT_SHELF_UNIT_SPEC} from '../../models/shelf';
 import {ShelfUnitSpec} from '../../models/shelf/spec';
 import {filterReducer} from './filter';
 
-
-const rangeFilterTransform: FilterTransform = {filter: {field: 'q1', range: [0, 1]}};
-const oneOfFilterTransform: FilterTransform = {filter: {field: 'q2', oneOf: ['a', 'c']}};
+const rangeFilter: RangeFilter = {field: 'q1', range: [0, 1]};
+const oneOfFilter: OneOfFilter = {field: 'q2', oneOf: ['a', 'c']};
 
 const noFilterSpec: ShelfUnitSpec = {
   ...DEFAULT_SHELF_UNIT_SPEC,
@@ -16,23 +15,23 @@ const noFilterSpec: ShelfUnitSpec = {
 
 const simpleSpec: ShelfUnitSpec = {
   ...DEFAULT_SHELF_UNIT_SPEC,
-  filters: [rangeFilterTransform, oneOfFilterTransform]
+  filters: [rangeFilter, oneOfFilter]
 };
 
 describe('reducers/shelf/filter', () => {
   describe(FILTER_ADD, () => {
-    it('should return a filterTransform array containing one range filter', () => {
+    it('should return a filter array containing one range filter', () => {
       const spec: ShelfUnitSpec = filterReducer(noFilterSpec,
         {
           type: FILTER_ADD,
-          payload: {filter: rangeFilterTransform}
+          payload: {filter: rangeFilter}
         });
-      expect(spec.filters).toEqual([rangeFilterTransform]);
+      expect(spec.filters).toEqual([rangeFilter]);
     });
   });
 
   describe(FILTER_REMOVE, () => {
-    it('should remove the range filter at the given index and return a filterTransform arry', () => {
+    it('should remove the range filter at the given index and return a filter arry', () => {
       const spec: ShelfUnitSpec = filterReducer(simpleSpec,
         {
           type: FILTER_REMOVE,
@@ -40,7 +39,7 @@ describe('reducers/shelf/filter', () => {
             index: 0
           }
         });
-      expect(spec.filters).toEqual([oneOfFilterTransform]);
+      expect(spec.filters).toEqual([oneOfFilter]);
     });
   });
 });

@@ -2,6 +2,7 @@ import {EncodingQuery, isAutoCountQuery, isValueQuery} from 'compassql/build/src
 import {SpecQuery} from 'compassql/build/src/query/spec';
 import {isWildcard, isWildcardDef, SHORT_WILDCARD} from 'compassql/build/src/wildcard';
 import {Config} from 'vega-lite/build/src/config';
+import {isOneOfFilter, isRangeFilter, OneOfFilter, RangeFilter} from 'vega-lite/build/src/filter';
 import {FilterTransform, isFilter, Transform} from 'vega-lite/build/src/transform';
 import {fromEncodingQueries, ShelfAnyEncodingDef, ShelfMark, SpecificEncoding} from './encoding';
 
@@ -26,7 +27,7 @@ export interface ShelfUnitSpec {
 
   config: Config;
 
-  filters: FilterTransform[];
+  filters: Array<RangeFilter | OneOfFilter>;
 }
 
 
@@ -35,7 +36,7 @@ export function toSpecQuery(spec: ShelfUnitSpec): SpecQuery {
     mark: spec.mark,
     encodings: specificEncodingsToEncodingQueries(spec.encoding).concat(spec.anyEncodings),
     config: spec.config,
-    transform: spec.filters
+    transform: getTransforms(spec.filters)
   };
 }
 
@@ -49,7 +50,7 @@ export function fromSpecQuery(spec: SpecQuery, oldConfig?: Config): ShelfUnitSpe
     mark,
     ...fromEncodingQueries(encodings),
     config: config || oldConfig,
-    filters: getFilterTransform(transform)
+    filters: getFilters(transform)
   };
 }
 
@@ -108,14 +109,29 @@ function specificEncodingsToEncodingQueries(encoding: SpecificEncoding): Encodin
   return encodings;
 }
 
-function getFilterTransform(transforms: Transform[]): FilterTransform[] {
+export function getFilters(transforms: Transform[]): Array<RangeFilter|OneOfFilter> {
   if (!transforms) {
     return [];
   } else {
-    return transforms.filter(transform => {
-      return isFilter(transform);
-    }) as FilterTransform[];
+    const filters: Array<RangeFilter|OneOfFilter> = [];
+    transforms.map(transform => {
+      if (!isFilter(transform)) {
+        throw new Error('Voyager does not support transforms other than FilterTransform');
+      } else if (!isRangeFilter(transform.filter) && !isOneOfFilter(transform.filter)) {
+        throw new Error('Voyager does not support filters other than RangeFilter and OneOfFilter');
+      }
+      filters.push(transform.filter);
+    });
+    return filters;
   }
+}
+
+export function getTransforms(filters: Array<RangeFilter|OneOfFilter>) {
+  const transform: FilterTransform[] = [];
+  filters.map(filter => {
+    transform.push({filter: filter});
+  });
+  return transform;
 }
 
 export const DEFAULT_SHELF_UNIT_SPEC: Readonly<ShelfUnitSpec> = {

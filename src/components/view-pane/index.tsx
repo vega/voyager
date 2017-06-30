@@ -4,12 +4,12 @@ import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
 import {connect} from 'react-redux';
 import {Data} from 'vega-lite/build/src/data';
-import {FilterTransform} from 'vega-lite/build/src/transform';
+import {OneOfFilter, RangeFilter} from 'vega-lite/build/src/filter';
 import {ActionHandler, createDispatchHandler} from '../../actions/redux-action';
 import {ShelfAction} from '../../actions/shelf';
 import {State} from '../../models';
 import {extractPlotObjects, PlotObject} from '../../models/plot';
-import {hasWildcards} from '../../models/shelf/spec';
+import {getTransforms, hasWildcards} from '../../models/shelf/spec';
 import {getData, getFilters, getMainResult, getQuery} from '../../selectors';
 import {Plot} from '../plot';
 import {PlotList} from '../plot-list';
@@ -18,7 +18,7 @@ import * as styles from './view-pane.scss';
 export interface ViewPaneProps extends ActionHandler<ShelfAction> {
   data: Data;
   query: Query;
-  filters: FilterTransform[];
+  filters: Array<RangeFilter | OneOfFilter>;
   mainResult: SpecQueryGroup<PlotObject>;
 }
 
@@ -36,7 +36,7 @@ class ViewPaneBase extends React.PureComponent<ViewPaneProps, {}> {
       const spec = {
         // FIXME: include data in the main spec?
         data: data,
-        transform: filters,
+        transform: getTransforms(filters),
         ...getTopSpecQueryItem(mainResult).spec
       };
 
