@@ -11,7 +11,11 @@ export function filterReducer(shelfSpec: Readonly<ShelfUnitSpec> = DEFAULT_SHELF
                               action: Action): ShelfUnitSpec {
   switch (action.type) {
     case FILTER_ADD: {
-      const {filter, index} = action.payload;
+      const {filter} = action.payload;
+      let index = action.payload.index;
+      if (!index) {
+        index = shelfSpec.filters.length;
+      }
       const filters = insertItemToArray(shelfSpec.filters, index, filter);
       return {
         ...shelfSpec,

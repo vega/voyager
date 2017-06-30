@@ -1,0 +1,17 @@
+$margin: 4px;
+
+.options {
+  display: block;
+  margin: $margin;
+}
+
+.select-all {
+  color: #4B0082;
+  cursor: pointer;
+  font-size: 11px;
+  margin: $margin;
+}
+
+.select-all:hover {
+  color: #2980b9;
+}

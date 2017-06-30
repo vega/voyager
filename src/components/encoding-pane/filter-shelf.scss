@@ -1,0 +1,28 @@
+$radius: 3px;
+@import './encoding-shelf.scss';
+
+.filter-shelf {
+  background-color: white;
+  border-radius: $radius;
+  border: 1px solid #ddd;
+  margin-bottom: 4px;
+
+  :global .fa {
+    &.fa-times {
+      padding: 2px 3px 1px;
+      border-radius: $radius;
+
+      &:hover {
+        color: #fff;
+        background-color: #999;
+      }
+    }
+  }
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  background-color: rgba(237,237,237,.8);
+  padding: 3px;
+}

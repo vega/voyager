@@ -35,6 +35,18 @@ describe('reducers/shelf/filter', () => {
     });
   });
 
+  describe(FILTER_ADD, () => {
+    it('should add the given filter at the end of the array', () => {
+      const spec: ShelfUnitSpec = filterReducer(simpleSpec, {
+        type: FILTER_ADD,
+        payload: {
+          filter: rangeFilter,
+        }
+      });
+      expect(spec.filters).toEqual([rangeFilter, oneOfFilter, rangeFilter]);
+    });
+  });
+
   describe(FILTER_REMOVE, () => {
     it('should remove the range filter at the given index and return a filter arry', () => {
       const spec: ShelfUnitSpec = filterReducer(simpleSpec,
