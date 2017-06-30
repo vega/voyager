@@ -10,7 +10,8 @@ describe('models/shelf', () => {
             x: {field: 'a', type: 'quantitative'}
           },
           anyEncodings: [],
-          config: {numberFormat: 'd'}
+          config: {numberFormat: 'd'},
+          filters: []
         }, {field: 'b', type: 'nominal'})
       ).toEqual({
         spec: {
@@ -19,7 +20,8 @@ describe('models/shelf', () => {
             {channel: 'x', field: 'a', type: 'quantitative'},
             {channel: '?', field: 'b', type: 'nominal'}
           ],
-          config: {numberFormat: 'd'}
+          config: {numberFormat: 'd'},
+          transform: []
         },
         chooseBy: 'effectiveness'
       });
@@ -36,7 +38,8 @@ describe('models/shelf', () => {
             x: {field: 'a', type: 'quantitative'}
           },
           anyEncodings: [],
-          config: {numberFormat: 'd'}
+          config: {numberFormat: 'd'},
+          filters: []
         },
         specPreview: null
       })).toEqual({
@@ -45,7 +48,8 @@ describe('models/shelf', () => {
           encodings: [
             {channel: 'x', field: 'a', type: 'quantitative'},
           ],
-          config: {numberFormat: 'd'}
+          config: {numberFormat: 'd'},
+          transform: []
         },
         groupBy: 'encoding',
         chooseBy: DEFAULT_CHOOSE_BY,
@@ -64,7 +68,8 @@ describe('models/shelf', () => {
             x: {field: '?', type: 'quantitative'}
           },
           anyEncodings: [],
-          config: {numberFormat: 'd'}
+          config: {numberFormat: 'd'},
+          filters: []
         },
         specPreview: null
       })).toEqual({
@@ -73,7 +78,8 @@ describe('models/shelf', () => {
           encodings: [
             {channel: 'x', field: '?', type: 'quantitative'},
           ],
-          config: {numberFormat: 'd'}
+          config: {numberFormat: 'd'},
+          transform: []
         },
         groupBy: 'field',
         chooseBy: DEFAULT_CHOOSE_BY,
@@ -93,7 +99,8 @@ describe('models/shelf', () => {
             x: {aggregate: '?', field: '?', type: 'quantitative'}
           },
           anyEncodings: [],
-          config: {numberFormat: 'd'}
+          config: {numberFormat: 'd'},
+          filters: []
         },
         specPreview: null
       })).toEqual({
@@ -102,7 +109,8 @@ describe('models/shelf', () => {
           encodings: [
             {channel: 'x', aggregate: '?', field: '?', type: 'quantitative'},
           ],
-          config: {numberFormat: 'd'}
+          config: {numberFormat: 'd'},
+          transform: []
         },
         groupBy: 'fieldTransform',
         chooseBy: DEFAULT_CHOOSE_BY,

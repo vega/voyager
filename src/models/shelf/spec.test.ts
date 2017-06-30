@@ -22,7 +22,8 @@ describe('models/shelf/unit', () => {
         anyEncodings: [
           {channel: SHORT_WILDCARD, field: 'b', type: 'ordinal'}
         ],
-        config: {numberFormat: 'd'}
+        config: {numberFormat: 'd'},
+        filters: []
       });
     });
   });
@@ -37,14 +38,16 @@ describe('models/shelf/unit', () => {
         anyEncodings: [
           {channel: SHORT_WILDCARD, field: 'b', type: 'ordinal'}
         ],
-        config: {numberFormat: 'd'}
+        config: {numberFormat: 'd'},
+        filters: []
       })).toEqual({
         mark: 'point',
         encodings: [
           {channel: 'x', field: 'a', type: 'quantitative'},
           {channel: '?', field: 'b', type: 'ordinal'}
         ],
-        config: {numberFormat: 'd'}
+        config: {numberFormat: 'd'},
+        transform: []
       });
     });
   });

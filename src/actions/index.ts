@@ -31,6 +31,9 @@ const ACTION_TYPE_INDEX: {[k in ActionType]: 1} = {
   DATASET_URL_RECEIVE: 1,
   DATASET_INLINE_RECEIVE: 1,
 
+  FILTER_ADD: 1,
+  FILTER_REMOVE: 1,
+
   RESULT_RECEIVE: 1,
   RESULT_REQUEST: 1,
 
@@ -51,11 +54,6 @@ const ACTION_TYPE_INDEX: {[k in ActionType]: 1} = {
   REDO: 1,
 
   SET_APPLICATION_STATE: 1,
-
-  ADD_RANGE_FILTER: 1,
-  REMOVE_RANGE_FILTER: 1,
-  ADD_ONE_OF_FILTER: 1,
-  REMOVE_ONE_OF_FILTER: 1
 };
 
 /** An array of all possible action types. */

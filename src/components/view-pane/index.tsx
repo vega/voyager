@@ -4,7 +4,7 @@ import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
 import {connect} from 'react-redux';
 import {Data} from 'vega-lite/build/src/data';
-import {Transform} from 'vega-lite/build/src/transform';
+import {FilterTransform} from 'vega-lite/build/src/transform';
 import {ActionHandler, createDispatchHandler} from '../../actions/redux-action';
 import {ShelfAction} from '../../actions/shelf';
 import {State} from '../../models';
@@ -18,7 +18,7 @@ import * as styles from './view-pane.scss';
 export interface ViewPaneProps extends ActionHandler<ShelfAction> {
   data: Data;
   query: Query;
-  filters: Transform[];
+  filters: FilterTransform[];
   mainResult: SpecQueryGroup<PlotObject>;
 }
 

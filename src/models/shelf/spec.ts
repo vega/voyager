@@ -2,7 +2,7 @@ import {EncodingQuery, isAutoCountQuery, isValueQuery} from 'compassql/build/src
 import {SpecQuery} from 'compassql/build/src/query/spec';
 import {isWildcard, isWildcardDef, SHORT_WILDCARD} from 'compassql/build/src/wildcard';
 import {Config} from 'vega-lite/build/src/config';
-import {Transform} from 'vega-lite/build/src/transform';
+import {FilterTransform, isFilter, Transform} from 'vega-lite/build/src/transform';
 import {fromEncodingQueries, ShelfAnyEncodingDef, ShelfMark, SpecificEncoding} from './encoding';
 
 /**
@@ -26,7 +26,7 @@ export interface ShelfUnitSpec {
 
   config: Config;
 
-  filters?: Transform[];
+  filters: FilterTransform[];
 }
 
 
@@ -34,13 +34,13 @@ export function toSpecQuery(spec: ShelfUnitSpec): SpecQuery {
   return {
     mark: spec.mark,
     encodings: specificEncodingsToEncodingQueries(spec.encoding).concat(spec.anyEncodings),
-    config: spec.config
+    config: spec.config,
+    transform: spec.filters
   };
 }
 
 export function fromSpecQuery(spec: SpecQuery, oldConfig?: Config): ShelfUnitSpec {
-  const {mark, encodings, config} = spec;
-
+  const {mark, encodings, config, transform} = spec;
   if (isWildcardDef(mark)) {
     throw new Error('Voyager 2 does not support custom wildcard mark yet');
   }
@@ -48,7 +48,8 @@ export function fromSpecQuery(spec: SpecQuery, oldConfig?: Config): ShelfUnitSpe
   return {
     mark,
     ...fromEncodingQueries(encodings),
-    config: config || oldConfig
+    config: config || oldConfig,
+    filters: getFilterTransform(transform)
   };
 }
 
@@ -107,9 +108,20 @@ function specificEncodingsToEncodingQueries(encoding: SpecificEncoding): Encodin
   return encodings;
 }
 
+function getFilterTransform(transforms: Transform[]): FilterTransform[] {
+  if (!transforms) {
+    return [];
+  } else {
+    return transforms.filter(transform => {
+      return isFilter(transform);
+    }) as FilterTransform[];
+  }
+}
+
 export const DEFAULT_SHELF_UNIT_SPEC: Readonly<ShelfUnitSpec> = {
   mark: SHORT_WILDCARD,
   encoding: {},
   anyEncodings: [],
-  config: {}
+  config: {},
+  filters: []
 };

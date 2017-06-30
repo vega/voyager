@@ -1,6 +1,6 @@
 
 import {FilterTransform} from 'vega-lite/build/src/transform';
-import {ADD_ONE_OF_FILTER, ADD_RANGE_FILTER, REMOVE_ONE_OF_FILTER, REMOVE_RANGE_FILTER} from '../../actions/filter';
+import {FILTER_ADD, FILTER_REMOVE} from '../../actions/filter';
 import {DEFAULT_SHELF_UNIT_SPEC} from '../../models/shelf';
 import {ShelfUnitSpec} from '../../models/shelf/spec';
 import {filterReducer} from './filter';
@@ -20,47 +20,27 @@ const simpleSpec: ShelfUnitSpec = {
 };
 
 describe('reducers/shelf/filter', () => {
-  describe(ADD_RANGE_FILTER, () => {
-    it('should return filter array containing one range filter', () => {
+  describe(FILTER_ADD, () => {
+    it('should return a filterTransform array containing one range filter', () => {
       const spec: ShelfUnitSpec = filterReducer(noFilterSpec,
         {
-          type: ADD_RANGE_FILTER,
+          type: FILTER_ADD,
           payload: {filter: rangeFilterTransform}
         });
       expect(spec.filters).toEqual([rangeFilterTransform]);
     });
   });
 
-  describe(REMOVE_RANGE_FILTER, () => {
-    it('should remove the given range filter', () => {
+  describe(FILTER_REMOVE, () => {
+    it('should remove the range filter at the given index and return a filterTransform arry', () => {
       const spec: ShelfUnitSpec = filterReducer(simpleSpec,
         {
-          type: REMOVE_RANGE_FILTER,
-          payload: {filter: rangeFilterTransform}
+          type: FILTER_REMOVE,
+          payload: {
+            index: 0
+          }
         });
       expect(spec.filters).toEqual([oneOfFilterTransform]);
-    });
-  });
-
-  describe(ADD_ONE_OF_FILTER, () => {
-    it('should only return data with values in the given array', () => {
-      const spec: ShelfUnitSpec = filterReducer(noFilterSpec,
-        {
-          type: ADD_ONE_OF_FILTER,
-          payload: {filter: oneOfFilterTransform}
-        });
-      expect(spec.filters).toEqual([oneOfFilterTransform]);
-    });
-  });
-
-  describe(REMOVE_ONE_OF_FILTER, () => {
-    it('should remove the given oneOfFilter', () => {
-      const spec: ShelfUnitSpec = filterReducer(simpleSpec,
-        {
-          type: REMOVE_ONE_OF_FILTER,
-          payload: {filter: oneOfFilterTransform}
-        });
-      expect(spec.filters).toEqual([rangeFilterTransform]);
     });
   });
 });
