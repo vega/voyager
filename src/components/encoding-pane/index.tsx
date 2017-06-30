@@ -154,8 +154,8 @@ class EncodingPanelBase extends React.PureComponent<EncodingPanelProps, {}> {
   private filterPane() {
     const {filters, fieldDefs, schema, handleAction} = this.props;
     return (
-      <div styleName='filter-shelf'>
-        <FilterShelf
+      <div styleName='filter-pane'>
+         <FilterShelf
           filters={filters}
           fieldDefs={fieldDefs}
           schema={schema}

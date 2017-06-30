@@ -100,7 +100,7 @@ class FieldBase extends React.PureComponent<FieldProps, {}> {
     handleAction({
       type: FILTER_ADD,
       payload: {
-        filter: filter,
+        filter,
         index
       }
     });
@@ -111,7 +111,7 @@ class FieldBase extends React.PureComponent<FieldProps, {}> {
     handleAction({
       type: FILTER_ADD,
       payload: {
-        filter: filter
+        filter
       }
     });
   }

@@ -26,7 +26,7 @@ class RangeFilterShelfBase extends React.Component<RangeFilterShelfProps, {}> {
       type: FILTER_MODIFY_MAX_BOUND,
       payload: {
         index,
-        maxBound: maxBound
+        maxBound
       }
     });
   }
@@ -37,7 +37,7 @@ class RangeFilterShelfBase extends React.Component<RangeFilterShelfProps, {}> {
       type: FILTER_MODIFY_MIN_BOUND,
       payload: {
         index,
-        minBound: minBound
+        minBound
       }
     });
   }
