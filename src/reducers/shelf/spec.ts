@@ -134,6 +134,22 @@ function addEncoding(shelf: Readonly<ShelfUnitSpec>, shelfId: ShelfId, fieldDef:
   if (!fieldDef) {
     return shelf;
   } else if (isWildcardChannelId(shelfId)) {
+    const index = shelfId.index;
+
+    if (index !== null) {
+      if (shelf.anyEncodings[index]) {
+        return {
+          ...shelf,
+          anyEncodings: modifyItemInArray<ShelfAnyEncodingDef>(shelf.anyEncodings, index, () => {
+            return {
+              channel: SHORT_WILDCARD,
+              ...fieldDef
+            };
+          })
+        };
+      }
+    }
+
     return {
       ...shelf,
       anyEncodings: insertItemToArray<ShelfAnyEncodingDef>(shelf.anyEncodings, shelfId.index, {
