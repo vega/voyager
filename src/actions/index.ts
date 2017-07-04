@@ -8,12 +8,12 @@ import {UndoableAction} from './undo-redo';
 
 export * from './config';
 export * from './dataset';
-export * from './result';
-export * from './redux-action';
-export * from './shelf';
-export * from './undo-redo';
-export * from './state';
 export * from './filter';
+export * from './redux-action';
+export * from './result';
+export * from './shelf';
+export * from './state';
+export * from './undo-redo';
 
 /**
  * Union type of all actions in our application.
