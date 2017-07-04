@@ -24,7 +24,10 @@ describe('reducers/shelf/filter', () => {
       const spec: ShelfUnitSpec = filterReducer(noFilterSpec,
         {
           type: FILTER_ADD,
-          payload: {filter: rangeFilter}
+          payload: {
+            filter: rangeFilter,
+            index: 0
+          }
         });
       expect(spec.filters).toEqual([rangeFilter]);
     });

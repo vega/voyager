@@ -13,6 +13,8 @@ import {fromEncodingQueries, ShelfAnyEncodingDef, ShelfMark, SpecificEncoding} f
  * but provide structure that better serves as internal structure of shelf in Voyager.
  */
 export interface ShelfUnitSpec {
+  filters: Array<RangeFilter | OneOfFilter>;
+
   mark: ShelfMark;
 
   /**
@@ -26,17 +28,15 @@ export interface ShelfUnitSpec {
   anyEncodings: ShelfAnyEncodingDef[];
 
   config: Config;
-
-  filters: Array<RangeFilter | OneOfFilter>;
 }
 
 
 export function toSpecQuery(spec: ShelfUnitSpec): SpecQuery {
   return {
+    transform: getTransforms(spec.filters),
     mark: spec.mark,
     encodings: specificEncodingsToEncodingQueries(spec.encoding).concat(spec.anyEncodings),
-    config: spec.config,
-    transform: getTransforms(spec.filters)
+    config: spec.config
   };
 }
 
@@ -47,10 +47,10 @@ export function fromSpecQuery(spec: SpecQuery, oldConfig?: Config): ShelfUnitSpe
   }
 
   return {
+    filters: getFilters(transform),
     mark,
     ...fromEncodingQueries(encodings),
-    config: config || oldConfig,
-    filters: getFilters(transform)
+    config: config || oldConfig
   };
 }
 
@@ -135,9 +135,9 @@ export function getTransforms(filters: Array<RangeFilter|OneOfFilter>) {
 }
 
 export const DEFAULT_SHELF_UNIT_SPEC: Readonly<ShelfUnitSpec> = {
+  filters: [],
   mark: SHORT_WILDCARD,
   encoding: {},
   anyEncodings: [],
-  config: {},
-  filters: []
+  config: {}
 };

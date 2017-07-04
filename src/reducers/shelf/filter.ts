@@ -7,8 +7,8 @@ export function filterReducer(shelfSpec: Readonly<ShelfUnitSpec> = DEFAULT_SHELF
                               action: Action): ShelfUnitSpec {
   switch (action.type) {
     case FILTER_ADD: {
-      const {filter} = action.payload;
-      const filters = insertItemToArray(shelfSpec.filters, 0, filter);
+      const {filter, index} = action.payload;
+      const filters = insertItemToArray(shelfSpec.filters, index, filter);
       return {
         ...shelfSpec,
         filters: filters
