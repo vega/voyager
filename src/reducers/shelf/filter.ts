@@ -11,7 +11,7 @@ export function filterReducer(shelfSpec: Readonly<ShelfUnitSpec> = DEFAULT_SHELF
       const filters = insertItemToArray(shelfSpec.filters, index, filter);
       return {
         ...shelfSpec,
-        filters: filters
+        filters
       };
     }
     case FILTER_REMOVE: {
@@ -19,7 +19,7 @@ export function filterReducer(shelfSpec: Readonly<ShelfUnitSpec> = DEFAULT_SHELF
       const filters = removeItemFromArray(shelfSpec.filters, index).array;
       return {
         ...shelfSpec,
-        filters: filters
+        filters
       };
     }
     default: {
