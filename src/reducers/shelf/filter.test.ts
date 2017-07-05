@@ -1,9 +1,10 @@
 
 import {OneOfFilter, RangeFilter} from 'vega-lite/build/src/filter';
-import {FILTER_ADD, FILTER_MODIFY, FILTER_REMOVE} from '../../actions/filter';
+import {ShelfUnitSpec} from '../../../build/src/models/shelf/spec';
+import {
+  FILTER_ADD, FILTER_MODIFY_MAX_BOUND, FILTER_MODIFY_MIN_BOUND, FILTER_MODIFY_ONE_OF, FILTER_REMOVE
+} from '../../actions/filter';
 import {DEFAULT_SHELF_UNIT_SPEC} from '../../models/shelf';
-import {ShelfUnitSpec} from '../../models/shelf/spec';
-import {insertItemToArray} from '../util';
 import {filterReducer} from './filter';
 
 const rangeFilter: RangeFilter = {field: 'q1', range: [0, 1]};
@@ -47,25 +48,67 @@ describe('reducers/shelf/filter', () => {
     });
   });
 
-  describe(FILTER_MODIFY, () => {
-    it('should modify the range of the filter at the given index', () => {
-
+  describe(FILTER_MODIFY_MAX_BOUND, () => {
+    it('should modify the max bound of the filter at the given index', () => {
       const spec: ShelfUnitSpec = filterReducer(simpleSpec,
         {
-          type: FILTER_MODIFY,
+          type: FILTER_MODIFY_MAX_BOUND,
           payload: {
-            index: 1,
-            modifier: (filter: OneOfFilter) => {
-              return {
-                ...filter,
-                oneOf: insertItemToArray(filter.oneOf as string[], 1, 'b')
-              };
-            }
+            index: 0,
+            maxBound: 100,
           }
         });
-      expect(spec.filters).toEqual([rangeFilter, {
-        field: 'q2', oneOf: ['a', 'b', 'c']
-      }]);
+      expect(spec.filters).toEqual([
+        {field: 'q1', range: [0, 100]}, oneOfFilter
+      ]);
+    });
+  });
+
+  describe(FILTER_MODIFY_MIN_BOUND, () => {
+    it('should modify the min bound of the filter at the given index', () => {
+      const spec: ShelfUnitSpec = filterReducer(simpleSpec,
+        {
+          type: FILTER_MODIFY_MIN_BOUND,
+          payload: {
+            index: 0,
+            minBound: -100,
+          }
+        });
+      expect(spec.filters).toEqual([
+        {field: 'q1', range: [-100, 1]}, oneOfFilter
+      ]);
+    });
+  });
+
+  describe(FILTER_MODIFY_ONE_OF, () => {
+    it('should clear the oneof array of the filter at the given index', () => {
+      const spec: ShelfUnitSpec = filterReducer(simpleSpec,
+        {
+          type: FILTER_MODIFY_ONE_OF,
+          payload: {
+            index: 1,
+            oneOf: []
+          }
+        });
+      expect(spec.filters).toEqual([
+        rangeFilter, {field: 'q2', oneOf: []}
+      ]);
+    });
+  });
+
+  describe(FILTER_MODIFY_ONE_OF, () => {
+    it('should add an item in the oneof array of the filter at the given index', () => {
+      const spec: ShelfUnitSpec = filterReducer(simpleSpec,
+        {
+          type: FILTER_MODIFY_ONE_OF,
+          payload: {
+            index: 1,
+            oneOf: ['a', 'b', 'c']
+          }
+        });
+      expect(spec.filters).toEqual([
+        rangeFilter, {field: 'q2', oneOf: ['a', 'b', 'c']}
+      ]);
     });
   });
 });
