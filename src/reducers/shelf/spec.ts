@@ -136,23 +136,23 @@ function addEncoding(shelf: Readonly<ShelfUnitSpec>, shelfId: ShelfId, fieldDef:
   } else if (isWildcardChannelId(shelfId)) {
     const index = shelfId.index;
 
-    if (index !== null) {
-      if (shelf.anyEncodings[index]) {
-        return {
-          ...shelf,
-          anyEncodings: modifyItemInArray<ShelfAnyEncodingDef>(shelf.anyEncodings, index, () => {
-            return {
-              channel: SHORT_WILDCARD,
-              ...fieldDef
-            };
-          })
-        };
-      }
+    const replace = true; // for now this is always true..
+    if (replace && shelf.anyEncodings[index]) {
+      return {
+        ...shelf,
+        anyEncodings: modifyItemInArray<ShelfAnyEncodingDef>(shelf.anyEncodings, index, () => {
+          return {
+            channel: SHORT_WILDCARD,
+            ...fieldDef
+          };
+        })
+      };
     }
 
+    // TODO: insert between two pills (not just replace!)
     return {
       ...shelf,
-      anyEncodings: insertItemToArray<ShelfAnyEncodingDef>(shelf.anyEncodings, shelfId.index, {
+      anyEncodings: insertItemToArray<ShelfAnyEncodingDef>(shelf.anyEncodings, index, {
         channel: SHORT_WILDCARD,
         ...fieldDef
       })
