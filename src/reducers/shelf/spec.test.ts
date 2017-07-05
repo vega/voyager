@@ -62,12 +62,34 @@ describe('reducers/shelf/spec', () => {
         shelfSpec,
         {
           type: SHELF_FIELD_ADD,
+          payload: {shelfId: {channel: SHORT_WILDCARD, index: 1}, fieldDef: {field: 'b', type: 'quantitative'}}
+        },
+        schema
+      );
+      expect(insertedShelf.anyEncodings[0]).toEqual({channel: SHORT_WILDCARD, field: 'a', type: 'quantitative'});
+      expect(insertedShelf.anyEncodings[1]).toEqual({channel: SHORT_WILDCARD, field: 'b', type: 'quantitative'});
+    });
+
+    it('should correctly replace field when dragging onto an existing wildcard shelf', () => {
+      const shelfSpec = shelfSpecReducer(
+        DEFAULT_SHELF_UNIT_SPEC,
+        {
+          type: SHELF_FIELD_ADD,
+          payload: {shelfId: {channel: SHORT_WILDCARD, index: 0}, fieldDef: {field: 'a', type: 'quantitative'}}
+        },
+        schema
+      );
+      expect(shelfSpec.anyEncodings[0]).toEqual({channel: SHORT_WILDCARD, field: 'a', type: 'quantitative'});
+
+      const insertedShelf = shelfSpecReducer(
+        shelfSpec,
+        {
+          type: SHELF_FIELD_ADD,
           payload: {shelfId: {channel: SHORT_WILDCARD, index: 0}, fieldDef: {field: 'b', type: 'quantitative'}}
         },
         schema
       );
       expect(insertedShelf.anyEncodings[0]).toEqual({channel: SHORT_WILDCARD, field: 'b', type: 'quantitative'});
-      expect(insertedShelf.anyEncodings[1]).toEqual({channel: SHORT_WILDCARD, field: 'a', type: 'quantitative'});
     });
   });
 
