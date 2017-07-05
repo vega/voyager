@@ -11,6 +11,9 @@
     "_site/**/*": true,
     "node_modules/**/*": true
   },
+  "search.exclude": {
+    "build": true
+  },
   "files.trimTrailingWhitespace": true,
   "tslint.autoFixOnSave": true,
   "tsimporter.spaceBetweenBraces": false
