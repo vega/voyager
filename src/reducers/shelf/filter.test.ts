@@ -1,8 +1,9 @@
 
 import {OneOfFilter, RangeFilter} from 'vega-lite/build/src/filter';
-import {FILTER_ADD, FILTER_REMOVE} from '../../actions/filter';
+import {FILTER_ADD, FILTER_MODIFY, FILTER_REMOVE} from '../../actions/filter';
 import {DEFAULT_SHELF_UNIT_SPEC} from '../../models/shelf';
 import {ShelfUnitSpec} from '../../models/shelf/spec';
+import {insertItemToArray} from '../util';
 import {filterReducer} from './filter';
 
 const rangeFilter: RangeFilter = {field: 'q1', range: [0, 1]};
@@ -43,6 +44,28 @@ describe('reducers/shelf/filter', () => {
           }
         });
       expect(spec.filters).toEqual([oneOfFilter]);
+    });
+  });
+
+  describe(FILTER_MODIFY, () => {
+    it('should modify the range of the filter at the given index', () => {
+
+      const spec: ShelfUnitSpec = filterReducer(simpleSpec,
+        {
+          type: FILTER_MODIFY,
+          payload: {
+            index: 1,
+            modifier: (filter: OneOfFilter) => {
+              return {
+                ...filter,
+                oneOf: insertItemToArray(filter.oneOf as string[], 1, 'b')
+              };
+            }
+          }
+        });
+      expect(spec.filters).toEqual([rangeFilter, {
+        field: 'q2', oneOf: ['a', 'b', 'c']
+      }]);
     });
   });
 });

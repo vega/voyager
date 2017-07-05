@@ -1,7 +1,7 @@
-import {FILTER_ADD, FILTER_REMOVE} from '../../actions/filter';
+import {FILTER_ADD, FILTER_MODIFY, FILTER_REMOVE} from '../../actions/filter';
 import {Action} from '../../actions/index';
 import {DEFAULT_SHELF_UNIT_SPEC, ShelfUnitSpec} from '../../models/shelf/spec';
-import {insertItemToArray, removeItemFromArray} from '../util';
+import {insertItemToArray, modifyItemInArray, removeItemFromArray} from '../util';
 
 export function filterReducer(shelfSpec: Readonly<ShelfUnitSpec> = DEFAULT_SHELF_UNIT_SPEC,
                               action: Action): ShelfUnitSpec {
@@ -17,6 +17,14 @@ export function filterReducer(shelfSpec: Readonly<ShelfUnitSpec> = DEFAULT_SHELF
     case FILTER_REMOVE: {
       const {index} = action.payload;
       const filters = removeItemFromArray(shelfSpec.filters, index).array;
+      return {
+        ...shelfSpec,
+        filters
+      };
+    }
+    case FILTER_MODIFY: {
+      const {index, modifier} = action.payload;
+      const filters = modifyItemInArray(shelfSpec.filters, index, modifier);
       return {
         ...shelfSpec,
         filters
