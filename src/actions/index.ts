@@ -25,6 +25,7 @@ export type ActionType = Action['type'];
 // Use type to enforce that ACTION_TYPE_INDEX contains all action types.
 const ACTION_TYPE_INDEX: {[k in ActionType]: 1} = {
   DATASET_SCHEMA_CHANGE_FIELD_TYPE: 1,
+  DATASET_SCHEMA_CHANGE_ORDINAL_DOMAIN: 1,
 
   DATASET_URL_REQUEST: 1,
   DATASET_URL_RECEIVE: 1,

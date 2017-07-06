@@ -21,7 +21,14 @@ export type DatasetSchemaChangeFieldType = ReduxAction<typeof DATASET_SCHEMA_CHA
   type: ExpandedType
 }>;
 
-export type DatasetAction = DatasetUrlReceive | DatasetSchemaChangeFieldType | DatasetUrlRequest | DatasetReceive;
+export const DATASET_SCHEMA_CHANGE_ORDINAL_DOMAIN = 'DATASET_SCHEMA_CHANGE_ORDINAL_DOMAIN';
+export type DatasetSchemaChangeOrdinalDomain = ReduxAction<typeof DATASET_SCHEMA_CHANGE_ORDINAL_DOMAIN, {
+  field: string,
+  domain: string[]
+}>;
+
+export type DatasetAction = DatasetUrlReceive | DatasetSchemaChangeFieldType | DatasetSchemaChangeOrdinalDomain |
+            DatasetUrlRequest | DatasetReceive;
 export type DatasetAsyncAction = DatasetLoad;
 
 export const DATASET_URL_REQUEST = 'DATASET_URL_REQUEST';
