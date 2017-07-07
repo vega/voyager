@@ -9,10 +9,16 @@ export interface WarningsProps {
 class WarningsBase extends React.Component<WarningsProps, {}> {
   public render() {
     const {warnings} = this.props;
-
+    const warningsPane = warnings.map(warning => {
+      return (
+        <div styleName='warning-pane'>
+          {warning}
+        </div>
+      );
+    });
     return (
-      <div styleName='warning-pane'>
-        {warnings}
+      <div>
+        {warningsPane}
       </div>
     );
   }
