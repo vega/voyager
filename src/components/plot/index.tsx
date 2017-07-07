@@ -10,6 +10,7 @@ import {ActionHandler} from '../../actions/redux-action';
 import {SHELF_SPEC_LOAD, SHELF_SPEC_PREVIEW, SHELF_SPEC_PREVIEW_DISABLE, ShelfAction} from '../../actions/shelf';
 import {PLOT_HOVER_MIN_DURATION} from '../../constants';
 import {PlotFieldInfo} from '../../models/plot';
+import {Logger} from '../../models/shelf/logger';
 import {Field} from '../field/index';
 import {VegaLite} from '../vega-lite/index';
 
@@ -19,6 +20,7 @@ export interface PlotProps extends ActionHandler<ShelfAction> {
   scrollOnHover?: boolean;
   showSpecifyButton?: boolean;
   spec: FacetedCompositeUnitSpec;
+  logger: Logger;
 }
 
 export interface PlotState {
@@ -43,7 +45,7 @@ class PlotBase extends React.PureComponent<PlotProps, any> {
     this.onSpecify = this.onSpecify.bind(this);
   }
   public render() {
-    const {isPlotListItem, scrollOnHover, showSpecifyButton, spec} = this.props;
+    const {isPlotListItem, scrollOnHover, showSpecifyButton, spec, logger} = this.props;
 
     return (
       <div styleName={isPlotListItem ? 'plot-list-item-group' : 'plot-group'}>
@@ -66,7 +68,7 @@ class PlotBase extends React.PureComponent<PlotProps, any> {
           onMouseEnter={this.onMouseEnter}
           onMouseLeave={this.onMouseLeave}
         >
-          <VegaLite spec={spec}/>
+          <VegaLite spec={spec} logger={logger}/>
         </div>
       </div>
     );

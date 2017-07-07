@@ -3,13 +3,17 @@ import {Query} from 'compassql/build/src/query/query';
 import {SHORT_WILDCARD} from 'compassql/build/src/wildcard';
 
 import {ShelfFieldDef} from './encoding';
+import {DEFAULT_LOGGER, Logger} from './logger';
 import {DEFAULT_SHELF_UNIT_SPEC, hasWildcards, ShelfUnitSpec, toSpecQuery} from './spec';
+
 
 export * from './encoding';
 export * from './spec';
+
 export const DEFAULT_SHELF_SPEC: Readonly<Shelf> = {
   spec: DEFAULT_SHELF_UNIT_SPEC,
-  specPreview: null
+  specPreview: null,
+  logger: DEFAULT_LOGGER
 };
 
 export interface Shelf {
@@ -17,6 +21,7 @@ export interface Shelf {
 
   specPreview: ShelfUnitSpec;
 
+  logger: Logger;
   // TODO: support groupBy, autoCount, orderBy
 }
 

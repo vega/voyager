@@ -3,11 +3,14 @@ import * as vega from 'vega';
 import * as vl from 'vega-lite';
 import {TopLevelExtendedSpec} from 'vega-lite/build/src/spec';
 import * as vegaTooltip from 'vega-tooltip';
+import {Logger} from '../../models/shelf/logger';
 
 export interface VegaLiteProps {
   spec: TopLevelExtendedSpec;
 
   renderer?: 'svg' | 'canvas';
+
+  logger: Logger;
 }
 
 const CHART_REF = 'chart';
@@ -23,7 +26,8 @@ export class VegaLite extends React.PureComponent<VegaLiteProps, any> {
     );
   }
   protected renderVega(vlSpec: TopLevelExtendedSpec) {
-    const {spec} = vl.compile(vlSpec);
+    const {logger} = this.props;
+    const {spec} = vl.compile(vlSpec, logger);
 
     const runtime = vega.parse(spec, vlSpec.config);
     const view = new vega.View(runtime)
