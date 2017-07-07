@@ -13,7 +13,7 @@ export interface PlotListProps extends ActionHandler<ShelfAction> {
   logger: Logger;
 }
 
-class PlotListBase extends React.PureComponent<PlotListProps, any> {
+class PlotListBase extends React.PureComponent<PlotListProps, {}> {
   public render() {
     const {plots, handleAction, logger} = this.props;
     const plotListItems = plots.map(plot => {
