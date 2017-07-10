@@ -44,7 +44,7 @@ class OneOfFilterShelfBase extends React.Component<OneOfFilterShelfProps, {}> {
     handleAction({
       type: FILTER_MODIFY_ONE_OF,
       payload: {
-        index: index,
+        index,
         oneOf: oneOf
       }
     });

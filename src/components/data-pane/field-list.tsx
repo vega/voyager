@@ -1,6 +1,5 @@
 
 import {FieldQuery} from 'compassql/build/src/query/encoding';
-import {ExpandedType} from 'compassql/build/src/query/expandedtype';
 import {Schema} from 'compassql/build/src/schema';
 import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
@@ -11,6 +10,7 @@ import {SHELF_FIELD_AUTO_ADD, ShelfFieldAutoAdd} from '../../actions/shelf';
 import {FieldParentType} from '../../constants';
 import {State} from '../../models/index';
 import {ShelfFieldDef} from '../../models/shelf/encoding';
+import {getFilter} from '../../reducers/shelf/filter';
 import {getPresetWildcardFields, getSchemaFieldDefs} from '../../selectors';
 import {getSchema} from '../../selectors/index';
 import {Field} from '../field';
@@ -45,7 +45,7 @@ class FieldListBase extends React.PureComponent<FieldListProps, {}> {
             fieldDef={fieldDef}
             isPill={true}
             draggable={true}
-            filter={this.getFilter(fieldDef, domain)}
+            filter={getFilter(fieldDef, domain)}
             filterHide={filterHide}
             handleAction={handleAction}
             parentId={{type: FieldParentType.FIELD_LIST}}
@@ -70,22 +70,6 @@ class FieldListBase extends React.PureComponent<FieldListProps, {}> {
       type: SHELF_FIELD_AUTO_ADD,
       payload: {fieldDef: fieldDef}
     });
-  }
-
-  private getFilter(fieldDef: ShelfFieldDef, domain: any[]) {
-    if (typeof fieldDef.field !== 'string') {
-      return;
-    }
-    switch (fieldDef.type) {
-      case ExpandedType.QUANTITATIVE:
-      case ExpandedType.TEMPORAL:
-        return {field: fieldDef.field, range: domain};
-      case ExpandedType.NOMINAL:
-      case ExpandedType.ORDINAL:
-        return {field: fieldDef.field, oneOf: domain};
-      default:
-        return;
-    }
   }
 }
 

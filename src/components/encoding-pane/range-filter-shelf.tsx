@@ -20,12 +20,12 @@ class RangeFilterShelfBase extends React.Component<RangeFilterShelfProps, {}> {
     );
   }
 
-  protected FilterModifyMaxBound(index: number, maxBound: number | DateTime) {
+  protected filterModifyMaxBound(index: number, maxBound: number | DateTime) {
     const {handleAction} = this.props;
     handleAction({
       type: FILTER_MODIFY_MAX_BOUND,
       payload: {
-        index: index,
+        index,
         maxBound: maxBound
       }
     });
@@ -36,7 +36,7 @@ class RangeFilterShelfBase extends React.Component<RangeFilterShelfProps, {}> {
     handleAction({
       type: FILTER_MODIFY_MIN_BOUND,
       payload: {
-        index: index,
+        index,
         minBound: minBound
       }
     });

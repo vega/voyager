@@ -6,13 +6,11 @@ import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
 import {DragElementWrapper, DragSource, DragSourceCollector, DragSourceSpec} from 'react-dnd';
 import {OneOfFilter, RangeFilter} from 'vega-lite/build/src/filter';
-
-import * as styles from './field.scss';
-
 import {FILTER_ADD, FILTER_REMOVE, FilterAction} from '../../actions/filter';
 import {DraggableType, FieldParentType} from '../../constants';
 import {ShelfId} from '../../models/shelf';
 import {ShelfFieldDef} from '../../models/shelf/encoding';
+import * as styles from './field.scss';
 
 
 /**
@@ -103,7 +101,7 @@ class FieldBase extends React.PureComponent<FieldProps, {}> {
       type: FILTER_ADD,
       payload: {
         filter: filter,
-        index: index
+        index
       }
     });
   }
@@ -123,7 +121,7 @@ class FieldBase extends React.PureComponent<FieldProps, {}> {
     handleAction({
       type: FILTER_REMOVE,
       payload: {
-        index: index
+        index
       }
     });
   }

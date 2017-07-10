@@ -1,10 +1,13 @@
+import {ExpandedType} from 'compassql/build/src/query/expandedtype';
 import {OneOfFilter, RangeFilter} from 'vega-lite/build/src/filter';
 import {
   FILTER_ADD, FILTER_MODIFY_MAX_BOUND, FILTER_MODIFY_MIN_BOUND, FILTER_MODIFY_ONE_OF, FILTER_REMOVE
 } from '../../actions/filter';
 import {Action} from '../../actions/index';
+import {ShelfFieldDef} from '../../models/shelf/encoding';
 import {DEFAULT_SHELF_UNIT_SPEC, ShelfUnitSpec} from '../../models/shelf/spec';
 import {insertItemToArray, modifyItemInArray, removeItemFromArray} from '../util';
+
 
 
 export function filterReducer(shelfSpec: Readonly<ShelfUnitSpec> = DEFAULT_SHELF_UNIT_SPEC,
@@ -75,5 +78,22 @@ export function filterReducer(shelfSpec: Readonly<ShelfUnitSpec> = DEFAULT_SHELF
     default: {
       return shelfSpec;
     }
+  }
+}
+
+export function getFilter(fieldDef: ShelfFieldDef, domain: any[]) {
+  if (typeof fieldDef.field !== 'string') {
+    return;
+  }
+  switch (fieldDef.type) {
+    case ExpandedType.QUANTITATIVE:
+    case ExpandedType.TEMPORAL:
+      return {field: fieldDef.field, range: domain};
+    case ExpandedType.NOMINAL:
+    case ExpandedType.ORDINAL:
+    case ExpandedType.KEY:
+      return {field: fieldDef.field, oneOf: domain};
+    default:
+      throw new Error('Unsupported type ' + fieldDef.type);
   }
 }

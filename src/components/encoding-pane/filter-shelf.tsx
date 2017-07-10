@@ -36,10 +36,8 @@ class FilterShelfBase extends React.Component<FilterShelfProps, {}> {
 
   public render() {
     const {filters, connectDropTarget} = this.props;
-    let index = -1;
-    const filterShelves = filters.map(filter => {
-      index++;
-      return this.renderFilterPane(filter, index);
+    const filterShelves = filters.map((filter, index) => {
+      return this.renderFilterShelf(filter, index);
     });
     return connectDropTarget(
       <div>
@@ -54,12 +52,12 @@ class FilterShelfBase extends React.Component<FilterShelfProps, {}> {
     handleAction({
       type: FILTER_REMOVE,
       payload: {
-        index: index
+        index
       }
     });
   }
 
-  private renderFilterPane(filter: RangeFilter | OneOfFilter, index: number) {
+  private renderFilterShelf(filter: RangeFilter | OneOfFilter, index: number) {
     const {fieldDefs, schema} = this.props;
     const fieldIndex = schema.fieldNames().indexOf(filter.field);
     const domain = schema.domain(fieldDefs[fieldIndex] as FieldQuery);
