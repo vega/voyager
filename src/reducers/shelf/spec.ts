@@ -38,8 +38,8 @@ export function shelfSpecReducer(shelfSpec: Readonly<ShelfUnitSpec> = DEFAULT_SH
     }
 
     case SHELF_FIELD_ADD: {
-      const {shelfId, fieldDef} = action.payload;
-      return addEncoding(shelfSpec, shelfId, fieldDef);
+      const {shelfId, fieldDef, replace} = action.payload;
+      return addEncoding(shelfSpec, shelfId, fieldDef, replace);
     }
 
     case SHELF_FIELD_AUTO_ADD: {
@@ -80,8 +80,8 @@ export function shelfSpecReducer(shelfSpec: Readonly<ShelfUnitSpec> = DEFAULT_SH
       const {fieldDef: fieldDefFrom, shelf: removedShelf1} = removeEncoding(shelfSpec, from);
       const {fieldDef: fieldDefTo, shelf: removedShelf2} = removeEncoding(removedShelf1, to);
 
-      const addedShelf1 = addEncoding(removedShelf2, to, fieldDefFrom);
-      const addedShelf2 = addEncoding(addedShelf1, from, fieldDefTo);
+      const addedShelf1 = addEncoding(removedShelf2, to, fieldDefFrom, false);
+      const addedShelf2 = addEncoding(addedShelf1, from, fieldDefTo, false);
 
       return addedShelf2;
     }
@@ -130,13 +130,12 @@ function getFunctionMixins(fn: ShelfFunction) {
   return undefined;
 }
 
-function addEncoding(shelf: Readonly<ShelfUnitSpec>, shelfId: ShelfId, fieldDef: ShelfFieldDef) {
+function addEncoding(shelf: Readonly<ShelfUnitSpec>, shelfId: ShelfId, fieldDef: ShelfFieldDef, replace: boolean) {
   if (!fieldDef) {
     return shelf;
   } else if (isWildcardChannelId(shelfId)) {
     const index = shelfId.index;
 
-    const replace = true; // for now this is always true..
     if (replace && shelf.anyEncodings[index]) {
       return {
         ...shelf,
@@ -149,7 +148,7 @@ function addEncoding(shelf: Readonly<ShelfUnitSpec>, shelfId: ShelfId, fieldDef:
       };
     }
 
-    // TODO: insert between two pills (not just replace!)
+    // insert between two pills (not replace!)
     return {
       ...shelf,
       anyEncodings: insertItemToArray<ShelfAnyEncodingDef>(shelf.anyEncodings, index, {
