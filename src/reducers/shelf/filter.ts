@@ -81,7 +81,7 @@ export function filterReducer(shelfSpec: Readonly<ShelfUnitSpec> = DEFAULT_SHELF
   }
 }
 
-export function getFilter(fieldDef: ShelfFieldDef, domain: any[]) {
+export function getFilter(fieldDef: ShelfFieldDef, domain: any[]): RangeFilter | OneOfFilter {
   if (typeof fieldDef.field !== 'string') {
     return;
   }

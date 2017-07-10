@@ -4,8 +4,9 @@ import {
   FILTER_ADD, FILTER_MODIFY_MAX_BOUND, FILTER_MODIFY_MIN_BOUND, FILTER_MODIFY_ONE_OF, FILTER_REMOVE
 } from '../../actions/filter';
 import {DEFAULT_SHELF_UNIT_SPEC} from '../../models/shelf';
+import {ShelfFieldDef} from '../../models/shelf/encoding';
 import {ShelfUnitSpec} from '../../models/shelf/spec';
-import {filterReducer} from './filter';
+import {filterReducer, getFilter} from './filter';
 
 const rangeFilter: RangeFilter = {field: 'q1', range: [0, 1]};
 const oneOfFilter: OneOfFilter = {field: 'q2', oneOf: ['a', 'c']};
@@ -121,6 +122,15 @@ describe('reducers/shelf/filter', () => {
       expect(spec.filters).toEqual([
         rangeFilter, {field: 'q2', oneOf: ['a', 'b', 'c']}
       ]);
+    });
+  });
+
+  describe('getFilter', () => {
+    it('should return an range filter', () => {
+      const fieldDef: ShelfFieldDef = {field: 'q1', type: 'quantitative'};
+      const domain: any[] = [0, 1];
+      const filter = getFilter(fieldDef, domain);
+      expect(filter).toEqual(rangeFilter);
     });
   });
 });
