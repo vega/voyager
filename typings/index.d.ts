@@ -38,6 +38,17 @@ declare module 'react-clipboard.js' {
   export = ClipboardButton;
 }
 
+declare module 'rc-slider' {
+  export default class Slider extends React.Component<any, {}> { }
+  export class Range extends React.Component<any, {}> { }
+  export class Handle extends React.Component<any, {}> { }
+  export const createSliderWithTooltip: any;
+}
+
+declare module 'react-edit-inline' {
+  const InlineEdit: any;
+  export default InlineEdit;
+}
 
 interface Process {
   env: any;
