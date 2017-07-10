@@ -62,7 +62,7 @@ class FilterShelfBase extends React.Component<FilterShelfProps, {}> {
     const fieldIndex = schema.fieldNames().indexOf(filter.field);
     const domain = schema.domain(fieldDefs[fieldIndex] as FieldQuery);
     return (
-      <div styleName='filter-shelf' key={filter.field}>
+      <div styleName='filter-shelf' key={index}>
         <div styleName='header'>
           <span>{filter.field}</span>
           <a onClick={this.filterRemove.bind(this, index)}>
