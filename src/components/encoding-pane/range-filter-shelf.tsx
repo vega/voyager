@@ -33,6 +33,7 @@ class RangeFilterShelfBase extends React.Component<RangeFilterShelfProps, {}> {
             <InlineEdit
               text={currMin.toString()}
               paramName='min'
+              activeClassName='editing'
               change={this.filterModifyMinBound.bind(this)}
             />
           </span>
@@ -41,6 +42,7 @@ class RangeFilterShelfBase extends React.Component<RangeFilterShelfProps, {}> {
             <InlineEdit
               text={currMax.toString()}
               paramName='max'
+              activeClassName='editing'
               change={this.filterModifyMaxBound.bind(this)}
             />
           </span>
