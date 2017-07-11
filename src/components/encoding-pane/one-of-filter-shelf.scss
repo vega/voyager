@@ -1,4 +1,5 @@
 $margin: 4px;
+$radius: 3px;
 
 .options {
   display: block;
@@ -14,4 +15,25 @@ $margin: 4px;
 
 .select-all:hover {
   color: #2980b9;
+}
+
+.search {
+  margin-right: 1px;
+  :global .fa {
+    &.fa-search {
+      padding: 2px 3px 1px;
+      border-radius: $radius;
+
+      &:hover {
+        color: #fff;
+        background-color: #999;
+      }
+    }
+  }
+}
+
+.below-header {
+  display: flex;
+  justify-content: space-between;
+  margin: 2px;
 }

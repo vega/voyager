@@ -6,6 +6,8 @@ $radius: 3px;
   border-radius: $radius;
   border: 1px solid #ddd;
   margin-bottom: 4px;
+  max-height: 150px;
+  overflow: scroll;
 
   :global .fa {
     &.fa-times {
