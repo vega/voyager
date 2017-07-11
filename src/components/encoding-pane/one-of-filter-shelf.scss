@@ -1,11 +1,6 @@
 $margin: 4px;
 $radius: 3px;
 
-.options {
-  display: block;
-  margin: $margin;
-}
-
 .select-all {
   color: #4B0082;
   cursor: pointer;
@@ -15,6 +10,23 @@ $radius: 3px;
 
 .select-all:hover {
   color: #2980b9;
+}
+
+.keep-only {
+  color: transparent;
+  cursor: pointer;
+  flex-grow: 1;
+  text-align: right;
+}
+
+.keep-only:hover {
+  color: gray;
+}
+
+.option-row {
+  margin: $margin;
+  display: flex;
+  justify-content: space-between;
 }
 
 .search {

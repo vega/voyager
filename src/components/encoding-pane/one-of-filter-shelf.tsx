@@ -31,15 +31,20 @@ class OneOfFilterShelfBase extends React.Component<OneOfFilterShelfProps, OneOfF
     const {domain, filter, index} = this.props;
     const oneOfFilter = (domain as any[]).map(option => {
       return (
-        <label key={option} styleName='options' style={{display: 'block'}}>
-          <input
-            name={index.toString()}
-            value={option}
-            type='checkbox'
-            checked={(filter.oneOf as any[]).indexOf(option) !== -1}
-            onChange={this.toggleCheckbox.bind(this, option)}
-          /> {option}
-        </label>
+        <div key={option} className='option-div' styleName='option-row'>
+          <label>
+            <input
+              name={index.toString()}
+              value={option}
+              type='checkbox'
+              checked={(filter.oneOf as any[]).indexOf(option) !== -1}
+              onChange={this.toggleCheckbox.bind(this, option)}
+            /> {option}
+          </label>
+          <span onClick={this.onSelectOne.bind(this, option)} styleName='keep-only'>
+            Keep Only
+          </span>
+        </div>
       );
     });
     return (
@@ -84,6 +89,11 @@ class OneOfFilterShelfBase extends React.Component<OneOfFilterShelfProps, OneOfF
     this.filterModifyOneOf(this.props.index, changedSelectedValues);
   }
 
+  private onSelectOne(value: string | number | boolean | DateTime) {
+    const {index} = this.props;
+    this.filterModifyOneOf(index, [value]);
+  }
+
   private onSelectAll() {
     const {domain, index} = this.props;
     this.filterModifyOneOf(index, domain.slice());
@@ -91,9 +101,9 @@ class OneOfFilterShelfBase extends React.Component<OneOfFilterShelfProps, OneOfF
 
   private onClickSearch() {
     if (!this.state.hideSearchBar) {
-      const labels = this.getLabels();
-      Array.prototype.forEach.call(labels, (label: HTMLLabelElement) => {
-        label.style.display = 'block';
+      const divs = this.getDivs();
+      Array.prototype.forEach.call(divs, (div: HTMLDivElement) => {
+        div.style.display = 'block';
       });
     }
     this.setState({
@@ -102,27 +112,27 @@ class OneOfFilterShelfBase extends React.Component<OneOfFilterShelfProps, OneOfF
   }
 
   private onSearch(e: any) {
-    const searchedLabels: NodeListOf<HTMLLabelElement> = this.getLabels();
-    Array.prototype.forEach.call(searchedLabels, (searchedLabel: HTMLLabelElement) => {
-      // its first child is checkbox input
-      const searchedOption = searchedLabel.childNodes[0] as HTMLInputElement;
+    const searchedDivs = this.getDivs();
+    Array.prototype.forEach.call(searchedDivs, (searchedDiv: HTMLDivElement) => {
+      // its first child is label, the label's child is checkbox input
+      const searchedOption = searchedDiv.childNodes[0].childNodes[0] as HTMLInputElement;
       if (searchedOption.value.toLowerCase().indexOf(e.target.value.toLowerCase().trim()) === -1) {
-        searchedLabel.style.display = 'none';
+        searchedDiv.style.display = 'none';
       } else {
-        searchedLabel.style.display = 'block';
+        searchedDiv.style.display = 'block';
       }
     });
   }
 
   /**
-   * returns all the label nodes in current filter shelf
+   * returns all div nodes in current filter shelf
    */
-  private getLabels(): NodeListOf<HTMLLabelElement> {
+  private getDivs() {
     // select the current filter shelf
     const container = document.getElementById(this.props.index.toString());
-    // select all labels
-    const labels = container.querySelectorAll('label');
-    return labels;
+    // select all divs
+    const divs = container.getElementsByClassName('option-div');
+    return divs;
   }
 }
 export const OneOfFilterShelf = CSSModules(OneOfFilterShelfBase, styles);
