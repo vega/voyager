@@ -16,6 +16,9 @@ export function filterReducer(shelfSpec: Readonly<ShelfUnitSpec> = DEFAULT_SHELF
     case FILTER_ADD: {
       const {filter} = action.payload;
       let index = action.payload.index;
+      if (contains(shelfSpec.filters, filter)) {
+        throw new Error('Cannot add more than one filter to a field');
+      }
       if (!index) {
         index = shelfSpec.filters.length;
       }
@@ -36,9 +39,14 @@ export function filterReducer(shelfSpec: Readonly<ShelfUnitSpec> = DEFAULT_SHELF
     case FILTER_MODIFY_MAX_BOUND: {
       const {index, maxBound} = action.payload;
       const modifier = (filter: RangeFilter) => {
+        const range = filter.range;
+        const minBound = range[0];
+        if (maxBound < minBound) {
+          throw new Error ('Maximum bound cannot be smaller than minimum bound');
+        }
         return {
           ...filter,
-          range: [filter.range[0], maxBound]
+          range: [minBound, maxBound]
         };
       };
       const filters = modifyItemInArray(shelfSpec.filters, index, modifier);
@@ -50,9 +58,14 @@ export function filterReducer(shelfSpec: Readonly<ShelfUnitSpec> = DEFAULT_SHELF
     case FILTER_MODIFY_MIN_BOUND: {
       const {index, minBound} = action.payload;
       const modifier = (filter: RangeFilter) => {
+        const range = filter.range;
+        const maxBound = range[range.length - 1];
+        if (minBound > maxBound) {
+          throw new Error ('Minimum bound cannot be greater than maximum bound');
+        }
         return {
           ...filter,
-          range: [minBound, filter.range[filter.range.length - 1]]
+          range: [minBound, maxBound]
         };
       };
       const filters = modifyItemInArray(shelfSpec.filters, index, modifier);
@@ -79,6 +92,15 @@ export function filterReducer(shelfSpec: Readonly<ShelfUnitSpec> = DEFAULT_SHELF
       return shelfSpec;
     }
   }
+}
+
+function contains(filters: Array<RangeFilter | OneOfFilter>, target: RangeFilter | OneOfFilter) {
+  for (const filter of filters) {
+    if (filter.field === target.field) {
+      return true;
+    }
+  }
+  return false;
 }
 
 export function getFilter(fieldDef: ShelfFieldDef, domain: any[]): RangeFilter | OneOfFilter {

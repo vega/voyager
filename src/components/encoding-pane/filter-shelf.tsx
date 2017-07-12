@@ -98,8 +98,10 @@ const filterShelfTarget: DropTargetSpec<FilterShelfProps> = {
     if (monitor.didDrop()) {
       return;
     }
-
     const {filter} = monitor.getItem() as DraggedFieldIdentifier;
+    if (filter.field === '?') {
+      throw new Error ('Cannot add wildcard filter');
+    }
     props.handleAction({
       type: FILTER_ADD,
       payload: {
