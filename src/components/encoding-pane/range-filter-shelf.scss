@@ -1,3 +1,5 @@
+$border: 1px solid #999;
+$radius: 3px;
 $track-color: #1f77b4;
 $active-color: #1f9cb4;
 
@@ -11,15 +13,49 @@ $active-color: #1f9cb4;
   }
 }
 
-:global .editing {
-  width: 50%;
-}
-
 .range-filter-pane {
   width: 80%;
   margin-left: auto;
   margin-right: auto;
   margin: 10px auto;
+
+  input {
+    font-size: 11px;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    max-width: 50px;
+  }
+
+  input:focus, input:hover {
+    border-bottom: $border
+  }
+
+  a {
+    display: inline;
+  }
+
+  :global .fa {
+    &.fa-pencil {
+      cursor: default;
+      padding: 2px 3px 1px;
+      border-radius: $radius;
+
+      &:hover {
+        color: #fff;
+        background-color: #999;
+      }
+    }
+  }
+}
+
+.bound {
+  font-size: 10px;
+  white-space: nowrap;
+}
+
+:global .editing {
+  width: 50%;
 }
 
 :global {
