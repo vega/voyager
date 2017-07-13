@@ -1,7 +1,6 @@
 import * as Slider from 'rc-slider';
 import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
-import InlineEdit from 'react-edit-inline';
 import {DateTime} from 'vega-lite/build/src/datetime';
 import {RangeFilter} from 'vega-lite/build/src/filter';
 import {FILTER_MODIFY_BOTH_BOUNDS, FILTER_MODIFY_MAX_BOUND, FILTER_MODIFY_MIN_BOUND,
@@ -28,22 +27,22 @@ class RangeFilterShelfBase extends React.Component<RangeFilterShelfProps, {}> {
     return (
       <div styleName='range-filter-pane'>
         <div styleName='range-input'>
-          <span>
-            min:
-            <InlineEdit
-              text={currMin.toString()}
-              paramName='min'
-              activeClassName='editing'
-              change={this.filterModifyMinBound.bind(this)}
+          <span styleName='bound'>
+            min: <a onClick={this.focusInput.bind(this, `${filter.field}min`)}><i className="fa fa-pencil"/></a>
+            <input
+              id={`${filter.field}min`}
+              type='text'
+              value={Number(currMin)}
+              onChange={this.filterModifyMinBound.bind(this)}
             />
           </span>
-          <span>
-            max:
-            <InlineEdit
-              text={currMax.toString()}
-              paramName='max'
-              activeClassName='editing'
-              change={this.filterModifyMaxBound.bind(this)}
+          <span styleName='bound'>
+            max: <a onClick={this.focusInput.bind(this, `${filter.field}max`)}><i className="fa fa-pencil"/></a>
+            <input
+              id={`${filter.field}max`}
+              type='text'
+              value={Number(currMax)}
+              onChange={this.filterModifyMaxBound.bind(this)}
             />
           </span>
         </div>
@@ -69,28 +68,38 @@ class RangeFilterShelfBase extends React.Component<RangeFilterShelfProps, {}> {
     });
   }
 
-  protected filterModifyMaxBound(max: {max: string}) {
+  protected filterModifyMaxBound(e: any) {
+    const value = Number(e.target.value);
+    if (isNaN(value)) {
+      throw new Error('Max bound must be a valid number');
+    }
     const {handleAction, index} = this.props;
-    const maxBound = Number(max.max);
     handleAction({
       type: FILTER_MODIFY_MAX_BOUND,
       payload: {
         index,
-        maxBound
+        maxBound: value
       }
     });
   }
 
-  protected filterModifyMinBound(min: {min: string}) {
+  protected filterModifyMinBound(e: any) {
+    const value = Number(e.target.value);
+    if (isNaN(value)) {
+      throw new Error('Min bound must be a valid number');
+    }
     const {handleAction, index} = this.props;
-    const minBound = Number(min.min);
     handleAction({
       type: FILTER_MODIFY_MIN_BOUND,
       payload: {
         index,
-        minBound
+        minBound: value
       }
     });
+  }
+
+  private focusInput(id: string) {
+    document.getElementById(id).focus();
   }
 };
 

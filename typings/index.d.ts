@@ -45,11 +45,6 @@ declare module 'rc-slider' {
   export const createSliderWithTooltip: any;
 }
 
-declare module 'react-edit-inline' {
-  const InlineEdit: any;
-  export default InlineEdit;
-}
-
 interface Process {
   env: any;
 }

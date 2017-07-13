@@ -46,6 +46,11 @@ export function filterReducer(shelfSpec: Readonly<ShelfUnitSpec> = DEFAULT_SHELF
     }
     case FILTER_MODIFY_BOTH_BOUNDS: {
       const {index, range} = action.payload;
+      const min = range[0];
+      const max = range[range.length - 1];
+      if (min > max) {
+        throw new Error('Invalid bound');
+      }
       const modifier = (filter: RangeFilter) => {
         return {
           ...filter,
