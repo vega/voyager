@@ -1,12 +1,11 @@
 import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
+import Loader from 'react-loader-advanced';
 import {connect} from 'react-redux';
-
-import * as styles from './data-pane.scss';
-
 import {ActionHandler, createDispatchHandler, DatasetAsyncAction, ShelfFieldAutoAdd} from '../../actions';
 import {Dataset, State} from '../../models';
 import {VoyagerConfig} from '../../models/config';
+import * as styles from './data-pane.scss';
 import {DataSelector} from './data-selector';
 import {FieldList, PresetWildcardFieldList} from './field-list';
 
@@ -25,20 +24,22 @@ export class DataPanelBase extends React.PureComponent<DataPanelProps, {}> {
     );
 
     return (
-      <div className="pane" styleName="data-pane">
-        <h2>Data</h2>
-        {showDataSourceSelector ? <DataSelector /> : dataName}
+      <Loader show={this.props.data.isLoading} message={'loading dataset...'} styleName="data-pane">
+        <div className="pane">
+          <h2>Data</h2>
+          {showDataSourceSelector ? <DataSelector /> : dataName}
 
-        <div styleName="data-pane-section">
-          <h3>Fields</h3>
-          <FieldList/>
-        </div>
+          <div styleName="data-pane-section">
+            <h3>Fields</h3>
+            <FieldList/>
+          </div>
 
-        <div styleName="data-pane-section">
-          <h3>Wildcard Fields</h3>
-          <PresetWildcardFieldList/>
+          <div styleName="data-pane-section">
+            <h3>Wildcard Fields</h3>
+            <PresetWildcardFieldList/>
+          </div>
         </div>
-      </div>
+      </Loader>
     );
   }
 }

@@ -38,6 +38,11 @@ declare module 'react-copy-to-clipboard' {
   export = CopyToClipboard;
 }
 
+declare module 'react-loader-advanced' {
+  const Loader: any;
+  export default Loader;
+}
+
 
 interface Process {
   env: any;
