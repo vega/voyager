@@ -129,6 +129,7 @@ class PlotBase extends React.PureComponent<PlotProps, any> {
   }
 
   private onSpecify() {
+    this.onPreviewMouseLeave();
     const {handleAction, spec} = this.props;
     handleAction({
       type: SHELF_SPEC_LOAD,
