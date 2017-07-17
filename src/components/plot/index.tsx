@@ -43,7 +43,7 @@ class PlotBase extends React.PureComponent<PlotProps, any> {
     this.onSpecify = this.onSpecify.bind(this);
   }
   public render() {
-    const {isPlotListItem, scrollOnHover, showSpecifyButton, spec} = this.props;
+    const {isPlotListItem, showSpecifyButton, spec} = this.props;
 
     return (
       <div styleName={isPlotListItem ? 'plot-list-item-group' : 'plot-group'}>
@@ -61,7 +61,7 @@ class PlotBase extends React.PureComponent<PlotProps, any> {
           </span>
         </div>
         <div
-          styleName={scrollOnHover && this.state.hovered ? 'plot-scroll' : 'plot'}
+          styleName='plot-scroll'
           className="persist-scroll"
           onMouseEnter={this.onMouseEnter}
           onMouseLeave={this.onMouseLeave}
