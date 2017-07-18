@@ -18,7 +18,9 @@ describe('reducers/shelf/spec', () => {
   describe(SHELF_CLEAR, () => {
     it('should return DEFAULT_SHELF_UNIT_SPEC', () => {
       expect(
-        shelfSpecReducer({mark: 'bar', encoding: {}, anyEncodings: [], config: {}}, {type: SHELF_CLEAR}, schema),
+        shelfSpecReducer({
+          mark: 'bar', encoding: {}, anyEncodings: [], config: {}, filters: []
+        }, {type: SHELF_CLEAR}, schema),
       ).toBe(DEFAULT_SHELF_UNIT_SPEC);
     });
   });

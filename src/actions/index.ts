@@ -1,24 +1,25 @@
 import {ConfigAction} from './config';
 import {DatasetAction} from './dataset';
+import {FilterAction} from './filter';
 import {ResultAction} from './result';
 import {ShelfAction} from './shelf';
 import {ApplicationStateAction} from './state';
 import {UndoableAction} from './undo-redo';
 
-
 export * from './config';
 export * from './dataset';
-export * from './result';
+export * from './filter';
 export * from './redux-action';
+export * from './result';
 export * from './shelf';
-export * from './undo-redo';
 export * from './state';
+export * from './undo-redo';
 
 /**
  * Union type of all actions in our application.
  */
 export type Action = DatasetAction | ShelfAction | UndoableAction |
-  ResultAction | ConfigAction | ApplicationStateAction;
+  ResultAction | ConfigAction | ApplicationStateAction | FilterAction;
 
 export type ActionType = Action['type'];
 
@@ -30,6 +31,12 @@ const ACTION_TYPE_INDEX: {[k in ActionType]: 1} = {
   DATASET_URL_REQUEST: 1,
   DATASET_URL_RECEIVE: 1,
   DATASET_INLINE_RECEIVE: 1,
+
+  FILTER_ADD: 1,
+  FILTER_MODIFY_MAX_BOUND: 1,
+  FILTER_MODIFY_MIN_BOUND: 1,
+  FILTER_MODIFY_ONE_OF: 1,
+  FILTER_REMOVE: 1,
 
   RESULT_RECEIVE: 1,
   RESULT_REQUEST: 1,
