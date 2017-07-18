@@ -20,6 +20,7 @@ import {autoAddFieldQuery} from '../../models/shelf/index';
 import {DEFAULT_SHELF_UNIT_SPEC, fromSpecQuery} from '../../models/shelf/spec';
 import {toSet} from '../../util';
 import {insertItemToArray, modifyItemInArray, removeItemFromArray} from '../util';
+import {filterReducer} from './filter';
 
 
 export function shelfSpecReducer(shelfSpec: Readonly<ShelfUnitSpec> = DEFAULT_SHELF_UNIT_SPEC,
@@ -110,7 +111,7 @@ export function shelfSpecReducer(shelfSpec: Readonly<ShelfUnitSpec> = DEFAULT_SH
       // Restore wildcard mark if the shelf previously has wildcard mark.
       return fromSpecQuery(specQ, shelfSpec.config);
   }
-  return shelfSpec;
+  return filterReducer(shelfSpec, action);
 }
 
 const AGGREGATE_INDEX = toSet(AGGREGATE_OPS);

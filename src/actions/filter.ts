@@ -8,7 +8,7 @@ export type FilterAction = FilterAdd | FilterRemove | FilterModifyMinBound | Fil
 export const FILTER_ADD = 'FILTER_ADD';
 export type FilterAdd = ReduxAction<typeof FILTER_ADD, {
   filter: RangeFilter | OneOfFilter,
-  index: number
+  index?: number
 }>;
 
 export const FILTER_REMOVE = 'FILTER_REMOVE';

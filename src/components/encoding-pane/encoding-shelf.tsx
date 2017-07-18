@@ -88,6 +88,7 @@ class EncodingShelfBase extends React.PureComponent<EncodingShelfProps, Encoding
             parentId={{type: FieldParentType.ENCODING_SHELF, id: id}}
             draggable={true}
             onRemove={this.onRemove}
+            filterHide={true}
           />
 
           { this.state.functionPopupOpen &&

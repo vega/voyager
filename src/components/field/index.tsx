@@ -1,12 +1,17 @@
+
 import {ExpandedType} from 'compassql/build/src/query/expandedtype';
+import {Schema} from 'compassql/build/src/schema';
 import {isWildcard} from 'compassql/build/src/wildcard';
 import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
 import {DragElementWrapper, DragSource, DragSourceCollector, DragSourceSpec} from 'react-dnd';
+import {OneOfFilter, RangeFilter} from 'vega-lite/build/src/filter';
+import {FILTER_ADD, FILTER_REMOVE, FilterAction} from '../../actions/filter';
 import {DraggableType, FieldParentType} from '../../constants';
-import {ShelfFieldDef} from '../../models';
 import {ShelfId} from '../../models/shelf';
+import {ShelfFieldDef} from '../../models/shelf/encoding';
 import * as styles from './field.scss';
+
 
 /**
  * Props for react-dnd of Field
@@ -44,6 +49,15 @@ export interface FieldPropsBase {
 
   /** Remove field event handler.  If not provided, remove button will disappear. */
   onRemove?: () => void;
+
+  handleAction?: (action: FilterAction) => void;
+
+  filter?: RangeFilter | OneOfFilter;
+
+  filterHide?: boolean;
+
+  schema?: Schema;
+
 };
 
 export interface FieldProps extends FieldDragSourceProps, FieldPropsBase {};
@@ -71,6 +85,7 @@ class FieldBase extends React.PureComponent<FieldProps, {}> {
         <span styleName="text" title={title}>
           {title || field}
         </span>
+        {this.addFilterSpan()}
         {this.addSpan()}
         {this.removeSpan()}
       </span>
@@ -79,15 +94,54 @@ class FieldBase extends React.PureComponent<FieldProps, {}> {
     // Wrap with connect dragSource if it is injected
     return connectDragSource ? connectDragSource(component) : component;
   }
+
+  protected filterAddToIndex(filter: RangeFilter | OneOfFilter, index: number): void {
+    const {handleAction} = this.props;
+    handleAction({
+      type: FILTER_ADD,
+      payload: {
+        filter: filter,
+        index
+      }
+    });
+  }
+
+  protected filterAddToEnd(filter: RangeFilter | OneOfFilter): void {
+    const {handleAction} = this.props;
+    handleAction({
+      type: FILTER_ADD,
+      payload: {
+        filter: filter
+      }
+    });
+  }
+
+  protected filterRemove(index: number): void {
+    const {handleAction} = this.props;
+    handleAction({
+      type: FILTER_REMOVE,
+      payload: {
+        index
+      }
+    });
+  }
+
   private addSpan() {
     return this.props.onAdd && (
       <span><a onClick={this.onAdd}><i className="fa fa-plus"/></a></span>
     );
   }
+
   private removeSpan() {
     const onRemove = this.props.onRemove;
     return onRemove && (
       <span><a onClick={onRemove}><i className="fa fa-times"/></a></span>
+    );
+  }
+
+  private addFilterSpan() {
+    return !this.props.filterHide && (
+      <span><a onClick={this.filterAddToEnd.bind(this, this.props.filter)}><i className='fa fa-filter'/></a></span>
     );
   }
 
@@ -144,12 +198,13 @@ export type FieldParentId = {
 export interface DraggedFieldIdentifier {
   fieldDef: ShelfFieldDef;
   parentId: FieldParentId;
+  filter: RangeFilter | OneOfFilter;
 }
 
 const fieldSource: DragSourceSpec<FieldProps> = {
   beginDrag(props): DraggedFieldIdentifier {
-    const {fieldDef, parentId} = props;
-    return {fieldDef, parentId};
+    const {fieldDef, parentId, filter} = props;
+    return {fieldDef, parentId, filter};
   }
 };
 
