@@ -17,7 +17,7 @@ export function filterReducer(shelfSpec: Readonly<ShelfUnitSpec> = DEFAULT_SHELF
       const {filter} = action.payload;
       let index = action.payload.index;
       if (contains(shelfSpec.filters, filter)) {
-        throw new Error('Cannot add more than one filter to a field');
+        throw new Error('Cannot add more than one filter of the same field');
       }
       if (!index) {
         index = shelfSpec.filters.length;

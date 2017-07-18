@@ -10,6 +10,7 @@ import {filterReducer, getFilter} from './filter';
 
 const rangeFilter: RangeFilter = {field: 'q1', range: [0, 1]};
 const oneOfFilter: OneOfFilter = {field: 'q2', oneOf: ['a', 'c']};
+const rangeFilter2: RangeFilter = {field: 'q3', range: [0, 1]};
 
 const noFilterSpec: ShelfUnitSpec = {
   ...DEFAULT_SHELF_UNIT_SPEC,
@@ -41,10 +42,10 @@ describe('reducers/shelf/filter', () => {
       const spec: ShelfUnitSpec = filterReducer(simpleSpec, {
         type: FILTER_ADD,
         payload: {
-          filter: rangeFilter,
+          filter: rangeFilter2,
         }
       });
-      expect(spec.filters).toEqual([rangeFilter, oneOfFilter, rangeFilter]);
+      expect(spec.filters).toEqual([rangeFilter, oneOfFilter, rangeFilter2]);
     });
   });
 
