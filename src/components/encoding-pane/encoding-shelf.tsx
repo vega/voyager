@@ -149,7 +149,7 @@ const encodingShelfTarget: DropTargetSpec<EncodingShelfProps> = {
       case FieldParentType.FIELD_LIST:
         props.handleAction({
           type: SHELF_FIELD_ADD,
-          // TODO: https://github.com/vega/voyager/issues/428
+          // TODO(https://github.com/vega/voyager/issues/428):
           // support inserting a field between two existing fields on the wildcard shelf (replace = false)
           payload: {shelfId: props.id, fieldDef, replace: true}
         });
