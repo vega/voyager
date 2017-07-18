@@ -149,7 +149,8 @@ const encodingShelfTarget: DropTargetSpec<EncodingShelfProps> = {
       case FieldParentType.FIELD_LIST:
         props.handleAction({
           type: SHELF_FIELD_ADD,
-          payload: {shelfId: props.id, fieldDef} // TODO: rename to to:
+          // TODO: support insert between two pills (replace = false)
+          payload: {shelfId: props.id, fieldDef, replace: true}
         });
         break;
       case FieldParentType.ENCODING_SHELF:
