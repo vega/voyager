@@ -1,10 +1,10 @@
 
 import {OneOfFilter, RangeFilter} from 'vega-lite/build/src/filter';
-import {ShelfUnitSpec} from '../../../build/src/models/shelf/spec';
 import {
   FILTER_ADD, FILTER_MODIFY_MAX_BOUND, FILTER_MODIFY_MIN_BOUND, FILTER_MODIFY_ONE_OF, FILTER_REMOVE
 } from '../../actions/filter';
 import {DEFAULT_SHELF_UNIT_SPEC} from '../../models/shelf';
+import {ShelfUnitSpec} from '../../models/shelf/spec';
 import {filterReducer} from './filter';
 
 const rangeFilter: RangeFilter = {field: 'q1', range: [0, 1]};
