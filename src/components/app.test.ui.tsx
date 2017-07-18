@@ -65,10 +65,14 @@ describe('Voyager', () => {
             const fieldList = wrapper.find('.field-list__field-list-item');
             const fields = fieldList.children().map(d => d.text());
 
-            expect(fields).toContain('fieldA');
-            expect(fields).toContain('fieldB');
+            try {
+              expect(fields).toContain(' fieldA');
+              expect(fields).toContain(' fieldB');
+              done();
+            } catch (err) {
+              done.fail(err);
+            }
 
-            done();
           }, 100);
         } catch (err) {
           done.fail(err);
