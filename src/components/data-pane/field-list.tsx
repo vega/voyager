@@ -10,7 +10,6 @@ import {SHELF_FIELD_AUTO_ADD, ShelfFieldAutoAdd} from '../../actions/shelf';
 import {FieldParentType} from '../../constants';
 import {State} from '../../models/index';
 import {ShelfFieldDef} from '../../models/shelf/encoding';
-import {getFilter} from '../../reducers/shelf/filter';
 import {getPresetWildcardFields, getSchemaFieldDefs} from '../../selectors';
 import {getSchema} from '../../selectors/index';
 import {Field} from '../field';
@@ -45,7 +44,6 @@ class FieldListBase extends React.PureComponent<FieldListProps, {}> {
             fieldDef={fieldDef}
             isPill={true}
             draggable={true}
-            filter={getFilter(fieldDef, domain)}
             filterHide={filterHide}
             handleAction={handleAction}
             parentId={{type: FieldParentType.FIELD_LIST}}
