@@ -50,9 +50,14 @@ class OneOfFilterShelfBase extends React.Component<OneOfFilterShelfProps, OneOfF
     return (
       <div id={index.toString()}>
         <div styleName='below-header'>
-          <a styleName='select-all' onClick={this.onSelectAll.bind(this)}>
-            Select All
-          </a>
+          <span>
+            <a styleName='select-all' onClick={this.onSelectAll.bind(this)}>
+              Select All
+            </a> /
+            <a styleName='clear-all' onClick={this.onClearAll.bind(this)}>
+              Clear All
+            </a>
+          </span>
           {this.state.hideSearchBar ?
             null :
             <input type='text' onChange={this.onSearch.bind(this)} autoFocus={true}/>
@@ -97,6 +102,11 @@ class OneOfFilterShelfBase extends React.Component<OneOfFilterShelfProps, OneOfF
   private onSelectAll() {
     const {domain, index} = this.props;
     this.filterModifyOneOf(index, domain.slice());
+  }
+
+  private onClearAll() {
+    const {index} = this.props;
+    this.filterModifyOneOf(index, []);
   }
 
   private onClickSearch() {

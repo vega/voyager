@@ -1,14 +1,14 @@
 $margin: 4px;
 $radius: 3px;
 
-.select-all {
+.select-all, .clear-all {
   color: #4B0082;
   cursor: pointer;
   font-size: 11px;
   margin: $margin;
 }
 
-.select-all:hover {
+.select-all:hover, .clear-all:hover {
   color: #2980b9;
 }
 
