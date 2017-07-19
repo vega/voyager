@@ -1,4 +1,5 @@
 
+import {FieldQuery} from 'compassql/build/src/query/encoding';
 import {ExpandedType} from 'compassql/build/src/query/expandedtype';
 import {Schema} from 'compassql/build/src/schema';
 import {isWildcard} from 'compassql/build/src/wildcard';
@@ -10,6 +11,7 @@ import {FILTER_ADD, FILTER_REMOVE, FilterAction} from '../../actions/filter';
 import {DraggableType, FieldParentType} from '../../constants';
 import {ShelfId} from '../../models/shelf';
 import {ShelfFieldDef} from '../../models/shelf/encoding';
+import {getFilter} from '../../reducers/shelf/filter';
 import * as styles from './field.scss';
 
 
@@ -52,8 +54,6 @@ export interface FieldPropsBase {
 
   handleAction?: (action: FilterAction) => void;
 
-  filter?: RangeFilter | OneOfFilter;
-
   filterHide?: boolean;
 
   schema?: Schema;
@@ -75,7 +75,6 @@ class FieldBase extends React.PureComponent<FieldProps, {}> {
     const {caretHide, caretOnClick, connectDragSource, fieldDef, isPill} = this.props;
     const {field, title} = fieldDef;
     const isWildcardField = isWildcard(field) || this.props.isEnumeratedWildcardField;
-
     const component = (
       <span
         styleName={isWildcardField ? 'wildcard-field-pill' : isPill ? 'field-pill' : 'field'}
@@ -95,23 +94,23 @@ class FieldBase extends React.PureComponent<FieldProps, {}> {
     return connectDragSource ? connectDragSource(component) : component;
   }
 
-  protected filterAddToIndex(filter: RangeFilter | OneOfFilter, index: number): void {
+  protected filterAddToIndex(index: number): void {
     const {handleAction} = this.props;
     handleAction({
       type: FILTER_ADD,
       payload: {
-        filter: filter,
+        filter: this.getFilter(),
         index
       }
     });
   }
 
-  protected filterAddToEnd(filter: RangeFilter | OneOfFilter): void {
+  protected filterAddToEnd(): void {
     const {handleAction} = this.props;
     handleAction({
       type: FILTER_ADD,
       payload: {
-        filter: filter
+        filter: this.getFilter()
       }
     });
   }
@@ -124,6 +123,12 @@ class FieldBase extends React.PureComponent<FieldProps, {}> {
         index
       }
     });
+  }
+
+  private getFilter() {
+    const {fieldDef, schema} = this.props;
+    const domain = schema.domain(fieldDef as FieldQuery);
+    return getFilter(fieldDef, domain);
   }
 
   private addSpan() {
@@ -141,7 +146,7 @@ class FieldBase extends React.PureComponent<FieldProps, {}> {
 
   private addFilterSpan() {
     return !this.props.filterHide && (
-      <span><a onClick={this.filterAddToEnd.bind(this, this.props.filter)}><i className='fa fa-filter'/></a></span>
+      <span><a onClick={this.filterAddToEnd.bind(this)}><i className='fa fa-filter'/></a></span>
     );
   }
 
@@ -203,7 +208,8 @@ export interface DraggedFieldIdentifier {
 
 const fieldSource: DragSourceSpec<FieldProps> = {
   beginDrag(props): DraggedFieldIdentifier {
-    const {fieldDef, parentId, filter} = props;
+    const {fieldDef, parentId, schema} = props;
+    const filter = getFilter(fieldDef, schema.domain(fieldDef as FieldQuery));
     return {fieldDef, parentId, filter};
   }
 };
