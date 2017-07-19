@@ -5,20 +5,25 @@ import {FacetedCompositeUnitSpec} from 'vega-lite/build/src/spec';
 import * as styles from './plot.scss';
 
 import * as CopyToClipboard from 'react-copy-to-clipboard';
+import {Bookmark} from '../../models/bookmark';
 
+import {BOOKMARK_MODIFY_NOTE, BookmarkAction} from '../../actions/bookmark';
 import {ActionHandler} from '../../actions/redux-action';
 import {SHELF_SPEC_LOAD, SHELF_SPEC_PREVIEW, SHELF_SPEC_PREVIEW_DISABLE, ShelfAction} from '../../actions/shelf';
 import {PLOT_HOVER_MIN_DURATION} from '../../constants';
 import {PlotFieldInfo} from '../../models/plot';
 import {Field} from '../field/index';
 import {VegaLite} from '../vega-lite/index';
+import {BookmarkButton} from './bookmarkbutton';
 
-export interface PlotProps extends ActionHandler<ShelfAction> {
+export interface PlotProps extends ActionHandler<ShelfAction | BookmarkAction> {
   fieldInfos?: PlotFieldInfo[];
   isPlotListItem?: boolean;
   scrollOnHover?: boolean;
+  showBookmarkButton?: boolean;
   showSpecifyButton?: boolean;
   spec: FacetedCompositeUnitSpec;
+  bookmark?: Bookmark;
 }
 
 export interface PlotState {
@@ -36,6 +41,7 @@ class PlotBase extends React.PureComponent<PlotProps, any> {
     this.state = {hovered: false, preview: false};
 
     // Bind - https://facebook.github.io/react/docs/handling-events.html
+    this.handleTextChange = this.handleTextChange.bind(this);
     this.onMouseEnter = this.onMouseEnter.bind(this);
     this.onMouseLeave = this.onMouseLeave.bind(this);
     this.onPreviewMouseEnter = this.onPreviewMouseEnter.bind(this);
@@ -43,13 +49,27 @@ class PlotBase extends React.PureComponent<PlotProps, any> {
     this.onSpecify = this.onSpecify.bind(this);
   }
   public render() {
-    const {isPlotListItem, scrollOnHover, showSpecifyButton, spec} = this.props;
+    const {isPlotListItem, scrollOnHover, showBookmarkButton, showSpecifyButton, spec} = this.props;
+
+    let notesDiv;
+    const specKey = JSON.stringify(spec);
+    if (this.props.bookmark.dict[specKey]) {
+      notesDiv = (
+        <textarea
+          type='text'
+          placeholder={'notes'}
+          value={this.props.bookmark.dict[specKey].note}
+          onChange={this.handleTextChange}
+        />
+      );
+    }
 
     return (
       <div styleName={isPlotListItem ? 'plot-list-item-group' : 'plot-group'}>
         <div styleName="plot-info">
           <div styleName="plot-command">
             {showSpecifyButton && this.specifyButton()}
+            {showBookmarkButton && this.bookmarkButton()}
             <span id='copied' style={{display: 'none'}}> copied </span>
             {this.copySpecButton()}
           </div>
@@ -68,6 +88,7 @@ class PlotBase extends React.PureComponent<PlotProps, any> {
         >
           <VegaLite spec={spec}/>
         </div>
+        {notesDiv}
       </div>
     );
   }
@@ -169,6 +190,28 @@ class PlotBase extends React.PureComponent<PlotProps, any> {
       onMouseEnter={this.onPreviewMouseEnter}
       onMouseLeave={this.onPreviewMouseLeave}
     />;
+  }
+
+  private bookmarkButton() {
+    return (
+      <BookmarkButton
+        bookmark = {this.props.bookmark}
+        plotObjectFieldInfos = {this.props.fieldInfos}
+        plotObjectSpec = {this.props.spec}
+        handleAction = {this.props.handleAction}
+      />
+    );
+  }
+
+  private handleTextChange(event: any) {
+    const {handleAction} = this.props;
+    handleAction({
+      type: BOOKMARK_MODIFY_NOTE,
+      payload: {
+        note: event.target.value,
+        spec: this.props.spec
+      }
+    });
   }
 
   private copySpecButton() {
