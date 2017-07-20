@@ -33,6 +33,7 @@ describe('reducers/bookmark', () => {
         {
           dict: {},
           count: 0,
+          list: []
         },
         {
           type: BOOKMARK_ADD_PLOT,
@@ -43,6 +44,7 @@ describe('reducers/bookmark', () => {
       )).toEqual({
         dict: expectedDict,
         count: 1,
+        list: [specKey]
       } as Bookmark);
     });
   });
@@ -62,6 +64,7 @@ describe('reducers/bookmark', () => {
         {
           dict: originalDict,
           count: 1,
+          list: [specKey]
         },
         {
           type: BOOKMARK_MODIFY_NOTE,
@@ -73,6 +76,7 @@ describe('reducers/bookmark', () => {
       )).toEqual({
         dict: expectedDict,
         count: 1,
+        list: [specKey]
       } as Bookmark);
     });
   });
@@ -88,6 +92,7 @@ describe('reducers/bookmark', () => {
         {
           dict: originalDict,
           count: 1,
+          list: [specKey]
         },
         {
           type: BOOKMARK_REMOVE_PLOT,
@@ -98,6 +103,7 @@ describe('reducers/bookmark', () => {
       )).toEqual({
         dict: {},
         count: 0,
+        list: []
       } as Bookmark);
     });
   });

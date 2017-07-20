@@ -3,7 +3,7 @@ import {Bookmark, BookmarkItem} from '../models';
 
 
 export function bookmarkReducer(bookmark: Bookmark, action: Action): Bookmark {
-  const {count, dict} = bookmark;
+  const {count, dict, list} = bookmark;
 
 
   switch (action.type) {
@@ -21,7 +21,8 @@ export function bookmarkReducer(bookmark: Bookmark, action: Action): Bookmark {
           ...dict,
           [specKey]: bookmarkItem
         },
-        count: count + 1
+        count: count + 1,
+        list: list.concat([specKey])
       };
     }
 
@@ -39,7 +40,8 @@ export function bookmarkReducer(bookmark: Bookmark, action: Action): Bookmark {
           ...dict,
           [specKey]: modifiedBookmarkItem
         },
-        count: count
+        count: count,
+        list: list.slice()
       };
     }
 
@@ -51,7 +53,8 @@ export function bookmarkReducer(bookmark: Bookmark, action: Action): Bookmark {
         dict: {
           ...dict
         },
-        count: count - 1
+        count: count - 1,
+        list: list.filter(item => item !== specKey)
       };
 
       delete newBookmark.dict[specKey];
