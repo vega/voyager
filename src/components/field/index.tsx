@@ -56,10 +56,14 @@ class FieldBase extends React.PureComponent<FieldProps, FieldState> {
   private field: HTMLElement;
   private popup: HTMLElement;
   private fieldRefHandler = {
-    field: (ref: any) => this.field = ref
+    field: (ref: any) => {
+      this.field = ref;
+    }
   };
   private popupRefHandler = {
-    popup: (ref: any) => this.popup = ref
+    popup: (ref: any) => {
+      this.popup = ref;
+    }
   };
 
   constructor(props: FieldProps) {

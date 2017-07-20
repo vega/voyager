@@ -1,5 +1,6 @@
 import {ExpandedType} from 'compassql/build/src/query/expandedtype';
 import {PrimitiveType, Schema} from 'compassql/build/src/schema';
+import {isWildcard} from 'compassql/build/src/wildcard';
 import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
 import {connect} from 'react-redux';
@@ -33,7 +34,7 @@ class FieldListBase extends React.PureComponent<FieldListProps, {}> {
     const {fieldDefs, schema} = this.props;
     const fieldItems = fieldDefs.map(fieldDef => {
       let primitiveType;
-      if (typeof fieldDef.field === 'string') {
+      if (!isWildcard(fieldDef.field)) {
         primitiveType = schema.primitiveType(fieldDef.field);
       }
       const hideTypeChanger = this.getValidTypes(primitiveType).length < 2;
@@ -69,7 +70,7 @@ class FieldListBase extends React.PureComponent<FieldListProps, {}> {
 
   private renderTypeChanger(fieldDef: ShelfFieldDef, primitiveType: PrimitiveType) {
     const {handleAction} = this.props;
-    if (typeof fieldDef.field === 'string') {
+    if (!isWildcard(fieldDef.field)) {
       return (
         <TypeChanger
           field={fieldDef.field}
