@@ -67,6 +67,18 @@ class Voyager {
   }
 
   /**
+   * Apply a vega-lite spec to voyager.
+   *
+   * @param {VoyagerConfig} config
+   *
+   * @memberof Voyager
+   */
+  public setSpec(spec: Object) {
+    this.data = undefined;
+    this.render(this.data, this.config, spec);
+  }
+
+  /**
    * Sets the entire voyager application state. This is useful for restoring
    * the state of the application to a previosly saved state.
    *
@@ -135,7 +147,7 @@ class Voyager {
     this.render(this.data, this.config);
   }
 
-  private render(data: VoyagerData, config: VoyagerConfig) {
+  private render(data: VoyagerData, config: VoyagerConfig, spec?: Object) {
     const store = this.store;
     const root = this.container;
     ReactDOM.render(
@@ -144,6 +156,7 @@ class Voyager {
           dispatch={store.dispatch}
           data={data}
           config={config}
+          spec={spec}
         />
       </Provider>,
       root

@@ -11,6 +11,11 @@ declare module '*.css' {
   export = content;
 }
 
+declare module "*.json" {
+  const value: any;
+  export default value;
+}
+
 declare module 'font-awesome-webpack' {
   var x: any;
   export = x;
