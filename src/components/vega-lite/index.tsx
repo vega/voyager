@@ -3,27 +3,44 @@ import * as vega from 'vega';
 import * as vl from 'vega-lite';
 import {TopLevelExtendedSpec} from 'vega-lite/build/src/spec';
 import * as vegaTooltip from 'vega-tooltip';
+import {Logger} from '../../models/shelf/logger';
+import {Warnings} from './warnings';
 
 export interface VegaLiteProps {
   spec: TopLevelExtendedSpec;
 
   renderer?: 'svg' | 'canvas';
+
+  logger: Logger;
+}
+
+export interface VegaLiteState {
+  warnings: any[];
 }
 
 const CHART_REF = 'chart';
 
-export class VegaLite extends React.PureComponent<VegaLiteProps, any> {
+export class VegaLite extends React.PureComponent<VegaLiteProps, VegaLiteState> {
+  constructor(props: VegaLiteProps) {
+    super(props);
+    this.state = {
+      warnings: []
+    };
+  }
 
   public render() {
     return (
       <div>
         <div className='chart' ref={CHART_REF}/>
         <div id="vis-tooltip" className="vg-tooltip"/>
+        <Warnings warnings={this.props.logger.warns}/>
       </div>
     );
   }
+
   protected renderVega(vlSpec: TopLevelExtendedSpec) {
-    const {spec} = vl.compile(vlSpec);
+    const {logger} = this.props;
+    const {spec} = vl.compile(vlSpec, logger);
 
     const runtime = vega.parse(spec, vlSpec.config);
     const view = new vega.View(runtime)
@@ -33,6 +50,10 @@ export class VegaLite extends React.PureComponent<VegaLiteProps, any> {
       .hover()
       .run();
     vegaTooltip.vega(view);
+
+    this.setState({
+      warnings: logger.warns
+    });
   }
 
   protected componentDidMount() {

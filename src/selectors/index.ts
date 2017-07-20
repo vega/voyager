@@ -10,6 +10,7 @@ export const getFilters = (state: State) => state.present.shelf.spec.filters;
 export const getShelf = (state: State) => state.present.shelf;
 export const getSchema = (state: State) => state.present.dataset.schema;
 export const getMainResult = (state: State) => state.present.result.main.modelGroup;
+export const getLogger = (state: State) => state.present.shelf.logger;
 
 export const getQuery = createSelector(
   getShelf,

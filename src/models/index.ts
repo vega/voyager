@@ -32,7 +32,7 @@ export const DEFAULT_STATE: StateBase = {
   config: DEFAULT_VOYAGER_CONFIG,
   dataset: DEFAULT_DATASET,
   shelf: DEFAULT_SHELF_SPEC,
-  result: DEFAULT_RESULT,
+  result: DEFAULT_RESULT
 };
 
 export interface SerializableState {
