@@ -7,6 +7,9 @@ import {DEFAULT_STATE, State, StateBase} from '../models';
 
 import {SET_CONFIG} from '../actions/config';
 
+// tslint:disable-next-line:no-unused-variable
+import {Action as BaseReduxAction} from 'redux';
+
 import {
   BOOKMARK_ADD_PLOT,
   BOOKMARK_MODIFY_NOTE,

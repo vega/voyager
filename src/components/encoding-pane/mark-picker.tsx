@@ -16,14 +16,14 @@ const options = ALL_MARKS.map(mark => (
   </option>
 ));
 
-interface MarkPickerProps extends ActionHandler<ShelfMarkChangeType> {
+export interface MarkPickerProps extends ActionHandler<ShelfMarkChangeType> {
   mark: ShelfMark;
 }
 
 /**
  * Control for selecting mark type
  */
-class MarkPickerBase extends React.PureComponent<MarkPickerProps, {}> {
+export class MarkPickerBase extends React.PureComponent<MarkPickerProps, {}> {
   constructor(props: MarkPickerProps) {
     super(props);
 

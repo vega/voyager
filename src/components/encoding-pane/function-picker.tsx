@@ -11,7 +11,7 @@ export interface FunctionPickerProps {
   onFunctionChange: (fn: ShelfFunction) => void;
 }
 
-class FunctionPickerBase extends React.PureComponent<FunctionPickerProps, any> {
+export class FunctionPickerBase extends React.PureComponent<FunctionPickerProps, any> {
   constructor(props: FunctionPickerProps) {
     super(props);
 

@@ -14,6 +14,7 @@ export * from './bookmark';
 export * from './dataset';
 export * from './shelf';
 export * from './result';
+export * from './config';
 
 /**
  * Application state.

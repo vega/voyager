@@ -11,7 +11,7 @@ export interface TypeChangerProps extends ActionHandler<DatasetSchemaChangeField
   validTypes: ExpandedType[];
 }
 
-class TypeChangerBase extends React.PureComponent<TypeChangerProps, {}> {
+export class TypeChangerBase extends React.PureComponent<TypeChangerProps, {}> {
   public render() {
     const {validTypes} = this.props;
     return (
