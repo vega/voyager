@@ -55,16 +55,6 @@ export interface FieldState {
 class FieldBase extends React.PureComponent<FieldProps, FieldState> {
   private field: HTMLElement;
   private popup: HTMLElement;
-  private fieldRefHandler = {
-    field: (ref: any) => {
-      this.field = ref;
-    }
-  };
-  private popupRefHandler = {
-    popup: (ref: any) => {
-      this.popup = ref;
-    }
-  };
 
   constructor(props: FieldProps) {
     super(props);
@@ -114,13 +104,13 @@ class FieldBase extends React.PureComponent<FieldProps, FieldState> {
       return connectDragSource ? connectDragSource(component) : component;
     } else {
       return (
-        <div ref={this.fieldRefHandler.field} >
+        <div ref={this.fieldRefHandler} >
           <TetherComponent
             attachment="top left"
             targetAttachment="bottom left"
           >
             {connectDragSource ? connectDragSource(component) : component}
-            <div ref={this.popupRefHandler.popup}>
+            <div ref={this.popupRefHandler}>
               {this.state.popupIsOpened && popupComponent}
             </div>
           </TetherComponent>
@@ -184,6 +174,12 @@ class FieldBase extends React.PureComponent<FieldProps, FieldState> {
         popupIsOpened: !this.state.popupIsOpened
       });
     }
+  }
+  private fieldRefHandler = (ref: any) => {
+    this.field = ref;
+  }
+  private popupRefHandler = (ref: any) => {
+    this.popup = ref;
   }
 };
 
