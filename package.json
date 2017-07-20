@@ -119,7 +119,8 @@
     },
     "testPathIgnorePatterns": [
       "<rootDir>/dist/",
-      "<rootDir>/node_modules/"
+      "<rootDir>/node_modules/",
+      "<rootDir>/build/"
     ],
     "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
     "testResultsProcessor": "<rootDir>/node_modules/ts-jest/coverageprocessor.js",
