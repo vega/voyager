@@ -1,4 +1,5 @@
 import {FieldQuery} from 'compassql/build/src/query/encoding';
+import {ExpandedType} from 'compassql/build/src/query/expandedtype';
 import {Schema} from 'compassql/build/src/schema';
 import {isWildcard} from 'compassql/build/src/wildcard';
 import * as React from 'react';
@@ -60,7 +61,8 @@ class FilterShelfBase extends React.Component<FilterShelfProps, {}> {
   private renderFilterShelf(filter: RangeFilter | OneOfFilter, index: number) {
     const {fieldDefs, schema} = this.props;
     const fieldIndex = schema.fieldNames().indexOf(filter.field);
-    const domain = schema.domain(fieldDefs[fieldIndex] as FieldQuery);
+    const fieldDef = fieldDefs[fieldIndex];
+    const domain = schema.domain(fieldDef as FieldQuery);
     return (
       <div styleName='filter-shelf' key={index}>
         <div styleName='header'>
@@ -69,15 +71,15 @@ class FilterShelfBase extends React.Component<FilterShelfProps, {}> {
             <i className='fa fa-times'/>
           </a>
         </div>
-        {this.renderFilter(filter, index, domain)}
+        {this.renderFilter(filter, index, domain, fieldDef.type)}
       </div>
     );
   }
 
-  private renderFilter(filter: RangeFilter | OneOfFilter, index: number, domain: any[]) {
+  private renderFilter(filter: RangeFilter | OneOfFilter, index: number, domain: any[], type: ExpandedType) {
     const {handleAction} = this.props;
     if (isRangeFilter(filter)) {
-      return <RangeFilterShelf domain={domain} index={index} filter={filter} handleAction={handleAction}/>;
+      return <RangeFilterShelf domain={domain} index={index} filter={filter} handleAction={handleAction} type={type}/>;
     } else if (isOneOfFilter(filter)) {
       return <OneOfFilterShelf domain={domain} index={index} filter={filter} handleAction={handleAction}/>;
     }

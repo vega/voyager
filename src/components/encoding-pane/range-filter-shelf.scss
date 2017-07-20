@@ -3,16 +3,6 @@ $radius: 3px;
 $track-color: #1f77b4;
 $active-color: #1f9cb4;
 
-.range-input {
-  display: flex;
-  justify-content: space-between;
-
-  span {
-    margin: 2px;
-    cursor: text;
-  }
-}
-
 .range-filter-pane {
   width: 80%;
   margin-left: auto;
@@ -24,7 +14,6 @@ $active-color: #1f9cb4;
     border: 0;
     outline: 0;
     background: transparent;
-    max-width: 50px;
   }
 
   input:focus, input:hover {
@@ -51,11 +40,6 @@ $active-color: #1f9cb4;
 
 .bound {
   font-size: 10px;
-  white-space: nowrap;
-}
-
-:global .editing {
-  width: 50%;
 }
 
 :global {
