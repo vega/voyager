@@ -13,7 +13,6 @@ import {DraggedFieldIdentifier} from '../field';
 import * as styles from './filter-shelf.scss';
 import {OneOfFilterShelf} from './one-of-filter-shelf';
 import {RangeFilterShelf} from './range-filter-shelf';
-import {TemporalFilterShelf} from './temporal-filter-shelf';
 /**
  * Props for react-dnd of FilterShelf
  */
@@ -80,11 +79,7 @@ class FilterShelfBase extends React.Component<FilterShelfProps, {}> {
   private renderFilter(filter: RangeFilter | OneOfFilter, index: number, domain: any[], type: ExpandedType) {
     const {handleAction} = this.props;
     if (isRangeFilter(filter)) {
-      if (type === ExpandedType.TEMPORAL) {
-        return <TemporalFilterShelf domain={domain} index={index} filter={filter} handleAction={handleAction}/>;
-      } else {
-        return <RangeFilterShelf domain={domain} index={index} filter={filter} handleAction={handleAction}/>;
-      }
+      return <RangeFilterShelf domain={domain} index={index} filter={filter} handleAction={handleAction} type={type}/>;
     } else if (isOneOfFilter(filter)) {
       return <OneOfFilterShelf domain={domain} index={index} filter={filter} handleAction={handleAction}/>;
     }
