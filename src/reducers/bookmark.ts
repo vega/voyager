@@ -8,13 +8,13 @@ export function bookmarkReducer(bookmark: Bookmark, action: Action): Bookmark {
 
   switch (action.type) {
     case BOOKMARK_ADD_PLOT: {
-      const {plot} = action.payload;
+      const {plotObject} = action.payload;
       const bookmarkItem: BookmarkItem = {
-        plot: plot,
+        plotObject: plotObject,
         note: '',
       };
 
-      const specKey = JSON.stringify(plot.spec);
+      const specKey = JSON.stringify(plotObject.spec);
 
       return {
         dict: {

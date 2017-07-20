@@ -1,7 +1,7 @@
 import {PlotObject} from '../models/plot';
 
 export interface BookmarkItem {
-  plot: PlotObject;
+  plotObject: PlotObject;
   note: string;
 }
 

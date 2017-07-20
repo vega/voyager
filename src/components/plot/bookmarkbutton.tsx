@@ -96,7 +96,7 @@ export class BookmarkButtonBase extends React.PureComponent<BookmarkProps, Bookm
     this.props.handleAction({
       type: BOOKMARK_ADD_PLOT,
       payload: {
-        plot: this.props.plotObject
+        plotObject: this.props.plotObject
       }
     });
   }

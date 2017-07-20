@@ -19,8 +19,8 @@ export * from './result';
  * Application state.
  */
 export interface StateBase {
-  config: VoyagerConfig;
   bookmark: Bookmark;
+  config: VoyagerConfig;
   dataset: Dataset;
   shelf: Shelf;
   result: ResultIndex;

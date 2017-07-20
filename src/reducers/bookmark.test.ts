@@ -25,7 +25,7 @@ describe('reducers/bookmark', () => {
 
   describe(BOOKMARK_ADD_PLOT, () => {
     it('should add a plot to the bookmark list', () => {
-      const expectedBookmarkItem: BookmarkItem = {plot: plotObject, note: ''};
+      const expectedBookmarkItem: BookmarkItem = {plotObject: plotObject, note: ''};
       const expectedDict = {};
       expectedDict[specKey] = expectedBookmarkItem;
 
@@ -38,7 +38,7 @@ describe('reducers/bookmark', () => {
         {
           type: BOOKMARK_ADD_PLOT,
           payload: {
-            plot: plotObject
+            plotObject: plotObject
           }
         }
       )).toEqual({
@@ -51,18 +51,17 @@ describe('reducers/bookmark', () => {
 
   describe(BOOKMARK_MODIFY_NOTE, () => {
     it('should modify notes for a bookmarked plot', () => {
-      const bookmarkItem: BookmarkItem = {plot: plotObject, note: ''};
+      const bookmarkItem: BookmarkItem = {plotObject: plotObject, note: ''};
 
-      const originalDict: {[key: string]: BookmarkItem} = {};
-      originalDict[specKey] = bookmarkItem;
-
-      const expectedBookmarkItem: BookmarkItem = {plot: plotObject, note: 'This is very interesting.'};
+      const expectedBookmarkItem: BookmarkItem = {plotObject: plotObject, note: 'This is very interesting.'};
       const expectedDict = {};
       expectedDict[specKey] = expectedBookmarkItem;
 
       expect(bookmarkReducer(
         {
-          dict: originalDict,
+          dict: {
+            [specKey]: bookmarkItem
+          },
           count: 1,
           list: [specKey]
         },
@@ -83,14 +82,13 @@ describe('reducers/bookmark', () => {
 
   describe(BOOKMARK_REMOVE_PLOT, () => {
     it('should remove a bookmark from the bookmark list', () => {
-      const bookmarkItem: BookmarkItem = {plot: plotObject, note: ''};
-
-      const originalDict: {[key: string]: BookmarkItem} = {};
-      originalDict[specKey] = bookmarkItem;
+      const bookmarkItem: BookmarkItem = {plotObject: plotObject, note: ''};
 
       expect(bookmarkReducer(
         {
-          dict: originalDict,
+          dict: {
+            [specKey]: bookmarkItem
+          },
           count: 1,
           list: [specKey]
         },

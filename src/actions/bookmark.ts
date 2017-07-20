@@ -6,7 +6,7 @@ export type BookmarkAction = BookmarkAddPlot | BookmarkRemovePlot | BookmarkModi
 
 export const BOOKMARK_ADD_PLOT = 'BOOKMARK_ADD_PLOT';
 export type BookmarkAddPlot = ReduxAction<typeof BOOKMARK_ADD_PLOT, {
-  plot: PlotObject
+  plotObject: PlotObject
 }>;
 
 export const BOOKMARK_REMOVE_PLOT = 'BOOKMARK_REMOVE_PLOT';
