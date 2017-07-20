@@ -1,56 +1,38 @@
-import {DEFAULT_QUERY_CONFIG} from 'compassql/build/src/config';
-import {SpecQueryModel} from 'compassql/build/src/model';
-import {SpecQuery} from 'compassql/build/src/query/spec';
-import {Schema} from 'compassql/build/src/schema';
-import {Channel} from 'vega-lite/build/src/channel';
 import {Mark} from 'vega-lite/build/src/mark';
+import {Type} from 'vega-lite/build/src/type';
 import {BOOKMARK_ADD_PLOT, BOOKMARK_MODIFY_NOTE, BOOKMARK_REMOVE_PLOT} from '../actions';
 import {Bookmark, BookmarkItem} from '../models';
-import {convertToPlotObjectsGroup, extractPlotObjects, PlotObject} from '../models/plot';
+import {PlotObject} from '../models/plot';
 import {bookmarkReducer} from './bookmark';
 
 
 
 describe('reducers/bookmark', () => {
-  const schema = new Schema({fields: []});
-  function buildSpecQueryModel(specQ: SpecQuery) {
-    return SpecQueryModel.build(specQ, schema, DEFAULT_QUERY_CONFIG);
-  }
-
-  function buildSpecQueryModelGroup(specQs: SpecQuery[]) {
-    const items = specQs.map(specQ => buildSpecQueryModel(specQ));
-    return {
-      name: 'a name',
-      path: 'path',
-      items: items,
-    };
-  }
-
-  const group = buildSpecQueryModelGroup([
-    {
-      mark: Mark.BAR,
-      encodings: [
-        {channel: Channel.X}
-      ]
-    }
-  ]);
-
   const data = {url: 'a/data/set.csv'};
-  const plotObjectGroup = convertToPlotObjectsGroup(group, data);
-  const plotObject: PlotObject = extractPlotObjects(plotObjectGroup)[0];
-  const specKey = JSON.stringify(plotObject.spec);
 
+  const plotObject: PlotObject = {
+    fieldInfos: [],
+    spec: {
+      data: data,
+      mark: Mark.POINT,
+      encoding: {
+        x: {field: 'A', type: Type.QUANTITATIVE}
+      }
+    }
+  };
+
+  const specKey = JSON.stringify(plotObject.spec);
 
   describe(BOOKMARK_ADD_PLOT, () => {
     it('should add a plot to the bookmark list', () => {
-      const expectedBookmarkItem: BookmarkItem = {plot: {...plotObject}, note: ''};
+      const expectedBookmarkItem: BookmarkItem = {plot: plotObject, note: ''};
       const expectedDict = {};
       expectedDict[specKey] = expectedBookmarkItem;
 
       expect(bookmarkReducer(
         {
           dict: {},
-          numBookmarks: 0,
+          count: 0,
         },
         {
           type: BOOKMARK_ADD_PLOT,
@@ -60,14 +42,14 @@ describe('reducers/bookmark', () => {
         }
       )).toEqual({
         dict: expectedDict,
-        numBookmarks: 1,
+        count: 1,
       } as Bookmark);
     });
   });
 
   describe(BOOKMARK_MODIFY_NOTE, () => {
     it('should modify notes for a bookmarked plot', () => {
-      const bookmarkItem: BookmarkItem = {plot: {...plotObject}, note: ''};
+      const bookmarkItem: BookmarkItem = {plot: plotObject, note: ''};
 
       const originalDict: {[key: string]: BookmarkItem} = {};
       originalDict[specKey] = bookmarkItem;
@@ -79,7 +61,7 @@ describe('reducers/bookmark', () => {
       expect(bookmarkReducer(
         {
           dict: originalDict,
-          numBookmarks: 1,
+          count: 1,
         },
         {
           type: BOOKMARK_MODIFY_NOTE,
@@ -90,7 +72,7 @@ describe('reducers/bookmark', () => {
         }
       )).toEqual({
         dict: expectedDict,
-        numBookmarks: 1,
+        count: 1,
       } as Bookmark);
     });
   });
@@ -105,7 +87,7 @@ describe('reducers/bookmark', () => {
       expect(bookmarkReducer(
         {
           dict: originalDict,
-          numBookmarks: 1,
+          count: 1,
         },
         {
           type: BOOKMARK_REMOVE_PLOT,
@@ -115,7 +97,7 @@ describe('reducers/bookmark', () => {
         }
       )).toEqual({
         dict: {},
-        numBookmarks: 0,
+        count: 0,
       } as Bookmark);
     });
   });

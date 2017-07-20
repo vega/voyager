@@ -1,19 +1,17 @@
 import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
 import * as TetherComponent from 'react-tether';
-import {FacetedCompositeUnitSpec} from 'vega-lite/build/src/spec';
 import {BOOKMARK_ADD_PLOT, BOOKMARK_REMOVE_PLOT, BookmarkAction} from '../../actions/bookmark';
 import {ActionHandler} from '../../actions/redux-action';
 import {Bookmark} from '../../models/bookmark';
-import {PlotFieldInfo} from '../../models/plot';
+import {PlotObject} from '../../models/plot';
 import * as styles from './bookmarkbutton.scss';
 
 
 
 export interface BookmarkProps extends ActionHandler<BookmarkAction> {
   bookmark: Bookmark;
-  plotObjectFieldInfos: PlotFieldInfo[];
-  plotObjectSpec: FacetedCompositeUnitSpec;
+  plotObject: PlotObject;
 }
 
 export interface BookmarkButtonState {
@@ -36,25 +34,6 @@ export class BookmarkButtonBase extends React.PureComponent<BookmarkProps, Bookm
 
   public render() {
     const bookmarkColor = (this.isBookmarked()) ? '#0c96d0' : '#aaa';
-    const openDialog = (this.state.openDialog) ? 'block' : 'none';
-
-    let bookmarkAlert;
-    if (this.state.openDialog) {
-      bookmarkAlert = (
-        <div styleName="bookmarkAlert" style={{display: openDialog}}>
-          <div>Remove bookmark?</div>
-          <small>Your notes will be lost</small>
-          <div>
-            <a onClick={this.onBookmarkRemove}>
-              <i className="fa fa-trash-o">Remove it</i>
-            </a>
-            <a onClick={this.onKeepBookmark}>
-              <i className="fa fa-bookmark">Keep it</i>
-            </a>
-          </div>
-        </div>
-      );
-    }
 
     return (
       <TetherComponent
@@ -91,8 +70,8 @@ export class BookmarkButtonBase extends React.PureComponent<BookmarkProps, Bookm
   }
 
   private isBookmarked() {
-    const {bookmark, plotObjectSpec} = this.props;
-    return !!bookmark.dict[JSON.stringify(plotObjectSpec)];
+    const {bookmark, plotObject} = this.props;
+    return !!bookmark.dict[JSON.stringify(plotObject.spec)];
   }
 
   private onBookmarkClick() {
@@ -108,7 +87,7 @@ export class BookmarkButtonBase extends React.PureComponent<BookmarkProps, Bookm
     this.props.handleAction({
       type: BOOKMARK_REMOVE_PLOT,
       payload: {
-        spec: this.props.plotObjectSpec
+        spec: this.props.plotObject.spec
       }
     });
   }
@@ -117,10 +96,7 @@ export class BookmarkButtonBase extends React.PureComponent<BookmarkProps, Bookm
     this.props.handleAction({
       type: BOOKMARK_ADD_PLOT,
       payload: {
-        plot: {
-          fieldInfos: this.props.plotObjectFieldInfos,
-          spec: this.props.plotObjectSpec
-        }
+        plot: this.props.plotObject
       }
     });
   }

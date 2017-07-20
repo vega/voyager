@@ -29,7 +29,7 @@ export class BookmarkBase extends React.PureComponent<BookmarkProps, any> {
     return (
       <div>
         <button onClick={this.openModal}>
-          <i className='fa fa-bookmark' /> Bookmarks ({this.props.bookmark.numBookmarks})
+          <i className='fa fa-bookmark' /> Bookmarks ({this.props.bookmark.count})
         </button>
 
         <Modal

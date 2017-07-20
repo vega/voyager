@@ -4,6 +4,7 @@ import {createSelector} from 'reselect';
 
 import {Shelf, ShelfFieldDef, State, toQuery} from '../models';
 
+export const getBookmark = (state: State) => state.present.bookmark;
 export const getConfig = (state: State) => state.present.config;
 export const getData = (state: State) => state.present.dataset.data;
 export const getFilters = (state: State) => state.present.shelf.spec.filters;

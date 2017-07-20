@@ -3,44 +3,57 @@ import {Bookmark, BookmarkItem} from '../models';
 
 
 export function bookmarkReducer(bookmark: Bookmark, action: Action): Bookmark {
-  const newBookmark = {
-    dict: {
-      ...bookmark.dict
-    },
-    numBookmarks: bookmark.numBookmarks
-  };
+  const {count, dict} = bookmark;
+
 
   switch (action.type) {
     case BOOKMARK_ADD_PLOT: {
       const {plot} = action.payload;
+      const bookmarkItem: BookmarkItem = {
+        plot: plot,
+        note: '',
+      };
 
       const specKey = JSON.stringify(plot.spec);
-      if (!bookmark.dict[specKey]) {
-        const bookmarkItem: BookmarkItem = {
-          plot: plot,
-          note: '',
-        };
 
-        newBookmark.numBookmarks++;
-        newBookmark.dict[specKey] = bookmarkItem;
-      }
-
-      return newBookmark;
+      return {
+        dict: {
+          ...dict,
+          [specKey]: bookmarkItem
+        },
+        count: count + 1
+      };
     }
 
     case BOOKMARK_MODIFY_NOTE: {
       const {note, spec} = action.payload;
 
       const specKey = JSON.stringify(spec);
-      newBookmark.dict[specKey].note = note;
-      return newBookmark;
+      const modifiedBookmarkItem: BookmarkItem = {
+        ...dict[specKey],
+        note: note
+      };
+
+      return {
+        dict: {
+          ...dict,
+          [specKey]: modifiedBookmarkItem
+        },
+        count: count
+      };
     }
 
     case BOOKMARK_REMOVE_PLOT: {
       const {spec} = action.payload;
 
-      newBookmark.numBookmarks--;
       const specKey = JSON.stringify(spec);
+      const newBookmark = {
+        dict: {
+          ...dict
+        },
+        count: count - 1
+      };
+
       delete newBookmark.dict[specKey];
       return newBookmark;
     }

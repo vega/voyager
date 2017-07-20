@@ -11,7 +11,7 @@ import {State} from '../../models';
 import {Bookmark} from '../../models/bookmark';
 import {extractPlotObjects, PlotObject} from '../../models/plot';
 import {getTransforms, hasWildcards} from '../../models/shelf/spec';
-import {getData, getFilters, getMainResult, getQuery} from '../../selectors';
+import {getBookmark, getData, getFilters, getMainResult, getQuery} from '../../selectors';
 import {Plot} from '../plot';
 import {PlotList} from '../plot-list';
 import * as styles from './view-pane.scss';
@@ -73,7 +73,7 @@ export const ViewPane = connect(
       filters: getFilters(state),
       // FIXME: refactor the flow for this part (we should support asynchrounous request for this too)
       mainResult: getMainResult(state),
-      bookmark: state.present.bookmark
+      bookmark: getBookmark(state)
     };
   },
   createDispatchHandler<ShelfAction>()

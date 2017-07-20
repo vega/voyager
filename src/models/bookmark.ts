@@ -7,10 +7,10 @@ export interface BookmarkItem {
 
 export interface Bookmark {
   dict: {[key: string]: BookmarkItem};
-  numBookmarks: number;
+  count: number;
 }
 
 export const DEFAULT_BOOKMARK: Bookmark = {
   dict: {},
-  numBookmarks: 0,
+  count: 0,
 };

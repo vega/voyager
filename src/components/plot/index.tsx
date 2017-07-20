@@ -193,11 +193,15 @@ class PlotBase extends React.PureComponent<PlotProps, any> {
   }
 
   private bookmarkButton() {
+    const plotObject = {
+      fieldInfos: this.props.fieldInfos,
+      spec: this.props.spec
+    };
+
     return (
       <BookmarkButton
         bookmark = {this.props.bookmark}
-        plotObjectFieldInfos = {this.props.fieldInfos}
-        plotObjectSpec = {this.props.spec}
+        plotObject = {plotObject}
         handleAction = {this.props.handleAction}
       />
     );
