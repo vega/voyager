@@ -16,5 +16,6 @@
   },
   "files.trimTrailingWhitespace": true,
   "tslint.autoFixOnSave": true,
-  "tsimporter.spaceBetweenBraces": false
+  "tsimporter.spaceBetweenBraces": false,
+  "tsimporter.filesToExclude": ["build/**", "lib-test/**"]
 }
