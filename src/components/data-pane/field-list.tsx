@@ -11,7 +11,7 @@ import {SHELF_FIELD_AUTO_ADD, ShelfFieldAutoAdd} from '../../actions/shelf';
 import {FieldParentType} from '../../constants';
 import {State} from '../../models/index';
 import {ShelfFieldDef} from '../../models/shelf/encoding';
-import {getPresetWildcardFields, getSchema, getSchemaFieldDefs} from '../../selectors';
+import {selectPresetWildcardFields, selectSchema, selectSchemaFieldDefs} from '../../selectors';
 import {Field} from '../field';
 import * as styles from './field-list.scss';
 import {TypeChanger} from './type-changer';
@@ -121,10 +121,10 @@ const FieldListRenderer = CSSModules(FieldListBase, styles);
 export const FieldList = connect(
   (state: State) => {
     return {
-      fieldDefs: getSchemaFieldDefs(state).concat([
+      fieldDefs: selectSchemaFieldDefs(state).concat([
         {aggregate: 'count', field: '*', type: 'quantitative', title: 'Number of Records'}
       ]),
-      schema: getSchema(state)
+      schema: selectSchema(state)
     };
   },
   createDispatchHandler<ShelfFieldAutoAdd>()
@@ -133,8 +133,8 @@ export const FieldList = connect(
 export const PresetWildcardFieldList = connect(
   (state: State) => {
     return {
-      fieldDefs: getPresetWildcardFields(state),
-      schema: getSchema(state)
+      fieldDefs: selectPresetWildcardFields(state),
+      schema: selectSchema(state)
     };
   },
   createDispatchHandler<ShelfFieldAutoAdd>()

@@ -6,7 +6,7 @@ import {ReduxAction} from './redux-action';
 
 import {fetchCompassQLRecommend} from '../api/api';
 import {State} from '../models/index';
-import {getConfig, getData, getQuery, getSchema} from '../selectors';
+import {selectConfig, selectData, selectQuery, selectSchema} from '../selectors';
 import {Action} from './index';
 
 export type ResultAction = ResultRequest | ResultReceive;
@@ -23,10 +23,10 @@ export type ResultReceive = ReduxAction<typeof RESULT_RECEIVE, {
 export type AsyncResultRequest = ThunkAction<void , State, undefined>;
 export function resultRequest(): AsyncResultRequest {
   return (dispatch: Dispatch<Action>, getState) => {
-    const query = getQuery(getState());
-    const schema = getSchema(getState());
-    const data = getData(getState());
-    const config = getConfig(getState());
+    const query = selectQuery(getState());
+    const schema = selectSchema(getState());
+    const data = selectData(getState());
+    const config = selectConfig(getState());
     dispatch({
       type: RESULT_REQUEST
     });
