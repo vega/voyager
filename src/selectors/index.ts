@@ -4,6 +4,26 @@ import {createSelector} from 'reselect';
 
 import {Shelf, ShelfFieldDef, State, toQuery} from '../models';
 
+
+// Imports to satisfy --declarations build requirements
+// https://github.com/Microsoft/TypeScript/issues/9944
+// tslint:disable-next-line:no-unused-variable
+import {SpecQueryGroup} from 'compassql/build/src/model';
+// tslint:disable-next-line:no-unused-variable
+import {Query} from 'compassql/build/src/query/query';
+// tslint:disable-next-line:no-unused-variable
+import {StateWithHistory} from 'redux-undo';
+// tslint:disable-next-line:no-unused-variable
+import {InlineData, NamedData, UrlData} from 'vega-lite/build/src/data';
+// tslint:disable-next-line:no-unused-variable
+import {OneOfFilter, RangeFilter} from 'vega-lite/build/src/filter';
+// tslint:disable-next-line:no-unused-variable
+import {StateBase, VoyagerConfig} from '../models';
+// tslint:disable-next-line:no-unused-variable
+import {Bookmark} from '../models/bookmark';
+// tslint:disable-next-line:no-unused-variable
+import {PlotObject} from '../models/plot';
+
 export const getBookmark = (state: State) => state.present.bookmark;
 export const getConfig = (state: State) => state.present.config;
 export const getData = (state: State) => state.present.dataset.data;

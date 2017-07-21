@@ -18,7 +18,7 @@ import {VoyagerConfig} from './models/config';
 import {fromSerializable, SerializableState, StateBase, toSerializable} from './models/index';
 import {configureStore} from './store';
 
-type Container = string | HTMLElement;
+export type Container = string | HTMLElement;
 
 
 
@@ -26,7 +26,7 @@ type Container = string | HTMLElement;
  * The Voyager class encapsulates the voyager application and allows for easy
  * instantiation and interaction from non-react projects.
  */
-class Voyager {
+export class Voyager {
   private container: HTMLElement;
   private config: VoyagerConfig;
   private data: VoyagerData;

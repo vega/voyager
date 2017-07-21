@@ -31,7 +31,7 @@ export interface PlotState {
   preview: boolean;
 }
 
-class PlotBase extends React.PureComponent<PlotProps, any> {
+export class PlotBase extends React.PureComponent<PlotProps, any> {
 
   private hoverTimeoutId: number;
   private previewTimeoutId: number;

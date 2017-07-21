@@ -23,7 +23,7 @@
     "build": "node scripts/build.js",
     "postbuild": "npm run build:src && npm run build:lib",
     "build:lib": "webpack -d --config config/webpack.lib.config.js",
-    "build:src": "tsc && tsc --project ./tsconfig.declaration.json",
+    "build:src": "tsc",
     "watch": "webpack -d --watch",
     "clean": "find -E dist  -regex '.*\\.(js|js.map|d.ts)' -delete",
     "lint": "tslint -c tslint.json 'src/**/*.ts' 'src/**/*.tsx'",

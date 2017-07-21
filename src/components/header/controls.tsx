@@ -4,7 +4,7 @@ import {BookmarkPane} from './bookmark';
 import * as styles from './controls.scss';
 import { UndoRedo } from './undo-redo';
 
-class ControlsBase extends React.PureComponent<{}, {}> {
+export class ControlsBase extends React.PureComponent<{}, {}> {
   public render() {
     return (
       <div styleName='controls'>
