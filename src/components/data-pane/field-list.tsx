@@ -1,11 +1,10 @@
+import {ExpandedType} from 'compassql/build/src/query/expandedtype';
+import {PrimitiveType, Schema} from 'compassql/build/src/schema';
+import {isWildcard} from 'compassql/build/src/wildcard';
+import * as stringify from 'json-stable-stringify';
 import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
 import {connect} from 'react-redux';
-import * as TetherComponent from 'react-tether';
-import * as styles from './field-list.scss';
-
-import {ExpandedType} from 'compassql/build/src/query/expandedtype';
-import {PrimitiveType, Schema} from 'compassql/build/src/schema';
 import {DatasetSchemaChangeFieldType} from '../../actions/dataset';
 import {ActionHandler, createDispatchHandler} from '../../actions/redux-action';
 import {SHELF_FIELD_AUTO_ADD, ShelfFieldAutoAdd} from '../../actions/shelf';
@@ -14,6 +13,7 @@ import {State} from '../../models/index';
 import {ShelfFieldDef} from '../../models/shelf/encoding';
 import {getPresetWildcardFields, getSchema, getSchemaFieldDefs} from '../../selectors';
 import {Field} from '../field';
+import * as styles from './field-list.scss';
 import {TypeChanger} from './type-changer';
 
 
@@ -22,32 +22,26 @@ export interface FieldListProps extends ActionHandler<ShelfFieldAutoAdd | Datase
   schema: Schema;
 }
 
-export interface FieldListState {
-  selectedField: string;
-}
-
-class FieldListBase extends React.PureComponent<FieldListProps, FieldListState> {
+class FieldListBase extends React.PureComponent<FieldListProps, {}> {
 
   constructor(props: FieldListProps) {
     super(props);
 
     // Bind - https://facebook.github.io/react/docs/handling-events.html
     this.onAdd = this.onAdd.bind(this);
-    this.state = {
-      selectedField: null
-    };
   }
 
   public render() {
     const {fieldDefs, schema} = this.props;
     const fieldItems = fieldDefs.map(fieldDef => {
       let primitiveType;
-      if (typeof fieldDef.field === 'string') {
+      if (!isWildcard(fieldDef.field)) {
         primitiveType = schema.primitiveType(fieldDef.field);
       }
       const hideTypeChanger = this.getValidTypes(primitiveType).length < 2;
+      const key = isWildcard(fieldDef.field) ? stringify(fieldDef) : fieldDef.field;
       return (
-        <div key={JSON.stringify(fieldDef)} styleName="field-list-item">
+        <div key={key} styleName="field-list-item">
           {this.renderComponent(fieldDef, hideTypeChanger, primitiveType)}
         </div>
       );
@@ -69,23 +63,16 @@ class FieldListBase extends React.PureComponent<FieldListProps, FieldListState> 
 
   private renderComponent(fieldDef: ShelfFieldDef, hideTypeChanger: boolean, primitiveType: PrimitiveType) {
     if (hideTypeChanger) {
-      return this.renderField(fieldDef, hideTypeChanger);
+      return this.renderField(fieldDef);
     } else {
-      return (
-        <TetherComponent
-          attachment="top left"
-          targetAttachment="bottom left"
-        >
-        {this.renderField(fieldDef, hideTypeChanger)}
-        {this.renderTypeChanger(fieldDef, primitiveType)}
-        </TetherComponent>
-      );
+      const popupComponent = this.renderTypeChanger(fieldDef, primitiveType);
+      return this.renderField(fieldDef, popupComponent);
     }
   }
 
   private renderTypeChanger(fieldDef: ShelfFieldDef, primitiveType: PrimitiveType) {
     const {handleAction} = this.props;
-    if (typeof fieldDef.field === 'string' && this.state.selectedField === fieldDef.field) {
+    if (!isWildcard(fieldDef.field)) {
       return (
         <TypeChanger
           field={fieldDef.field}
@@ -97,31 +84,18 @@ class FieldListBase extends React.PureComponent<FieldListProps, FieldListState> 
     }
   }
 
-  private renderField(fieldDef: ShelfFieldDef, hideTypeChanger: boolean) {
+  private renderField(fieldDef: ShelfFieldDef, popupComponent?: JSX.Element) {
     return (
       <Field
         fieldDef={fieldDef}
         isPill={true}
         draggable={true}
         parentId={{type: FieldParentType.FIELD_LIST}}
-        caretHide={hideTypeChanger}
-        caretOnClick={this.handleCaretClick.bind(this, fieldDef.field)}
         onDoubleClick={this.onAdd}
         onAdd={this.onAdd}
+        popupComponent={popupComponent}
       />
     );
-  }
-
-  private handleCaretClick(field: string) {
-    if (this.state.selectedField === field) {
-      this.setState({
-        selectedField: null
-      });
-    } else {
-      this.setState({
-        selectedField: field
-      });
-    }
   }
 
   private getValidTypes(primitiveType: PrimitiveType): ExpandedType[] {
