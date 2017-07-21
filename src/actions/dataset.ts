@@ -63,13 +63,13 @@ export function datasetLoad(name: string, dataset: Data): DatasetLoad {
         .then(schema => {
           // Clear filters
           dispatch({ type: FILTER_CLEAR});
+          // Clear history and shelf
+          dispatch({ type: SHELF_CLEAR });
+
           dispatch({
             type: DATASET_URL_RECEIVE,
             payload: {name, url, schema}
           });
-
-          // Clear history and shelf
-          dispatch({ type: SHELF_CLEAR });
           dispatch(ActionCreators.clearHistory());
         });
     } else if (isInlineData(dataset)) {
@@ -77,14 +77,15 @@ export function datasetLoad(name: string, dataset: Data): DatasetLoad {
         .then(schema => {
           // clear filters
           dispatch({ type: FILTER_CLEAR });
+          // Clear history and shelf
+          dispatch({ type: SHELF_CLEAR });
+
           const data = dataset;
           dispatch({
             type: DATASET_INLINE_RECEIVE,
             payload: { name, schema, data }
           });
 
-          // Clear history and shelf
-          dispatch({ type: SHELF_CLEAR });
           dispatch(ActionCreators.clearHistory());
         });
     } else {
