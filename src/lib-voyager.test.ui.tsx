@@ -220,5 +220,57 @@ describe('lib-voyager', () => {
   });
 
 
+  describe('vega-lite spec', () => {
+    it('accepts valid spec', done => {
+      setTimeout(() => {
+        try {
+          const voyagerInst = CreateVoyager(container, undefined, undefined);
+
+          const values = [
+            {date: "24-Apr-07", close: "93.24"},
+            {date: "25-Apr-07", close: "95.35"},
+            {date: "26-Apr-07", close: "98.84"},
+            {date: "27-Apr-07", close: "99.92"},
+          ];
+
+          const spec: Object = {
+            "$schema": "https://vega.github.io/schema/vega-lite/v2.json",
+            "data": {
+              values
+            },
+            "mark": "bar",
+            "encoding": {
+              "x": {
+                "bin": {"maxbins": 10},
+                "field": "close",
+                "type": "quantitative"
+              },
+              "y": {
+                "aggregate": "count",
+                "type": "quantitative"
+              }
+            }
+          };
+          voyagerInst.setSpec(spec);
+        } catch (err) {
+          done.fail(err);
+        }
+
+        setTimeout(() => {
+          try {
+            const shelves = document.querySelectorAll('.encoding-shelf__encoding-shelf');
+            const shelfText = Array.prototype.map.call(shelves, (d: Node) => d.textContent);
+
+            expect(shelfText).toContain('x close');
+            done();
+          } catch (err) {
+            done.fail(err);
+          }
+        }, 100);
+
+      }, 100);
+    });
+  });
+
 
 });

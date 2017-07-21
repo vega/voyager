@@ -81,4 +81,107 @@ describe('Voyager', () => {
     });
 
   });
+
+  describe('vega-lite spec', () => {
+    it('accepts valid spec', done => {
+      const config = {};
+      const data: any = undefined;
+      const store = configureStore();
+
+      const values = [
+        {date: "24-Apr-07", close: "93.24"},
+        {date: "25-Apr-07", close: "95.35"},
+        {date: "26-Apr-07", close: "98.84"},
+        {date: "27-Apr-07", close: "99.92"},
+      ];
+
+      const spec: Object = {
+        "$schema": "https://vega.github.io/schema/vega-lite/v2.json",
+        "data": {
+          values
+        },
+        "mark": "bar",
+        "encoding": {
+          "x": {
+            "bin": {"maxbins": 10},
+            "field": "close",
+            "type": "quantitative"
+          },
+          "y": {
+            "aggregate": "count",
+            "type": "quantitative"
+          }
+        }
+      };
+
+      setTimeout(() => {
+        try {
+          const wrapper = mount(
+            <Provider store={store}>
+              <App
+                config={config}
+                data={data}
+                dispatch={store.dispatch}
+                spec={spec}
+              />
+            </Provider>,
+          );
+
+          setTimeout(() => {
+            try {
+              const fieldList = wrapper.find('.encoding-shelf__encoding-shelf');
+              const fields = fieldList.map(d => d.text());
+
+              expect(fields).toContain('x close');
+              done();
+            } catch (err) {
+              done.fail(err);
+            }
+          }, 200);
+
+        } catch (err) {
+          done.fail(err);
+        }
+      }, 10);
+    });
+
+    it('error on invalid spec', done => {
+      const config = {};
+      const data: any = undefined;
+      const store = configureStore();
+
+      const spec: Object = {
+        "FAIL$schema": "https://vega.github.io/schema/vega-lite/v2.json",
+        "FAILdata": {"url": "node_modules/vega-datasets/data/movies.json"},
+        "FAILmark": "bar",
+        "encoding": {
+        }
+      };
+
+      // This should throw an exception;
+      setTimeout(() => {
+        try {
+          mount(
+            <Provider store={store}>
+              <App
+                config={config}
+                data={data}
+                dispatch={store.dispatch}
+                spec={spec}
+              />
+            </Provider>,
+          );
+
+          done.fail('No exception thrown with invalid spec');
+
+        } catch (err) {
+          expect(true);
+          done();
+        }
+
+      }, 10);
+    });
+
+  });
+
 });

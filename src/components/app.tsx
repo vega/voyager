@@ -1,5 +1,11 @@
 import './app.scss';
 
+import * as Ajv from 'ajv';
+import * as draft4Schemas from 'ajv/lib/refs/json-schema-draft-04.json';
+import {fromSpec} from 'compassql/build/src/query/spec';
+import { FacetedCompositeUnitSpec, isUnitSpec, TopLevel } from 'vega-lite/build/src/spec';
+import * as vlSchema from 'vega-lite/build/vega-lite-schema.json';
+
 import * as React from 'react';
 import {DragDropContext} from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
@@ -11,7 +17,9 @@ import {Data} from 'vega-lite/build/src/data';
 import {datasetLoad, SET_APPLICATION_STATE, SET_CONFIG} from '../actions';
 import {StateBase} from '../models/index';
 
+import {SHELF_SPEC_LOAD} from '../actions/shelf';
 import {VoyagerConfig} from '../models/config';
+import {fromSpecQuery} from '../models/shelf/spec';
 import {DataPane} from './data-pane';
 import {EncodingPane} from './encoding-pane';
 import {Header} from './header';
@@ -24,6 +32,7 @@ interface Props extends React.Props<AppBase> {
   config?: VoyagerConfig;
   data?: Data;
   applicationState?: Readonly<StateBase>;
+  spec?: Object;
   dispatch: Dispatch<StateWithHistory<Readonly<StateBase>>>;
 }
 
@@ -61,7 +70,7 @@ class AppBase extends React.PureComponent<Props, {}> {
   }
 
   private update(nextProps: Props) {
-    const { data, config, applicationState, dispatch } = nextProps;
+    const { data, config, applicationState, dispatch, spec } = nextProps;
     if (data) {
       this.setData(data);
     }
@@ -70,14 +79,19 @@ class AppBase extends React.PureComponent<Props, {}> {
       this.setConfig(config);
     }
 
+    if (spec) {
+      // Note that this will overwrite other passed in props
+      this.setSpec(spec);
+    }
+
     if (applicationState) {
       // Note that this will overwrite other passed in props
       this.setApplicationState(applicationState);
     }
   }
 
-  private setData(data: Data) {
-    this.props.dispatch(datasetLoad("Custom Data", data));
+  private setData(data: Data): any {
+    return this.props.dispatch(datasetLoad("Custom Data", data));
   }
 
   private setConfig(config: VoyagerConfig) {
@@ -87,6 +101,59 @@ class AppBase extends React.PureComponent<Props, {}> {
         config,
       }
     });
+  }
+
+  private setSpec(spec: Object) {
+    const ajv = new Ajv({
+      validateSchema: true,
+      allErrors: true,
+      extendRefs: 'fail'
+    });
+    ajv.addMetaSchema(draft4Schemas, 'http://json-schema.org/draft-04/schema#');
+
+    const validateVl = ajv.compile(vlSchema);
+    const valid = validateVl(spec);
+
+    if (!valid) {
+      throw new Error("Invalid spec:" + validateVl.errors.toString());
+    }
+
+    const validSpec: TopLevel<FacetedCompositeUnitSpec> = spec as TopLevel<FacetedCompositeUnitSpec>;
+
+
+    if (!isUnitSpec(validSpec)) {
+      throw new Error("Voyager does not support layered or multi-view vega-lite specs");
+    }
+
+    if (validSpec.data) {
+      this.setData(validSpec.data)
+        .then(
+          () => {
+            const specQuery = fromSpec(validSpec);
+            const shelfSpec = fromSpecQuery(specQuery);
+
+            this.props.dispatch({
+              type: SHELF_SPEC_LOAD,
+              payload: {
+                spec: shelfSpec,
+              },
+            });
+          },
+          (err: any) => {
+            throw new Error('error setting data for spec:' + err.toString());
+          }
+        );
+    } else {
+      const specQuery = fromSpec(validSpec);
+      const shelfSpec = fromSpecQuery(specQuery);
+
+      this.props.dispatch({
+        type: SHELF_SPEC_LOAD,
+        payload: {
+          spec: shelfSpec,
+        },
+      });
+    }
   }
 
   private setApplicationState(state: Readonly<StateBase>): void {
