@@ -115,7 +115,7 @@ class AppBase extends React.PureComponent<Props, {}> {
     const valid = validateVl(spec);
 
     if (!valid) {
-      throw new Error("Invalid Schema:" + validateVl.errors.toString());
+      throw new Error("Invalid spec:" + validateVl.errors.toString());
     }
 
     const validSpec: TopLevel<FacetedCompositeUnitSpec> = spec as TopLevel<FacetedCompositeUnitSpec>;
@@ -126,8 +126,7 @@ class AppBase extends React.PureComponent<Props, {}> {
     }
 
     if (validSpec.data) {
-      const setDataAction = this.setData(validSpec.data) as Promise<any>;
-      setDataAction
+      this.setData(validSpec.data)
         .then(
           () => {
             const specQuery = fromSpec(validSpec);
@@ -140,7 +139,7 @@ class AppBase extends React.PureComponent<Props, {}> {
               },
             });
           },
-          err => {
+          (err: any) => {
             throw new Error('error setting data for spec:' + err.toString());
           }
         );
