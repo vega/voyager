@@ -2,8 +2,9 @@ import {EncodingQuery, isAutoCountQuery, isValueQuery} from 'compassql/build/src
 import {SpecQuery} from 'compassql/build/src/query/spec';
 import {isWildcard, isWildcardDef, SHORT_WILDCARD} from 'compassql/build/src/wildcard';
 import {Config} from 'vega-lite/build/src/config';
+import {isOneOfFilter, isRangeFilter, OneOfFilter, RangeFilter} from 'vega-lite/build/src/filter';
+import {FilterTransform, isFilter, Transform} from 'vega-lite/build/src/transform';
 import {fromEncodingQueries, ShelfAnyEncodingDef, ShelfMark, SpecificEncoding} from './encoding';
-
 
 /**
  * A model state for the shelf of a unit specification.
@@ -12,9 +13,9 @@ import {fromEncodingQueries, ShelfAnyEncodingDef, ShelfMark, SpecificEncoding} f
  * but provide structure that better serves as internal structure of shelf in Voyager.
  */
 export interface ShelfUnitSpec {
-  mark: ShelfMark;
+  filters: Array<RangeFilter | OneOfFilter>;
 
-  // TODO: add transform
+  mark: ShelfMark;
 
   /**
    * Mapping between specific encoding channels and encoding definitions.
@@ -32,6 +33,7 @@ export interface ShelfUnitSpec {
 
 export function toSpecQuery(spec: ShelfUnitSpec): SpecQuery {
   return {
+    transform: getTransforms(spec.filters),
     mark: spec.mark,
     encodings: specificEncodingsToEncodingQueries(spec.encoding).concat(spec.anyEncodings),
     config: spec.config
@@ -39,13 +41,13 @@ export function toSpecQuery(spec: ShelfUnitSpec): SpecQuery {
 }
 
 export function fromSpecQuery(spec: SpecQuery, oldConfig?: Config): ShelfUnitSpec {
-  const {mark, encodings, config} = spec;
-
+  const {mark, encodings, config, transform} = spec;
   if (isWildcardDef(mark)) {
     throw new Error('Voyager 2 does not support custom wildcard mark yet');
   }
 
   return {
+    filters: getFilters(transform),
     mark,
     ...fromEncodingQueries(encodings),
     config: config || oldConfig
@@ -107,7 +109,33 @@ function specificEncodingsToEncodingQueries(encoding: SpecificEncoding): Encodin
   return encodings;
 }
 
+export function getFilters(transforms: Transform[]): Array<RangeFilter|OneOfFilter> {
+  if (!transforms) {
+    return [];
+  } else {
+    const filters: Array<RangeFilter|OneOfFilter> = [];
+    transforms.map(transform => {
+      if (!isFilter(transform)) {
+        throw new Error('Voyager does not support transforms other than FilterTransform');
+      } else if (!isRangeFilter(transform.filter) && !isOneOfFilter(transform.filter)) {
+        throw new Error('Voyager does not support filters other than RangeFilter and OneOfFilter');
+      }
+      filters.push(transform.filter);
+    });
+    return filters;
+  }
+}
+
+export function getTransforms(filters: Array<RangeFilter|OneOfFilter>) {
+  const transform: FilterTransform[] = [];
+  filters.map(filter => {
+    transform.push({filter: filter});
+  });
+  return transform;
+}
+
 export const DEFAULT_SHELF_UNIT_SPEC: Readonly<ShelfUnitSpec> = {
+  filters: [],
   mark: SHORT_WILDCARD,
   encoding: {},
   anyEncodings: [],

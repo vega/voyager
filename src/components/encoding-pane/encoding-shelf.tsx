@@ -2,17 +2,15 @@ import {isWildcard} from 'compassql/build/src/wildcard';
 import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
 import {ConnectDropTarget, DropTarget, DropTargetCollector, DropTargetSpec} from 'react-dnd';
-import * as TetherComponent from 'react-tether';
-
-import * as styles from './encoding-shelf.scss';
-
 import {ActionHandler} from '../../actions/index';
 import {
   SHELF_FIELD_ADD, SHELF_FIELD_MOVE, SHELF_FIELD_REMOVE, SHELF_FUNCTION_CHANGE, ShelfEncodingAction
 } from '../../actions/shelf';
 import {DraggableType, FieldParentType} from '../../constants';
-import {ShelfFieldDef, ShelfFunction, ShelfId} from '../../models';
+import {ShelfFieldDef, ShelfId} from '../../models';
+import {ShelfFunction} from '../../models/shelf/encoding';
 import {DraggedFieldIdentifier, Field} from '../field/index';
+import * as styles from './encoding-shelf.scss';
 import {FunctionPicker} from './function-picker';
 
 /**
@@ -34,22 +32,7 @@ export interface EncodingShelfPropsBase extends ActionHandler<ShelfEncodingActio
 
 interface EncodingShelfProps extends EncodingShelfPropsBase, EncodingShelfDropTargetProps {};
 
-export interface EncodingShelfState {
-  functionPopupOpen: boolean;
-}
-
-class EncodingShelfBase extends React.PureComponent<EncodingShelfProps, EncodingShelfState> {
-  constructor(props: EncodingShelfProps) {
-    super(props);
-    this.state = {
-      functionPopupOpen: false
-    };
-
-    // Bind - https://facebook.github.io/react/docs/handling-events.html
-    this.onFunctionChange = this.onFunctionChange.bind(this);
-    this.onRemove = this.onRemove.bind(this);
-    this.toggleFunctionPopup = this.toggleFunctionPopup.bind(this);
-  }
+class EncodingShelfBase extends React.PureComponent<EncodingShelfProps, {}> {
 
   public render() {
     const {id, connectDropTarget, fieldDef} = this.props;
@@ -65,64 +48,7 @@ class EncodingShelfBase extends React.PureComponent<EncodingShelfProps, Encoding
     );
   }
 
-  // TODO: consider extracting this to another file
-  private field() {
-    const {id, fieldDef} = this.props;
-
-    const caretHide = !(fieldDef.type === 'quantitative' || fieldDef.type === 'temporal');
-
-    // TODO: apply is over
-    // TODO(https://github.com/vega/voyager/issues/285): support clicking outside popup to disable
-
-    return (
-      <div styleName="field-wrapper">
-        <TetherComponent
-          attachment="top left"
-          targetAttachment="bottom left"
-        >
-          <Field
-            fieldDef={fieldDef}
-            caretOnClick={this.toggleFunctionPopup}
-            caretHide={caretHide}
-            isPill={true}
-            parentId={{type: FieldParentType.ENCODING_SHELF, id: id}}
-            draggable={true}
-            onRemove={this.onRemove}
-          />
-
-          { this.state.functionPopupOpen &&
-            <FunctionPicker fieldDef={fieldDef} onFunctionChange={this.onFunctionChange}/>
-          }
-        </TetherComponent>
-      </div>
-    );
-  }
-
-  private toggleFunctionPopup() {
-    this.setState({
-      functionPopupOpen: !this.state.functionPopupOpen
-    });
-  }
-
-  private fieldPlaceholder() {
-    const {item, isOver} = this.props;
-    return (
-      <span styleName={isOver ? 'placeholder-over' : item ? 'placeholder-active' : 'placeholder'}>
-        Drop a field here
-      </span>
-    );
-  }
-
-  private onRemove() {
-    const {id, handleAction} = this.props;
-
-    handleAction({
-      type: SHELF_FIELD_REMOVE,
-      payload: id
-    });
-  }
-
-  private onFunctionChange(fn: ShelfFunction) {
+  protected onFunctionChange(fn: ShelfFunction) {
     const {id, handleAction} = this.props;
 
     handleAction({
@@ -133,8 +59,48 @@ class EncodingShelfBase extends React.PureComponent<EncodingShelfProps, Encoding
       }
     });
   }
-}
 
+  protected onRemove() {
+    const {id, handleAction} = this.props;
+
+    handleAction({
+      type: SHELF_FIELD_REMOVE,
+      payload: id
+    });
+  }
+
+  private field() {
+    const {id, fieldDef} = this.props;
+    const renderFunctionPicker = fieldDef.type === 'quantitative' || fieldDef.type === 'temporal';
+
+    const functionPicker = renderFunctionPicker ?
+      <FunctionPicker
+        fieldDef={fieldDef}
+        onFunctionChange={this.onFunctionChange.bind(this)}
+      /> : null;
+    return (
+      <div styleName='field-wrapper'>
+        <Field
+          draggable={true}
+          fieldDef={fieldDef}
+          popupComponent={functionPicker}
+          onRemove={this.onRemove.bind(this)}
+          isPill={true}
+          parentId={{type: FieldParentType.ENCODING_SHELF, id: id}}
+        />
+      </div>
+    );
+  }
+
+  private fieldPlaceholder() {
+    const {item, isOver} = this.props;
+    return (
+      <span styleName={isOver ? 'placeholder-over' : item ? 'placeholder-active' : 'placeholder'}>
+        Drop a field here
+      </span>
+    );
+  }
+}
 
 const encodingShelfTarget: DropTargetSpec<EncodingShelfProps> = {
   // TODO: add canDrop
@@ -149,7 +115,9 @@ const encodingShelfTarget: DropTargetSpec<EncodingShelfProps> = {
       case FieldParentType.FIELD_LIST:
         props.handleAction({
           type: SHELF_FIELD_ADD,
-          payload: {shelfId: props.id, fieldDef} // TODO: rename to to:
+          // TODO(https://github.com/vega/voyager/issues/428):
+          // support inserting a field between two existing fields on the wildcard shelf (replace = false)
+          payload: {shelfId: props.id, fieldDef, replace: true}
         });
         break;
       case FieldParentType.ENCODING_SHELF:
@@ -172,7 +140,7 @@ const collect: DropTargetCollector = (connect, monitor): EncodingShelfDropTarget
 };
 
 // HACK: do type casting to suppress compile error for: https://github.com/Microsoft/TypeScript/issues/13526
-export const EncodingShelf: () => React.PureComponent<EncodingShelfPropsBase, EncodingShelfState> =
+export const EncodingShelf: () => React.PureComponent<EncodingShelfPropsBase, {}> =
   DropTarget(DraggableType.FIELD, encodingShelfTarget, collect)(
     CSSModules(EncodingShelfBase, styles)
   ) as any;

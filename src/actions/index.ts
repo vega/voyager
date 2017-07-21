@@ -1,35 +1,48 @@
+import {BookmarkAction} from './bookmark';
 import {ConfigAction} from './config';
 import {DatasetAction} from './dataset';
+import {FilterAction} from './filter';
 import {ResultAction} from './result';
 import {ShelfAction} from './shelf';
 import {ApplicationStateAction} from './state';
 import {UndoableAction} from './undo-redo';
 
-
+export * from './bookmark';
 export * from './config';
 export * from './dataset';
-export * from './result';
+export * from './filter';
 export * from './redux-action';
+export * from './result';
 export * from './shelf';
-export * from './undo-redo';
 export * from './state';
+export * from './undo-redo';
 
 /**
  * Union type of all actions in our application.
  */
-export type Action = DatasetAction | ShelfAction | UndoableAction |
-  ResultAction | ConfigAction | ApplicationStateAction;
+export type Action = BookmarkAction | DatasetAction | ShelfAction | UndoableAction |
+  ResultAction | ConfigAction | ApplicationStateAction | FilterAction;
 
 export type ActionType = Action['type'];
 
 // Use type to enforce that ACTION_TYPE_INDEX contains all action types.
 const ACTION_TYPE_INDEX: {[k in ActionType]: 1} = {
+  BOOKMARK_ADD_PLOT: 1,
+  BOOKMARK_MODIFY_NOTE: 1,
+  BOOKMARK_REMOVE_PLOT: 1,
+
   DATASET_SCHEMA_CHANGE_FIELD_TYPE: 1,
   DATASET_SCHEMA_CHANGE_ORDINAL_DOMAIN: 1,
 
   DATASET_URL_REQUEST: 1,
   DATASET_URL_RECEIVE: 1,
   DATASET_INLINE_RECEIVE: 1,
+
+  FILTER_ADD: 1,
+  FILTER_MODIFY_MAX_BOUND: 1,
+  FILTER_MODIFY_MIN_BOUND: 1,
+  FILTER_MODIFY_ONE_OF: 1,
+  FILTER_REMOVE: 1,
 
   RESULT_RECEIVE: 1,
   RESULT_REQUEST: 1,

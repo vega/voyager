@@ -33,7 +33,10 @@ export function extractPlotObjects(modelGroup: SpecQueryGroup<PlotObject>) {
   });
 }
 
-export function convertToPlotObjectsGroup(modelGroup: SpecQueryModelGroup, data: Data): SpecQueryGroup<PlotObject> {
+export function convertToPlotObjectsGroup(
+  modelGroup: SpecQueryModelGroup,
+  data: Data
+): SpecQueryGroup<PlotObject> {
   const items = modelGroup.items.map(item => {
     if (isSpecQueryGroup<SpecQueryModel>(item)) {
       const childModelGroup = item as SpecQueryModelGroup;

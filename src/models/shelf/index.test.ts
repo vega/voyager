@@ -5,6 +5,7 @@ describe('models/shelf', () => {
     it('makes a query that has an additional fieldQuery with wildcard channel', () => {
       expect(
         autoAddFieldQuery({
+          filters: [],
           mark: 'point',
           encoding: {
             x: {field: 'a', type: 'quantitative'}
@@ -14,6 +15,7 @@ describe('models/shelf', () => {
         }, {field: 'b', type: 'nominal'})
       ).toEqual({
         spec: {
+          transform: [],
           mark: 'point',
           encodings: [
             {channel: 'x', field: 'a', type: 'quantitative'},
@@ -31,6 +33,7 @@ describe('models/shelf', () => {
         'if there is no wildcard', () => {
       expect(toQuery({
         spec: {
+          filters: [],
           mark: 'point',
           encoding: {
             x: {field: 'a', type: 'quantitative'}
@@ -41,6 +44,7 @@ describe('models/shelf', () => {
         specPreview: null
       })).toEqual({
         spec: {
+          transform: [],
           mark: 'point',
           encodings: [
             {channel: 'x', field: 'a', type: 'quantitative'},
@@ -59,6 +63,7 @@ describe('models/shelf', () => {
     it('returns the query that groups by field and auto add count if there is a wildcard field', () => {
       expect(toQuery({
         spec: {
+          filters: [],
           mark: 'point',
           encoding: {
             x: {field: '?', type: 'quantitative'}
@@ -69,6 +74,7 @@ describe('models/shelf', () => {
         specPreview: null
       })).toEqual({
         spec: {
+          transform: [],
           mark: 'point',
           encodings: [
             {channel: 'x', field: '?', type: 'quantitative'},
@@ -88,6 +94,7 @@ describe('models/shelf', () => {
         'if there is a wildcard field and function', () => {
       expect(toQuery({
         spec: {
+          filters: [],
           mark: 'point',
           encoding: {
             x: {aggregate: '?', field: '?', type: 'quantitative'}
@@ -98,6 +105,7 @@ describe('models/shelf', () => {
         specPreview: null
       })).toEqual({
         spec: {
+          transform: [],
           mark: 'point',
           encodings: [
             {channel: 'x', aggregate: '?', field: '?', type: 'quantitative'},

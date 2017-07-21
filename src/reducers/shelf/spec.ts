@@ -12,7 +12,6 @@ import {
   SHELF_SPEC_LOAD
 } from '../../actions/shelf';
 
-
 import {AGGREGATE_OPS} from 'vega-lite/build/src/aggregate';
 import {TIMEUNITS} from 'vega-lite/build/src/timeunit';
 import {isWildcardChannelId} from '../../models';
@@ -20,6 +19,7 @@ import {ShelfAnyEncodingDef, ShelfFieldDef, ShelfFunction, ShelfId, ShelfUnitSpe
 import {autoAddFieldQuery} from '../../models/shelf/index';
 import {DEFAULT_SHELF_UNIT_SPEC, fromSpecQuery} from '../../models/shelf/spec';
 import {toSet} from '../../util';
+import {insertItemToArray, modifyItemInArray, removeItemFromArray} from '../util';
 
 
 export function shelfSpecReducer(shelfSpec: Readonly<ShelfUnitSpec> = DEFAULT_SHELF_UNIT_SPEC,
@@ -38,8 +38,8 @@ export function shelfSpecReducer(shelfSpec: Readonly<ShelfUnitSpec> = DEFAULT_SH
     }
 
     case SHELF_FIELD_ADD: {
-      const {shelfId, fieldDef} = action.payload;
-      return addEncoding(shelfSpec, shelfId, fieldDef);
+      const {shelfId, fieldDef, replace} = action.payload;
+      return addEncoding(shelfSpec, shelfId, fieldDef, replace);
     }
 
     case SHELF_FIELD_AUTO_ADD: {
@@ -80,8 +80,8 @@ export function shelfSpecReducer(shelfSpec: Readonly<ShelfUnitSpec> = DEFAULT_SH
       const {fieldDef: fieldDefFrom, shelf: removedShelf1} = removeEncoding(shelfSpec, from);
       const {fieldDef: fieldDefTo, shelf: removedShelf2} = removeEncoding(removedShelf1, to);
 
-      const addedShelf1 = addEncoding(removedShelf2, to, fieldDefFrom);
-      const addedShelf2 = addEncoding(addedShelf1, from, fieldDefTo);
+      const addedShelf1 = addEncoding(removedShelf2, to, fieldDefFrom, false);
+      const addedShelf2 = addEncoding(addedShelf1, from, fieldDefTo, false);
 
       return addedShelf2;
     }
@@ -130,13 +130,28 @@ function getFunctionMixins(fn: ShelfFunction) {
   return undefined;
 }
 
-function addEncoding(shelf: Readonly<ShelfUnitSpec>, shelfId: ShelfId, fieldDef: ShelfFieldDef) {
+function addEncoding(shelf: Readonly<ShelfUnitSpec>, shelfId: ShelfId, fieldDef: ShelfFieldDef, replace: boolean) {
   if (!fieldDef) {
     return shelf;
   } else if (isWildcardChannelId(shelfId)) {
+    const index = shelfId.index;
+
+    if (replace && shelf.anyEncodings[index]) {
+      return {
+        ...shelf,
+        anyEncodings: modifyItemInArray<ShelfAnyEncodingDef>(shelf.anyEncodings, index, () => {
+          return {
+            channel: SHORT_WILDCARD,
+            ...fieldDef
+          };
+        })
+      };
+    }
+
+    // insert between two pills (not replace!)
     return {
       ...shelf,
-      anyEncodings: insertItemToArray<ShelfAnyEncodingDef>(shelf.anyEncodings, shelfId.index, {
+      anyEncodings: insertItemToArray<ShelfAnyEncodingDef>(shelf.anyEncodings, index, {
         channel: SHORT_WILDCARD,
         ...fieldDef
       })
@@ -210,33 +225,4 @@ function removeEncoding(shelf: Readonly<ShelfUnitSpec>, shelfId: ShelfId):
       }
     };
   }
-}
-
-/**
- * Immutable array splice
- */
-function removeItemFromArray(array: ReadonlyArray<any>, index: number) {
-  return {
-    item: array[index],
-    array: [
-      ...array.slice(0, index),
-      ...array.slice(index + 1)
-    ]
-  };
-}
-
-function insertItemToArray<T>(array: ReadonlyArray<T>, index: number, item: T) {
-  return [
-    ...array.slice(0, index),
-    item,
-    ...array.slice(index)
-  ];
-}
-
-function modifyItemInArray<T>(array: ReadonlyArray<T>, index: number, modifier: (t: Readonly<T>) => T) {
-  return [
-    ...array.slice(0, index),
-    modifier(array[index]),
-    ...array.slice(index + 1)
-  ];
 }

@@ -37,6 +37,10 @@
   version "18.1.1"
   resolved "https://registry.yarnpkg.com/@types/jest/-/jest-18.1.1.tgz#6f63488c64726900885ab9cd5697bb7fa1b416cc"
 
+"@types/json-stable-stringify@^1.0.31":
+  version "1.0.31"
+  resolved "https://registry.yarnpkg.com/@types/json-stable-stringify/-/json-stable-stringify-1.0.31.tgz#b6c7bc507f5267e88cd2839b3ac6a2b39b653a32"
+
 "@types/react-css-modules@^3.7.6":
   version "3.7.6"
   resolved "https://registry.yarnpkg.com/@types/react-css-modules/-/react-css-modules-3.7.6.tgz#101529c8b2d8e4bc4c599e559aa29cfb80a4767a"

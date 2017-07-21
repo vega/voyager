@@ -1,6 +1,6 @@
 {
   "name": "datavoyager",
-  "version": "2.0.0-alpha.4",
+  "version": "2.0.0-alpha.5",
   "description": "",
   "author": {
     "name": "UW Interactive Data Lab",
@@ -38,6 +38,7 @@
   "dependencies": {
     "@types/d3-selection": "^1.1.0",
     "ajv": "^5.2.2",
+    "@types/json-stable-stringify": "^1.0.31",
     "compassql": "^0.18.0",
     "font-awesome": "^4.7.0",
     "font-awesome-sass-loader": "^1.0.3",
@@ -120,7 +121,8 @@
     },
     "testPathIgnorePatterns": [
       "<rootDir>/dist/",
-      "<rootDir>/node_modules/"
+      "<rootDir>/node_modules/",
+      "<rootDir>/build/"
     ],
     "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
     "testResultsProcessor": "<rootDir>/node_modules/ts-jest/coverageprocessor.js",

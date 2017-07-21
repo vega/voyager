@@ -18,7 +18,9 @@ describe('reducers/shelf/spec', () => {
   describe(SHELF_CLEAR, () => {
     it('should return DEFAULT_SHELF_UNIT_SPEC', () => {
       expect(
-        shelfSpecReducer({mark: 'bar', encoding: {}, anyEncodings: [], config: {}}, {type: SHELF_CLEAR}, schema),
+        shelfSpecReducer({
+          mark: 'bar', encoding: {}, anyEncodings: [], config: {}, filters: []
+        }, {type: SHELF_CLEAR}, schema),
       ).toBe(DEFAULT_SHELF_UNIT_SPEC);
     });
   });
@@ -27,7 +29,10 @@ describe('reducers/shelf/spec', () => {
     it('should return shelf spec with new mark', () => {
       const shelfSpec = shelfSpecReducer(
         DEFAULT_SHELF_UNIT_SPEC,
-        {type: SHELF_MARK_CHANGE_TYPE, payload: 'area'},
+        {
+          type: SHELF_MARK_CHANGE_TYPE,
+          payload: 'area'
+        },
         schema
       );
       expect(shelfSpec.mark).toBe('area');
@@ -40,7 +45,11 @@ describe('reducers/shelf/spec', () => {
         DEFAULT_SHELF_UNIT_SPEC,
         {
           type: SHELF_FIELD_ADD,
-          payload: {shelfId: {channel: 'x'}, fieldDef: {field: 'a', type: 'quantitative'}}
+          payload: {
+            shelfId: {channel: 'x'},
+            fieldDef: {field: 'a', type: 'quantitative'},
+            replace: true
+          }
         },
         schema
       );
@@ -52,7 +61,11 @@ describe('reducers/shelf/spec', () => {
         DEFAULT_SHELF_UNIT_SPEC,
         {
           type: SHELF_FIELD_ADD,
-          payload: {shelfId: {channel: SHORT_WILDCARD, index: 0}, fieldDef: {field: 'a', type: 'quantitative'}}
+          payload: {
+            shelfId: {channel: SHORT_WILDCARD, index: 0},
+            fieldDef: {field: 'a', type: 'quantitative'},
+            replace: true
+          }
         },
         schema
       );
@@ -62,12 +75,46 @@ describe('reducers/shelf/spec', () => {
         shelfSpec,
         {
           type: SHELF_FIELD_ADD,
-          payload: {shelfId: {channel: SHORT_WILDCARD, index: 0}, fieldDef: {field: 'b', type: 'quantitative'}}
+          payload: {
+            shelfId: {channel: SHORT_WILDCARD, index: 1},
+            fieldDef: {field: 'b', type: 'quantitative'},
+            replace: true
+          }
+        },
+        schema
+      );
+      expect(insertedShelf.anyEncodings[0]).toEqual({channel: SHORT_WILDCARD, field: 'a', type: 'quantitative'});
+      expect(insertedShelf.anyEncodings[1]).toEqual({channel: SHORT_WILDCARD, field: 'b', type: 'quantitative'});
+    });
+
+    it('should correctly replace field when dragging onto an existing wildcard shelf', () => {
+      const shelfSpec = shelfSpecReducer(
+        DEFAULT_SHELF_UNIT_SPEC,
+        {
+          type: SHELF_FIELD_ADD,
+          payload: {
+            shelfId: {channel: SHORT_WILDCARD, index: 0},
+            fieldDef: {field: 'a', type: 'quantitative'},
+            replace: true
+          }
+        },
+        schema
+      );
+      expect(shelfSpec.anyEncodings[0]).toEqual({channel: SHORT_WILDCARD, field: 'a', type: 'quantitative'});
+
+      const insertedShelf = shelfSpecReducer(
+        shelfSpec,
+        {
+          type: SHELF_FIELD_ADD,
+          payload: {
+            shelfId: {channel: SHORT_WILDCARD, index: 0},
+            fieldDef: {field: 'b', type: 'quantitative'},
+            replace: true
+          }
         },
         schema
       );
       expect(insertedShelf.anyEncodings[0]).toEqual({channel: SHORT_WILDCARD, field: 'b', type: 'quantitative'});
-      expect(insertedShelf.anyEncodings[1]).toEqual({channel: SHORT_WILDCARD, field: 'a', type: 'quantitative'});
     });
   });
 
@@ -78,7 +125,9 @@ describe('reducers/shelf/spec', () => {
         DEFAULT_SHELF_UNIT_SPEC,
         {
           type: SHELF_FIELD_AUTO_ADD,
-          payload: {fieldDef: {field: 'a', type: 'quantitative'}}
+          payload: {
+            fieldDef: {field: 'a', type: 'quantitative'}
+          }
         },
         schema
       );
@@ -100,7 +149,9 @@ describe('reducers/shelf/spec', () => {
         },
         {
           type: SHELF_FIELD_AUTO_ADD,
-          payload: {fieldDef: {field: 'b', type: 'nominal'}}
+          payload: {
+            fieldDef: {field: 'b', type: 'nominal'}
+          }
         },
         schema
       );
@@ -108,7 +159,7 @@ describe('reducers/shelf/spec', () => {
         ...DEFAULT_SHELF_UNIT_SPEC,
         anyEncodings: [
           {channel: SHORT_WILDCARD, field: 'a', type: 'quantitative'},
-         {channel: SHORT_WILDCARD, field: 'b', type: 'nominal'}
+          {channel: SHORT_WILDCARD, field: 'b', type: 'nominal'}
         ]
       });
     });
@@ -118,7 +169,12 @@ describe('reducers/shelf/spec', () => {
         DEFAULT_SHELF_UNIT_SPEC,
         {
           type: SHELF_FIELD_AUTO_ADD,
-          payload: {fieldDef: {field: {enum: ['a', 'b']}, type: 'nominal'}}
+          payload: {
+            fieldDef: {
+              field: {enum: ['a', 'b']},
+              type: 'nominal'
+            }
+          }
         },
         schema
       );
@@ -140,7 +196,10 @@ describe('reducers/shelf/spec', () => {
             x: {field: 'a', type: 'quantitative'}
           }
         },
-        {type: SHELF_FIELD_REMOVE, payload: {channel: 'x'}},
+        {
+          type: SHELF_FIELD_REMOVE,
+          payload: {channel: 'x'}
+        },
         schema
       );
       expect(shelfSpec).toEqual(DEFAULT_SHELF_UNIT_SPEC);
@@ -154,7 +213,13 @@ describe('reducers/shelf/spec', () => {
             {channel: '?', field: 'a', type: 'quantitative'}
           ]
         },
-        {type: SHELF_FIELD_REMOVE, payload: {channel: SHORT_WILDCARD, index: 0}},
+        {
+          type: SHELF_FIELD_REMOVE,
+          payload: {
+            channel: SHORT_WILDCARD,
+            index: 0
+          }
+        },
         schema
       );
       expect(shelfSpec).toEqual(DEFAULT_SHELF_UNIT_SPEC);
@@ -172,7 +237,10 @@ describe('reducers/shelf/spec', () => {
         },
         {
           type: SHELF_FIELD_MOVE,
-          payload: {from: {channel: 'x'}, to: {channel: 'y' }}
+          payload: {
+            from: {channel: 'x'},
+            to: {channel: 'y' }
+          }
         },
         schema
       );
@@ -195,7 +263,10 @@ describe('reducers/shelf/spec', () => {
         },
         {
           type: SHELF_FIELD_MOVE,
-          payload: {from: {channel: 'x'}, to: {channel: 'y' }}
+          payload: {
+            from: {channel: 'x'},
+            to: {channel: 'y' }
+          }
         },
         schema
       );

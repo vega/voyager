@@ -8,11 +8,21 @@ import {DEFAULT_STATE, State, StateBase} from '../models';
 import {SET_CONFIG} from '../actions/config';
 
 import {
+  BOOKMARK_ADD_PLOT,
+  BOOKMARK_MODIFY_NOTE,
+  BOOKMARK_REMOVE_PLOT,
   DATASET_INLINE_RECEIVE,
   DATASET_SCHEMA_CHANGE_FIELD_TYPE,
   DATASET_SCHEMA_CHANGE_ORDINAL_DOMAIN,
   DATASET_URL_RECEIVE,
   DATASET_URL_REQUEST,
+  FILTER_ADD,
+
+  FILTER_MODIFY_MAX_BOUND,
+  FILTER_MODIFY_MIN_BOUND,
+  FILTER_MODIFY_ONE_OF,
+
+  FILTER_REMOVE,
   RESULT_RECEIVE,
   RESULT_REQUEST,
   SET_APPLICATION_STATE,
@@ -29,6 +39,7 @@ import {
 } from '../actions';
 
 import {ActionType} from '../actions';
+import {bookmarkReducer} from './bookmark';
 import {configReducer} from './config';
 import {datasetReducer} from './dataset';
 import {resultReducer} from './result';
@@ -41,6 +52,7 @@ function reducer(state: Readonly<StateBase> = DEFAULT_STATE, action: Action): St
     return stateReducer(state, action);
   } else {
     return {
+      bookmark: bookmarkReducer(state.bookmark, action),
       config: configReducer(state.config, action),
       dataset: datasetReducer(state.dataset, action),
       shelf: shelfReducer(state.shelf, action, state.dataset.schema),
@@ -76,10 +88,21 @@ export const ACTIONS_EXCLUDED_FROM_HISTORY: ActionType[] = [
  * into its own group.
  */
 export const USER_ACTIONS: ActionType[] = [
+  // Bookmark Actions
+  BOOKMARK_ADD_PLOT,
+  BOOKMARK_MODIFY_NOTE,
+  BOOKMARK_REMOVE_PLOT,
+
   // Dataset Actions
   DATASET_SCHEMA_CHANGE_FIELD_TYPE,
   DATASET_SCHEMA_CHANGE_ORDINAL_DOMAIN,
   DATASET_URL_REQUEST,
+  // Filter Actions
+  FILTER_ADD,
+  FILTER_MODIFY_MAX_BOUND,
+  FILTER_MODIFY_MIN_BOUND,
+  FILTER_MODIFY_ONE_OF,
+  FILTER_REMOVE,
   // Shelf Actions,
   SHELF_CLEAR,
   SHELF_MARK_CHANGE_TYPE,
@@ -90,7 +113,7 @@ export const USER_ACTIONS: ActionType[] = [
   SHELF_FUNCTION_CHANGE,
   SHELF_SPEC_LOAD,
   SHELF_SPEC_PREVIEW,
-  SHELF_SPEC_PREVIEW_DISABLE,
+  SHELF_SPEC_PREVIEW_DISABLE
 ];
 
 
