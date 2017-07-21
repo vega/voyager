@@ -13,6 +13,8 @@ import {DraggedFieldIdentifier} from '../field';
 import * as styles from './filter-shelf.scss';
 import {OneOfFilterShelf} from './one-of-filter-shelf';
 import {RangeFilterShelf} from './range-filter-shelf';
+import {TimeUnitFilterShelf} from './time-unit-filter-shelf';
+
 /**
  * Props for react-dnd of FilterShelf
  */
@@ -31,9 +33,19 @@ export interface FilterShelfPropsBase {
   handleAction?: (action: FilterAction) => void;
 }
 
+export interface FilterShelfState {
+  timeUnit: boolean;
+}
+
 interface FilterShelfProps extends FilterShelfDropTargetProps, FilterShelfPropsBase {};
 
-class FilterShelfBase extends React.Component<FilterShelfProps, {}> {
+class FilterShelfBase extends React.Component<FilterShelfProps, FilterShelfState> {
+  public constructor(props: FilterShelfProps) {
+    super(props);
+    this.state = {
+      timeUnit: false
+    };
+  }
 
   public render() {
     const {filters, connectDropTarget} = this.props;
@@ -67,6 +79,14 @@ class FilterShelfBase extends React.Component<FilterShelfProps, {}> {
       <div styleName='filter-shelf' key={index}>
         <div styleName='header'>
           <span>{filter.field}</span>
+            {
+              fieldDef.type === ExpandedType.TEMPORAL ?
+              <a onClick={this.toggleTimeUnit.bind(this)}>
+                {this.state.timeUnit ? 'hide' : 'show'} time unit
+              </a>
+              : null
+            }
+
           <a onClick={this.filterRemove.bind(this, index)}>
             <i className='fa fa-times'/>
           </a>
@@ -79,9 +99,19 @@ class FilterShelfBase extends React.Component<FilterShelfProps, {}> {
   private renderFilter(filter: RangeFilter | OneOfFilter, index: number, domain: any[], type: ExpandedType) {
     const {handleAction} = this.props;
     if (isRangeFilter(filter)) {
-      return <RangeFilterShelf domain={domain} index={index} filter={filter} handleAction={handleAction} type={type}/>;
+      if (this.state.timeUnit) {
+        return (
+          <TimeUnitFilterShelf domain={domain} index={index} field={filter.field} handleAction={handleAction}/>
+        );
+      } else {
+        return (
+          <RangeFilterShelf domain={domain} index={index} filter={filter} handleAction={handleAction} type={type}/>
+        );
+      }
     } else if (isOneOfFilter(filter)) {
-      return <OneOfFilterShelf domain={domain} index={index} filter={filter} handleAction={handleAction}/>;
+      return (
+        <OneOfFilterShelf domain={domain} index={index} filter={filter} handleAction={handleAction}/>
+      );
     }
   }
 
@@ -92,6 +122,12 @@ class FilterShelfBase extends React.Component<FilterShelfProps, {}> {
         Drop a field here
       </span>
     );
+  }
+
+  private toggleTimeUnit() {
+    this.setState({
+      timeUnit: !this.state.timeUnit
+    });
   }
 }
 
