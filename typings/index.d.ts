@@ -11,6 +11,11 @@ declare module '*.css' {
   export = content;
 }
 
+declare module '*.png' {
+  const content: any;
+  export = content;
+}
+
 declare module 'font-awesome-webpack' {
   var x: any;
   export = x;
