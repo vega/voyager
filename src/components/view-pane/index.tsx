@@ -11,7 +11,7 @@ import {State} from '../../models';
 import {Bookmark} from '../../models/bookmark';
 import {extractPlotObjects, PlotObject} from '../../models/plot';
 import {getTransforms, hasWildcards} from '../../models/shelf/spec';
-import {getBookmark, getData, getFilters, getMainResult, getQuery} from '../../selectors';
+import {selectBookmark, selectData, selectFilters, selectMainResult, selectQuery} from '../../selectors';
 import {Plot} from '../plot';
 import {PlotList} from '../plot-list';
 import * as styles from './view-pane.scss';
@@ -68,12 +68,12 @@ class ViewPaneBase extends React.PureComponent<ViewPaneProps, {}> {
 export const ViewPane = connect(
   (state: State) => {
     return {
-      data: getData(state),
-      query: getQuery(state),
-      filters: getFilters(state),
+      data: selectData(state),
+      query: selectQuery(state),
+      filters: selectFilters(state),
       // FIXME: refactor the flow for this part (we should support asynchrounous request for this too)
-      mainResult: getMainResult(state),
-      bookmark: getBookmark(state)
+      mainResult: selectMainResult(state),
+      bookmark: selectBookmark(state)
     };
   },
   createDispatchHandler<ShelfAction>()
