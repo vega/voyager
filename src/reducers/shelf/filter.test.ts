@@ -1,7 +1,7 @@
 
 import {OneOfFilter, RangeFilter} from 'vega-lite/build/src/filter';
 import {
-  FILTER_ADD, FILTER_CLEAR, FILTER_MODIFY_BOTH_BOUNDS, FILTER_MODIFY_MAX_BOUND,
+  FILTER_ADD, FILTER_CLEAR, FILTER_MODIFY_EXTENT, FILTER_MODIFY_MAX_BOUND,
   FILTER_MODIFY_MIN_BOUND, FILTER_MODIFY_ONE_OF, FILTER_REMOVE
 } from '../../actions/filter';
 import {DEFAULT_SHELF_UNIT_SPEC} from '../../models/shelf';
@@ -72,11 +72,11 @@ describe('reducers/shelf/filter', () => {
     });
   });
 
-  describe(FILTER_MODIFY_BOTH_BOUNDS, () => {
+  describe(FILTER_MODIFY_EXTENT, () => {
     it('should modify the min bound and the max bound of the filter at the given index', () => {
       const spec: ShelfUnitSpec = filterReducer(simpleSpec,
         {
-          type: FILTER_MODIFY_BOTH_BOUNDS,
+          type: FILTER_MODIFY_EXTENT,
           payload: {
             index: 0,
             range: [100, 1000]

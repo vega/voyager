@@ -2,7 +2,7 @@ import {DateTime} from 'vega-lite/build/src/datetime';
 import {OneOfFilter, RangeFilter} from 'vega-lite/build/src/filter';
 import {PlainReduxAction, ReduxAction} from './redux-action';
 
-export type FilterAction = FilterAdd | FilterClear | FilterRemove | FilterModifyBothBounds| FilterModifyMinBound |
+export type FilterAction = FilterAdd | FilterClear | FilterRemove | FilterModifyExtent| FilterModifyMinBound |
 FilterModifyMaxBound | FilterModifyOneOf;
 
 export const FILTER_ADD = 'FILTER_ADD';
@@ -19,8 +19,8 @@ export type FilterRemove = ReduxAction<typeof FILTER_REMOVE, {
 export const FILTER_CLEAR = 'FILTER_CLEAR';
 export type FilterClear = PlainReduxAction<typeof FILTER_CLEAR>;
 
-export const FILTER_MODIFY_BOTH_BOUNDS = 'FILTER_MODIFY_BOTH_BOUNDS';
-export type FilterModifyBothBounds = ReduxAction<typeof FILTER_MODIFY_BOTH_BOUNDS, {
+export const FILTER_MODIFY_EXTENT = 'FILTER_MODIFY_EXTENT';
+export type FilterModifyExtent = ReduxAction<typeof FILTER_MODIFY_EXTENT, {
   range: number[] | DateTime[],
   index: number
 }>;

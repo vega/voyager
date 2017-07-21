@@ -4,8 +4,9 @@ import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
 import {DateTime} from 'vega-lite/build/src/datetime';
 import {RangeFilter} from 'vega-lite/build/src/filter';
-import {FILTER_MODIFY_BOTH_BOUNDS, FILTER_MODIFY_MAX_BOUND, FILTER_MODIFY_MIN_BOUND,
-  FilterAction} from '../../actions/filter';
+import {
+  FILTER_MODIFY_EXTENT, FILTER_MODIFY_MAX_BOUND, FILTER_MODIFY_MIN_BOUND, FilterAction
+} from '../../actions/filter';
 import * as styles from './range-filter-shelf.scss';
 
 export interface RangeFilterShelfProps {
@@ -33,30 +34,31 @@ class RangeFilterShelfBase extends React.Component<RangeFilterShelfProps, {}> {
     const createSliderWithTooltip = Slider.createSliderWithTooltip;
     const Range = createSliderWithTooltip(Slider.Range);
 
+    // TODO: https://github.com/vega/voyager/issues/443: use the time formatter Vega derives from D3
     function formatTime(value: number) {
       if (type === ExpandedType.TEMPORAL) {
         return new Date(value).toString();
       }
       return value;
     }
-
+    // TODO: https://github.com/vega/voyager/issues/444: use date time picker for temporal filter
     return (
       <div styleName='range-filter-pane'>
         <div>
           <div styleName='bound'>
-            min: <a onClick={this.focusInput.bind(this, `${filter.field}min`)}><i className="fa fa-pencil"/></a>
+            min: <a onClick={this.focusInput.bind(this, `${filter.field}_min`)}><i className="fa fa-pencil"/></a>
             <input
               id={`${filter.field}min`}
-              type='text'
+              type='number'
               value={currMin.toString()}
               onChange={this.filterModifyMinBound.bind(this)}
             />
           </div>
           <div styleName='bound'>
-            max: <a onClick={this.focusInput.bind(this, `${filter.field}max`)}><i className="fa fa-pencil"/></a>
+            max: <a onClick={this.focusInput.bind(this, `${filter.field}_max`)}><i className="fa fa-pencil"/></a>
             <input
               id={`${filter.field}max`}
-              type='text'
+              type='number'
               value={currMax.toString()}
               onChange={this.filterModifyMaxBound.bind(this)}
             />
@@ -67,17 +69,17 @@ class RangeFilterShelfBase extends React.Component<RangeFilterShelfProps, {}> {
           defaultValue={[Number(currMin), Number(currMax)]}
           min={lowerBound}
           max={upperBound}
-          onAfterChange={this.filterModifyBothBounds.bind(this)}
+          onAfterChange={this.filterModifyExtent.bind(this)}
           tipFormatter={formatTime}
         />
       </div>
     );
   }
 
-  protected filterModifyBothBounds(range: number[]) {
+  protected filterModifyExtent(range: number[]) {
     const {handleAction, index} = this.props;
     handleAction({
-      type: FILTER_MODIFY_BOTH_BOUNDS,
+      type: FILTER_MODIFY_EXTENT,
       payload: {
         index,
         range

@@ -1,7 +1,7 @@
 import {ExpandedType} from 'compassql/build/src/query/expandedtype';
 import {OneOfFilter, RangeFilter} from 'vega-lite/build/src/filter';
 import {
-  FILTER_ADD, FILTER_CLEAR, FILTER_MODIFY_BOTH_BOUNDS, FILTER_MODIFY_MAX_BOUND, FILTER_MODIFY_MIN_BOUND,
+  FILTER_ADD, FILTER_CLEAR, FILTER_MODIFY_EXTENT, FILTER_MODIFY_MAX_BOUND, FILTER_MODIFY_MIN_BOUND,
   FILTER_MODIFY_ONE_OF, FILTER_REMOVE
 } from '../../actions/filter';
 import {Action} from '../../actions/index';
@@ -44,7 +44,7 @@ export function filterReducer(shelfSpec: Readonly<ShelfUnitSpec> = DEFAULT_SHELF
         filters
       };
     }
-    case FILTER_MODIFY_BOTH_BOUNDS: {
+    case FILTER_MODIFY_EXTENT: {
       const {index, range} = action.payload;
       const min = range[0];
       const max = range[range.length - 1];
