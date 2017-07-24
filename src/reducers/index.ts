@@ -13,11 +13,9 @@ import {
   DATASET_URL_RECEIVE,
   DATASET_URL_REQUEST,
   FILTER_ADD,
-
   FILTER_MODIFY_MAX_BOUND,
   FILTER_MODIFY_MIN_BOUND,
   FILTER_MODIFY_ONE_OF,
-
   FILTER_REMOVE,
   RESULT_RECEIVE,
   RESULT_REQUEST,
@@ -35,6 +33,7 @@ import {
 } from '../actions';
 
 import {ActionType} from '../actions';
+import {FILTER_CLEAR, FILTER_MODIFY_EXTENT} from '../actions/filter';
 import {configReducer} from './config';
 import {datasetReducer} from './dataset';
 import {resultReducer} from './result';
@@ -87,6 +86,8 @@ export const USER_ACTIONS: ActionType[] = [
   DATASET_URL_REQUEST,
   // Filter Actions
   FILTER_ADD,
+  FILTER_CLEAR,
+  FILTER_MODIFY_EXTENT,
   FILTER_MODIFY_MAX_BOUND,
   FILTER_MODIFY_MIN_BOUND,
   FILTER_MODIFY_ONE_OF,

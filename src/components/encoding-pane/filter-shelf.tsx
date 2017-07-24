@@ -1,5 +1,7 @@
 import {FieldQuery} from 'compassql/build/src/query/encoding';
+import {ExpandedType} from 'compassql/build/src/query/expandedtype';
 import {Schema} from 'compassql/build/src/schema';
+import {isWildcard} from 'compassql/build/src/wildcard';
 import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
 import {ConnectDropTarget, DropTarget, DropTargetCollector, DropTargetSpec} from 'react-dnd';
@@ -11,7 +13,6 @@ import {DraggedFieldIdentifier} from '../field';
 import * as styles from './filter-shelf.scss';
 import {OneOfFilterShelf} from './one-of-filter-shelf';
 import {RangeFilterShelf} from './range-filter-shelf';
-
 /**
  * Props for react-dnd of FilterShelf
  */
@@ -60,24 +61,25 @@ class FilterShelfBase extends React.Component<FilterShelfProps, {}> {
   private renderFilterShelf(filter: RangeFilter | OneOfFilter, index: number) {
     const {fieldDefs, schema} = this.props;
     const fieldIndex = schema.fieldNames().indexOf(filter.field);
-    const domain = schema.domain(fieldDefs[fieldIndex] as FieldQuery);
+    const fieldDef = fieldDefs[fieldIndex];
+    const domain = schema.domain(fieldDef as FieldQuery);
     return (
-      <div styleName='filter-shelf' key={filter.field}>
+      <div styleName='filter-shelf' key={index}>
         <div styleName='header'>
           <span>{filter.field}</span>
           <a onClick={this.filterRemove.bind(this, index)}>
             <i className='fa fa-times'/>
           </a>
         </div>
-        {this.renderFilter(filter, index, domain)}
+        {this.renderFilter(filter, index, domain, fieldDef.type)}
       </div>
     );
   }
 
-  private renderFilter(filter: RangeFilter | OneOfFilter, index: number, domain: any[]) {
+  private renderFilter(filter: RangeFilter | OneOfFilter, index: number, domain: any[], type: ExpandedType) {
     const {handleAction} = this.props;
     if (isRangeFilter(filter)) {
-      return <RangeFilterShelf domain={domain} index={index} filter={filter} handleAction={handleAction}/>;
+      return <RangeFilterShelf domain={domain} index={index} filter={filter} handleAction={handleAction} type={type}/>;
     } else if (isOneOfFilter(filter)) {
       return <OneOfFilterShelf domain={domain} index={index} filter={filter} handleAction={handleAction}/>;
     }
@@ -99,7 +101,7 @@ const filterShelfTarget: DropTargetSpec<FilterShelfProps> = {
       return;
     }
     const {filter} = monitor.getItem() as DraggedFieldIdentifier;
-    if (filter.field === '?') {
+    if (isWildcard(filter.field)) {
       throw new Error ('Cannot add wildcard filter');
     }
     props.handleAction({

@@ -1,7 +1,8 @@
 import {ExpandedType} from 'compassql/build/src/query/expandedtype';
 import {OneOfFilter, RangeFilter} from 'vega-lite/build/src/filter';
 import {
-  FILTER_ADD, FILTER_MODIFY_MAX_BOUND, FILTER_MODIFY_MIN_BOUND, FILTER_MODIFY_ONE_OF, FILTER_REMOVE
+  FILTER_ADD, FILTER_CLEAR, FILTER_MODIFY_EXTENT, FILTER_MODIFY_MAX_BOUND, FILTER_MODIFY_MIN_BOUND,
+  FILTER_MODIFY_ONE_OF, FILTER_REMOVE
 } from '../../actions/filter';
 import {Action} from '../../actions/index';
 import {ShelfFieldDef} from '../../models/shelf/encoding';
@@ -28,9 +29,35 @@ export function filterReducer(shelfSpec: Readonly<ShelfUnitSpec> = DEFAULT_SHELF
         filters
       };
     }
+    case FILTER_CLEAR: {
+      const filters: RangeFilter[] | OneOfFilter[] = [];
+      return {
+        ...shelfSpec,
+        filters
+      };
+    }
     case FILTER_REMOVE: {
       const {index} = action.payload;
       const filters = removeItemFromArray(shelfSpec.filters, index).array;
+      return {
+        ...shelfSpec,
+        filters
+      };
+    }
+    case FILTER_MODIFY_EXTENT: {
+      const {index, range} = action.payload;
+      const min = range[0];
+      const max = range[range.length - 1];
+      if (min > max) {
+        throw new Error('Invalid bound');
+      }
+      const modifier = (filter: RangeFilter) => {
+        return {
+          ...filter,
+          range
+        };
+      };
+      const filters = modifyItemInArray(shelfSpec.filters, index, modifier);
       return {
         ...shelfSpec,
         filters

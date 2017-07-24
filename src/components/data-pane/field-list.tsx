@@ -1,4 +1,3 @@
-
 import {FieldQuery} from 'compassql/build/src/query/encoding';
 import {Schema} from 'compassql/build/src/schema';
 import * as React from 'react';

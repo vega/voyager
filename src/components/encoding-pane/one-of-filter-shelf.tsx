@@ -77,7 +77,7 @@ class OneOfFilterShelfBase extends React.Component<OneOfFilterShelfProps, OneOfF
       type: FILTER_MODIFY_ONE_OF,
       payload: {
         index,
-        oneOf: oneOf
+        oneOf
       }
     });
   }
