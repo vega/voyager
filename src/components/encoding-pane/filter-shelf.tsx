@@ -82,7 +82,9 @@ class FilterShelfBase extends React.Component<FilterShelfProps, FilterShelfState
             {
               fieldDef.type === ExpandedType.TEMPORAL ?
               <a onClick={this.toggleTimeUnit.bind(this)}>
-                {this.state.timeUnit ? 'hide' : 'show'} time unit
+                <span styleName='toggle-time-unit'>
+                  {this.state.timeUnit ? 'hide' : 'show'} time unit
+                </span>
               </a>
               : null
             }
@@ -101,7 +103,7 @@ class FilterShelfBase extends React.Component<FilterShelfProps, FilterShelfState
     if (isRangeFilter(filter)) {
       if (this.state.timeUnit) {
         return (
-          <TimeUnitFilterShelf domain={domain} index={index} field={filter.field} handleAction={handleAction}/>
+          <TimeUnitFilterShelf domain={domain} index={index} filter={filter} field={filter.field} handleAction={handleAction}/>
         );
       } else {
         return (

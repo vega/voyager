@@ -28,3 +28,14 @@ $radius: 3px;
   background-color: rgba(237,237,237,.8);
   padding: 3px;
 }
+
+.toggle-time-unit {
+  padding: 2px 3px 1px;
+  border-radius: $radius;
+
+  &:hover {
+    cursor: pointer;
+    color: #fff;
+    background-color: #999;
+  }
+}
