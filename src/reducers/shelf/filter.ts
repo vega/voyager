@@ -2,7 +2,7 @@ import {ExpandedType} from 'compassql/build/src/query/expandedtype';
 import {OneOfFilter, RangeFilter} from 'vega-lite/build/src/filter';
 import {
   FILTER_ADD, FILTER_CLEAR, FILTER_MODIFY_EXTENT, FILTER_MODIFY_MAX_BOUND, FILTER_MODIFY_MIN_BOUND,
-  FILTER_MODIFY_ONE_OF, FILTER_REMOVE
+  FILTER_MODIFY_ONE_OF, FILTER_MODIFY_TIME_UNIT, FILTER_REMOVE
 } from '../../actions/filter';
 import {Action} from '../../actions/index';
 import {ShelfFieldDef} from '../../models/shelf/encoding';
@@ -106,6 +106,20 @@ export function filterReducer(shelfSpec: Readonly<ShelfUnitSpec> = DEFAULT_SHELF
         return {
           ...filter,
           oneOf: oneOf
+        };
+      };
+      const filters = modifyItemInArray(shelfSpec.filters, index, modifier);
+      return {
+        ...shelfSpec,
+        filters
+      };
+    }
+    case FILTER_MODIFY_TIME_UNIT: {
+      const {index, timeUnit} = action.payload;
+      const modifier = (filter: RangeFilter) => {
+        return {
+          ...filter,
+          timeUnit
         };
       };
       const filters = modifyItemInArray(shelfSpec.filters, index, modifier);

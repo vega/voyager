@@ -1,8 +1,9 @@
 
 import {OneOfFilter, RangeFilter} from 'vega-lite/build/src/filter';
+import {TimeUnit} from 'vega-lite/build/src/timeunit';
 import {
   FILTER_ADD, FILTER_CLEAR, FILTER_MODIFY_EXTENT, FILTER_MODIFY_MAX_BOUND,
-  FILTER_MODIFY_MIN_BOUND, FILTER_MODIFY_ONE_OF, FILTER_REMOVE
+  FILTER_MODIFY_MIN_BOUND, FILTER_MODIFY_ONE_OF, FILTER_MODIFY_TIME_UNIT, FILTER_REMOVE
 } from '../../actions/filter';
 import {DEFAULT_SHELF_UNIT_SPEC} from '../../models/shelf';
 import {ShelfFieldDef} from '../../models/shelf/encoding';
@@ -158,6 +159,22 @@ describe('reducers/shelf/filter', () => {
       const domain: any[] = [0, 1];
       const filter = getFilter(fieldDef, domain);
       expect(filter).toEqual(rangeFilter);
+    });
+  });
+
+  describe(FILTER_MODIFY_TIME_UNIT, () => {
+    it('should add an time unit to the current filter', () => {
+      const spec: ShelfUnitSpec = filterReducer(simpleSpec,
+        {
+          type: FILTER_MODIFY_TIME_UNIT,
+          payload: {
+            index: 0,
+            timeUnit: TimeUnit.YEAR
+          }
+        });
+      expect(spec.filters).toEqual([
+        {field: 'q1', range: [0, 1], timeUnit: TimeUnit.YEAR}, oneOfFilter
+      ]);
     });
   });
 });

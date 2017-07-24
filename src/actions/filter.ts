@@ -1,9 +1,10 @@
 import {DateTime} from 'vega-lite/build/src/datetime';
 import {OneOfFilter, RangeFilter} from 'vega-lite/build/src/filter';
+import {TimeUnit} from 'vega-lite/build/src/timeunit';
 import {PlainReduxAction, ReduxAction} from './redux-action';
 
 export type FilterAction = FilterAdd | FilterClear | FilterRemove | FilterModifyExtent| FilterModifyMinBound |
-FilterModifyMaxBound | FilterModifyOneOf;
+FilterModifyMaxBound | FilterModifyOneOf | FilterModifyTimeUnit;
 
 export const FILTER_ADD = 'FILTER_ADD';
 export type FilterAdd = ReduxAction<typeof FILTER_ADD, {
@@ -40,5 +41,11 @@ export type FilterModifyMaxBound = ReduxAction<typeof FILTER_MODIFY_MAX_BOUND, {
 export const FILTER_MODIFY_ONE_OF = 'FILTER_MODIFY_ONE_OF';
 export type FilterModifyOneOf = ReduxAction<typeof FILTER_MODIFY_ONE_OF, {
   oneOf: string[] | number[] | boolean[] | DateTime[],
+  index: number
+}>;
+
+export const FILTER_MODIFY_TIME_UNIT = 'FILTER_MODIFY_TIME_UNIT';
+export type FilterModifyTimeUnit = ReduxAction<typeof FILTER_MODIFY_TIME_UNIT, {
+  timeUnit: TimeUnit,
   index: number
 }>;

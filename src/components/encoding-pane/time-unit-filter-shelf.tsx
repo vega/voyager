@@ -1,12 +1,12 @@
-import {ExpandedType} from 'compassql/build/src/query/expandedtype';
+
 import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
 import * as TetherComponent from 'react-tether';
 import {DateTime} from 'vega-lite/build/src/datetime';
 import {convert, TimeUnit} from 'vega-lite/build/src/timeunit';
-import {FILTER_MODIFY_MAX_BOUND, FILTER_MODIFY_MIN_BOUND, FilterAction} from '../../actions/filter';
+import {FILTER_MODIFY_MAX_BOUND, FILTER_MODIFY_MIN_BOUND, FILTER_MODIFY_TIME_UNIT,
+  FilterAction} from '../../actions/filter';
 import {ActionHandler} from '../../actions/redux-action';
-import {RangeFilterShelf} from './range-filter-shelf';
 import * as styles from './time-unit-filter-shelf.scss';
 
 export interface TimeUnitFilterShelfProps extends ActionHandler<FilterAction> {
@@ -16,21 +16,32 @@ export interface TimeUnitFilterShelfProps extends ActionHandler<FilterAction> {
 }
 
 export interface TimeUnitFilterShelfState {
+  minBound: number;
+  maxBound: number;
   timeUnitChangerIsOpened: boolean;
   selectedTimeUnit: string;
 }
 
 class TimeUnitFilterShelfBase extends React.Component<TimeUnitFilterShelfProps, TimeUnitFilterShelfState> {
-  public constructor(props: TimeUnitFilterShelfProps) {
+  constructor(props: TimeUnitFilterShelfProps) {
     super(props);
     this.state = ({
+      minBound: Number(props.domain[0]),
+      maxBound: Number(props.domain[1]),
       timeUnitChangerIsOpened: false,
-      selectedTimeUnit: 'milliseconds' // set the default to milliseconds???
+      selectedTimeUnit: TimeUnit.MILLISECONDS // set the default to milliseconds???
     });
+
+    this.filterModifyMinBound = this.filterModifyMinBound.bind(this);
+    this.filterModifyMaxBound = this.filterModifyMaxBound.bind(this);
+    this.filterModifyTimeUnit = this.filterModifyTimeUnit.bind(this);
+  }
+
+  public componentWillMount() {
+    this.filterModifyTimeUnit(this.state.selectedTimeUnit);
   }
 
   public render() {
-    const {domain, handleAction, index} = this.props;
     return (
       <div>
         <TetherComponent
@@ -38,86 +49,141 @@ class TimeUnitFilterShelfBase extends React.Component<TimeUnitFilterShelfProps, 
           targetAttachment="bottom left"
         >
           <div>
-            Select time unit
+            Time Unit: {this.state.selectedTimeUnit}
             <a onClick={this.toggleTimeUnitChanger.bind(this)}>
               <i className='fa fa-caret-down'/>
             </a>
           </div>
           {this.state.timeUnitChangerIsOpened ? this.renderTimeUnitChanger() : null}
         </TetherComponent>
-        <RangeFilterShelf
-          domain={domain}
-          filter={this.constructTimeUnitFilter()}
-          index={index}
-          type={ExpandedType.TEMPORAL}
-          handleAction={handleAction}
-        />
+        <div>
+          min: {this.renderOptions(this.getRange(), 'min')}
+          max: {this.renderOptions(this.getRange(), 'max')}
+        </div>
       </div>
     );
   }
 
   protected filterModifyMaxBound(e: any) {
-    const value = e.target.value;
-    if (isNaN(value)) {
-      throw new Error('Max bound must be a valid number');
+    let maxBound;
+    if (e.hasOwnProperty('target')) {
+      maxBound = e.target.value;
+    } else {
+      maxBound = e;
     }
     const {handleAction, index} = this.props;
     handleAction({
       type: FILTER_MODIFY_MAX_BOUND,
       payload: {
         index,
-        maxBound: value
+        maxBound
       }
     });
   }
 
   protected filterModifyMinBound(e: any) {
-    const value = e.target.value;
-    if (isNaN(value)) {
-      throw new Error('Min bound must be a valid number');
+    let minBound;
+    if (e.hasOwnProperty('target')) {
+      minBound = e.target.value;
+    } else {
+      e = minBound;
     }
     const {handleAction, index} = this.props;
     handleAction({
       type: FILTER_MODIFY_MIN_BOUND,
       payload: {
         index,
-        minBound: value
+        minBound
       }
     });
   }
-  private toggleTimeUnitChanger() {
-    this.setState({
-      timeUnitChangerIsOpened: !this.state.timeUnitChangerIsOpened
+
+  protected filterModifyTimeUnit(e: any) {
+    let timeUnit;
+    if (e.hasOwnProperty('target')) {
+      timeUnit = e.target.value;
+    } else {
+      timeUnit = e;
+    }
+    const {handleAction, index} = this.props;
+    handleAction({
+      type: FILTER_MODIFY_TIME_UNIT,
+      payload: {
+        index,
+        timeUnit
+      }
     });
   }
 
   private renderTimeUnitChanger() {
     const timeUnitChanger = this.getAllTimeUnit().map(timeUnit => {
       return (
-        <label key={timeUnit}>
-          <input
-            name='timeUnit'
-            type="radio"
-            value={timeUnit}
-            selected={this.state.selectedTimeUnit === timeUnit}
-            onChange={this.onTimeUnitChange.bind(this)}
-          />
-          {' '}
-          {timeUnit}
-        </label>
+        <div>
+          <label key={timeUnit}>
+            <input
+              name='timeUnit'
+              type="radio"
+              value={timeUnit}
+              checked={this.state.selectedTimeUnit === timeUnit}
+              onChange={this.onTimeUnitChange.bind(this)}
+            />
+            {' '}
+            {timeUnit}
+          </label>
+        </div>
       );
     });
     return (
       <div styleName='time-unit-changer'>
+        <a onClick={this.toggleTimeUnitChanger.bind(this)}>
+            <i className='fa fa-close'/>
+        </a>
         {timeUnitChanger}
       </div>
     );
   }
 
-  private onTimeUnitChange(e: any) {
+  private renderOptions(options: number[], bound: 'min' | 'max') {
+    let onChangeAction: any, selectedBound;
+    if (bound === 'min') {
+      onChangeAction = this.filterModifyMinBound;
+      selectedBound = this.state.minBound;
+    } else if (bound === 'max') {
+      onChangeAction = this.filterModifyMaxBound;
+      selectedBound = this.state.maxBound;
+    }
+    const optionsPane = [];
+    for (let i = options[0]; i <= options[1]; i++) {
+      optionsPane.push(
+        <option value={i} key={i} defaultValue={selectedBound.toString()}>
+          {i}
+        </option>
+      );
+    }
+    return (
+      <select onChange={onChangeAction}>
+        {optionsPane}
+      </select>
+    );
+  }
+
+  private toggleTimeUnitChanger() {
     this.setState({
-      selectedTimeUnit: e.target.value
+      timeUnitChangerIsOpened: !this.state.timeUnitChangerIsOpened
     });
+  }
+
+  private onTimeUnitChange(e: any) {
+    const minBound = this.getRange()[0];
+    const maxBound = this.getRange()[1];
+    this.setState({
+      selectedTimeUnit: e.target.value,
+      minBound,
+      maxBound
+    });
+    this.filterModifyTimeUnit(e);
+    this.filterModifyMinBound(minBound);
+    this.filterModifyMaxBound(maxBound);
   }
 
   private getAllTimeUnit() {
@@ -142,90 +208,24 @@ class TimeUnitFilterShelfBase extends React.Component<TimeUnitFilterShelfProps, 
       case 'year':
         return [startDate.getFullYear(), endDate.getFullYear()];
       case 'month':
-        return [startDate.getMonth(), endDate.getMonth()];
+        return [1, 12];
       case 'quarter':
-        return; // todo
+        return [1, 4];
       case 'date':
-        return [startDate.getDate(), endDate.getDate()];
+        return [1, 31];
       case 'day':
-        return [startDate.getDay(), endDate.getDay()];
+        return [1, 7];
       case 'hours':
-        return [startDate.getHours(), endDate.getHours()];
+        return [0, 23];
       case 'minutes':
-        return;
+        return [0, 59];
       case 'seconds':
-        return;
+        return [0, 59];
       case 'milliseconds':
-        return;
+        return [0, 99];
       default:
         throw new Error ('Invalid time unit ' + timeUnit);
     }
-  }
-
-  private constructTimeUnitFilter() {
-    const timeUnit = this.state.selectedTimeUnit as TimeUnit;
-    return {
-      timeUnit,
-      field: this.props.field,
-      range: this.getRange()
-    };
-  }
-
-  private renderTimeUnitSelection() {
-    const timeUnit = this.state.selectedTimeUnit as TimeUnit;
-    switch (timeUnit) {
-      case 'yearmonthdate':
-        return;
-      case 'year':
-        return;
-      case 'month':
-        return ;
-      case 'quarter':
-        return ; // todo
-      case 'date':
-        return ;
-      case 'day':
-        return ;
-      case 'hours':
-        return;
-      case 'minutes':
-        return;
-      case 'seconds':
-        return;
-      case 'milliseconds':
-        return;
-      default:
-        throw new Error ('Invalid time unit ' + timeUnit);
-    }
-  }
-
-  private renderOptions(options: string[], bound: string) {
-    let onChange: () => void;
-    if (bound === 'min') {
-      onChange = this.filterModifyMinBound.bind(this);
-    } else if (bound === 'max') {
-      onChange = this.filterModifyMaxBound.bind(this);
-    }
-
-    const optionsPane = options.map(option => {
-      return (
-        <label>
-          <input name={this.props.field} value={option} onChange={onChange}/>
-          {` ${option}`}
-        </label>
-      );
-    });
-    return (
-      <div>
-        {optionsPane}
-      </div>
-    );
-  }
-
-
-
-  private changeBound(e: any) {
-    console.log(e.target.value);
   }
 }
 
