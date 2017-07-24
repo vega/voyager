@@ -45,6 +45,11 @@ declare module 'rc-slider' {
   export const createSliderWithTooltip: any;
 }
 
+declare module 'react-date-time' {
+  const DateTimePicker: any;
+  export = DateTimePicker;
+}
+
 interface Process {
   env: any;
 }
