@@ -41,8 +41,8 @@ class RangeFilterShelfBase extends React.Component<RangeFilterShelfProps, RangeF
   public render() {
     const {domain, filter, type} = this.props;
     const range = filter.range;
-    const lowerBound = Math.floor(domain[0] as number);
-    const upperBound = Math.ceil(domain[1] as number);
+    const lowerBound = Math.floor(Number(domain[0]));
+    const upperBound = Math.ceil(Number(domain[1]));
     let currMin, currMax, picker;
     if (type === ExpandedType.TEMPORAL) {
       currMin = new Date(range[0]);
@@ -58,8 +58,8 @@ class RangeFilterShelfBase extends React.Component<RangeFilterShelfProps, RangeF
       currMax = range[1];
       picker = (
         <div>
-          {this.renderQuantitativeInput('min', Number(currMin))} {/**TODO: remove Number(currMin) and Number(currMax)*/}
-          {this.renderQuantitativeInput('max', Number(currMax))}
+          {this.renderQuantitativeInput(Number(currMin), 'min')}
+          {this.renderQuantitativeInput(Number(currMax), 'max')}
         </div>
       );
     }
@@ -92,7 +92,13 @@ class RangeFilterShelfBase extends React.Component<RangeFilterShelfProps, RangeF
     });
   }
 
-  protected filterModifyMaxBound(maxBound: number | DateTime) {
+  protected filterModifyMaxBound(e: any) {
+    let maxBound;
+    if (e.hasOwnProperty('target')) {
+      maxBound = e.target.value;
+    } else {
+      maxBound = e;
+    }
     const {handleAction, index} = this.props;
     handleAction({
       type: FILTER_MODIFY_MAX_BOUND,
@@ -103,7 +109,13 @@ class RangeFilterShelfBase extends React.Component<RangeFilterShelfProps, RangeF
     });
   }
 
-  protected filterModifyMinBound(minBound: number | DateTime) {
+  protected filterModifyMinBound(e: any) {
+    let minBound;
+    if (e.hasOwnProperty('target')) {
+      minBound = e.target.value;
+    } else {
+      minBound = e;
+    }
     const {handleAction, index} = this.props;
     handleAction({
       type: FILTER_MODIFY_MIN_BOUND,
@@ -114,7 +126,7 @@ class RangeFilterShelfBase extends React.Component<RangeFilterShelfProps, RangeF
     });
   }
 
-  private renderQuantitativeInput(bound: 'min' | 'max', value: number) {
+  private renderQuantitativeInput(value: number, bound: 'min' | 'max') {
     const {filter} = this.props;
     let action;
     if (bound === 'min') {
@@ -124,7 +136,7 @@ class RangeFilterShelfBase extends React.Component<RangeFilterShelfProps, RangeF
     }
     return (
       <div styleName='bound'>
-        {bound}: <a onClick={this.focusInput.bind(this, `${filter.field}_min`)}><i className="fa fa-pencil"/></a>
+        {bound}: <a onClick={this.focusInput.bind(this, `${filter.field}_${bound}`)}><i className="fa fa-pencil"/></a>
         <input
           id={`${filter.field}_${bound}`}
           type='number'
