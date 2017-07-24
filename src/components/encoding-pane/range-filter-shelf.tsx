@@ -8,8 +8,8 @@ import {DateTime} from 'vega-lite/build/src/datetime';
 import {RangeFilter} from 'vega-lite/build/src/filter';
 import {FILTER_MODIFY_EXTENT, FILTER_MODIFY_MAX_BOUND, FILTER_MODIFY_MIN_BOUND,
   FilterAction} from '../../actions/filter';
-import * as styles from './range-filter-shelf.scss';
 import {ActionHandler} from '../../actions/redux-action';
+import * as styles from './range-filter-shelf.scss';
 
 export interface RangeFilterShelfProps extends ActionHandler<FilterAction> {
   domain: number[] | DateTime[];

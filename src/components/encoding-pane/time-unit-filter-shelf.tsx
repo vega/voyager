@@ -8,7 +8,7 @@ import {RangeFilter} from 'vega-lite/build/src/filter';
 import {convert, TimeUnit} from 'vega-lite/build/src/timeunit';
 import {FILTER_MODIFY_MAX_BOUND, FILTER_MODIFY_MIN_BOUND, FILTER_MODIFY_TIME_UNIT,
   FilterAction} from '../../actions/filter';
-import {FILTER_MODIFY_BOTH_BOUNDS} from '../../actions/filter';
+import {FILTER_MODIFY_EXTENT} from '../../actions/filter';
 import {ActionHandler} from '../../actions/redux-action';
 import * as styles from './time-unit-filter-shelf.scss';
 
@@ -107,7 +107,7 @@ class TimeUnitFilterShelfBase extends React.Component<TimeUnitFilterShelfProps, 
     }
     const {handleAction, index} = this.props;
     handleAction({
-      type: FILTER_MODIFY_BOTH_BOUNDS,
+      type: FILTER_MODIFY_EXTENT,
       payload: {
         index,
         range
