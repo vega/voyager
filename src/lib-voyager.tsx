@@ -39,6 +39,9 @@ export class Voyager {
     } else {
       this.container = container;
     }
+
+    this.config = config;
+    this.data = data;
     this.init();
   }
 
