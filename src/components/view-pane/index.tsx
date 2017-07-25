@@ -7,7 +7,7 @@ import {ShelfAction} from '../../actions/shelf';
 import {State} from '../../models';
 import {Bookmark} from '../../models/bookmark';
 import {PlotObject} from '../../models/plot';
-import {selectBookmark, selectMainResultForView} from '../../selectors';
+import {selectBookmark, selectMainResultForViewPane} from '../../selectors';
 import {Plot} from '../plot';
 import {PlotList} from '../plot-list';
 import * as styles from './view-pane.scss';
@@ -54,7 +54,7 @@ export const ViewPane = connect(
   (state: State) => {
     return {
       // FIXME: refactor the flow for this part (we should support asynchrounous request for this too)
-      mainResult: selectMainResultForView(state),
+      mainResult: selectMainResultForViewPane(state),
       bookmark: selectBookmark(state)
     };
   },
