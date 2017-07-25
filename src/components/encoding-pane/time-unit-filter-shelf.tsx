@@ -1,15 +1,14 @@
 
-import * as Slider from 'rc-slider';
 import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
 import * as TetherComponent from 'react-tether';
 import {DateTime} from 'vega-lite/build/src/datetime';
 import {RangeFilter} from 'vega-lite/build/src/filter';
 import {convert, TimeUnit} from 'vega-lite/build/src/timeunit';
-import {FILTER_MODIFY_MAX_BOUND, FILTER_MODIFY_MIN_BOUND, FILTER_MODIFY_TIME_UNIT,
-  FilterAction} from '../../actions/filter';
+import {FILTER_MODIFY_TIME_UNIT, FilterAction} from '../../actions/filter';
 import {FILTER_MODIFY_EXTENT} from '../../actions/filter';
 import {ActionHandler} from '../../actions/redux-action';
+import {RangeComponent} from './range-component';
 import * as styles from './time-unit-filter-shelf.scss';
 
 export interface TimeUnitFilterShelfProps extends ActionHandler<FilterAction> {
@@ -32,8 +31,6 @@ class TimeUnitFilterShelfBase extends React.Component<TimeUnitFilterShelfProps, 
       selectedTimeUnit: TimeUnit.MILLISECONDS // set the default to milliseconds???
     });
 
-    this.filterModifyMinBound = this.filterModifyMinBound.bind(this);
-    this.filterModifyMaxBound = this.filterModifyMaxBound.bind(this);
     this.filterModifyTimeUnit = this.filterModifyTimeUnit.bind(this);
   }
 
@@ -43,6 +40,7 @@ class TimeUnitFilterShelfBase extends React.Component<TimeUnitFilterShelfProps, 
   }
 
   public render() {
+    const {index, filter, handleAction} = this.props;
     return (
       <div>
         <TetherComponent
@@ -57,45 +55,14 @@ class TimeUnitFilterShelfBase extends React.Component<TimeUnitFilterShelfProps, 
           </div>
           {this.state.timeUnitChangerIsOpened ? this.renderTimeUnitChanger() : null}
         </TetherComponent>
-        <div>
-          {this.renderRange()}
-        </div>
+        <RangeComponent
+          domain={[this.getRange()[0], this.getRange()[1]]}
+          index={index}
+          filter={filter}
+          handleAction={handleAction}
+        />
       </div>
     );
-  }
-
-  protected filterModifyMaxBound(e: any) {
-    let maxBound;
-    if (e.hasOwnProperty('target')) {
-      maxBound = e.target.value;
-    } else {
-      maxBound = e;
-    }
-    const {handleAction, index} = this.props;
-    handleAction({
-      type: FILTER_MODIFY_MAX_BOUND,
-      payload: {
-        index,
-        maxBound
-      }
-    });
-  }
-
-  protected filterModifyMinBound(e: any) {
-    let minBound;
-    if (e.hasOwnProperty('target')) {
-      minBound = e.target.value;
-    } else {
-      e = minBound;
-    }
-    const {handleAction, index} = this.props;
-    handleAction({
-      type: FILTER_MODIFY_MIN_BOUND,
-      payload: {
-        index,
-        minBound
-      }
-    });
   }
 
   protected filterModifyExtent(e: any) {
@@ -156,48 +123,6 @@ class TimeUnitFilterShelfBase extends React.Component<TimeUnitFilterShelfProps, 
         {timeUnitChanger}
       </div>
     );
-  }
-
-  private renderRange() {
-    // TODO: refactor this part with range-filter-shelf.tsx
-    const {filter} = this.props;
-    const createSliderWithTooltip = Slider.createSliderWithTooltip;
-    const Range = createSliderWithTooltip(Slider.Range);
-    return (
-      <div styleName='range-filter-pane'>
-        <div>
-          <div styleName='bound'>
-            min: <a onClick={this.focusInput.bind(this, `${filter.field}_min`)}><i className="fa fa-pencil"/></a>
-            <input
-              id={`${filter.field}_min`}
-              type='number'
-              value={filter.range[0].toString()}
-              onChange={this.filterModifyMinBound.bind(this)}
-            />
-          </div>
-          <div styleName='bound'>
-            max: <a onClick={this.focusInput.bind(this, `${filter.field}_max`)}><i className="fa fa-pencil"/></a>
-            <input
-              id={`${filter.field}_max`}
-              type='number'
-              value={filter.range[1].toString()}
-              onChange={this.filterModifyMaxBound.bind(this)}
-            />
-          </div>
-        </div>
-        <Range
-          allowCross={false}
-          defaultValue={[Number(filter.range[0]), Number(filter.range[1])]}
-          min={this.getRange()[0]}
-          max={this.getRange()[1]}
-          onAfterChange={this.filterModifyExtent.bind(this)}
-        />
-    </div>
-    );
-  }
-
-  private focusInput(id: string) {
-    document.getElementById(id).focus();
   }
 
   private toggleTimeUnitChanger() {

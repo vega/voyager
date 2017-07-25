@@ -9,6 +9,7 @@ import {RangeFilter} from 'vega-lite/build/src/filter';
 import {FILTER_MODIFY_EXTENT, FILTER_MODIFY_MAX_BOUND, FILTER_MODIFY_MIN_BOUND,
   FilterAction} from '../../actions/filter';
 import {ActionHandler} from '../../actions/redux-action';
+import {RangeComponent} from './range-component';
 import * as styles from './range-filter-shelf.scss';
 
 export interface RangeFilterShelfProps extends ActionHandler<FilterAction> {
@@ -39,46 +40,41 @@ export class RangeFilterShelfBase extends React.Component<RangeFilterShelfProps,
   }
 
   public render() {
-    const {domain, filter, type} = this.props;
+    const {domain, filter, type, index, handleAction} = this.props;
     const range = filter.range;
     const lowerBound = Math.floor(Number(domain[0]));
     const upperBound = Math.ceil(Number(domain[1]));
-    let currMin, currMax, picker;
+    let currMin, currMax;
     if (type === ExpandedType.TEMPORAL) {
+      const createSliderWithTooltip = Slider.createSliderWithTooltip;
+      const Range = createSliderWithTooltip(Slider.Range);
       currMin = new Date(range[0]);
       currMax = new Date(range[1]);
-      picker = (
-        <div>
+      return (
+        <div styleName='range-filter-pane'>
           {this.renderDateTimePicker(currMin, 'min')}
           {this.renderDateTimePicker(currMax, 'max')}
+          <Range
+            key={currMin.toDateString() + currMax.toDateString()}
+            allowCross={false}
+            defaultValue={[Number(currMin), Number(currMax)]}
+            min={lowerBound}
+            max={upperBound}
+            onAfterChange={this.filterModifyExtent}
+            tipFormatter={this.formatTime}
+          />
         </div>
       );
     } else {
-      currMin = range[0];
-      currMax = range[1];
-      picker = (
-        <div>
-          {this.renderQuantitativeInput(Number(currMin), 'min')}
-          {this.renderQuantitativeInput(Number(currMax), 'max')}
-        </div>
+      return (
+        <RangeComponent
+          domain={[Number(domain[0]), Number(domain[1])]}
+          index={index}
+          filter={filter}
+          handleAction={handleAction}
+        />
       );
     }
-    const createSliderWithTooltip = Slider.createSliderWithTooltip;
-    const Range = createSliderWithTooltip(Slider.Range);
-
-    return (
-      <div styleName='range-filter-pane'>
-        {picker}
-        <Range
-          allowCross={false}
-          defaultValue={[Number(currMin), Number(currMax)]}
-          min={lowerBound}
-          max={upperBound}
-          onAfterChange={this.filterModifyExtent}
-          tipFormatter={this.formatTime}
-        />
-      </div>
-    );
   }
 
   protected filterModifyExtent(range: number[]) {
@@ -126,27 +122,6 @@ export class RangeFilterShelfBase extends React.Component<RangeFilterShelfProps,
     });
   }
 
-  private renderQuantitativeInput(value: number, bound: 'min' | 'max') {
-    const {filter} = this.props;
-    let action;
-    if (bound === 'min') {
-      action = this.filterModifyMinBound;
-    } else if (bound === 'max') {
-      action = this.filterModifyMaxBound;
-    }
-    return (
-      <div styleName='bound'>
-        {bound}: <a onClick={this.focusInput.bind(this, `${filter.field}_${bound}`)}><i className="fa fa-pencil"/></a>
-        <input
-          id={`${filter.field}_${bound}`}
-          type='number'
-          value={value.toString()}
-          onChange={action}
-        />
-      </div>
-    );
-  }
-
   private renderDateTimePicker(date: Date, bound: 'min' | 'max') {
     let onChangeAction, dateTimePickerOpen, dataTimePickerOpenAction;
     if (bound === 'min') {
@@ -180,10 +155,6 @@ export class RangeFilterShelfBase extends React.Component<RangeFilterShelfProps,
         </TetherComponent>
       </div>
     );
-  }
-
-  private focusInput(id: string) {
-    document.getElementById(id).focus();
   }
 
   private toggleMinDateTimePicker() {
