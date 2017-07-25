@@ -9,6 +9,8 @@ import {Provider} from 'react-redux';
 import {configureStore} from '../store';
 import {App} from './app';
 
+const DEFAULT_TIMEOUT_LENGTH = 300;
+
 describe('Voyager', () => {
   describe('instantiation via component', () => {
     it('renders voyager', done => {
@@ -35,7 +37,7 @@ describe('Voyager', () => {
           done.fail(err);
         }
         done();
-      }, 10);
+      }, DEFAULT_TIMEOUT_LENGTH);
     });
 
     it('renders voyager with custom data', done => {
@@ -73,11 +75,11 @@ describe('Voyager', () => {
               done.fail(err);
             }
 
-          }, 100);
+          }, DEFAULT_TIMEOUT_LENGTH);
         } catch (err) {
           done.fail(err);
         }
-      }, 10);
+      }, DEFAULT_TIMEOUT_LENGTH);
     });
 
   });
@@ -137,12 +139,12 @@ describe('Voyager', () => {
             } catch (err) {
               done.fail(err);
             }
-          }, 200);
+          }, DEFAULT_TIMEOUT_LENGTH);
 
         } catch (err) {
           done.fail(err);
         }
-      }, 10);
+      }, DEFAULT_TIMEOUT_LENGTH);
     });
 
     it('error on invalid spec', done => {
@@ -179,7 +181,7 @@ describe('Voyager', () => {
           done();
         }
 
-      }, 10);
+      }, DEFAULT_TIMEOUT_LENGTH);
     });
 
   });
