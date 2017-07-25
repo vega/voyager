@@ -1,5 +1,6 @@
 import {getTopSpecQueryItem} from 'compassql/build/src/model';
 import {Query} from 'compassql/build/src/query/query';
+import {SpecQuery} from 'compassql/build/src/query/spec';
 import {Schema} from 'compassql/build/src/schema';
 import {SHORT_WILDCARD} from 'compassql/build/src/wildcard';
 import {createSelector} from 'reselect';
@@ -20,7 +21,7 @@ import {BoxPlotDef} from 'vega-lite/build/src/compositemark/boxplot';
 import {EncodingWithFacet} from 'vega-lite/build/src/encoding';
 import {OneOfFilter, RangeFilter} from 'vega-lite/build/src/filter';
 import {MarkDef} from 'vega-lite/build/src/mark';
-import {FacetedCompositeUnitSpec, GenericUnitSpec} from 'vega-lite/build/src/spec';
+import {FacetedCompositeUnitSpec, GenericUnitSpec, isUnitSpec} from 'vega-lite/build/src/spec';
 import {StateBase} from '../models/index';
 import {PlotObject} from '../models/plot';
 // tslint:enable:no-unused-variable
@@ -37,6 +38,11 @@ export const selectQuery = createSelector(
   (shelf: Shelf): Query => {
     return toQuery(shelf);
   }
+);
+
+export const selectQuerySpec = createSelector(
+  selectQuery,
+  (query: Query): SpecQuery => query.spec
 );
 
 const ALL_PRESET_WILDCARD_FIELDS: ShelfFieldDef[] = [
@@ -70,39 +76,47 @@ export const selectSchemaFieldDefs = createSelector(
 
 const selectMainResult = (state: State) => state.present.result.main;
 
-const selectMainSpec = createSelector(
-  selectData, selectFilters, selectMainResult,
-  (data: Data, filters: Array<RangeFilter|OneOfFilter>, result: Result): FacetedCompositeUnitSpec => {
-    if (!result.modelGroup) {
-      return;
+const selectIsQuerySpecific = createSelector(
+  selectQuerySpec,
+  (spec: SpecQuery) => {
+    return !hasWildcards(spec).hasAnyWildcard;
+  }
+);
+
+export const selectMainSpec = createSelector(
+  selectIsQuerySpecific,
+  selectData,
+  selectFilters,
+  selectMainResult,
+  (
+    isQuerySpecific: boolean,
+    data: Data,
+    filters: Array<RangeFilter|OneOfFilter>,
+    mainResult: Result
+  ): FacetedCompositeUnitSpec => {
+    if (!isQuerySpecific || !mainResult.modelGroup) {
+      return undefined;
     }
     return {
       data: data,
       transform: getTransforms(filters),
-      ...getTopSpecQueryItem(result.modelGroup).spec
+      ...getTopSpecQueryItem(mainResult.modelGroup).spec
     };
   }
 );
 
-export const selectMainResultForViewPane = createSelector(
-  selectQuery, selectMainResult, selectMainSpec,
-  (query: Query, result: Result, spec: FacetedCompositeUnitSpec): {
-    spec: FacetedCompositeUnitSpec,
-    plots: PlotObject[]
-  } => {
-    if (result.isLoading || !result.modelGroup) {
-      return;
+export const selectMainPlotList = createSelector(
+  selectIsQuerySpecific, selectData, selectFilters, selectMainResult,
+  (
+    isQuerySpecific: boolean,
+    data: Data,
+    filters: Array<RangeFilter|OneOfFilter>,
+    mainResult: Result
+  ) => {
+    if (isQuerySpecific || !mainResult.modelGroup) {
+      return undefined;
     }
-    if (!hasWildcards(query.spec).hasAnyWildcard) {
-      return {
-        spec,
-        plots: null
-      };
-    } else {
-      return {
-        spec: null,
-        plots: extractPlotObjects(result.modelGroup)
-      };
-    }
+    // FIXME(https://github.com/vega/voyager/issues/448): use data and filter
+    return extractPlotObjects(mainResult.modelGroup);
   }
 );
