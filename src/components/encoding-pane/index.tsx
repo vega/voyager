@@ -20,7 +20,6 @@ interface EncodingPanelProps extends ActionHandler<ShelfAction | ResultAsyncActi
   specPreview: ShelfUnitSpec;
 }
 
-
 class EncodingPanelBase extends React.PureComponent<EncodingPanelProps, {}> {
   constructor(props: EncodingPanelProps) {
     super(props);
@@ -30,12 +29,12 @@ class EncodingPanelBase extends React.PureComponent<EncodingPanelProps, {}> {
   }
 
   public componentDidMount() {
-    this.props.handleAction(resultRequest());
+    this.props.handleAction(resultRequest('main'));
   }
 
   public componentDidUpdate(prevProps: EncodingPanelProps) {
     if (this.props.spec !== prevProps.spec) {
-      this.props.handleAction(resultRequest());
+      this.props.handleAction(resultRequest('main'));
     }
   }
 
