@@ -98,7 +98,7 @@ const selectMainSpec = createSelector(
   }
 );
 
-export const selectMainResultForView = createSelector(
+export const selectMainResultForViewPane = createSelector(
   selectQuery, selectMainResult, selectMainSpec,
   (query: Query, result: Result, spec: FacetedCompositeUnitSpec): {
     spec: FacetedCompositeUnitSpec,
