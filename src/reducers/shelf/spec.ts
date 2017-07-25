@@ -8,7 +8,7 @@ import {isWildcard, SHORT_WILDCARD} from 'compassql/build/src/wildcard';
 import {Action} from '../../actions';
 import {
   SHELF_CLEAR, SHELF_FIELD_ADD, SHELF_FIELD_AUTO_ADD, SHELF_FIELD_MOVE,
-  SHELF_FIELD_REMOVE, SHELF_FUNCTION_CHANGE, SHELF_MARK_CHANGE_TYPE,
+  SHELF_FIELD_REMOVE, SHELF_FUNCTION_ADD_WILDCARD, SHELF_FUNCTION_CHANGE, SHELF_MARK_CHANGE_TYPE,
   SHELF_SPEC_LOAD
 } from '../../actions/shelf';
 
@@ -86,15 +86,29 @@ export function shelfSpecReducer(shelfSpec: Readonly<ShelfUnitSpec> = DEFAULT_SH
       return addedShelf2;
     }
 
+    case SHELF_FUNCTION_ADD_WILDCARD: {
+      const {shelfId, fn} = action.payload;
+
+      return modifyEncoding(shelfSpec, shelfId, (fieldDef: Readonly<ShelfFieldDef | ShelfAnyEncodingDef>) => {
+        const {aggregate: _a, bin: _b, timeUnit: _t, hasFn: _h, ...fieldDefWithoutFn} = fieldDef;
+
+        return {
+          ...fieldDefWithoutFn,
+          ...(getWildcardFunctionsMixins(fn, fieldDef))
+        };
+      });
+
+    }
+
     case SHELF_FUNCTION_CHANGE: {
       const {shelfId, fn} = action.payload;
 
       return modifyEncoding(shelfSpec, shelfId, (fieldDef: Readonly<ShelfFieldDef | ShelfAnyEncodingDef>) => {
         // Remove all existing functions then assign new function
-        const {aggregate: _a, bin: _b, timeUnit: _t, hasFn: _h, ...newFieldDef} = fieldDef;
+        const {aggregate: _a, bin: _b, timeUnit: _t, hasFn: _h, ...fieldDefWithoutFn} = fieldDef;
 
         return {
-          ...newFieldDef,
+          ...fieldDefWithoutFn,
           ...(getFunctionMixins(fn))
         };
       });
@@ -116,6 +130,35 @@ export function shelfSpecReducer(shelfSpec: Readonly<ShelfUnitSpec> = DEFAULT_SH
 const AGGREGATE_INDEX = toSet(AGGREGATE_OPS);
 const TIMEUNIT_INDEX = toSet(TIMEUNITS);
 
+function getWildcardFunctionsMixins(fn: ShelfFunction, fieldDef: Readonly<ShelfFieldDef | ShelfAnyEncodingDef>) {
+  if (AGGREGATE_INDEX[fn]) {
+    return {
+      aggregate: {
+        name: 'aggregate',
+        enum: (fieldDef.aggregate) ?
+          fieldDef.aggregate['enum'].concat([fn]) :
+          [fn]
+      }
+    };
+  }
+
+  if (fn === 'bin') {
+    return {bin: '?'};
+  }
+
+  if (TIMEUNIT_INDEX[fn]) {
+    return {
+      timeUnit: {
+        name: 'timeUnit',
+        enum: (fieldDef.timeUnit) ?
+          fieldDef.timeUnit['enum'].concat([fn]) :
+          [fn]
+      }
+    };
+  }
+
+  return undefined;
+}
 
 function getFunctionMixins(fn: ShelfFunction) {
   if (AGGREGATE_INDEX[fn]) {
@@ -186,7 +229,6 @@ function modifyEncoding(shelf: Readonly<ShelfUnitSpec>, shelfId: ShelfId, modifi
     };
   }
 }
-
 
 function removeEncoding(shelf: Readonly<ShelfUnitSpec>, shelfId: ShelfId):
   {fieldDef: ShelfFieldDef, shelf: Readonly<ShelfUnitSpec>} {

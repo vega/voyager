@@ -8,9 +8,9 @@ export type ShelfAction =
   ShelfMarkChangeType |
   ShelfEncodingAction;
 
-export type ShelfEncodingAction = ShelfFieldAdd | ShelfFieldAutoAdd |
-  ShelfFieldRemove | ShelfFieldMove | ShelfFunctionChange |
-  ShelfSpecLoad;
+export type ShelfEncodingAction = ShelfFieldAdd | ShelfFieldAutoAdd | ShelfSpecPreview |
+  ShelfFieldRemove | ShelfFieldMove | ShelfFunctionChange | ShelfSpecLoad |
+  ShelfSpecPreview | ShelfSpecPreviewDisable;
 
 export const SHELF_CLEAR = 'SHELF_CLEAR';
 export type ShelfClear = PlainReduxAction<typeof SHELF_CLEAR>;
@@ -46,8 +46,19 @@ export type ShelfFieldMove = ReduxAction<typeof SHELF_FIELD_MOVE, {
  * Change Function of a FieldDef to a specific value.
  */
 export const SHELF_FUNCTION_CHANGE = 'SHELF_FUNCTION_CHANGE';
-
 export type ShelfFunctionChange = ReduxAction<typeof SHELF_FUNCTION_CHANGE, {
+  shelfId: ShelfId,
+  fn: ShelfFunction;
+}>;
+
+export const SHELF_FUNCTION_ADD_WILDCARD = 'SHELF_FUNCTION_ADD_WILDCARD';
+export type ShelfFunctionAddWildcard = ReduxAction<typeof SHELF_FUNCTION_ADD_WILDCARD, {
+  shelfId: ShelfId,
+  fn: ShelfFunction;
+}>;
+
+export const SHELF_FUNCTION_ENABLE_WILDCARD = 'SHELF_FUNCTION_ENABLE_WILDCARD';
+export type ShelfFunctionEnableWildcard = ReduxAction<typeof SHELF_FUNCTION_ENABLE_WILDCARD, {
   shelfId: ShelfId,
   fn: ShelfFunction;
 }>;

@@ -1,9 +1,10 @@
 import {
   SHELF_CLEAR, SHELF_FIELD_ADD, SHELF_FIELD_AUTO_ADD, SHELF_FIELD_MOVE,
-  SHELF_FIELD_REMOVE, SHELF_FUNCTION_CHANGE, SHELF_MARK_CHANGE_TYPE
+  SHELF_FIELD_REMOVE, SHELF_FUNCTION_ADD_WILDCARD, SHELF_FUNCTION_CHANGE, SHELF_MARK_CHANGE_TYPE
 } from '../../actions/shelf';
 import {DEFAULT_SHELF_UNIT_SPEC} from '../../models';
 import {shelfSpecReducer} from './spec';
+
 
 
 const SHORT_WILDCARD = '?';
@@ -359,6 +360,115 @@ describe('reducers/shelf/spec', () => {
         ...DEFAULT_SHELF_UNIT_SPEC,
         encoding: {
           x: {field: 'a', type: 'quantitative'}
+        }
+      });
+    });
+  });
+
+  describe(SHELF_FUNCTION_ADD_WILDCARD, () => {
+    it('should correctly add a wildcard function to anyEncodings when none is selected', () => {
+      const shelfSpec = shelfSpecReducer(
+        {
+          ...DEFAULT_SHELF_UNIT_SPEC,
+          encoding: {},
+          anyEncodings: [
+            {channel: '?', field: 'a'}
+          ]
+        },
+        {
+          type: SHELF_FUNCTION_ADD_WILDCARD,
+          payload: {
+            shelfId: {channel: '?', index: 0},
+            fn: 'mean'
+          }
+        },
+        schema
+      );
+
+      expect(shelfSpec).toEqual({
+        ...DEFAULT_SHELF_UNIT_SPEC,
+        anyEncodings: [
+          {aggregate: {name: 'aggregate', enum: ['mean']}, channel: '?', field: 'a'}
+        ]
+      });
+    });
+
+
+    it('should correctly add a wildcard function when none is selected', () => {
+      const shelfSpec = shelfSpecReducer(
+        {
+          ...DEFAULT_SHELF_UNIT_SPEC,
+          encoding: {
+            x: {field: 'a', type: 'quantitative'}
+          }
+        },
+        {
+          type: SHELF_FUNCTION_ADD_WILDCARD,
+          payload: {
+            shelfId: {channel: 'x'},
+            fn: 'mean'
+          }
+        },
+        schema
+      );
+
+      expect(shelfSpec).toEqual({
+        ...DEFAULT_SHELF_UNIT_SPEC,
+        encoding: {
+          x: {aggregate: {name: 'aggregate', enum: ['mean']}, field: 'a', type: 'quantitative'}
+        }
+      });
+    });
+
+    it('should correctly add a wildcard function to anyEncodings when none is selected', () => {
+      const shelfSpec = shelfSpecReducer(
+        {
+          ...DEFAULT_SHELF_UNIT_SPEC,
+          encoding: {},
+          anyEncodings: [
+            {aggregate: {name: 'aggregate', enum: ['mean']}, channel: '?', field: 'a', }
+          ]
+        },
+        {
+          type: SHELF_FUNCTION_ADD_WILDCARD,
+          payload: {
+            shelfId: {channel: '?', index: 0},
+            fn: 'median'
+          }
+        },
+        schema
+      );
+
+      expect(shelfSpec).toEqual({
+        ...DEFAULT_SHELF_UNIT_SPEC,
+        anyEncodings: [
+          {aggregate: {name: 'aggregate', enum: ['mean', 'median']}, channel: '?', field: 'a'}
+        ]
+      });
+    });
+
+    it('should correctly add a wildcard function when wildcard functions are already selected', () => {
+      const shelfSpec = shelfSpecReducer(
+        {
+          ...DEFAULT_SHELF_UNIT_SPEC,
+          encoding: {
+            x: {aggregate: {name: 'aggregate', enum: ['mean']}, field: 'a', type: 'quantitative'}
+          }
+        },
+        {
+          type: SHELF_FUNCTION_ADD_WILDCARD,
+          payload: {
+            shelfId: {channel: 'x'},
+            fn: 'median'
+          }
+        },
+        schema
+      );
+
+      expect(shelfSpec).toEqual({
+        ...DEFAULT_SHELF_UNIT_SPEC,
+        encoding: {
+          x: {aggregate: {name: 'aggregate', enum: ['mean', 'median']}, field: 'a', type: 'quantitative'}
         }
       });
     });
