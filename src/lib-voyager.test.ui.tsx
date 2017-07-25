@@ -90,10 +90,10 @@ describe('lib-voyager', () => {
           expect(dataPaneHeader.textContent).toContain('Data');
 
           setTimeout(() => {
-            let fieldList = document.querySelectorAll('.field-list__field-list-item');
-            let fields = Array.prototype.map.call(fieldList, (d: Node) => d.textContent);
-
             try {
+              const fieldList = document.querySelectorAll('.field-list__field-list-item');
+              const fields = Array.prototype.map.call(fieldList, (d: Node) => d.textContent);
+
               expect(fields).toContain(' q1');
               expect(fields).toContain(' q2');
 
@@ -103,10 +103,10 @@ describe('lib-voyager', () => {
             }
 
             setTimeout(() => {
-              fieldList = document.querySelectorAll('.field-list__field-list-item');
-              fields = Array.prototype.map.call(fieldList, (d: Node) => d.textContent);
-
               try {
+                const fieldList = document.querySelectorAll('.field-list__field-list-item');
+                const fields = Array.prototype.map.call(fieldList, (d: Node) => d.textContent);
+
                 expect(fields).toContain(' fieldA');
                 expect(fields).toContain(' fieldB');
 
@@ -133,7 +133,6 @@ describe('lib-voyager', () => {
       setTimeout(() => {
         try {
           const voyagerInst = CreateVoyager(container, undefined, undefined);
-
           const state = voyagerInst.getApplicationState();
 
           expect(state).toHaveProperty('config');
@@ -142,7 +141,6 @@ describe('lib-voyager', () => {
           expect(state).toHaveProperty('shelf');
 
           done();
-
         } catch (err) {
           done.fail(err);
         }
