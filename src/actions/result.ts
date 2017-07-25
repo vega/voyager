@@ -4,9 +4,10 @@ import {ThunkAction} from 'redux-thunk';
 import {PlotObject} from '../models/plot';
 import {ReduxAction} from './redux-action';
 
+import {Query} from 'compassql/build/src/query/query';
 import {fetchCompassQLRecommend} from '../api/api';
 import {State} from '../models/index';
-import {selectConfig, selectData, selectQuery, selectSchema} from '../selectors';
+import {selectConfig, selectData, selectSchema} from '../selectors';
 import {Action} from './index';
 
 export type ResultAction = ResultRequest | ResultReceive;
@@ -26,9 +27,8 @@ export type ResultReceive = ReduxAction<typeof RESULT_RECEIVE, {
 }>;
 
 export type AsyncResultRequest = ThunkAction<void , State, undefined>;
-export function resultRequest(resultType: ResultType): AsyncResultRequest {
+export function resultRequest(resultType: ResultType, query: Query): AsyncResultRequest {
   return (dispatch: Dispatch<Action>, getState) => {
-    const query = selectQuery(getState());
     const schema = selectSchema(getState());
     const data = selectData(getState());
     const config = selectConfig(getState());

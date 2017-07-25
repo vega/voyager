@@ -8,7 +8,7 @@ import * as styles from './encoding-pane.scss';
 import {SHORT_WILDCARD} from 'compassql/build/src/wildcard';
 import {ActionHandler} from '../../actions/index';
 import {createDispatchHandler} from '../../actions/redux-action';
-import {ResultAsyncAction, resultRequest} from '../../actions/result';
+import {ResultAsyncAction} from '../../actions/result';
 import {SHELF_CLEAR, ShelfAction} from '../../actions/shelf';
 import {ShelfUnitSpec, State} from '../../models';
 import {EncodingShelf} from './encoding-shelf';
@@ -27,17 +27,6 @@ class EncodingPanelBase extends React.PureComponent<EncodingPanelProps, {}> {
     // Bind - https://facebook.github.io/react/docs/handling-events.html
     this.onClear = this.onClear.bind(this);
   }
-
-  public componentDidMount() {
-    this.props.handleAction(resultRequest('main'));
-  }
-
-  public componentDidUpdate(prevProps: EncodingPanelProps) {
-    if (this.props.spec !== prevProps.spec) {
-      this.props.handleAction(resultRequest('main'));
-    }
-  }
-
 
   public render() {
     const {specPreview} = this.props;
