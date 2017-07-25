@@ -260,7 +260,7 @@ describe('lib-voyager', () => {
             } catch (err) {
               done.fail(err);
             }
-          }, DEFAULT_TIMEOUT_LENGTH * 5);
+          }, DEFAULT_TIMEOUT_LENGTH);
 
         } catch (err) {
           done.fail(err);
