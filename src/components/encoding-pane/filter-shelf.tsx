@@ -10,10 +10,12 @@ import {FILTER_ADD, FILTER_REMOVE, FilterAction} from '../../actions/filter';
 import {DraggableType} from '../../constants';
 import {ShelfFieldDef} from '../../models/shelf/encoding';
 import {DraggedFieldIdentifier} from '../field';
+import {Field} from '../field/index';
 import * as styles from './filter-shelf.scss';
 import {OneOfFilterShelf} from './one-of-filter-shelf';
 import {RangeFilterShelf} from './range-filter-shelf';
 import {TimeUnitFilterShelf} from './time-unit-filter-shelf';
+
 
 /**
  * Props for react-dnd of FilterShelf
@@ -45,6 +47,7 @@ class FilterShelfBase extends React.Component<FilterShelfProps, FilterShelfState
     this.state = {
       timeUnit: false
     };
+    this.handleCaretClick = this.handleCaretClick.bind(this);
   }
 
   public render() {
@@ -78,20 +81,14 @@ class FilterShelfBase extends React.Component<FilterShelfProps, FilterShelfState
     return (
       <div styleName='filter-shelf' key={index}>
         <div styleName='header'>
-          <span>{filter.field}</span>
-            {
-              fieldDef.type === ExpandedType.TEMPORAL ?
-              <a onClick={this.toggleTimeUnit.bind(this)}>
-                <span styleName='toggle-time-unit'>
-                  {this.state.timeUnit ? 'hide' : 'show'} time unit
-                </span>
-              </a>
-              : null
-            }
-
-          <a onClick={this.filterRemove.bind(this, index)}>
-            <i className='fa fa-times'/>
-          </a>
+          <Field
+            fieldDef={fieldDef}
+            isPill={true}
+            caretHide={fieldDef.type === ExpandedType.TEMPORAL}
+            caretOnClick={this.handleCaretClick}
+            draggable={false}
+            onRemove={this.filterRemove.bind(this, index)}
+          />
         </div>
         {this.renderFilter(filter, index, domain, fieldDef.type)}
       </div>
@@ -127,10 +124,8 @@ class FilterShelfBase extends React.Component<FilterShelfProps, FilterShelfState
     );
   }
 
-  private toggleTimeUnit() {
-    this.setState({
-      timeUnit: !this.state.timeUnit
-    });
+  private handleCaretClick() {
+    console.log('caret click');
   }
 }
 
