@@ -9,6 +9,8 @@ import {App} from './components/app';
 import {CreateVoyager} from './lib-voyager';
 import {configureStore} from './store';
 
+const DEFAULT_TIMEOUT_LENGTH = 300;
+
 describe('lib-voyager', () => {
   let container: HTMLElement;
 
@@ -48,7 +50,7 @@ describe('lib-voyager', () => {
           done.fail(err);
         }
         done();
-      }, 10);
+      }, DEFAULT_TIMEOUT_LENGTH);
 
     });
   });
@@ -67,7 +69,7 @@ describe('lib-voyager', () => {
         } catch (err) {
           done.fail(err);
         }
-      }, 10);
+      }, DEFAULT_TIMEOUT_LENGTH);
     });
   });
 
@@ -116,8 +118,8 @@ describe('lib-voyager', () => {
               } catch (err) {
                 done.fail(err);
               }
-            }, 200);
-          }, 200);
+            }, DEFAULT_TIMEOUT_LENGTH);
+          }, DEFAULT_TIMEOUT_LENGTH);
         } catch (err) {
           done.fail(err);
         }
@@ -143,7 +145,7 @@ describe('lib-voyager', () => {
         } catch (err) {
           done.fail(err);
         }
-      }, 10);
+      }, DEFAULT_TIMEOUT_LENGTH);
     });
 
     it('sets application state', done => {
@@ -171,12 +173,12 @@ describe('lib-voyager', () => {
             expect(newState.config.showDataSourceSelector).toEqual(!originalConfigOption);
 
             done();
-          }, 100);
+          }, DEFAULT_TIMEOUT_LENGTH);
 
         } catch (err) {
           done.fail(err);
         }
-      }, 10);
+      }, DEFAULT_TIMEOUT_LENGTH);
     });
 
     it('subscribes to state changes', done => {
@@ -204,14 +206,12 @@ describe('lib-voyager', () => {
 
           setTimeout(() => {
             voyagerInst.setApplicationState(aState);
-          }, 50);
-
-
+          }, DEFAULT_TIMEOUT_LENGTH);
 
         } catch (err) {
           done.fail(err);
         }
-      }, 10);
+      }, DEFAULT_TIMEOUT_LENGTH);
     });
 
   });
@@ -260,13 +260,13 @@ describe('lib-voyager', () => {
             } catch (err) {
               done.fail(err);
             }
-          }, 100);
+          }, DEFAULT_TIMEOUT_LENGTH * 5);
 
         } catch (err) {
           done.fail(err);
         }
 
-      }, 100);
+      }, DEFAULT_TIMEOUT_LENGTH);
     });
   });
 
