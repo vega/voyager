@@ -62,10 +62,10 @@ describe('Voyager', () => {
           );
 
           setTimeout(() => {
-            const fieldList = wrapper.find('.field-list__field-list-item');
-            const fields = fieldList.children().map(d => d.text());
-
             try {
+              const fieldList = wrapper.find('.field-list__field-list-item');
+              const fields = fieldList.children().map(d => d.text());
+
               expect(fields).toContain(' fieldA');
               expect(fields).toContain(' fieldB');
               done();
