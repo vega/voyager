@@ -11,7 +11,7 @@ import {Action} from './index';
 import {ReduxAction} from './redux-action';
 import {SHELF_CLEAR} from './shelf';
 
-import {getConfig} from '../selectors';
+import {selectConfig} from '../selectors';
 
 import {ExpandedType} from 'compassql/build/src/query/expandedtype';
 
@@ -56,7 +56,7 @@ export type DatasetLoad = ThunkAction<void , State, undefined>;
 export function datasetLoad(name: string, dataset: Data): DatasetLoad {
   return (dispatch: Dispatch<Action>, getState) => {
 
-    const config = getConfig(getState());
+    const config = selectConfig(getState());
     // Get the new dataset
     if (isUrlData(dataset)) {
       const url = dataset.url;
