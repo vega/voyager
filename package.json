@@ -28,6 +28,7 @@
     "clean": "find -E dist  -regex '.*\\.(js|js.map|d.ts)' -delete",
     "lint": "tslint -c tslint.json 'src/**/*.ts' 'src/**/*.tsx'",
     "lint-fix": "npm run lint -- --fix",
+    "tsc": "tsc",
     "test": "npm run build:src && npm run test:logic && npm run test:ui",
     "test:logic": "jest --no-cache --coverage",
     "test:ui": "NODE_ENV=test node scripts/jest.js",
