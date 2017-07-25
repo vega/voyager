@@ -85,7 +85,7 @@ describe('Voyager', () => {
   });
 
   describe('vega-lite spec', () => {
-    it('accepts valid spec', done => {
+    it.skip('accepts valid spec', done => {
       const config = {};
       const data: any = undefined;
       const store = configureStore();
