@@ -84,8 +84,6 @@ class FilterShelfBase extends React.Component<FilterShelfProps, FilterShelfState
           <Field
             fieldDef={fieldDef}
             isPill={true}
-            caretHide={fieldDef.type === ExpandedType.TEMPORAL}
-            caretOnClick={this.handleCaretClick}
             draggable={false}
             onRemove={this.filterRemove.bind(this, index)}
           />
@@ -125,7 +123,7 @@ class FilterShelfBase extends React.Component<FilterShelfProps, FilterShelfState
   }
 
   private handleCaretClick() {
-    console.log('caret click');
+
   }
 }
 

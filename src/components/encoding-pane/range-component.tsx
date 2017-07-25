@@ -14,7 +14,7 @@ export interface RangeComponentProps extends ActionHandler<FilterAction> {
   filter: RangeFilter;
 }
 
-class RangeComponentBase extends React.PureComponent<RangeComponentProps, {}> {
+export class RangeComponentBase extends React.PureComponent<RangeComponentProps, {}> {
 
   public constructor(props: RangeComponentProps) {
     super(props);

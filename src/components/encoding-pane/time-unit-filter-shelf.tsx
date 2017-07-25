@@ -23,7 +23,7 @@ export interface TimeUnitFilterShelfState {
   selectedTimeUnit: string;
 }
 
-class TimeUnitFilterShelfBase extends React.Component<TimeUnitFilterShelfProps, TimeUnitFilterShelfState> {
+export class TimeUnitFilterShelfBase extends React.Component<TimeUnitFilterShelfProps, TimeUnitFilterShelfState> {
   constructor(props: TimeUnitFilterShelfProps) {
     super(props);
     this.state = ({
