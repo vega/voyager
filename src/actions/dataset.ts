@@ -7,7 +7,7 @@ import {ActionCreators} from 'redux-undo';
 import {Data, InlineData, isInlineData, isUrlData} from 'vega-lite/build/src/data';
 import {fetchCompassQLBuildSchema} from '../api/api';
 import {State} from '../models/index';
-import {getConfig} from '../selectors';
+import {selectConfig} from '../selectors';
 import {FILTER_CLEAR} from './filter';
 import {Action} from './index';
 import {ReduxAction} from './redux-action';
@@ -19,7 +19,14 @@ export type DatasetSchemaChangeFieldType = ReduxAction<typeof DATASET_SCHEMA_CHA
   type: ExpandedType
 }>;
 
-export type DatasetAction = DatasetUrlReceive | DatasetSchemaChangeFieldType | DatasetUrlRequest | DatasetReceive;
+export const DATASET_SCHEMA_CHANGE_ORDINAL_DOMAIN = 'DATASET_SCHEMA_CHANGE_ORDINAL_DOMAIN';
+export type DatasetSchemaChangeOrdinalDomain = ReduxAction<typeof DATASET_SCHEMA_CHANGE_ORDINAL_DOMAIN, {
+  field: string,
+  domain: string[]
+}>;
+
+export type DatasetAction = DatasetUrlReceive | DatasetSchemaChangeFieldType | DatasetSchemaChangeOrdinalDomain |
+            DatasetUrlRequest | DatasetReceive;
 export type DatasetAsyncAction = DatasetLoad;
 
 export const DATASET_URL_REQUEST = 'DATASET_URL_REQUEST';
@@ -47,7 +54,7 @@ export type DatasetLoad = ThunkAction<void , State, undefined>;
 export function datasetLoad(name: string, dataset: Data): DatasetLoad {
   return (dispatch: Dispatch<Action>, getState) => {
 
-    const config = getConfig(getState());
+    const config = selectConfig(getState());
     // Get the new dataset
     if (isUrlData(dataset)) {
       const url = dataset.url;

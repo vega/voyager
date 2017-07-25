@@ -1,18 +1,21 @@
 
 import {FieldQuery} from 'compassql/build/src/query/encoding';
-import {ExpandedType} from 'compassql/build/src/query/expandedtype';
 import {Schema} from 'compassql/build/src/schema';
 import {isWildcard} from 'compassql/build/src/wildcard';
 import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
 import {DragElementWrapper, DragSource, DragSourceCollector, DragSourceSpec} from 'react-dnd';
+import * as TetherComponent from 'react-tether';
 import {OneOfFilter, RangeFilter} from 'vega-lite/build/src/filter';
+import {DatasetSchemaChangeFieldType} from '../../actions/dataset';
 import {FILTER_ADD, FILTER_REMOVE, FilterAction} from '../../actions/filter';
+import {ShelfAction} from '../../actions/shelf';
 import {DraggableType, FieldParentType} from '../../constants';
 import {ShelfId} from '../../models/shelf';
 import {ShelfFieldDef} from '../../models/shelf/encoding';
 import {getFilter} from '../../reducers/shelf/filter';
 import * as styles from './field.scss';
+
 
 
 /**
@@ -34,10 +37,6 @@ export interface FieldPropsBase {
 
   isEnumeratedWildcardField?: boolean;
 
-  caretHide?: boolean;
-
-  caretOnClick?: () => void;
-
   parentId?: FieldParentId;
 
   draggable: boolean;
@@ -52,27 +51,53 @@ export interface FieldPropsBase {
   /** Remove field event handler.  If not provided, remove button will disappear. */
   onRemove?: () => void;
 
-  handleAction?: (action: FilterAction) => void;
+  handleAction?: (action: FilterAction | ShelfAction | DatasetSchemaChangeFieldType) => void;
 
   filterHide?: boolean;
 
   schema?: Schema;
 
+  /** If not provided, it does not have a popup */
+  popupComponent?: JSX.Element;
 };
 
 export interface FieldProps extends FieldDragSourceProps, FieldPropsBase {};
 
-class FieldBase extends React.PureComponent<FieldProps, {}> {
+export interface FieldState {
+  popupIsOpened?: boolean;
+}
+
+class FieldBase extends React.PureComponent<FieldProps, FieldState> {
+  private field: HTMLElement;
+  private popup: HTMLElement;
+
   constructor(props: FieldProps) {
     super(props);
+    if (props.popupComponent) {
+      this.state = ({
+        popupIsOpened: false
+      });
+    }
 
     // Bind - https://facebook.github.io/react/docs/handling-events.html
     this.onAdd = this.onAdd.bind(this);
     this.onDoubleClick = this.onDoubleClick.bind(this);
+    this.togglePopup = this.togglePopup.bind(this);
+  }
+
+  public componentWillUpdate(nextProps: FieldProps, nextState: FieldState) {
+    if (!nextState) {
+      return;
+    }
+    if (nextState.popupIsOpened) {
+      document.addEventListener('click', this.handleClickOutside.bind(this), true);
+    } else if (this.state.popupIsOpened) {
+      document.removeEventListener('click', this.handleClickOutside.bind(this), true);
+    }
   }
 
   public render(): JSX.Element {
-    const {caretHide, caretOnClick, connectDragSource, fieldDef, isPill} = this.props;
+    const {connectDragSource, fieldDef, isPill, popupComponent} = this.props;
     const {field, title} = fieldDef;
     const isWildcardField = isWildcard(field) || this.props.isEnumeratedWildcardField;
     const component = (
@@ -80,7 +105,7 @@ class FieldBase extends React.PureComponent<FieldProps, {}> {
         styleName={isWildcardField ? 'wildcard-field-pill' : isPill ? 'field-pill' : 'field'}
         onDoubleClick={this.onDoubleClick}
       >
-        {caretTypeSpan({caretHide, caretOnClick, type: fieldDef.type})}
+        {this.caretTypeSpan()}
         <span styleName="text" title={title}>
           {title || field}
         </span>
@@ -89,9 +114,24 @@ class FieldBase extends React.PureComponent<FieldProps, {}> {
         {this.removeSpan()}
       </span>
     );
-
     // Wrap with connect dragSource if it is injected
-    return connectDragSource ? connectDragSource(component) : component;
+    if (!popupComponent) {
+      return connectDragSource ? connectDragSource(component) : component;
+    } else {
+      return (
+        <div ref={this.fieldRefHandler} >
+          <TetherComponent
+            attachment="top left"
+            targetAttachment="bottom left"
+          >
+            {connectDragSource ? connectDragSource(component) : component}
+            <div ref={this.popupRefHandler}>
+              {this.state.popupIsOpened && popupComponent}
+            </div>
+          </TetherComponent>
+        </div>
+      );
+    }
   }
 
   protected filterAddToIndex(index: number): void {
@@ -131,6 +171,20 @@ class FieldBase extends React.PureComponent<FieldProps, {}> {
     return getFilter(fieldDef, domain);
   }
 
+  private caretTypeSpan() {
+    const {fieldDef, popupComponent} = this.props;
+    const type = fieldDef.type;
+    const icon = TYPE_ICONS[type];
+    const title = TYPE_NAMES[type];
+    return (
+      <span styleName="caret-type" onClick={this.togglePopup}>
+        {<i className={(popupComponent ? '' : 'hidden ') + 'fa fa-caret-down'}/>}
+        {' '}
+        {type && <i className={'fa ' + icon} styleName="type" title={title}/>}
+      </span>
+    );
+  }
+
   private addSpan() {
     return this.props.onAdd && (
       <span><a onClick={this.onAdd}><i className="fa fa-plus"/></a></span>
@@ -159,6 +213,33 @@ class FieldBase extends React.PureComponent<FieldProps, {}> {
       this.props.onDoubleClick(this.props.fieldDef);
     }
   }
+
+  private handleClickOutside(e: any) {
+    if (!this.field || this.field.contains(e.target) || this.popup.contains(e.target)) {
+      return;
+    }
+    this.closePopup();
+  }
+
+  private closePopup() {
+    this.setState ({
+      popupIsOpened: false
+    });
+  }
+
+  private togglePopup() {
+    if (this.state) {
+      this.setState({
+        popupIsOpened: !this.state.popupIsOpened
+      });
+    }
+  }
+  private fieldRefHandler = (ref: any) => {
+    this.field = ref;
+  }
+  private popupRefHandler = (ref: any) => {
+    this.popup = ref;
+  }
 };
 
 // FIXME add icon for key
@@ -176,19 +257,6 @@ const TYPE_ICONS = {
   quantitative: 'fa-hashtag',
   temporal: 'fa-calendar',
 };
-
-// We combine caret and type span so that it's easier to click
-function caretTypeSpan(props: {caretHide: boolean, caretOnClick: () => void, type: ExpandedType}) {
-  const {caretHide, caretOnClick, type} = props;
-  const icon = TYPE_ICONS[type];
-  const title = TYPE_NAMES[type];
-
-  return <span styleName="caret-type" onClick={caretOnClick}>
-    {caretOnClick && <i className={(caretHide ? 'hidden ' : '') + 'fa fa-caret-down'}/>}
-    {caretOnClick && ' '}
-    {type && <i className={'fa ' + icon} styleName="type" title={title}/>}
-  </span>;
-}
 
 /**
  * Type and Identifier of Field's parent component

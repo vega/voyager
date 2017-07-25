@@ -23,7 +23,7 @@ export interface RangeFilterShelfState {
   maxDateTimePickerOpen: boolean;
 }
 
-class RangeFilterShelfBase extends React.Component<RangeFilterShelfProps, RangeFilterShelfState> {
+export class RangeFilterShelfBase extends React.Component<RangeFilterShelfProps, RangeFilterShelfState> {
   public constructor(props: RangeFilterShelfProps) {
     super(props);
     this.state = ({

@@ -11,6 +11,16 @@ declare module '*.css' {
   export = content;
 }
 
+declare module "*.json" {
+  const value: any;
+  export default value;
+}
+
+declare module '*.png' {
+  const content: any;
+  export = content;
+}
+
 declare module 'font-awesome-webpack' {
   var x: any;
   export = x;
@@ -28,14 +38,14 @@ declare module 'react-modal' {
 
 declare const Modal: any;
 
-interface ClipboardButtonProps {
-  onSuccess?: any;
-  'data-clipboard-text': string;
+interface CopyToClipboard {
+  onCopy?: any;
+  text: string;
 }
 
-declare module 'react-clipboard.js' {
-  const ClipboardButton: any;
-  export = ClipboardButton;
+declare module 'react-copy-to-clipboard' {
+  const CopyToClipboard: any;
+  export = CopyToClipboard;
 }
 
 declare module 'rc-slider' {
@@ -43,11 +53,6 @@ declare module 'rc-slider' {
   export class Range extends React.Component<any, {}> { }
   export class Handle extends React.Component<any, {}> { }
   export const createSliderWithTooltip: any;
-}
-
-declare module 'react-date-time' {
-  const DateTimePicker: any;
-  export = DateTimePicker;
 }
 
 interface Process {

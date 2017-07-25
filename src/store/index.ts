@@ -6,6 +6,10 @@ import {StateWithHistory} from 'redux-undo';
 import { DEFAULT_STATE, StateBase } from '../models';
 import {rootReducer} from '../reducers';
 
+// Imports to satisfy --declarations build requirements
+// https://github.com/Microsoft/TypeScript/issues/9944
+// tslint:disable-next-line:no-unused-variable
+import {Store} from 'redux';
 
 const loggerMiddleware = createLogger({
   collapsed: true,

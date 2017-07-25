@@ -12,11 +12,12 @@ import {ResultAsyncAction, resultRequest} from '../../actions/result';
 import {SHELF_CLEAR, ShelfAction} from '../../actions/shelf';
 import {ShelfUnitSpec, State} from '../../models';
 import {ShelfFieldDef} from '../../models/shelf/encoding';
-import {getSchemaFieldDefs} from '../../selectors/index';
+import {selectSchemaFieldDefs} from '../../selectors/index';
 import * as styles from './encoding-pane.scss';
 import {EncodingShelf} from './encoding-shelf';
 import {FilterShelf} from './filter-shelf';
 import {MarkPicker} from './mark-picker';
+
 
 
 interface EncodingPanelProps extends ActionHandler<ShelfAction | ResultAsyncAction | FilterAction> {
@@ -177,7 +178,7 @@ export const EncodingPane = connect(
       specPreview: state.present.shelf.specPreview,
       filters: state.present.shelf.spec.filters,
       schema: state.present.dataset.schema,
-      fieldDefs: getSchemaFieldDefs(state)
+      fieldDefs: selectSchemaFieldDefs(state)
     };
   },
   createDispatchHandler<ShelfAction>()

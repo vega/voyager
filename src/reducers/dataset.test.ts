@@ -1,7 +1,7 @@
 import {ExpandedType} from 'compassql/build/src/query/expandedtype';
 import {FieldSchema, Schema} from 'compassql/build/src/schema';
 
-import {DATASET_INLINE_RECEIVE, DATASET_SCHEMA_CHANGE_FIELD_TYPE,
+import {DATASET_INLINE_RECEIVE, DATASET_SCHEMA_CHANGE_FIELD_TYPE, DATASET_SCHEMA_CHANGE_ORDINAL_DOMAIN,
         DATASET_URL_RECEIVE, DATASET_URL_REQUEST} from '../actions/dataset';
 import {Dataset, DEFAULT_DATASET} from '../models/dataset';
 import {datasetReducer} from './dataset';
@@ -126,6 +126,59 @@ describe('reducers/dataset', () => {
           payload: {
             field: 'q1',
             type: ExpandedType.NOMINAL
+          }
+        }
+      )).toEqual({
+        ...simpleDataset,
+        schema: changedSchema
+      });
+    });
+  });
+
+  describe(DATASET_SCHEMA_CHANGE_ORDINAL_DOMAIN, () => {
+    it('returns updated field schema with ordinalDomain changed', () => {
+      const data = {
+        values: [
+          {o: 'A'},
+          {o: 'B'}
+        ]
+      };
+
+      const simpleDataset: Dataset = {
+        isLoading: false,
+        name: 'Test',
+        schema: new Schema({fields:
+        [{
+          name: 'o',
+          vlType: 'ordinal',
+          type: 'string' as any,
+          stats: {
+            distinct: 2
+          }
+        }] as FieldSchema[]}),
+
+        data: data
+      };
+
+      const changedSchema = new Schema({fields:
+        [{
+          name: 'o',
+          ordinalDomain: ['B', 'A'],
+          vlType: 'ordinal',
+          type: 'string' as any,
+          stats: {
+            distinct: 2
+          }
+        }] as FieldSchema[]
+      });
+
+      expect(datasetReducer(
+        simpleDataset,
+        {
+          type: DATASET_SCHEMA_CHANGE_ORDINAL_DOMAIN,
+          payload: {
+            field: 'o',
+            domain: ['B', 'A']
           }
         }
       )).toEqual({

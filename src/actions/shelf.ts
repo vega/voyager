@@ -25,6 +25,7 @@ export const SHELF_FIELD_ADD = 'SHELF_FIELD_ADD';
 export type ShelfFieldAdd = ReduxAction<typeof SHELF_FIELD_ADD, {
   shelfId: ShelfId;
   fieldDef: ShelfFieldDef;
+  replace: boolean;
 }>;
 
 export const SHELF_FIELD_AUTO_ADD = 'SHELF_FIELD_AUTO_ADD';

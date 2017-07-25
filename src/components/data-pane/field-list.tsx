@@ -1,21 +1,24 @@
-import {FieldQuery} from 'compassql/build/src/query/encoding';
-import {Schema} from 'compassql/build/src/schema';
+import {ExpandedType} from 'compassql/build/src/query/expandedtype';
+import {PrimitiveType, Schema} from 'compassql/build/src/schema';
+import {isWildcard} from 'compassql/build/src/wildcard';
+import * as stringify from 'json-stable-stringify';
 import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
 import {connect} from 'react-redux';
+import {DatasetSchemaChangeFieldType} from '../../actions/dataset';
 import {FilterAction} from '../../actions/filter';
 import {ActionHandler, createDispatchHandler} from '../../actions/redux-action';
 import {SHELF_FIELD_AUTO_ADD, ShelfFieldAutoAdd} from '../../actions/shelf';
 import {FieldParentType} from '../../constants';
 import {State} from '../../models/index';
 import {ShelfFieldDef} from '../../models/shelf/encoding';
-import {getPresetWildcardFields, getSchemaFieldDefs} from '../../selectors';
-import {getSchema} from '../../selectors/index';
+import {selectPresetWildcardFields, selectSchema, selectSchemaFieldDefs} from '../../selectors';
 import {Field} from '../field';
 import * as styles from './field-list.scss';
+import {TypeChanger} from './type-changer';
 
 
-export interface FieldListProps extends ActionHandler<ShelfFieldAutoAdd | FilterAction> {
+export interface FieldListProps extends ActionHandler<ShelfFieldAutoAdd | DatasetSchemaChangeFieldType | FilterAction> {
   fieldDefs: ShelfFieldDef[];
   schema: Schema;
 }
@@ -30,30 +33,20 @@ class FieldListBase extends React.PureComponent<FieldListProps, {}> {
   }
 
   public render() {
-    const {fieldDefs, handleAction, schema} = this.props;
+    const {fieldDefs, schema} = this.props;
     const fieldItems = fieldDefs.map(fieldDef => {
-      const filterHide = fieldDef.field === '?' || fieldDef.field === '*';
-      let domain;
-      if (!filterHide) {
-        domain = schema.domain(fieldDef as FieldQuery);
+      let primitiveType;
+      if (!isWildcard(fieldDef.field)) {
+        primitiveType = schema.primitiveType(fieldDef.field);
       }
+      const hideTypeChanger = this.getValidTypes(primitiveType).length < 2;
+      const key = isWildcard(fieldDef.field) ? stringify(fieldDef) : fieldDef.field;
       return (
-        <div key={JSON.stringify(fieldDef)} styleName="field-list-item">
-          <Field
-            fieldDef={fieldDef}
-            isPill={true}
-            draggable={true}
-            filterHide={filterHide}
-            handleAction={handleAction}
-            parentId={{type: FieldParentType.FIELD_LIST}}
-            schema={schema}
-            onDoubleClick={this.onAdd}
-            onAdd={this.onAdd}
-          />
+        <div key={key} styleName="field-list-item">
+          {this.renderComponent(fieldDef, hideTypeChanger, primitiveType)}
         </div>
       );
     });
-
     return (
       <div className="FieldList">
         {fieldItems}
@@ -68,6 +61,64 @@ class FieldListBase extends React.PureComponent<FieldListProps, {}> {
       payload: {fieldDef: fieldDef}
     });
   }
+
+  private renderComponent(fieldDef: ShelfFieldDef, hideTypeChanger: boolean, primitiveType: PrimitiveType) {
+    if (hideTypeChanger) {
+      return this.renderField(fieldDef);
+    } else {
+      const popupComponent = this.renderTypeChanger(fieldDef, primitiveType);
+      return this.renderField(fieldDef, popupComponent);
+    }
+  }
+
+  private renderTypeChanger(fieldDef: ShelfFieldDef, primitiveType: PrimitiveType) {
+    const {handleAction} = this.props;
+    if (!isWildcard(fieldDef.field)) {
+      return (
+        <TypeChanger
+          field={fieldDef.field}
+          type={fieldDef.type}
+          validTypes={this.getValidTypes(primitiveType)}
+          handleAction={handleAction}
+        />
+      );
+    }
+  }
+
+  private renderField(fieldDef: ShelfFieldDef, popupComponent?: JSX.Element) {
+    const {schema, handleAction} = this.props;
+    return (
+      <Field
+        fieldDef={fieldDef}
+        isPill={true}
+        draggable={true}
+        filterHide={isWildcard(fieldDef.field)}
+        parentId={{type: FieldParentType.FIELD_LIST}}
+        popupComponent={popupComponent}
+        onDoubleClick={this.onAdd}
+        onAdd={this.onAdd}
+        schema={schema}
+        handleAction={handleAction}
+      />
+    );
+  }
+
+  private getValidTypes(primitiveType: PrimitiveType): ExpandedType[] {
+    switch (primitiveType) {
+      case PrimitiveType.NUMBER:
+        return [ExpandedType.QUANTITATIVE, ExpandedType.NOMINAL];
+      case PrimitiveType.INTEGER:
+        return [ExpandedType.QUANTITATIVE, ExpandedType.NOMINAL];
+      case PrimitiveType.DATETIME:
+        return [ExpandedType.TEMPORAL];
+      case PrimitiveType.STRING:
+        return [ExpandedType.NOMINAL];
+      case PrimitiveType.BOOLEAN:
+        return [ExpandedType.NOMINAL];
+      default:
+        return [];
+    }
+  }
 }
 
 const FieldListRenderer = CSSModules(FieldListBase, styles);
@@ -75,10 +126,10 @@ const FieldListRenderer = CSSModules(FieldListBase, styles);
 export const FieldList = connect(
   (state: State) => {
     return {
-      fieldDefs: getSchemaFieldDefs(state).concat([
+      fieldDefs: selectSchemaFieldDefs(state).concat([
         {aggregate: 'count', field: '*', type: 'quantitative', title: 'Number of Records'}
       ]),
-      schema: getSchema(state)
+      schema: selectSchema(state)
     };
   },
   createDispatchHandler<ShelfFieldAutoAdd>()
@@ -87,7 +138,8 @@ export const FieldList = connect(
 export const PresetWildcardFieldList = connect(
   (state: State) => {
     return {
-      fieldDefs: getPresetWildcardFields(state)
+      fieldDefs: selectPresetWildcardFields(state),
+      schema: selectSchema(state)
     };
   },
   createDispatchHandler<ShelfFieldAutoAdd>()

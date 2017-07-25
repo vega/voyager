@@ -15,6 +15,15 @@ $text-color: #212121;
   height: 22px;
 }
 
+
+.field-wrapper {
+  flex-grow: 1;
+  box-sizing: border-box;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  height: $pill-height;
+}
+
 .wildcard-shelf {
   @extend .encoding-shelf;
   background-color: hsla(185,80%,29%,0.4);
@@ -37,18 +46,6 @@ $text-color: #212121;
 //     &.expanded .fa, &:hover .fa {
 //       opacity: 1;
 //     }
-}
-
-.field-wrapper {
-  flex-grow: 1;
-  box-sizing: border-box;
-  border: 1px solid transparent;
-  border-radius: 3px;
-  height: $pill-height;
-
-  // .field-info {
-  //   margin-right: 0;
-  // }
 }
 
 .placeholder {
