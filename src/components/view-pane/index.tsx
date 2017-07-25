@@ -7,54 +7,49 @@ import {ShelfAction} from '../../actions/shelf';
 import {State} from '../../models';
 import {Bookmark} from '../../models/bookmark';
 import {PlotObject} from '../../models/plot';
-import {selectBookmark, selectMainResultForViewPane} from '../../selectors';
+import {selectBookmark, selectMainPlotList, selectMainSpec} from '../../selectors';
 import {Plot} from '../plot';
 import {PlotList} from '../plot-list';
 import * as styles from './view-pane.scss';
 
 export interface ViewPaneProps extends ActionHandler<ShelfAction> {
-  mainResult: {
-    spec: FacetedCompositeUnitSpec,
-    plots: PlotObject[]
-  };
+  isQuerySpecific: boolean;
+  spec: FacetedCompositeUnitSpec;
+  plots: PlotObject[];
   bookmark: Bookmark;
 }
 
 class ViewPaneBase extends React.PureComponent<ViewPaneProps, {}> {
   public render() {
-    const {bookmark, handleAction, mainResult} = this.props;
+    const {bookmark, handleAction, spec, plots} = this.props;
 
-    // if there are no results, then nothing to render.
-    if (!mainResult) {
-      return null;
-    }
-
-    if (mainResult.spec) {
+    if (spec) {
       return (
-        <div className="pane" styleName="view-pane-specific">
-          <h2>Specified View</h2>
-          <Plot handleAction={handleAction} spec={mainResult.spec} showBookmarkButton={true} bookmark={bookmark}/>
-
-          {/*{JSON.stringify(this.props.query)}
-
-          {JSON.stringify(this.props.mainSpec)}*/}
+        <div>
+          <div className="pane" styleName="view-pane-specific">
+            <h2>Specified View</h2>
+            <Plot handleAction={handleAction} spec={spec} showBookmarkButton={true} bookmark={bookmark}/>
+          </div>
         </div>
       );
-    } else {
+    } else if (plots) {
       return (
         <div className="pane" styleName="view-pane-gallery">
           <h2>Specified Views</h2>
-          <PlotList handleAction={handleAction} plots={mainResult.plots} bookmark={bookmark}/>
+          <PlotList handleAction={handleAction} plots={plots} bookmark={bookmark}/>
         </div>
       );
+    } else {
+      // if there are no results, then nothing to render.
+      return null;
     }
   }
 }
 export const ViewPane = connect(
   (state: State) => {
     return {
-      // FIXME: refactor the flow for this part (we should support asynchrounous request for this too)
-      mainResult: selectMainResultForViewPane(state),
+      plots: selectMainPlotList(state),
+      spec: selectMainSpec(state),
       bookmark: selectBookmark(state)
     };
   },
