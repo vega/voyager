@@ -37,18 +37,11 @@ export interface FilterShelfPropsBase {
   handleAction?: (action: FilterAction) => void;
 }
 
-export interface FilterShelfState {
-  timeUnit: boolean;
-}
-
 interface FilterShelfProps extends FilterShelfDropTargetProps, FilterShelfPropsBase {};
 
-class FilterShelfBase extends React.Component<FilterShelfProps, FilterShelfState> {
+class FilterShelfBase extends React.Component<FilterShelfProps, {}> {
   public constructor(props: FilterShelfProps) {
     super(props);
-    this.state = {
-      timeUnit: false
-    };
     this.filterModifyTimeUnit = this.filterModifyTimeUnit.bind(this);
   }
 
