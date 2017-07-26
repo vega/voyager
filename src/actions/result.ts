@@ -1,19 +1,19 @@
 import {SpecQueryGroup} from 'compassql/build/src/model';
+import {Query} from 'compassql/build/src/query/query';
 import {Dispatch} from 'redux';
 import {ThunkAction} from 'redux-thunk';
-import {PlotObject} from '../models/plot';
-import {ReduxAction} from './redux-action';
-
-import {Query} from 'compassql/build/src/query/query';
 import {fetchCompassQLRecommend} from '../api/api';
 import {State} from '../models/index';
+import {PlotObject} from '../models/plot';
+import {ResultIndex} from '../models/result';
 import {selectConfig, selectData, selectSchema} from '../selectors';
 import {Action} from './index';
+import {ReduxAction} from './redux-action';
 
 export type ResultAction = ResultRequest | ResultReceive;
 export type ResultAsyncAction = AsyncResultRequest;
 
-export type ResultType = 'main'; // TODO: add 'summary', etc.
+export type ResultType = keyof ResultIndex;
 
 export const RESULT_REQUEST = 'RESULT_REQUEST';
 export type ResultRequest = ReduxAction<typeof RESULT_REQUEST, {

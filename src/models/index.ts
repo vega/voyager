@@ -7,7 +7,7 @@ import {duplicate} from "vega-lite/build/src/util";
 import {Bookmark, DEFAULT_BOOKMARK} from './bookmark';
 import {DEFAULT_VOYAGER_CONFIG, VoyagerConfig} from './config';
 import {Dataset, DEFAULT_DATASET} from './dataset';
-import {DEFAULT_RESULT, ResultIndex} from './result';
+import {DEFAULT_RESULT_INDEX, ResultIndex} from './result';
 import {DEFAULT_SHELF_SPEC, Shelf} from './shelf';
 
 export * from './bookmark';
@@ -37,7 +37,7 @@ export const DEFAULT_STATE: StateBase = {
   config: DEFAULT_VOYAGER_CONFIG,
   dataset: DEFAULT_DATASET,
   shelf: DEFAULT_SHELF_SPEC,
-  result: DEFAULT_RESULT,
+  result: DEFAULT_RESULT_INDEX,
 };
 
 export interface SerializableState {
