@@ -30,6 +30,7 @@ export interface PlotProps extends ActionHandler<ShelfAction | BookmarkAction> {
 export interface PlotState {
   hovered: boolean;
   preview: boolean;
+  copiedPopupIsOpened: boolean;
 }
 
 export class PlotBase extends React.PureComponent<PlotProps, any> {
@@ -39,7 +40,11 @@ export class PlotBase extends React.PureComponent<PlotProps, any> {
 
   constructor(props: PlotProps) {
     super(props);
-    this.state = {hovered: false, preview: false};
+    this.state = {
+      hovered: false,
+      preview: false,
+      copiedPopupIsOpened: false
+    };
 
     // Bind - https://facebook.github.io/react/docs/handling-events.html
     this.handleTextChange = this.handleTextChange.bind(this);
@@ -73,10 +78,10 @@ export class PlotBase extends React.PureComponent<PlotProps, any> {
             {showBookmarkButton && this.bookmarkButton()}
             <TetherComponent
               attachment='bottom left'
-              offset='-10px 40px'
+              offset='0px 30px'
             >
               {this.copySpecButton()}
-              <span id={JSON.stringify(spec)} style={{display: 'none'}}> copied </span>
+              {this.state.copiedPopupIsOpened && <span styleName='copied'>copied</span>}
             </TetherComponent>
           </div>
           <span
@@ -229,19 +234,19 @@ export class PlotBase extends React.PureComponent<PlotProps, any> {
       <CopyToClipboard
         onCopy={this.copied.bind(this)}
         text={JSON.stringify(this.props.spec, null, 2)}>
-        <span> <i className='fa fa-clipboard' styleName='copy-button'/> </span>
+        <span><i className='fa fa-clipboard' styleName='copy-button'/></span>
       </CopyToClipboard>
     );
   }
 
   private copied() {
-    const copiedIndicator = document.getElementById(JSON.stringify(this.props.spec));
-    if (!copiedIndicator) {
-      return;
-    }
-    copiedIndicator.style.display = 'inline';
+    this.setState({
+      copiedPopupIsOpened: true
+    });
     window.setTimeout(() => {
-      copiedIndicator.style.display = 'none';
+      this.setState({
+        copiedPopupIsOpened: false
+      });
     }, 1000);
   }
 }
