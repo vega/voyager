@@ -2,8 +2,8 @@ import {Query} from 'compassql/build/src/query/query';
 import {Store} from 'redux';
 import {StateWithHistory} from 'redux-undo';
 import {Data} from 'vega-lite/build/src/data';
-import {resultRequest} from '../actions/result';
 import {StateBase} from '../models/index';
+import {dispatchQueries} from '../queries/index';
 import {selectData, selectQuery} from '../selectors/index';
 
 export function createQueryListener(store: Store<StateWithHistory<Readonly<StateBase>>>) {
@@ -19,8 +19,7 @@ export function createQueryListener(store: Store<StateWithHistory<Readonly<State
 
     // Check if either query or data has changed, need to submit a new query.
     if (previousQuery !== query || previousData !== data) {
-      // TODO: consider state of the query and make queries for related views too.
-      store.dispatch(resultRequest('main', query));
+      dispatchQueries(store, query);
     }
   };
 }
