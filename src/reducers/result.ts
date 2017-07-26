@@ -34,4 +34,5 @@ export function resultIndexReducer(state: Readonly<ResultIndex> = DEFAULT_RESULT
         [resultType]: resultReducer(state[resultType], action)
       };
   }
+  return state;
 }
