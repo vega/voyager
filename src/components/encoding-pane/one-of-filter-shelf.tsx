@@ -19,7 +19,6 @@ export interface OneOfFilterShelfState {
 }
 
 export class OneOfFilterShelfBase extends React.Component<OneOfFilterShelfProps, OneOfFilterShelfState> {
-
   constructor(props: OneOfFilterShelfProps) {
     super(props);
     this.state = ({

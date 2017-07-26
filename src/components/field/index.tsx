@@ -113,7 +113,7 @@ class FieldBase extends React.PureComponent<FieldProps, FieldState> {
       </span>
     );
     // Wrap with connect dragSource if it is injected
-    if (!popupComponent) {
+    if (!popupComponent || !this.state) {
       return connectDragSource ? connectDragSource(component) : component;
     } else {
       return (

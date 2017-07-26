@@ -22,20 +22,21 @@ $radius: 3px;
   }
 }
 
-.header {
-  display: flex;
-  justify-content: space-between;
-  background-color: rgba(237,237,237,.8);
-  padding: 3px;
-}
+.time-unit-changer {
+  padding: 5px;
+  background-color: #eee;
+  border: 1px solid #eee;
+  border-radius: 3px;
+  width: 300px;
 
-.toggle-time-unit {
-  padding: 2px 3px 1px;
-  border-radius: $radius;
+  label {
+    display: inline-block;
+    width: 100px;
+    font-size: 11px;
+  }
 
-  &:hover {
-    cursor: pointer;
-    color: #fff;
-    background-color: #999;
+  .close {
+    position: absolute;
+    right: 5px;
   }
 }

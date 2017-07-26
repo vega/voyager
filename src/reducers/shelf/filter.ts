@@ -1,5 +1,6 @@
 import {ExpandedType} from 'compassql/build/src/query/expandedtype';
 import {OneOfFilter, RangeFilter} from 'vega-lite/build/src/filter';
+import {convert, TimeUnit} from 'vega-lite/build/src/timeunit';
 import {
   FILTER_ADD, FILTER_CLEAR, FILTER_MODIFY_EXTENT, FILTER_MODIFY_MAX_BOUND, FILTER_MODIFY_MIN_BOUND,
   FILTER_MODIFY_ONE_OF, FILTER_MODIFY_TIME_UNIT, FILTER_REMOVE
@@ -157,5 +158,52 @@ export function getFilter(fieldDef: ShelfFieldDef, domain: any[]): RangeFilter |
       return {field: fieldDef.field, oneOf: domain};
     default:
       throw new Error('Unsupported type ' + fieldDef.type);
+  }
+}
+
+export function getAllTimeUnits() {
+  return [
+    TimeUnit.YEARMONTHDATE,
+    TimeUnit.YEAR,
+    TimeUnit.MONTH,
+    TimeUnit.QUARTER,
+    TimeUnit.DATE,
+    TimeUnit.DAY,
+    TimeUnit.HOURS,
+    TimeUnit.MINUTES,
+    TimeUnit.SECONDS,
+    TimeUnit.MILLISECONDS
+  ];
+}
+
+export function getRange(domain: number[], timeUnit: TimeUnit) {
+  switch (timeUnit) {
+    case TimeUnit.YEARMONTHDATE:
+      return [Number(convert(timeUnit, new Date(domain[0]))),
+        Number(convert(timeUnit, new Date(domain[1])))];
+    case TimeUnit.YEAR:
+      return [convert(timeUnit, new Date(domain[0])).getFullYear(),
+        convert(timeUnit, new Date(domain[1])).getFullYear()];
+    case TimeUnit.MONTH:
+      // return ['January', 'February', 'March', 'April', 'May', 'June', 'July',
+      //   'August', 'September', 'October', 'November', 'December'];
+      return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+    case TimeUnit.QUARTER:
+      return [1, 4];
+    case TimeUnit.DATE:
+      return [1, 31];
+    case TimeUnit.DAY:
+      // return ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+      return [1, 2, 3, 4, 5, 6, 7];
+    case TimeUnit.HOURS:
+      return [0, 23];
+    case TimeUnit.MINUTES:
+      return [0, 59];
+    case TimeUnit.SECONDS:
+      return [0, 59];
+    case TimeUnit.MILLISECONDS:
+      return [0, 999];
+    default:
+      throw new Error ('Invalid time unit ' + timeUnit);
   }
 }
