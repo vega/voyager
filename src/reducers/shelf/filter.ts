@@ -51,21 +51,20 @@ export function filterReducer(shelfSpec: Readonly<ShelfUnitSpec> = DEFAULT_SHELF
       if (min > max) {
         throw new Error('Invalid bound');
       }
-      const modifier = (filter: RangeFilter) => {
+      const modifyExtent = (filter: RangeFilter) => {
         return {
           ...filter,
           range
         };
       };
-      const filters = modifyItemInArray(shelfSpec.filters, index, modifier);
       return {
         ...shelfSpec,
-        filters
+        filters: modifyItemInArray(shelfSpec.filters, index, modifyExtent)
       };
     }
     case FILTER_MODIFY_MAX_BOUND: {
       const {index, maxBound} = action.payload;
-      const modifier = (filter: RangeFilter) => {
+      const modifyMaxBound = (filter: RangeFilter) => {
         const range = filter.range;
         const minBound = range[0];
         if (maxBound < minBound) {
@@ -76,15 +75,14 @@ export function filterReducer(shelfSpec: Readonly<ShelfUnitSpec> = DEFAULT_SHELF
           range: [minBound, maxBound]
         };
       };
-      const filters = modifyItemInArray(shelfSpec.filters, index, modifier);
       return {
         ...shelfSpec,
-        filters
+        filters: modifyItemInArray(shelfSpec.filters, index, modifyMaxBound)
       };
     }
     case FILTER_MODIFY_MIN_BOUND: {
       const {index, minBound} = action.payload;
-      const modifier = (filter: RangeFilter) => {
+      const modifyMinBound = (filter: RangeFilter) => {
         const range = filter.range;
         const maxBound = range[range.length - 1];
         if (minBound > maxBound) {
@@ -95,38 +93,35 @@ export function filterReducer(shelfSpec: Readonly<ShelfUnitSpec> = DEFAULT_SHELF
           range: [minBound, maxBound]
         };
       };
-      const filters = modifyItemInArray(shelfSpec.filters, index, modifier);
       return {
         ...shelfSpec,
-        filters
+        filters: modifyItemInArray(shelfSpec.filters, index, modifyMinBound)
       };
     }
     case FILTER_MODIFY_ONE_OF: {
       const {index, oneOf} = action.payload;
-      const modifier = (filter: OneOfFilter) => {
+      const modifyOneOf = (filter: OneOfFilter) => {
         return {
           ...filter,
           oneOf: oneOf
         };
       };
-      const filters = modifyItemInArray(shelfSpec.filters, index, modifier);
       return {
         ...shelfSpec,
-        filters
+        filters: modifyItemInArray(shelfSpec.filters, index, modifyOneOf)
       };
     }
     case FILTER_MODIFY_TIME_UNIT: {
       const {index, timeUnit} = action.payload;
-      const modifier = (filter: RangeFilter) => {
+      const modifyTimeUnit = (filter: RangeFilter) => {
         return {
           ...filter,
           timeUnit
         };
       };
-      const filters = modifyItemInArray(shelfSpec.filters, index, modifier);
       return {
         ...shelfSpec,
-        filters
+        filters: modifyItemInArray(shelfSpec.filters, index, modifyTimeUnit)
       };
     }
     default: {
@@ -176,7 +171,7 @@ export function getAllTimeUnits() {
   ];
 }
 
-export function getRange(domain: number[], timeUnit: TimeUnit) {
+export function getDefaultRange(domain: number[], timeUnit: TimeUnit) {
   switch (timeUnit) {
     case TimeUnit.YEARMONTHDATE:
       return [Number(convert(timeUnit, new Date(domain[0]))),
@@ -184,14 +179,10 @@ export function getRange(domain: number[], timeUnit: TimeUnit) {
     case TimeUnit.YEAR:
       return [convert(timeUnit, new Date(domain[0])).getFullYear(),
         convert(timeUnit, new Date(domain[1])).getFullYear()];
-    case TimeUnit.MONTH:
-      return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
     case TimeUnit.QUARTER:
       return [1, 4];
     case TimeUnit.DATE:
       return [1, 31];
-    case TimeUnit.DAY:
-      return [1, 2, 3, 4, 5, 6, 7];
     case TimeUnit.HOURS:
       return [0, 23];
     case TimeUnit.MINUTES:
@@ -200,6 +191,17 @@ export function getRange(domain: number[], timeUnit: TimeUnit) {
       return [0, 59];
     case TimeUnit.MILLISECONDS:
       return [0, 999];
+    default:
+      throw new Error ('Invalid range time unit ' + timeUnit);
+  }
+}
+
+export function getDefaultList(domain: number[], timeUnit: TimeUnit) {
+  switch (timeUnit) {
+    case TimeUnit.MONTH:
+      return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+    case TimeUnit.DAY:
+      return [1, 2, 3, 4, 5, 6, 7];
     default:
       throw new Error ('Invalid time unit ' + timeUnit);
   }

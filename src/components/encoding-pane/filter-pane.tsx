@@ -11,7 +11,7 @@ import {FILTER_ADD, FILTER_MODIFY_EXTENT, FILTER_MODIFY_ONE_OF, FILTER_MODIFY_TI
   FILTER_REMOVE, FilterAction} from '../../actions/filter';
 import {DraggableType} from '../../constants';
 import {ShelfFieldDef} from '../../models/shelf/encoding';
-import {getAllTimeUnits, getRange} from '../../reducers/shelf/filter';
+import {getAllTimeUnits, getDefaultList, getDefaultRange} from '../../reducers/shelf/filter';
 import {DraggedFieldIdentifier} from '../field';
 import {Field} from '../field/index';
 import * as styles from './filter-shelf.scss';
@@ -22,7 +22,7 @@ import {RangeFilterShelf} from './range-filter-shelf';
 /**
  * Props for react-dnd of FilterShelf
  */
-export interface FilterShelfDropTargetProps {
+export interface FilterPaneDropTargetProps {
   connectDropTarget: ConnectDropTarget;
 
   isOver: boolean;
@@ -30,17 +30,17 @@ export interface FilterShelfDropTargetProps {
   item: Object;
 }
 
-export interface FilterShelfPropsBase {
+export interface FilterPanePropsBase {
   filters: Array<RangeFilter | OneOfFilter>;
   fieldDefs: ShelfFieldDef[];
   schema: Schema;
   handleAction?: (action: FilterAction) => void;
 }
 
-interface FilterShelfProps extends FilterShelfDropTargetProps, FilterShelfPropsBase {};
+interface FilterPaneProps extends FilterPaneDropTargetProps, FilterPanePropsBase {};
 
-class FilterShelfBase extends React.Component<FilterShelfProps, {}> {
-  public constructor(props: FilterShelfProps) {
+class FilterPaneBase extends React.Component<FilterPaneProps, {}> {
+  public constructor(props: FilterPaneProps) {
     super(props);
     this.filterModifyTimeUnit = this.filterModifyTimeUnit.bind(this);
   }
@@ -97,7 +97,7 @@ class FilterShelfBase extends React.Component<FilterShelfProps, {}> {
         type: FILTER_MODIFY_ONE_OF,
         payload: {
           index,
-          oneOf: getRange(domain, timeUnit)
+          oneOf: getDefaultList(domain, timeUnit)
         }
       });
     } else {
@@ -105,7 +105,7 @@ class FilterShelfBase extends React.Component<FilterShelfProps, {}> {
         type: FILTER_MODIFY_EXTENT,
         payload: {
           index,
-          range: getRange(domain, timeUnit)
+          range: getDefaultRange(domain, timeUnit)
         }
       });
     }
@@ -116,11 +116,8 @@ class FilterShelfBase extends React.Component<FilterShelfProps, {}> {
     const fieldIndex = schema.fieldNames().indexOf(filter.field);
     const fieldDef = fieldDefs[fieldIndex];
     let domain = schema.domain(fieldDef as FieldQuery);
-    const popupComponent = (
-      fieldDef.type === ExpandedType.TEMPORAL ?
-        this.renderTimeUnitChanger(filter, index, domain) :
-      null
-    );
+    const popupComponent =
+      fieldDef.type === ExpandedType.TEMPORAL && this.renderTimeUnitChanger(filter, index, domain));
 
     let filterComponent;
     if (isRangeFilter(filter)) {
@@ -232,7 +229,7 @@ class FilterShelfBase extends React.Component<FilterShelfProps, {}> {
   }
 }
 
-const filterShelfTarget: DropTargetSpec<FilterShelfProps> = {
+const filterShelfTarget: DropTargetSpec<FilterPaneProps> = {
   drop(props, monitor) {
     if (monitor.didDrop()) {
       return;
@@ -250,7 +247,7 @@ const filterShelfTarget: DropTargetSpec<FilterShelfProps> = {
   }
 };
 
-const collect: DropTargetCollector = (connect, monitor): FilterShelfDropTargetProps => {
+const collect: DropTargetCollector = (connect, monitor): FilterPaneDropTargetProps => {
   return {
     connectDropTarget: connect.dropTarget(),
     isOver: monitor.isOver(),
@@ -259,6 +256,6 @@ const collect: DropTargetCollector = (connect, monitor): FilterShelfDropTargetPr
 };
 
 // HACK: do type casting to suppress compile error for: https://github.com/Microsoft/TypeScript/issues/13526
-export const FilterShelf: () => React.PureComponent<FilterShelfPropsBase, {}> = DropTarget(
+export const FilterPane: () => React.PureComponent<FilterPanePropsBase, {}> = DropTarget(
   DraggableType.FIELD, filterShelfTarget, collect
-)(CSSModules(FilterShelfBase, styles)) as any;
+)(CSSModules(FilterPaneBase, styles)) as any;

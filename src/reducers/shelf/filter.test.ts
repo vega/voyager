@@ -154,7 +154,7 @@ describe('reducers/shelf/filter', () => {
   });
 
   describe('getFilter', () => {
-    it('should return an range filter', () => {
+    it('should return a range filter', () => {
       const fieldDef: ShelfFieldDef = {field: 'q1', type: 'quantitative'};
       const domain: any[] = [0, 1];
       const filter = getFilter(fieldDef, domain);
@@ -163,7 +163,7 @@ describe('reducers/shelf/filter', () => {
   });
 
   describe(FILTER_MODIFY_TIME_UNIT, () => {
-    it('should add an time unit to the current filter', () => {
+    it('should add a time unit to the current filter', () => {
       const spec: ShelfUnitSpec = filterReducer(simpleSpec,
         {
           type: FILTER_MODIFY_TIME_UNIT,
