@@ -7,6 +7,7 @@ import * as styles from './plot.scss';
 import * as CopyToClipboard from 'react-copy-to-clipboard';
 import {Bookmark} from '../../models/bookmark';
 
+import * as TetherComponent from 'react-tether';
 import {BOOKMARK_MODIFY_NOTE, BookmarkAction} from '../../actions/bookmark';
 import {ActionHandler} from '../../actions/redux-action';
 import {SHELF_SPEC_LOAD, SHELF_SPEC_PREVIEW, SHELF_SPEC_PREVIEW_DISABLE, ShelfAction} from '../../actions/shelf';
@@ -70,8 +71,13 @@ export class PlotBase extends React.PureComponent<PlotProps, any> {
           <div styleName="plot-command">
             {showSpecifyButton && this.specifyButton()}
             {showBookmarkButton && this.bookmarkButton()}
-            <span id='copied' style={{display: 'none'}}> copied </span>
-            {this.copySpecButton()}
+            <TetherComponent
+              attachment='bottom left'
+              offset='-10px 40px'
+            >
+              {this.copySpecButton()}
+              <span id={JSON.stringify(spec)} style={{display: 'none'}}> copied </span>
+            </TetherComponent>
           </div>
           <span
             onMouseEnter={this.onPreviewMouseEnter}
@@ -229,7 +235,10 @@ export class PlotBase extends React.PureComponent<PlotProps, any> {
   }
 
   private copied() {
-    const copiedIndicator = document.getElementById('copied');
+    const copiedIndicator = document.getElementById(JSON.stringify(this.props.spec));
+    if (!copiedIndicator) {
+      return;
+    }
     copiedIndicator.style.display = 'inline';
     window.setTimeout(() => {
       copiedIndicator.style.display = 'none';

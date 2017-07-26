@@ -48,4 +48,11 @@
 
 .copy-button {
   cursor: pointer;
+  position: relative;
+}
+
+.copied {
+  position: absolute;
+  left: 100%;
+  margin-left: -40px;
 }
