@@ -40,8 +40,6 @@ export class RangeFilterShelfBase extends React.PureComponent<RangeFilterShelfPr
 
   public render() {
     const {filter, domain, type} = this.props;
-    console.log(domain);
-    console.log(filter);
     const createSliderWithTooltip = Slider.createSliderWithTooltip;
     const Range = createSliderWithTooltip(Slider.Range);
     let minInput, maxInput, formatLabel;

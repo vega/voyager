@@ -131,25 +131,31 @@ class FilterShelfBase extends React.Component<FilterShelfProps, FilterShelfState
 
     let filterComponent;
     if (isRangeFilter(filter)) {
-      if (filter.timeUnit) {
-        domain = getRange(domain, filter.timeUnit);
-        if (domain.length === 2) {
-          // TODO: a better way to check range filter
-          filterComponent = (
-            <RangeFilterShelf
-              domain={domain}
-              index={index}
-              filter={filter}
-              type={ExpandedType.QUANTITATIVE}
-              handleAction={handleAction}
-            />
-          );
-        } else {
+      const timeUnit = filter.timeUnit;
+      if (timeUnit) {
+        domain = getRange(domain, timeUnit);
+        if (timeUnit === TimeUnit.MONTH || timeUnit === TimeUnit.DAY) {
           filterComponent = (
             <OneOfFilterShelf
               domain={domain}
               index={index}
               filter={{field: filter.field, oneOf: domain}}
+              handleAction={handleAction}
+            />
+          );
+        } else {
+          let type;
+          if (timeUnit === TimeUnit.YEARMONTHDATE) {
+            type = ExpandedType.TEMPORAL;
+          } else {
+            type = ExpandedType.QUANTITATIVE;
+          }
+          filterComponent = (
+            <RangeFilterShelf
+              domain={domain}
+              index={index}
+              filter={filter}
+              type={type as ExpandedType}
               handleAction={handleAction}
             />
           );
