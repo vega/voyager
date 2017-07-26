@@ -90,10 +90,8 @@ export function shelfSpecReducer(shelfSpec: Readonly<ShelfUnitSpec> = DEFAULT_SH
       const {shelfId, fn} = action.payload;
 
       return modifyEncoding(shelfSpec, shelfId, (fieldDef: Readonly<ShelfFieldDef | ShelfAnyEncodingDef>) => {
-        const {aggregate: _a, bin: _b, timeUnit: _t, hasFn: _h, ...fieldDefWithoutFn} = fieldDef;
-
         return {
-          ...fieldDefWithoutFn,
+          ...fieldDef,
           ...(getWildcardFunctionsMixins(fn, fieldDef))
         };
       });

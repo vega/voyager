@@ -562,7 +562,18 @@ describe('reducers/shelf/spec', () => {
         {
           ...DEFAULT_SHELF_UNIT_SPEC,
           encoding: {
-            x: {aggregate: {name: 'aggregate', enum: ['mean']}, field: 'a', type: 'quantitative'}
+            x: {
+              aggregate: {
+                name: 'aggregate',
+                enum: ['mean']
+              },
+              timeUnit: {
+                name: 'timeUnit',
+                enum: ['yearmonth']
+              },
+              field: 'a',
+              type: 'quantitative'
+            }
           }
         },
         {
@@ -578,7 +589,18 @@ describe('reducers/shelf/spec', () => {
       expect(shelfSpec).toEqual({
         ...DEFAULT_SHELF_UNIT_SPEC,
         encoding: {
-          x: {aggregate: {name: 'aggregate', enum: ['mean', 'median']}, field: 'a', type: 'quantitative'}
+          x: {
+            aggregate: {
+              name: 'aggregate',
+              enum: ['mean', 'median']
+            },
+            timeUnit: {
+              name: 'timeUnit',
+              enum: ['yearmonth']
+            },
+            field: 'a',
+            type: 'quantitative'
+          }
         }
       });
     });
