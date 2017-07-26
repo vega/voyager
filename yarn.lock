@@ -970,13 +970,13 @@ commander@2, commander@2.9.0, commander@2.9.x, commander@^2.9.0, commander@~2.9.
   dependencies:
     graceful-readlink ">= 1.0.0"
 
-compassql@^0.18.0:
-  version "0.18.0"
-  resolved "https://registry.yarnpkg.com/compassql/-/compassql-0.18.0.tgz#44eeba0d7afc12dfe3fe95c63ad39051e9c64ab8"
+compassql@^0.19.0:
+  version "0.19.0"
+  resolved "https://registry.yarnpkg.com/compassql/-/compassql-0.19.0.tgz#83f1784eece8fdc42910742d96a73afc84312d5e"
   dependencies:
     datalib "~1.7.0"
     typescript-json-schema "^0.9.0"
-    vega-lite "2.0.0-beta.5"
+    vega-lite "2.0.0-beta.10"
 
 compressible@~2.0.8:
   version "2.0.9"
@@ -6094,6 +6094,10 @@ vega-encode@>=1.0.0-beta:
     vega-scale ">=2.0.0-beta"
     vega-util "^1.1"
 
+vega-event-selector@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/vega-event-selector/-/vega-event-selector-2.0.0.tgz#6af8dc7345217017ceed74e9155b8d33bad05d42"
+
 vega-event-selector@^2.0.0-beta:
   version "2.0.0-beta"
   resolved "https://registry.yarnpkg.com/vega-event-selector/-/vega-event-selector-2.0.0-beta.tgz#7937d06479943e66c3e853f2055db1202c481dc2"
@@ -6129,7 +6133,17 @@ vega-hierarchy@>=1.0.0-beta:
     vega-dataflow ">=2.0.0-beta.4"
     vega-util "1"
 
-vega-lite@2.0.0-beta.5, vega-lite@^2.0.0-beta.3:
+vega-lite@2.0.0-beta.10:
+  version "2.0.0-beta.10"
+  resolved "https://registry.yarnpkg.com/vega-lite/-/vega-lite-2.0.0-beta.10.tgz#e7d2eebed6d608b328e9e8faacd50f1e5efaca5d"
+  dependencies:
+    json-stable-stringify "^1.0.1"
+    tslib "^1.7.1"
+    vega-event-selector "^2.0.0"
+    vega-util "^1.4.1"
+    yargs "^8.0.2"
+
+vega-lite@^2.0.0-beta.3:
   version "2.0.0-beta.5"
   resolved "https://registry.yarnpkg.com/vega-lite/-/vega-lite-2.0.0-beta.5.tgz#a9a040f3a6fba6b747c074850718967c6699b66b"
   dependencies:
@@ -6209,6 +6223,10 @@ vega-tooltip@^0.4.2:
 vega-util@1, vega-util@^1.1, vega-util@^1.2, vega-util@^1.3.0:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/vega-util/-/vega-util-1.3.0.tgz#cf338e0d8210b9d369ce8cfa6727c39a89d4fe9f"
+
+vega-util@^1.4.1:
+  version "1.4.1"
+  resolved "https://registry.yarnpkg.com/vega-util/-/vega-util-1.4.1.tgz#3c5bea971aecec552786c190421f87e42165d666"
 
 vega-view@>=1.0.0-beta:
   version "1.0.0-beta.26"
@@ -6602,6 +6620,24 @@ yargs@^6.0.0, yargs@^6.1.1, yargs@^6.3.0, yargs@^6.6.0:
 yargs@^8.0.1:
   version "8.0.1"
   resolved "https://registry.yarnpkg.com/yargs/-/yargs-8.0.1.tgz#420ef75e840c1457a80adcca9bc6fa3849de51aa"
+  dependencies:
+    camelcase "^4.1.0"
+    cliui "^3.2.0"
+    decamelize "^1.1.1"
+    get-caller-file "^1.0.1"
+    os-locale "^2.0.0"
+    read-pkg-up "^2.0.0"
+    require-directory "^2.1.1"
+    require-main-filename "^1.0.1"
+    set-blocking "^2.0.0"
+    string-width "^2.0.0"
+    which-module "^2.0.0"
+    y18n "^3.2.1"
+    yargs-parser "^7.0.0"
+
+yargs@^8.0.2:
+  version "8.0.2"
+  resolved "https://registry.yarnpkg.com/yargs/-/yargs-8.0.2.tgz#6299a9055b1cefc969ff7e79c1d918dceb22c360"
   dependencies:
     camelcase "^4.1.0"
     cliui "^3.2.0"
