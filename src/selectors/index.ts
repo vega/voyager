@@ -74,7 +74,7 @@ export const selectSchemaFieldDefs = createSelector(
   }
 );
 
-const selectMainResult = (state: State) => state.present.result.main;
+const selectMainResult = (state: State) => state.present.result && state.present.result.main;
 
 const selectIsQuerySpecific = createSelector(
   selectQuerySpec,
@@ -94,7 +94,7 @@ export const selectMainSpec = createSelector(
     filters: Array<RangeFilter|OneOfFilter>,
     mainResult: Result
   ): FacetedCompositeUnitSpec => {
-    if (!isQuerySpecific || !mainResult.modelGroup) {
+    if (!isQuerySpecific || !mainResult || !mainResult.modelGroup) {
       return undefined;
     }
     return {
@@ -113,7 +113,7 @@ export const selectMainPlotList = createSelector(
     filters: Array<RangeFilter|OneOfFilter>,
     mainResult: Result
   ) => {
-    if (isQuerySpecific || !mainResult.modelGroup) {
+    if (isQuerySpecific || !mainResult || !mainResult.modelGroup) {
       return undefined;
     }
     // FIXME(https://github.com/vega/voyager/issues/448): use data and filter

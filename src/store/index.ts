@@ -3,13 +3,14 @@ import {createLogger} from 'redux-logger';
 import thunkMiddleware from 'redux-thunk';
 import {StateWithHistory} from 'redux-undo';
 
-import { DEFAULT_STATE, StateBase } from '../models';
+import {DEFAULT_STATE, StateBase} from '../models';
 import {rootReducer} from '../reducers';
 
 // Imports to satisfy --declarations build requirements
 // https://github.com/Microsoft/TypeScript/issues/9944
 // tslint:disable-next-line:no-unused-variable
 import {Store} from 'redux';
+import {createQueryListener} from './listener';
 
 const loggerMiddleware = createLogger({
   collapsed: true,
@@ -41,5 +42,6 @@ export function configureStore(initialState = DEFAULT_STATE) {
     initialStateWithHistory,
     composeEnhancers(applyMiddleware(...middleware))
   );
+  store.subscribe(createQueryListener(store));
   return store;
 }
