@@ -1,6 +1,6 @@
 import {
   SHELF_CLEAR, SHELF_FIELD_ADD, SHELF_FIELD_AUTO_ADD, SHELF_FIELD_MOVE, SHELF_FIELD_REMOVE, SHELF_FUNCTION_ADD_WILDCARD,
-  SHELF_FUNCTION_CHANGE, SHELF_FUNCTION_ENABLE_WILDCARD, SHELF_MARK_CHANGE_TYPE
+  SHELF_FUNCTION_CHANGE, SHELF_FUNCTION_DISABLE_WILDCARD, SHELF_FUNCTION_ENABLE_WILDCARD, SHELF_MARK_CHANGE_TYPE
 } from '../../actions/shelf';
 import {DEFAULT_SHELF_UNIT_SPEC} from '../../models';
 import {shelfSpecReducer} from './spec';
@@ -360,6 +360,61 @@ describe('reducers/shelf/spec', () => {
         ...DEFAULT_SHELF_UNIT_SPEC,
         encoding: {
           x: {field: 'a', type: 'quantitative'}
+        }
+      });
+    });
+  });
+
+  describe(SHELF_FUNCTION_DISABLE_WILDCARD, () => {
+    it('should correctly convert the last selected wildcard function back to a specific function', () => {
+      const shelfSpec = shelfSpecReducer(
+        {
+          ...DEFAULT_SHELF_UNIT_SPEC,
+          encoding: {},
+          anyEncodings: [
+            {aggregate: {name: 'aggregate', enum: ['mean', 'median']}, bin: '?', channel: '?', field: 'a'}
+          ]
+        },
+        {
+          type: SHELF_FUNCTION_DISABLE_WILDCARD,
+          payload: {
+            shelfId: {channel: '?', index: 0},
+            fn: 'mean'
+          }
+        },
+        schema
+      );
+
+      expect(shelfSpec).toEqual({
+        ...DEFAULT_SHELF_UNIT_SPEC,
+        anyEncodings: [
+          {aggregate: 'mean', channel: '?', field: 'a'}
+        ]
+      });
+    });
+
+    it('should correctly convert the last selected wildcard function back to a specific function', () => {
+      const shelfSpec = shelfSpecReducer(
+        {
+          ...DEFAULT_SHELF_UNIT_SPEC,
+          encoding: {
+            x: {aggregate: {name: 'aggregate', enum: ['mean', 'median']}, bin: '?', field: 'a', type: 'quantitative'}
+          }
+        },
+        {
+          type: SHELF_FUNCTION_DISABLE_WILDCARD,
+          payload: {
+            shelfId: {channel: 'x'},
+            fn: 'mean'
+          }
+        },
+        schema
+      );
+
+      expect(shelfSpec).toEqual({
+        ...DEFAULT_SHELF_UNIT_SPEC,
+        encoding: {
+          x: {aggregate: 'mean', field: 'a', type: 'quantitative'}
         }
       });
     });

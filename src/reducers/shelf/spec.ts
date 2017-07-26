@@ -8,8 +8,8 @@ import {isWildcard, SHORT_WILDCARD} from 'compassql/build/src/wildcard';
 import {Action} from '../../actions';
 import {
   SHELF_CLEAR, SHELF_FIELD_ADD, SHELF_FIELD_AUTO_ADD, SHELF_FIELD_MOVE,
-  SHELF_FIELD_REMOVE, SHELF_FUNCTION_ADD_WILDCARD, SHELF_FUNCTION_CHANGE, SHELF_FUNCTION_ENABLE_WILDCARD,
-  SHELF_MARK_CHANGE_TYPE, SHELF_SPEC_LOAD
+  SHELF_FIELD_REMOVE, SHELF_FUNCTION_ADD_WILDCARD, SHELF_FUNCTION_CHANGE, SHELF_FUNCTION_DISABLE_WILDCARD,
+  SHELF_FUNCTION_ENABLE_WILDCARD, SHELF_MARK_CHANGE_TYPE, SHELF_SPEC_LOAD
 } from '../../actions/shelf';
 
 import {AGGREGATE_OPS} from 'vega-lite/build/src/aggregate';
@@ -100,19 +100,7 @@ export function shelfSpecReducer(shelfSpec: Readonly<ShelfUnitSpec> = DEFAULT_SH
 
     }
 
-    case SHELF_FUNCTION_ENABLE_WILDCARD: {
-      const {shelfId, fn} = action.payload;
-
-      return modifyEncoding(shelfSpec, shelfId, (fieldDef: Readonly<ShelfFieldDef | ShelfAnyEncodingDef>) => {
-        const {aggregate: _a, bin: _b, timeUnit: _t, hasFn: _h, ...fieldDefWithoutFn} = fieldDef;
-
-        return {
-          ...fieldDefWithoutFn,
-          ...(getFunctionAsWildcard(fn))
-        };
-      });
-    }
-
+    case SHELF_FUNCTION_DISABLE_WILDCARD:
     case SHELF_FUNCTION_CHANGE: {
       const {shelfId, fn} = action.payload;
 
@@ -123,6 +111,19 @@ export function shelfSpecReducer(shelfSpec: Readonly<ShelfUnitSpec> = DEFAULT_SH
         return {
           ...fieldDefWithoutFn,
           ...(getFunctionMixins(fn))
+        };
+      });
+    }
+
+    case SHELF_FUNCTION_ENABLE_WILDCARD: {
+      const {shelfId, fn} = action.payload;
+
+      return modifyEncoding(shelfSpec, shelfId, (fieldDef: Readonly<ShelfFieldDef | ShelfAnyEncodingDef>) => {
+        const {aggregate: _a, bin: _b, timeUnit: _t, hasFn: _h, ...fieldDefWithoutFn} = fieldDef;
+
+        return {
+          ...fieldDefWithoutFn,
+          ...(getFunctionAsWildcard(fn))
         };
       });
     }
