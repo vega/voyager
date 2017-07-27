@@ -30,7 +30,13 @@ export function resultIndexReducer(state: Readonly<ResultIndex> = DEFAULT_RESULT
     case RESULT_RECEIVE:
       const {resultType} = action.payload;
       return {
-        ...state,
+        ...(
+          action.type === RESULT_REQUEST && resultType === 'main' ?
+            // When making a main query result request, reset all other results
+            // as the older related views results will be outdated anyway.
+            DEFAULT_RESULT_INDEX :
+            state
+        ),
         [resultType]: resultReducer(state[resultType], action)
       };
   }
