@@ -217,7 +217,7 @@ describe('lib-voyager', () => {
   });
 
 
-  describe.skip('vega-lite spec', () => {
+  describe('vega-lite spec', () => {
     it('accepts valid spec', done => {
       setTimeout(() => {
         try {
