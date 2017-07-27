@@ -37,7 +37,7 @@
   float: right;
 }
 
-.bookmark-button {
+.bookmark-button, .copy-button {
   cursor: pointer;
   margin-left: 4px;
 }
@@ -46,6 +46,6 @@
   transform: scaleX(-1);
 }
 
-.copy-button {
-  cursor: pointer;
+.copied {
+  font-size: 12px;
 }

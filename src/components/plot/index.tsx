@@ -7,6 +7,7 @@ import * as styles from './plot.scss';
 import * as CopyToClipboard from 'react-copy-to-clipboard';
 import {Bookmark} from '../../models/bookmark';
 
+import * as TetherComponent from 'react-tether';
 import {BOOKMARK_MODIFY_NOTE, BookmarkAction} from '../../actions/bookmark';
 import {ActionHandler} from '../../actions/redux-action';
 import {SHELF_SPEC_LOAD, SHELF_SPEC_PREVIEW, SHELF_SPEC_PREVIEW_DISABLE, ShelfAction} from '../../actions/shelf';
@@ -29,6 +30,7 @@ export interface PlotProps extends ActionHandler<ShelfAction | BookmarkAction> {
 export interface PlotState {
   hovered: boolean;
   preview: boolean;
+  copiedPopupIsOpened: boolean;
 }
 
 export class PlotBase extends React.PureComponent<PlotProps, any> {
@@ -38,7 +40,11 @@ export class PlotBase extends React.PureComponent<PlotProps, any> {
 
   constructor(props: PlotProps) {
     super(props);
-    this.state = {hovered: false, preview: false};
+    this.state = {
+      hovered: false,
+      preview: false,
+      copiedPopupIsOpened: false
+    };
 
     // Bind - https://facebook.github.io/react/docs/handling-events.html
     this.handleTextChange = this.handleTextChange.bind(this);
@@ -70,8 +76,13 @@ export class PlotBase extends React.PureComponent<PlotProps, any> {
           <div styleName="plot-command">
             {showSpecifyButton && this.specifyButton()}
             {showBookmarkButton && this.bookmarkButton()}
-            <span id='copied' style={{display: 'none'}}> copied </span>
-            {this.copySpecButton()}
+            <TetherComponent
+              attachment='bottom left'
+              offset='0px 30px'
+            >
+              {this.copySpecButton()}
+              {this.state.copiedPopupIsOpened && <span styleName='copied'>copied</span>}
+            </TetherComponent>
           </div>
           <span
             onMouseEnter={this.onPreviewMouseEnter}
@@ -223,16 +234,19 @@ export class PlotBase extends React.PureComponent<PlotProps, any> {
       <CopyToClipboard
         onCopy={this.copied.bind(this)}
         text={JSON.stringify(this.props.spec, null, 2)}>
-        <span> <i className='fa fa-clipboard' styleName='copy-button'/> </span>
+        <span><i className='fa fa-clipboard' styleName='copy-button'/></span>
       </CopyToClipboard>
     );
   }
 
   private copied() {
-    const copiedIndicator = document.getElementById('copied');
-    copiedIndicator.style.display = 'inline';
+    this.setState({
+      copiedPopupIsOpened: true
+    });
     window.setTimeout(() => {
-      copiedIndicator.style.display = 'none';
+      this.setState({
+        copiedPopupIsOpened: false
+      });
     }, 1000);
   }
 }
