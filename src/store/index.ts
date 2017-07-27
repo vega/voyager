@@ -5,6 +5,7 @@ import {StateWithHistory} from 'redux-undo';
 
 import {DEFAULT_STATE, StateBase} from '../models';
 import {rootReducer} from '../reducers';
+import {benchmark} from './redux-benchmark';
 
 // Imports to satisfy --declarations build requirements
 // https://github.com/Microsoft/TypeScript/issues/9944
@@ -26,6 +27,11 @@ if (process.env.NODE_ENV !== 'production' && process.env.NODE_ENV !== 'test') {
   composeEnhancers =
     (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
   middleware.push(loggerMiddleware);
+}
+
+if (process.env.NODE_ENV !== 'production') {
+  // add timing middleware
+  middleware.push(benchmark);
 }
 
 export function configureStore(initialState = DEFAULT_STATE) {
