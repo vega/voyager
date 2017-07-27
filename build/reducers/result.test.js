@@ -1,0 +1,44 @@
+"use strict";
+var __assign = (this && this.__assign) || Object.assign || function(t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+        s = arguments[i];
+        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+            t[p] = s[p];
+    }
+    return t;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var result_1 = require("../actions/result");
+var result_2 = require("../models/result");
+var result_3 = require("./result");
+describe('reducers/result', function () {
+    describe(result_1.RESULT_REQUEST, function () {
+        it('returns new compass state with isLoading = true', function () {
+            expect(result_3.resultIndexReducer(result_2.DEFAULT_RESULT_INDEX, {
+                type: result_1.RESULT_REQUEST,
+                payload: { resultType: 'main' }
+            })).toEqual(__assign({}, result_2.DEFAULT_RESULT_INDEX, { main: {
+                    isLoading: true,
+                    modelGroup: null
+                } }));
+        });
+    });
+    describe(result_1.RESULT_RECEIVE, function () {
+        it('returns new compass state with isLoading=false and new recommends', function () {
+            var modelGroup = {}; // Mock
+            expect(result_3.resultIndexReducer(__assign({}, result_2.DEFAULT_RESULT_INDEX, { main: {
+                    isLoading: true,
+                    modelGroup: null
+                } }), {
+                type: result_1.RESULT_RECEIVE,
+                payload: {
+                    resultType: 'main',
+                    modelGroup: modelGroup
+                }
+            })).toEqual(__assign({}, result_2.DEFAULT_RESULT_INDEX, { main: {
+                    isLoading: false,
+                    modelGroup: modelGroup
+                } }));
+        });
+    });
+});
