@@ -5,18 +5,20 @@ import {isWildcard} from 'compassql/build/src/wildcard';
 import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
 import {ConnectDropTarget, DropTarget, DropTargetCollector, DropTargetSpec} from 'react-dnd';
-import {isOneOfFilter, isRangeFilter, OneOfFilter, RangeFilter} from 'vega-lite/build/src/filter';
+import {OneOfFilter, RangeFilter} from 'vega-lite/build/src/filter';
 import {TimeUnit} from 'vega-lite/build/src/timeunit';
-import {FILTER_ADD, FILTER_MODIFY_EXTENT, FILTER_MODIFY_ONE_OF, FILTER_MODIFY_TIME_UNIT,
+import {FILTER_ADD, FILTER_MODIFY_TIME_UNIT,
   FILTER_REMOVE, FilterAction} from '../../actions/filter';
 import {DraggableType} from '../../constants';
 import {ShelfFieldDef} from '../../models/shelf/encoding';
-import {getAllTimeUnits, getDefaultList, getDefaultRange} from '../../reducers/shelf/filter';
+import {getDefaultList, getDefaultRange} from '../../reducers/shelf/filter';
 import {DraggedFieldIdentifier} from '../field';
 import {Field} from '../field/index';
-import * as styles from './filter-shelf.scss';
+import * as styles from './filter-pane.scss';
+import {FunctionPicker} from './function-picker';
 import {OneOfFilterShelf} from './one-of-filter-shelf';
 import {RangeFilterShelf} from './range-filter-shelf';
+
 
 
 /**
@@ -40,6 +42,8 @@ export interface FilterPanePropsBase {
 interface FilterPaneProps extends FilterPaneDropTargetProps, FilterPanePropsBase {};
 
 class FilterPaneBase extends React.Component<FilterPaneProps, {}> {
+  // private index: number;
+
   public constructor(props: FilterPaneProps) {
     super(props);
     this.filterModifyTimeUnit = this.filterModifyTimeUnit.bind(this);
@@ -63,14 +67,13 @@ class FilterPaneBase extends React.Component<FilterPaneProps, {}> {
     handleAction({
       type: FILTER_REMOVE,
       payload: {
-        index
+        index: index
       }
     });
   }
 
-  protected filterModifyTimeUnit(e: any, index: number, domain: number[]) {
+  protected filterModifyTimeUnit(timeUnit: string, index: number) {
     const {handleAction} = this.props;
-    let timeUnit = e.target.value;
     if (timeUnit === '-') {
       timeUnit = undefined;
     }
@@ -78,37 +81,10 @@ class FilterPaneBase extends React.Component<FilterPaneProps, {}> {
     handleAction({
       type: FILTER_MODIFY_TIME_UNIT,
       payload: {
-        index,
-        timeUnit
+        index: index,
+        timeUnit: timeUnit as TimeUnit
       }
     });
-    if (!timeUnit) {
-      // reset range
-      handleAction({
-        type: FILTER_MODIFY_EXTENT,
-        payload: {
-          index,
-          range: domain
-        }
-      });
-      return;
-    } else if (timeUnit === TimeUnit.MONTH || timeUnit === TimeUnit.DAY) {
-      handleAction({
-        type: FILTER_MODIFY_ONE_OF,
-        payload: {
-          index,
-          oneOf: getDefaultList(domain, timeUnit)
-        }
-      });
-    } else {
-      handleAction({
-        type: FILTER_MODIFY_EXTENT,
-        payload: {
-          index,
-          range: getDefaultRange(domain, timeUnit)
-        }
-      });
-    }
   }
 
   private renderFilterShelf(filter: RangeFilter | OneOfFilter, index: number) {
@@ -117,23 +93,42 @@ class FilterPaneBase extends React.Component<FilterPaneProps, {}> {
     const fieldDef = fieldDefs[fieldIndex];
     let domain = schema.domain(fieldDef as FieldQuery);
     const popupComponent =
-      fieldDef.type === ExpandedType.TEMPORAL && this.renderTimeUnitChanger(filter, index, domain));
-
+      fieldDef.type === ExpandedType.TEMPORAL &&
+      <FunctionPicker
+        fieldDef={fieldDef}
+        filter={filter}
+        index={index}
+        onFunctionChange={this.filterModifyTimeUnit}
+      />;
     let filterComponent;
-    if (isRangeFilter(filter)) {
+    if (fieldDef.type === ExpandedType.QUANTITATIVE) {
+      // quantitative range filter
+      filterComponent = (
+        <RangeFilterShelf
+          domain={domain}
+          index={index}
+          filter={filter as RangeFilter}
+          type={fieldDef.type}
+          handleAction={handleAction}
+        />
+      );
+    } else if (fieldDef.type === ExpandedType.TEMPORAL) {
       const timeUnit = filter.timeUnit;
       if (timeUnit) {
-        domain = getRange(domain, timeUnit);
         if (timeUnit === TimeUnit.MONTH || timeUnit === TimeUnit.DAY) {
+          // time unit one of filter
+          domain = getDefaultList(timeUnit);
           filterComponent = (
             <OneOfFilterShelf
               domain={domain}
               index={index}
-              filter={{field: filter.field, oneOf: domain}}
+              filter={filter as OneOfFilter}
               handleAction={handleAction}
             />
           );
         } else {
+          // time unit range filter
+          domain = getDefaultRange(domain, timeUnit);
           let type;
           if (timeUnit === TimeUnit.YEARMONTHDATE) {
             type = ExpandedType.TEMPORAL;
@@ -144,46 +139,46 @@ class FilterPaneBase extends React.Component<FilterPaneProps, {}> {
             <RangeFilterShelf
               domain={domain}
               index={index}
-              filter={filter}
+              filter={filter as RangeFilter}
               type={type as ExpandedType}
               handleAction={handleAction}
             />
           );
         }
       } else {
+        // no time unit range filter
         filterComponent = (
           <RangeFilterShelf
             domain={domain}
             index={index}
-            filter={filter}
+            filter={filter as RangeFilter}
             type={fieldDef.type}
             handleAction={handleAction}
           />
         );
       }
-    } else if (isOneOfFilter(filter)) {
+    } else {
+      // type is Nominal, ordinal or key
       filterComponent = (
         <OneOfFilterShelf
           domain={domain}
           index={index}
-          filter={filter}
+          filter={filter as OneOfFilter}
           handleAction={handleAction}
         />
       );
     }
-
     return (
       <div styleName='filter-shelf' key={index}>
-          <Field
-            draggable={false}
-            fieldDef={fieldDef}
-            filterHide={true}
-            isPill={true}
-            onRemove={this.filterRemove.bind(this, index)}
-            popupComponent={popupComponent}
-            handleAction={handleAction}
-          />
-
+        <Field
+          draggable={false}
+          fieldDef={fieldDef}
+          filterHide={true}
+          isPill={true}
+          onRemove={this.filterRemove.bind(this, index)}
+          popupComponent={popupComponent}
+          handleAction={handleAction}
+        />
         {filterComponent}
       </div>
     );
@@ -195,36 +190,6 @@ class FilterPaneBase extends React.Component<FilterPaneProps, {}> {
       <span styleName={isOver ? 'placeholder-over' : item ? 'placeholder-active' : 'placeholder'}>
         Drop a field here
       </span>
-    );
-  }
-
-  private renderTimeUnitChanger(filter: RangeFilter | OneOfFilter, index: number, domain: number[]) {
-    const timeUnits: TimeUnit[] = getAllTimeUnits();
-    timeUnits.unshift('-' as undefined);
-
-    const filterModifyTimeUnitHandler = (e: any) => {
-      this.filterModifyTimeUnit(e, index, domain);
-    };
-
-    const timeUnitChanger = timeUnits.map(timeUnit => {
-      return (
-        <label key={timeUnit}>
-          <input
-            name='timeUnit'
-            type="radio"
-            value={timeUnit}
-            checked={filter.timeUnit ? filter.timeUnit === timeUnit : timeUnit === '-' as undefined}
-            onChange={filterModifyTimeUnitHandler}
-          />
-          {' '}
-          {timeUnit}
-        </label>
-      );
-    });
-    return (
-      <div styleName='time-unit-changer'>
-        {timeUnitChanger}
-      </div>
     );
   }
 }

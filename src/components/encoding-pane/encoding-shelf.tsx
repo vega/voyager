@@ -50,7 +50,6 @@ class EncodingShelfBase extends React.PureComponent<EncodingShelfProps, {}> {
 
   protected onFunctionChange(fn: ShelfFunction) {
     const {id, handleAction} = this.props;
-
     handleAction({
       type: SHELF_FUNCTION_CHANGE,
       payload: {

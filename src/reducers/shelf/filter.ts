@@ -1,4 +1,8 @@
+
 import {ExpandedType} from 'compassql/build/src/query/expandedtype';
+import {Schema} from 'compassql/build/src/schema';
+import {SHORT_WILDCARD} from 'compassql/build/src/wildcard';
+import {DateTime} from 'vega-lite/build/src/datetime';
 import {OneOfFilter, RangeFilter} from 'vega-lite/build/src/filter';
 import {convert, TimeUnit} from 'vega-lite/build/src/timeunit';
 import {
@@ -11,8 +15,9 @@ import {DEFAULT_SHELF_UNIT_SPEC, ShelfUnitSpec} from '../../models/shelf/spec';
 import {insertItemToArray, modifyItemInArray, removeItemFromArray} from '../util';
 
 
+
 export function filterReducer(shelfSpec: Readonly<ShelfUnitSpec> = DEFAULT_SHELF_UNIT_SPEC,
-                              action: Action): ShelfUnitSpec {
+                              action: Action, schema: Schema): ShelfUnitSpec {
   switch (action.type) {
     case FILTER_ADD: {
       const {filter} = action.payload;
@@ -113,12 +118,38 @@ export function filterReducer(shelfSpec: Readonly<ShelfUnitSpec> = DEFAULT_SHELF
     }
     case FILTER_MODIFY_TIME_UNIT: {
       const {index, timeUnit} = action.payload;
-      const modifyTimeUnit = (filter: RangeFilter) => {
-        return {
-          ...filter,
-          timeUnit
+      const domain = schema.domain({
+        channel: SHORT_WILDCARD,
+        field: shelfSpec.filters[index].field,
+        type: 'temporal'
+        // TODO: remove channel and type after it's fixed in compassql
+      });
+      let modifyTimeUnit;
+      if (!timeUnit) {
+        modifyTimeUnit = (filter: RangeFilter) => {
+          return {
+            field: filter.field,
+            timeUnit,
+            range: domain as number[] | DateTime[]
+          };
         };
-      };
+      } else if (timeUnit === TimeUnit.MONTH || timeUnit === TimeUnit.DAY) {
+        modifyTimeUnit = (filter: RangeFilter) => {
+          return {
+            field: filter.field,
+            timeUnit,
+            oneOf: getDefaultList(timeUnit)
+          };
+        };
+      } else {
+        modifyTimeUnit = (filter: RangeFilter) => {
+          return {
+            field: filter.field,
+            timeUnit,
+            range: getDefaultRange(domain, timeUnit)
+          };
+        };
+      }
       return {
         ...shelfSpec,
         filters: modifyItemInArray(shelfSpec.filters, index, modifyTimeUnit)
@@ -171,7 +202,7 @@ export function getAllTimeUnits() {
   ];
 }
 
-export function getDefaultRange(domain: number[], timeUnit: TimeUnit) {
+export function getDefaultRange(domain: number[], timeUnit: TimeUnit): number[] {
   switch (timeUnit) {
     case TimeUnit.YEARMONTHDATE:
       return [Number(convert(timeUnit, new Date(domain[0]))),
@@ -196,7 +227,7 @@ export function getDefaultRange(domain: number[], timeUnit: TimeUnit) {
   }
 }
 
-export function getDefaultList(domain: number[], timeUnit: TimeUnit) {
+export function getDefaultList(timeUnit: TimeUnit): number[] {
   switch (timeUnit) {
     case TimeUnit.MONTH:
       return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];

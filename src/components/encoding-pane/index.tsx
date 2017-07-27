@@ -15,7 +15,7 @@ import {ShelfFieldDef} from '../../models/shelf/encoding';
 import {selectSchemaFieldDefs} from '../../selectors/index';
 import * as styles from './encoding-pane.scss';
 import {EncodingShelf} from './encoding-shelf';
-import {FilterShelf} from './filter-shelf';
+import {FilterPane} from './filter-pane';
 import {MarkPicker} from './mark-picker';
 
 
@@ -144,7 +144,7 @@ class EncodingPanelBase extends React.PureComponent<EncodingPanelProps, {}> {
     const {filters, fieldDefs, schema, handleAction} = this.props;
     return (
       <div styleName='filter-shelf'>
-        <FilterShelf
+        <FilterPane
           filters={filters}
           fieldDefs={fieldDefs}
           schema={schema}

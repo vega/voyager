@@ -234,6 +234,7 @@ class FieldBase extends React.PureComponent<FieldProps, FieldState> {
       });
     }
   }
+
   private fieldRefHandler = (ref: any) => {
     this.field = ref;
   }

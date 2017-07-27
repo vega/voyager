@@ -2,13 +2,19 @@ import {ExpandedType} from 'compassql/build/src/query/expandedtype';
 import {isWildcard} from 'compassql/build/src/wildcard';
 import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
+import {OneOfFilter, RangeFilter} from 'vega-lite/build/src/filter';
+import {TimeUnit} from 'vega-lite/build/src/timeunit';
 import {ShelfFieldDef, ShelfFunction} from '../../models/shelf';
 import * as styles from './function-picker.scss';
 
 export interface FunctionPickerProps {
   fieldDef: ShelfFieldDef;
 
-  onFunctionChange: (fn: ShelfFunction) => void;
+  filter?: RangeFilter | OneOfFilter;
+
+  index?: number;
+
+  onFunctionChange: (fn: ShelfFunction | TimeUnit, index?: number) => void;
 }
 
 export class FunctionPickerBase extends React.PureComponent<FunctionPickerProps, any> {
@@ -19,17 +25,29 @@ export class FunctionPickerBase extends React.PureComponent<FunctionPickerProps,
     this.onFunctionChange = this.onFunctionChange.bind(this);
   }
   public render() {
-    const {fieldDef} = this.props;
-
-    const fn = fieldDef.aggregate || fieldDef.timeUnit || (fieldDef.bin && 'bin' ) || undefined;
+    const {fieldDef, filter, index} = this.props;
+    let fn: any, name: string;
+    if (filter) {
+      fn = filter.timeUnit;
+      name = index.toString();
+    } else {
+      fn = fieldDef.aggregate || fieldDef.timeUnit || (fieldDef.bin && 'bin' ) || undefined;
+      name = JSON.stringify(fieldDef);
+    }
     const supportedFns = getSupportedFunction(fieldDef.type);
-    const radios = supportedFns.map(f => (
+    const radios = supportedFns.map(f =>
       <label styleName="func-label" key={f || '-'}>
-        <input type="radio" value={f} checked={f === fn} onChange={this.onFunctionChange}/>
+        <input
+          name={name}
+          type="radio"
+          value={f || '-'}
+          checked={f === fn}
+          onChange={this.onFunctionChange}
+        />
         {' '}
         {f || '-'}
       </label>
-    ));
+    );
 
     if (isWildcard(fn)) {
       throw new Error('Wildcard function not supported yet');
@@ -43,7 +61,12 @@ export class FunctionPickerBase extends React.PureComponent<FunctionPickerProps,
     }
   }
   private onFunctionChange(event: any) {
-    this.props.onFunctionChange(event.target.value as ShelfFunction);
+    const {index} = this.props;
+    if (index !== undefined) {
+      this.props.onFunctionChange(event.target.value, index);
+    } else {
+      this.props.onFunctionChange(event.target.value as ShelfFunction);
+    }
   }
 }
 
