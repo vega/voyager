@@ -1,6 +1,8 @@
 import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
 
+import Perf from 'react-addons-perf';
+
 import {ActionHandler} from '../../actions/redux-action';
 import {ShelfAction} from '../../actions/shelf';
 import {Bookmark} from '../../models/bookmark';
@@ -16,6 +18,8 @@ export interface PlotListProps extends ActionHandler<ShelfAction> {
 export class PlotListBase extends React.PureComponent<PlotListProps, any> {
   public render() {
     const {plots, handleAction, bookmark} = this.props;
+
+    Perf.start();
     const plotListItems = plots.map(plot => {
       const {spec, fieldInfos} = plot;
       return (
@@ -32,6 +36,9 @@ export class PlotListBase extends React.PureComponent<PlotListProps, any> {
         />
       );
     });
+
+    Perf.stop();
+    Perf.printExclusive();
 
     return (
       <div styleName="plot-list">
