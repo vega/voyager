@@ -20,7 +20,6 @@ import {BookmarkButton} from './bookmarkbutton';
 export interface PlotProps extends ActionHandler<ShelfAction | BookmarkAction> {
   fieldInfos?: PlotFieldInfo[];
   isPlotListItem?: boolean;
-  scrollOnHover?: boolean;
   showBookmarkButton?: boolean;
   showSpecifyButton?: boolean;
   spec: FacetedCompositeUnitSpec;
@@ -55,7 +54,7 @@ export class PlotBase extends React.PureComponent<PlotProps, any> {
     this.onSpecify = this.onSpecify.bind(this);
   }
   public render() {
-    const {isPlotListItem, scrollOnHover, showBookmarkButton, showSpecifyButton, spec} = this.props;
+    const {isPlotListItem, showBookmarkButton, showSpecifyButton, spec} = this.props;
 
     let notesDiv;
     const specKey = JSON.stringify(spec);
@@ -92,7 +91,7 @@ export class PlotBase extends React.PureComponent<PlotProps, any> {
           </span>
         </div>
         <div
-          styleName={scrollOnHover && this.state.hovered ? 'plot-scroll' : 'plot'}
+          styleName={this.state.hovered ? 'plot-scroll' : 'plot'}
           className="persist-scroll"
           onMouseEnter={this.onMouseEnter}
           onMouseLeave={this.onMouseLeave}

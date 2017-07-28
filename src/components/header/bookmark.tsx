@@ -66,7 +66,6 @@ export class BookmarkBase extends React.PureComponent<BookmarkProps, any> {
           fieldInfos={fieldInfos}
           handleAction={this.props.handleAction}
           isPlotListItem={true}
-          scrollOnHover={true}
           showBookmarkButton={true}
           showSpecifyButton={true}
           spec={spec}
