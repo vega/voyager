@@ -38,13 +38,14 @@
   float: right;
 }
 
-.bookmark-button, .copy-button {
-  cursor: pointer;
-  margin-left: 4px;
-}
-
 .specify-button {
   transform: scaleX(-1);
+}
+
+.specify-button, .copy-button {
+  cursor: pointer;
+  margin-left: 12px;
+  color: #aaa;
 }
 
 .copied {
