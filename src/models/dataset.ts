@@ -1,7 +1,7 @@
-import {FieldSchema, Schema} from 'compassql/build/src/schema';
-export {FieldSchema, Schema} from 'compassql/build/src/schema';
-
+import {FieldSchema, PrimitiveType, Schema} from 'compassql/build/src/schema';
 import {Data} from 'vega-lite/build/src/data';
+
+export {FieldSchema, Schema} from 'compassql/build/src/schema';
 
 export interface Dataset {
   isLoading: boolean;
@@ -21,35 +21,35 @@ export const DEFAULT_DATASET: Dataset = {
   [{
     name: 'q1',
     vlType: 'quantitative',
-    type: 'number' as any,
+    type: PrimitiveType.NUMBER,
     stats: {
       distinct: 2
     }
   }, {
     name: 'q2',
     vlType: 'quantitative',
-    type: 'number' as any,
+    type: PrimitiveType.NUMBER,
     stats: {
       distinct: 2
     }
   }, {
     name: 't',
     vlType: 'temporal',
-    type: 'date' as any,
+    type: PrimitiveType.DATETIME,
     stats: {
       distinct: 2
     }
   }, {
     name: 'n1',
     vlType: 'nominal',
-    type: 'string' as any,
+    type: PrimitiveType.STRING,
     stats: {
       distinct: 2
     }
   }, {
     name: 'n2',
     vlType: 'nominal',
-    type: 'string' as any,
+    type: PrimitiveType.STRING,
     stats: {
       distinct: 2
     }
