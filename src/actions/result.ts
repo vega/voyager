@@ -5,15 +5,13 @@ import {ThunkAction} from 'redux-thunk';
 import {fetchCompassQLRecommend} from '../api/api';
 import {State} from '../models/index';
 import {PlotObject} from '../models/plot';
-import {ResultIndex} from '../models/result';
+import {ResultType} from '../models/result';
 import {selectConfig, selectData, selectSchema} from '../selectors';
 import {Action} from './index';
 import {ReduxAction} from './redux-action';
 
 export type ResultAction = ResultRequest | ResultReceive;
 export type ResultAsyncAction = AsyncResultRequest;
-
-export type ResultType = keyof ResultIndex;
 
 export const RESULT_REQUEST = 'RESULT_REQUEST';
 export type ResultRequest = ReduxAction<typeof RESULT_REQUEST, {

@@ -1,6 +1,6 @@
 import {Query} from 'compassql/build/src/query/query';
 import {GroupBy} from 'compassql/src/query/groupby';
-import {ResultType} from '../actions/result';
+import {ResultType} from '../models/result';
 
 export interface QueryCreator {
   type: ResultType;
