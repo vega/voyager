@@ -196,7 +196,7 @@ export class PlotBase extends React.PureComponent<PlotProps, any> {
   private specifyButton() {
     return <i
       className="fa fa-server"
-      styleName="specify-button"
+      styleName="specify-command"
       onClick={this.onSpecify}
       onMouseEnter={this.onPreviewMouseEnter}
       onMouseLeave={this.onPreviewMouseLeave}
@@ -233,7 +233,7 @@ export class PlotBase extends React.PureComponent<PlotProps, any> {
       <CopyToClipboard
         onCopy={this.copied.bind(this)}
         text={JSON.stringify(this.props.spec, null, 2)}>
-        <span><i className='fa fa-clipboard' styleName='copy-button'/></span>
+        <span><i className='fa fa-clipboard' styleName='command'/></span>
       </CopyToClipboard>
     );
   }
