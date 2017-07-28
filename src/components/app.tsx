@@ -129,31 +129,27 @@ class AppBase extends React.PureComponent<Props, {}> {
       this.setData(validSpec.data)
         .then(
           () => {
-            const specQuery = fromSpec(validSpec);
-            const shelfSpec = fromSpecQuery(specQuery);
-
-            this.props.dispatch({
-              type: SHELF_SPEC_LOAD,
-              payload: {
-                spec: shelfSpec,
-              },
-            });
+            this.shelfSpecLoad(validSpec);
           },
           (err: any) => {
             throw new Error('error setting data for spec:' + err.toString());
           }
         );
     } else {
-      const specQuery = fromSpec(validSpec);
-      const shelfSpec = fromSpecQuery(specQuery);
-
-      this.props.dispatch({
-        type: SHELF_SPEC_LOAD,
-        payload: {
-          spec: shelfSpec,
-        },
-      });
+      this.shelfSpecLoad(validSpec);
     }
+  }
+
+  private shelfSpecLoad(validSpec: TopLevel<FacetedCompositeUnitSpec>) {
+    const specQuery = fromSpec(validSpec);
+    const shelfSpec = fromSpecQuery(specQuery);
+
+    this.props.dispatch({
+      type: SHELF_SPEC_LOAD,
+      payload: {
+        spec: shelfSpec,
+      },
+    });
   }
 
   private setApplicationState(state: Readonly<StateBase>): void {
