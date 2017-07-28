@@ -10,12 +10,27 @@ import {NONSPATIAL_SCALE_CHANNELS} from 'vega-lite/build/src/channel';
 import {contains} from 'vega-lite/build/src/util';
 import {resultRequest} from '../actions/result';
 import {StateBase} from '../models/index';
+import {ResultType} from '../models/result';
 import {selectIsQuerySpecific} from '../selectors/index';
 import {alternativeEncodings} from './alternative-encodings';
 import {QueryCreator} from './base';
 import {addCategoricalField, addQuantitativeField, addTemporalField} from './field-suggestions';
 import {histograms} from './histograms';
 import {summaries} from './summaries';
+
+
+export const RELATED_VIEWS_INDEX: {[k in ResultType]: QueryCreator} = {
+  main: undefined,
+  addCategoricalField,
+  addQuantitativeField,
+  addTemporalField,
+  alternativeEncodings,
+  summaries,
+  histograms,
+};
+
+export const RELATED_VIEWS_TYPES = Object.keys(RELATED_VIEWS_INDEX)
+  .filter(type => type !== 'main');
 
 export function dispatchQueries(store: Store<StateWithHistory<StateBase>>, query: Query) {
   const state = store.getState();
