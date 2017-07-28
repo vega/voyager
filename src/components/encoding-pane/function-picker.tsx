@@ -15,9 +15,7 @@ export interface FunctionPickerProps {
     type?: ExpandedType
   };
 
-  index?: number;
-
-  onFunctionChange: (fn: ShelfFunction | TimeUnit, index?: number) => void;
+  onFunctionChange: (fn: ShelfFunction | TimeUnit) => void;
 }
 
 export class FunctionPickerBase extends React.PureComponent<FunctionPickerProps, any> {
@@ -57,12 +55,7 @@ export class FunctionPickerBase extends React.PureComponent<FunctionPickerProps,
     }
   }
   private onFunctionChange(event: any) {
-    const {index} = this.props;
-    if (index !== undefined) {
-      this.props.onFunctionChange(event.target.value, index);
-    } else {
-      this.props.onFunctionChange(event.target.value as ShelfFunction);
-    }
+    this.props.onFunctionChange(event.target.value);
   }
 }
 
