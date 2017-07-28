@@ -10,6 +10,7 @@ import {PlotObject} from '../../models/plot';
 import {selectBookmark, selectMainSpec, selectPlotList} from '../../selectors';
 import {Plot} from '../plot';
 import {PlotList} from '../plot-list';
+import {RelatedViews} from './related-views';
 import * as styles from './view-pane.scss';
 
 export interface ViewPaneProps extends ActionHandler<ShelfAction> {
@@ -25,7 +26,7 @@ class ViewPaneBase extends React.PureComponent<ViewPaneProps, {}> {
 
     if (spec) {
       return (
-        <div>
+        <div styleName="view-pane">
           <div className="pane" styleName="view-pane-specific">
             <h2>Specified View</h2>
             <Plot handleAction={handleAction} spec={spec} showBookmarkButton={true} bookmark={bookmark}/>
@@ -33,7 +34,7 @@ class ViewPaneBase extends React.PureComponent<ViewPaneProps, {}> {
 
           <div className="pane" styleName="view-pane-related-views">
             <h2>Related Views</h2>
-
+            <RelatedViews/>
           </div>
         </div>
       );
