@@ -1,16 +1,19 @@
 import {ExpandedType} from 'compassql/build/src/query/expandedtype';
-import {isWildcard} from 'compassql/build/src/wildcard';
+import {isWildcard, SHORT_WILDCARD, Wildcard} from 'compassql/build/src/wildcard';
 import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
-import {OneOfFilter, RangeFilter} from 'vega-lite/build/src/filter';
+import {AggregateOp} from 'vega-lite/build/src/aggregate';
 import {TimeUnit} from 'vega-lite/build/src/timeunit';
-import {ShelfFieldDef, ShelfFunction} from '../../models/shelf';
+import {ShelfFunction} from '../../models/shelf';
 import * as styles from './function-picker.scss';
 
 export interface FunctionPickerProps {
-  fieldDef: ShelfFieldDef;
-
-  filter?: RangeFilter | OneOfFilter;
+  fieldDefParts: {
+    aggregate?: AggregateOp | Wildcard<AggregateOp>,
+    bin?: boolean | SHORT_WILDCARD,
+    timeUnit?: TimeUnit | Wildcard<TimeUnit>,
+    type?: ExpandedType
+  };
 
   index?: number;
 
@@ -25,20 +28,13 @@ export class FunctionPickerBase extends React.PureComponent<FunctionPickerProps,
     this.onFunctionChange = this.onFunctionChange.bind(this);
   }
   public render() {
-    const {fieldDef, filter, index} = this.props;
-    let fn: any, name: string;
-    if (filter) {
-      fn = filter.timeUnit;
-      name = index.toString();
-    } else {
-      fn = fieldDef.aggregate || fieldDef.timeUnit || (fieldDef.bin && 'bin' ) || undefined;
-      name = JSON.stringify(fieldDef);
-    }
-    const supportedFns = getSupportedFunction(fieldDef.type);
+    const {fieldDefParts} = this.props;
+    const fn = fieldDefParts.aggregate || fieldDefParts.timeUnit || (fieldDefParts.bin && 'bin' ) || undefined;
+
+    const supportedFns = getSupportedFunction(fieldDefParts.type);
     const radios = supportedFns.map(f =>
       <label styleName="func-label" key={f || '-'}>
         <input
-          name={name}
           type="radio"
           value={f || '-'}
           checked={f === fn}

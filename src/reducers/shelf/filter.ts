@@ -131,6 +131,7 @@ export function filterReducer(shelfSpec: Readonly<ShelfUnitSpec> = DEFAULT_SHELF
             field: filter.field,
             timeUnit,
             range: domain as number[] | DateTime[]
+            // add casting because typescript complains about it
           };
         };
       } else if (timeUnit === TimeUnit.MONTH || timeUnit === TimeUnit.DAY) {

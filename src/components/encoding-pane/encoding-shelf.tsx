@@ -74,7 +74,7 @@ class EncodingShelfBase extends React.PureComponent<EncodingShelfProps, {}> {
 
     const functionPicker = renderFunctionPicker ?
       <FunctionPicker
-        fieldDef={fieldDef}
+        fieldDefParts={fieldDef}
         onFunctionChange={this.onFunctionChange.bind(this)}
       /> : null;
     return (

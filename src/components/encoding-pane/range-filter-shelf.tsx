@@ -197,7 +197,7 @@ export class RangeFilterShelfBase extends React.PureComponent<RangeFilterShelfPr
   }
 
   // TODO: https://github.com/vega/voyager/issues/443: use the time formatter Vega derives from D3
-  private formatTime = (value: number) : React.ReactText => {
+  private formatTime = (value: number): string => {
     if (this.props.type === ExpandedType.TEMPORAL) {
       return new Date(value).toString();
     }

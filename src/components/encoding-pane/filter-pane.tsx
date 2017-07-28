@@ -1,16 +1,15 @@
-import {FieldQuery} from 'compassql/build/src/query/encoding';
+
 import {ExpandedType} from 'compassql/build/src/query/expandedtype';
 import {Schema} from 'compassql/build/src/schema';
-import {isWildcard} from 'compassql/build/src/wildcard';
+import {isWildcard, SHORT_WILDCARD} from 'compassql/build/src/wildcard';
 import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
 import {ConnectDropTarget, DropTarget, DropTargetCollector, DropTargetSpec} from 'react-dnd';
-import {OneOfFilter, RangeFilter} from 'vega-lite/build/src/filter';
+import {isOneOfFilter, isRangeFilter, OneOfFilter, RangeFilter} from 'vega-lite/build/src/filter';
 import {TimeUnit} from 'vega-lite/build/src/timeunit';
 import {FILTER_ADD, FILTER_MODIFY_TIME_UNIT,
   FILTER_REMOVE, FilterAction} from '../../actions/filter';
 import {DraggableType} from '../../constants';
-import {ShelfFieldDef} from '../../models/shelf/encoding';
 import {getDefaultList, getDefaultRange} from '../../reducers/shelf/filter';
 import {DraggedFieldIdentifier} from '../field';
 import {Field} from '../field/index';
@@ -18,7 +17,6 @@ import * as styles from './filter-pane.scss';
 import {FunctionPicker} from './function-picker';
 import {OneOfFilterShelf} from './one-of-filter-shelf';
 import {RangeFilterShelf} from './range-filter-shelf';
-
 
 
 /**
@@ -34,7 +32,6 @@ export interface FilterPaneDropTargetProps {
 
 export interface FilterPanePropsBase {
   filters: Array<RangeFilter | OneOfFilter>;
-  fieldDefs: ShelfFieldDef[];
   schema: Schema;
   handleAction?: (action: FilterAction) => void;
 }
@@ -88,82 +85,64 @@ class FilterPaneBase extends React.Component<FilterPaneProps, {}> {
   }
 
   private renderFilterShelf(filter: RangeFilter | OneOfFilter, index: number) {
-    const {fieldDefs, schema, handleAction} = this.props;
-    const fieldIndex = schema.fieldNames().indexOf(filter.field);
-    const fieldDef = fieldDefs[fieldIndex];
-    let domain = schema.domain(fieldDef as FieldQuery);
+    const {handleAction, schema} = this.props;
+    const filedQuery = {
+      field: filter.field,
+      type: ExpandedType.TEMPORAL,
+      channel: SHORT_WILDCARD,
+      // schema.domain() does not need type or channel, so two random values are used.
+      // TODO: remove type and channel after domain function in compassql
+      // is changed.
+    };
+    let domain = schema.domain(filedQuery);
+    const fieldSchema = schema.fieldSchema(filter.field);
+    const fieldDef = {
+      field: fieldSchema.name,
+      type: fieldSchema.vlType
+    };
+    const onFunctionChange = (timeUnit: string) => {
+      this.filterModifyTimeUnit(timeUnit, index);
+    };
     const popupComponent =
       fieldDef.type === ExpandedType.TEMPORAL &&
       <FunctionPicker
-        fieldDef={fieldDef}
-        filter={filter}
-        index={index}
-        onFunctionChange={this.filterModifyTimeUnit}
-      />;
+        fieldDefParts={{
+          timeUnit: filter.timeUnit,
+          type: ExpandedType.TEMPORAL
+        }}
+        onFunctionChange={onFunctionChange}
+      /> ;
     let filterComponent;
-    if (fieldDef.type === ExpandedType.QUANTITATIVE) {
-      // quantitative range filter
+    let type: ExpandedType = fieldDef.type === ExpandedType.TEMPORAL ?
+     ExpandedType.TEMPORAL : ExpandedType.QUANTITATIVE;
+    const timeUnit = filter.timeUnit;
+    if (isRangeFilter(filter)) {
+      if (timeUnit) {
+        domain = getDefaultRange(domain, timeUnit);
+        if (timeUnit !== TimeUnit.YEARMONTHDATE) {
+          type = ExpandedType.QUANTITATIVE;
+          // set the type to quantitative so that it will render
+          // inputs instead of date time changers.
+        }
+      }
       filterComponent = (
         <RangeFilterShelf
           domain={domain}
           index={index}
-          filter={filter as RangeFilter}
-          type={fieldDef.type}
+          filter={filter}
           handleAction={handleAction}
+          type={type}
         />
       );
-    } else if (fieldDef.type === ExpandedType.TEMPORAL) {
-      const timeUnit = filter.timeUnit;
+    } else if (isOneOfFilter(filter)) {
       if (timeUnit) {
-        if (timeUnit === TimeUnit.MONTH || timeUnit === TimeUnit.DAY) {
-          // time unit one of filter
-          domain = getDefaultList(timeUnit);
-          filterComponent = (
-            <OneOfFilterShelf
-              domain={domain}
-              index={index}
-              filter={filter as OneOfFilter}
-              handleAction={handleAction}
-            />
-          );
-        } else {
-          // time unit range filter
-          domain = getDefaultRange(domain, timeUnit);
-          let type;
-          if (timeUnit === TimeUnit.YEARMONTHDATE) {
-            type = ExpandedType.TEMPORAL;
-          } else {
-            type = ExpandedType.QUANTITATIVE;
-          }
-          filterComponent = (
-            <RangeFilterShelf
-              domain={domain}
-              index={index}
-              filter={filter as RangeFilter}
-              type={type as ExpandedType}
-              handleAction={handleAction}
-            />
-          );
-        }
-      } else {
-        // no time unit range filter
-        filterComponent = (
-          <RangeFilterShelf
-            domain={domain}
-            index={index}
-            filter={filter as RangeFilter}
-            type={fieldDef.type}
-            handleAction={handleAction}
-          />
-        );
+        domain = getDefaultList(timeUnit);
       }
-    } else {
-      // type is Nominal, ordinal or key
       filterComponent = (
         <OneOfFilterShelf
           domain={domain}
           index={index}
-          filter={filter as OneOfFilter}
+          filter={filter}
           handleAction={handleAction}
         />
       );

@@ -146,7 +146,6 @@ class EncodingPanelBase extends React.PureComponent<EncodingPanelProps, {}> {
       <div styleName='filter-shelf'>
         <FilterPane
           filters={filters}
-          fieldDefs={fieldDefs}
           schema={schema}
           handleAction={handleAction}
         />
