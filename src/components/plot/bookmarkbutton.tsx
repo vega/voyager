@@ -42,7 +42,7 @@ export class BookmarkButtonBase extends React.PureComponent<BookmarkProps, Bookm
       >
         <i
           className="fa fa-bookmark command-bookmark"
-          style = {{color: bookmarkColor, paddingLeft: '3px'}}
+          style = {{color: bookmarkColor, paddingLeft: '12px', cursor: 'pointer'}}
           onClick = {this.onBookmarkClick}
         />
 

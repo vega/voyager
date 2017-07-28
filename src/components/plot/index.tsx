@@ -208,7 +208,6 @@ export class PlotBase extends React.PureComponent<PlotProps, any> {
       fieldInfos: this.props.fieldInfos,
       spec: this.props.spec
     };
-
     return (
       <BookmarkButton
         bookmark = {this.props.bookmark}
