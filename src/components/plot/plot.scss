@@ -38,14 +38,15 @@
   float: right;
 }
 
-.specify-button {
-  transform: scaleX(-1);
+.command {
+  cursor: pointer;
+  margin-left: 20px;
+  color: #aaa;
 }
 
-.specify-button, .copy-button {
-  cursor: pointer;
-  margin-left: 12px;
-  color: #aaa;
+.specify-command {
+  @extend .command;
+  transform: scaleX(-1);
 }
 
 .copied {
