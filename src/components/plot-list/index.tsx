@@ -24,7 +24,6 @@ export class PlotListBase extends React.PureComponent<PlotListProps, any> {
           fieldInfos={fieldInfos}
           handleAction={handleAction}
           isPlotListItem={true}
-          scrollOnHover={true}
           showBookmarkButton={true}
           showSpecifyButton={true}
           spec={spec}
