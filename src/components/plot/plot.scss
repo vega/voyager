@@ -4,7 +4,8 @@
   text-align: center;
   padding: 8px;
   max-height: 600px;
-  overflow: auto;
+  display: flex;
+  flex-direction: column;
 }
 
 .plot-list-item-group {
@@ -12,8 +13,6 @@
   margin: 4px 4px 0 0;
   flex-grow: 1;
   max-height: 290px;
-  display: flex;
-  flex-direction: column;
 }
 
 .plot {
