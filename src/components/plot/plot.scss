@@ -40,8 +40,12 @@
 
 .command {
   cursor: pointer;
-  margin-left: 20px;
+  margin-left: 10px;
   color: #aaa;
+}
+
+.command:hover {
+  color: #72c1d5;
 }
 
 .specify-command {
