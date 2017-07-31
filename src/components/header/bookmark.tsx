@@ -41,9 +41,9 @@ export class BookmarkBase extends React.PureComponent<BookmarkProps, any> {
           styleName="modal"
           className="voyager"
         >
-          <div styleName="modal-header">
+          <div className="modal-header">
             <a className="right" onClick={this.closeModal}>Close</a>
-            <h2>Bookmarks ({this.props.bookmark.count})</h2>
+            <h3>Bookmarks ({this.props.bookmark.count})</h3>
             <a className="bookmark-list-util">
               <i onClick={this.onClearAll} className="fa fa-trash-o">&nbsp;&nbsp;Clear all&nbsp;&nbsp;</i>
             </a>
