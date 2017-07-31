@@ -247,7 +247,7 @@ export class PlotBase extends React.PureComponent<PlotProps, PlotState> {
       <CopyToClipboard
         onCopy={this.copied.bind(this)}
         text={JSON.stringify(this.props.spec, null, 2)}>
-        <span><i className='fa fa-clipboard' styleName='command'/></span>
+        <i className='fa fa-clipboard' styleName='command'/>
       </CopyToClipboard>
     );
   }
