@@ -50,6 +50,7 @@ export class DataSelectorBase extends React.PureComponent<DataSelectorProps, any
          onRequestClose={this.closeModal}
          contentLabel="Data Selector"
          styleName="modal"
+         className="voyager"
        >
           <div styleName='modal-header'>
             <a styleName='modal-close' onClick={this.closeModal}>close</a>
