@@ -21,19 +21,6 @@ $radius: 3px;
   a {
     display: inline;
   }
-
-  :global .fa {
-    &.fa-pencil {
-      cursor: default;
-      padding: 2px 3px 1px;
-      border-radius: $radius;
-
-      &:hover {
-        color: #fff;
-        background-color: #999;
-      }
-    }
-  }
 }
 
 .bound {
