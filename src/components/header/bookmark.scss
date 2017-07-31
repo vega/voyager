@@ -15,3 +15,20 @@
   align-items: stretch;
   max-width: 800px;
 }
+
+.modal-header {
+  background-color: #f1f4f9;
+  flex-shrink: 0;
+  margin: 3px 3px 0 0;
+  padding: 8px;
+  margin-top: 0!important;
+  margin-right: 0!important;
+}
+
+.vis-list-empty, {
+    height: 60px;
+    line-height: 60px;
+    vertical-align: middle;
+    text-align: center;
+    font-size: 1.2em;
+}
