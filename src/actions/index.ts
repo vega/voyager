@@ -28,6 +28,7 @@ export type ActionType = Action['type'];
 // Use type to enforce that ACTION_TYPE_INDEX contains all action types.
 const ACTION_TYPE_INDEX: {[k in ActionType]: 1} = {
   BOOKMARK_ADD_PLOT: 1,
+  BOOKMARK_CLEAR_ALL: 1,
   BOOKMARK_MODIFY_NOTE: 1,
   BOOKMARK_REMOVE_PLOT: 1,
 

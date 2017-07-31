@@ -1,5 +1,5 @@
-import {Action, BOOKMARK_ADD_PLOT, BOOKMARK_MODIFY_NOTE, BOOKMARK_REMOVE_PLOT} from '../actions';
-import {Bookmark} from '../models';
+import {Action, BOOKMARK_ADD_PLOT, BOOKMARK_CLEAR_ALL, BOOKMARK_MODIFY_NOTE, BOOKMARK_REMOVE_PLOT} from '../actions';
+import {Bookmark, DEFAULT_BOOKMARK} from '../models';
 
 
 export function bookmarkReducer(bookmark: Bookmark, action: Action): Bookmark {
@@ -50,6 +50,10 @@ export function bookmarkReducer(bookmark: Bookmark, action: Action): Bookmark {
         count: count - 1,
         list: list.filter(item => item !== specKey)
       };
+    }
+
+    case BOOKMARK_CLEAR_ALL: {
+      return {...DEFAULT_BOOKMARK};
     }
 
     default: {
