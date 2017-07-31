@@ -53,7 +53,7 @@ export function bookmarkReducer(bookmark: Bookmark, action: Action): Bookmark {
     }
 
     case BOOKMARK_CLEAR_ALL: {
-      return {...DEFAULT_BOOKMARK};
+      return DEFAULT_BOOKMARK;
     }
 
     default: {

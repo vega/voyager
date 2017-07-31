@@ -31,24 +31,24 @@ export class BookmarkBase extends React.PureComponent<BookmarkProps, any> {
     return (
       <div>
         <button onClick={this.openModal}>
-          <i className='fa fa-bookmark' /> Bookmarks ({this.props.bookmark.count})
+          <i className="fa fa-bookmark" /> Bookmarks ({this.props.bookmark.count})
         </button>
 
         <Modal
           isOpen={this.state.modalIsOpen}
           onRequestClose={this.closeModal}
-          contentLabel='Bookmark Selector'
-          styleName='modal'
-          className='voyager'
+          contentLabel="Bookmark Selector"
+          styleName="modal"
+          className="voyager"
         >
-          <div styleName='modal-header'>
-            <a className='right' onClick={this.closeModal}>Close</a>
+          <div styleName="modal-header">
+            <a className="right" onClick={this.closeModal}>Close</a>
             <h2>Bookmarks ({this.props.bookmark.count})</h2>
-            <a className='bookmark-list-util'>
-              <i onClick={this.onClearAll} className='fa fa-trash-o'>&nbsp;&nbsp;Clear all&nbsp;&nbsp;</i>
+            <a className="bookmark-list-util">
+              <i onClick={this.onClearAll} className="fa fa-trash-o">&nbsp;&nbsp;Clear all&nbsp;&nbsp;</i>
             </a>
-            <a className='bookmark-list-util'>
-              <i onClick={this.onExport} className='fa fa-clipboard'>&nbsp;&nbsp;Export&nbsp;&nbsp;</i>
+            <a className="bookmark-list-util">
+              <i onClick={this.onExport} className="fa fa-clipboard">&nbsp;&nbsp;Export&nbsp;&nbsp;</i>
             </a>
           </div>
 
@@ -72,9 +72,9 @@ export class BookmarkBase extends React.PureComponent<BookmarkProps, any> {
 
     const exportWindow = window.open();
     exportWindow.document.write(
-      '<html><body><pre>' +
+      "<html><body><pre>" +
       JSON.stringify(specs, null, 2) +
-      '</pre></body></html>'
+      "</pre></body></html>"
     );
     exportWindow.document.close();
   }
@@ -116,8 +116,8 @@ export class BookmarkBase extends React.PureComponent<BookmarkProps, any> {
       <div>
         {
           (bookmarkPlotListItems.length > 0) ?
-            bookmarkPlotListItems :
-            <div styleName='vis-list-empty'>You have no bookmarks</div>
+           bookmarkPlotListItems :
+           <div styleName="vis-list-empty">You have no bookmarks</div>
         }
       </div>
     );

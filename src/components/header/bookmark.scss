@@ -21,14 +21,18 @@
   flex-shrink: 0;
   margin: 3px 3px 0 0;
   padding: 8px;
-  margin-top: 0!important;
-  margin-right: 0!important;
+  margin-top: 0;
+  margin-right: 0;
 }
 
 .vis-list-empty, {
-    height: 60px;
-    line-height: 60px;
-    vertical-align: middle;
-    text-align: center;
-    font-size: 1.2em;
+  height: 60px;
+  line-height: 60px;
+  vertical-align: middle;
+  text-align: center;
+  font-size: 1.2em;
+}
+
+a:hover {
+  cursor: pointer;
 }
