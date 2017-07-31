@@ -32,10 +32,11 @@ export interface PlotState {
   copiedPopupIsOpened: boolean;
 }
 
-export class PlotBase extends React.PureComponent<PlotProps, any> {
+export class PlotBase extends React.PureComponent<PlotProps, PlotState> {
 
   private hoverTimeoutId: number;
   private previewTimeoutId: number;
+  private vegaLiteWrapper: HTMLElement;
 
   constructor(props: PlotProps) {
     super(props);
@@ -53,6 +54,19 @@ export class PlotBase extends React.PureComponent<PlotProps, any> {
     this.onPreviewMouseLeave = this.onPreviewMouseLeave.bind(this);
     this.onSpecify = this.onSpecify.bind(this);
   }
+
+  public componentDidUpdate(prevProps: PlotProps, prevState: PlotState) {
+    // We have to check this here since we do not know if it is vertically overflown
+    // during render time.
+    if (!this.isVerticallyOverFlown(this.vegaLiteWrapper) && this.state.hovered) {
+      // add a padding similar to .plot
+      this.vegaLiteWrapper.style.paddingRight = '11px';
+    } else {
+      // reset state otherwise, so we clean up what we add in the case above.
+      delete this.vegaLiteWrapper.style.paddingRight;
+    }
+  }
+
   public render() {
     const {isPlotListItem, showBookmarkButton, showSpecifyButton, spec} = this.props;
 
@@ -91,6 +105,7 @@ export class PlotBase extends React.PureComponent<PlotProps, any> {
           </span>
         </div>
         <div
+          ref={this.vegaLiteWrapperRefHandler}
           styleName={this.state.hovered ? 'plot-scroll' : 'plot'}
           className="persist-scroll"
           onMouseEnter={this.onMouseEnter}
@@ -246,6 +261,14 @@ export class PlotBase extends React.PureComponent<PlotProps, any> {
         copiedPopupIsOpened: false
       });
     }, 1000);
+  }
+
+  private isVerticallyOverFlown(element: HTMLElement) {
+    return element.scrollHeight > element.clientHeight;
+  }
+
+  private vegaLiteWrapperRefHandler = (ref: any) => {
+    this.vegaLiteWrapper = ref;
   }
 }
 
