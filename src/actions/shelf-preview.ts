@@ -1,12 +1,12 @@
 import {FacetedCompositeUnitSpec} from 'vega-lite/build/src/spec';
 import {PlainReduxAction, ReduxAction} from './redux-action';
 
-export type ShelfPreviewAction = ShelfSpecPreview | ShelfSpecPreviewDisable;
+export type ShelfPreviewAction = ShelfPreviewSpec | ShelfPreviewSpecDisable;
 
-export const SHELF_SPEC_PREVIEW = 'SHELF_SPEC_PREVIEW';
-export type ShelfSpecPreview = ReduxAction<typeof SHELF_SPEC_PREVIEW, {
+export const SHELF_PREVIEW_SPEC = 'SHELF_PREVIEW_SPEC';
+export type ShelfPreviewSpec = ReduxAction<typeof SHELF_PREVIEW_SPEC, {
   spec: FacetedCompositeUnitSpec
 }>;
 
-export const SHELF_SPEC_PREVIEW_DISABLE = 'SHELF_SPEC_PREVIEW_DISABLE';
-export type ShelfSpecPreviewDisable = PlainReduxAction<typeof SHELF_SPEC_PREVIEW_DISABLE>;
+export const SHELF_PREVIEW_SPEC_DISABLE = 'SHELF_PREVIEW_SPEC_DISABLE';
+export type ShelfPreviewSpecDisable = PlainReduxAction<typeof SHELF_PREVIEW_SPEC_DISABLE>;

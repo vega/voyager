@@ -10,8 +10,7 @@ export type ShelfAction =
 
 export type ShelfEncodingAction = ShelfFieldAdd | ShelfFieldAutoAdd |
   ShelfFieldRemove | ShelfFieldMove | ShelfFunctionChange |
-  ShelfSpecLoad |
-  ShelfSpecPreview | ShelfSpecPreviewDisable;
+  ShelfSpecLoad;
 
 export const SHELF_CLEAR = 'SHELF_CLEAR';
 export type ShelfClear = PlainReduxAction<typeof SHELF_CLEAR>;
