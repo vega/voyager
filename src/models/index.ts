@@ -1,7 +1,5 @@
-import {StateWithHistory} from 'redux-undo';
-
 import {FieldSchema, Schema, TableSchema} from 'compassql/build/src/schema';
-
+import {StateWithHistory} from 'redux-undo';
 import {Data} from 'vega-lite/build/src/data';
 import {duplicate} from "vega-lite/build/src/util";
 import {Bookmark, DEFAULT_BOOKMARK} from './bookmark';
@@ -9,6 +7,7 @@ import {DEFAULT_VOYAGER_CONFIG, VoyagerConfig} from './config';
 import {Dataset, DEFAULT_DATASET} from './dataset';
 import {DEFAULT_RESULT_INDEX, ResultIndex} from './result';
 import {DEFAULT_SHELF_SPEC, Shelf} from './shelf';
+import {DEFAULT_SHELF_PREVIEW_SPEC, ShelfPreview} from './shelfPreview';
 
 export * from './bookmark';
 export * from './dataset';
@@ -24,6 +23,7 @@ export interface StateBase {
   config: VoyagerConfig;
   dataset: Dataset;
   shelf: Shelf;
+  shelfPreview: ShelfPreview;
   result: ResultIndex;
 }
 
@@ -37,6 +37,7 @@ export const DEFAULT_STATE: StateBase = {
   config: DEFAULT_VOYAGER_CONFIG,
   dataset: DEFAULT_DATASET,
   shelf: DEFAULT_SHELF_SPEC,
+  shelfPreview: DEFAULT_SHELF_PREVIEW_SPEC,
   result: DEFAULT_RESULT_INDEX,
 };
 
@@ -44,6 +45,7 @@ export interface SerializableState {
   bookmark: Bookmark;
   config: VoyagerConfig;
   shelf: Shelf;
+  shelfPreview: ShelfPreview;
   result: ResultIndex;
   dataset: {
     isLoading: boolean;
@@ -58,6 +60,7 @@ export function toSerializable(state: Readonly<StateBase>): SerializableState {
     bookmark: state.bookmark,
     config: state.config,
     shelf: state.shelf,
+    shelfPreview: state.shelfPreview,
     result: state.result,
     dataset: {
       isLoading: state.dataset.isLoading,

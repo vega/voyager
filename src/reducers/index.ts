@@ -47,8 +47,8 @@ import {configReducer} from './config';
 import {datasetReducer} from './dataset';
 import {resultIndexReducer} from './result';
 import {shelfReducer} from './shelf';
+import {shelfPreviewReducer} from './shelf-preview';
 import {stateReducer} from './state';
-
 
 function reducer(state: Readonly<StateBase> = DEFAULT_STATE, action: Action): StateBase {
   if (action.type === SET_APPLICATION_STATE) {
@@ -59,6 +59,7 @@ function reducer(state: Readonly<StateBase> = DEFAULT_STATE, action: Action): St
       config: configReducer(state.config, action),
       dataset: datasetReducer(state.dataset, action),
       shelf: shelfReducer(state.shelf, action, state.dataset.schema),
+      shelfPreview: shelfPreviewReducer(state.shelfPreview, action),
       result: resultIndexReducer(state.result, action)
     };
   }

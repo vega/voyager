@@ -1,10 +1,10 @@
-import {SHELF_SPEC_PREVIEW, SHELF_SPEC_PREVIEW_DISABLE} from '../../actions/shelf';
-import {shelfSpecPreviewReducer} from './spec-preview';
+import {SHELF_SPEC_PREVIEW, SHELF_SPEC_PREVIEW_DISABLE} from '../actions/shelf-preview';
+import {shelfPreviewReducer} from './shelf-preview';
 
 describe('reducers/shelf/spec-preview', () => {
   describe(SHELF_SPEC_PREVIEW, () => {
     it('sets specPreview to be a shelf-spec', () => {
-      const specPreview = shelfSpecPreviewReducer(null, {
+      const specPreview = shelfPreviewReducer({spec: null}, {
         type: SHELF_SPEC_PREVIEW,
         payload: {
           spec: {
@@ -17,7 +17,7 @@ describe('reducers/shelf/spec-preview', () => {
         }
       });
 
-      expect(specPreview).toEqual({
+      expect(specPreview.spec).toEqual({
         mark: 'bar',
         encoding: {
           x: {field: 'b', type: 'nominal'},
@@ -32,7 +32,7 @@ describe('reducers/shelf/spec-preview', () => {
 
   describe(SHELF_SPEC_PREVIEW, () => {
     it('sets specPreview to null', () => {
-      const specPreview = shelfSpecPreviewReducer({
+      const specPreview = shelfPreviewReducer({spec: {
         mark: 'bar',
         encoding: {
           x: {field: 'b', type: 'nominal'},
@@ -41,9 +41,9 @@ describe('reducers/shelf/spec-preview', () => {
         anyEncodings: [],
         config: undefined,
         filters: []
-      }, {type: SHELF_SPEC_PREVIEW_DISABLE});
+      }}, {type: SHELF_SPEC_PREVIEW_DISABLE});
 
-      expect(specPreview).toEqual(null);
+      expect(specPreview.spec).toEqual(null);
     });
   });
 });
