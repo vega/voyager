@@ -12,6 +12,7 @@ import {Action as BaseReduxAction} from 'redux';
 
 import {
   BOOKMARK_ADD_PLOT,
+  BOOKMARK_CLEAR_ALL,
   BOOKMARK_MODIFY_NOTE,
   BOOKMARK_REMOVE_PLOT,
   DATASET_INLINE_RECEIVE,
@@ -94,6 +95,7 @@ export const ACTIONS_EXCLUDED_FROM_HISTORY: ActionType[] = [
 export const USER_ACTIONS: ActionType[] = [
   // Bookmark Actions
   BOOKMARK_ADD_PLOT,
+  BOOKMARK_CLEAR_ALL,
   BOOKMARK_MODIFY_NOTE,
   BOOKMARK_REMOVE_PLOT,
 
