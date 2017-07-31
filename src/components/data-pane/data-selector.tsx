@@ -52,7 +52,7 @@ export class DataSelectorBase extends React.PureComponent<DataSelectorProps, any
          styleName="modal"
          className="voyager"
        >
-          <div styleName='modal-header'>
+          <div className='modal-header'>
             <a styleName='modal-close' onClick={this.closeModal}>close</a>
             <h3>Add Dataset</h3>
           </div>
