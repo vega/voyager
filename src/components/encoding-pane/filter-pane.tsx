@@ -114,14 +114,14 @@ class FilterPaneBase extends React.Component<FilterPaneProps, {}> {
       /> ;
     let filterComponent;
     let type: ExpandedType = fieldDef.type === ExpandedType.TEMPORAL ?
-     ExpandedType.TEMPORAL : ExpandedType.QUANTITATIVE;
+      ExpandedType.TEMPORAL : ExpandedType.QUANTITATIVE;
     const timeUnit = filter.timeUnit;
     if (isRangeFilter(filter)) {
       if (timeUnit) {
         domain = getDefaultRange(domain, timeUnit);
         if (timeUnit !== TimeUnit.YEARMONTHDATE) {
           type = ExpandedType.QUANTITATIVE;
-          // set the type to quantitative so that it will render
+          // set the type to quantitative so that it will render normal number
           // inputs instead of date time changers.
         }
       }
