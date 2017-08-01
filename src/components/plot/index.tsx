@@ -84,7 +84,7 @@ export class PlotBase extends React.PureComponent<PlotProps, PlotState> {
     return (
       <div styleName={isPlotListItem ? 'plot-list-item-group' : 'plot-group'}>
         <div styleName="plot-info">
-          <div styleName="plot-command">
+          <div styleName="command-toolbox">
             {showSpecifyButton && this.specifyButton()}
             {showBookmarkButton && this.bookmarkButton()}
             <TetherComponent
