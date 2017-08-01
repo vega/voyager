@@ -71,3 +71,25 @@ export function fromEncodingQueries(encodings: EncodingQuery[]): {
     return encodingMixins;
   }, {encoding: {}, anyEncodings: []});
 }
+
+export function getSupportedFunction(type: ExpandedType) {
+  switch (type) {
+    case 'quantitative':
+      return [
+        undefined,
+        'bin',
+        'min', 'max', 'mean', 'median', 'sum'
+      ];
+
+    case 'temporal':
+      return [
+        undefined,
+        'yearmonthdate',
+        'year', 'month', // hide 'quarter' for user study because it's buggy
+        'date', 'day',
+        'hours', 'minutes',
+        'seconds', 'milliseconds'
+      ];
+  }
+  return [];
+}
