@@ -4,15 +4,17 @@ import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
 import * as DateTimePicker from 'react-datetime';
 import * as TetherComponent from 'react-tether';
+import {DateTime, isDateTime} from 'vega-lite/build/src/datetime';
 import {RangeFilter} from 'vega-lite/build/src/filter';
+import {TimeUnit} from 'vega-lite/build/src/timeunit';
 import {FILTER_MODIFY_EXTENT, FILTER_MODIFY_MAX_BOUND, FILTER_MODIFY_MIN_BOUND,
   FilterAction} from '../../actions/filter';
 import {ActionHandler} from '../../actions/redux-action';
+import {convertToDateTimeObject, convertToTimestamp} from '../../reducers/shelf/filter';
 import * as styles from './range-filter-shelf.scss';
 
-
 export interface RangeFilterShelfProps extends ActionHandler<FilterAction> {
-  domain: number[];
+  domain: number[] | DateTime[];
   index: number;
   filter: RangeFilter;
   type: ExpandedType;
@@ -42,18 +44,33 @@ export class RangeFilterShelfBase extends React.PureComponent<RangeFilterShelfPr
     const {filter, domain, type} = this.props;
     const createSliderWithTooltip = Slider.createSliderWithTooltip;
     const Range = createSliderWithTooltip(Slider.Range);
-    let minInput, maxInput, formatLabel;
+    let minInput, maxInput, formatLabel, currMin, currMax, lowerBound, upperBound;
     if (type === ExpandedType.TEMPORAL) {
-      minInput = this.renderDateTimePicker(new Date(filter.range[0]), 'min');
-      maxInput = this.renderDateTimePicker(new Date(filter.range[1]), 'max');
+      minInput = this.renderDateTimePicker(new Date(convertToTimestamp(filter.range[0] as DateTime)), 'min');
+      maxInput = this.renderDateTimePicker(new Date(convertToTimestamp(filter.range[1] as DateTime)), 'max');
+      currMin = convertToTimestamp(filter.range[0] as DateTime);
+      currMax = convertToTimestamp(filter.range[1] as DateTime);
+      // lowerBound = Math.floor(convertToTimestamp(domain[0] as DateTime));
+      // upperBound = Math.ceil(convertToTimestamp(domain[1] as DateTime));
       formatLabel = this.formatTime;
     } else {
       minInput = this.renderNumberInput('min');
       maxInput = this.renderNumberInput('max');
+      currMin = filter.range[0];
+      currMax = filter.range[1];
     }
-    const lowerBound = Math.floor(Number(domain[0]));
-    const upperBound = Math.ceil(Number(domain[1]));
-
+    lowerBound = Math.floor(Number(domain[0]));
+    upperBound = Math.ceil(Number(domain[1]));
+    if (isDateTime(domain[0])) {
+      lowerBound = Math.floor(convertToTimestamp(domain[0] as DateTime));
+    }
+    if (isDateTime(domain[1])) {
+      upperBound = Math.ceil(convertToTimestamp(domain[1] as DateTime));
+    }
+    let step;
+    if (filter.timeUnit === TimeUnit.YEARMONTHDATE) {
+      step = 24 * 60 * 60 * 1000; // step is one day
+    }
     return (
       <div styleName='range-filter-pane'>
         <div>
@@ -64,19 +81,23 @@ export class RangeFilterShelfBase extends React.PureComponent<RangeFilterShelfPr
             {maxInput}
           </div>
         </div>
-        <Range
+         <Range
           allowCross={false}
-          defaultValue={[Number(filter.range[0]), Number(filter.range[1])]}
+          defaultValue={[currMin, currMax]}
           min={lowerBound}
           max={upperBound}
           onAfterChange={this.filterModifyExtent.bind(this)}
           tipFormatter={formatLabel}
+          step={step}
         />
       </div>
     );
   }
 
-  protected filterModifyExtent(range: number[]) {
+  protected filterModifyExtent(range: number[] | DateTime[]) {
+    if (this.props.type === ExpandedType.TEMPORAL) {
+      range = [convertToDateTimeObject(range[0] as number), convertToDateTimeObject(range[1] as number)];
+    }
     const {handleAction, index} = this.props;
     handleAction({
       type: FILTER_MODIFY_EXTENT,
@@ -94,7 +115,10 @@ export class RangeFilterShelfBase extends React.PureComponent<RangeFilterShelfPr
     } else {
       maxBound = e;
     }
-    const {handleAction, index} = this.props;
+    const {handleAction, index, type} = this.props;
+    if (type === ExpandedType.TEMPORAL) {
+      maxBound = convertToDateTimeObject(maxBound);
+    }
     handleAction({
       type: FILTER_MODIFY_MAX_BOUND,
       payload: {
@@ -111,7 +135,10 @@ export class RangeFilterShelfBase extends React.PureComponent<RangeFilterShelfPr
     } else {
       minBound = e;
     }
-    const {handleAction, index} = this.props;
+    const {handleAction, index, type} = this.props;
+    if (type === ExpandedType.TEMPORAL) {
+      minBound = convertToDateTimeObject(minBound);
+    }
     handleAction({
       type: FILTER_MODIFY_MIN_BOUND,
       payload: {
@@ -156,6 +183,10 @@ export class RangeFilterShelfBase extends React.PureComponent<RangeFilterShelfPr
       dateTimePickerOpen = this.state.maxDateTimePickerOpen;
       dataTimePickerOpenAction = this.toggleMaxDateTimePicker;
     }
+    let timeFormat = true;
+    if (this.props.filter.timeUnit === TimeUnit.YEARMONTHDATE) {
+      timeFormat = false;
+    }
     return (
       <div>
         <TetherComponent
@@ -170,8 +201,10 @@ export class RangeFilterShelfBase extends React.PureComponent<RangeFilterShelfPr
             <div styleName='date-time-picker-wrapper'>
               <DateTimePicker
                 defaultValue={date}
+                timeFormat={timeFormat}
                 open={false}
                 onChange={onChangeAction}
+                disableOnClickOutside={false}
               />
             </div>
           }

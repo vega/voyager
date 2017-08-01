@@ -74,7 +74,6 @@ class FilterPaneBase extends React.Component<FilterPaneProps, {}> {
     if (timeUnit === '-') {
       timeUnit = undefined;
     }
-
     handleAction({
       type: FILTER_MODIFY_TIME_UNIT,
       payload: {
@@ -128,10 +127,10 @@ class FilterPaneBase extends React.Component<FilterPaneProps, {}> {
       filterComponent = (
         <RangeFilterShelf
           domain={domain}
-          index={index}
           filter={filter}
-          handleAction={handleAction}
+          index={index}
           type={type}
+          handleAction={handleAction}
         />
       );
     } else if (isOneOfFilter(filter)) {

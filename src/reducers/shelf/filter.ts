@@ -1,7 +1,7 @@
 
 import {ExpandedType} from 'compassql/build/src/query/expandedtype';
 import {Schema} from 'compassql/build/src/schema';
-import {SHORT_WILDCARD} from 'compassql/build/src/wildcard';
+import {isWildcard, SHORT_WILDCARD} from 'compassql/build/src/wildcard';
 import {DateTime} from 'vega-lite/build/src/datetime';
 import {OneOfFilter, RangeFilter} from 'vega-lite/build/src/filter';
 import {convert, TimeUnit} from 'vega-lite/build/src/timeunit';
@@ -13,7 +13,6 @@ import {Action} from '../../actions/index';
 import {ShelfFieldDef} from '../../models/shelf/encoding';
 import {DEFAULT_SHELF_UNIT_SPEC, ShelfUnitSpec} from '../../models/shelf/spec';
 import {insertItemToArray, modifyItemInArray, removeItemFromArray} from '../util';
-
 
 
 export function filterReducer(shelfSpec: Readonly<ShelfUnitSpec> = DEFAULT_SHELF_UNIT_SPEC,
@@ -129,9 +128,7 @@ export function filterReducer(shelfSpec: Readonly<ShelfUnitSpec> = DEFAULT_SHELF
         modifyTimeUnit = (filter: RangeFilter) => {
           return {
             field: filter.field,
-            timeUnit,
-            range: domain as number[] | DateTime[]
-            // add casting because typescript complains about it
+            range: [convertToDateTimeObject(domain[0]), convertToDateTimeObject(domain[1])]
           };
         };
       } else if (timeUnit === TimeUnit.MONTH || timeUnit === TimeUnit.DAY) {
@@ -172,13 +169,17 @@ function contains(filters: Array<RangeFilter | OneOfFilter>, target: RangeFilter
 }
 
 export function getFilter(fieldDef: ShelfFieldDef, domain: any[]): RangeFilter | OneOfFilter {
-  if (typeof fieldDef.field !== 'string') {
+  if (isWildcard(fieldDef.field)) {
     return;
   }
   switch (fieldDef.type) {
     case ExpandedType.QUANTITATIVE:
-    case ExpandedType.TEMPORAL:
       return {field: fieldDef.field, range: domain};
+    case ExpandedType.TEMPORAL:
+      return {
+        field: fieldDef.field,
+        range: [convertToDateTimeObject(domain[0]), convertToDateTimeObject(domain[1])]
+      };
     case ExpandedType.NOMINAL:
     case ExpandedType.ORDINAL:
     case ExpandedType.KEY:
@@ -203,11 +204,10 @@ export function getAllTimeUnits() {
   ];
 }
 
-export function getDefaultRange(domain: number[], timeUnit: TimeUnit): number[] {
+export function getDefaultRange(domain: number[], timeUnit: TimeUnit): number[] | DateTime[] {
   switch (timeUnit) {
     case TimeUnit.YEARMONTHDATE:
-      return [Number(convert(timeUnit, new Date(domain[0]))),
-        Number(convert(timeUnit, new Date(domain[1])))];
+      return [convertToDateTimeObject(Number(domain[0])), convertToDateTimeObject(Number(domain[1]))];
     case TimeUnit.YEAR:
       return [convert(timeUnit, new Date(domain[0])).getFullYear(),
         convert(timeUnit, new Date(domain[1])).getFullYear()];
@@ -237,4 +237,33 @@ export function getDefaultList(timeUnit: TimeUnit): number[] {
     default:
       throw new Error ('Invalid time unit ' + timeUnit);
   }
+}
+
+export function convertToDateTimeObject(timeStamp: number): DateTime {
+  const date = new Date(timeStamp);
+  return {
+    year: date.getFullYear(),
+    quarter: Math.floor((date.getMonth() + 3) / 3),
+    month: date.getMonth() + 1, // 1-indexing
+    date: date.getDate(),
+    day: date.getDay() + 1, // 1-indexing
+    hours: date.getHours(),
+    minutes: date.getMinutes(),
+    seconds: date.getSeconds(),
+    milliseconds: date.getMilliseconds(),
+    utc: date.getTimezoneOffset() === 0
+  };
+}
+
+export function convertToTimestamp(dateTime: DateTime): number {
+  const date = new Date(
+    dateTime.year,
+    Number(dateTime.month) - 1, // 0-indexing
+    dateTime.date,
+    dateTime.hours,
+    dateTime.minutes,
+    dateTime.seconds,
+    dateTime.milliseconds
+  );
+  return Number(date);
 }
