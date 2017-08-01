@@ -1,8 +1,5 @@
-
-import {FieldQuery} from 'compassql/build/src/query/encoding';
-import {ExpandedType} from 'compassql/build/src/query/expandedtype';
 import {Schema} from 'compassql/build/src/schema';
-import {isWildcard, SHORT_WILDCARD} from 'compassql/build/src/wildcard';
+import {isWildcard} from 'compassql/build/src/wildcard';
 import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
 import {DragElementWrapper, DragSource, DragSourceCollector, DragSourceSpec} from 'react-dnd';

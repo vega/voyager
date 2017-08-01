@@ -211,7 +211,8 @@ describe('reducers/shelf/filter', () => {
         }
       }, schema);
     expect(spec.filters).toEqual([
-      rangeFilter, {field: 'q2', oneOf: [1, 2, 3, 4, 5, 6, 7], timeUnit: TimeUnit.DAY}
+      rangeFilter, {field: 'q2', oneOf: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+        timeUnit: TimeUnit.DAY}
     ]);
   });
 });
