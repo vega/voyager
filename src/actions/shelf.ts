@@ -10,7 +10,8 @@ export type ShelfAction =
 
 export type ShelfEncodingAction = ShelfFieldAdd | ShelfFieldAutoAdd |
   ShelfFieldRemove | ShelfFieldMove | ShelfFunctionAddWildcard | ShelfFunctionChange |
-  ShelfFunctionDisableWildcard | ShelfFunctionEnableWildcard | ShelfSpecLoad;
+  ShelfFunctionDisableWildcard | ShelfFunctionEnableWildcard | ShelfFunctionRemoveWildcard |
+  ShelfSpecLoad;
 
 export const SHELF_CLEAR = 'SHELF_CLEAR';
 export type ShelfClear = PlainReduxAction<typeof SHELF_CLEAR>;
@@ -66,6 +67,12 @@ export type ShelfFunctionEnableWildcard = ReduxAction<typeof SHELF_FUNCTION_ENAB
 export const SHELF_FUNCTION_DISABLE_WILDCARD = 'SHELF_FUNCTION_DISABLE_WILDCARD';
 export type ShelfFunctionDisableWildcard = ReduxAction<typeof SHELF_FUNCTION_DISABLE_WILDCARD, {
   shelfId: ShelfId,
+}>;
+
+export const SHELF_FUNCTION_REMOVE_WILDCARD = 'SHELF_FUNCTION_REMOVE_WILDCARD';
+export type ShelfFunctionRemoveWildcard = ReduxAction<typeof SHELF_FUNCTION_REMOVE_WILDCARD, {
+  shelfId: ShelfId,
+  fn: ShelfFunction;
 }>;
 
 export const SHELF_SPEC_LOAD = 'SHELF_SPEC_LOAD';

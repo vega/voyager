@@ -1,6 +1,7 @@
 import {
   SHELF_CLEAR, SHELF_FIELD_ADD, SHELF_FIELD_AUTO_ADD, SHELF_FIELD_MOVE, SHELF_FIELD_REMOVE, SHELF_FUNCTION_ADD_WILDCARD,
-  SHELF_FUNCTION_CHANGE, SHELF_FUNCTION_DISABLE_WILDCARD, SHELF_FUNCTION_ENABLE_WILDCARD, SHELF_MARK_CHANGE_TYPE
+  SHELF_FUNCTION_CHANGE, SHELF_FUNCTION_DISABLE_WILDCARD, SHELF_FUNCTION_ENABLE_WILDCARD,
+  SHELF_FUNCTION_REMOVE_WILDCARD, SHELF_MARK_CHANGE_TYPE
 } from '../../actions/shelf';
 import {DEFAULT_SHELF_UNIT_SPEC} from '../../models';
 import {shelfSpecReducer} from './spec';
@@ -677,6 +678,162 @@ describe('reducers/shelf/spec', () => {
             timeUnit: {
               name: 'timeUnit',
               enum: ['yearmonth']
+            },
+            field: 'a',
+            type: 'quantitative'
+          }
+        }
+      });
+    });
+  });
+
+  describe(SHELF_FUNCTION_REMOVE_WILDCARD, () => {
+    it('should correctly remove a wildcard function', () => {
+      const shelfSpec = shelfSpecReducer(
+        {
+          ...DEFAULT_SHELF_UNIT_SPEC,
+          encoding: {
+            x: {aggregate: {name: 'aggregate', enum: ['mean']}, bin: '?', field: 'a', type: 'quantitative'}
+          }
+        },
+        {
+          type: SHELF_FUNCTION_REMOVE_WILDCARD,
+          payload: {
+            shelfId: {channel: 'x'},
+            fn: 'mean'
+          }
+        },
+        schema
+      );
+
+      expect(shelfSpec).toEqual({
+        ...DEFAULT_SHELF_UNIT_SPEC,
+        encoding: {
+          x: {field: 'a', bin: '?', type: 'quantitative'}
+        }
+      });
+    });
+
+    it('should correctly remove a wildcard function', () => {
+      const shelfSpec = shelfSpecReducer(
+        {
+          ...DEFAULT_SHELF_UNIT_SPEC,
+          encoding: {
+            x: {aggregate: {name: 'aggregate', enum: ['mean']}, bin: '?', field: 'a', type: 'quantitative'}
+          }
+        },
+        {
+          type: SHELF_FUNCTION_REMOVE_WILDCARD,
+          payload: {
+            shelfId: {channel: 'x'},
+            fn: 'mean'
+          }
+        },
+        schema
+      );
+
+      expect(shelfSpec).toEqual({
+        ...DEFAULT_SHELF_UNIT_SPEC,
+        encoding: {
+          x: {field: 'a', bin: '?', type: 'quantitative'}
+        }
+      });
+    });
+
+    it('should correctly remove a wildcard function', () => {
+      const shelfSpec = shelfSpecReducer(
+        {
+          ...DEFAULT_SHELF_UNIT_SPEC,
+          encoding: {
+            x: {aggregate: {name: 'aggregate', enum: ['mean', 'median']}, bin: '?', field: 'a', type: 'quantitative'}
+          }
+        },
+        {
+          type: SHELF_FUNCTION_REMOVE_WILDCARD,
+          payload: {
+            shelfId: {channel: 'x'},
+            fn: 'mean'
+          }
+        },
+        schema
+      );
+
+      expect(shelfSpec).toEqual({
+        ...DEFAULT_SHELF_UNIT_SPEC,
+        encoding: {
+          x: {aggregate: {name: 'aggregate', enum: ['median']}, bin: '?', field: 'a', type: 'quantitative'}
+        }
+      });
+    });
+
+    it('should correctly remove a wildcard function', () => {
+      const shelfSpec = shelfSpecReducer(
+        {
+          ...DEFAULT_SHELF_UNIT_SPEC,
+          encoding: {
+            x: {aggregate: {name: 'aggregate', enum: ['mean', 'median']}, bin: '?', field: 'a', type: 'quantitative'}
+          }
+        },
+        {
+          type: SHELF_FUNCTION_REMOVE_WILDCARD,
+          payload: {
+            shelfId: {channel: 'x'},
+            fn: 'bin'
+          }
+        },
+        schema
+      );
+
+      expect(shelfSpec).toEqual({
+        ...DEFAULT_SHELF_UNIT_SPEC,
+        encoding: {
+          x: {aggregate: {name: 'aggregate', enum: ['mean', 'median']}, field: 'a', type: 'quantitative'}
+        }
+      });
+    });
+
+    it('should correctly remove a wildcard function', () => {
+      const shelfSpec = shelfSpecReducer(
+        {
+          ...DEFAULT_SHELF_UNIT_SPEC,
+          encoding: {
+            x: {
+              aggregate: {
+                name: 'aggregate',
+                enum: ['mean', 'median']
+              },
+              bin: '?',
+              timeUnit: {
+                name: 'timeUnit',
+                enum: ['year', 'month']
+              },
+              field: 'a',
+              type: 'quantitative'
+            }
+          }
+        },
+        {
+          type: SHELF_FUNCTION_REMOVE_WILDCARD,
+          payload: {
+            shelfId: {channel: 'x'},
+            fn: 'month'
+          }
+        },
+        schema
+      );
+
+      expect(shelfSpec).toEqual({
+        ...DEFAULT_SHELF_UNIT_SPEC,
+        encoding: {
+          x: {
+            aggregate: {
+              name: 'aggregate',
+              enum: ['mean', 'median']
+            },
+            bin: '?',
+            timeUnit: {
+              name: 'timeUnit',
+              enum: ['year']
             },
             field: 'a',
             type: 'quantitative'
