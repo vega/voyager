@@ -1,7 +1,8 @@
 
 import {FieldQuery} from 'compassql/build/src/query/encoding';
+import {ExpandedType} from 'compassql/build/src/query/expandedtype';
 import {Schema} from 'compassql/build/src/schema';
-import {isWildcard} from 'compassql/build/src/wildcard';
+import {isWildcard, SHORT_WILDCARD} from 'compassql/build/src/wildcard';
 import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
 import {DragElementWrapper, DragSource, DragSourceCollector, DragSourceSpec} from 'react-dnd';
@@ -15,8 +16,6 @@ import {ShelfId} from '../../models/shelf';
 import {ShelfFieldDef} from '../../models/shelf/encoding';
 import {getFilter} from '../../reducers/shelf/filter';
 import * as styles from './field.scss';
-
-
 
 /**
  * Props for react-dnd of Field
@@ -165,7 +164,10 @@ class FieldBase extends React.PureComponent<FieldProps, FieldState> {
 
   private getFilter() {
     const {fieldDef, schema} = this.props;
-    const domain = schema.domain(fieldDef as FieldQuery);
+    if (isWildcard(fieldDef.field)) {
+      return;
+    }
+    const domain = schema.domain({field: fieldDef.field});
     return getFilter(fieldDef, domain);
   }
 
@@ -278,7 +280,10 @@ export interface DraggedFieldIdentifier {
 const fieldSource: DragSourceSpec<FieldProps> = {
   beginDrag(props): DraggedFieldIdentifier {
     const {fieldDef, parentId, schema} = props;
-    const filter = getFilter(fieldDef, schema.domain(fieldDef as FieldQuery));
+    if (isWildcard(fieldDef.field)) {
+      return;
+    }
+    const filter = getFilter(fieldDef, schema.domain({field: fieldDef.field}));
     return {fieldDef, parentId, filter};
   }
 };

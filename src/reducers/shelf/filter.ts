@@ -1,7 +1,7 @@
 
 import {ExpandedType} from 'compassql/build/src/query/expandedtype';
 import {Schema} from 'compassql/build/src/schema';
-import {isWildcard, SHORT_WILDCARD} from 'compassql/build/src/wildcard';
+import {isWildcard} from 'compassql/build/src/wildcard';
 import {DateTime} from 'vega-lite/build/src/datetime';
 import {OneOfFilter, RangeFilter} from 'vega-lite/build/src/filter';
 import {convert, TimeUnit} from 'vega-lite/build/src/timeunit';
@@ -117,17 +117,13 @@ export function filterReducer(shelfSpec: Readonly<ShelfUnitSpec> = DEFAULT_SHELF
     }
     case FILTER_MODIFY_TIME_UNIT: {
       const {index, timeUnit} = action.payload;
-      const domain = schema.domain({
-        channel: SHORT_WILDCARD,
-        field: shelfSpec.filters[index].field,
-        type: 'temporal'
-        // TODO: remove channel and type after it's fixed in compassql
-      });
+      const domain = schema.domain({field: shelfSpec.filters[index].field});
       let modifyTimeUnit;
       if (!timeUnit) {
         modifyTimeUnit = (filter: RangeFilter) => {
           return {
             field: filter.field,
+            timeUnit,
             range: [convertToDateTimeObject(domain[0]), convertToDateTimeObject(domain[1])]
           };
         };
@@ -228,12 +224,13 @@ export function getDefaultRange(domain: number[], timeUnit: TimeUnit): number[] 
   }
 }
 
-export function getDefaultList(timeUnit: TimeUnit): number[] {
+export function getDefaultList(timeUnit: TimeUnit): string[] {
   switch (timeUnit) {
     case TimeUnit.MONTH:
-      return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+      return ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August',
+        'September', 'October', 'November', 'December'];
     case TimeUnit.DAY:
-      return [1, 2, 3, 4, 5, 6, 7];
+      return ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
     default:
       throw new Error ('Invalid time unit ' + timeUnit);
   }

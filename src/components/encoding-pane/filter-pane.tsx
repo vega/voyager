@@ -1,7 +1,7 @@
 
 import {ExpandedType} from 'compassql/build/src/query/expandedtype';
 import {Schema} from 'compassql/build/src/schema';
-import {isWildcard, SHORT_WILDCARD} from 'compassql/build/src/wildcard';
+import {isWildcard} from 'compassql/build/src/wildcard';
 import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
 import {ConnectDropTarget, DropTarget, DropTargetCollector, DropTargetSpec} from 'react-dnd';
@@ -85,15 +85,7 @@ class FilterPaneBase extends React.Component<FilterPaneProps, {}> {
 
   private renderFilterShelf(filter: RangeFilter | OneOfFilter, index: number) {
     const {handleAction, schema} = this.props;
-    const filedQuery = {
-      field: filter.field,
-      type: ExpandedType.TEMPORAL,
-      channel: SHORT_WILDCARD,
-      // schema.domain() does not need type or channel, so two random values are used.
-      // TODO: remove type and channel after domain function in compassql
-      // is changed.
-    };
-    let domain = schema.domain(filedQuery);
+    let domain = schema.domain({field: filter.field});
     const fieldSchema = schema.fieldSchema(filter.field);
     const fieldDef = {
       field: fieldSchema.name,
