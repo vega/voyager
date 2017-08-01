@@ -366,7 +366,33 @@ describe('reducers/shelf/spec', () => {
   });
 
   describe(SHELF_FUNCTION_DISABLE_WILDCARD, () => {
-    it('should correctly convert the last selected wildcard function back to a specific function', () => {
+    it('should correctly convert back to a specific function', () => {
+      const shelfSpec = shelfSpecReducer(
+        {
+          ...DEFAULT_SHELF_UNIT_SPEC,
+          encoding: {},
+          anyEncodings: [
+            {aggregate: {name: 'aggregate', enum: ['min', 'mean', 'median']}, channel: '?', field: 'a'}
+          ]
+        },
+        {
+          type: SHELF_FUNCTION_DISABLE_WILDCARD,
+          payload: {
+            shelfId: {channel: '?', index: 0},
+          }
+        },
+        schema
+      );
+
+      expect(shelfSpec).toEqual({
+        ...DEFAULT_SHELF_UNIT_SPEC,
+        anyEncodings: [
+          {aggregate: 'min', channel: '?', field: 'a'}
+        ]
+      });
+    });
+
+    it('should correctly convert back to a specific function', () => {
       const shelfSpec = shelfSpecReducer(
         {
           ...DEFAULT_SHELF_UNIT_SPEC,
@@ -379,7 +405,6 @@ describe('reducers/shelf/spec', () => {
           type: SHELF_FUNCTION_DISABLE_WILDCARD,
           payload: {
             shelfId: {channel: '?', index: 0},
-            fn: 'mean'
           }
         },
         schema
@@ -388,24 +413,23 @@ describe('reducers/shelf/spec', () => {
       expect(shelfSpec).toEqual({
         ...DEFAULT_SHELF_UNIT_SPEC,
         anyEncodings: [
-          {aggregate: 'mean', channel: '?', field: 'a'}
+          {bin: true, channel: '?', field: 'a'}
         ]
       });
     });
 
-    it('should correctly convert the last selected wildcard function back to a specific function', () => {
+    it('should correctly convert back to a specific function', () => {
       const shelfSpec = shelfSpecReducer(
         {
           ...DEFAULT_SHELF_UNIT_SPEC,
           encoding: {
-            x: {aggregate: {name: 'aggregate', enum: ['mean', 'median']}, bin: '?', field: 'a', type: 'quantitative'}
+            x: {aggregate: {name: 'aggregate', enum: ['min', 'mean', 'median']}, field: 'a', type: 'quantitative'}
           }
         },
         {
           type: SHELF_FUNCTION_DISABLE_WILDCARD,
           payload: {
             shelfId: {channel: 'x'},
-            fn: 'mean'
           }
         },
         schema
@@ -414,7 +438,63 @@ describe('reducers/shelf/spec', () => {
       expect(shelfSpec).toEqual({
         ...DEFAULT_SHELF_UNIT_SPEC,
         encoding: {
-          x: {aggregate: 'mean', field: 'a', type: 'quantitative'}
+          x: {aggregate: 'min', field: 'a', type: 'quantitative'}
+        }
+      });
+    });
+
+    it('should correctly convert back to a specific function', () => {
+      const shelfSpec = shelfSpecReducer(
+        {
+          ...DEFAULT_SHELF_UNIT_SPEC,
+          encoding: {
+            x: {
+              aggregate: {name: 'aggregate', enum: ['mean', 'median']},
+              bin: '?',
+              timeUnit: {name: 'timeUnit', enum: ['year']},
+              field: 'a',
+              type: 'quantitative'
+            }
+          }
+        },
+        {
+          type: SHELF_FUNCTION_DISABLE_WILDCARD,
+          payload: {
+            shelfId: {channel: 'x'},
+          }
+        },
+        schema
+      );
+
+      expect(shelfSpec).toEqual({
+        ...DEFAULT_SHELF_UNIT_SPEC,
+        encoding: {
+          x: {bin: true, field: 'a', type: 'quantitative'}
+        }
+      });
+    });
+
+    it('should correctly convert back to a specific function when no wildcard functions were selected', () => {
+      const shelfSpec = shelfSpecReducer(
+        {
+          ...DEFAULT_SHELF_UNIT_SPEC,
+          encoding: {
+            x: {field: 'a', type: 'quantitative'}
+          }
+        },
+        {
+          type: SHELF_FUNCTION_DISABLE_WILDCARD,
+          payload: {
+            shelfId: {channel: 'x'},
+          }
+        },
+        schema
+      );
+
+      expect(shelfSpec).toEqual({
+        ...DEFAULT_SHELF_UNIT_SPEC,
+        encoding: {
+          x: {field: 'a', type: 'quantitative'}
         }
       });
     });
@@ -530,20 +610,20 @@ describe('reducers/shelf/spec', () => {
       });
     });
 
-    it('should correctly add a wildcard function to anyEncodings when none is selected', () => {
+    it('should correctly add a wildcard function to anyEncodings when wildcard functions are already selected', () => {
       const shelfSpec = shelfSpecReducer(
         {
           ...DEFAULT_SHELF_UNIT_SPEC,
           encoding: {},
           anyEncodings: [
-            {aggregate: {name: 'aggregate', enum: ['mean']}, channel: '?', field: 'a', }
+            {aggregate: {name: 'aggregate', enum: ['median']}, channel: '?', field: 'a'}
           ]
         },
         {
           type: SHELF_FUNCTION_ADD_WILDCARD,
           payload: {
             shelfId: {channel: '?', index: 0},
-            fn: 'median'
+            fn: 'mean'
           }
         },
         schema
@@ -565,7 +645,7 @@ describe('reducers/shelf/spec', () => {
             x: {
               aggregate: {
                 name: 'aggregate',
-                enum: ['mean']
+                enum: ['median']
               },
               timeUnit: {
                 name: 'timeUnit',
@@ -580,7 +660,7 @@ describe('reducers/shelf/spec', () => {
           type: SHELF_FUNCTION_ADD_WILDCARD,
           payload: {
             shelfId: {channel: 'x'},
-            fn: 'median'
+            fn: 'mean'
           }
         },
         schema

@@ -12,10 +12,12 @@ import {
   SHELF_FUNCTION_ENABLE_WILDCARD, SHELF_MARK_CHANGE_TYPE, SHELF_SPEC_LOAD
 } from '../../actions/shelf';
 
+import {ExpandedType} from 'compassql/build/src/query/expandedtype';
 import {AGGREGATE_OPS} from 'vega-lite/build/src/aggregate';
 import {TIMEUNITS} from 'vega-lite/build/src/timeunit';
 import {isWildcardChannelId} from '../../models';
 import {ShelfAnyEncodingDef, ShelfFieldDef, ShelfFunction, ShelfId, ShelfUnitSpec} from '../../models/shelf';
+import {getSupportedFunction} from '../../models/shelf/encoding';
 import {autoAddFieldQuery} from '../../models/shelf/index';
 import {DEFAULT_SHELF_UNIT_SPEC, fromSpecQuery} from '../../models/shelf/spec';
 import {toSet} from '../../util';
@@ -98,7 +100,32 @@ export function shelfSpecReducer(shelfSpec: Readonly<ShelfUnitSpec> = DEFAULT_SH
 
     }
 
-    case SHELF_FUNCTION_DISABLE_WILDCARD:
+    case SHELF_FUNCTION_DISABLE_WILDCARD: {
+      const {shelfId} = action.payload;
+
+      return modifyEncoding(shelfSpec, shelfId, (fieldDef: Readonly<ShelfFieldDef | ShelfAnyEncodingDef>) => {
+        const {aggregate: _a, bin: _b, timeUnit: _t, hasFn: _h, ...fieldDefWithoutFn} = fieldDef;
+
+        let fn;
+        if (fieldDef.bin) {
+          fn = 'bin';
+        } else if (fieldDef.aggregate && fieldDef.aggregate['enum']) {
+          if (fieldDef.aggregate['enum'].length > 0) {
+            fn = fieldDef.aggregate['enum'][0];
+          }
+        } else if (fieldDef.timeUnit && fieldDef.timeUnit['enum']) {
+          if (fieldDef.timeUnit['enum'].length > 0) {
+            fn = fieldDef.timeUnit['enum'][0];
+          }
+        }
+
+        return {
+          ...fieldDefWithoutFn,
+          ...getFunctionMixins(fn)
+        };
+      });
+    }
+
     case SHELF_FUNCTION_CHANGE: {
       const {shelfId, fn} = action.payload;
 
@@ -170,13 +197,31 @@ function getFunctionAsWildcard(fn: ShelfFunction) {
   return undefined;
 }
 
+function buildSupportedFunctionIndex(type: ExpandedType) {
+  return getSupportedFunction(type).reduce((dict, fn, currentIndex) => {
+    dict[fn] = currentIndex;
+    return dict;
+  }, {});
+}
+
+const aggregateOrderIndex = buildSupportedFunctionIndex('quantitative');
+const timeunitOrderIndex = buildSupportedFunctionIndex('temporal');
+
+function sortByTimeunitIndex(a: ExpandedType, b: ExpandedType) {
+  return timeunitOrderIndex[a] - timeunitOrderIndex[b];
+}
+
+function sortByAggregateIndex(a: ExpandedType, b: ExpandedType) {
+  return aggregateOrderIndex[a] - aggregateOrderIndex[b];
+}
+
 function getWildcardFunctionsMixins(fn: ShelfFunction, fieldDef: Readonly<ShelfFieldDef | ShelfAnyEncodingDef>) {
   if (AGGREGATE_INDEX[fn]) {
     return {
       aggregate: {
         name: 'aggregate',
         enum: (fieldDef.aggregate) ?
-          fieldDef.aggregate['enum'].concat([fn]) :
+          fieldDef.aggregate['enum'].concat([fn]).sort(sortByAggregateIndex) :
           [fn]
       }
     };
@@ -191,7 +236,7 @@ function getWildcardFunctionsMixins(fn: ShelfFunction, fieldDef: Readonly<ShelfF
       timeUnit: {
         name: 'timeUnit',
         enum: (fieldDef.timeUnit) ?
-          fieldDef.timeUnit['enum'].concat([fn]) :
+          fieldDef.timeUnit['enum'].concat([fn]).sort(sortByTimeunitIndex) :
           [fn]
       }
     };

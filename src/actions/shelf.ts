@@ -66,7 +66,6 @@ export type ShelfFunctionEnableWildcard = ReduxAction<typeof SHELF_FUNCTION_ENAB
 export const SHELF_FUNCTION_DISABLE_WILDCARD = 'SHELF_FUNCTION_DISABLE_WILDCARD';
 export type ShelfFunctionDisableWildcard = ReduxAction<typeof SHELF_FUNCTION_DISABLE_WILDCARD, {
   shelfId: ShelfId,
-  fn: ShelfFunction;
 }>;
 
 export const SHELF_SPEC_LOAD = 'SHELF_SPEC_LOAD';
