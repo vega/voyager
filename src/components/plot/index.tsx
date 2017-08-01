@@ -1,23 +1,21 @@
 import * as React from 'react';
-import * as CSSModules from 'react-css-modules';
-import {FacetedCompositeUnitSpec} from 'vega-lite/build/src/spec';
-
-import * as styles from './plot.scss';
-
 import * as CopyToClipboard from 'react-copy-to-clipboard';
-import {Bookmark} from '../../models/bookmark';
-
+import * as CSSModules from 'react-css-modules';
 import * as TetherComponent from 'react-tether';
+import {FacetedCompositeUnitSpec} from 'vega-lite/build/src/spec';
 import {BOOKMARK_MODIFY_NOTE, BookmarkAction} from '../../actions/bookmark';
 import {ActionHandler} from '../../actions/redux-action';
-import {SHELF_SPEC_LOAD, SHELF_SPEC_PREVIEW, SHELF_SPEC_PREVIEW_DISABLE, ShelfAction} from '../../actions/shelf';
+import {SHELF_SPEC_LOAD, ShelfAction} from '../../actions/shelf';
+import {SHELF_PREVIEW_SPEC, SHELF_PREVIEW_SPEC_DISABLE, ShelfPreviewAction} from '../../actions/shelf-preview';
 import {PLOT_HOVER_MIN_DURATION} from '../../constants';
+import {Bookmark} from '../../models/bookmark';
 import {PlotFieldInfo} from '../../models/plot';
 import {Field} from '../field/index';
 import {VegaLite} from '../vega-lite/index';
 import {BookmarkButton} from './bookmarkbutton';
+import * as styles from './plot.scss';
 
-export interface PlotProps extends ActionHandler<ShelfAction | BookmarkAction> {
+export interface PlotProps extends ActionHandler<ShelfAction | BookmarkAction | ShelfPreviewAction> {
   fieldInfos?: PlotFieldInfo[];
   isPlotListItem?: boolean;
   showBookmarkButton?: boolean;
@@ -189,7 +187,7 @@ export class PlotBase extends React.PureComponent<PlotProps, PlotState> {
         const {handleAction, spec} = this.props;
         this.setState({preview: true});
         handleAction({
-          type: SHELF_SPEC_PREVIEW,
+          type: SHELF_PREVIEW_SPEC,
           payload: {spec}
         });
         this.previewTimeoutId = undefined;
@@ -203,7 +201,7 @@ export class PlotBase extends React.PureComponent<PlotProps, PlotState> {
     if (this.state.preview) {
       this.setState({preview: false});
       const {handleAction} = this.props;
-      handleAction({type: SHELF_SPEC_PREVIEW_DISABLE});
+      handleAction({type: SHELF_PREVIEW_SPEC_DISABLE});
     }
   }
 

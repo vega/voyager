@@ -85,7 +85,6 @@ class EncodingPanelBase extends React.PureComponent<EncodingPanelProps, {}> {
 
     const {handleAction, spec, specPreview} = this.props;
     const {encoding} = specPreview || spec;
-
     return (
       <EncodingShelf
         key={channel}
@@ -134,7 +133,7 @@ export const EncodingPane = connect(
   (state: State) => {
     return {
       spec: state.present.shelf.spec,
-      specPreview: state.present.shelf.specPreview
+      specPreview: state.present.shelfPreview.spec
     };
   },
   createDispatchHandler<ShelfAction>()

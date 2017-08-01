@@ -40,8 +40,7 @@ describe('models/shelf', () => {
           },
           anyEncodings: [],
           config: {numberFormat: 'd'}
-        },
-        specPreview: null
+        }
       })).toEqual({
         spec: {
           transform: [],
@@ -70,8 +69,7 @@ describe('models/shelf', () => {
           },
           anyEncodings: [],
           config: {numberFormat: 'd'}
-        },
-        specPreview: null
+        }
       })).toEqual({
         spec: {
           transform: [],
@@ -101,8 +99,7 @@ describe('models/shelf', () => {
           },
           anyEncodings: [],
           config: {numberFormat: 'd'}
-        },
-        specPreview: null
+        }
       })).toEqual({
         spec: {
           transform: [],

@@ -36,9 +36,9 @@ import {
   SHELF_FIELD_REMOVE,
   SHELF_FUNCTION_CHANGE,
   SHELF_MARK_CHANGE_TYPE,
+  SHELF_PREVIEW_SPEC,
+  SHELF_PREVIEW_SPEC_DISABLE,
   SHELF_SPEC_LOAD,
-  SHELF_SPEC_PREVIEW,
-  SHELF_SPEC_PREVIEW_DISABLE,
 } from '../actions';
 
 import {ActionType} from '../actions';
@@ -47,8 +47,8 @@ import {configReducer} from './config';
 import {datasetReducer} from './dataset';
 import {resultIndexReducer} from './result';
 import {shelfReducer} from './shelf';
+import {shelfPreviewReducer} from './shelf-preview';
 import {stateReducer} from './state';
-
 
 function reducer(state: Readonly<StateBase> = DEFAULT_STATE, action: Action): StateBase {
   if (action.type === SET_APPLICATION_STATE) {
@@ -59,6 +59,7 @@ function reducer(state: Readonly<StateBase> = DEFAULT_STATE, action: Action): St
       config: configReducer(state.config, action),
       dataset: datasetReducer(state.dataset, action),
       shelf: shelfReducer(state.shelf, action, state.dataset.schema),
+      shelfPreview: shelfPreviewReducer(state.shelfPreview, action),
       result: resultIndexReducer(state.result, action)
     };
   }
@@ -115,8 +116,8 @@ export const USER_ACTIONS: ActionType[] = [
   SHELF_FIELD_MOVE,
   SHELF_FUNCTION_CHANGE,
   SHELF_SPEC_LOAD,
-  SHELF_SPEC_PREVIEW,
-  SHELF_SPEC_PREVIEW_DISABLE
+  SHELF_PREVIEW_SPEC,
+  SHELF_PREVIEW_SPEC_DISABLE
 ];
 
 
