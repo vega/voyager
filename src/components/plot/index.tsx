@@ -87,13 +87,15 @@ export class PlotBase extends React.PureComponent<PlotProps, PlotState> {
           <div styleName="command-toolbox">
             {showSpecifyButton && this.specifyButton()}
             {showBookmarkButton && this.bookmarkButton()}
-            <TetherComponent
-              attachment='bottom left'
-              offset='0px 30px'
-            >
-              {this.copySpecButton()}
-              {this.state.copiedPopupIsOpened && <span styleName='copied'>copied</span>}
-            </TetherComponent>
+            <span styleName='command'>
+              <TetherComponent
+                attachment='bottom left'
+                offset='0px 30px'
+              >
+                {this.copySpecButton()}
+                {this.state.copiedPopupIsOpened && <span styleName='copied'>copied</span>}
+              </TetherComponent>
+            </span>
           </div>
           <span
             onMouseEnter={this.onPreviewMouseEnter}
@@ -245,7 +247,7 @@ export class PlotBase extends React.PureComponent<PlotProps, PlotState> {
       <CopyToClipboard
         onCopy={this.copied.bind(this)}
         text={JSON.stringify(this.props.spec, null, 2)}>
-        <i className='fa fa-clipboard' styleName='command'/>
+        <i className='fa fa-clipboard'/>
       </CopyToClipboard>
     );
   }
