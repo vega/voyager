@@ -1,9 +1,17 @@
+.view-pane {
+  overflow: auto;
+  width: calc(100vw - 200px - 235px - 8px - 8px);
+  // widow width - data pane width - encoding pane width - left and right paddings
+}
+
 .view-pane-specific {
+  @extend .view-pane;
   background: rgba(255,255,255,.6);
   height: 100%; // TODO: remove this once we have related views
 }
 
 .view-pane-gallery {
+  @extend .view-pane;
   background: #C6E5E7;
   height: 100%; // TODO: remove this once we have related views
 }

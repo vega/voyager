@@ -1,7 +1,6 @@
 {
   "compilerOptions": {
     "outDir": "./build/",
-    "rootDir": "./",
     "target": "es5",
     "module": "commonjs",
     "jsx": "react",
@@ -12,7 +11,7 @@
   "include": [
     "./node_modules/compassql/typings/*.d.ts",
     "./node_modules/vega-lite/typings/*.d.ts",
-    "node_modules/@types/**/*.d.ts",
+    "./node_modules/@types/**/*.d.ts",
     "./typings/*.d.ts",
     "./src/**/*"
   ]

@@ -1,25 +1,23 @@
 import * as React from 'react';
-import * as CSSModules from 'react-css-modules';
-import {FacetedCompositeUnitSpec} from 'vega-lite/build/src/spec';
-
-import * as styles from './plot.scss';
-
 import * as CopyToClipboard from 'react-copy-to-clipboard';
-import {Bookmark} from '../../models/bookmark';
-
+import * as CSSModules from 'react-css-modules';
+import * as TetherComponent from 'react-tether';
+import {FacetedCompositeUnitSpec} from 'vega-lite/build/src/spec';
 import {BOOKMARK_MODIFY_NOTE, BookmarkAction} from '../../actions/bookmark';
 import {ActionHandler} from '../../actions/redux-action';
-import {SHELF_SPEC_LOAD, SHELF_SPEC_PREVIEW, SHELF_SPEC_PREVIEW_DISABLE, ShelfAction} from '../../actions/shelf';
+import {SHELF_SPEC_LOAD, ShelfAction} from '../../actions/shelf';
+import {SHELF_PREVIEW_SPEC, SHELF_PREVIEW_SPEC_DISABLE, ShelfPreviewAction} from '../../actions/shelf-preview';
 import {PLOT_HOVER_MIN_DURATION} from '../../constants';
+import {Bookmark} from '../../models/bookmark';
 import {PlotFieldInfo} from '../../models/plot';
 import {Field} from '../field/index';
 import {VegaLite} from '../vega-lite/index';
 import {BookmarkButton} from './bookmarkbutton';
+import * as styles from './plot.scss';
 
-export interface PlotProps extends ActionHandler<ShelfAction | BookmarkAction> {
+export interface PlotProps extends ActionHandler<ShelfAction | BookmarkAction | ShelfPreviewAction> {
   fieldInfos?: PlotFieldInfo[];
   isPlotListItem?: boolean;
-  scrollOnHover?: boolean;
   showBookmarkButton?: boolean;
   showSpecifyButton?: boolean;
   spec: FacetedCompositeUnitSpec;
@@ -29,16 +27,22 @@ export interface PlotProps extends ActionHandler<ShelfAction | BookmarkAction> {
 export interface PlotState {
   hovered: boolean;
   preview: boolean;
+  copiedPopupIsOpened: boolean;
 }
 
-export class PlotBase extends React.PureComponent<PlotProps, any> {
+export class PlotBase extends React.PureComponent<PlotProps, PlotState> {
 
   private hoverTimeoutId: number;
   private previewTimeoutId: number;
+  private vegaLiteWrapper: HTMLElement;
 
   constructor(props: PlotProps) {
     super(props);
-    this.state = {hovered: false, preview: false};
+    this.state = {
+      hovered: false,
+      preview: false,
+      copiedPopupIsOpened: false
+    };
 
     // Bind - https://facebook.github.io/react/docs/handling-events.html
     this.handleTextChange = this.handleTextChange.bind(this);
@@ -48,8 +52,21 @@ export class PlotBase extends React.PureComponent<PlotProps, any> {
     this.onPreviewMouseLeave = this.onPreviewMouseLeave.bind(this);
     this.onSpecify = this.onSpecify.bind(this);
   }
+
+  public componentDidUpdate(prevProps: PlotProps, prevState: PlotState) {
+    // We have to check this here since we do not know if it is vertically overflown
+    // during render time.
+    if (!this.isVerticallyOverFlown(this.vegaLiteWrapper) && this.state.hovered) {
+      // add a padding similar to .plot
+      this.vegaLiteWrapper.style.paddingRight = '11px';
+    } else {
+      // reset state otherwise, so we clean up what we add in the case above.
+      delete this.vegaLiteWrapper.style.paddingRight;
+    }
+  }
+
   public render() {
-    const {isPlotListItem, scrollOnHover, showBookmarkButton, showSpecifyButton, spec} = this.props;
+    const {isPlotListItem, showBookmarkButton, showSpecifyButton, spec} = this.props;
 
     let notesDiv;
     const specKey = JSON.stringify(spec);
@@ -67,11 +84,18 @@ export class PlotBase extends React.PureComponent<PlotProps, any> {
     return (
       <div styleName={isPlotListItem ? 'plot-list-item-group' : 'plot-group'}>
         <div styleName="plot-info">
-          <div styleName="plot-command">
+          <div styleName="command-toolbox">
             {showSpecifyButton && this.specifyButton()}
             {showBookmarkButton && this.bookmarkButton()}
-            <span id='copied' style={{display: 'none'}}> copied </span>
-            {this.copySpecButton()}
+            <span styleName='command'>
+              <TetherComponent
+                attachment='bottom left'
+                offset='0px 30px'
+              >
+                {this.copySpecButton()}
+                {this.state.copiedPopupIsOpened && <span styleName='copied'>copied</span>}
+              </TetherComponent>
+            </span>
           </div>
           <span
             onMouseEnter={this.onPreviewMouseEnter}
@@ -81,7 +105,8 @@ export class PlotBase extends React.PureComponent<PlotProps, any> {
           </span>
         </div>
         <div
-          styleName={scrollOnHover && this.state.hovered ? 'plot-scroll' : 'plot'}
+          ref={this.vegaLiteWrapperRefHandler}
+          styleName={this.state.hovered ? 'plot-scroll' : 'plot'}
           className="persist-scroll"
           onMouseEnter={this.onMouseEnter}
           onMouseLeave={this.onMouseLeave}
@@ -165,7 +190,7 @@ export class PlotBase extends React.PureComponent<PlotProps, any> {
         const {handleAction, spec} = this.props;
         this.setState({preview: true});
         handleAction({
-          type: SHELF_SPEC_PREVIEW,
+          type: SHELF_PREVIEW_SPEC,
           payload: {spec}
         });
         this.previewTimeoutId = undefined;
@@ -179,14 +204,14 @@ export class PlotBase extends React.PureComponent<PlotProps, any> {
     if (this.state.preview) {
       this.setState({preview: false});
       const {handleAction} = this.props;
-      handleAction({type: SHELF_SPEC_PREVIEW_DISABLE});
+      handleAction({type: SHELF_PREVIEW_SPEC_DISABLE});
     }
   }
 
   private specifyButton() {
     return <i
       className="fa fa-server"
-      styleName="specify-button"
+      styleName="specify-command"
       onClick={this.onSpecify}
       onMouseEnter={this.onPreviewMouseEnter}
       onMouseLeave={this.onPreviewMouseLeave}
@@ -198,7 +223,6 @@ export class PlotBase extends React.PureComponent<PlotProps, any> {
       fieldInfos: this.props.fieldInfos,
       spec: this.props.spec
     };
-
     return (
       <BookmarkButton
         bookmark = {this.props.bookmark}
@@ -224,17 +248,28 @@ export class PlotBase extends React.PureComponent<PlotProps, any> {
       <CopyToClipboard
         onCopy={this.copied.bind(this)}
         text={JSON.stringify(this.props.spec, null, 2)}>
-        <span> <i className='fa fa-clipboard' styleName='copy-button'/> </span>
+        <i className='fa fa-clipboard'/>
       </CopyToClipboard>
     );
   }
 
   private copied() {
-    const copiedIndicator = document.getElementById('copied');
-    copiedIndicator.style.display = 'inline';
+    this.setState({
+      copiedPopupIsOpened: true
+    });
     window.setTimeout(() => {
-      copiedIndicator.style.display = 'none';
+      this.setState({
+        copiedPopupIsOpened: false
+      });
     }, 1000);
+  }
+
+  private isVerticallyOverFlown(element: HTMLElement) {
+    return element.scrollHeight > element.clientHeight;
+  }
+
+  private vegaLiteWrapperRefHandler = (ref: any) => {
+    this.vegaLiteWrapper = ref;
   }
 }
 

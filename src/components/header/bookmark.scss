@@ -14,4 +14,22 @@
   box-align: stretch;
   align-items: stretch;
   max-width: 800px;
+  max-height: calc(100% - 100px);
+  overflow: scroll;
+}
+
+.vis-list-empty, {
+  height: 60px;
+  line-height: 60px;
+  vertical-align: middle;
+  text-align: center;
+  font-size: 1.2em;
+}
+
+a:hover {
+  cursor: pointer;
+}
+
+.bookmark-list-util {
+  margin-right: 10px;
 }

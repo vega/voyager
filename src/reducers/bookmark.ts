@@ -1,5 +1,5 @@
-import {Action, BOOKMARK_ADD_PLOT, BOOKMARK_MODIFY_NOTE, BOOKMARK_REMOVE_PLOT} from '../actions';
-import {Bookmark, BookmarkItem} from '../models';
+import {Action, BOOKMARK_ADD_PLOT, BOOKMARK_CLEAR_ALL, BOOKMARK_MODIFY_NOTE, BOOKMARK_REMOVE_PLOT} from '../actions';
+import {Bookmark, DEFAULT_BOOKMARK} from '../models';
 
 
 export function bookmarkReducer(bookmark: Bookmark, action: Action): Bookmark {
@@ -9,17 +9,15 @@ export function bookmarkReducer(bookmark: Bookmark, action: Action): Bookmark {
   switch (action.type) {
     case BOOKMARK_ADD_PLOT: {
       const {plotObject} = action.payload;
-      const bookmarkItem: BookmarkItem = {
-        plotObject: plotObject,
-        note: '',
-      };
-
       const specKey = JSON.stringify(plotObject.spec);
 
       return {
         dict: {
           ...dict,
-          [specKey]: bookmarkItem
+          [specKey]: {
+            plotObject: plotObject,
+            note: '',
+          }
         },
         count: count + 1,
         list: list.concat([specKey])
@@ -28,20 +26,17 @@ export function bookmarkReducer(bookmark: Bookmark, action: Action): Bookmark {
 
     case BOOKMARK_MODIFY_NOTE: {
       const {note, spec} = action.payload;
-
       const specKey = JSON.stringify(spec);
-      const modifiedBookmarkItem: BookmarkItem = {
-        ...dict[specKey],
-        note: note
-      };
-
       return {
         dict: {
           ...dict,
-          [specKey]: modifiedBookmarkItem
+          [specKey]: {
+            ...dict[specKey],
+            note
+          }
         },
-        count: count,
-        list: list.slice()
+        count,
+        list
       };
     }
 
@@ -49,16 +44,16 @@ export function bookmarkReducer(bookmark: Bookmark, action: Action): Bookmark {
       const {spec} = action.payload;
 
       const specKey = JSON.stringify(spec);
-      const newBookmark = {
-        dict: {
-          ...dict
-        },
+      const {[specKey]: _, ...newDict} = dict;
+      return {
+        dict: newDict,
         count: count - 1,
         list: list.filter(item => item !== specKey)
       };
+    }
 
-      delete newBookmark.dict[specKey];
-      return newBookmark;
+    case BOOKMARK_CLEAR_ALL: {
+      return DEFAULT_BOOKMARK;
     }
 
     default: {

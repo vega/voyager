@@ -33,7 +33,7 @@ export class BookmarkButtonBase extends React.PureComponent<BookmarkProps, Bookm
   }
 
   public render() {
-    const bookmarkColor = (this.isBookmarked()) ? '#0c96d0' : '#aaa';
+    const styleName = (this.isBookmarked()) ? 'bookmark-command-selected' : 'command';
 
     return (
       <TetherComponent
@@ -41,9 +41,9 @@ export class BookmarkButtonBase extends React.PureComponent<BookmarkProps, Bookm
           targetAttachment="bottom left"
       >
         <i
-          className="fa fa-bookmark command-bookmark"
-          style = {{color: bookmarkColor, paddingLeft: '3px'}}
-          onClick = {this.onBookmarkClick}
+          className="fa fa-bookmark"
+          styleName={styleName}
+          onClick={this.onBookmarkClick}
         />
 
         {
@@ -100,7 +100,6 @@ export class BookmarkButtonBase extends React.PureComponent<BookmarkProps, Bookm
       }
     });
   }
-
 }
 
 export const BookmarkButton = CSSModules(BookmarkButtonBase, styles);

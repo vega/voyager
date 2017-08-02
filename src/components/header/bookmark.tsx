@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
 import Modal from 'react-modal';
 import {connect} from 'react-redux';
-import {BookmarkAction} from '../../actions/bookmark';
+import {BOOKMARK_CLEAR_ALL, BookmarkAction} from '../../actions/bookmark';
 import {ActionHandler, createDispatchHandler} from '../../actions/redux-action';
 import {State} from '../../models';
 import {Bookmark} from '../../models/bookmark';
@@ -23,13 +23,15 @@ export class BookmarkBase extends React.PureComponent<BookmarkProps, any> {
     this.state = {modalIsOpen: false};
     this.openModal = this.openModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
+    this.onClearAll = this.onClearAll.bind(this);
+    this.onExport = this.onExport.bind(this);
   }
 
   public render() {
     return (
       <div>
         <button onClick={this.openModal}>
-          <i className='fa fa-bookmark' /> Bookmarks ({this.props.bookmark.count})
+          <i className="fa fa-bookmark" /> Bookmarks ({this.props.bookmark.count})
         </button>
 
         <Modal
@@ -37,11 +39,52 @@ export class BookmarkBase extends React.PureComponent<BookmarkProps, any> {
           onRequestClose={this.closeModal}
           contentLabel="Bookmark Selector"
           styleName="modal"
+          className="voyager"
         >
+          <div className="modal-header">
+            <a className="right" onClick={this.closeModal}>Close</a>
+            <h3>Bookmarks ({this.props.bookmark.count})</h3>
+            <a styleName="bookmark-list-util" onClick={this.onClearAll}>
+              <i className="fa fa-trash-o"/>
+              {' '}
+              Clear all
+            </a>
+            <a styleName="bookmark-list-util" onClick={this.onExport}>
+              <i className="fa fa-clipboard"/>
+              {' '}
+              Export
+            </a>
+          </div>
+
           {this.renderBookmarks(this.props.bookmark)}
         </Modal>
       </div>
     );
+  }
+
+  private onExport() {
+    const {bookmark} = this.props;
+
+    const specs = [];
+    for (const specKey of bookmark.list) {
+      const bookmarkItem = bookmark.dict[specKey];
+      specs.push({
+        ...bookmarkItem.plotObject.spec,
+        description: bookmarkItem.note
+      });
+    }
+
+    const exportWindow = window.open();
+    exportWindow.document.write(
+      "<html><body><pre>" +
+      JSON.stringify(specs, null, 2) +
+      "</pre></body></html>"
+    );
+    exportWindow.document.close();
+  }
+
+  private onClearAll() {
+    this.props.handleAction({type: BOOKMARK_CLEAR_ALL});
   }
 
   private openModal() {
@@ -66,7 +109,6 @@ export class BookmarkBase extends React.PureComponent<BookmarkProps, any> {
           fieldInfos={fieldInfos}
           handleAction={this.props.handleAction}
           isPlotListItem={true}
-          scrollOnHover={true}
           showBookmarkButton={true}
           showSpecifyButton={true}
           spec={spec}
@@ -76,7 +118,11 @@ export class BookmarkBase extends React.PureComponent<BookmarkProps, any> {
 
     return (
       <div>
-        {bookmarkPlotListItems}
+        {
+          (bookmarkPlotListItems.length > 0) ?
+           bookmarkPlotListItems :
+           <div styleName="vis-list-empty">You have no bookmarks</div>
+        }
       </div>
     );
   }

@@ -126,6 +126,7 @@ const encodingShelfTarget: DropTargetSpec<EncodingShelfProps> = {
           type: SHELF_FIELD_MOVE,
           payload: {from: parentId.id, to: props.id}
         });
+        break;
       default:
         throw new Error('Field dragged from unregistered source type to EncodingShelf');
     }

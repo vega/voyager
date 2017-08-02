@@ -3,6 +3,9 @@
   overflow: hidden;
   text-align: center;
   padding: 8px;
+  max-height: 600px;
+  display: flex;
+  flex-direction: column;
 }
 
 .plot-list-item-group {
@@ -10,8 +13,6 @@
   margin: 4px 4px 0 0;
   flex-grow: 1;
   max-height: 290px;
-  display: flex;
-  flex-direction: column;
 }
 
 .plot {
@@ -33,19 +34,25 @@
   margin-right: 4px;
 }
 
-.plot-command {
+.command-toolbox {
   float: right;
 }
 
-.bookmark-button {
+.command {
   cursor: pointer;
-  margin-left: 4px;
+  margin-left: 10px;
+  color: #aaa;
 }
 
-.specify-button {
+.command:hover {
+  color: #72c1d5;
+}
+
+.specify-command {
+  @extend .command;
   transform: scaleX(-1);
 }
 
-.copy-button {
-  cursor: pointer;
+.copied {
+  font-size: 12px;
 }

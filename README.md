@@ -118,27 +118,7 @@ The voyager _module_ exposes 1 function.
  */
 ```
 
-An _instance_ of voyager exposes the following two methods
-
-#### updateData(data)
-
-```js
-/**
-   * Update the dataset currently loaded into voyager
-   *
-   * @param {VoyagerData} data
-   */
-```
-
-#### updateConfig(config)
-
-```js
-  /**
-   * Update the configuration of the voyager application.
-   *
-   * @param {VoyagerConfig} config
-   */
-```
+Please see [`src/lib-voyager.tsx`](src/lib-voyager.tsx) to see the exposed public methods.
 
 ## Voyager-server Mode
 
@@ -158,4 +138,4 @@ This will run Voyager in "server-mode" sending requests to voyager-server, which
 
 The server url is controlled by the `SERVER` environment variable.
 
-See [voyager-server](https://github.com/vega/voyager-server) for more information on what portions of the functionality the server handles. 
+See [voyager-server](https://github.com/vega/voyager-server) for more information on what portions of the functionality the server handles.

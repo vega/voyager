@@ -1,7 +1,7 @@
 import {Mark} from 'vega-lite/build/src/mark';
 import {Type} from 'vega-lite/build/src/type';
-import {BOOKMARK_ADD_PLOT, BOOKMARK_MODIFY_NOTE, BOOKMARK_REMOVE_PLOT} from '../actions';
-import {Bookmark, BookmarkItem} from '../models';
+import {BOOKMARK_ADD_PLOT, BOOKMARK_CLEAR_ALL, BOOKMARK_MODIFY_NOTE, BOOKMARK_REMOVE_PLOT} from '../actions';
+import {Bookmark, BookmarkItem, DEFAULT_BOOKMARK} from '../models';
 import {PlotObject} from '../models/plot';
 import {bookmarkReducer} from './bookmark';
 
@@ -46,6 +46,24 @@ describe('reducers/bookmark', () => {
         count: 1,
         list: [specKey]
       } as Bookmark);
+    });
+  });
+
+  describe(BOOKMARK_CLEAR_ALL, () => {
+    it('should clear all bookmarks', () => {
+      const bookmarkItem: BookmarkItem = {plotObject: plotObject, note: ''};
+      expect(bookmarkReducer(
+        {
+          dict: {
+            [specKey]: bookmarkItem
+          },
+          count: 1,
+          list: [specKey]
+        },
+        {
+          type: BOOKMARK_CLEAR_ALL
+        }
+      )).toEqual(DEFAULT_BOOKMARK);
     });
   });
 

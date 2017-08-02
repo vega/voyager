@@ -15,11 +15,11 @@ export interface ResultIndex {
   // TODO: Add other results for other related views in the near future.)
 }
 
-export const DEFAULT_RESULT_MAIN: Result = {
+export const DEFAULT_RESULT: Result = {
   isLoading: false,
   modelGroup: null,
 };
 
-export const DEFAULT_RESULT: ResultIndex = {
-  main: DEFAULT_RESULT_MAIN
+export const DEFAULT_RESULT_INDEX: ResultIndex = {
+  main: DEFAULT_RESULT,
 };

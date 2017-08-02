@@ -1,3 +1,7 @@
+/**
+ * This file stores API for making request to CompassQL (either within the browser or via the server).
+ */
+
 import 'isomorphic-fetch';
 
 import {SpecQueryGroup} from 'compassql/build/src/model';
@@ -9,6 +13,9 @@ import {convertToPlotObjectsGroup, PlotObject} from '../models/plot';
 
 export {Query, Schema, Data};
 
+/**
+ * Submit recommendation query request from CompassQL
+ */
 export function fetchCompassQLRecommend(query: Query, schema: Schema, data: Data, config?: any):
   Promise<SpecQueryGroup<PlotObject>> {
 
@@ -41,6 +48,9 @@ export function fetchCompassQLRecommend(query: Query, schema: Schema, data: Data
   }
 }
 
+/**
+ * Submit schema building request from CompassQL
+ */
 export function fetchCompassQLBuildSchema(data: any, config?: any):
   Promise<Schema> {
 

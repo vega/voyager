@@ -8,7 +8,7 @@ import {OneOfFilter, RangeFilter} from 'vega-lite/build/src/filter';
 import {FilterAction} from '../../actions/filter';
 import {ActionHandler} from '../../actions/index';
 import {createDispatchHandler} from '../../actions/redux-action';
-import {ResultAsyncAction, resultRequest} from '../../actions/result';
+import {ResultAsyncAction} from '../../actions/result';
 import {SHELF_CLEAR, ShelfAction} from '../../actions/shelf';
 import {ShelfUnitSpec, State} from '../../models';
 import {ShelfFieldDef} from '../../models/shelf/encoding';
@@ -32,7 +32,6 @@ interface EncodingPanelProps extends ActionHandler<ShelfAction | ResultAsyncActi
   fieldDefs: ShelfFieldDef[];
 }
 
-
 class EncodingPanelBase extends React.PureComponent<EncodingPanelProps, {}> {
   constructor(props: EncodingPanelProps) {
     super(props);
@@ -40,17 +39,6 @@ class EncodingPanelBase extends React.PureComponent<EncodingPanelProps, {}> {
     // Bind - https://facebook.github.io/react/docs/handling-events.html
     this.onClear = this.onClear.bind(this);
   }
-
-  public componentDidMount() {
-    this.props.handleAction(resultRequest());
-  }
-
-  public componentDidUpdate(prevProps: EncodingPanelProps) {
-    if (this.props.spec !== prevProps.spec) {
-      this.props.handleAction(resultRequest());
-    }
-  }
-
 
   public render() {
     const {specPreview} = this.props;
@@ -175,10 +163,10 @@ export const EncodingPane = connect(
   (state: State) => {
     return {
       spec: state.present.shelf.spec,
-      specPreview: state.present.shelf.specPreview,
       filters: state.present.shelf.spec.filters,
       schema: state.present.dataset.schema,
-      fieldDefs: selectSchemaFieldDefs(state)
+      fieldDefs: selectSchemaFieldDefs(state),
+      specPreview: state.present.shelfPreview.spec
     };
   },
   createDispatchHandler<ShelfAction>()

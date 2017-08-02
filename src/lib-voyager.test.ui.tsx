@@ -4,11 +4,12 @@
 import {mount} from 'enzyme';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-
 import {Provider} from 'react-redux';
 import {App} from './components/app';
 import {CreateVoyager} from './lib-voyager';
 import {configureStore} from './store';
+
+const DEFAULT_TIMEOUT_LENGTH = 300;
 
 describe('lib-voyager', () => {
   let container: HTMLElement;
@@ -49,7 +50,7 @@ describe('lib-voyager', () => {
           done.fail(err);
         }
         done();
-      }, 10);
+      }, DEFAULT_TIMEOUT_LENGTH);
 
     });
   });
@@ -68,7 +69,7 @@ describe('lib-voyager', () => {
         } catch (err) {
           done.fail(err);
         }
-      }, 10);
+      }, DEFAULT_TIMEOUT_LENGTH);
     });
   });
 
@@ -90,10 +91,10 @@ describe('lib-voyager', () => {
           expect(dataPaneHeader.textContent).toContain('Data');
 
           setTimeout(() => {
-            let fieldList = document.querySelectorAll('.field-list__field-list-item');
-            let fields = Array.prototype.map.call(fieldList, (d: Node) => d.textContent);
-
             try {
+              const fieldList = document.querySelectorAll('.field-list__field-list-item');
+              const fields = Array.prototype.map.call(fieldList, (d: Node) => d.textContent);
+
               expect(fields).toContain(' q1');
               expect(fields).toContain(' q2');
 
@@ -103,10 +104,10 @@ describe('lib-voyager', () => {
             }
 
             setTimeout(() => {
-              fieldList = document.querySelectorAll('.field-list__field-list-item');
-              fields = Array.prototype.map.call(fieldList, (d: Node) => d.textContent);
-
               try {
+                const fieldList = document.querySelectorAll('.field-list__field-list-item');
+                const fields = Array.prototype.map.call(fieldList, (d: Node) => d.textContent);
+
                 expect(fields).toContain(' fieldA');
                 expect(fields).toContain(' fieldB');
 
@@ -117,8 +118,8 @@ describe('lib-voyager', () => {
               } catch (err) {
                 done.fail(err);
               }
-            }, 200);
-          }, 200);
+            }, DEFAULT_TIMEOUT_LENGTH);
+          }, DEFAULT_TIMEOUT_LENGTH);
         } catch (err) {
           done.fail(err);
         }
@@ -133,7 +134,6 @@ describe('lib-voyager', () => {
       setTimeout(() => {
         try {
           const voyagerInst = CreateVoyager(container, undefined, undefined);
-
           const state = voyagerInst.getApplicationState();
 
           expect(state).toHaveProperty('config');
@@ -142,11 +142,10 @@ describe('lib-voyager', () => {
           expect(state).toHaveProperty('shelf');
 
           done();
-
         } catch (err) {
           done.fail(err);
         }
-      }, 10);
+      }, DEFAULT_TIMEOUT_LENGTH);
     });
 
     it('sets application state', done => {
@@ -174,12 +173,12 @@ describe('lib-voyager', () => {
             expect(newState.config.showDataSourceSelector).toEqual(!originalConfigOption);
 
             done();
-          }, 100);
+          }, DEFAULT_TIMEOUT_LENGTH);
 
         } catch (err) {
           done.fail(err);
         }
-      }, 10);
+      }, DEFAULT_TIMEOUT_LENGTH);
     });
 
     it('subscribes to state changes', done => {
@@ -207,14 +206,12 @@ describe('lib-voyager', () => {
 
           setTimeout(() => {
             voyagerInst.setApplicationState(aState);
-          }, 50);
-
-
+          }, DEFAULT_TIMEOUT_LENGTH);
 
         } catch (err) {
           done.fail(err);
         }
-      }, 10);
+      }, DEFAULT_TIMEOUT_LENGTH);
     });
 
   });
@@ -252,23 +249,24 @@ describe('lib-voyager', () => {
             }
           };
           voyagerInst.setSpec(spec);
+
+          setTimeout(() => {
+            try {
+              const shelves = document.querySelectorAll('.encoding-shelf__encoding-shelf');
+              const shelfText = Array.prototype.map.call(shelves, (d: Node) => d.textContent);
+
+              expect(shelfText).toContain('x close');
+              done();
+            } catch (err) {
+              done.fail(err);
+            }
+          }, DEFAULT_TIMEOUT_LENGTH);
+
         } catch (err) {
           done.fail(err);
         }
 
-        setTimeout(() => {
-          try {
-            const shelves = document.querySelectorAll('.encoding-shelf__encoding-shelf');
-            const shelfText = Array.prototype.map.call(shelves, (d: Node) => d.textContent);
-
-            expect(shelfText).toContain('x close');
-            done();
-          } catch (err) {
-            done.fail(err);
-          }
-        }, 100);
-
-      }, 100);
+      }, DEFAULT_TIMEOUT_LENGTH);
     });
   });
 

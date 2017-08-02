@@ -4,6 +4,7 @@ import {DatasetAction} from './dataset';
 import {FilterAction} from './filter';
 import {ResultAction} from './result';
 import {ShelfAction} from './shelf';
+import {ShelfPreviewAction} from './shelf-preview';
 import {ApplicationStateAction} from './state';
 import {UndoableAction} from './undo-redo';
 
@@ -16,11 +17,12 @@ export * from './result';
 export * from './shelf';
 export * from './state';
 export * from './undo-redo';
+export * from './shelf-preview';
 
 /**
  * Union type of all actions in our application.
  */
-export type Action = BookmarkAction | DatasetAction | ShelfAction | UndoableAction |
+export type Action = BookmarkAction | DatasetAction | ShelfAction | ShelfPreviewAction | UndoableAction |
   ResultAction | ConfigAction | ApplicationStateAction | FilterAction;
 
 export type ActionType = Action['type'];
@@ -28,6 +30,7 @@ export type ActionType = Action['type'];
 // Use type to enforce that ACTION_TYPE_INDEX contains all action types.
 const ACTION_TYPE_INDEX: {[k in ActionType]: 1} = {
   BOOKMARK_ADD_PLOT: 1,
+  BOOKMARK_CLEAR_ALL: 1,
   BOOKMARK_MODIFY_NOTE: 1,
   BOOKMARK_REMOVE_PLOT: 1,
 
@@ -59,8 +62,8 @@ const ACTION_TYPE_INDEX: {[k in ActionType]: 1} = {
   SHELF_FIELD_REMOVE: 1,
   SHELF_FUNCTION_CHANGE: 1,
   SHELF_SPEC_LOAD: 1,
-  SHELF_SPEC_PREVIEW: 1,
-  SHELF_SPEC_PREVIEW_DISABLE: 1,
+  SHELF_PREVIEW_SPEC: 1,
+  SHELF_PREVIEW_SPEC_DISABLE: 1,
 
   UNDO: 1,
   REDO: 1,

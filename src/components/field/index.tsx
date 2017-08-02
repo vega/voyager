@@ -64,7 +64,7 @@ export interface FieldPropsBase {
 export interface FieldProps extends FieldDragSourceProps, FieldPropsBase {};
 
 export interface FieldState {
-  popupIsOpened?: boolean;
+  popupIsOpened: boolean;
 }
 
 class FieldBase extends React.PureComponent<FieldProps, FieldState> {
@@ -73,11 +73,9 @@ class FieldBase extends React.PureComponent<FieldProps, FieldState> {
 
   constructor(props: FieldProps) {
     super(props);
-    if (props.popupComponent) {
-      this.state = ({
-        popupIsOpened: false
-      });
-    }
+    this.state = ({
+      popupIsOpened: false
+    });
 
     // Bind - https://facebook.github.io/react/docs/handling-events.html
     this.onAdd = this.onAdd.bind(this);
@@ -222,13 +220,15 @@ class FieldBase extends React.PureComponent<FieldProps, FieldState> {
   }
 
   private closePopup() {
-    this.setState ({
-      popupIsOpened: false
-    });
+    if (this.props.popupComponent) {
+      this.setState ({
+        popupIsOpened: false
+      });
+    }
   }
 
   private togglePopup() {
-    if (this.state) {
+    if (this.props.popupComponent) {
       this.setState({
         popupIsOpened: !this.state.popupIsOpened
       });
