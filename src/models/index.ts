@@ -41,6 +41,14 @@ export const DEFAULT_STATE: StateBase = {
   result: DEFAULT_RESULT_INDEX,
 };
 
+export const DEFAULT_STATE_WITH_HISTORY: State = {
+  past: [],
+  present: DEFAULT_STATE,
+  future: [],
+  _latestUnfiltered: [],
+  group: []
+};
+
 export interface SerializableState {
   bookmark: Bookmark;
   config: VoyagerConfig;
