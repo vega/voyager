@@ -8,9 +8,10 @@ import {
 import {FieldQuery, isFieldQuery} from 'compassql/build/src/query/encoding';
 import {toMap} from 'compassql/build/src/util';
 import {Data} from 'vega-lite/build/src/data';
+import {OneOfFilter, RangeFilter} from 'vega-lite/build/src/filter';
 import {FacetedCompositeUnitSpec} from 'vega-lite/build/src/spec';
-
 import {ShelfFieldDef} from './shelf/encoding';
+import {getTransforms} from './shelf/spec';
 
 export interface PlotFieldInfo {
   fieldDef: ShelfFieldDef;
@@ -23,13 +24,26 @@ export interface PlotObject {
   spec: FacetedCompositeUnitSpec;
 }
 
-export function extractPlotObjects(modelGroup: SpecQueryGroup<PlotObject>) {
+export function extractPlotObjects(modelGroup: SpecQueryGroup<PlotObject>,
+                                   filters: Array<RangeFilter|OneOfFilter>): PlotObject[] {
   return modelGroup.items.map(item => {
     if (isSpecQueryGroup<PlotObject>(item)) {
       const childModelGroup = item as SpecQueryGroup<PlotObject>;
-      return getTopSpecQueryItem(childModelGroup);
+      return {
+        ...getTopSpecQueryItem(childModelGroup),
+        spec: {
+          ...getTopSpecQueryItem(childModelGroup).spec,
+          transform: getTransforms(filters)
+        }
+      };
     }
-    return item as PlotObject;
+    return {
+      ...item,
+      spec: {
+        ...item.spec,
+        transform: getTransforms(filters)
+      }
+    };
   });
 }
 

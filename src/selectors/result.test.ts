@@ -120,7 +120,7 @@ describe('selectors/result', () => {
 
     it('should return a main plot list', () => {
       expect(selectMainPlotList(stateWildcard)).toEqual(
-        extractPlotObjects(modelGroup)
+        extractPlotObjects(modelGroup, filters)
       );
     });
   });

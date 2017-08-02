@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+
+>>>>>>> apply filter to plot list
 import {Schema} from 'compassql/build/src/schema';
 import {isWildcard} from 'compassql/build/src/wildcard';
 import * as React from 'react';
