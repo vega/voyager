@@ -73,6 +73,12 @@ $text-color: #212121;
   background-color: #C8E6C9;
 }
 
+.placeholder-disabled {
+  @extend .placeholder;
+  background-color: #e0e0e0;
+  color: grey;
+}
+
 .overlay-screen {
   z-index: 1;
 

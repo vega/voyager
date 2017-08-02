@@ -22,6 +22,8 @@ export interface EncodingShelfDropTargetProps {
   isOver: boolean;
 
   item: Object;
+
+  canDrop: boolean;
 }
 
 export interface EncodingShelfPropsBase extends ActionHandler<ShelfEncodingAction> {
@@ -93,17 +95,33 @@ class EncodingShelfBase extends React.PureComponent<EncodingShelfProps, {}> {
   }
 
   private fieldPlaceholder() {
-    const {item, isOver} = this.props;
+    const {item, isOver, canDrop} = this.props;
+    let styleName, text;
+    if (item && !canDrop) {
+      styleName = 'placeholder-disabled';
+      text = 'Cannot drop a field here';
+    } else {
+      styleName = isOver ? 'placeholder-over' : item ? 'placeholder-active' : 'placeholder';
+      text = 'Drop a field here';
+    }
     return (
-      <span styleName={isOver ? 'placeholder-over' : item ? 'placeholder-active' : 'placeholder'}>
-        Drop a field here
+      <span styleName={styleName}>
+        {text}
       </span>
     );
   }
 }
 
 const encodingShelfTarget: DropTargetSpec<EncodingShelfProps> = {
-  // TODO: add canDrop
+  canDrop(props, monitor) {
+    const {parentId} = monitor.getItem() as DraggedFieldIdentifier;
+    if (parentId.type === FieldParentType.ENCODING_SHELF && isWildcard(parentId.id.channel) &&
+    isWildcard(props.id.channel)) {
+      return false;
+    }
+    return true;
+  },
+
   drop(props, monitor) {
     // Don't drop twice for nested drop target
     if (monitor.didDrop()) {
@@ -136,7 +154,8 @@ const collect: DropTargetCollector = (connect, monitor): EncodingShelfDropTarget
   return {
     connectDropTarget: connect.dropTarget(),
     isOver: monitor.isOver(),
-    item: monitor.getItem()
+    item: monitor.getItem(),
+    canDrop: monitor.canDrop()
   };
 };
 
