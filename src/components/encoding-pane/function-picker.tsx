@@ -5,14 +5,13 @@ import * as CSSModules from 'react-css-modules';
 import {AggregateOp} from 'vega-lite/build/src/aggregate';
 import {TimeUnit} from 'vega-lite/build/src/timeunit';
 import {ShelfFunction} from '../../models/shelf';
+import {ShelfFieldDef} from '../../models/shelf/encoding';
 import * as styles from './function-picker.scss';
 
 export interface FunctionPickerProps {
   fieldDefParts: {
-    aggregate?: AggregateOp | Wildcard<AggregateOp>,
-    bin?: boolean | SHORT_WILDCARD,
-    timeUnit?: TimeUnit | Wildcard<TimeUnit>,
-    type?: ExpandedType
+    // Using Mapped Type to extract parts of ShelfFieldDef
+    [k in 'aggregate' | 'bin' | 'timeUnit' | 'type']?: ShelfFieldDef[k]
   };
 
   onFunctionChange: (fn: ShelfFunction | TimeUnit) => void;
