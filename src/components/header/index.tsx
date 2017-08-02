@@ -12,11 +12,15 @@ export class HeaderBase extends React.PureComponent<{}, {}> {
       <div styleName='header'>
         <img styleName='voyager-logo' src={logo}/>
         <Controls />
-        <a styleName='idl-logo' href='https://idl.cs.washington.edu/'>
+        <a styleName='idl-logo' onClick={this.openLink}>
           <img src={idlLogo}/>
         </a>
       </div>
     );
+  }
+
+  private openLink() {
+    window.open('https://idl.cs.washington.edu/');
   }
 }
 
