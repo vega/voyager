@@ -12,8 +12,15 @@ export interface Dataset {
   data: Data;
 }
 
-// FIXME: replace this with real data
 export const DEFAULT_DATASET: Dataset = {
+  isLoading: false,
+  name: 'Empty',
+  schema: new Schema({fields: []}),
+  data: {values: []}
+};
+
+// FIXME: replace this with real data
+export const SAMPLE_DATASET: Dataset = {
   isLoading: false,
 
   name: 'Sample',

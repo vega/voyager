@@ -7,7 +7,7 @@ import {Channel} from 'vega-lite/build/src/channel';
 import {Data} from 'vega-lite/build/src/data';
 import {OneOfFilter, RangeFilter} from 'vega-lite/build/src/filter';
 import {Mark} from 'vega-lite/build/src/mark';
-import {DEFAULT_DATASET} from '../models/dataset';
+import {SAMPLE_DATASET} from '../models/dataset';
 import {DEFAULT_STATE, DEFAULT_STATE_WITH_HISTORY, State} from '../models/index';
 import {convertToPlotObjectsGroup, extractPlotObjects} from '../models/plot';
 import {DEFAULT_RESULT, DEFAULT_RESULT_INDEX} from '../models/result';
@@ -61,7 +61,7 @@ const stateSpecific: State = {
   present: {
     ...DEFAULT_STATE,
     dataset: {
-      ...DEFAULT_DATASET,
+      ...SAMPLE_DATASET,
       data
     },
     shelf: {

@@ -190,7 +190,7 @@ export const DataSelector = connect(
   (state: State) => {
     return {
       data: state.present.dataset,
-      name: state.present.dataset.name,
+      name: state.present.dataset.name
     };
   },
   createDispatchHandler<DatasetAsyncAction>()

@@ -3,20 +3,20 @@ import {FieldSchema, Schema} from 'compassql/build/src/schema';
 
 import {DATASET_INLINE_RECEIVE, DATASET_SCHEMA_CHANGE_FIELD_TYPE, DATASET_SCHEMA_CHANGE_ORDINAL_DOMAIN,
         DATASET_URL_RECEIVE, DATASET_URL_REQUEST} from '../actions/dataset';
-import {Dataset, DEFAULT_DATASET} from '../models/dataset';
+import {Dataset, SAMPLE_DATASET} from '../models/dataset';
 import {datasetReducer} from './dataset';
 
 describe('reducers/dataset', () => {
   describe(DATASET_URL_REQUEST, () => {
     it('returns new dataset state with isLoading = true', () => {
-      expect(datasetReducer(DEFAULT_DATASET, {
+      expect(datasetReducer(SAMPLE_DATASET, {
         type: DATASET_URL_REQUEST,
         payload: {
           name: 'cars',
           url: 'http://cars.com'
         }
       })).toEqual({
-        ...DEFAULT_DATASET,
+        ...SAMPLE_DATASET,
         isLoading: true
       });
     });
@@ -28,7 +28,7 @@ describe('reducers/dataset', () => {
       const schema = new Schema({fields: []});
       expect(datasetReducer(
         {
-          ...DEFAULT_DATASET,
+          ...SAMPLE_DATASET,
           isLoading: true
         },
         {
@@ -40,7 +40,7 @@ describe('reducers/dataset', () => {
           }
         }
       )).toEqual({
-        ...DEFAULT_DATASET,
+        ...SAMPLE_DATASET,
         isLoading: false,
         name: 'cars',
         data: {url},
@@ -61,7 +61,7 @@ describe('reducers/dataset', () => {
       const schema = new Schema({fields: []});
       expect(datasetReducer(
         {
-          ...DEFAULT_DATASET,
+          ...SAMPLE_DATASET,
           isLoading: true
         },
         {
@@ -73,7 +73,7 @@ describe('reducers/dataset', () => {
           }
         }
       )).toEqual({
-        ...DEFAULT_DATASET,
+        ...SAMPLE_DATASET,
         isLoading: false,
         name: 'Custom Data',
         data,
