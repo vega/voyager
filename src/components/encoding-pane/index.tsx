@@ -100,13 +100,14 @@ class EncodingPanelBase extends React.PureComponent<EncodingPanelProps, {}> {
   private encodingShelf(channel: Channel) {
     // This one can't be wildcard, thus we use VL's Channel, not our ShelfChannel
 
-    const {handleAction, spec, specPreview} = this.props;
+    const {handleAction, spec, specPreview, schema} = this.props;
     const {encoding} = specPreview || spec;
     return (
       <EncodingShelf
         key={channel}
         id={{channel}}
         fieldDef={encoding[channel]}
+        schema={schema}
         handleAction={handleAction}
       />
     );

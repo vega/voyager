@@ -1,3 +1,4 @@
+import {Schema} from 'compassql/build/src/schema';
 import {isWildcard} from 'compassql/build/src/wildcard';
 import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
@@ -28,6 +29,8 @@ export interface EncodingShelfPropsBase extends ActionHandler<ShelfEncodingActio
   id: ShelfId;
 
   fieldDef: ShelfFieldDef;
+
+  schema?: Schema;
 }
 
 interface EncodingShelfProps extends EncodingShelfPropsBase, EncodingShelfDropTargetProps {};
@@ -69,7 +72,7 @@ class EncodingShelfBase extends React.PureComponent<EncodingShelfProps, {}> {
   }
 
   private field() {
-    const {id, fieldDef} = this.props;
+    const {id, fieldDef, schema} = this.props;
     const renderFunctionPicker = fieldDef.type === 'quantitative' || fieldDef.type === 'temporal';
 
     const functionPicker = renderFunctionPicker ?
@@ -84,6 +87,7 @@ class EncodingShelfBase extends React.PureComponent<EncodingShelfProps, {}> {
           fieldDef={fieldDef}
           filterHide={true}
           isPill={true}
+          schema={schema}
           popupComponent={functionPicker}
           onRemove={this.onRemove.bind(this)}
           parentId={{type: FieldParentType.ENCODING_SHELF, id: id}}
