@@ -134,7 +134,7 @@ export class PlotBase extends React.PureComponent<PlotProps, PlotState> {
               draggable={false}
               isEnumeratedWildcardField={isEnumeratedWildcardField}
               isPill={false}
-              filterHide={true}
+              filterShow={false}
             />
           </div>
         );

@@ -82,7 +82,7 @@ class EncodingShelfBase extends React.PureComponent<EncodingShelfProps, {}> {
         <Field
           draggable={true}
           fieldDef={fieldDef}
-          filterHide={true}
+          filterShow={false}
           isPill={true}
           popupComponent={functionPicker}
           onRemove={this.onRemove.bind(this)}

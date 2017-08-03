@@ -49,7 +49,7 @@ export interface FieldPropsBase {
 
   handleAction?: (action: FilterAction | ShelfAction | DatasetSchemaChangeFieldType) => void;
 
-  filterHide?: boolean;
+  filterShow?: boolean;
 
   schema?: Schema;
 
@@ -196,7 +196,7 @@ class FieldBase extends React.PureComponent<FieldProps, FieldState> {
   }
 
   private addFilterSpan() {
-    return !this.props.filterHide && (
+    return this.props.filterShow && (
       <span><a onClick={this.filterAddToEnd.bind(this)}><i className='fa fa-filter'/></a></span>
     );
   }

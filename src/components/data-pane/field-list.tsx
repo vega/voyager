@@ -92,7 +92,7 @@ class FieldListBase extends React.PureComponent<FieldListProps, {}> {
         fieldDef={fieldDef}
         isPill={true}
         draggable={true}
-        filterHide={isWildcard(fieldDef.field)}
+        filterShow={!isWildcard(fieldDef.field) && !(fieldDef.field === '*')}
         parentId={{type: FieldParentType.FIELD_LIST}}
         popupComponent={popupComponent}
         onDoubleClick={this.onAdd}

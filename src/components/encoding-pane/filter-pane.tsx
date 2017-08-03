@@ -135,7 +135,7 @@ class FilterPaneBase extends React.Component<FilterPaneProps, {}> {
         <Field
           draggable={false}
           fieldDef={fieldDef}
-          filterHide={true}
+          filterShow={false}
           isPill={true}
           onRemove={this.filterRemove.bind(this, index)}
           popupComponent={popupComponent}
