@@ -1,6 +1,7 @@
 import {EncodingQuery, isAutoCountQuery, isValueQuery} from 'compassql/build/src/query/encoding';
 import {SpecQuery} from 'compassql/build/src/query/spec';
 import {isWildcard, isWildcardDef, SHORT_WILDCARD} from 'compassql/build/src/wildcard';
+import {Channel} from 'vega-lite/build/src/channel';
 import {Config} from 'vega-lite/build/src/config';
 import {isOneOfFilter, isRangeFilter, OneOfFilter, RangeFilter} from 'vega-lite/build/src/filter';
 import {FilterTransform, isFilter, Transform} from 'vega-lite/build/src/transform';
@@ -96,14 +97,17 @@ export function hasWildcards(spec: SpecQuery): HasWildcard {
 }
 
 function specificEncodingsToEncodingQueries(encoding: SpecificEncoding): EncodingQuery[] {
-  const encodings = [];
+  const encodings: EncodingQuery[] = [];
   // Assemble definition of encodings with specific channels first
-  for (const channel in encoding) {
-    if (encoding.hasOwnProperty(channel)) {
-      encodings.push({
+  for (const c in encoding) {
+    if (encoding.hasOwnProperty(c)) {
+      const channel: Channel = c as Channel;
+      const shelfFieldDef = encoding[channel];
+      const channelQuery: EncodingQuery = {
         channel,
-        ...(encoding[channel])
-      });
+        ...shelfFieldDef
+      };
+      encodings.push(channelQuery);
     }
   }
   return encodings;

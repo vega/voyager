@@ -5,7 +5,6 @@ import {EncodingQuery} from 'compassql/build/src/query/encoding';
 import {ExpandedType} from 'compassql/build/src/query/expandedtype';
 import {AggregateOp} from 'vega-lite/build/src/aggregate';
 import {Channel} from 'vega-lite/build/src/channel';
-import {Encoding} from 'vega-lite/build/src/encoding';
 import {Mark as VLMark} from 'vega-lite/build/src/mark';
 import {TimeUnit} from 'vega-lite/build/src/timeunit';
 
@@ -52,7 +51,7 @@ export interface ShelfAnyEncodingDef extends ShelfFieldDef {
 }
 
 export type SpecificEncoding = {
-  [P in keyof Encoding<string>]: ShelfFieldDef;
+  [P in Channel]: ShelfFieldDef;
 };
 
 export function fromEncodingQueries(encodings: EncodingQuery[]): {
