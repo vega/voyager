@@ -50,7 +50,6 @@ class EncodingShelfBase extends React.PureComponent<EncodingShelfProps, {}> {
 
   protected onFunctionChange(fn: ShelfFunction) {
     const {id, handleAction} = this.props;
-
     handleAction({
       type: SHELF_FUNCTION_CHANGE,
       payload: {
@@ -75,7 +74,7 @@ class EncodingShelfBase extends React.PureComponent<EncodingShelfProps, {}> {
 
     const functionPicker = renderFunctionPicker ?
       <FunctionPicker
-        fieldDef={fieldDef}
+        fieldDefParts={fieldDef}
         onFunctionChange={this.onFunctionChange.bind(this)}
       /> : null;
     return (

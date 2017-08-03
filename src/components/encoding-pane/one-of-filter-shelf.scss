@@ -31,17 +31,6 @@ $radius: 3px;
 
 .search {
   margin-right: 1px;
-  :global .fa {
-    &.fa-search {
-      padding: 2px 3px 1px;
-      border-radius: $radius;
-
-      &:hover {
-        color: #fff;
-        background-color: #999;
-      }
-    }
-  }
 }
 
 .below-header {

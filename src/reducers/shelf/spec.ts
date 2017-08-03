@@ -111,7 +111,7 @@ export function shelfSpecReducer(shelfSpec: Readonly<ShelfUnitSpec> = DEFAULT_SH
       // Restore wildcard mark if the shelf previously has wildcard mark.
       return fromSpecQuery(specQ, shelfSpec.config);
   }
-  return filterReducer(shelfSpec, action);
+  return filterReducer(shelfSpec, action, schema);
 }
 
 const AGGREGATE_INDEX = toSet(AGGREGATE_OPS);

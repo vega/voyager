@@ -105,6 +105,19 @@
   div, span {
     user-select: none;
   }
+
+  // FontAwesome icon buttons
+  .fa {
+    &.fa-times, &.fa-search, &.fa-pencil, &.fa-caret-down, &.fa-times , &.fa-plus, &.fa-filter {
+      padding: 2px 3px 1px;
+      border-radius: 3px;
+
+      &:hover {
+        color: #fff;
+        background-color: #999;
+      }
+    }
+  }
 }
 
 :global .vg-tooltip {
