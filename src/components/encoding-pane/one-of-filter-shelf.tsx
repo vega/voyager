@@ -18,7 +18,7 @@ export interface OneOfFilterShelfState {
   hideSearchBar: boolean;
 }
 
-export class OneOfFilterShelfBase extends React.Component<OneOfFilterShelfProps, OneOfFilterShelfState> {
+export class OneOfFilterShelfBase extends React.PureComponent<OneOfFilterShelfProps, OneOfFilterShelfState> {
   constructor(props: OneOfFilterShelfProps) {
     super(props);
     this.state = ({

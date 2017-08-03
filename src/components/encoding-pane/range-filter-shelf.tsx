@@ -63,7 +63,6 @@ export class RangeFilterShelfBase extends React.PureComponent<RangeFilterShelfPr
       lowerBound = Math.floor(Number(domain[0]));
       upperBound = Math.ceil(Number(domain[1]));
     }
-
     return (
       <div styleName='range-filter-pane'>
         <div>
@@ -74,7 +73,7 @@ export class RangeFilterShelfBase extends React.PureComponent<RangeFilterShelfPr
             {maxInput}
           </div>
         </div>
-         <Range
+          <Range
           allowCross={false}
           defaultValue={[currMin, currMax]}
           min={lowerBound}
