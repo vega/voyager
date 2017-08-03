@@ -3,22 +3,16 @@ import {fromSpec} from 'compassql/build/src/query/spec';
 import {recommend} from 'compassql/build/src/recommend';
 import {Schema} from 'compassql/build/src/schema';
 import {isWildcard, SHORT_WILDCARD} from 'compassql/build/src/wildcard';
-
-
 import {Action} from '../../actions';
 import {
   SHELF_CLEAR, SHELF_FIELD_ADD, SHELF_FIELD_AUTO_ADD, SHELF_FIELD_MOVE,
   SHELF_FIELD_REMOVE, SHELF_FUNCTION_CHANGE, SHELF_MARK_CHANGE_TYPE,
   SHELF_SPEC_LOAD
 } from '../../actions/shelf';
-
-import {AGGREGATE_OPS} from 'vega-lite/build/src/aggregate';
-import {TIMEUNITS} from 'vega-lite/build/src/timeunit';
 import {isWildcardChannelId} from '../../models';
-import {ShelfAnyEncodingDef, ShelfFieldDef, ShelfFunction, ShelfId, ShelfUnitSpec} from '../../models/shelf';
+import {ShelfAnyEncodingDef, ShelfFieldDef, ShelfId, ShelfUnitSpec} from '../../models/shelf';
 import {autoAddFieldQuery} from '../../models/shelf/index';
 import {DEFAULT_SHELF_UNIT_SPEC, fromSpecQuery} from '../../models/shelf/spec';
-import {toSet} from '../../util';
 import {insertItemToArray, modifyItemInArray, removeItemFromArray} from '../util';
 
 
@@ -90,12 +84,9 @@ export function shelfSpecReducer(shelfSpec: Readonly<ShelfUnitSpec> = DEFAULT_SH
       const {shelfId, fn} = action.payload;
 
       return modifyEncoding(shelfSpec, shelfId, (fieldDef: Readonly<ShelfFieldDef | ShelfAnyEncodingDef>) => {
-        // Remove all existing functions then assign new function
-        const {aggregate: _a, bin: _b, timeUnit: _t, hasFn: _h, ...newFieldDef} = fieldDef;
-
         return {
-          ...newFieldDef,
-          ...(getFunctionMixins(fn))
+          ...fieldDef,
+          fn: fn
         };
       });
     }
@@ -111,23 +102,6 @@ export function shelfSpecReducer(shelfSpec: Readonly<ShelfUnitSpec> = DEFAULT_SH
       return fromSpecQuery(specQ, shelfSpec.config);
   }
   return shelfSpec;
-}
-
-const AGGREGATE_INDEX = toSet(AGGREGATE_OPS);
-const TIMEUNIT_INDEX = toSet(TIMEUNITS);
-
-
-function getFunctionMixins(fn: ShelfFunction) {
-  if (AGGREGATE_INDEX[fn]) {
-    return {aggregate: fn};
-  }
-  if (fn === 'bin') {
-    return {bin: true};
-  }
-  if (TIMEUNIT_INDEX[fn]) {
-    return {timeUnit: fn};
-  }
-  return undefined;
 }
 
 function addEncoding(shelf: Readonly<ShelfUnitSpec>, shelfId: ShelfId, fieldDef: ShelfFieldDef, replace: boolean) {

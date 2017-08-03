@@ -21,7 +21,7 @@ export class FunctionPickerBase extends React.PureComponent<FunctionPickerProps,
   public render() {
     const {fieldDef} = this.props;
 
-    const fn = fieldDef.aggregate || fieldDef.timeUnit || (fieldDef.bin && 'bin' ) || undefined;
+    const fn = fieldDef.fn;
     const supportedFns = getSupportedFunction(fieldDef.type);
     const radios = supportedFns.map(f => (
       <label styleName="func-label" key={f || '-'}>
