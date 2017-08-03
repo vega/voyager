@@ -53,6 +53,6 @@ export const selectMainPlotList = createSelector(
       return undefined;
     }
     // FIXME(https://github.com/vega/voyager/issues/448): use data and filter
-    return extractPlotObjects(mainResult.modelGroup);
+    return extractPlotObjects(mainResult.modelGroup, filters);
   }
 );
