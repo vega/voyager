@@ -94,11 +94,7 @@ describe('lib-voyager', () => {
           setTimeout(() => {
             try {
               const fieldList = document.querySelectorAll('.field-list__field-list-item');
-              const fields = Array.prototype.map.call(fieldList, (d: Node) => d.textContent);
-
-              expect(fields).toContain(' q1');
-              expect(fields).toContain(' q2');
-
+              expect(fieldList.length).toEqual(0);
               voyagerInst.updateData(data);
             } catch (err) {
               done.fail(err);
@@ -111,9 +107,6 @@ describe('lib-voyager', () => {
 
                 expect(fields).toContain(' fieldA');
                 expect(fields).toContain(' fieldB');
-
-                expect(fields).not.toContain(' q1');
-                expect(fields).not.toContain(' q2');
 
                 done();
               } catch (err) {
