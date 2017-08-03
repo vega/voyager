@@ -34,19 +34,16 @@ export type ShelfMark = VLMark | SHORT_WILDCARD;
 export interface ShelfFieldDef {
   field: WildcardProperty<string>;
 
-  aggregate?: AggregateOp | Wildcard<AggregateOp>;
-  timeUnit?: TimeUnit | Wildcard<TimeUnit>;
-
-  hasFn?: boolean;
-
-  bin?: boolean | SHORT_WILDCARD;
+  fn: ShelfFunction | {
+    [K in ShelfFunction]?: true
+  };
 
   type?: ExpandedType;
 
   title?: string;
 }
 
-export type ShelfFunction = AggregateOp | 'bin' | TimeUnit | undefined;
+export type ShelfFunction = AggregateOp | TimeUnit | undefined | 'bin';
 
 export interface ShelfAnyEncodingDef extends ShelfFieldDef {
   channel: SHORT_WILDCARD | Wildcard<Channel>;
