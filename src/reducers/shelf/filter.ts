@@ -164,6 +164,7 @@ function contains(filters: Array<RangeFilter | OneOfFilter>, target: RangeFilter
   return false;
 }
 
+// TODO: move them to models/filter
 export function getFilter(fieldDef: ShelfFieldDef, domain: any[]): RangeFilter | OneOfFilter {
   if (isWildcard(fieldDef.field)) {
     return;

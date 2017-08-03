@@ -1,4 +1,4 @@
-import {ExpandedType} from 'compassql/build/src/query/expandedtype';
+
 import * as Slider from 'rc-slider';
 import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
@@ -17,7 +17,7 @@ export interface RangeFilterShelfProps extends ActionHandler<FilterAction> {
   domain: number[] | DateTime[];
   index: number;
   filter: RangeFilter;
-  type: ExpandedType;
+  renderDateTimePicker: boolean;
 }
 
 export interface RangeFilterShelfState {
@@ -41,18 +41,15 @@ export class RangeFilterShelfBase extends React.PureComponent<RangeFilterShelfPr
   }
 
   public render() {
-    const {filter, domain, type} = this.props;
+    const {filter, domain, renderDateTimePicker} = this.props;
     const createSliderWithTooltip = Slider.createSliderWithTooltip;
     const Range = createSliderWithTooltip(Slider.Range);
-    let minInput, maxInput, formatLabel, currMin, currMax, lowerBound, upperBound;
-    if (type === ExpandedType.TEMPORAL) {
+    let minInput, maxInput, currMin, currMax, lowerBound, upperBound;
+    if (renderDateTimePicker) {
       minInput = this.renderDateTimePicker(new Date(convertToTimestamp(filter.range[0] as DateTime)), 'min');
       maxInput = this.renderDateTimePicker(new Date(convertToTimestamp(filter.range[1] as DateTime)), 'max');
       currMin = convertToTimestamp(filter.range[0] as DateTime);
       currMax = convertToTimestamp(filter.range[1] as DateTime);
-      // lowerBound = Math.floor(convertToTimestamp(domain[0] as DateTime));
-      // upperBound = Math.ceil(convertToTimestamp(domain[1] as DateTime));
-      formatLabel = this.formatTime;
     } else {
       minInput = this.renderNumberInput('min');
       maxInput = this.renderNumberInput('max');
@@ -66,10 +63,6 @@ export class RangeFilterShelfBase extends React.PureComponent<RangeFilterShelfPr
     }
     if (isDateTime(domain[1])) {
       upperBound = Math.ceil(convertToTimestamp(domain[1] as DateTime));
-    }
-    let step;
-    if (filter.timeUnit === TimeUnit.YEARMONTHDATE) {
-      step = 24 * 60 * 60 * 1000; // step is one day
     }
     return (
       <div styleName='range-filter-pane'>
@@ -87,15 +80,15 @@ export class RangeFilterShelfBase extends React.PureComponent<RangeFilterShelfPr
           min={lowerBound}
           max={upperBound}
           onAfterChange={this.filterModifyExtent.bind(this)}
-          tipFormatter={formatLabel}
-          step={step}
+          tipFormatter={this.getFormat(renderDateTimePicker, filter.timeUnit)}
+          step={this.getStep(filter.timeUnit)}
         />
       </div>
     );
   }
 
   protected filterModifyExtent(range: number[] | DateTime[]) {
-    if (this.props.type === ExpandedType.TEMPORAL) {
+    if (this.props.renderDateTimePicker) {
       range = [convertToDateTimeObject(range[0] as number), convertToDateTimeObject(range[1] as number)];
     }
     const {handleAction, index} = this.props;
@@ -115,8 +108,8 @@ export class RangeFilterShelfBase extends React.PureComponent<RangeFilterShelfPr
     } else {
       maxBound = e;
     }
-    const {handleAction, index, type} = this.props;
-    if (type === ExpandedType.TEMPORAL) {
+    const {handleAction, index} = this.props;
+    if (this.props.renderDateTimePicker) {
       maxBound = convertToDateTimeObject(maxBound);
     }
     handleAction({
@@ -135,8 +128,8 @@ export class RangeFilterShelfBase extends React.PureComponent<RangeFilterShelfPr
     } else {
       minBound = e;
     }
-    const {handleAction, index, type} = this.props;
-    if (type === ExpandedType.TEMPORAL) {
+    const {handleAction, index, renderDateTimePicker} = this.props;
+    if (renderDateTimePicker) {
       minBound = convertToDateTimeObject(minBound);
     }
     handleAction({
@@ -183,10 +176,6 @@ export class RangeFilterShelfBase extends React.PureComponent<RangeFilterShelfPr
       dateTimePickerOpen = this.state.maxDateTimePickerOpen;
       dataTimePickerOpenAction = this.toggleMaxDateTimePicker;
     }
-    let timeFormat = true;
-    if (this.props.filter.timeUnit === TimeUnit.YEARMONTHDATE) {
-      timeFormat = false;
-    }
     return (
       <div>
         <TetherComponent
@@ -201,7 +190,7 @@ export class RangeFilterShelfBase extends React.PureComponent<RangeFilterShelfPr
             <div styleName='date-time-picker-wrapper'>
               <DateTimePicker
                 defaultValue={date}
-                timeFormat={timeFormat}
+                timeFormat={this.showTime(this.props.filter.timeUnit)}
                 open={false}
                 onChange={onChangeAction}
                 disableOnClickOutside={false}
@@ -229,12 +218,87 @@ export class RangeFilterShelfBase extends React.PureComponent<RangeFilterShelfPr
     });
   }
 
-  // TODO: https://github.com/vega/voyager/issues/443: use the time formatter Vega derives from D3
-  private formatTime = (value: number): string => {
-    if (this.props.type === ExpandedType.TEMPORAL) {
-      return new Date(value).toString();
+  /**
+   * returns whether to show the time component in the date time picker
+   */
+  private showTime(timeUnit: TimeUnit): boolean {
+    switch (timeUnit) {
+      case undefined:
+      case TimeUnit.YEAR:
+      case TimeUnit.MONTH:
+      case TimeUnit.DAY:
+      case TimeUnit.DATE:
+      case TimeUnit.HOURS:
+      case TimeUnit.MINUTES:
+      case TimeUnit.SECONDS:
+      case TimeUnit.MILLISECONDS:
+        return true;
+      case TimeUnit.YEARMONTHDATE:
+        // hide time component as we do not care about it
+        return false;
+      default:
+        throw new Error(timeUnit + ' is not supported');
     }
-    return value.toString();
+  }
+
+  /**
+   * Returns a function to format how the number is displayed in range filter for
+   * the given time unit.
+   */
+  private getFormat(renderDateTime: boolean, timeUnit: TimeUnit) {
+    if (!timeUnit) {
+      if (renderDateTime) {
+        // temporal filter without time unit
+        // TODO: https://github.com/vega/voyager/issues/443: use the time formatter Vega derives from D3
+        return (value: number) => {
+          return new Date(value).toString();
+        };
+      } else {
+        // quantitative filter
+        return;
+      }
+    }
+    switch (timeUnit) {
+      case TimeUnit.YEAR:
+      case TimeUnit.MONTH:
+      case TimeUnit.DAY:
+      case TimeUnit.DATE:
+      case TimeUnit.HOURS:
+      case TimeUnit.MINUTES:
+      case TimeUnit.SECONDS:
+      case TimeUnit.MILLISECONDS:
+        // do not need to format these time units.
+        return;
+      case TimeUnit.YEARMONTHDATE:
+        // TODO: https://github.com/vega/voyager/issues/443: use the time formatter Vega derives from D3
+        return (value: number) => {
+          return new Date(value).toString();
+        };
+      default:
+        throw new Error(timeUnit + ' is not supported');
+    }
+  }
+
+  /**
+   * Returns the range filter step for the given time unit.
+   */
+  private getStep(timeUnit: TimeUnit) {
+    switch (timeUnit) {
+      case undefined:
+      case TimeUnit.YEAR:
+      case TimeUnit.MONTH:
+      case TimeUnit.DAY:
+      case TimeUnit.DATE:
+      case TimeUnit.HOURS:
+      case TimeUnit.MINUTES:
+      case TimeUnit.SECONDS:
+      case TimeUnit.MILLISECONDS:
+        return 1;
+      case TimeUnit.YEARMONTHDATE:
+        return 24 * 60 * 60 * 1000; // step is one day in timestamp
+      default:
+        throw new Error(timeUnit + ' is not supported');
+    }
   }
 }
 

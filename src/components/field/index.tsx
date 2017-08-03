@@ -277,10 +277,11 @@ export interface DraggedFieldIdentifier {
 const fieldSource: DragSourceSpec<FieldProps> = {
   beginDrag(props): DraggedFieldIdentifier {
     const {fieldDef, parentId, schema} = props;
-    if (isWildcard(fieldDef.field)) {
-      return;
+    let domain;
+    if (!isWildcard(fieldDef.field)) {
+      domain = schema.domain({field: fieldDef.field});
     }
-    const filter = getFilter(fieldDef, schema.domain({field: fieldDef.field}));
+    const filter = getFilter(fieldDef, domain);
     return {fieldDef, parentId, filter};
   }
 };

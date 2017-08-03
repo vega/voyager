@@ -39,7 +39,6 @@ export interface FilterPanePropsBase {
 interface FilterPaneProps extends FilterPaneDropTargetProps, FilterPanePropsBase {};
 
 class FilterPaneBase extends React.Component<FilterPaneProps, {}> {
-  // private index: number;
 
   public constructor(props: FilterPaneProps) {
     super(props);
@@ -104,24 +103,17 @@ class FilterPaneBase extends React.Component<FilterPaneProps, {}> {
         onFunctionChange={onFunctionChange}
       /> ;
     let filterComponent;
-    let type: ExpandedType = fieldDef.type === ExpandedType.TEMPORAL ?
-      ExpandedType.TEMPORAL : ExpandedType.QUANTITATIVE;
     const timeUnit = filter.timeUnit;
     if (isRangeFilter(filter)) {
       if (timeUnit) {
         domain = getDefaultRange(domain, timeUnit);
-        if (timeUnit !== TimeUnit.YEARMONTHDATE) {
-          type = ExpandedType.QUANTITATIVE;
-          // set the type to quantitative so that it will render normal number
-          // inputs instead of date time changers.
-        }
       }
       filterComponent = (
         <RangeFilterShelf
           domain={domain}
           filter={filter}
           index={index}
-          type={type}
+          renderDateTimePicker={this.renderDateTimePicker(fieldDef.type, filter.timeUnit)}
           handleAction={handleAction}
         />
       );
@@ -161,6 +153,34 @@ class FilterPaneBase extends React.Component<FilterPaneProps, {}> {
         Drop a field here
       </span>
     );
+  }
+
+  /**
+   * returns whether we should render date time picker instead of normal number input
+   */
+  private renderDateTimePicker(type: ExpandedType, timeUnit: TimeUnit): boolean {
+    if (!timeUnit) {
+      if (type === ExpandedType.QUANTITATIVE) {
+        return false;
+      } else if (type === ExpandedType.TEMPORAL) {
+        return true;
+      }
+    }
+    switch (timeUnit) {
+      case TimeUnit.YEAR:
+      case TimeUnit.MONTH:
+      case TimeUnit.DAY:
+      case TimeUnit.DATE:
+      case TimeUnit.HOURS:
+      case TimeUnit.MINUTES:
+      case TimeUnit.SECONDS:
+      case TimeUnit.MILLISECONDS:
+        return false;
+      case TimeUnit.YEARMONTHDATE:
+        return true;
+      default:
+        throw new Error(timeUnit + ' is not supported');
+    }
   }
 }
 

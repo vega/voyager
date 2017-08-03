@@ -1,8 +1,7 @@
 import {ExpandedType} from 'compassql/build/src/query/expandedtype';
-import {isWildcard, SHORT_WILDCARD, Wildcard} from 'compassql/build/src/wildcard';
+import {isWildcard} from 'compassql/build/src/wildcard';
 import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
-import {AggregateOp} from 'vega-lite/build/src/aggregate';
 import {TimeUnit} from 'vega-lite/build/src/timeunit';
 import {ShelfFunction} from '../../models/shelf';
 import {ShelfFieldDef} from '../../models/shelf/encoding';
