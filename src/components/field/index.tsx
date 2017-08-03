@@ -278,7 +278,7 @@ const fieldSource: DragSourceSpec<FieldProps> = {
   beginDrag(props): DraggedFieldIdentifier {
     const {fieldDef, parentId, schema} = props;
     let domain;
-    if (!isWildcard(fieldDef.field)) {
+    if (!isWildcard(fieldDef.field) && fieldDef.field !== '*') {
       domain = schema.domain({field: fieldDef.field});
     }
     const filter = getFilter(fieldDef, domain);
