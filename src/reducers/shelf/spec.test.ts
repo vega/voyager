@@ -47,13 +47,16 @@ describe('reducers/shelf/spec', () => {
           type: SHELF_FIELD_ADD,
           payload: {
             shelfId: {channel: 'x'},
-            fieldDef: {field: 'a', type: 'quantitative'},
+            fieldDef: {field: 'a', fn: undefined, type: 'quantitative'},
             replace: true
           }
         },
         schema
       );
-      expect(shelfSpec.encoding.x).toEqual({field: 'a', type: 'quantitative'});
+
+      expect(shelfSpec.encoding.x).toEqual({
+        field: 'a', fn: undefined, type: 'quantitative'
+      });
     });
 
     it('should correctly add field to wildcard channel', () => {
@@ -63,13 +66,16 @@ describe('reducers/shelf/spec', () => {
           type: SHELF_FIELD_ADD,
           payload: {
             shelfId: {channel: SHORT_WILDCARD, index: 0},
-            fieldDef: {field: 'a', type: 'quantitative'},
+            fieldDef: {field: 'a', fn: undefined, type: 'quantitative'},
             replace: true
           }
         },
         schema
       );
-      expect(shelfSpec.anyEncodings[0]).toEqual({channel: SHORT_WILDCARD, field: 'a', type: 'quantitative'});
+
+      expect(shelfSpec.anyEncodings[0]).toEqual({
+        channel: SHORT_WILDCARD, field: 'a', fn: undefined, type: 'quantitative'
+      });
 
       const insertedShelf = shelfSpecReducer(
         shelfSpec,
@@ -77,14 +83,19 @@ describe('reducers/shelf/spec', () => {
           type: SHELF_FIELD_ADD,
           payload: {
             shelfId: {channel: SHORT_WILDCARD, index: 1},
-            fieldDef: {field: 'b', type: 'quantitative'},
+            fieldDef: {field: 'b', fn: undefined, type: 'quantitative'},
             replace: true
           }
         },
         schema
       );
-      expect(insertedShelf.anyEncodings[0]).toEqual({channel: SHORT_WILDCARD, field: 'a', type: 'quantitative'});
-      expect(insertedShelf.anyEncodings[1]).toEqual({channel: SHORT_WILDCARD, field: 'b', type: 'quantitative'});
+
+      expect(insertedShelf.anyEncodings[0]).toEqual({
+        channel: SHORT_WILDCARD, field: 'a', fn: undefined, type: 'quantitative'
+      });
+      expect(insertedShelf.anyEncodings[1]).toEqual({
+        channel: SHORT_WILDCARD, field: 'b', fn: undefined, type: 'quantitative'
+      });
     });
 
     it('should correctly replace field when dragging onto an existing wildcard shelf', () => {
@@ -94,13 +105,16 @@ describe('reducers/shelf/spec', () => {
           type: SHELF_FIELD_ADD,
           payload: {
             shelfId: {channel: SHORT_WILDCARD, index: 0},
-            fieldDef: {field: 'a', type: 'quantitative'},
+            fieldDef: {field: 'a', fn: undefined, type: 'quantitative'},
             replace: true
           }
         },
         schema
       );
-      expect(shelfSpec.anyEncodings[0]).toEqual({channel: SHORT_WILDCARD, field: 'a', type: 'quantitative'});
+
+      expect(shelfSpec.anyEncodings[0]).toEqual({
+        channel: SHORT_WILDCARD, field: 'a', fn: undefined, type: 'quantitative'
+      });
 
       const insertedShelf = shelfSpecReducer(
         shelfSpec,
@@ -108,13 +122,16 @@ describe('reducers/shelf/spec', () => {
           type: SHELF_FIELD_ADD,
           payload: {
             shelfId: {channel: SHORT_WILDCARD, index: 0},
-            fieldDef: {field: 'b', type: 'quantitative'},
+            fieldDef: {field: 'b', fn: undefined, type: 'quantitative'},
             replace: true
           }
         },
         schema
       );
-      expect(insertedShelf.anyEncodings[0]).toEqual({channel: SHORT_WILDCARD, field: 'b', type: 'quantitative'});
+
+      expect(insertedShelf.anyEncodings[0]).toEqual({
+        channel: SHORT_WILDCARD, fn: undefined, field: 'b', type: 'quantitative'
+      });
     });
   });
 
@@ -126,7 +143,7 @@ describe('reducers/shelf/spec', () => {
         {
           type: SHELF_FIELD_AUTO_ADD,
           payload: {
-            fieldDef: {field: 'a', type: 'quantitative'}
+            fieldDef: {field: 'a', fn: undefined, type: 'quantitative'}
           }
         },
         schema
@@ -134,7 +151,7 @@ describe('reducers/shelf/spec', () => {
       expect(shelfSpec).toEqual({
         ...DEFAULT_SHELF_UNIT_SPEC,
         encoding: {
-          x: {field: 'a', type: 'quantitative'}
+          x: {field: 'a', fn: undefined, type: 'quantitative'}
         }
       });
     });
@@ -144,13 +161,13 @@ describe('reducers/shelf/spec', () => {
         {
           ...DEFAULT_SHELF_UNIT_SPEC,
           anyEncodings: [
-            {channel: SHORT_WILDCARD, field: 'a', type: 'quantitative'}
+            {channel: SHORT_WILDCARD, fn: undefined, field: 'a', type: 'quantitative'}
           ]
         },
         {
           type: SHELF_FIELD_AUTO_ADD,
           payload: {
-            fieldDef: {field: 'b', type: 'nominal'}
+            fieldDef: {field: 'b', fn: undefined, type: 'nominal'}
           }
         },
         schema
@@ -158,8 +175,8 @@ describe('reducers/shelf/spec', () => {
       expect(shelfSpec).toEqual({
         ...DEFAULT_SHELF_UNIT_SPEC,
         anyEncodings: [
-          {channel: SHORT_WILDCARD, field: 'a', type: 'quantitative'},
-          {channel: SHORT_WILDCARD, field: 'b', type: 'nominal'}
+          {channel: SHORT_WILDCARD, field: 'a', fn: undefined, type: 'quantitative'},
+          {channel: SHORT_WILDCARD, field: 'b', fn: undefined, type: 'nominal'}
         ]
       });
     });
@@ -172,6 +189,7 @@ describe('reducers/shelf/spec', () => {
           payload: {
             fieldDef: {
               field: {enum: ['a', 'b']},
+              fn: undefined,
               type: 'nominal'
             }
           }
@@ -181,7 +199,7 @@ describe('reducers/shelf/spec', () => {
       expect(shelfSpec).toEqual({
         ...DEFAULT_SHELF_UNIT_SPEC,
         anyEncodings: [
-          {channel: SHORT_WILDCARD, field: {enum: ['a', 'b']}, type: 'nominal'}
+          {channel: SHORT_WILDCARD, field: {enum: ['a', 'b']}, fn: undefined, type: 'nominal'}
         ]
       });
     });
@@ -193,7 +211,7 @@ describe('reducers/shelf/spec', () => {
         {
           ...DEFAULT_SHELF_UNIT_SPEC,
           encoding: {
-            x: {field: 'a', type: 'quantitative'}
+            x: {field: 'a', fn: undefined, type: 'quantitative'}
           }
         },
         {
@@ -210,7 +228,7 @@ describe('reducers/shelf/spec', () => {
         {
           ...DEFAULT_SHELF_UNIT_SPEC,
           anyEncodings: [
-            {channel: '?', field: 'a', type: 'quantitative'}
+            {channel: '?', field: 'a', fn: undefined, type: 'quantitative'}
           ]
         },
         {
@@ -232,7 +250,7 @@ describe('reducers/shelf/spec', () => {
         {
           ...DEFAULT_SHELF_UNIT_SPEC,
           encoding: {
-            x: {field: 'a', type: 'quantitative'}
+            x: {field: 'a', fn: undefined, type: 'quantitative'}
           }
         },
         {
@@ -247,7 +265,7 @@ describe('reducers/shelf/spec', () => {
       expect(shelfSpec).toEqual({
         ...DEFAULT_SHELF_UNIT_SPEC,
         encoding: {
-          y: {field: 'a', type: 'quantitative'}
+          y: {field: 'a', fn: undefined, type: 'quantitative'}
         }
       });
     });
@@ -257,8 +275,8 @@ describe('reducers/shelf/spec', () => {
         {
           ...DEFAULT_SHELF_UNIT_SPEC,
           encoding: {
-            x: {field: 'a', type: 'quantitative'},
-            y: {field: 'b', type: 'quantitative'}
+            x: {field: 'a', fn: undefined, type: 'quantitative'},
+            y: {field: 'b', fn: undefined, type: 'quantitative'}
           }
         },
         {
@@ -273,8 +291,8 @@ describe('reducers/shelf/spec', () => {
       expect(shelfSpec).toEqual({
         ...DEFAULT_SHELF_UNIT_SPEC,
         encoding: {
-          x: {field: 'b', type: 'quantitative'},
-          y: {field: 'a', type: 'quantitative'}
+          x: {field: 'b', fn: undefined, type: 'quantitative'},
+          y: {field: 'a', fn: undefined, type: 'quantitative'}
         }
       });
     });
@@ -284,10 +302,10 @@ describe('reducers/shelf/spec', () => {
         {
           ...DEFAULT_SHELF_UNIT_SPEC,
           encoding: {
-            x: {field: 'a', type: 'quantitative'}
+            x: {field: 'a', fn: undefined, type: 'quantitative'}
           },
           anyEncodings: [
-            {channel: SHORT_WILDCARD, field: 'b', type: 'quantitative'}
+            {channel: SHORT_WILDCARD, field: 'b', fn: undefined, type: 'quantitative'}
           ]
         },
         {
@@ -303,10 +321,10 @@ describe('reducers/shelf/spec', () => {
       expect(shelfSpec).toEqual({
         ...DEFAULT_SHELF_UNIT_SPEC,
         encoding: {
-          x: {field: 'b', type: 'quantitative'}
+          x: {field: 'b', fn: undefined, type: 'quantitative'}
         },
         anyEncodings: [
-          {channel: SHORT_WILDCARD, field: 'a', type: 'quantitative'}
+          {channel: SHORT_WILDCARD, field: 'a', fn: undefined, type: 'quantitative'}
         ]
       });
     });
@@ -316,7 +334,7 @@ describe('reducers/shelf/spec', () => {
         {
           ...DEFAULT_SHELF_UNIT_SPEC,
           encoding: {
-            x: {field: 'a', type: 'quantitative'}
+            x: {field: 'a', fn: undefined, type: 'quantitative'}
           }
         },
         {
@@ -332,7 +350,7 @@ describe('reducers/shelf/spec', () => {
       expect(shelfSpec).toEqual({
         ...DEFAULT_SHELF_UNIT_SPEC,
         anyEncodings: [
-          {channel: SHORT_WILDCARD, field: 'a', type: 'quantitative'}
+          {channel: SHORT_WILDCARD, field: 'a', fn: undefined, type: 'quantitative'}
         ]
       });
     });
@@ -342,7 +360,7 @@ describe('reducers/shelf/spec', () => {
         {
           ...DEFAULT_SHELF_UNIT_SPEC,
           anyEncodings: [
-            {channel: SHORT_WILDCARD, field: 'a', type: 'quantitative'}
+            {channel: SHORT_WILDCARD, field: 'a', fn: undefined, type: 'quantitative'}
           ]
         },
         {
@@ -358,7 +376,7 @@ describe('reducers/shelf/spec', () => {
       expect(shelfSpec).toEqual({
         ...DEFAULT_SHELF_UNIT_SPEC,
         encoding: {
-          x: {field: 'a', type: 'quantitative'}
+          x: {field: 'a', fn: undefined, type: 'quantitative'}
         }
       });
     });
@@ -370,7 +388,7 @@ describe('reducers/shelf/spec', () => {
         {
           ...DEFAULT_SHELF_UNIT_SPEC,
           encoding: {
-            x: {field: 'a', type: 'quantitative'}
+            x: {field: 'a', fn: undefined, type: 'quantitative'}
           }
         },
         {
@@ -386,7 +404,7 @@ describe('reducers/shelf/spec', () => {
       expect(shelfSpec).toEqual({
         ...DEFAULT_SHELF_UNIT_SPEC,
         encoding: {
-          x: {aggregate: 'mean', field: 'a', type: 'quantitative'}
+          x: {fn: 'mean', field: 'a', type: 'quantitative'}
         }
       });
     });
@@ -396,7 +414,7 @@ describe('reducers/shelf/spec', () => {
         {
           ...DEFAULT_SHELF_UNIT_SPEC,
           encoding: {
-            x: {field: 'a', type: 'temporal'}
+            x: {field: 'a', fn: undefined, type: 'temporal'}
           }
         },
         {
@@ -412,7 +430,7 @@ describe('reducers/shelf/spec', () => {
       expect(shelfSpec).toEqual({
         ...DEFAULT_SHELF_UNIT_SPEC,
         encoding: {
-          x: {timeUnit: 'month', field: 'a', type: 'temporal'}
+          x: {fn: 'month', field: 'a', type: 'temporal'}
         }
       });
     });
@@ -422,7 +440,7 @@ describe('reducers/shelf/spec', () => {
         {
           ...DEFAULT_SHELF_UNIT_SPEC,
           encoding: {
-            x: {field: 'a', type: 'quantitative'}
+            x: {field: 'a', fn: undefined, type: 'quantitative'}
           }
         },
         {
@@ -438,7 +456,7 @@ describe('reducers/shelf/spec', () => {
       expect(shelfSpec).toEqual({
         ...DEFAULT_SHELF_UNIT_SPEC,
         encoding: {
-          x: {bin: true, field: 'a', type: 'quantitative'}
+          x: {fn: 'bin', field: 'a', type: 'quantitative'} // what do we do for bin????
         }
       });
     });
@@ -448,7 +466,7 @@ describe('reducers/shelf/spec', () => {
         {
           ...DEFAULT_SHELF_UNIT_SPEC,
           anyEncodings: [
-            {channel: SHORT_WILDCARD, field: 'b', type: 'quantitative'}
+            {channel: SHORT_WILDCARD, field: 'b', fn: undefined, type: 'quantitative'}
           ]
         },
         {
@@ -464,7 +482,7 @@ describe('reducers/shelf/spec', () => {
       expect(shelfSpec).toEqual({
         ...DEFAULT_SHELF_UNIT_SPEC,
         anyEncodings: [
-          {aggregate: 'mean', channel: SHORT_WILDCARD, field: 'b', type: 'quantitative'}
+          {fn: 'mean', channel: SHORT_WILDCARD, field: 'b', type: 'quantitative'}
         ]
       });
     });
@@ -474,7 +492,7 @@ describe('reducers/shelf/spec', () => {
         {
           ...DEFAULT_SHELF_UNIT_SPEC,
           encoding: {
-            x: {aggregate: 'mean', field: 'a', type: 'quantitative'}
+            x: {fn: 'mean', field: 'a', type: 'quantitative'}
           }
         },
         {

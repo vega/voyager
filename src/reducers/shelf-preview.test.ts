@@ -35,8 +35,8 @@ describe('reducers/shelf/spec-preview', () => {
       const specPreview = shelfPreviewReducer({spec: {
         mark: 'bar',
         encoding: {
-          x: {field: 'b', type: 'nominal'},
-          y: {aggregate: 'count', field: '*', type: 'quantitative'}
+          x: {field: 'b', fn: undefined, type: 'nominal'},
+          y: {fn: 'count', field: '*', type: 'quantitative'}
         },
         anyEncodings: [],
         config: undefined,

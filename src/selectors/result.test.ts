@@ -38,11 +38,11 @@ const filters: Array<RangeFilter|OneOfFilter> = [{field: 'q1', range: [0, 1]}];
 const mark: ShelfMark = 'point';
 
 const encodingWildcard: SpecificEncoding = {
-  x: {field: '?', type: ExpandedType.QUANTITATIVE}
+  x: {field: '?', fn: undefined, type: ExpandedType.QUANTITATIVE}
 };
 
 const encodingSpecific: SpecificEncoding = {
-  y: {field: 'q1', type: ExpandedType.TEMPORAL}
+  y: {field: 'q1', fn: undefined, type: ExpandedType.TEMPORAL}
 };
 
 const group = buildSpecQueryModelGroup([

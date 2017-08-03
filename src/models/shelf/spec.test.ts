@@ -33,10 +33,10 @@ describe('models/shelf/unit', () => {
       expect(toSpecQuery({
         mark: 'point',
         encoding: {
-          x: {field: 'a', type: 'quantitative'}
+          x: {field: 'a', fn: undefined, type: 'quantitative'}
         },
         anyEncodings: [
-          {channel: SHORT_WILDCARD, field: 'b', type: 'ordinal'}
+          {channel: SHORT_WILDCARD, field: 'b', fn: undefined, type: 'ordinal'}
         ],
         config: {numberFormat: 'd'},
         filters: []
