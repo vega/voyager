@@ -4,7 +4,7 @@ import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
 import * as DateTimePicker from 'react-datetime';
 import * as TetherComponent from 'react-tether';
-import {DateTime, isDateTime} from 'vega-lite/build/src/datetime';
+import {DateTime} from 'vega-lite/build/src/datetime';
 import {RangeFilter} from 'vega-lite/build/src/filter';
 import {TimeUnit} from 'vega-lite/build/src/timeunit';
 import {FILTER_MODIFY_EXTENT, FILTER_MODIFY_MAX_BOUND, FILTER_MODIFY_MIN_BOUND,
@@ -46,24 +46,24 @@ export class RangeFilterShelfBase extends React.PureComponent<RangeFilterShelfPr
     const Range = createSliderWithTooltip(Slider.Range);
     let minInput, maxInput, currMin, currMax, lowerBound, upperBound;
     if (renderDateTimePicker) {
+      // when render date time picker, it must be an temporal filter, thus the range must be DateTime[].
       minInput = this.renderDateTimePicker(new Date(convertToTimestamp(filter.range[0] as DateTime)), 'min');
       maxInput = this.renderDateTimePicker(new Date(convertToTimestamp(filter.range[1] as DateTime)), 'max');
       currMin = convertToTimestamp(filter.range[0] as DateTime);
       currMax = convertToTimestamp(filter.range[1] as DateTime);
+      lowerBound = Math.floor(convertToTimestamp(domain[0] as DateTime));
+      upperBound = Math.ceil(convertToTimestamp(domain[1] as DateTime));
     } else {
       minInput = this.renderNumberInput('min');
       maxInput = this.renderNumberInput('max');
       currMin = filter.range[0];
       currMax = filter.range[1];
+      // Math.floor/ceil because the slider requires the the difference between max and min
+      // must be a multiple of step (which is 1 by default)
+      lowerBound = Math.floor(Number(domain[0]));
+      upperBound = Math.ceil(Number(domain[1]));
     }
-    lowerBound = Math.floor(Number(domain[0]));
-    upperBound = Math.ceil(Number(domain[1]));
-    if (isDateTime(domain[0])) {
-      lowerBound = Math.floor(convertToTimestamp(domain[0] as DateTime));
-    }
-    if (isDateTime(domain[1])) {
-      upperBound = Math.ceil(convertToTimestamp(domain[1] as DateTime));
-    }
+
     return (
       <div styleName='range-filter-pane'>
         <div>
@@ -87,9 +87,13 @@ export class RangeFilterShelfBase extends React.PureComponent<RangeFilterShelfPr
     );
   }
 
-  protected filterModifyExtent(range: number[] | DateTime[]) {
+  protected filterModifyExtent(input: number[]) {
+    // filterModifyExtent is only triggered by slider, so input must be number[].
+    let range: DateTime[] | number[];
     if (this.props.renderDateTimePicker) {
-      range = [convertToDateTimeObject(range[0] as number), convertToDateTimeObject(range[1] as number)];
+      range = [convertToDateTimeObject(input[0]), convertToDateTimeObject(input[1])];
+    } else {
+      range = input;
     }
     const {handleAction, index} = this.props;
     handleAction({
