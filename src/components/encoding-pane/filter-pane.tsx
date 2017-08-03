@@ -10,7 +10,7 @@ import {TimeUnit} from 'vega-lite/build/src/timeunit';
 import {FILTER_ADD, FILTER_MODIFY_TIME_UNIT,
   FILTER_REMOVE, FilterAction} from '../../actions/filter';
 import {DraggableType} from '../../constants';
-import {getDefaultList, getDefaultRange} from '../../reducers/shelf/filter';
+import {convertToDateTimeObject, getDefaultList, getDefaultRange} from '../../reducers/shelf/filter';
 import {DraggedFieldIdentifier} from '../field';
 import {Field} from '../field/index';
 import * as styles from './filter-pane.scss';
@@ -105,8 +105,13 @@ class FilterPaneBase extends React.PureComponent<FilterPaneProps, {}> {
     let filterComponent;
     const timeUnit = filter.timeUnit;
     if (isRangeFilter(filter)) {
-      if (timeUnit) {
-        domain = getDefaultRange(domain, timeUnit);
+      if (fieldDef.type === ExpandedType.TEMPORAL) {
+        if (timeUnit) {
+          domain = getDefaultRange(domain, timeUnit);
+        } else {
+          // schema.domain returns Date[] for temporal type, we need to convert it to DateTime[]
+          domain = [convertToDateTimeObject(Number(domain[0])), convertToDateTimeObject(Number(domain[1]))];
+        }
       }
       filterComponent = (
         <RangeFilterShelf
