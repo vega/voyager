@@ -38,7 +38,7 @@ export interface FilterPanePropsBase {
 
 interface FilterPaneProps extends FilterPaneDropTargetProps, FilterPanePropsBase {};
 
-class FilterPaneBase extends React.Component<FilterPaneProps, {}> {
+class FilterPaneBase extends React.PureComponent<FilterPaneProps, {}> {
 
   public constructor(props: FilterPaneProps) {
     super(props);
