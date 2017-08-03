@@ -31,18 +31,12 @@ export function extractPlotObjects(modelGroup: SpecQueryGroup<PlotObject>,
       const childModelGroup = item as SpecQueryGroup<PlotObject>;
       return {
         ...getTopSpecQueryItem(childModelGroup),
-        spec: {
-          ...getTopSpecQueryItem(childModelGroup).spec,
-          transform: getTransforms(filters)
-        }
+        spec: addFiltersInSpec(getTopSpecQueryItem(childModelGroup).spec, filters)
       };
     }
     return {
       ...item,
-      spec: {
-        ...item.spec,
-        transform: getTransforms(filters)
-      }
+      spec: addFiltersInSpec(item.spec, filters)
     };
   });
 }
@@ -90,4 +84,11 @@ function plotObject(data: Data, specQ: SpecQueryModel): PlotObject {
   };
 
   return {fieldInfos, spec};
+}
+
+function addFiltersInSpec(spec: FacetedCompositeUnitSpec, filters: Array<RangeFilter|OneOfFilter>) {
+  return {
+    ...spec,
+    transform: getTransforms(filters)
+  };
 }
