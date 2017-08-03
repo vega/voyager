@@ -29,9 +29,10 @@ export function extractPlotObjects(modelGroup: SpecQueryGroup<PlotObject>,
   return modelGroup.items.map(item => {
     if (isSpecQueryGroup<PlotObject>(item)) {
       const childModelGroup = item as SpecQueryGroup<PlotObject>;
+      const topSpecQueryItem = getTopSpecQueryItem(childModelGroup);
       return {
-        ...getTopSpecQueryItem(childModelGroup),
-        spec: addFiltersInSpec(getTopSpecQueryItem(childModelGroup).spec, filters)
+        ...topSpecQueryItem,
+        spec: addFiltersInSpec(topSpecQueryItem.spec, filters)
       };
     }
     return {
