@@ -218,6 +218,9 @@ const fieldSource: DragSourceSpec<FieldProps> = {
   beginDrag(props): DraggedFieldIdentifier {
     const {fieldDef, parentId} = props;
     return {fieldDef, parentId};
+  },
+  canDrag(props, monitor) {
+    return props.draggable;
   }
 };
 
