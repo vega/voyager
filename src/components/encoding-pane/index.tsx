@@ -124,7 +124,7 @@ class EncodingPanelBase extends React.PureComponent<EncodingPanelProps, {}> {
 
   private wildcardShelf(index: number) {
     const {anyEncodings} = this.props.spec;
-    const {handleAction} = this.props;
+    const {handleAction, schema} = this.props;
 
     const id = {
       channel: SHORT_WILDCARD,
@@ -135,6 +135,7 @@ class EncodingPanelBase extends React.PureComponent<EncodingPanelProps, {}> {
       <EncodingShelf
         key={index}
         id={id}
+        schema={schema}
         fieldDef={anyEncodings[index]}
         handleAction={handleAction}
       />

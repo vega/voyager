@@ -30,7 +30,7 @@ export interface EncodingShelfPropsBase extends ActionHandler<ShelfEncodingActio
 
   fieldDef: ShelfFieldDef;
 
-  schema?: Schema;
+  schema: Schema;
 }
 
 interface EncodingShelfProps extends EncodingShelfPropsBase, EncodingShelfDropTargetProps {};
