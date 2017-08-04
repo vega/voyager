@@ -85,7 +85,7 @@ describe('Voyager', () => {
   });
 
   describe('vega-lite spec', () => {
-    it('accepts valid spec', done => {
+    it.only('accepts valid spec', done => {
       const config = {};
       const data: any = undefined;
       const store = configureStore();
@@ -105,7 +105,7 @@ describe('Voyager', () => {
         "mark": "bar",
         "encoding": {
           "x": {
-            "bin": {"maxbins": 10},
+            "bin": true,
             "field": "close",
             "type": "quantitative"
           },

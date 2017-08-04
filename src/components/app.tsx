@@ -129,6 +129,7 @@ class AppBase extends React.PureComponent<Props, {}> {
       this.setData(validSpec.data)
         .then(
           () => {
+            console.log('inside promise');
             this.shelfSpecLoad(validSpec);
           },
           (err: any) => {
@@ -142,7 +143,10 @@ class AppBase extends React.PureComponent<Props, {}> {
 
   private shelfSpecLoad(validSpec: TopLevel<FacetedCompositeUnitSpec>) {
     const specQuery = fromSpec(validSpec);
+    console.log('specQuery is: ', specQuery);
     const shelfSpec = fromSpecQuery(specQuery);
+
+    console.log('shelfSpec is: ', shelfSpec);
 
     this.props.dispatch({
       type: SHELF_SPEC_LOAD,
