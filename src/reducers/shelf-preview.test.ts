@@ -20,7 +20,7 @@ describe('reducers/shelf/spec-preview', () => {
       expect(specPreview.spec).toEqual({
         mark: 'bar',
         encoding: {
-          x: {field: 'b', fn: undefined, type: 'nominal'},
+          x: {field: 'b', type: 'nominal'},
           y: {field: '*', fn: 'count', type: 'quantitative'}
         },
         anyEncodings: [],
@@ -35,7 +35,7 @@ describe('reducers/shelf/spec-preview', () => {
       const specPreview = shelfPreviewReducer({spec: {
         mark: 'bar',
         encoding: {
-          x: {field: 'b', fn: undefined, type: 'nominal'},
+          x: {field: 'b', type: 'nominal'},
           y: {fn: 'count', field: '*', type: 'quantitative'}
         },
         anyEncodings: [],

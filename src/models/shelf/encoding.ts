@@ -48,7 +48,7 @@ export interface ShelfFieldDef {
 export type ShelfFunction = AggregateOp | TimeUnit | undefined | 'bin';
 
 export interface ShelfAnyEncodingDef extends ShelfFieldDef {
-  channel: SHORT_WILDCARD | Wildcard<Channel>;
+  channel: SHORT_WILDCARD;
 }
 
 export type SpecificEncoding = {
@@ -80,8 +80,8 @@ export function fromEncodingQuery(encQ: EncodingQuery): ShelfFieldDef {
   }
 }
 
-export function toEncodingQuery(fieldDef: ShelfFieldDef): EncodingQuery {
-  return toFieldQuery(fieldDef);
+export function toEncodingQuery(fieldDef: ShelfFieldDef, channel: Channel | SHORT_WILDCARD): EncodingQuery {
+  return toFieldQuery(fieldDef, channel);
 }
 
 const AGGREGATE_INDEX = toSet(AGGREGATE_OPS);
@@ -105,7 +105,7 @@ function getFunctionMixins(fn: ShelfFunction) {
   return {};
 }
 
-export function toFieldQuery(fieldDef: ShelfFieldDef, channel?: Channel): FieldQuery {
+export function toFieldQuery(fieldDef: ShelfFieldDef, channel: Channel | SHORT_WILDCARD): FieldQuery {
   const {field, fn, type, title: _t} = fieldDef;
 
   if (isWildcard(fn)) {
@@ -113,7 +113,7 @@ export function toFieldQuery(fieldDef: ShelfFieldDef, channel?: Channel): FieldQ
   }
 
   return {
-    channel: channel || SHORT_WILDCARD, // not always the case! what if we're passed a channel?
+    channel: channel,
     field: field,
     type: type,
     ...getFunctionMixins(fn)
@@ -124,21 +124,22 @@ export function fromFieldQuery(fieldQ: FieldQuery): ShelfFieldDef {
   const {aggregate, bin, timeUnit, field, type} = fieldQ;
 
   if (isWildcard(type)) {
-    throw Error('type cannot be a wildcard');
+    throw Error('Voyager does not support wildcard type');
   }
 
   let fn: ShelfFunction;
   if (bin) {
+    console.warn('Voyager does not yet support loading VLspec with bin');
     fn = 'bin';
   } else if (aggregate) {
     if (isWildcard(aggregate)) {
-      throw Error('aggregate cannot be a wildcard (yet)');
+      throw Error('Voyager does not support aggregate wildcard (yet)');
     } else {
       fn = aggregate;
     }
   } else if (timeUnit) {
     if (isWildcard(timeUnit)) {
-      throw Error('timeUnit cannot be a wildcard (yet)');
+      throw Error('Voyager does not support wildcard timeUnit (yet)');
     } else {
       fn = timeUnit;
     }

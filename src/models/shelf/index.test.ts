@@ -8,11 +8,11 @@ describe('models/shelf', () => {
           filters: [],
           mark: 'point',
           encoding: {
-            x: {field: 'a', fn: undefined, type: 'quantitative'}
+            x: {field: 'a', type: 'quantitative'}
           },
           anyEncodings: [],
           config: {numberFormat: 'd'}
-        }, {field: 'b', fn: undefined, type: 'nominal'})
+        }, {field: 'b', type: 'nominal'})
       ).toEqual({
         spec: {
           transform: [],
@@ -36,7 +36,7 @@ describe('models/shelf', () => {
           filters: [],
           mark: 'point',
           encoding: {
-            x: {field: 'a', fn: undefined, type: 'quantitative'}
+            x: {field: 'a', type: 'quantitative'}
           },
           anyEncodings: [],
           config: {numberFormat: 'd'}
@@ -65,7 +65,7 @@ describe('models/shelf', () => {
           filters: [],
           mark: 'point',
           encoding: {
-            x: {field: '?', fn: undefined, type: 'quantitative'}
+            x: {field: '?', type: 'quantitative'}
           },
           anyEncodings: [],
           config: {numberFormat: 'd'}

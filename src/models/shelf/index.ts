@@ -41,7 +41,7 @@ export function toQuery(shelf: Shelf): Query {
 export function autoAddFieldQuery(shelf: ShelfUnitSpec, fieldDef: ShelfFieldDef): Query {
   const spec = toSpecQuery(shelf);
 
-  spec.encodings.push(toFieldQuery(fieldDef));
+  spec.encodings.push(toFieldQuery(fieldDef, '?'));
   return {
     spec,
     chooseBy: 'effectiveness'

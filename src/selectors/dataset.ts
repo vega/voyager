@@ -17,9 +17,9 @@ export const selectSchema = (state: State) => state.present.dataset.schema;
 
 
 const ALL_PRESET_WILDCARD_FIELDS: ShelfFieldDef[] = [
-  {field: SHORT_WILDCARD, fn: undefined, type: 'quantitative', title: 'Quantitative Fields'},
-  {field: SHORT_WILDCARD, fn: undefined, type: 'nominal', title: 'Categorical Fields'},
-  {field: SHORT_WILDCARD, fn: undefined, type: 'temporal', title: 'Temporal Fields'},
+  {field: SHORT_WILDCARD, type: 'quantitative', title: 'Quantitative Fields'},
+  {field: SHORT_WILDCARD, type: 'nominal', title: 'Categorical Fields'},
+  {field: SHORT_WILDCARD, type: 'temporal', title: 'Temporal Fields'},
 ];
 
 export const selectPresetWildcardFields = createSelector(
@@ -39,7 +39,7 @@ export const selectSchemaFieldDefs = createSelector(
   (schema: Schema): ShelfFieldDef[] => {
     return schema.fieldSchemas.map(fieldSchema => {
       const {name, vlType} = fieldSchema;
-      return {field: name, fn: undefined, type: vlType};
+      return {field: name, type: vlType};
     });
   }
 );

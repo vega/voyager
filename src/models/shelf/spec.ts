@@ -38,7 +38,7 @@ export function toSpecQuery(spec: ShelfUnitSpec): SpecQuery {
     transform: getTransforms(spec.filters),
     mark: spec.mark,
     encodings: specificEncodingsToEncodingQueries(spec.encoding).concat(
-      spec.anyEncodings.map(toEncodingQuery)
+      spec.anyEncodings.map(fieldDef => toEncodingQuery(fieldDef, '?'))
     ),
     config: spec.config
   };
@@ -100,17 +100,10 @@ export function hasWildcards(spec: SpecQuery): HasWildcard {
 }
 
 function specificEncodingsToEncodingQueries(encoding: SpecificEncoding): EncodingQuery[] {
-  const encodings: EncodingQuery[] = [];
   // Assemble definition of encodings with specific channels first
-  for (const c in encoding) {
-    if (encoding.hasOwnProperty(c)) {
-      const channel: Channel = c as Channel;
-      const shelfFieldDef = encoding[channel];
-      const channelQuery: EncodingQuery = toFieldQuery(shelfFieldDef, channel);
-      encodings.push(channelQuery);
-    }
-  }
-  return encodings;
+  return Object.keys(encoding).map((channel: Channel) => {
+    return toFieldQuery(encoding[channel], channel);
+  });
 }
 
 export function getFilters(transforms: Transform[]): Array<RangeFilter|OneOfFilter> {
