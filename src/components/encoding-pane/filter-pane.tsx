@@ -28,6 +28,8 @@ export interface FilterPaneDropTargetProps {
   isOver: boolean;
 
   item: Object;
+
+  canDrop: boolean;
 }
 
 export interface FilterPanePropsBase {
@@ -152,10 +154,18 @@ class FilterPaneBase extends React.PureComponent<FilterPaneProps, {}> {
   }
 
   private fieldPlaceholder() {
-    const {item, isOver} = this.props;
+    const {item, isOver, canDrop} = this.props;
+    let styleName, text;
+    if (item && !canDrop) {
+      styleName = 'placeholder-disabled';
+      text = 'Cannot drop a field here';
+    } else {
+      styleName = isOver ? 'placeholder-over' : item ? 'placeholder-active' : 'placeholder';
+      text = 'Drop a field here';
+    }
     return (
-      <span styleName={isOver ? 'placeholder-over' : item ? 'placeholder-active' : 'placeholder'}>
-        Drop a field here
+      <span styleName={styleName}>
+        {text}
       </span>
     );
   }
@@ -204,6 +214,10 @@ const filterShelfTarget: DropTargetSpec<FilterPaneProps> = {
         filter
       }
     });
+  },
+  canDrop(props, monitor) {
+    const {fieldDef} = monitor.getItem() as DraggedFieldIdentifier;
+    return !isWildcard(fieldDef.field) && fieldDef.field !== '*';
   }
 };
 
@@ -211,7 +225,8 @@ const collect: DropTargetCollector = (connect, monitor): FilterPaneDropTargetPro
   return {
     connectDropTarget: connect.dropTarget(),
     isOver: monitor.isOver(),
-    item: monitor.getItem()
+    item: monitor.getItem(),
+    canDrop: monitor.canDrop()
   };
 };
 
