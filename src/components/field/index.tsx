@@ -283,6 +283,9 @@ const fieldSource: DragSourceSpec<FieldProps> = {
     }
     const filter = getFilter(fieldDef, domain);
     return {fieldDef, parentId, filter};
+  },
+  canDrag(props, monitor) {
+    return props.draggable;
   }
 };
 
