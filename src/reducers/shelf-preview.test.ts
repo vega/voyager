@@ -20,8 +20,8 @@ describe('reducers/shelf/spec-preview', () => {
       expect(specPreview.spec).toEqual({
         mark: 'bar',
         encoding: {
-          x: {field: 'b', type: 'nominal'},
-          y: {aggregate: 'count', field: '*', type: 'quantitative'}
+          x: {field: 'b', fn: undefined, type: 'nominal'},
+          y: {field: '*', fn: 'count', type: 'quantitative'}
         },
         anyEncodings: [],
         config: undefined,

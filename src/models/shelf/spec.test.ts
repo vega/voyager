@@ -1,8 +1,6 @@
 import {fromSpecQuery, toSpecQuery} from './spec';
 
 const SHORT_WILDCARD = '?';
-// FIXME doing property import can break the test
-// import {SHORT_WILDCARD} from 'compassql/build/src/wildcard';
 
 describe('models/shelf/unit', () => {
   describe('fromSpecQuery', () => {

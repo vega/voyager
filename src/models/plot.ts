@@ -7,11 +7,10 @@ import {
 } from 'compassql/build/src/model';
 import {FieldQuery, isFieldQuery} from 'compassql/build/src/query/encoding';
 import {toMap} from 'compassql/build/src/util';
-import {isWildcard} from 'compassql/build/src/wildcard';
 import {Data} from 'vega-lite/build/src/data';
 import {FacetedCompositeUnitSpec} from 'vega-lite/build/src/spec';
-
-import {ShelfFieldDef, ShelfFunction} from './shelf/encoding';
+import {fromFieldQuery} from './shelf';
+import {ShelfFieldDef} from './shelf/encoding';
 
 export interface PlotFieldInfo {
   fieldDef: ShelfFieldDef;
@@ -64,7 +63,7 @@ function plotObject(data: Data, specQ: SpecQueryModel): PlotObject {
     .filter(isFieldQuery)
     .map((fieldQ: FieldQuery, index): PlotFieldInfo => {
       return {
-        fieldDef: toShelfFieldDef(fieldQ),
+        fieldDef: fromFieldQuery(fieldQ),
         isEnumeratedWildcardField: index in wildcardFieldIndex
       };
     });
@@ -75,31 +74,4 @@ function plotObject(data: Data, specQ: SpecQueryModel): PlotObject {
   };
 
   return {fieldInfos, spec};
-}
-
-function toShelfFieldDef(fieldQ: FieldQuery): ShelfFieldDef {
-  const {aggregate, bin, timeUnit, field, type} = fieldQ;
-
-  if (isWildcard(type)) {
-    throw Error('type cannot be a wildcard');
-  }
-
-  let fn: ShelfFunction;
-  if (bin) {
-    fn = 'bin';
-  } else if (aggregate) {
-    if (isWildcard(aggregate)) {
-      throw Error('aggregate cannot be a wildcard (yet)');
-    } else {
-      fn = aggregate;
-    }
-  } else if (timeUnit) {
-    if (isWildcard(timeUnit)) {
-      throw Error('timeUnit cannot be a wildcard (yet)');
-    } else {
-      fn = timeUnit;
-    }
-  }
-
-  return {field, type, fn: fn};
 }

@@ -1,13 +1,14 @@
 
 import {isWildcard, SHORT_WILDCARD, Wildcard, WildcardProperty} from 'compassql/build/src/wildcard';
 
-import {EncodingQuery} from 'compassql/build/src/query/encoding';
+import {EncodingQuery, isAutoCountQuery, isFieldQuery} from 'compassql/build/src/query/encoding';
+import {FieldQuery} from 'compassql/build/src/query/encoding';
 import {ExpandedType} from 'compassql/build/src/query/expandedtype';
-import {AggregateOp} from 'vega-lite/build/src/aggregate';
+import {AGGREGATE_OPS, AggregateOp} from 'vega-lite/build/src/aggregate';
 import {Channel} from 'vega-lite/build/src/channel';
 import {Mark as VLMark} from 'vega-lite/build/src/mark';
-import {TimeUnit} from 'vega-lite/build/src/timeunit';
-
+import {TimeUnit, TIMEUNITS} from 'vega-lite/build/src/timeunit';
+import {toSet} from '../../util';
 
 /**
  * Identifier of shelf -- either a channel name for non-wildcard channel or
@@ -51,21 +52,97 @@ export interface ShelfAnyEncodingDef extends ShelfFieldDef {
 }
 
 export type SpecificEncoding = {
-  [P in Channel]: ShelfFieldDef;
+  [P in Channel]?: ShelfFieldDef;
 };
 
 export function fromEncodingQueries(encodings: EncodingQuery[]): {
   encoding: SpecificEncoding, anyEncodings: ShelfAnyEncodingDef[]
 } {
-
   return encodings.reduce((encodingMixins, encQ) => {
     if (isWildcard(encQ.channel)) {
-      encodingMixins.anyEncodings.push(encQ);
+      encodingMixins.anyEncodings.push({channel: encQ.channel, ...fromEncodingQuery(encQ)});
     } else {
-      const {channel: _, ...fieldDef} = encQ;
-      encodingMixins.encoding[encQ.channel] = fieldDef;
+      encodingMixins.encoding[encQ.channel] = fromEncodingQuery(encQ);
     }
 
     return encodingMixins;
   }, {encoding: {}, anyEncodings: []});
+}
+
+
+export function fromEncodingQuery(encQ: EncodingQuery): ShelfFieldDef {
+  if (isFieldQuery(encQ)) {
+    return fromFieldQuery(encQ);
+  } else if (isAutoCountQuery(encQ)) {
+    throw Error('AutoCount Query not yet supported');
+  } else {
+    throw Error('Value Query not yet supported');
+  }
+}
+
+export function toEncodingQuery(fieldDef: ShelfFieldDef): EncodingQuery {
+  return toFieldQuery(fieldDef);
+}
+
+const AGGREGATE_INDEX = toSet(AGGREGATE_OPS);
+const TIMEUNIT_INDEX = toSet(TIMEUNITS);
+
+function isAggregate(fn: ShelfFunction): fn is AggregateOp {
+  return AGGREGATE_INDEX[fn];
+}
+
+function isTimeUnit(fn: ShelfFunction): fn is TimeUnit {
+  return TIMEUNIT_INDEX[fn];
+}
+function getFunctionMixins(fn: ShelfFunction) {
+  if (isAggregate(fn)) {
+    return {aggregate: fn};
+  } else if (fn === 'bin') {
+    return {bin: true};
+  } else if (isTimeUnit(fn)) {
+    return {timeUnit: fn};
+  }
+  return {};
+}
+
+export function toFieldQuery(fieldDef: ShelfFieldDef, channel?: Channel): FieldQuery {
+  const {field, fn, type, title: _t} = fieldDef;
+
+  if (isWildcard(fn)) {
+    throw Error('fn cannot be a wildcard (yet)');
+  }
+
+  return {
+    channel: channel || SHORT_WILDCARD, // not always the case! what if we're passed a channel?
+    field: field,
+    type: type,
+    ...getFunctionMixins(fn)
+  };
+}
+
+export function fromFieldQuery(fieldQ: FieldQuery): ShelfFieldDef {
+  const {aggregate, bin, timeUnit, field, type} = fieldQ;
+
+  if (isWildcard(type)) {
+    throw Error('type cannot be a wildcard');
+  }
+
+  let fn: ShelfFunction;
+  if (bin) {
+    fn = 'bin';
+  } else if (aggregate) {
+    if (isWildcard(aggregate)) {
+      throw Error('aggregate cannot be a wildcard (yet)');
+    } else {
+      fn = aggregate;
+    }
+  } else if (timeUnit) {
+    if (isWildcard(timeUnit)) {
+      throw Error('timeUnit cannot be a wildcard (yet)');
+    } else {
+      fn = timeUnit;
+    }
+  }
+
+  return {field, type, fn: fn};
 }

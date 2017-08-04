@@ -528,7 +528,7 @@ describe('reducers/shelf/spec', () => {
               mark: 'bar',
               encoding: {
                 x: {field: 'b', type: 'nominal'},
-                y: {aggregate: 'count', type: 'quantitative'}
+                y: {aggregate: 'count', field: '*', type: 'quantitative'}
               }
             }
           }
@@ -540,8 +540,8 @@ describe('reducers/shelf/spec', () => {
         ...DEFAULT_SHELF_UNIT_SPEC,
         mark: SHORT_WILDCARD,
         encoding: {
-          x: {field: 'b', type: 'nominal'},
-          y: {aggregate: 'count', type: 'quantitative'}
+          x: {field: 'b', fn: undefined, type: 'nominal'},
+          y: {field: '*', fn: 'count', type: 'quantitative'}
         }
       });
     });
@@ -559,7 +559,7 @@ describe('reducers/shelf/spec', () => {
               mark: 'bar',
               encoding: {
                 x: {field: 'b', type: 'nominal'},
-                y: {aggregate: 'count', type: 'quantitative'}
+                y: {field: '*', aggregate: 'count', type: 'quantitative'}
               }
             }
           }
@@ -571,8 +571,8 @@ describe('reducers/shelf/spec', () => {
         ...DEFAULT_SHELF_UNIT_SPEC,
         mark: 'bar',
         encoding: {
-          x: {field: 'b', type: 'nominal'},
-          y: {aggregate: 'count', type: 'quantitative'}
+          x: {field: 'b', fn: undefined, type: 'nominal'},
+          y: {field: '*', fn: 'count', type: 'quantitative'}
         }
       });
     });

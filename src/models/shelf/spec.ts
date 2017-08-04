@@ -5,7 +5,8 @@ import {Channel} from 'vega-lite/build/src/channel';
 import {Config} from 'vega-lite/build/src/config';
 import {isOneOfFilter, isRangeFilter, OneOfFilter, RangeFilter} from 'vega-lite/build/src/filter';
 import {FilterTransform, isFilter, Transform} from 'vega-lite/build/src/transform';
-import {fromEncodingQueries, ShelfAnyEncodingDef, ShelfMark, SpecificEncoding} from './encoding';
+import {fromEncodingQueries, ShelfAnyEncodingDef, ShelfMark, SpecificEncoding, toEncodingQuery} from './encoding';
+import {toFieldQuery} from './index';
 
 /**
  * A model state for the shelf of a unit specification.
@@ -36,7 +37,9 @@ export function toSpecQuery(spec: ShelfUnitSpec): SpecQuery {
   return {
     transform: getTransforms(spec.filters),
     mark: spec.mark,
-    encodings: specificEncodingsToEncodingQueries(spec.encoding).concat(spec.anyEncodings),
+    encodings: specificEncodingsToEncodingQueries(spec.encoding).concat(
+      spec.anyEncodings.map(toEncodingQuery)
+    ),
     config: spec.config
   };
 }
@@ -103,10 +106,7 @@ function specificEncodingsToEncodingQueries(encoding: SpecificEncoding): Encodin
     if (encoding.hasOwnProperty(c)) {
       const channel: Channel = c as Channel;
       const shelfFieldDef = encoding[channel];
-      const channelQuery: EncodingQuery = {
-        channel,
-        ...shelfFieldDef
-      };
+      const channelQuery: EncodingQuery = toFieldQuery(shelfFieldDef, channel);
       encodings.push(channelQuery);
     }
   }
