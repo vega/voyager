@@ -23,6 +23,7 @@ import {fromSpecQuery} from '../models/shelf/spec';
 import {DataPane} from './data-pane';
 import {EncodingPane} from './encoding-pane';
 import {Header} from './header';
+import {LoadData} from './load-data-pane/index';
 import {ViewPane} from './view-pane';
 
 
@@ -55,15 +56,23 @@ class AppBase extends React.PureComponent<Props, {}> {
   }
 
   public render() {
+    let rightPane;
+    if (!this.props.data && !this.props.spec) {
+      rightPane = <LoadData />;
+    } else {
+      rightPane = (
+        <SplitPane split="vertical" defaultSize={235}>
+          <EncodingPane/>
+          <ViewPane/>
+        </SplitPane>
+      );
+    }
     return (
       <div className="voyager">
         <Header/>
         <SplitPane split="vertical" defaultSize={200}>
           <DataPane/>
-          <SplitPane split="vertical" defaultSize={235}>
-            <EncodingPane/>
-            <ViewPane/>
-          </SplitPane>
+          {rightPane}
         </SplitPane>
       </div>
     );
