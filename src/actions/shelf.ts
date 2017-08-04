@@ -9,7 +9,8 @@ export type ShelfAction =
   ShelfEncodingAction;
 
 export type ShelfEncodingAction = ShelfFieldAdd | ShelfFieldAutoAdd |
-  ShelfFieldRemove | ShelfFieldMove | ShelfFunctionChange |
+  ShelfFieldRemove | ShelfFieldMove | ShelfFunctionAddWildcard | ShelfFunctionChange |
+  ShelfFunctionDisableWildcard | ShelfFunctionEnableWildcard | ShelfFunctionRemoveWildcard |
   ShelfSpecLoad;
 
 export const SHELF_CLEAR = 'SHELF_CLEAR';
@@ -46,8 +47,30 @@ export type ShelfFieldMove = ReduxAction<typeof SHELF_FIELD_MOVE, {
  * Change Function of a FieldDef to a specific value.
  */
 export const SHELF_FUNCTION_CHANGE = 'SHELF_FUNCTION_CHANGE';
-
 export type ShelfFunctionChange = ReduxAction<typeof SHELF_FUNCTION_CHANGE, {
+  shelfId: ShelfId,
+  fn: ShelfFunction;
+}>;
+
+export const SHELF_FUNCTION_ADD_WILDCARD = 'SHELF_FUNCTION_ADD_WILDCARD';
+export type ShelfFunctionAddWildcard = ReduxAction<typeof SHELF_FUNCTION_ADD_WILDCARD, {
+  shelfId: ShelfId,
+  fn: ShelfFunction;
+}>;
+
+export const SHELF_FUNCTION_ENABLE_WILDCARD = 'SHELF_FUNCTION_ENABLE_WILDCARD';
+export type ShelfFunctionEnableWildcard = ReduxAction<typeof SHELF_FUNCTION_ENABLE_WILDCARD, {
+  shelfId: ShelfId,
+  fn: ShelfFunction;
+}>;
+
+export const SHELF_FUNCTION_DISABLE_WILDCARD = 'SHELF_FUNCTION_DISABLE_WILDCARD';
+export type ShelfFunctionDisableWildcard = ReduxAction<typeof SHELF_FUNCTION_DISABLE_WILDCARD, {
+  shelfId: ShelfId,
+}>;
+
+export const SHELF_FUNCTION_REMOVE_WILDCARD = 'SHELF_FUNCTION_REMOVE_WILDCARD';
+export type ShelfFunctionRemoveWildcard = ReduxAction<typeof SHELF_FUNCTION_REMOVE_WILDCARD, {
   shelfId: ShelfId,
   fn: ShelfFunction;
 }>;
@@ -57,10 +80,3 @@ export type ShelfSpecLoad = ReduxAction<typeof SHELF_SPEC_LOAD, {
   spec: FacetedCompositeUnitSpec
 }>;
 
-export const SHELF_SPEC_PREVIEW = 'SHELF_SPEC_PREVIEW';
-export type ShelfSpecPreview = ReduxAction<typeof SHELF_SPEC_PREVIEW, {
-  spec: FacetedCompositeUnitSpec
-}>;
-
-export const SHELF_SPEC_PREVIEW_DISABLE = 'SHELF_SPEC_PREVIEW_DISABLE';
-export type ShelfSpecPreviewDisable = PlainReduxAction<typeof SHELF_SPEC_PREVIEW_DISABLE>;
