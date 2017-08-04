@@ -17,6 +17,7 @@ import * as styles from './filter-pane.scss';
 import {FunctionPicker} from './function-picker';
 import {OneOfFilterShelf} from './one-of-filter-shelf';
 import {RangeFilterShelf} from './range-filter-shelf';
+import {ShelfFieldDef} from '../../models/shelf/encoding';
 
 
 /**
@@ -158,6 +159,8 @@ class FilterPaneBase extends React.PureComponent<FilterPaneProps, {}> {
     let styleName, text;
     if (item && !canDrop) {
       styleName = 'placeholder-disabled';
+      item.fieldDef
+      return canDropFieldDef(fieldDef).canDrop;
       text = 'Cannot drop a field here';
     } else {
       styleName = isOver ? 'placeholder-over' : item ? 'placeholder-active' : 'placeholder';
@@ -199,6 +202,29 @@ class FilterPaneBase extends React.PureComponent<FilterPaneProps, {}> {
   }
 }
 
+function canDropFieldDef(fieldDef: ShelfFieldDef): {
+  canDrop: boolean,
+  reason?: string
+} {
+  if (isWildcard(fieldDef.field)) {
+    return {
+      canDrop: false,
+      reason: 'Cannot drop a wildcard field here'
+    };
+  } else if (fieldDef.aggregate) {
+    return {
+      canDrop: false,
+      reason: 'Cannot drop a field with aggregate here'
+    };
+  } else if (fieldDef.bin) {
+    return {
+      canDrop: false,
+      reason: 'Cannot drop a field with bin here'
+    };
+  }
+  return {canDrop: true};
+}
+
 const filterShelfTarget: DropTargetSpec<FilterPaneProps> = {
   drop(props, monitor) {
     if (monitor.didDrop()) {
@@ -217,8 +243,9 @@ const filterShelfTarget: DropTargetSpec<FilterPaneProps> = {
   },
   canDrop(props, monitor) {
     const {fieldDef} = monitor.getItem() as DraggedFieldIdentifier;
-    return !isWildcard(fieldDef.field) && fieldDef.field !== '*';
+    return canDropFieldDef(fieldDef).canDrop;
   }
+
 };
 
 const collect: DropTargetCollector = (connect, monitor): FilterPaneDropTargetProps => {
