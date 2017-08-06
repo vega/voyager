@@ -238,7 +238,7 @@ describe('lib-voyager', () => {
             "mark": "bar",
             "encoding": {
               "x": {
-                "bin": {"maxbins": 10},
+                "bin": true,
                 "field": "close",
                 "type": "quantitative"
               },
