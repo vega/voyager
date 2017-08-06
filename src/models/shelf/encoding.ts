@@ -8,7 +8,7 @@ import {AGGREGATE_OPS, AggregateOp} from 'vega-lite/build/src/aggregate';
 import {Channel} from 'vega-lite/build/src/channel';
 import {Mark as VLMark} from 'vega-lite/build/src/mark';
 import {TimeUnit, TIMEUNITS} from 'vega-lite/build/src/timeunit';
-import {toSet} from '../../util';
+import {isObject, toSet} from '../../util';
 
 /**
  * Identifier of shelf -- either a channel name for non-wildcard channel or
@@ -129,7 +129,9 @@ export function fromFieldQuery(fieldQ: FieldQuery): ShelfFieldDef {
 
   let fn: ShelfFunction;
   if (bin) {
-    console.warn('Voyager does not yet support loading VLspec with bin');
+    if (isObject(bin)) {
+      console.warn('Voyager does not yet support loading VLspec with bin');
+    }
     fn = 'bin';
   } else if (aggregate) {
     if (isWildcard(aggregate)) {

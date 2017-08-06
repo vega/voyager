@@ -1,1 +1,1 @@
-export {toSet} from 'vega-lite/build/src/util';
+export {isObject, toSet} from 'vega-lite/build/src/util';
