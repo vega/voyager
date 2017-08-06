@@ -90,17 +90,15 @@ describe('Voyager', () => {
       const data: any = undefined;
       const store = configureStore();
 
-      const values = [
-        {date: "24-Apr-07", close: "93.24"},
-        {date: "25-Apr-07", close: "95.35"},
-        {date: "26-Apr-07", close: "98.84"},
-        {date: "27-Apr-07", close: "99.92"},
-      ];
-
       const spec: Object = {
         "$schema": "https://vega.github.io/schema/vega-lite/v2.json",
         "data": {
-          values
+          "values": [
+            {"date": "24-Apr-07", "close": "93.24"},
+            {"date": "25-Apr-07", "close": "95.35"},
+            {"date": "26-Apr-07", "close": "98.84"},
+            {"date": "27-Apr-07", "close": "99.92"}
+          ]
         },
         "mark": "bar",
         "encoding": {
@@ -111,6 +109,7 @@ describe('Voyager', () => {
           },
           "y": {
             "aggregate": "count",
+            "field": "*",
             "type": "quantitative"
           }
         }
