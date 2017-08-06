@@ -13,18 +13,6 @@ $any-hover-color: #666;
   border: 1px solid transparent;
   user-select: none;
   overflow: hidden;
-
-  :global .fa {
-    &.fa-caret-down, &.fa-times , &.fa-plus {
-      padding: 2px 3px 1px;
-      border-radius: 3px;
-
-      &:hover {
-        color: #fff;
-        background-color: #999;
-      }
-    }
-  }
 }
 
 

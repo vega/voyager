@@ -48,6 +48,12 @@ declare module 'react-copy-to-clipboard' {
   export = CopyToClipboard;
 }
 
+declare module 'rc-slider' {
+  export default class Slider extends React.Component<any, {}> { }
+  export class Range extends React.Component<any, {}> { }
+  export class Handle extends React.Component<any, {}> { }
+  export const createSliderWithTooltip: any;
+}
 
 interface Process {
   env: any;

@@ -14,6 +14,7 @@ import {ShelfAnyEncodingDef, ShelfFieldDef, ShelfId, ShelfUnitSpec} from '../../
 import {autoAddFieldQuery} from '../../models/shelf/index';
 import {DEFAULT_SHELF_UNIT_SPEC, fromSpecQuery} from '../../models/shelf/spec';
 import {insertItemToArray, modifyItemInArray, removeItemFromArray} from '../util';
+import {filterReducer} from './filter';
 
 
 export function shelfSpecReducer(shelfSpec: Readonly<ShelfUnitSpec> = DEFAULT_SHELF_UNIT_SPEC,
@@ -101,7 +102,7 @@ export function shelfSpecReducer(shelfSpec: Readonly<ShelfUnitSpec> = DEFAULT_SH
       // Restore wildcard mark if the shelf previously has wildcard mark.
       return fromSpecQuery(specQ, shelfSpec.config);
   }
-  return shelfSpec;
+  return filterReducer(shelfSpec, action, schema);
 }
 
 function addEncoding(shelf: Readonly<ShelfUnitSpec>, shelfId: ShelfId, fieldDef: ShelfFieldDef, replace: boolean) {

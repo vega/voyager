@@ -70,19 +70,22 @@ describe('models/plot', () => {
       const data = {url: 'a/data/set.csv'};
 
       const plotObjectGroup = convertToPlotObjectsGroup(group, data);
-      const plotObjects = extractPlotObjects(plotObjectGroup);
+      const filter = {field: 'q1', range: [0, 1]};
+      const plotObjects = extractPlotObjects(plotObjectGroup, [filter]);
       expect(plotObjects.length).toEqual(1);
-      expect(plotObjects[0].spec).toEqual(
+      expect(plotObjects[0].spec).toEqual({
+        data: { url: 'a/data/set.csv' },
+        mark: 'bar',
+        encoding: { x: {} },
+        transform: [
+          {filter}
+        ],
+        config:
         {
-          data: { url: 'a/data/set.csv' },
-          mark: 'bar',
-          encoding: { x: {} },
-          config:
-          {
-            overlay: { line: true },
-            scale: { useUnaggregatedDomain: true }
-          }
-        });
+          overlay: { line: true },
+          scale: { useUnaggregatedDomain: true }
+        }
+      });
     });
   });
 });

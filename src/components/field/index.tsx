@@ -1,12 +1,17 @@
-
+import {Schema} from 'compassql/build/src/schema';
 import {isWildcard} from 'compassql/build/src/wildcard';
 import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
 import {DragElementWrapper, DragSource, DragSourceCollector, DragSourceSpec} from 'react-dnd';
 import * as TetherComponent from 'react-tether';
+import {OneOfFilter, RangeFilter} from 'vega-lite/build/src/filter';
+import {DatasetSchemaChangeFieldType} from '../../actions/dataset';
+import {FILTER_ADD, FILTER_REMOVE, FilterAction} from '../../actions/filter';
+import {ShelfAction} from '../../actions/shelf';
 import {DraggableType, FieldParentType} from '../../constants';
-import {ShelfFieldDef} from '../../models';
 import {ShelfId} from '../../models/shelf';
+import {ShelfFieldDef} from '../../models/shelf/encoding';
+import {getFilter} from '../../reducers/shelf/filter';
 import * as styles from './field.scss';
 
 /**
@@ -41,6 +46,12 @@ export interface FieldPropsBase {
 
   /** Remove field event handler.  If not provided, remove button will disappear. */
   onRemove?: () => void;
+
+  handleAction?: (action: FilterAction | ShelfAction | DatasetSchemaChangeFieldType) => void;
+
+  filterShow?: boolean;
+
+  schema?: Schema;
 
   /** If not provided, it does not have a popup */
   popupComponent?: JSX.Element;
@@ -83,7 +94,6 @@ class FieldBase extends React.PureComponent<FieldProps, FieldState> {
     const {connectDragSource, fieldDef, isPill, popupComponent} = this.props;
     const {field, title} = fieldDef;
     const isWildcardField = isWildcard(field) || this.props.isEnumeratedWildcardField;
-
     const component = (
       <span
         styleName={isWildcardField ? 'wildcard-field-pill' : isPill ? 'field-pill' : 'field'}
@@ -93,6 +103,7 @@ class FieldBase extends React.PureComponent<FieldProps, FieldState> {
         <span styleName="text" title={title}>
           {title || field}
         </span>
+        {this.addFilterSpan()}
         {this.addSpan()}
         {this.removeSpan()}
       </span>
@@ -117,6 +128,46 @@ class FieldBase extends React.PureComponent<FieldProps, FieldState> {
     }
   }
 
+  protected filterAddToIndex(index: number): void {
+    const {handleAction} = this.props;
+    handleAction({
+      type: FILTER_ADD,
+      payload: {
+        filter: this.getFilter(),
+        index
+      }
+    });
+  }
+
+  protected filterAddToEnd(): void {
+    const {handleAction} = this.props;
+    handleAction({
+      type: FILTER_ADD,
+      payload: {
+        filter: this.getFilter()
+      }
+    });
+  }
+
+  protected filterRemove(index: number): void {
+    const {handleAction} = this.props;
+    handleAction({
+      type: FILTER_REMOVE,
+      payload: {
+        index
+      }
+    });
+  }
+
+  private getFilter() {
+    const {fieldDef, schema} = this.props;
+    if (isWildcard(fieldDef.field)) {
+      return;
+    }
+    const domain = schema.domain({field: fieldDef.field});
+    return getFilter(fieldDef, domain);
+  }
+
   private caretTypeSpan() {
     const {fieldDef, popupComponent} = this.props;
     const type = fieldDef.type;
@@ -136,10 +187,17 @@ class FieldBase extends React.PureComponent<FieldProps, FieldState> {
       <span><a onClick={this.onAdd}><i className="fa fa-plus"/></a></span>
     );
   }
+
   private removeSpan() {
     const onRemove = this.props.onRemove;
     return onRemove && (
       <span><a onClick={onRemove}><i className="fa fa-times"/></a></span>
+    );
+  }
+
+  private addFilterSpan() {
+    return this.props.filterShow && (
+      <span><a onClick={this.filterAddToEnd.bind(this)}><i className='fa fa-filter'/></a></span>
     );
   }
 
@@ -175,6 +233,7 @@ class FieldBase extends React.PureComponent<FieldProps, FieldState> {
       });
     }
   }
+
   private fieldRefHandler = (ref: any) => {
     this.field = ref;
   }
@@ -212,12 +271,21 @@ export type FieldParentId = {
 export interface DraggedFieldIdentifier {
   fieldDef: ShelfFieldDef;
   parentId: FieldParentId;
+  filter: RangeFilter | OneOfFilter;
 }
 
 const fieldSource: DragSourceSpec<FieldProps> = {
   beginDrag(props): DraggedFieldIdentifier {
-    const {fieldDef, parentId} = props;
-    return {fieldDef, parentId};
+    const {fieldDef, parentId, schema} = props;
+    let domain;
+    if (!isWildcard(fieldDef.field) && fieldDef.field !== '*') {
+      domain = schema.domain({field: fieldDef.field});
+    }
+    const filter = getFilter(fieldDef, domain);
+    return {fieldDef, parentId, filter};
+  },
+  canDrag(props, monitor) {
+    return props.draggable;
   }
 };
 

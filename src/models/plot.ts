@@ -8,9 +8,11 @@ import {
 import {FieldQuery, isFieldQuery} from 'compassql/build/src/query/encoding';
 import {toMap} from 'compassql/build/src/util';
 import {Data} from 'vega-lite/build/src/data';
+import {OneOfFilter, RangeFilter} from 'vega-lite/build/src/filter';
 import {FacetedCompositeUnitSpec} from 'vega-lite/build/src/spec';
 import {fromFieldQuery} from './shelf';
 import {ShelfFieldDef} from './shelf/encoding';
+import {getTransforms} from './shelf/spec';
 
 export interface PlotFieldInfo {
   fieldDef: ShelfFieldDef;
@@ -23,13 +25,21 @@ export interface PlotObject {
   spec: FacetedCompositeUnitSpec;
 }
 
-export function extractPlotObjects(modelGroup: SpecQueryGroup<PlotObject>) {
+export function extractPlotObjects(modelGroup: SpecQueryGroup<PlotObject>,
+                                   filters: Array<RangeFilter|OneOfFilter>): PlotObject[] {
   return modelGroup.items.map(item => {
     if (isSpecQueryGroup<PlotObject>(item)) {
       const childModelGroup = item as SpecQueryGroup<PlotObject>;
-      return getTopSpecQueryItem(childModelGroup);
+      const topSpecQueryItem = getTopSpecQueryItem(childModelGroup);
+      return {
+        ...topSpecQueryItem,
+        spec: addFiltersInSpec(topSpecQueryItem.spec, filters)
+      };
     }
-    return item as PlotObject;
+    return {
+      ...item,
+      spec: addFiltersInSpec(item.spec, filters)
+    };
   });
 }
 
@@ -74,4 +84,11 @@ function plotObject(data: Data, specQ: SpecQueryModel): PlotObject {
   };
 
   return {fieldInfos, spec};
+}
+
+function addFiltersInSpec(spec: FacetedCompositeUnitSpec, filters: Array<RangeFilter|OneOfFilter>) {
+  return {
+    ...spec,
+    transform: getTransforms(filters)
+  };
 }

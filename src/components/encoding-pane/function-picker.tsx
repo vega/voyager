@@ -2,13 +2,18 @@ import {ExpandedType} from 'compassql/build/src/query/expandedtype';
 import {isWildcard} from 'compassql/build/src/wildcard';
 import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
-import {ShelfFieldDef, ShelfFunction} from '../../models/shelf';
+import {TimeUnit} from 'vega-lite/build/src/timeunit';
+import {ShelfFunction} from '../../models/shelf';
+import {ShelfFieldDef} from '../../models/shelf/encoding';
 import * as styles from './function-picker.scss';
 
 export interface FunctionPickerProps {
-  fieldDef: ShelfFieldDef;
+  fieldDefParts: {
+    // Using Mapped Type to extract parts of ShelfFieldDef
+    [k in 'fn' | 'type']?: ShelfFieldDef[k]
+  };
 
-  onFunctionChange: (fn: ShelfFunction) => void;
+  onFunctionChange: (fn: ShelfFunction | TimeUnit) => void;
 }
 
 export class FunctionPickerBase extends React.PureComponent<FunctionPickerProps, any> {
@@ -19,13 +24,18 @@ export class FunctionPickerBase extends React.PureComponent<FunctionPickerProps,
     this.onFunctionChange = this.onFunctionChange.bind(this);
   }
   public render() {
-    const {fieldDef} = this.props;
+    const {fieldDefParts} = this.props;
 
-    const fn = fieldDef.fn;
-    const supportedFns = getSupportedFunction(fieldDef.type);
+    const {fn, type} = fieldDefParts;
+    const supportedFns = getSupportedFunction(type);
     const radios = supportedFns.map(f => (
       <label styleName="func-label" key={f || '-'}>
-        <input type="radio" value={f} checked={f === fn} onChange={this.onFunctionChange}/>
+        <input
+          type="radio"
+          value={f || '-'}
+          checked={f === fn}
+          onChange={this.onFunctionChange}
+        />
         {' '}
         {f || '-'}
       </label>
@@ -43,7 +53,7 @@ export class FunctionPickerBase extends React.PureComponent<FunctionPickerProps,
     }
   }
   private onFunctionChange(event: any) {
-    this.props.onFunctionChange(event.target.value as ShelfFunction);
+    this.props.onFunctionChange(event.target.value);
   }
 }
 

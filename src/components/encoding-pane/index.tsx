@@ -1,23 +1,35 @@
+import {Schema} from 'compassql/build/src/schema';
+import {SHORT_WILDCARD} from 'compassql/build/src/wildcard';
 import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
 import {connect} from 'react-redux';
 import {Channel} from 'vega-lite/build/src/channel';
-
-import * as styles from './encoding-pane.scss';
-
-import {SHORT_WILDCARD} from 'compassql/build/src/wildcard';
+import {OneOfFilter, RangeFilter} from 'vega-lite/build/src/filter';
+import {FilterAction} from '../../actions/filter';
 import {ActionHandler} from '../../actions/index';
 import {createDispatchHandler} from '../../actions/redux-action';
 import {ResultAsyncAction} from '../../actions/result';
 import {SHELF_CLEAR, ShelfAction} from '../../actions/shelf';
 import {ShelfUnitSpec, State} from '../../models';
+import {ShelfFieldDef} from '../../models/shelf/encoding';
+import {selectSchemaFieldDefs} from '../../selectors/index';
+import * as styles from './encoding-pane.scss';
 import {EncodingShelf} from './encoding-shelf';
+import {FilterPane} from './filter-pane';
 import {MarkPicker} from './mark-picker';
 
-interface EncodingPanelProps extends ActionHandler<ShelfAction | ResultAsyncAction> {
+
+
+interface EncodingPanelProps extends ActionHandler<ShelfAction | ResultAsyncAction | FilterAction> {
   spec: ShelfUnitSpec;
 
   specPreview: ShelfUnitSpec;
+
+  filters: Array<RangeFilter | OneOfFilter>;
+
+  schema: Schema;
+
+  fieldDefs: ShelfFieldDef[];
 }
 
 class EncodingPanelBase extends React.PureComponent<EncodingPanelProps, {}> {
@@ -73,6 +85,11 @@ class EncodingPanelBase extends React.PureComponent<EncodingPanelProps, {}> {
           <h3>Wildcard Shelves</h3>
           {wildcardShelves}
         </div>
+
+        <div styleName="shelf-group">
+          <h3>Filter</h3>
+          {this.filterPane()}
+        </div>
       </div>
     );
   }
@@ -83,13 +100,14 @@ class EncodingPanelBase extends React.PureComponent<EncodingPanelProps, {}> {
   private encodingShelf(channel: Channel) {
     // This one can't be wildcard, thus we use VL's Channel, not our ShelfChannel
 
-    const {handleAction, spec, specPreview} = this.props;
+    const {handleAction, spec, specPreview, schema} = this.props;
     const {encoding} = specPreview || spec;
     return (
       <EncodingShelf
         key={channel}
         id={{channel}}
         fieldDef={encoding[channel]}
+        schema={schema}
         handleAction={handleAction}
       />
     );
@@ -106,7 +124,7 @@ class EncodingPanelBase extends React.PureComponent<EncodingPanelProps, {}> {
 
   private wildcardShelf(index: number) {
     const {anyEncodings} = this.props.spec;
-    const {handleAction} = this.props;
+    const {handleAction, schema} = this.props;
 
     const id = {
       channel: SHORT_WILDCARD,
@@ -117,9 +135,23 @@ class EncodingPanelBase extends React.PureComponent<EncodingPanelProps, {}> {
       <EncodingShelf
         key={index}
         id={id}
+        schema={schema}
         fieldDef={anyEncodings[index]}
         handleAction={handleAction}
       />
+    );
+  }
+
+  private filterPane() {
+    const {filters, schema, handleAction} = this.props;
+    return (
+      <div styleName='filter-shelf'>
+        <FilterPane
+          filters={filters}
+          schema={schema}
+          handleAction={handleAction}
+        />
+      </div>
     );
   }
 
@@ -128,11 +160,13 @@ class EncodingPanelBase extends React.PureComponent<EncodingPanelProps, {}> {
   }
 }
 
-
 export const EncodingPane = connect(
   (state: State) => {
     return {
       spec: state.present.shelf.spec,
+      filters: state.present.shelf.spec.filters,
+      schema: state.present.dataset.schema,
+      fieldDefs: selectSchemaFieldDefs(state),
       specPreview: state.present.shelfPreview.spec
     };
   },

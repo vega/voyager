@@ -6,6 +6,7 @@ import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
 import {connect} from 'react-redux';
 import {DatasetSchemaChangeFieldType} from '../../actions/dataset';
+import {FilterAction} from '../../actions/filter';
 import {ActionHandler, createDispatchHandler} from '../../actions/redux-action';
 import {SHELF_FIELD_AUTO_ADD, ShelfFieldAutoAdd} from '../../actions/shelf';
 import {FieldParentType} from '../../constants';
@@ -17,7 +18,7 @@ import * as styles from './field-list.scss';
 import {TypeChanger} from './type-changer';
 
 
-export interface FieldListProps extends ActionHandler<ShelfFieldAutoAdd | DatasetSchemaChangeFieldType> {
+export interface FieldListProps extends ActionHandler<ShelfFieldAutoAdd | DatasetSchemaChangeFieldType | FilterAction> {
   fieldDefs: ShelfFieldDef[];
   schema: Schema;
 }
@@ -85,15 +86,19 @@ class FieldListBase extends React.PureComponent<FieldListProps, {}> {
   }
 
   private renderField(fieldDef: ShelfFieldDef, popupComponent?: JSX.Element) {
+    const {schema, handleAction} = this.props;
     return (
       <Field
         fieldDef={fieldDef}
         isPill={true}
         draggable={true}
+        filterShow={!isWildcard(fieldDef.field) && !(fieldDef.field === '*')}
         parentId={{type: FieldParentType.FIELD_LIST}}
+        popupComponent={popupComponent}
         onDoubleClick={this.onAdd}
         onAdd={this.onAdd}
-        popupComponent={popupComponent}
+        schema={schema}
+        handleAction={handleAction}
       />
     );
   }
