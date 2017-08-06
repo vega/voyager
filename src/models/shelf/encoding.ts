@@ -60,7 +60,10 @@ export function fromEncodingQueries(encodings: EncodingQuery[]): {
 } {
   return encodings.reduce((encodingMixins, encQ) => {
     if (isWildcard(encQ.channel)) {
-      encodingMixins.anyEncodings.push({channel: encQ.channel, ...fromEncodingQuery(encQ)});
+      encodingMixins.anyEncodings.push({
+        channel: encQ.channel,
+        ...fromEncodingQuery(encQ)
+      });
     } else {
       encodingMixins.encoding[encQ.channel] = fromEncodingQuery(encQ);
     }
@@ -147,5 +150,5 @@ export function fromFieldQuery(fieldQ: FieldQuery): ShelfFieldDef {
     }
   }
 
-  return {field, type, fn: fn};
+  return {field, type, fn};
 }
