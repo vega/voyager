@@ -8,14 +8,14 @@ describe('models/shelf/unit', () => {
       expect(fromSpecQuery({
         mark: 'point',
         encodings: [
-          {channel: 'x', field: 'a', type: 'quantitative'},
+          {channel: 'x', bin: true, field: 'a', type: 'quantitative'},
           {channel: '?', field: 'b', type: 'ordinal'}
         ],
         config: {numberFormat: 'd'}
       })).toEqual({
         mark: 'point',
         encoding: {
-          x: {field: 'a', type: 'quantitative'}
+          x: {fn: 'bin', field: 'a', type: 'quantitative'}
         },
         anyEncodings: [
           {channel: SHORT_WILDCARD, field: 'b', type: 'ordinal'}
