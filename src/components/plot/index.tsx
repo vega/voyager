@@ -73,6 +73,7 @@ export class PlotBase extends React.PureComponent<PlotProps, PlotState> {
     if (this.props.bookmark.dict[specKey]) {
       notesDiv = (
         <textarea
+          styleName='note'
           type='text'
           placeholder={'notes'}
           value={this.props.bookmark.dict[specKey].note}
