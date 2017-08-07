@@ -1,4 +1,5 @@
 import {SpecQueryGroup} from 'compassql/build/src/model';
+import {Query} from 'compassql/build/src/query/query';
 import {PlotObject} from '../models/plot';
 
 
@@ -6,6 +7,8 @@ export interface Result {
   isLoading: boolean;
 
   modelGroup: SpecQueryGroup<PlotObject> | null;
+
+  query: Query;
 }
 
 export interface ResultIndex {
@@ -23,6 +26,7 @@ export interface ResultIndex {
 export const DEFAULT_RESULT: Result = {
   isLoading: false,
   modelGroup: null,
+  query: null
 };
 
 export const DEFAULT_RESULT_INDEX: ResultIndex = {

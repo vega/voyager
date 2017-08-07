@@ -45,7 +45,7 @@ export const summaries: QueryCreator = {
       }, [])
     };
 
-  // TODO: extend config
+    // TODO: extend config
     return {
       spec: newSpec,
       groupBy: 'fieldTransform',

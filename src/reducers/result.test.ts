@@ -1,4 +1,5 @@
 import {SpecQueryGroup} from 'compassql/build/src/model';
+import {Query} from 'compassql/build/src/query/query';
 import {RESULT_RECEIVE, RESULT_REQUEST} from '../actions/result';
 import {PlotObject} from '../models/plot';
 import {DEFAULT_RESULT_INDEX, ResultIndex} from '../models/result';
@@ -9,7 +10,7 @@ describe('reducers/result', () => {
     const resultIndex: ResultIndex = {
       ...DEFAULT_RESULT_INDEX,
       // This is not really sensible state, but just to mock the reset behavior
-      summaries: {isLoading: true, modelGroup: undefined}
+      summaries: {isLoading: true, modelGroup: undefined, query: undefined}
     };
     it('updates the provided result with isLoading = true for a non-main result type', () => {
       expect(resultIndexReducer(resultIndex, {
@@ -19,7 +20,8 @@ describe('reducers/result', () => {
         ...resultIndex,
         summaries: {
           isLoading: true,
-          modelGroup: null
+          modelGroup: undefined,
+          query: undefined
         }
       });
     });
@@ -32,7 +34,8 @@ describe('reducers/result', () => {
         ...DEFAULT_RESULT_INDEX,
         main: {
           isLoading: true,
-          modelGroup: null
+          modelGroup: undefined,
+          query: undefined
         }
       });
     });
@@ -41,26 +44,31 @@ describe('reducers/result', () => {
   describe(RESULT_RECEIVE, () => {
     it('returns new compass state with isLoading=false and new recommends', () => {
       const modelGroup = {} as SpecQueryGroup<PlotObject>; // Mock
+      const query = {spec: {}} as Query;
+
       expect(resultIndexReducer(
         {
           ...DEFAULT_RESULT_INDEX,
           main: {
             isLoading: true,
-            modelGroup: null
+            modelGroup: undefined,
+            query: undefined
           }
         },
         {
           type: RESULT_RECEIVE,
           payload: {
             resultType: 'main',
-            modelGroup
+            modelGroup,
+            query // Mock
           }
         }
       )).toEqual({
         ...DEFAULT_RESULT_INDEX,
         main: {
           isLoading: false,
-          modelGroup
+          modelGroup,
+          query
         }
       });
     });
