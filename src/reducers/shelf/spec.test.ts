@@ -523,7 +523,7 @@ describe('reducers/shelf/spec', () => {
         mark: SHORT_WILDCARD,
         encoding: {
           x: {field: 'b', type: 'nominal'},
-          y: {aggregate: 'count', type: 'quantitative'}
+          y: {aggregate: 'count', field: '*', type: 'quantitative'}
         }
       });
     });
@@ -554,7 +554,7 @@ describe('reducers/shelf/spec', () => {
         mark: 'bar',
         encoding: {
           x: {field: 'b', type: 'nominal'},
-          y: {aggregate: 'count', type: 'quantitative'}
+          y: {aggregate: 'count', field: '*', type: 'quantitative'}
         }
       });
     });
