@@ -180,7 +180,7 @@ export class PlotBase extends React.PureComponent<PlotProps, PlotState> {
     const {handleAction, spec} = this.props;
     handleAction({
       type: SHELF_SPEC_LOAD,
-      payload: {spec}
+      payload: {spec, keepWildcardMark: true}
     });
   }
 

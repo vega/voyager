@@ -93,11 +93,13 @@ export function shelfSpecReducer(shelfSpec: Readonly<ShelfUnitSpec> = DEFAULT_SH
     }
 
     case SHELF_SPEC_LOAD:
-      const {spec} = action.payload;
-      const specQ = isWildcard(shelfSpec.mark) ? {
+      const {spec, keepWildcardMark} = action.payload;
+      const specQ = {
         ...fromSpec(spec),
-        mark: SHORT_WILDCARD
-      } : fromSpec(spec);
+        ...(keepWildcardMark && isWildcard(shelfSpec.mark) ? {
+          mark: SHORT_WILDCARD
+        } : {})
+      };
 
       // Restore wildcard mark if the shelf previously has wildcard mark.
       return fromSpecQuery(specQ, shelfSpec.config);
