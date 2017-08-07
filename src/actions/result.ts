@@ -21,6 +21,7 @@ export type ResultRequest = ReduxAction<typeof RESULT_REQUEST, {
 export const RESULT_RECEIVE = 'RESULT_RECEIVE';
 export type ResultReceive = ReduxAction<typeof RESULT_RECEIVE, {
   resultType: ResultType,
+  query: Query,
   modelGroup: SpecQueryGroup<PlotObject>
 }>;
 
@@ -39,7 +40,7 @@ export function resultRequest(resultType: ResultType, query: Query): AsyncResult
       modelGroup => {
         dispatch({
           type: RESULT_RECEIVE,
-          payload: {modelGroup, resultType}
+          payload: {query, modelGroup, resultType}
         });
       }
     );

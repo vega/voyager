@@ -11,14 +11,16 @@ export function resultReducer(state: Readonly<Result> = DEFAULT_RESULT, action: 
       return {
         ...state,
         isLoading: true,
-        modelGroup : null
+        modelGroup: undefined,
+        query: undefined
       };
     case RESULT_RECEIVE:
-      const { modelGroup } = action.payload;
+      const {modelGroup, query} = action.payload;
       return {
         ...state,
         isLoading: false,
-        modelGroup: modelGroup
+        modelGroup,
+        query
       };
   }
   return state;
