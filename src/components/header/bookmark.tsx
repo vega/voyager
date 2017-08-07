@@ -105,6 +105,7 @@ export class BookmarkBase extends React.PureComponent<BookmarkProps, any> {
       return (
         <Plot
           bookmark={this.props.bookmark}
+          closeModal={this.closeModal.bind(this)}
           key={specKey}
           fieldInfos={fieldInfos}
           handleAction={this.props.handleAction}
