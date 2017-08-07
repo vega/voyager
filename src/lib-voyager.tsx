@@ -5,22 +5,25 @@
 // and should eventually also export a react component if one is doing that kind
 // of integration.
 
+import * as Ajv from 'ajv';
+import * as draft4Schemas from 'ajv/lib/refs/json-schema-draft-04.json';
+import 'font-awesome-sass-loader'; // TODO should this move to App?
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import {Store} from 'redux';
-
-import 'font-awesome-sass-loader'; // TODO should this move to App?
+import {Data} from 'vega-lite/build/src/data';
+import {FacetedCompositeUnitSpec, isUnitSpec, TopLevel, TopLevelExtendedSpec} from 'vega-lite/build/src/spec';
 import {isString} from 'vega-lite/build/src/util';
+import * as vlSchema from 'vega-lite/build/vega-lite-schema.json';
 import {App, VoyagerData} from './components/app';
 import {State} from './models';
 import {VoyagerConfig} from './models/config';
 import {fromSerializable, SerializableState, toSerializable} from './models/index';
 import {configureStore} from './store';
 
+
 export type Container = string | HTMLElement;
-
-
 
 /**
  * The Voyager class encapsulates the voyager application and allows for easy
@@ -77,8 +80,31 @@ export class Voyager {
    * @memberof Voyager
    */
   public setSpec(spec: Object) {
-    this.data = undefined;
-    this.render(this.data, this.config, spec);
+
+    const ajv = new Ajv({
+      validateSchema: true,
+      allErrors: true,
+      extendRefs: 'fail'
+    });
+    ajv.addMetaSchema(draft4Schemas, 'http://json-schema.org/draft-04/schema#');
+
+    const validateVl = ajv.compile(vlSchema);
+    const valid = validateVl(spec);
+
+    if (!valid) {
+      throw new Error("Invalid spec:" + validateVl.errors.toString());
+    }
+
+    // If it is validated, it is a TopLevelExtendedSpec
+    if (!isUnitSpec(spec as TopLevelExtendedSpec)) {
+      throw new Error("Voyager does not support layered or multi-view vega-lite specs");
+    }
+
+    // If it is unit, then we can cast to a top level unit spec
+    const validSpec: TopLevel<FacetedCompositeUnitSpec> = spec as TopLevel<FacetedCompositeUnitSpec>;
+
+    this.data = validSpec.data;
+    this.render(this.data, this.config, validSpec);
   }
 
   /**
@@ -150,7 +176,7 @@ export class Voyager {
     this.render(this.data, this.config);
   }
 
-  private render(data: VoyagerData, config: VoyagerConfig, spec?: Object) {
+  private render(data: Data, config: VoyagerConfig, spec?: TopLevel<FacetedCompositeUnitSpec>) {
     const store = this.store;
     const root = this.container;
     ReactDOM.render(

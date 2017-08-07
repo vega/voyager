@@ -243,6 +243,7 @@ describe('lib-voyager', () => {
           };
           voyagerInst.setSpec(spec);
 
+
           setTimeout(() => {
             try {
               const shelves = document.querySelectorAll('.encoding-shelf__encoding-shelf');
@@ -263,5 +264,30 @@ describe('lib-voyager', () => {
     });
   });
 
+  it('error on invalid spec', done => {
+    const config = {};
+    const data: any = undefined;
 
+    const spec: Object = {
+      "FAIL$schema": "https://vega.github.io/schema/vega-lite/v2.json",
+      "FAILdata": {"url": "node_modules/vega-datasets/data/movies.json"},
+      "FAILmark": "bar",
+      "encoding": {
+      }
+    };
+    const voyagerInst = CreateVoyager(container, config, data);
+
+    // This should throw an exception;
+    setTimeout(() => {
+      try {
+        voyagerInst.setSpec(spec);
+        done.fail('No exception thrown with invalid spec');
+
+      } catch (err) {
+        expect(true);
+        done();
+      }
+
+    }, DEFAULT_TIMEOUT_LENGTH);
+  });
 });

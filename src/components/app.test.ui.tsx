@@ -6,6 +6,8 @@ import * as React from 'react';
 
 
 import {Provider} from 'react-redux';
+import {Data} from 'vega-lite/build/src/data';
+import {FacetedCompositeUnitSpec, TopLevel} from 'vega-lite/build/src/spec';
 import {configureStore} from '../store';
 import {App} from './app';
 
@@ -87,10 +89,16 @@ describe('Voyager', () => {
   describe('vega-lite spec', () => {
     it('accepts valid spec', done => {
       const config = {};
-      const data: any = undefined;
       const store = configureStore();
 
-      const spec: Object = {
+      const values = [
+        {date: "24-Apr-07", close: "93.24"},
+        {date: "25-Apr-07", close: "95.35"},
+        {date: "26-Apr-07", close: "98.84"},
+        {date: "27-Apr-07", close: "99.92"},
+      ];
+      const data: Data = {values};
+      const spec: TopLevel<FacetedCompositeUnitSpec> = {
         "$schema": "https://vega.github.io/schema/vega-lite/v2.json",
         "data": {
           "values": [
@@ -145,44 +153,5 @@ describe('Voyager', () => {
         }
       }, DEFAULT_TIMEOUT_LENGTH);
     });
-
-    it('error on invalid spec', done => {
-      const config = {};
-      const data: any = undefined;
-      const store = configureStore();
-
-      const spec: Object = {
-        "FAIL$schema": "https://vega.github.io/schema/vega-lite/v2.json",
-        "FAILdata": {"url": "node_modules/vega-datasets/data/movies.json"},
-        "FAILmark": "bar",
-        "encoding": {
-        }
-      };
-
-      // This should throw an exception;
-      setTimeout(() => {
-        try {
-          mount(
-            <Provider store={store}>
-              <App
-                config={config}
-                data={data}
-                dispatch={store.dispatch}
-                spec={spec}
-              />
-            </Provider>,
-          );
-
-          done.fail('No exception thrown with invalid spec');
-
-        } catch (err) {
-          expect(true);
-          done();
-        }
-
-      }, DEFAULT_TIMEOUT_LENGTH);
-    });
-
   });
-
 });
