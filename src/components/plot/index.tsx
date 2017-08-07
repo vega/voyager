@@ -22,6 +22,8 @@ export interface PlotProps extends ActionHandler<ShelfAction | BookmarkAction | 
   showSpecifyButton?: boolean;
   spec: FacetedCompositeUnitSpec;
   bookmark?: Bookmark;
+  closeModal?: () => void;
+  // specified when it's in the modal
 }
 
 export interface PlotState {
@@ -177,6 +179,9 @@ export class PlotBase extends React.PureComponent<PlotProps, PlotState> {
   }
 
   private onSpecify() {
+    if (this.props.closeModal) {
+      this.props.closeModal();
+    }
     this.onPreviewMouseLeave();
     const {handleAction, spec} = this.props;
     handleAction({
