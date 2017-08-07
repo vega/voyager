@@ -39,7 +39,7 @@
     "@types/d3-selection": "^1.1.0",
     "ajv": "^5.2.2",
     "@types/json-stable-stringify": "^1.0.31",
-    "compassql": "^0.19.4",
+    "compassql": "^0.19.6",
     "font-awesome": "^4.7.0",
     "font-awesome-sass-loader": "^1.0.3",
     "isomorphic-fetch": "^2.2.1",
