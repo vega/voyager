@@ -2,7 +2,6 @@ import './app.scss';
 
 import * as Ajv from 'ajv';
 import * as draft4Schemas from 'ajv/lib/refs/json-schema-draft-04.json';
-import {fromSpec} from 'compassql/build/src/query/spec';
 import { FacetedCompositeUnitSpec, isUnitSpec, TopLevel } from 'vega-lite/build/src/spec';
 import * as vlSchema from 'vega-lite/build/vega-lite-schema.json';
 
@@ -19,7 +18,6 @@ import {StateBase} from '../models/index';
 
 import {SHELF_SPEC_LOAD} from '../actions/shelf';
 import {VoyagerConfig} from '../models/config';
-import {fromSpecQuery} from '../models/shelf/spec';
 import {DataPane} from './data-pane';
 import {EncodingPane} from './encoding-pane';
 import {Header} from './header';
@@ -140,15 +138,10 @@ class AppBase extends React.PureComponent<Props, {}> {
     }
   }
 
-  private shelfSpecLoad(validSpec: TopLevel<FacetedCompositeUnitSpec>) {
-    const specQuery = fromSpec(validSpec);
-    const shelfSpec = fromSpecQuery(specQuery);
-
+  private shelfSpecLoad(spec: TopLevel<FacetedCompositeUnitSpec>) {
     this.props.dispatch({
       type: SHELF_SPEC_LOAD,
-      payload: {
-        spec: shelfSpec,
-      },
+      payload: {spec}
     });
   }
 
