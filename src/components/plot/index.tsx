@@ -134,6 +134,7 @@ export class PlotBase extends React.PureComponent<PlotProps, PlotState> {
           <div styleName="plot-field-info" key={JSON.stringify(fieldDef)}>
             <Field
               fieldDef={fieldDef}
+              caretShow={false}
               draggable={false}
               isEnumeratedWildcardField={isEnumeratedWildcardField}
               isPill={false}
