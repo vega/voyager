@@ -40,7 +40,7 @@ compiler.plugin('done', function(compilation) {
     process.env.NODE_ENV = 'test';
   }
 
-  const jestConf = `--config ${path.resolve(__dirname, '../config', 'jest-ui.config.json')}`;
+  const jestConf = `-i --config ${path.resolve(__dirname, '../config', 'jest-ui.config.json')}`;
 
   try {
     require('jest-cli/build/cli').run(jestConf);
