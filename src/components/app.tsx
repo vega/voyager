@@ -1,11 +1,9 @@
-import * as Ajv from 'ajv';
-import * as draft4Schemas from 'ajv/lib/refs/json-schema-draft-04.json';
+
 import * as React from 'react';
 import {Dispatch} from 'redux';
 import {ActionCreators} from 'redux-undo';
 import {Data} from 'vega-lite/build/src/data';
-import { FacetedCompositeUnitSpec, isUnitSpec, TopLevel } from 'vega-lite/build/src/spec';
-import * as vlSchema from 'vega-lite/build/vega-lite-schema.json';
+import { FacetedCompositeUnitSpec, TopLevel } from 'vega-lite/build/src/spec';
 import {datasetLoad, SET_APPLICATION_STATE, SET_CONFIG} from '../actions';
 import {SHELF_SPEC_LOAD} from '../actions/shelf';
 import {VoyagerConfig} from '../models/config';
@@ -20,7 +18,7 @@ export interface Props extends React.Props<AppBase> {
   config?: VoyagerConfig;
   data?: Data;
   applicationState?: Readonly<State>;
-  spec?: Object;
+  spec?: TopLevel<FacetedCompositeUnitSpec>;
   dispatch: Dispatch<State>;
 }
 
@@ -80,40 +78,19 @@ export class AppBase extends React.PureComponent<Props, {}> {
     });
   }
 
-  private setSpec(spec: Object) {
-    const ajv = new Ajv({
-      validateSchema: true,
-      allErrors: true,
-      extendRefs: 'fail'
-    });
-    ajv.addMetaSchema(draft4Schemas, 'http://json-schema.org/draft-04/schema#');
-
-    const validateVl = ajv.compile(vlSchema);
-    const valid = validateVl(spec);
-
-    if (!valid) {
-      throw new Error("Invalid spec:" + validateVl.errors.toString());
-    }
-
-    const validSpec: TopLevel<FacetedCompositeUnitSpec> = spec as TopLevel<FacetedCompositeUnitSpec>;
-
-
-    if (!isUnitSpec(validSpec)) {
-      throw new Error("Voyager does not support layered or multi-view vega-lite specs");
-    }
-
-    if (validSpec.data) {
-      this.setData(validSpec.data)
+  private setSpec(spec: TopLevel<FacetedCompositeUnitSpec>) {
+    if (spec.data) {
+      this.setData(spec.data)
         .then(
           () => {
-            this.shelfSpecLoad(validSpec);
+            this.shelfSpecLoad(spec);
           },
           (err: any) => {
             throw new Error('error setting data for spec:' + err.toString());
           }
         );
     } else {
-      this.shelfSpecLoad(validSpec);
+      this.shelfSpecLoad(spec);
     }
   }
 
