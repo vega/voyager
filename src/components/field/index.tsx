@@ -92,16 +92,21 @@ class FieldBase extends React.PureComponent<FieldProps, FieldState> {
 
   public render(): JSX.Element {
     const {connectDragSource, fieldDef, isPill, popupComponent} = this.props;
-    const {field, title} = fieldDef;
+    const {fn, field, title} = fieldDef;
     const isWildcardField = isWildcard(field) || this.props.isEnumeratedWildcardField;
+
+    /** Whether the fieldDef has a function that involves field. (Count doesn't involve a specific field.) */
+    const isFieldFn = fn && fn !== 'count';
+
     const component = (
       <span
         styleName={isWildcardField ? 'wildcard-field-pill' : isPill ? 'field-pill' : 'field'}
         onDoubleClick={this.onDoubleClick}
       >
         {this.caretTypeSpan()}
-        <span styleName="text" title={title}>
-          {title || field}
+        {this.funcSpan(fn)}
+        <span styleName={isFieldFn ? 'fn-text' : 'text'}>
+          {title || (field !== '*' ? field : '')}
         </span>
         {this.addFilterSpan()}
         {this.addSpan()}
@@ -198,6 +203,14 @@ class FieldBase extends React.PureComponent<FieldProps, FieldState> {
   private addFilterSpan() {
     return this.props.filterShow && (
       <span><a onClick={this.filterAddToEnd.bind(this)}><i className='fa fa-filter'/></a></span>
+    );
+  }
+
+  private funcSpan(fnName: string) {
+    return (
+      <span styleName="func" title={fnName}>
+        {fnName}
+      </span>
     );
   }
 

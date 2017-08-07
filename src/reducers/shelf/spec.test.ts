@@ -572,7 +572,7 @@ describe('reducers/shelf/spec', () => {
         mark: 'bar',
         encoding: {
           x: {field: 'b', type: 'nominal'},
-          y: {field: '*', fn: 'count', type: 'quantitative'}
+          y: {fn: 'count', field: '*', type: 'quantitative'}
         }
       });
     });

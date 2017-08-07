@@ -107,7 +107,7 @@ export class RangeFilterShelfBase extends React.PureComponent<RangeFilterShelfPr
   protected filterModifyMaxBound(e: any) {
     let maxBound;
     if (e.hasOwnProperty('target')) {
-      maxBound = e.target.value;
+      maxBound = Number(e.target.value);
     } else {
       maxBound = e;
     }
@@ -127,7 +127,7 @@ export class RangeFilterShelfBase extends React.PureComponent<RangeFilterShelfPr
   protected filterModifyMinBound(e: any) {
     let minBound;
     if (e.hasOwnProperty('target')) {
-      minBound = e.target.value;
+      minBound = Number(e.target.value);
     } else {
       minBound = e;
     }

@@ -44,8 +44,7 @@ export interface ShelfFieldDef {
 
   title?: string;
 }
-
-export type ShelfFunction = AggregateOp | TimeUnit | undefined | 'bin';
+export type ShelfFunction = AggregateOp | 'bin' | TimeUnit | undefined;
 
 export interface ShelfAnyEncodingDef extends ShelfFieldDef {
   channel: SHORT_WILDCARD;
