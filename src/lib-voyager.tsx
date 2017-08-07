@@ -77,7 +77,8 @@ export class Voyager {
    * @memberof Voyager
    */
   public setSpec(spec: Object) {
-    this.data = undefined;
+    const data = "data";
+    this.data = spec[data];
     this.render(this.data, this.config, spec);
   }
 

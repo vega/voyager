@@ -6,6 +6,7 @@ import * as React from 'react';
 
 
 import {Provider} from 'react-redux';
+import {Data} from 'vega-lite/build/src/data';
 import {configureStore} from '../store';
 import {App} from './app';
 
@@ -87,24 +88,30 @@ describe('Voyager', () => {
   describe('vega-lite spec', () => {
     it('accepts valid spec', done => {
       const config = {};
-      const data: any = undefined;
       const store = configureStore();
 
+      const values = [
+        {date: "24-Apr-07", close: "93.24"},
+        {date: "25-Apr-07", close: "95.35"},
+        {date: "26-Apr-07", close: "98.84"},
+        {date: "27-Apr-07", close: "99.92"},
+      ];
+      const data: Data = {values};
       const spec: Object = {
         "$schema": "https://vega.github.io/schema/vega-lite/v2.json",
         "data": {
           "values": [
-            {"date": "24-Apr-07", "close": "93.24"},
-            {"date": "25-Apr-07", "close": "95.35"},
-            {"date": "26-Apr-07", "close": "98.84"},
-            {"date": "27-Apr-07", "close": "99.92"}
+            {"date": "24-Apr-07", "binclose": "93.24"},
+            {"date": "25-Apr-07", "binclose": "95.35"},
+            {"date": "26-Apr-07", "binclose": "98.84"},
+            {"date": "27-Apr-07", "binclose": "99.92"}
           ]
         },
         "mark": "bar",
         "encoding": {
           "x": {
             "bin": true,
-            "field": "close",
+            "field": "binclose",
             "type": "quantitative"
           },
           "y": {
@@ -133,7 +140,7 @@ describe('Voyager', () => {
               const fieldList = wrapper.find('.encoding-shelf__encoding-shelf');
               const fields = fieldList.map(d => d.text());
 
-              expect(fields).toContain('x close');
+              expect(fields).toContain('x binclose');
               done();
             } catch (err) {
               done.fail(err);

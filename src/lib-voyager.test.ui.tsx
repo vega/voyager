@@ -220,17 +220,17 @@ describe('lib-voyager', () => {
             "$schema": "https://vega.github.io/schema/vega-lite/v2.json",
             "data": {
               "values": [
-                {"date": "24-Apr-07", "close": "93.24"},
-                {"date": "25-Apr-07", "close": "95.35"},
-                {"date": "26-Apr-07", "close": "98.84"},
-                {"date": "27-Apr-07", "close": "99.92"}
+                {"date": "24-Apr-07", "binclose": "93.24"},
+                {"date": "25-Apr-07", "binclose": "95.35"},
+                {"date": "26-Apr-07", "binclose": "98.84"},
+                {"date": "27-Apr-07", "binclose": "99.92"}
               ]
             },
             "mark": "bar",
             "encoding": {
               "x": {
                 "bin": true,
-                "field": "close",
+                "field": "binclose",
                 "type": "quantitative"
               },
               "y": {
@@ -241,6 +241,7 @@ describe('lib-voyager', () => {
             }
           };
           voyagerInst.setSpec(spec);
+
 
           setTimeout(() => {
             try {

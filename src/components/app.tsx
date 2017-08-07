@@ -57,7 +57,7 @@ class AppBase extends React.PureComponent<Props, {}> {
 
   public render() {
     let rightPane;
-    if (!this.props.data && !this.props.spec) {
+    if (!this.props.data) {
       rightPane = <LoadData />;
     } else {
       rightPane = (
