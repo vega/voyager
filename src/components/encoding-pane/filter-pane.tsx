@@ -142,6 +142,7 @@ class FilterPaneBase extends React.PureComponent<FilterPaneProps, {}> {
         <Field
           draggable={false}
           fieldDef={fieldDef}
+          caretShow={true}
           filterShow={false}
           isPill={true}
           onRemove={this.filterRemove.bind(this, index)}

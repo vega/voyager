@@ -51,6 +51,8 @@ export interface FieldPropsBase {
 
   filterShow?: boolean;
 
+  caretShow: boolean;
+
   schema?: Schema;
 
   /** If not provided, it does not have a popup */
@@ -174,14 +176,14 @@ class FieldBase extends React.PureComponent<FieldProps, FieldState> {
   }
 
   private caretTypeSpan() {
-    const {fieldDef, popupComponent} = this.props;
+    const {caretShow, fieldDef, popupComponent} = this.props;
     const type = fieldDef.type;
     const icon = TYPE_ICONS[type];
     const title = TYPE_NAMES[type];
     return (
       <span styleName="caret-type" onClick={this.togglePopup}>
-        {<i className={(popupComponent ? '' : 'hidden ') + 'fa fa-caret-down'}/>}
-        {' '}
+        {caretShow && <i className={(popupComponent ? '' : 'hidden ') + 'fa fa-caret-down'}/>}
+        {caretShow && ' '}
         {type && <i className={'fa ' + icon} styleName="type" title={title}/>}
       </span>
     );
