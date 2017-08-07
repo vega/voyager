@@ -515,7 +515,7 @@ describe('reducers/shelf/spec', () => {
   });
 
   describe(SHELF_SPEC_LOAD, () => {
-    it('loads spec and retains wildcard mark if the shelf has wildcard mark', () => {
+    it('loads spec and retains wildcard mark if the shelf has wildcard mark and keep wildcard mark is true', () => {
       const shelfSpec = shelfSpecReducer(
         {
           ...DEFAULT_SHELF_UNIT_SPEC,
@@ -530,7 +530,8 @@ describe('reducers/shelf/spec', () => {
                 x: {field: 'b', type: 'nominal'},
                 y: {aggregate: 'count', field: '*', type: 'quantitative'}
               }
-            }
+            },
+            keepWildcardMark: true
           }
         },
         schema
@@ -561,7 +562,8 @@ describe('reducers/shelf/spec', () => {
                 x: {field: 'b', type: 'nominal'},
                 y: {field: '*', aggregate: 'count', type: 'quantitative'}
               }
-            }
+            },
+            keepWildcardMark: true
           }
         },
         schema

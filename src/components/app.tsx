@@ -141,7 +141,10 @@ class AppBase extends React.PureComponent<Props, {}> {
   private shelfSpecLoad(spec: TopLevel<FacetedCompositeUnitSpec>) {
     this.props.dispatch({
       type: SHELF_SPEC_LOAD,
-      payload: {spec}
+      payload: {
+        spec,
+        keepWildcardMark: false
+      }
     });
   }
 
