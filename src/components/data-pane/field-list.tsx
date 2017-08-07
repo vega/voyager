@@ -34,10 +34,6 @@ class FieldListBase extends React.PureComponent<FieldListProps, {}> {
 
   public render() {
     const {fieldDefs, schema} = this.props;
-    if (schema.fieldSchemas.length === 0) {
-      // no field
-      return;
-    }
     const fieldItems = fieldDefs.map(fieldDef => {
       let primitiveType;
       if (!isWildcard(fieldDef.field)) {
