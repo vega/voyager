@@ -5,7 +5,7 @@ import {DEFAULT_STATE, State} from '../models/index';
 import {DEFAULT_RESULT_INDEX} from '../models/result';
 import {toQuery} from '../models/shelf/index';
 import {DEFAULT_SHELF_UNIT_SPEC, hasWildcards} from '../models/shelf/spec';
-import {DEFAULT_SHELF_PREVIEW_SPEC} from '../models/shelfPreview';
+import {DEFAULT_SHELF_PREVIEW} from '../models/shelfPreview';
 import {selectFilters, selectIsQuerySpecific, selectQuery, selectQuerySpec, selectShelf} from './shelf';
 
 describe('selectors/shelf', () => {
@@ -19,7 +19,7 @@ describe('selectors/shelf', () => {
             ...DEFAULT_BOOKMARK
           },
           shelfPreview: {
-            ...DEFAULT_SHELF_PREVIEW_SPEC
+            ...DEFAULT_SHELF_PREVIEW
           }
         },
         undoable: {

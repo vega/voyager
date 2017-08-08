@@ -4,6 +4,6 @@ export interface ShelfPreview {
   spec: ShelfUnitSpec;
 };
 
-export const DEFAULT_SHELF_PREVIEW_SPEC: ShelfPreview = {
+export const DEFAULT_SHELF_PREVIEW: ShelfPreview = {
   spec: null
 };

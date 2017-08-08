@@ -6,7 +6,7 @@ import {DEFAULT_VOYAGER_CONFIG, VoyagerConfig} from './config';
 import {Dataset, DEFAULT_DATASET} from './dataset';
 import {DEFAULT_RESULT_INDEX, ResultIndex} from './result';
 import {DEFAULT_SHELF_SPEC, Shelf} from './shelf';
-import {DEFAULT_SHELF_PREVIEW_SPEC, ShelfPreview} from './shelfPreview';
+import {DEFAULT_SHELF_PREVIEW, ShelfPreview} from './shelfPreview';
 
 export * from './bookmark';
 export * from './dataset';
@@ -46,7 +46,7 @@ export const DEFAULT_UNDOABLE_STATE: UndoableState = {
 
 export const DEFAULT_PERSISTENT_STATE: PersistentState = {
   bookmark: DEFAULT_BOOKMARK,
-  shelfPreview: DEFAULT_SHELF_PREVIEW_SPEC
+  shelfPreview: DEFAULT_SHELF_PREVIEW
 };
 
 export const DEFAULT_STATE: State = {

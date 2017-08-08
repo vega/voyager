@@ -2,10 +2,10 @@ import {fromSpec} from 'compassql/build/src/query/spec';
 import {Action} from '../actions/index';
 import {SHELF_PREVIEW_SPEC, SHELF_PREVIEW_SPEC_DISABLE} from '../actions/shelf-preview';
 import {fromSpecQuery} from '../models/shelf/spec';
-import {DEFAULT_SHELF_PREVIEW_SPEC, ShelfPreview} from '../models/shelfPreview';
+import {DEFAULT_SHELF_PREVIEW, ShelfPreview} from '../models/shelfPreview';
 
 
-export function shelfPreviewReducer(preview: ShelfPreview = DEFAULT_SHELF_PREVIEW_SPEC,
+export function shelfPreviewReducer(preview: ShelfPreview = DEFAULT_SHELF_PREVIEW,
                                     action: Action): ShelfPreview {
   switch (action.type) {
     case SHELF_PREVIEW_SPEC:
