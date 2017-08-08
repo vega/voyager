@@ -164,9 +164,8 @@ export class DataSelectorBase extends React.PureComponent<DataSelectorProps, any
 
   private onDataTextSubmit() {
     const name = this.state.dataName;
-    const format = 'csv';
-    const values = vega.read(this.state.dataText, {type: format});
-    this.props.handleAction(datasetLoad(name, {values, format}));
+    const values = vega.read(this.state.dataText, {type: 'csv'});
+    this.props.handleAction(datasetLoad(name, {values}));
   }
 
   private openModal() {
