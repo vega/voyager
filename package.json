@@ -18,7 +18,7 @@
   "main": "build/lib-voyager.js",
   "license": "BSD-3-Clause",
   "scripts": {
-    "postinstall": "npm install node-sass # yarn would forgot to include vendor for node-sass",
+    "postinstall": "npm rebuild node-sass # yarn would forgot to include vendor for node-sass",
     "start": "webpack-dev-server --open --config config/webpack.config.dev.js",
     "start:server": "cross-env SERVER=\"http://localhost:3000\" webpack-dev-server --open --config config/webpack.config.dev.js",
     "build": "node scripts/build.js",
