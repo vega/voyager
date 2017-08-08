@@ -205,7 +205,8 @@ export function getAllTimeUnits() {
 export function getDefaultRange(domain: number[], timeUnit: TimeUnit): number[] | DateTime[] {
   switch (timeUnit) {
     case TimeUnit.YEARMONTHDATE:
-      return [convertToDateTimeObject(Number(domain[0])), convertToDateTimeObject(Number(domain[1]))];
+      return [convertToDateTimeObject(Number(convert(timeUnit, new Date(domain[0])))),
+        convertToDateTimeObject(Number(convert(timeUnit, new Date(domain[1]))))];
     case TimeUnit.YEAR:
       return [convert(timeUnit, new Date(domain[0])).getFullYear(),
         convert(timeUnit, new Date(domain[1])).getFullYear()];
