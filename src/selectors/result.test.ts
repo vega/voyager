@@ -14,7 +14,7 @@ import {DEFAULT_RESULT, DEFAULT_RESULT_INDEX} from '../models/result';
 import {ShelfAnyEncodingDef, ShelfMark, SpecificEncoding} from '../models/shelf/encoding';
 import {DEFAULT_SHELF_SPEC} from '../models/shelf/index';
 import {getTransforms} from '../models/shelf/spec';
-import {selectMainPlotList, selectMainSpec} from './result';
+import {selectMainSpec, selectPlotList} from './result';
 
 function buildSpecQueryModel(specQ: SpecQuery) {
   return SpecQueryModel.build(specQ, new Schema({fields: []}), DEFAULT_QUERY_CONFIG);
@@ -115,11 +115,11 @@ describe('selectors/result', () => {
 
   describe('selectMainPlotList', () => {
     it('should return undefined', () => {
-      expect(selectMainPlotList(DEFAULT_STATE_WITH_HISTORY)).toBe(undefined);
+      expect(selectPlotList.main(DEFAULT_STATE_WITH_HISTORY)).toBe(undefined);
     });
 
     it('should return a main plot list', () => {
-      expect(selectMainPlotList(stateWildcard)).toEqual(
+      expect(selectPlotList.main(stateWildcard)).toEqual(
         extractPlotObjects(modelGroup, filters)
       );
     });

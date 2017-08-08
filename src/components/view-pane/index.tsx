@@ -7,7 +7,7 @@ import {ShelfAction} from '../../actions/shelf';
 import {State} from '../../models';
 import {Bookmark} from '../../models/bookmark';
 import {PlotObject} from '../../models/plot';
-import {selectBookmark, selectMainPlotList, selectMainSpec} from '../../selectors';
+import {selectBookmark, selectMainSpec, selectPlotList} from '../../selectors';
 import {Plot} from '../plot';
 import {PlotList} from '../plot-list';
 import * as styles from './view-pane.scss';
@@ -30,6 +30,11 @@ class ViewPaneBase extends React.PureComponent<ViewPaneProps, {}> {
             <h2>Specified View</h2>
             <Plot handleAction={handleAction} spec={spec} showBookmarkButton={true} bookmark={bookmark}/>
           </div>
+
+          <div className="pane" styleName="view-pane-related-views">
+            <h2>Related Views</h2>
+
+          </div>
         </div>
       );
     } else if (plots) {
@@ -48,7 +53,7 @@ class ViewPaneBase extends React.PureComponent<ViewPaneProps, {}> {
 export const ViewPane = connect(
   (state: State) => {
     return {
-      plots: selectMainPlotList(state),
+      plots: selectPlotList.main(state),
       spec: selectMainSpec(state),
       bookmark: selectBookmark(state)
     };
