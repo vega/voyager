@@ -85,7 +85,6 @@ export function convertToDateTimeObject(timeStamp: number): DateTime {
     quarter: Math.floor((date.getMonth() + 3) / 3),
     month: date.getMonth() + 1, // 1-indexing
     date: date.getDate(),
-    day: date.getDay() + 1, // 1-indexing
     hours: date.getHours(),
     minutes: date.getMinutes(),
     seconds: date.getSeconds(),
