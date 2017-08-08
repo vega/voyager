@@ -40,7 +40,7 @@
     "@types/d3-selection": "^1.1.0",
     "ajv": "^5.2.2",
     "@types/json-stable-stringify": "^1.0.31",
-    "compassql": "^0.19.6",
+    "compassql": "^0.19.8",
     "font-awesome": "^4.7.0",
     "font-awesome-sass-loader": "^1.0.3",
     "isomorphic-fetch": "^2.2.1",
@@ -69,7 +69,7 @@
     "tslib": "^1.5.0",
     "vega": "3.0.0-rc2",
     "vega-datasets": "^1.8.0",
-    "vega-lite": "2.0.0-beta.10",
+    "vega-lite": "2.0.0-beta.11",
     "vega-tooltip": "^0.4.2"
   },
   "devDependencies": {
