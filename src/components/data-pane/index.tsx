@@ -8,6 +8,7 @@ import {ActionHandler, createDispatchHandler, DatasetAsyncAction, ShelfFieldAuto
 import {DatasetSchemaChangeFieldType} from '../../actions/dataset';
 import {Dataset, State} from '../../models';
 import {VoyagerConfig} from '../../models/config';
+import {selectConfig, selectDataset} from '../../selectors/';
 import {DataSelector} from './data-selector';
 import {FieldList, PresetWildcardFieldList} from './field-list';
 
@@ -47,10 +48,9 @@ export class DataPanelBase extends React.PureComponent<DataPanelProps, {}> {
 
 export const DataPane = connect(
   (state: State) => {
-    const presentUndoableState = state.undoable.present;
     return {
-      data: presentUndoableState.dataset,
-      config: presentUndoableState.config
+      data: selectDataset(state),
+      config: selectConfig(state)
     };
   },
   createDispatchHandler<DatasetAsyncAction>()

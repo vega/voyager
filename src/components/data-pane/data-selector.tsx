@@ -19,10 +19,10 @@ import {
 
 import {DEFAULT_DATASETS} from '../../constants';
 import {Dataset, State} from '../../models';
+import {selectDataset} from '../../selectors';
 
 export interface DataSelectorProps extends ActionHandler<DatasetAsyncAction> {
   data: Dataset;
-  name: string;
 }
 
 export class DataSelectorBase extends React.PureComponent<DataSelectorProps, any> {
@@ -44,7 +44,7 @@ export class DataSelectorBase extends React.PureComponent<DataSelectorProps, any
   public render() {
     return (
       <div styleName='data-selector'>
-        {this.props.name} <button onClick={this.openModal}>Change</button>
+        {this.props.data.name} <button onClick={this.openModal}>Change</button>
         <Modal
          isOpen={this.state.modalIsOpen}
          onRequestClose={this.closeModal}
@@ -78,7 +78,7 @@ export class DataSelectorBase extends React.PureComponent<DataSelectorProps, any
   }
 
   private renderDataset(dataset: NamedData) {
-    const selected = (dataset.name === this.props.name) ? styles['element-selected'] : null;
+    const selected = (dataset.name === this.props.data.name) ? styles['element-selected'] : null;
 
     return (
       <li key={dataset.name} className={`${styles['dataset-list-element']} ${selected}`} >
@@ -187,10 +187,8 @@ const DataSelectorRenderer = CSSModules(DataSelectorBase, styles);
 
 export const DataSelector = connect(
   (state: State) => {
-    const presentUndoableState = state.undoable.present;
     return {
-      data: presentUndoableState.dataset,
-      name: presentUndoableState.dataset.name,
+      data: selectDataset(state)
     };
   },
   createDispatchHandler<DatasetAsyncAction>()

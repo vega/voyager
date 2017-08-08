@@ -2,7 +2,7 @@ import {ExpandedType} from 'compassql/build/src/query/expandedtype';
 import {FieldSchema, PrimitiveType, Schema} from 'compassql/build/src/schema';
 import {DEFAULT_DATASET} from '../models/dataset';
 import {DEFAULT_STATE} from '../models/index';
-import {selectData, selectPresetWildcardFields, selectSchema, selectSchemaFieldDefs} from './dataset';
+import {selectData, selectDataset, selectPresetWildcardFields, selectSchema, selectSchemaFieldDefs} from './dataset';
 
 const stateWithSchema = {...DEFAULT_STATE};
 stateWithSchema.undoable.present.dataset.schema = new Schema(
@@ -30,6 +30,12 @@ describe('selectors/dataset', () => {
   describe('selectData', () => {
     it('selecting data should returns default data', () => {
       expect(selectData(DEFAULT_STATE)).toBe(DEFAULT_DATASET.data);
+    });
+  });
+
+  describe('selectDataset', () => {
+    it('selecting dataset should return default dataset', () => {
+      expect(selectDataset(DEFAULT_STATE)).toBe(DEFAULT_DATASET);
     });
   });
 

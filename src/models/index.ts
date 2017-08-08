@@ -79,7 +79,7 @@ export function toSerializable(state: Readonly<State>): SerializableState {
   const persistentState = state.persistent;
   const undoableState = state.undoable.present;
 
-  const asSerializable = {
+  return {
     bookmark: persistentState.bookmark,
     config: undoableState.config,
     shelf: undoableState.shelf,
@@ -92,14 +92,12 @@ export function toSerializable(state: Readonly<State>): SerializableState {
     },
     tableschema: undoableState.dataset.schema.tableSchema(),
   };
-
-  return asSerializable;
 }
 
 export function fromSerializable(serializable: SerializableState): Readonly<State> {
   const {bookmark, config, shelf, shelfPreview, result, dataset, tableschema} = serializable;
 
-  const deserialized: State = {
+  return {
     persistent: {
       bookmark,
       shelfPreview
@@ -121,6 +119,4 @@ export function fromSerializable(serializable: SerializableState): Readonly<Stat
       group: null
     }
   };
-
-  return deserialized;
 }

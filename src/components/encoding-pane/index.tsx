@@ -12,6 +12,7 @@ import {ResultAsyncAction} from '../../actions/result';
 import {SHELF_CLEAR, ShelfAction} from '../../actions/shelf';
 import {ShelfUnitSpec, State} from '../../models';
 import {ShelfFieldDef} from '../../models/shelf/encoding';
+import {selectDataset, selectShelf, selectShelfPreview} from '../../selectors';
 import {selectSchemaFieldDefs} from '../../selectors/index';
 import * as styles from './encoding-pane.scss';
 import {EncodingShelf} from './encoding-shelf';
@@ -164,11 +165,11 @@ export const EncodingPane = connect(
   (state: State) => {
     const presentUndoableState = state.undoable.present;
     return {
-      spec: presentUndoableState.shelf.spec,
-      filters: presentUndoableState.shelf.spec.filters,
-      schema: presentUndoableState.dataset.schema,
+      spec: selectShelf(state).spec,
+      filters: selectShelf(state).spec.filters,
+      schema: selectDataset(state).schema,
       fieldDefs: selectSchemaFieldDefs(state),
-      specPreview: state.persistent.shelfPreview.spec
+      specPreview: selectShelfPreview(state).spec
     };
   },
   createDispatchHandler<ShelfAction>()
