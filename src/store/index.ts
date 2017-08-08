@@ -1,15 +1,15 @@
 import {applyMiddleware, compose, createStore, Middleware} from 'redux';
 import {createLogger} from 'redux-logger';
 import thunkMiddleware from 'redux-thunk';
-import {StateWithHistory} from 'redux-undo';
 
-import {DEFAULT_STATE, StateBase} from '../models';
+import {DEFAULT_STATE, State} from '../models';
 import {rootReducer} from '../reducers';
 
 // Imports to satisfy --declarations build requirements
 // https://github.com/Microsoft/TypeScript/issues/9944
 // tslint:disable-next-line:no-unused-variable
 import {Store} from 'redux';
+import undoable from 'redux-undo';
 import {createQueryListener} from './listener';
 
 const loggerMiddleware = createLogger({
@@ -28,16 +28,20 @@ if (process.env.NODE_ENV !== 'production' && process.env.NODE_ENV !== 'test') {
   middleware.push(loggerMiddleware);
 }
 
+
 export function configureStore(initialState = DEFAULT_STATE) {
-  const initialStateWithHistory: StateWithHistory<Readonly<StateBase>> = {
-    past: [],
-    present: initialState,
-    future: [],
-    _latestUnfiltered: null,
-    group: null,
+  const initialStateWithHistory: State = {
+    persistent: initialState.persistent,
+    undoable: {
+      past: [],
+      present: initialState.undoable.present,
+      future: [],
+      _latestUnfiltered: null,
+      group: null,
+    }
   };
 
-  const store = createStore(
+  const store = createStore<State>(
     rootReducer,
     initialStateWithHistory,
     composeEnhancers(applyMiddleware(...middleware))

@@ -5,11 +5,10 @@
 import {Query} from 'compassql/build/src/query/query';
 import {isAggregate, SpecQuery} from 'compassql/build/src/query/spec';
 import {Store} from 'redux';
-import {StateWithHistory} from 'redux-undo';
 import {NONSPATIAL_SCALE_CHANNELS} from 'vega-lite/build/src/channel';
 import {contains} from 'vega-lite/build/src/util';
 import {resultRequest} from '../actions/result';
-import {StateBase} from '../models/index';
+import {State} from '../models/index';
 import {ResultType} from '../models/result';
 import {selectIsQuerySpecific} from '../selectors/index';
 import {alternativeEncodings} from './alternative-encodings';
@@ -32,12 +31,11 @@ export const RELATED_VIEWS_INDEX: {[k in ResultType]: QueryCreator} = {
 export const RELATED_VIEWS_TYPES = Object.keys(RELATED_VIEWS_INDEX)
   .filter(type => type !== 'main');
 
-export function dispatchQueries(store: Store<StateWithHistory<StateBase>>, query: Query) {
+export function dispatchQueries(store: Store<State>, query: Query) {
   const state = store.getState();
 
   const isQueryEmpty = !query || query.spec.encodings.length === 0;
   const isQuerySpecific = selectIsQuerySpecific(state);
-
   store.dispatch(resultRequest('main', query));
 
   // FIXME clear other types of results
@@ -78,7 +76,7 @@ function getFeaturesForRelatedViewRules(spec: SpecQuery) {
   };
 }
 
-export function makeRelatedViewQueries(store: Store<StateWithHistory<StateBase>>, query: Query) {
+export function makeRelatedViewQueries(store: Store<State>, query: Query) {
   const {hasOpenPosition, hasStyleChannel, hasOpenFacet, isSpecAggregate} = getFeaturesForRelatedViewRules(query.spec);
 
   if (!isSpecAggregate) {

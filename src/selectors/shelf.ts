@@ -1,7 +1,7 @@
 // tslint:disable:no-unused-variable
 import {StateWithHistory} from 'redux-undo';
 import {OneOfFilter, RangeFilter} from 'vega-lite/build/src/filter';
-import {State, StateBase} from '../models/index';
+import {State} from '../models/index';
 // tslint:enable:no-unused-variable
 
 import {Query} from 'compassql/build/src/query/query';
@@ -10,9 +10,9 @@ import {createSelector} from 'reselect';
 import {Shelf, toQuery} from '../models/shelf/index';
 import {hasWildcards} from '../models/shelf/spec';
 
-export const selectFilters = (state: State) => state.present.shelf.spec.filters;
+export const selectFilters = (state: State) => state.undoable.present.shelf.spec.filters;
 
-export const selectShelf = (state: State): Shelf => state.present.shelf;
+export const selectShelf = (state: State): Shelf => state.undoable.present.shelf;
 
 export const selectQuery = createSelector(
   selectShelf,

@@ -7,6 +7,7 @@ import * as ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
 import {App} from './components/app';
 import {CreateVoyager} from './lib-voyager';
+import {SerializableState} from './models/index';
 import {configureStore} from './store';
 
 const DEFAULT_TIMEOUT_LENGTH = 300;
@@ -191,11 +192,11 @@ describe('lib-voyager', () => {
           const originalConfigOption = aState.config.showDataSourceSelector;
           aState.config.showDataSourceSelector = !aState.config.showDataSourceSelector;
 
-          const handleStateChange = (state: any) => {
-            expect(state).toHaveProperty('config');
-            expect(state).toHaveProperty('dataset');
-            expect(state).toHaveProperty('result');
-            expect(state).toHaveProperty('shelf');
+          const handleStateChange = (state: SerializableState) => {
+            expect(state.config).toBeDefined();
+            expect(state.dataset).toBeDefined();
+            expect(state.result).toBeDefined();
+            expect(state.shelf).toBeDefined();
 
             expect(state.config.showDataSourceSelector).toEqual(!originalConfigOption);
 

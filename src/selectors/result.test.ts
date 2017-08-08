@@ -8,7 +8,7 @@ import {Data} from 'vega-lite/build/src/data';
 import {OneOfFilter, RangeFilter} from 'vega-lite/build/src/filter';
 import {Mark} from 'vega-lite/build/src/mark';
 import {DEFAULT_DATASET} from '../models/dataset';
-import {DEFAULT_STATE, DEFAULT_STATE_WITH_HISTORY, State} from '../models/index';
+import {DEFAULT_PERSISTENT_STATE, DEFAULT_STATE, State} from '../models/index';
 import {convertToPlotObjectsGroup, extractPlotObjects} from '../models/plot';
 import {DEFAULT_RESULT, DEFAULT_RESULT_INDEX} from '../models/result';
 import {ShelfAnyEncodingDef, ShelfMark, SpecificEncoding} from '../models/shelf/encoding';
@@ -57,42 +57,49 @@ const group = buildSpecQueryModelGroup([
 const modelGroup = convertToPlotObjectsGroup(group, data);
 
 const stateSpecific: State = {
-  ...DEFAULT_STATE_WITH_HISTORY,
-  present: {
-    ...DEFAULT_STATE,
-    dataset: {
-      ...DEFAULT_DATASET,
-      data
-    },
-    shelf: {
-      ...DEFAULT_SHELF_SPEC,
-      spec: {
-        filters,
-        mark,
-        encoding: encodingSpecific,
-        anyEncodings: [] as ShelfAnyEncodingDef[],
-        config: {numberFormat: 'd'}
-      }
-    },
-    result: {
-      ...DEFAULT_RESULT_INDEX,
-      main: {
-        ...DEFAULT_RESULT,
-        modelGroup
+  persistent: DEFAULT_PERSISTENT_STATE,
+  undoable: {
+    ...DEFAULT_STATE.undoable, // maybe i can't use spread and i have to type it all out manually :(
+    present: {
+      ...DEFAULT_STATE.undoable.present,
+      dataset: {
+        ...DEFAULT_DATASET,
+        data
+      },
+      shelf: {
+        ...DEFAULT_SHELF_SPEC,
+        spec: {
+          filters,
+          mark,
+          encoding: encodingSpecific,
+          anyEncodings: [] as ShelfAnyEncodingDef[],
+          config: {numberFormat: 'd'}
+        }
+      },
+      result: {
+        ...DEFAULT_RESULT_INDEX,
+        main: {
+          ...DEFAULT_RESULT,
+          modelGroup
+        }
       }
     }
   }
 };
 
+
 const stateWildcard: State = {
-  ...stateSpecific,
-  present: {
-    ...stateSpecific.present,
-    shelf: {
-      ...stateSpecific.present.shelf,
-      spec: {
-        ...stateSpecific.present.shelf.spec,
-        encoding: encodingWildcard
+  persistent: DEFAULT_PERSISTENT_STATE,
+  undoable: {
+    ...DEFAULT_STATE.undoable,
+    present: {
+      ...stateSpecific.undoable.present,
+      shelf: {
+        ...stateSpecific.undoable.present.shelf,
+        spec: {
+          ...stateSpecific.undoable.present.shelf.spec,
+          encoding: encodingWildcard
+        }
       }
     }
   }
@@ -101,7 +108,7 @@ const stateWildcard: State = {
 describe('selectors/result', () => {
   describe('selectMainSpec', () => {
     it('should return undefined', () => {
-      expect(selectMainSpec(DEFAULT_STATE_WITH_HISTORY)).toBe(undefined);
+      expect(selectMainSpec(DEFAULT_STATE)).toBe(undefined);
     });
 
     it('should return a main spec', () => {
@@ -115,7 +122,7 @@ describe('selectors/result', () => {
 
   describe('selectMainPlotList', () => {
     it('should return undefined', () => {
-      expect(selectPlotList.main(DEFAULT_STATE_WITH_HISTORY)).toBe(undefined);
+      expect(selectPlotList.main(DEFAULT_STATE)).toBe(undefined);
     });
 
     it('should return a main plot list', () => {

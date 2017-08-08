@@ -11,11 +11,11 @@ import { Provider } from 'react-redux';
 import {Store} from 'redux';
 
 import 'font-awesome-sass-loader'; // TODO should this move to App?
-import {StateWithHistory} from 'redux-undo';
 import {isString} from 'vega-lite/build/src/util';
 import {App, VoyagerData} from './components/app';
+import {State} from './models';
 import {VoyagerConfig} from './models/config';
-import {fromSerializable, SerializableState, StateBase, toSerializable} from './models/index';
+import {fromSerializable, SerializableState, toSerializable} from './models/index';
 import {configureStore} from './store';
 
 export type Container = string | HTMLElement;
@@ -30,7 +30,7 @@ export class Voyager {
   private container: HTMLElement;
   private config: VoyagerConfig;
   private data: VoyagerData;
-  private store: Store<StateWithHistory<Readonly<StateBase>>>;
+  private store: Store<State>;
 
   constructor(container: Container, config: VoyagerConfig, data: VoyagerData) {
     if (isString(container)) {
@@ -85,7 +85,7 @@ export class Voyager {
    * Sets the entire voyager application state. This is useful for restoring
    * the state of the application to a previosly saved state.
    *
-   * @param state A StateBase object with the following keys
+   * @param state A State object with the following keys
    *
    * @param state.config
    * @param state.dataset
@@ -105,12 +105,12 @@ export class Voyager {
    *
    * Gets the current application state.
    *
-   * @returns {Readonly<StateBase>}
+   * @returns {Readonly<State>}
    *
    * @memberof Voyager
    */
   public getApplicationState(): SerializableState {
-    return toSerializable(this.store.getState().present);
+    return toSerializable(this.store.getState());
   }
 
   /**
@@ -123,14 +123,14 @@ export class Voyager {
    *
    * @memberof Voyager
    */
-  public onStateChange(onChange: Function): Function {
-    let currentState: any;
+  public onStateChange(onChange: (state: SerializableState) => void): Function {
+    let currentState: State;
 
     const handleChange = () => {
       const nextState = this.store.getState();
       if (nextState !== currentState) {
         currentState = nextState;
-        onChange(currentState.present);
+        onChange(toSerializable(currentState));
       }
     };
 
@@ -166,7 +166,7 @@ export class Voyager {
     );
   }
 
-  private renderFromState(state: Readonly<StateBase>) {
+  private renderFromState(state: Readonly<State>) {
     const store = this.store;
     const root = this.container;
     ReactDOM.render(

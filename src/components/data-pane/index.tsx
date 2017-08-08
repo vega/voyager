@@ -47,9 +47,10 @@ export class DataPanelBase extends React.PureComponent<DataPanelProps, {}> {
 
 export const DataPane = connect(
   (state: State) => {
+    const presentUndoableState = state.undoable.present;
     return {
-      data: state.present.dataset,
-      config: state.present.config
+      data: presentUndoableState.dataset,
+      config: presentUndoableState.config
     };
   },
   createDispatchHandler<DatasetAsyncAction>()

@@ -1,7 +1,6 @@
 import {FieldSchema, Schema, TableSchema} from 'compassql/build/src/schema';
 import {StateWithHistory} from 'redux-undo';
 import {Data} from 'vega-lite/build/src/data';
-import {duplicate} from "vega-lite/build/src/util";
 import {Bookmark, DEFAULT_BOOKMARK} from './bookmark';
 import {DEFAULT_VOYAGER_CONFIG, VoyagerConfig} from './config';
 import {Dataset, DEFAULT_DATASET} from './dataset';
@@ -18,36 +17,49 @@ export * from './config';
 /**
  * Application state.
  */
-export interface StateBase {
+export interface PersistentState {
   bookmark: Bookmark;
+  shelfPreview: ShelfPreview;
+}
+
+export interface UndoableState {
   config: VoyagerConfig;
   dataset: Dataset;
   shelf: Shelf;
-  shelfPreview: ShelfPreview;
   result: ResultIndex;
 }
 
 /**
  * Application state (wrapped with redux-undo's StateWithHistory interface).
  */
-export type State = StateWithHistory<StateBase>;
+export interface State {
+  persistent: PersistentState;
+  undoable: StateWithHistory<UndoableState>;
+};
 
-export const DEFAULT_STATE: StateBase = {
-  bookmark: DEFAULT_BOOKMARK,
+export const DEFAULT_UNDOABLE_STATE: UndoableState = {
   config: DEFAULT_VOYAGER_CONFIG,
   dataset: DEFAULT_DATASET,
   shelf: DEFAULT_SHELF_SPEC,
-  shelfPreview: DEFAULT_SHELF_PREVIEW_SPEC,
   result: DEFAULT_RESULT_INDEX,
 };
 
-export const DEFAULT_STATE_WITH_HISTORY: State = {
-  past: [],
-  present: DEFAULT_STATE,
-  future: [],
-  _latestUnfiltered: [],
-  group: []
+export const DEFAULT_PERSISTENT_STATE: PersistentState = {
+  bookmark: DEFAULT_BOOKMARK,
+  shelfPreview: DEFAULT_SHELF_PREVIEW_SPEC
 };
+
+export const DEFAULT_STATE: State = {
+  persistent: DEFAULT_PERSISTENT_STATE,
+  undoable: {
+    past: [],
+    present: DEFAULT_UNDOABLE_STATE,
+    future: [],
+    _latestUnfiltered: null,
+    group: null
+  }
+};
+
 
 export interface SerializableState {
   bookmark: Bookmark;
@@ -63,31 +75,52 @@ export interface SerializableState {
   tableschema: TableSchema<FieldSchema>;
 }
 
-export function toSerializable(state: Readonly<StateBase>): SerializableState {
+export function toSerializable(state: Readonly<State>): SerializableState {
+  const persistentState = state.persistent;
+  const undoableState = state.undoable.present;
+
   const asSerializable = {
-    bookmark: state.bookmark,
-    config: state.config,
-    shelf: state.shelf,
-    shelfPreview: state.shelfPreview,
-    result: state.result,
+    bookmark: persistentState.bookmark,
+    config: undoableState.config,
+    shelf: undoableState.shelf,
+    shelfPreview: persistentState.shelfPreview,
+    result: undoableState.result,
     dataset: {
-      isLoading: state.dataset.isLoading,
-      name: state.dataset.name,
-      data: state.dataset.data,
+      isLoading: undoableState.dataset.isLoading,
+      name: undoableState.dataset.name,
+      data: undoableState.dataset.data,
     },
-    tableschema: state.dataset.schema.tableSchema(),
+    tableschema: undoableState.dataset.schema.tableSchema(),
   };
 
   return asSerializable;
 }
 
-export function fromSerializable(serializable: SerializableState): Readonly<StateBase> {
-  // We make a clone of this object to not modify the input param.
-  const deserialized = duplicate(serializable) as any;
+export function fromSerializable(serializable: SerializableState): Readonly<State> {
+  const {bookmark, config, shelf, shelfPreview, result, dataset, tableschema} = serializable;
 
-  // Add a schema object with a hydrated version of the table schema
-  deserialized.dataset.schema = new Schema(deserialized.tableschema);
-  delete deserialized.dataset.tableschema;
+  const deserialized: State = {
+    persistent: {
+      bookmark,
+      shelfPreview
+    },
+
+    undoable: {
+      past: [],
+      present: {
+        config,
+        dataset: {
+          ...dataset,
+          schema: new Schema(serializable.tableschema)
+        },
+        shelf,
+        result
+      },
+      future: [],
+      _latestUnfiltered: null,
+      group: null
+    }
+  };
 
   return deserialized;
 }

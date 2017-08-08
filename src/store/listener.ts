@@ -1,12 +1,11 @@
 import {Query} from 'compassql/build/src/query/query';
 import {Store} from 'redux';
-import {StateWithHistory} from 'redux-undo';
 import {Data} from 'vega-lite/build/src/data';
-import {StateBase} from '../models/index';
+import {State} from '../models/index';
 import {dispatchQueries} from '../queries/index';
 import {selectData, selectQuery} from '../selectors/index';
 
-export function createQueryListener(store: Store<StateWithHistory<Readonly<StateBase>>>) {
+export function createQueryListener(store: Store<State>) {
   let data: Data;
   let query: Query;
   return () => {

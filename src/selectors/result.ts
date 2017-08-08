@@ -1,28 +1,25 @@
-
+// tslint:disable:no-unused-variable
 import {getTopSpecQueryItem} from 'compassql/build/src/model';
-import {StateWithHistory} from 'redux-undo';
 import {createSelector} from 'reselect';
 import {Selector} from 'reselect/src/reselect';
+import {BoxPlotDef} from 'vega-lite/build/src/compositemark/boxplot';
 import {Data} from 'vega-lite/build/src/data';
+import {EncodingWithFacet} from 'vega-lite/build/src/encoding';
 import {OneOfFilter, RangeFilter} from 'vega-lite/build/src/filter';
-import {State, StateBase} from '../models/index';
+import {MarkDef} from 'vega-lite/build/src/mark';
+import {FacetedCompositeUnitSpec, GenericUnitSpec, isUnitSpec} from 'vega-lite/build/src/spec';
+import {State} from '../models/index';
 import {extractPlotObjects, PlotObject} from '../models/plot';
 import {Result, RESULT_TYPES, ResultType} from '../models/result';
 import {getTransforms} from '../models/shelf/spec';
 import {selectData} from './dataset';
 import {selectFilters, selectIsQuerySpecific} from './shelf';
-
-// tslint:disable:no-unused-variable
-import {BoxPlotDef} from 'vega-lite/build/src/compositemark/boxplot';
-import {EncodingWithFacet} from 'vega-lite/build/src/encoding';
-import {MarkDef} from 'vega-lite/build/src/mark';
-import {FacetedCompositeUnitSpec, GenericUnitSpec} from 'vega-lite/build/src/spec';
 // tslint:enable:no-unused-variable
 
 export const selectResult: {
-  [k in ResultType]?: Selector<StateWithHistory<StateBase>, Result>
+  [k in ResultType]?: Selector<State, Result>
 } = RESULT_TYPES.reduce((selectors, resultType) => {
-  selectors[resultType] = (state: State) => state.present.result[resultType];
+  selectors[resultType] = (state: State) => state.undoable.present.result[resultType];
   return selectors;
 }, {});
 
@@ -48,7 +45,7 @@ export const selectMainSpec = createSelector(
   }
 );
 export const selectPlotList: {
-  [k in ResultType]?: Selector<StateWithHistory<StateBase>, PlotObject[]>
+  [k in ResultType]?: Selector<State, PlotObject[]>
 } = RESULT_TYPES.reduce((selectors, resultType) => {
   selectors[resultType] = createSelector(
     selectIsQuerySpecific,

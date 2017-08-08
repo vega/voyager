@@ -1,52 +1,83 @@
-import {DEFAULT_STATE, DEFAULT_STATE_WITH_HISTORY} from '../models/index';
+import {Schema} from 'compassql/build/src/schema';
+import {DEFAULT_BOOKMARK} from '../models/bookmark';
+import {DEFAULT_VOYAGER_CONFIG} from '../models/config';
+import {DEFAULT_STATE, State} from '../models/index';
+import {DEFAULT_RESULT_INDEX} from '../models/result';
 import {toQuery} from '../models/shelf/index';
-import {hasWildcards} from '../models/shelf/spec';
+import {DEFAULT_SHELF_UNIT_SPEC, hasWildcards} from '../models/shelf/spec';
+import {DEFAULT_SHELF_PREVIEW_SPEC} from '../models/shelfPreview';
 import {selectFilters, selectIsQuerySpecific, selectQuery, selectQuerySpec, selectShelf} from './shelf';
-
 
 describe('selectors/shelf', () => {
   describe('selectFilters', () => {
     it('selecting filters should returns an array of filters', () => {
       const filters = [{field: 'q1', range: [0, 1]}];
-      const state = {
-        ...DEFAULT_STATE_WITH_HISTORY,
-        present: {
-          ...DEFAULT_STATE,
-          shelf: {
-            ...DEFAULT_STATE.shelf,
-            spec: {
-              ...DEFAULT_STATE.shelf.spec,
-              filters
+
+      const state: State = {
+        persistent: {
+          bookmark: {
+            ...DEFAULT_BOOKMARK
+          },
+          shelfPreview: {
+            ...DEFAULT_SHELF_PREVIEW_SPEC
+          }
+        },
+        undoable: {
+          ...DEFAULT_STATE.undoable,
+          present: {
+            config: {
+              ...DEFAULT_VOYAGER_CONFIG
+            },
+            dataset: {
+              data: {
+                values: []
+              },
+              isLoading: false,
+              name: 'Test',
+              schema: new Schema({
+                fields: []
+              }),
+            },
+            shelf: {
+              spec: {
+                ...DEFAULT_SHELF_UNIT_SPEC
+              }
+            },
+            result: {
+              ...DEFAULT_RESULT_INDEX
             }
           }
         }
       };
+
+      state.undoable.present.shelf.spec.filters = filters;
+
       expect(selectFilters(state)).toBe(filters);
     });
   });
 
   describe('selectShelf', () => {
     it('selecting shelf should return the default shelf', () => {
-      expect(selectShelf(DEFAULT_STATE_WITH_HISTORY)).toBe(DEFAULT_STATE.shelf);
+      expect(selectShelf(DEFAULT_STATE)).toBe(DEFAULT_STATE.undoable.present.shelf);
     });
   });
 
   describe('selectQuery', () => {
     it('selecting query should return the query constructed with default shelf', () => {
-      expect(selectQuery(DEFAULT_STATE_WITH_HISTORY)).toEqual(toQuery(DEFAULT_STATE.shelf));
+      expect(selectQuery(DEFAULT_STATE)).toEqual(toQuery(DEFAULT_STATE.undoable.present.shelf));
     });
   });
 
   describe('selectQuerySpec', () => {
     it('selecting query spec should return the default query spec', () => {
-      expect(selectQuerySpec(DEFAULT_STATE_WITH_HISTORY)).toEqual(toQuery(DEFAULT_STATE.shelf).spec);
+      expect(selectQuerySpec(DEFAULT_STATE)).toEqual(toQuery(DEFAULT_STATE.undoable.present.shelf).spec);
     });
   });
 
   describe('selectIsQuerySpecific', () => {
     it('selecting isQuerySpecific should return whether the default query is specific', () => {
-      expect(selectIsQuerySpecific(DEFAULT_STATE_WITH_HISTORY)).toEqual(
-        !hasWildcards(toQuery(DEFAULT_STATE.shelf).spec).hasAnyWildcard
+      expect(selectIsQuerySpecific(DEFAULT_STATE)).toEqual(
+        !hasWildcards(toQuery(DEFAULT_STATE.undoable.present.shelf).spec).hasAnyWildcard
       );
     });
   });

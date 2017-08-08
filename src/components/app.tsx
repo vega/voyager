@@ -11,10 +11,10 @@ import HTML5Backend from 'react-dnd-html5-backend';
 import * as SplitPane from 'react-split-pane';
 
 import {Dispatch} from 'redux';
-import {ActionCreators, StateWithHistory} from 'redux-undo';
+import {ActionCreators} from 'redux-undo';
 import {Data} from 'vega-lite/build/src/data';
 import {datasetLoad, SET_APPLICATION_STATE, SET_CONFIG} from '../actions';
-import {StateBase} from '../models/index';
+import {State} from '../models/index';
 
 import {SHELF_SPEC_LOAD} from '../actions/shelf';
 import {VoyagerConfig} from '../models/config';
@@ -29,9 +29,9 @@ export type VoyagerData = Data;
 interface Props extends React.Props<AppBase> {
   config?: VoyagerConfig;
   data?: Data;
-  applicationState?: Readonly<StateBase>;
+  applicationState?: Readonly<State>;
   spec?: Object;
-  dispatch: Dispatch<StateWithHistory<Readonly<StateBase>>>;
+  dispatch: Dispatch<State>;
 }
 
 class AppBase extends React.PureComponent<Props, {}> {
@@ -148,7 +148,7 @@ class AppBase extends React.PureComponent<Props, {}> {
     });
   }
 
-  private setApplicationState(state: Readonly<StateBase>): void {
+  private setApplicationState(state: Readonly<State>): void {
     this.props.dispatch({
       type: SET_APPLICATION_STATE,
       payload: {

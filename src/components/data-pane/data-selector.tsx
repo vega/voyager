@@ -188,9 +188,10 @@ const DataSelectorRenderer = CSSModules(DataSelectorBase, styles);
 
 export const DataSelector = connect(
   (state: State) => {
+    const presentUndoableState = state.undoable.present;
     return {
-      data: state.present.dataset,
-      name: state.present.dataset.name,
+      data: presentUndoableState.dataset,
+      name: presentUndoableState.dataset.name,
     };
   },
   createDispatchHandler<DatasetAsyncAction>()

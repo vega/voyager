@@ -134,7 +134,7 @@ const BookmarkRenderer = CSSModules(BookmarkBase, styles);
 export const BookmarkPane = connect(
   (state: State) => {
     return {
-      bookmark: state.present.bookmark
+      bookmark: state.persistent.bookmark
     };
   },
   createDispatchHandler<BookmarkAction>()

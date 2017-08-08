@@ -28,8 +28,8 @@ class UndoRedoBase extends React.PureComponent<UndoRedoProps, any> {
 
 export const UndoRedo = connect((state: State) => {
   return {
-    canUndo: state.past.length > 0,
-    canRedo: state.future.length > 0
+    canUndo: state.undoable.past.length > 0,
+    canRedo: state.undoable.future.length > 0
   };
 }, dispatch => ({
   onUndo() {

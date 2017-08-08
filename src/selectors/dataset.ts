@@ -1,7 +1,6 @@
 // tslint:disable:no-unused-variable
 import {StateWithHistory} from 'redux-undo';
 import {Selector} from 'reselect/src/reselect';
-import {StateBase} from '../models/index';
 import {PlotObject} from '../models/plot';
 // tslint:enable:no-unused-variable
 
@@ -11,9 +10,9 @@ import {createSelector} from 'reselect';
 import {Data} from 'vega-lite/build/src/data';
 import {ShelfFieldDef, State} from '../models';
 
-export const selectData = (state: State): Data => state.present.dataset.data;
+export const selectData = (state: State): Data => state.undoable.present.dataset.data;
 
-export const selectSchema = (state: State) => state.present.dataset.schema;
+export const selectSchema = (state: State) => state.undoable.present.dataset.schema;
 
 
 const ALL_PRESET_WILDCARD_FIELDS: ShelfFieldDef[] = [

@@ -3,12 +3,12 @@ import {toSet} from 'vega-util';
 
 import {Action, REDO, UNDO} from '../actions';
 import {HISTORY_LIMIT} from '../constants';
-import {DEFAULT_STATE, State, StateBase} from '../models';
+import {DEFAULT_STATE} from '../models';
 
 import {SET_CONFIG} from '../actions/config';
 
 // tslint:disable-next-line:no-unused-variable
-import {Action as BaseReduxAction} from 'redux';
+import {Action as BaseReduxAction, combineReducers} from 'redux';
 
 import {
   BOOKMARK_ADD_PLOT,
@@ -53,19 +53,19 @@ import {shelfReducer} from './shelf';
 import {shelfPreviewReducer} from './shelf-preview';
 import {stateReducer} from './state';
 
-  if (action.type === SET_APPLICATION_STATE) {
-    return stateReducer(state, action);
-  } else {
-    return {
-      bookmark: bookmarkReducer(state.bookmark, action),
-      config: configReducer(state.config, action),
-      dataset: datasetReducer(state.dataset, action),
-      shelf: shelfReducer(state.shelf, action, state.dataset.schema),
-      shelfPreview: shelfPreviewReducer(state.shelfPreview, action),
-      result: resultIndexReducer(state.result, action)
-    };
-  }
+function undoableReducerBase(state: Readonly<UndoableState> = DEFAULT_UNDOABLE_STATE, action: Action): UndoableState {
+  return {
+    config: configReducer(state.config, action),
+    dataset: datasetReducer(state.dataset, action),
+    shelf: shelfReducer(state.shelf, action, state.dataset.schema),
+    result: resultIndexReducer(state.result, action)
+  };
 }
+
+const persistentReducer = combineReducers({
+  bookmark: bookmarkReducer,
+  shelfPreview: shelfPreviewReducer
+});
 
 /**
  * Exclude these actions from the history completely.
@@ -149,7 +149,8 @@ function getNextGroupId(): number {
   return _groupId;
 }
 
-function groupAction(action: Action, currentState: State, previousHistory: StateWithHistory<State>): any {
+function groupAction(action: Action, currentState: UndoableState,
+                     previousHistory: StateWithHistory<UndoableState>): any {
   const currentActionType = action.type;
 
   if (USER_ACTION_INDEX[currentActionType]) {
@@ -161,10 +162,23 @@ function groupAction(action: Action, currentState: State, previousHistory: State
   }
 };
 
-export const rootReducer = undoable(reducer, {
+const undoableReducer = undoable<UndoableState>(undoableReducerBase, {
   limit: HISTORY_LIMIT,
   undoType: UNDO,
   redoType: REDO,
-  groupBy: groupAction,
+  groupBy: groupAction as any, // Typescript seems dumb about it
   filter: excludeAction(ACTIONS_EXCLUDED_FROM_HISTORY),
 });
+
+const rootBase = combineReducers<State>({
+  persistent: persistentReducer,
+  undoable: undoableReducer
+});
+
+export function rootReducer(state: Readonly<State> = DEFAULT_STATE, action: Action) {
+  if (action.type === SET_APPLICATION_STATE) {
+    return stateReducer(state, action);
+  } else {
+    return rootBase(state, action);
+  }
+}

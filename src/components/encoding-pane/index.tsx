@@ -162,12 +162,13 @@ class EncodingPanelBase extends React.PureComponent<EncodingPanelProps, {}> {
 
 export const EncodingPane = connect(
   (state: State) => {
+    const presentUndoableState = state.undoable.present;
     return {
-      spec: state.present.shelf.spec,
-      filters: state.present.shelf.spec.filters,
-      schema: state.present.dataset.schema,
+      spec: presentUndoableState.shelf.spec,
+      filters: presentUndoableState.shelf.spec.filters,
+      schema: presentUndoableState.dataset.schema,
       fieldDefs: selectSchemaFieldDefs(state),
-      specPreview: state.present.shelfPreview.spec
+      specPreview: state.persistent.shelfPreview.spec
     };
   },
   createDispatchHandler<ShelfAction>()
