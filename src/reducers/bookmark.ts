@@ -2,9 +2,8 @@ import {Action, BOOKMARK_ADD_PLOT, BOOKMARK_CLEAR_ALL, BOOKMARK_MODIFY_NOTE, BOO
 import {Bookmark, DEFAULT_BOOKMARK} from '../models';
 
 
-export function bookmarkReducer(bookmark: Bookmark, action: Action): Bookmark {
+export function bookmarkReducer(bookmark: Bookmark = DEFAULT_BOOKMARK, action: Action): Bookmark {
   const {count, dict, list} = bookmark;
-
 
   switch (action.type) {
     case BOOKMARK_ADD_PLOT: {
@@ -55,9 +54,7 @@ export function bookmarkReducer(bookmark: Bookmark, action: Action): Bookmark {
     case BOOKMARK_CLEAR_ALL: {
       return DEFAULT_BOOKMARK;
     }
-
-    default: {
-      return bookmark;
-    }
   }
+
+  return bookmark;
 }

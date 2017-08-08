@@ -44,6 +44,7 @@ import {
 } from '../actions';
 
 import {ActionType} from '../actions';
+import {DEFAULT_UNDOABLE_STATE, State, UndoableState} from '../models/index';
 import {bookmarkReducer} from './bookmark';
 import {configReducer} from './config';
 import {datasetReducer} from './dataset';
@@ -52,7 +53,6 @@ import {shelfReducer} from './shelf';
 import {shelfPreviewReducer} from './shelf-preview';
 import {stateReducer} from './state';
 
-function reducer(state: Readonly<StateBase> = DEFAULT_STATE, action: Action): StateBase {
   if (action.type === SET_APPLICATION_STATE) {
     return stateReducer(state, action);
   } else {
