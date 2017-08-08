@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 import 'font-awesome-sass-loader';
 
 import { Data } from 'vega-lite/build/src/data';
-import { App } from './components/app';
+import {App} from './components/app';
 import { VOYAGER_CONFIG } from './constants';
 import { VoyagerConfig } from './models/config';
 import { configureStore } from './store';

@@ -16,6 +16,6 @@ export const DEFAULT_DATASET: Dataset = {
   isLoading: false,
   name: 'Empty',
   schema: new Schema({fields: []}),
-  data: {values: []}
+  data: null
 };
 
