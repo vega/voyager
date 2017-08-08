@@ -10,7 +10,7 @@ import {TimeUnit} from 'vega-lite/build/src/timeunit';
 import {FILTER_ADD, FILTER_MODIFY_TIME_UNIT,
   FILTER_REMOVE, FilterAction} from '../../actions/filter';
 import {DraggableType} from '../../constants';
-import {convertToDateTimeObject, getDefaultList, getDefaultRange} from '../../reducers/shelf/filter';
+import {convertToDateTimeObject, getDefaultList, getDefaultRange} from '../../models/shelf/filter';
 import {DraggedFieldIdentifier} from '../field';
 import {Field} from '../field/index';
 import * as styles from './filter-pane.scss';

@@ -7,9 +7,8 @@ import {
   FILTER_MODIFY_MIN_BOUND, FILTER_MODIFY_ONE_OF, FILTER_MODIFY_TIME_UNIT, FILTER_REMOVE
 } from '../../actions/filter';
 import {DEFAULT_SHELF_UNIT_SPEC} from '../../models/shelf';
-import {ShelfFieldDef} from '../../models/shelf/encoding';
 import {ShelfUnitSpec} from '../../models/shelf/spec';
-import {filterReducer, getFilter} from './filter';
+import {filterReducer} from './filter';
 
 const rangeFilter: RangeFilter = {field: 'q1', range: [1437978615, 1501137015]};
 // 1437978615: Sat Jan 17 1970 07:26:18 GMT-0800 (PST);
@@ -176,14 +175,6 @@ describe('reducers/shelf/filter', () => {
     });
   });
 
-  describe('getFilter', () => {
-    it('should return a range filter', () => {
-      const fieldDef: ShelfFieldDef = {field: 'q1', type: 'quantitative'};
-      const domain: any[] = [1437978615, 1501137015];
-      const filter = getFilter(fieldDef, domain);
-      expect(filter).toEqual(rangeFilter);
-    });
-  });
 
   describe(FILTER_MODIFY_TIME_UNIT, () => {
     it('should add a time unit to the range filter', () => {

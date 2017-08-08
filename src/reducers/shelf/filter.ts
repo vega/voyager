@@ -1,16 +1,13 @@
 
-import {ExpandedType} from 'compassql/build/src/query/expandedtype';
 import {Schema} from 'compassql/build/src/schema';
-import {isWildcard} from 'compassql/build/src/wildcard';
-import {DateTime} from 'vega-lite/build/src/datetime';
 import {OneOfFilter, RangeFilter} from 'vega-lite/build/src/filter';
-import {convert, TimeUnit} from 'vega-lite/build/src/timeunit';
+import {TimeUnit} from 'vega-lite/build/src/timeunit';
 import {
   FILTER_ADD, FILTER_CLEAR, FILTER_MODIFY_EXTENT, FILTER_MODIFY_MAX_BOUND, FILTER_MODIFY_MIN_BOUND,
   FILTER_MODIFY_ONE_OF, FILTER_MODIFY_TIME_UNIT, FILTER_REMOVE
 } from '../../actions/filter';
 import {Action} from '../../actions/index';
-import {ShelfFieldDef} from '../../models/shelf/encoding';
+import {convertToDateTimeObject, getDefaultList, getDefaultRange} from '../../models/shelf/filter';
 import {DEFAULT_SHELF_UNIT_SPEC, ShelfUnitSpec} from '../../models/shelf/spec';
 import {insertItemToArray, modifyItemInArray, removeItemFromArray} from '../util';
 
