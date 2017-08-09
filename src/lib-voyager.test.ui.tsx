@@ -75,7 +75,7 @@ describe('lib-voyager', () => {
   });
 
   describe('data', () => {
-    it('initialize with custom data', done => {
+    it('initializes with empty data and can be updated with cusomized data', done => {
 
       const data: any = {
         "values": [
