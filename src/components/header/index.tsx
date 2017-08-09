@@ -3,16 +3,26 @@ import * as CSSModules from 'react-css-modules';
 import {Controls} from './controls';
 import * as styles from './header.scss';
 
+import {connect} from 'react-redux';
 import * as idlLogo from '../../../images/idl-h56.png';
 import * as logo from '../../../images/logo.png';
+import {Dataset} from '../../models/dataset';
+import {State} from '../../models/index';
+import {selectData} from '../../selectors/dataset';
 
 
-export class HeaderBase extends React.PureComponent<{}, {}> {
+export interface HeaderProps {
+  data: Dataset;
+}
+
+export class HeaderBase extends React.PureComponent<HeaderProps, {}> {
   public render() {
+    const {data} = this.props;
+
     return (
       <div styleName='header'>
         <img styleName='voyager-logo' src={logo}/>
-        <Controls />
+        {data && <Controls/>}
         <a styleName='idl-logo' onClick={this.openLink}>
           <img src={idlLogo}/>
         </a>
@@ -25,4 +35,10 @@ export class HeaderBase extends React.PureComponent<{}, {}> {
   }
 }
 
-export const Header = CSSModules(HeaderBase, styles);
+export const Header = connect(
+  (state: State) => {
+    return {
+      data: selectData(state)
+    };
+  }
+)(CSSModules(HeaderBase, styles));
