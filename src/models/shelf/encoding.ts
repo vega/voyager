@@ -5,7 +5,7 @@ import {ExpandedType} from 'compassql/build/src/query/expandedtype';
 import {isWildcard, SHORT_WILDCARD, Wildcard, WildcardProperty} from 'compassql/build/src/wildcard';
 import {Channel} from 'vega-lite/build/src/channel';
 import {Mark as VLMark} from 'vega-lite/build/src/mark';
-import {fromFieldQueryFunctionMixins, getFunctionMixins, ShelfFunction} from './function';
+import {fromFieldQueryFunctionMixins, ShelfFunction, toFunctionMixins} from './function';
 
 export * from './function';
 
@@ -93,7 +93,7 @@ export function toFieldQuery(fieldDef: ShelfFieldDef, channel: Channel | SHORT_W
     channel: channel,
     field: field,
     type: type,
-    ...getFunctionMixins(fn)
+    ...toFunctionMixins(fn)
   };
 }
 

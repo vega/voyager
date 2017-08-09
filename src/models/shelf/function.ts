@@ -16,7 +16,7 @@ function isAggregate(fn: ShelfFunction): fn is AggregateOp {
 function isTimeUnit(fn: ShelfFunction): fn is TimeUnit {
   return TIMEUNIT_INDEX[fn];
 }
-export function getFunctionMixins(fn: ShelfFunction | Wildcard<ShelfFunction>) {
+export function toFunctionMixins(fn: ShelfFunction | Wildcard<ShelfFunction>) {
   if (isWildcard(fn)) {
     throw Error('fn cannot be a wildcard (yet)');
   } else if (isAggregate(fn)) {
@@ -54,5 +54,4 @@ export function fromFieldQueryFunctionMixins(
     }
   }
   return fn;
-
 }
