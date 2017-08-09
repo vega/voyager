@@ -32,3 +32,10 @@ export const selectIsQuerySpecific = createSelector(
     return !hasWildcards(spec).hasAnyWildcard;
   }
 );
+
+export const selectIsQueryEmpty = createSelector(
+  selectQuerySpec,
+  (spec: SpecQuery) => {
+    return spec.encodings.length === 0;
+  }
+);
