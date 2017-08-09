@@ -39,6 +39,7 @@
   "dependencies": {
     "@types/d3-selection": "^1.1.0",
     "@types/json-stable-stringify": "^1.0.31",
+    "@types/papaparse": "^4.1.30",
     "ajv": "^5.2.2",
     "compassql": "^0.19.8",
     "font-awesome": "^4.7.0",
@@ -46,6 +47,7 @@
     "isomorphic-fetch": "^2.2.1",
     "moment": "^2.18.1",
     "normalize-scss": "^6.0.0",
+    "papaparse": "^4.3.5",
     "rc-slider": "^8.2.0",
     "re-reselect": "0.6.2",
     "react": "^15.4.2",
@@ -55,6 +57,7 @@
     "react-dnd": "^2.2.3",
     "react-dnd-html5-backend": "^2.2.3",
     "react-dom": "^15.4.2",
+    "react-file-download": "^0.3.4",
     "react-modal": "^2.0.6",
     "react-redux": "^5.0.2",
     "react-split-pane": "^0.1.58",

@@ -9,6 +9,7 @@ import {State} from '../../models/index';
 import {selectData} from '../../selectors/dataset';
 import {DataPane} from '../data-pane/index';
 import {EncodingPane} from '../encoding-pane/index';
+import {Footer} from '../footer/index';
 import {Header} from '../header/index';
 import {LoadData} from '../load-data-pane/index';
 import {ViewPane} from '../view-pane/index';
@@ -19,7 +20,7 @@ export interface AppRootProps {
 
 class AppRootBase extends React.PureComponent<AppRootProps, {}> {
   public render() {
-    let bottomPane;
+    let bottomPane, footer;
     if (!this.props.data) {
       bottomPane = <LoadData/>;
     } else {
@@ -32,11 +33,13 @@ class AppRootBase extends React.PureComponent<AppRootProps, {}> {
           </SplitPane>
         </SplitPane>
       );
+      footer = <Footer/>;
     }
     return (
       <div className="voyager">
         <Header/>
         {bottomPane}
+        {footer}
       </div>
     );
   }

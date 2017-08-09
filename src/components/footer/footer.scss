@@ -1,0 +1,16 @@
+.footer {
+  background-color: transparent;
+  position: fixed;
+  left: 10px;
+  bottom: 10px;
+
+  a {
+    color: #fff;
+    background-color: transparent;
+    text-decoration: none;
+  }
+  a:hover {
+    color: #ddd;
+    cursor: pointer;
+  }
+}
