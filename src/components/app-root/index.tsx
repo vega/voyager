@@ -19,24 +19,24 @@ export interface AppRootProps {
 
 class AppRootBase extends React.PureComponent<AppRootProps, {}> {
   public render() {
-    let rightPane;
+    let bottomPane;
     if (!this.props.data) {
-      rightPane = <LoadData />;
+      bottomPane = <LoadData/>;
     } else {
-      rightPane = (
-        <SplitPane split="vertical" defaultSize={235}>
-          <EncodingPane/>
-          <ViewPane/>
+      bottomPane = (
+        <SplitPane split="vertical" defaultSize={200}>
+          <DataPane/>
+          <SplitPane split="vertical" defaultSize={235}>
+            <EncodingPane/>
+            <ViewPane/>
+          </SplitPane>
         </SplitPane>
       );
     }
     return (
       <div className="voyager">
         <Header/>
-        <SplitPane split="vertical" defaultSize={200}>
-          <DataPane/>
-          {rightPane}
-        </SplitPane>
+        {bottomPane}
       </div>
     );
   }

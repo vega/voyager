@@ -44,15 +44,14 @@ describe('lib-voyager', () => {
             </Provider>,
           );
 
-          const dataPaneHeader = wrapper.find('.data-pane__data-pane h2');
+          const dataPaneHeader = wrapper.find('.load-data-pane__load-data-pane');
           expect(dataPaneHeader.exists());
-          expect(dataPaneHeader.text()).toContain('Data');
+          expect(dataPaneHeader.text()).toContain('Please load a dataset');
         } catch (err) {
           done.fail(err);
         }
         done();
       }, DEFAULT_TIMEOUT_LENGTH);
-
     });
   });
 
@@ -64,8 +63,8 @@ describe('lib-voyager', () => {
       setTimeout(() => {
         try {
           CreateVoyager(container, config, data);
-          const dataPaneHeader = document.querySelector('.data-pane__data-pane h2');
-          expect(dataPaneHeader.textContent).toContain('Data');
+          const dataPaneHeader = document.querySelector('.load-data-pane__load-data-pane');
+          expect(dataPaneHeader.textContent).toContain('Please load a dataset');
           done();
         } catch (err) {
           done.fail(err);
@@ -75,7 +74,7 @@ describe('lib-voyager', () => {
   });
 
   describe('data', () => {
-    it('initializes with empty data and can be updated with cusomized data', done => {
+    it('initializes with empty data and can be updated with customized data', done => {
 
       const data: any = {
         "values": [
@@ -88,8 +87,8 @@ describe('lib-voyager', () => {
       setTimeout(() => {
         try {
           const voyagerInst = CreateVoyager(container, undefined, undefined);
-          const dataPaneHeader = document.querySelector('.data-pane__data-pane h2');
-          expect(dataPaneHeader.textContent).toContain('Data');
+          const dataPaneHeader = document.querySelector('.load-data-pane__load-data-pane');
+          expect(dataPaneHeader.textContent).toContain('Please load a dataset');
 
           setTimeout(() => {
             try {

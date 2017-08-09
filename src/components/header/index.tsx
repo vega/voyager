@@ -6,6 +6,7 @@ import * as styles from './header.scss';
 import * as idlLogo from '../../../images/idl-h56.png';
 import * as logo from '../../../images/logo.png';
 
+
 export class HeaderBase extends React.PureComponent<{}, {}> {
   public render() {
     return (

@@ -32,9 +32,9 @@ describe('Voyager', () => {
             </Provider>,
           );
 
-          const dataPaneHeader = wrapper.find('.data-pane__data-pane h2');
+          const dataPaneHeader = wrapper.find('.load-data-pane__load-data-pane');
           expect(dataPaneHeader.exists());
-          expect(dataPaneHeader.text()).toContain('Data');
+          expect(dataPaneHeader.text()).toContain('Please load a dataset');
         } catch (err) {
           done.fail(err);
         }
