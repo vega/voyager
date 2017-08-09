@@ -8,6 +8,7 @@ import {State} from '../../models';
 import {Bookmark} from '../../models/bookmark';
 import {PlotObject} from '../../models/plot';
 import {selectBookmark, selectMainSpec, selectPlotList} from '../../selectors';
+import {selectIsQuerySpecific} from '../../selectors/shelf';
 import {Plot} from '../plot';
 import {PlotList} from '../plot-list';
 import {RelatedViews} from './related-views';
@@ -20,16 +21,21 @@ export interface ViewPaneProps extends ActionHandler<ShelfAction> {
   bookmark: Bookmark;
 }
 
-class ViewPaneBase extends React.PureComponent<ViewPaneProps, {}> {
-  public render() {
-    const {bookmark, handleAction, spec, plots} = this.props;
+const NO_PLOT_MESSAGE = `No specified visualization yet. ` +
+`Start exploring by dragging a field to encoding pane ` +
+`on the left or examining univariate summaries below.`;
 
-    if (spec) {
+class ViewPaneBase extends React.PureComponent<ViewPaneProps, {}> {
+
+  public render() {
+    const {bookmark, isQuerySpecific, handleAction, plots} = this.props;
+
+    if (isQuerySpecific) {
       return (
         <div styleName="view-pane">
           <div className="pane" styleName="view-pane-specific">
             <h2>Specified View</h2>
-            <Plot handleAction={handleAction} spec={spec} showBookmarkButton={true} bookmark={bookmark}/>
+            {this.renderSpecifiedView()}
           </div>
 
           <div className="pane" styleName="view-pane-related-views">
@@ -50,10 +56,24 @@ class ViewPaneBase extends React.PureComponent<ViewPaneProps, {}> {
       return null;
     }
   }
+  private renderSpecifiedView() {
+    const {bookmark, handleAction, spec} = this.props;
+
+    if (spec) {
+      return (
+        <Plot handleAction={handleAction} spec={spec} showBookmarkButton={true} bookmark={bookmark}/>
+      );
+    } else {
+      return (
+         <span>{NO_PLOT_MESSAGE}</span>
+      );
+    }
+  }
 }
 export const ViewPane = connect(
   (state: State) => {
     return {
+      isQuerySpecific: selectIsQuerySpecific(state),
       plots: selectPlotList.main(state),
       spec: selectMainSpec(state),
       bookmark: selectBookmark(state)

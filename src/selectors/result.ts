@@ -13,7 +13,7 @@ import {extractPlotObjects, PlotObject} from '../models/plot';
 import {Result, RESULT_TYPES, ResultType} from '../models/result';
 import {getTransforms} from '../models/shelf/spec';
 import {selectData} from './dataset';
-import {selectFilters, selectIsQuerySpecific} from './shelf';
+import {selectFilters, selectIsQueryEmpty, selectIsQuerySpecific} from './shelf';
 // tslint:enable:no-unused-variable
 
 export const selectResult: {
@@ -25,16 +25,18 @@ export const selectResult: {
 
 export const selectMainSpec = createSelector(
   selectIsQuerySpecific,
+  selectIsQueryEmpty,
   selectData,
   selectFilters,
   selectResult.main,
   (
     isQuerySpecific: boolean,
+    isQueryEmpty: boolean,
     data: Data,
     filters: Array<RangeFilter|OneOfFilter>,
     mainResult: Result
   ): FacetedCompositeUnitSpec => {
-    if (!isQuerySpecific || !mainResult.modelGroup) {
+    if (!isQuerySpecific || !mainResult.modelGroup || isQueryEmpty) {
       return undefined;
     }
     return {
