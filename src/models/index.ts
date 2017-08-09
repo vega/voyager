@@ -6,7 +6,7 @@ import {DEFAULT_VOYAGER_CONFIG, VoyagerConfig} from './config';
 import {Dataset, DEFAULT_DATASET} from './dataset';
 import {DEFAULT_RESULT_INDEX, ResultIndex} from './result';
 import {DEFAULT_SHELF_SPEC, Shelf} from './shelf';
-import {DEFAULT_SHELF_PREVIEW, ShelfPreview} from './shelfPreview';
+import {DEFAULT_SHELF_PREVIEW, ShelfPreview} from './shelf-preview';
 
 export * from './bookmark';
 export * from './dataset';

@@ -6,7 +6,7 @@ import {StateWithHistory} from 'redux-undo';
 import {State} from '../models';
 import {Bookmark} from '../models/bookmark';
 import {VoyagerConfig} from '../models/config';
-import {ShelfPreview} from '../models/shelfpreview';
+import {ShelfPreview} from '../models/shelf-preview';
 // import {PlotObject} from '../models/plot';
 // tslint:disable-next-line:no-unused-variable
 

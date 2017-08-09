@@ -3,9 +3,9 @@ import {DEFAULT_BOOKMARK} from '../models/bookmark';
 import {DEFAULT_VOYAGER_CONFIG} from '../models/config';
 import {DEFAULT_STATE, State} from '../models/index';
 import {DEFAULT_RESULT_INDEX} from '../models/result';
+import {DEFAULT_SHELF_PREVIEW} from '../models/shelf-preview';
 import {toQuery} from '../models/shelf/index';
 import {DEFAULT_SHELF_UNIT_SPEC, hasWildcards} from '../models/shelf/spec';
-import {DEFAULT_SHELF_PREVIEW} from '../models/shelfPreview';
 import {selectFilters, selectIsQuerySpecific, selectQuery, selectQuerySpec, selectShelf} from './shelf';
 
 describe('selectors/shelf', () => {

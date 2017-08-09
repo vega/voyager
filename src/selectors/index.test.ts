@@ -1,7 +1,7 @@
 import {DEFAULT_BOOKMARK} from '../models/bookmark';
 import {DEFAULT_VOYAGER_CONFIG} from '../models/config';
 import {DEFAULT_STATE} from '../models/index';
-import {DEFAULT_SHELF_PREVIEW} from '../models/shelfPreview';
+import {DEFAULT_SHELF_PREVIEW} from '../models/shelf-preview';
 import {selectBookmark, selectConfig, selectShelfPreview} from './index';
 
 describe('selectors/index', () => {
