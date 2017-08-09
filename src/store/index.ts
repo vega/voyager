@@ -1,7 +1,6 @@
-import {applyMiddleware, compose, createStore, Middleware} from 'redux';
+import {applyMiddleware, compose, createStore, Middleware, StoreEnhancer} from 'redux';
 import {createLogger} from 'redux-logger';
 import thunkMiddleware from 'redux-thunk';
-
 import {DEFAULT_STATE, State} from '../models';
 import {rootReducer} from '../reducers';
 
@@ -9,7 +8,7 @@ import {rootReducer} from '../reducers';
 // https://github.com/Microsoft/TypeScript/issues/9944
 // tslint:disable-next-line:no-unused-variable
 import {Store} from 'redux';
-import undoable from 'redux-undo';
+import {createActionLog} from 'redux-action-log';
 import {createQueryListener} from './listener';
 
 const loggerMiddleware = createLogger({
@@ -28,8 +27,10 @@ if (process.env.NODE_ENV !== 'production' && process.env.NODE_ENV !== 'test') {
   middleware.push(loggerMiddleware);
 }
 
-
+export let actionLogs: any;
 export function configureStore(initialState = DEFAULT_STATE) {
+  actionLogs = createActionLog({limit: null});
+
   const initialStateWithHistory: State = {
     persistent: initialState.persistent,
     undoable: {
@@ -41,11 +42,13 @@ export function configureStore(initialState = DEFAULT_STATE) {
     }
   };
 
-  const store = createStore<State>(
+  const store: Store<State> = createStore<State>(
     rootReducer,
     initialStateWithHistory,
-    composeEnhancers(applyMiddleware(...middleware))
+    composeEnhancers(applyMiddleware(...middleware), actionLogs.enhancer) as StoreEnhancer<any>
+    // HACK: cast to any to supress typescript complaint
   );
+
   store.subscribe(createQueryListener(store));
   return store;
 }

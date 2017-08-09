@@ -55,6 +55,10 @@ declare module 'rc-slider' {
   export const createSliderWithTooltip: any;
 }
 
+declare module 'redux-action-log' {
+  export const createActionLog: any
+}
+
 interface Process {
   env: any;
 }

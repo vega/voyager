@@ -41,6 +41,10 @@
   version "1.0.31"
   resolved "https://registry.yarnpkg.com/@types/json-stable-stringify/-/json-stable-stringify-1.0.31.tgz#b6c7bc507f5267e88cd2839b3ac6a2b39b653a32"
 
+"@types/papaparse@^4.1.30":
+  version "4.1.30"
+  resolved "https://registry.yarnpkg.com/@types/papaparse/-/papaparse-4.1.30.tgz#00ea0f21ded31cecb5e0b21bd149361930e102b9"
+
 "@types/react-css-modules@^3.7.6":
   version "3.7.6"
   resolved "https://registry.yarnpkg.com/@types/react-css-modules/-/react-css-modules-3.7.6.tgz#101529c8b2d8e4bc4c599e559aa29cfb80a4767a"
@@ -460,6 +464,13 @@ babel-register@^6.23.0:
 babel-runtime@6.x, babel-runtime@^6.22.0, babel-runtime@^6.23.0:
   version "6.23.0"
   resolved "https://registry.yarnpkg.com/babel-runtime/-/babel-runtime-6.23.0.tgz#0a9489f144de70efb3ce4300accdb329e2fc543b"
+  dependencies:
+    core-js "^2.4.0"
+    regenerator-runtime "^0.10.0"
+
+babel-runtime@^6.9.2:
+  version "6.25.0"
+  resolved "https://registry.yarnpkg.com/babel-runtime/-/babel-runtime-6.25.0.tgz#33b98eaa5d482bb01a8d1aa6b437ad2b01aec41c"
   dependencies:
     core-js "^2.4.0"
     regenerator-runtime "^0.10.0"
@@ -4249,6 +4260,10 @@ pako@~0.2.0:
   version "0.2.9"
   resolved "https://registry.yarnpkg.com/pako/-/pako-0.2.9.tgz#f3f7522f4ef782348da8161bad9ecfd51bf83a75"
 
+papaparse@^4.3.5:
+  version "4.3.5"
+  resolved "https://registry.yarnpkg.com/papaparse/-/papaparse-4.3.5.tgz#b6cdf5cae6fe9ec603b1be66f114a63ac645a036"
+
 param-case@2.1.x:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/param-case/-/param-case-2.1.1.tgz#df94fd8cf6531ecf75e6bef9a0858fbc72be2247"
@@ -4926,6 +4941,10 @@ react-dom@^15.4.2:
     loose-envify "^1.1.0"
     object-assign "^4.1.0"
 
+react-file-download@^0.3.4:
+  version "0.3.4"
+  resolved "https://registry.yarnpkg.com/react-file-download/-/react-file-download-0.3.4.tgz#4e1cfc7a47df6eeb299dfd845b99676cdedab5d2"
+
 react-modal@^2.0.6:
   version "2.0.6"
   resolved "https://registry.yarnpkg.com/react-modal/-/react-modal-2.0.6.tgz#00eaa806ec6b52625e25716cda07734692c99e31"
@@ -5107,6 +5126,12 @@ reduce-function-call@^1.0.1:
   resolved "https://registry.yarnpkg.com/reduce-function-call/-/reduce-function-call-1.0.2.tgz#5a200bf92e0e37751752fe45b0ab330fd4b6be99"
   dependencies:
     balanced-match "^0.4.2"
+
+redux-action-log@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/redux-action-log/-/redux-action-log-2.0.1.tgz#bd76d48b975bec98677f4d7b0c2f1452a6414557"
+  dependencies:
+    babel-runtime "^6.9.2"
 
 redux-logger@^3.0.6:
   version "3.0.6"
