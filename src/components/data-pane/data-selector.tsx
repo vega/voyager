@@ -21,9 +21,16 @@ import {DEFAULT_DATASETS} from '../../constants';
 import {Dataset, State} from '../../models';
 import {selectDataset} from '../../selectors';
 
-export interface DataSelectorProps extends ActionHandler<DatasetAsyncAction> {
+export interface DataSelectorOwnProps  {
+
+  title: 'Change' | 'Load';
+}
+
+export interface DataSelectorConnectProps {
   data: Dataset;
 }
+
+export type DataSelectorProps = DataSelectorConnectProps & DataSelectorOwnProps & ActionHandler<DatasetAsyncAction>;
 
 export class DataSelectorBase extends React.PureComponent<DataSelectorProps, any> {
 
@@ -42,9 +49,11 @@ export class DataSelectorBase extends React.PureComponent<DataSelectorProps, any
   }
 
   public render() {
+    const {title} = this.props;
+
     return (
       <div styleName='data-selector'>
-        <button onClick={this.openModal}>Change</button>
+        <button onClick={this.openModal}>{title}</button>
         <Modal
          isOpen={this.state.modalIsOpen}
          onRequestClose={this.closeModal}
@@ -185,7 +194,7 @@ export class DataSelectorBase extends React.PureComponent<DataSelectorProps, any
 
 const DataSelectorRenderer = CSSModules(DataSelectorBase, styles);
 
-export const DataSelector = connect(
+export const DataSelector = connect<DataSelectorConnectProps, ActionHandler<DatasetAsyncAction>, DataSelectorOwnProps>(
   (state: State) => {
     return {
       data: selectDataset(state)

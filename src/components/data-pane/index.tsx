@@ -46,7 +46,7 @@ export class DataPanelBase extends React.PureComponent<DataPanelProps, {}> {
             {name}
           </span>
           <span className="right">
-            {showDataSourceSelector ? <DataSelector /> : null}
+            {showDataSourceSelector ? <DataSelector title="Change"/> : null}
           </span>
         </div>
         {fields}
