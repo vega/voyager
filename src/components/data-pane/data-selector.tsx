@@ -43,7 +43,7 @@ export class DataSelectorBase extends React.PureComponent<DataSelectorProps, any
 
   public render() {
     return (
-      <div styleName='data-selector' className="right" >
+      <div styleName='data-selector'>
         <button onClick={this.openModal}>Change</button>
         <Modal
          isOpen={this.state.modalIsOpen}
