@@ -21,7 +21,7 @@ import {DEFAULT_DATASETS} from '../../constants';
 import {Dataset, State} from '../../models';
 import {selectDataset} from '../../selectors';
 
-export interface DataSelectorOwnProps  {
+export interface DataSelectorOwnProps {
 
   title: 'Change' | 'Load';
 }

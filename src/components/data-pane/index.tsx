@@ -9,7 +9,7 @@ import {DatasetSchemaChangeFieldType} from '../../actions/dataset';
 import {Dataset, State} from '../../models';
 import {VoyagerConfig} from '../../models/config';
 import {selectConfig, selectDataset} from '../../selectors/';
-import {DataSelector} from './data-selector';
+import {DataSelector} from '../data-selector';
 import {FieldList, PresetWildcardFieldList} from './field-list';
 
 export interface DataPanelProps extends ActionHandler<DatasetAsyncAction | ShelfFieldAutoAdd |

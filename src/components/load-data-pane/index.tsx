@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
-import {DataSelector} from '../data-pane/data-selector';
+import {DataSelector} from '../data-selector';
 import * as styles from './load-data-pane.scss';
 
 export class LoadDataBase extends React.PureComponent<{}, {}> {
