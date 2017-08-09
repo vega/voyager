@@ -52,7 +52,7 @@ export class DataSelectorBase extends React.PureComponent<DataSelectorProps, any
     const {title} = this.props;
 
     return (
-      <div styleName='data-selector'>
+      <span styleName='data-selector'>
         <button onClick={this.openModal}>{title}</button>
         <Modal
          isOpen={this.state.modalIsOpen}
@@ -82,7 +82,7 @@ export class DataSelectorBase extends React.PureComponent<DataSelectorProps, any
             </TabPanel>
           </Tabs>
        </Modal>
-      </div>
+      </span>
     );
   }
 
