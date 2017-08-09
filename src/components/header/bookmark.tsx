@@ -7,9 +7,9 @@ import {ActionHandler, createDispatchHandler} from '../../actions/redux-action';
 import {State} from '../../models';
 import {Bookmark} from '../../models/bookmark';
 import {PlotObject} from '../../models/plot';
+import {selectBookmark} from '../../selectors/index';
 import {Plot} from '../plot';
 import * as styles from './bookmark.scss';
-
 
 
 export interface BookmarkProps extends ActionHandler<BookmarkAction> {
@@ -134,7 +134,7 @@ const BookmarkRenderer = CSSModules(BookmarkBase, styles);
 export const BookmarkPane = connect(
   (state: State) => {
     return {
-      bookmark: state.persistent.bookmark
+      bookmark: selectBookmark(state)
     };
   },
   createDispatchHandler<BookmarkAction>()
