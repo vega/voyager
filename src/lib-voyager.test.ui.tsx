@@ -1,14 +1,10 @@
 /**
  * @jest-environment jsdom
  */
-import {mount} from 'enzyme';
-import * as React from 'react';
+
 import * as ReactDOM from 'react-dom';
-import {Provider} from 'react-redux';
-import {App} from './components/app';
 import {CreateVoyager} from './lib-voyager';
 import {SerializableState} from './models/index';
-import {configureStore} from './store';
 
 const DEFAULT_TIMEOUT_LENGTH = 300;
 
@@ -26,54 +22,7 @@ describe('lib-voyager', () => {
     setTimeout(done);
   });
 
-  describe('instantiation via component', () => {
-    it('renders voyager', done => {
-      const config = {};
-      const data: any = undefined;
-      const store = configureStore();
-
-      setTimeout(() => {
-        try {
-          const wrapper = mount(
-            <Provider store={store}>
-              <App
-                  config={config}
-                  data={data}
-                  dispatch={store.dispatch}
-              />
-            </Provider>,
-          );
-
-          const dataPaneHeader = wrapper.find('.load-data-pane__load-data-pane');
-          expect(dataPaneHeader.exists());
-          expect(dataPaneHeader.text()).toContain('Please load a dataset');
-        } catch (err) {
-          done.fail(err);
-        }
-        done();
-      }, DEFAULT_TIMEOUT_LENGTH);
-    });
-  });
-
-  describe('instantiation', () => {
-    it('renders voyager on instantiation with DOM Node', done => {
-      const config = {};
-      const data: any = undefined;
-
-      setTimeout(() => {
-        try {
-          CreateVoyager(container, config, data);
-          const dataPaneHeader = document.querySelector('.load-data-pane__load-data-pane');
-          expect(dataPaneHeader.textContent).toContain('Please load a dataset');
-          done();
-        } catch (err) {
-          done.fail(err);
-        }
-      }, DEFAULT_TIMEOUT_LENGTH);
-    });
-  });
-
-  describe('data', () => {
+  describe('CreateVoyager, updateData', () => {
     it('initializes with empty data and can be updated with customized data', done => {
 
       const data: any = {
@@ -121,9 +70,8 @@ describe('lib-voyager', () => {
   });
 
 
-  describe('applicationState', () => {
-    it('gets initial application state', done => {
-
+  describe('get/setApplicationState', () => {
+    it('gets and sets application state', done => {
       setTimeout(() => {
         try {
           const voyagerInst = CreateVoyager(container, undefined, undefined);
@@ -133,22 +81,6 @@ describe('lib-voyager', () => {
           expect(state).toHaveProperty('dataset');
           expect(state).toHaveProperty('result');
           expect(state).toHaveProperty('shelf');
-
-          done();
-        } catch (err) {
-          done.fail(err);
-        }
-      }, DEFAULT_TIMEOUT_LENGTH);
-    });
-
-    it('sets application state', done => {
-
-      setTimeout(() => {
-        try {
-          const voyagerInst = CreateVoyager(container, undefined, undefined);
-          const state = voyagerInst.getApplicationState();
-
-          expect(state).toHaveProperty('config');
 
           const originalConfigOption = state.config.showDataSourceSelector;
           state.config.showDataSourceSelector = !state.config.showDataSourceSelector;
@@ -261,32 +193,32 @@ describe('lib-voyager', () => {
 
       }, DEFAULT_TIMEOUT_LENGTH);
     });
-  });
 
-  it('error on invalid spec', done => {
-    const config = {};
-    const data: any = undefined;
+    it('error on invalid spec', done => {
+      const config = {};
+      const data: any = undefined;
 
-    const spec: Object = {
-      "FAIL$schema": "https://vega.github.io/schema/vega-lite/v2.json",
-      "FAILdata": {"url": "node_modules/vega-datasets/data/movies.json"},
-      "FAILmark": "bar",
-      "encoding": {
-      }
-    };
-    const voyagerInst = CreateVoyager(container, config, data);
+      const spec: Object = {
+        "FAIL$schema": "https://vega.github.io/schema/vega-lite/v2.json",
+        "FAILdata": {"url": "node_modules/vega-datasets/data/movies.json"},
+        "FAILmark": "bar",
+        "encoding": {
+        }
+      };
+      const voyagerInst = CreateVoyager(container, config, data);
 
-    // This should throw an exception;
-    setTimeout(() => {
-      try {
-        voyagerInst.setSpec(spec);
-        done.fail('No exception thrown with invalid spec');
+      // This should throw an exception;
+      setTimeout(() => {
+        try {
+          voyagerInst.setSpec(spec);
+          done.fail('No exception thrown with invalid spec');
 
-      } catch (err) {
-        expect(true);
-        done();
-      }
+        } catch (err) {
+          expect(true);
+          done();
+        }
 
-    }, DEFAULT_TIMEOUT_LENGTH);
+      }, DEFAULT_TIMEOUT_LENGTH);
+    });
   });
 });
