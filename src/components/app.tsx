@@ -12,9 +12,7 @@ import {AppRoot} from './app-root';
 import './app.scss';
 
 
-export type VoyagerData = Data;
-
-export interface Props extends React.Props<AppBase> {
+export interface Props extends React.Props<App> {
   config?: VoyagerConfig;
   data?: Data;
   applicationState?: Readonly<State>;
@@ -22,7 +20,7 @@ export interface Props extends React.Props<AppBase> {
   dispatch: Dispatch<State>;
 }
 
-export class AppBase extends React.PureComponent<Props, {}> {
+export class App extends React.PureComponent<Props, {}> {
 
   constructor(props: any) {
     super(props);
@@ -113,5 +111,3 @@ export class AppBase extends React.PureComponent<Props, {}> {
     });
   }
 }
-
-export const App = AppBase;

@@ -16,7 +16,7 @@ import {Data} from 'vega-lite/build/src/data';
 import {FacetedCompositeUnitSpec, isUnitSpec, TopLevel, TopLevelExtendedSpec} from 'vega-lite/build/src/spec';
 import {isString} from 'vega-lite/build/src/util';
 import * as vlSchema from 'vega-lite/build/vega-lite-schema.json';
-import {App, VoyagerData} from './components/app';
+import {App} from './components/app';
 import {State} from './models';
 import {VoyagerConfig} from './models/config';
 import {fromSerializable, SerializableState, toSerializable} from './models/index';
@@ -32,10 +32,10 @@ export type Container = string | HTMLElement;
 export class Voyager {
   private container: HTMLElement;
   private config: VoyagerConfig;
-  private data: VoyagerData;
   private store: Store<State>;
+  private data: Data;
 
-  constructor(container: Container, config: VoyagerConfig, data: VoyagerData) {
+  constructor(container: Container, config: VoyagerConfig, data: Data) {
     if (isString(container)) {
       this.container = document.querySelector(container) as HTMLElement;
       // TODO throw error if not found
@@ -55,7 +55,7 @@ export class Voyager {
    *
    * @memberof Voyager
    */
-  public updateData(data: VoyagerData) {
+  public updateData(data: Data) {
     this.data = data;
     this.render(data, this.config);
   }
@@ -216,6 +216,6 @@ export class Voyager {
  * @param {Object}    config    configuration options
  * @param {Array}     data      data object. Can be a string or an array of objects.
  */
-export function CreateVoyager(container: Container, config: Object, data: VoyagerData): Voyager {
+export function CreateVoyager(container: Container, config: Object, data: Data): Voyager {
   return new Voyager(container, config, data);
 }

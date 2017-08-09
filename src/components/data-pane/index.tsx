@@ -21,20 +21,20 @@ export interface DataPanelProps extends ActionHandler<DatasetAsyncAction | Shelf
 export class DataPanelBase extends React.PureComponent<DataPanelProps, {}> {
   public render() {
     const {name} = this.props.data;
-    const fieldLength = this.props.data.schema.fieldSchemas.length;
+    const fieldCount = this.props.data.schema.fieldSchemas.length;
     const {showDataSourceSelector} = this.props.config;
 
     const dataName = (
       <div>Name: {name}</div>
     );
 
-    const fields = fieldLength > 0 ? (
+    const fields = fieldCount > 0 ? (
       <div styleName="data-pane-section">
         <h3>Fields</h3>
         <FieldList/>
       </div>) : null;
 
-    const wildcardFields = fieldLength > 0 ? (
+    const wildcardFields = fieldCount > 0 ? (
       <div styleName="data-pane-section">
         <h3>Wildcard Fields</h3>
         <PresetWildcardFieldList/>
