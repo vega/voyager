@@ -1,8 +1,6 @@
 import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
 import {connect} from 'react-redux';
-import {ActionHandler, createDispatchHandler, DatasetAsyncAction, ShelfFieldAutoAdd} from '../../actions';
-import {DatasetSchemaChangeFieldType} from '../../actions/dataset';
 import {Dataset, State} from '../../models';
 import {VoyagerConfig} from '../../models/config';
 import {selectConfig, selectDataset} from '../../selectors/';
@@ -10,8 +8,7 @@ import {DataSelector} from '../data-selector';
 import * as styles from './data-pane.scss';
 import {FieldList, PresetWildcardFieldList} from './field-list';
 
-export interface DataPanelProps extends ActionHandler<DatasetAsyncAction | ShelfFieldAutoAdd |
-  DatasetSchemaChangeFieldType> {
+export interface DataPanelProps {
   data: Dataset;
   config: VoyagerConfig;
 }
@@ -60,6 +57,5 @@ export const DataPane = connect(
       data: selectDataset(state),
       config: selectConfig(state)
     };
-  },
-  createDispatchHandler<DatasetAsyncAction>()
+  }
 )(CSSModules(DataPanelBase, styles));
