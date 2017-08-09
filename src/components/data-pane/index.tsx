@@ -42,7 +42,7 @@ export class DataPanelBase extends React.PureComponent<DataPanelProps, {}> {
     ) : null;
     return (
       <div className="pane" styleName="data-pane">
-        <h2>Data</h2>
+        <h2 styleName="data-pane-title">Data</h2>
         {showDataSourceSelector ? <DataSelector /> : dataName}
         {fields}
         {wildcardFields}
