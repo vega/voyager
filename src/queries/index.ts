@@ -29,8 +29,18 @@ export const RELATED_VIEWS_INDEX: {[k in ResultType]: QueryCreator} = {
   histograms,
 };
 
+const RELATED_VIEWS_PRIORITY: {[k in ResultType]: number} = {
+  main: undefined,
+  histograms: 0,
+  summaries: 1,
+  addQuantitativeField: 2,
+  addCategoricalField: 3,
+  addTemporalField: 4,
+  alternativeEncodings: 5
+};
+
 export const RELATED_VIEWS_TYPES = Object.keys(RELATED_VIEWS_INDEX)
-  .filter(type => type !== 'main');
+  .filter(type => type !== 'main').sort((t1, t2) => RELATED_VIEWS_PRIORITY[t1] - RELATED_VIEWS_PRIORITY[t2]);
 
 export function dispatchQueries(store: Store<State>, query: Query) {
   const state = store.getState();
