@@ -6,7 +6,8 @@
     "jsx": "react",
     "noImplicitAny": true,
     "suppressImplicitAnyIndexErrors": true,
-    "declaration": true
+    "declaration": true,
+    "noErrorTruncation": true
   },
   "include": [
     "./node_modules/compassql/typings/*.d.ts",
