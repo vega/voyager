@@ -33,11 +33,7 @@ export type ShelfMark = VLMark | SHORT_WILDCARD;
 export interface ShelfFieldDef {
   field: WildcardProperty<string>;
 
-  fn?: ShelfFunction;
-
-  // | {
-  //   [K in ShelfFunction]?: true
-  // };
+  fn?: ShelfFunction | Wildcard<ShelfFunction>;
 
   type?: ExpandedType;
 

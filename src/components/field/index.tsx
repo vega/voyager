@@ -100,6 +100,11 @@ class FieldBase extends React.PureComponent<FieldProps, FieldState> {
     /** Whether the fieldDef has a function that involves field. (Count doesn't involve a specific field.) */
     const isFieldFn = fn && fn !== 'count';
 
+    if (isWildcard(fn)) {
+      // FIXME Felix will implement this.
+      throw new Error('We do not support wildcard function yet.');
+    }
+
     const component = (
       <span
         styleName={isWildcardField ? 'wildcard-field-pill' : isPill ? 'field-pill' : 'field'}

@@ -1,20 +1,22 @@
+import {DEFAULT_QUERY_CONFIG} from 'compassql/build/src/config';
 import {FieldQuery} from 'compassql/build/src/query/encoding';
 import {ExpandedType} from 'compassql/build/src/query/expandedtype';
-import {isWildcard, Wildcard} from 'compassql/build/src/wildcard';
+import {isShortWildcard, isWildcard, Wildcard} from 'compassql/build/src/wildcard';
 import {AGGREGATE_OPS, AggregateOp} from 'vega-lite/build/src/aggregate';
 import {TimeUnit, TIMEUNITS} from 'vega-lite/build/src/timeunit';
-import {isObject, toSet} from 'vega-util';
+import {contains} from 'vega-lite/build/src/util';
+import {toSet} from 'vega-util';
 
 export type ShelfFunction = AggregateOp | 'bin' | TimeUnit | undefined;
 
 const AGGREGATE_INDEX = toSet(AGGREGATE_OPS);
 const TIMEUNIT_INDEX = toSet(TIMEUNITS);
 
-function isAggregate(fn: ShelfFunction): fn is AggregateOp {
+function isAggregate(fn: string): fn is AggregateOp {
   return AGGREGATE_INDEX[fn];
 }
 
-function isTimeUnit(fn: ShelfFunction): fn is TimeUnit {
+function isTimeUnit(fn: string): fn is TimeUnit {
   return TIMEUNIT_INDEX[fn];
 }
 
@@ -59,9 +61,82 @@ export function getSupportedFunction(type: ExpandedType) {
   return [];
 }
 
-export function toFunctionMixins(fn: ShelfFunction | Wildcard<ShelfFunction>) {
+export function isShelfFunction(fn: string): fn is ShelfFunction {
+  return fn === 'bin' ||
+    fn === undefined || fn === null || // check null for duplicate
+    isAggregate(fn) || isTimeUnit(fn);
+}
+
+export type FunctionMixins = Pick<FieldQuery, 'aggregate' | 'timeUnit' | 'bin' | 'hasFn'>;
+
+export function toFunctionMixins(fn: ShelfFunction | Wildcard<ShelfFunction>):
+  FunctionMixins {
+
   if (isWildcard(fn)) {
-    throw Error('fn cannot be a wildcard (yet)');
+    const fns = sortFunctions(fn.enum); // sort a new copy of the array
+
+    const aggregates: AggregateOp[] = [];
+    const timeUnits: TimeUnit[] = [];
+    let hasBin: boolean = false;
+    let hasNoFn: boolean = false;
+
+    for (const f of fns) {
+      if (isAggregate(f)) {
+        aggregates.push(f);
+      } else if (isTimeUnit(f)) {
+        timeUnits.push(f);
+      } else if (f === 'bin') {
+        hasBin = true;
+      } else if (f === undefined || f === null) {
+        // Check for null just in case things get copied
+        hasNoFn = true;
+      } else {
+        throw new Error('Invalid function ' + f);
+      }
+    }
+
+    const functionTypeCount = (aggregates.length > 0 ? 1 : 0) +
+      (timeUnits.length > 0 ? 1 : 0) +
+      (hasBin ? 1 : 0);
+
+    const enumerateUndefined = functionTypeCount > 1 || hasNoFn;
+    const baseEnum: Array<undefined> = enumerateUndefined ? [undefined] : [];
+    const hasFn = !hasNoFn;
+
+    const mixins: FunctionMixins = {
+      ...(aggregates.length > 0 ? {
+        aggregate: {enum: [].concat(baseEnum, aggregates)}
+      } : {}),
+
+      ...(timeUnits.length > 0 ? {
+        timeUnit: {enum: [].concat(baseEnum, timeUnits)}
+      } : {}),
+
+      ...(hasBin ? {
+        bin: {
+          enum: (enumerateUndefined ? [false] : []).concat([true])
+          // TODO: deal with bin params
+        }
+      } : {}),
+      ...(hasFn ? {hasFn} : {})
+    };
+
+    if (!mixins.aggregate && !mixins.timeUnit && !mixins.bin) {
+      // For enum: [undefined], return this special mixins
+      return {
+        bin: {
+          enum: [false]
+        },
+        timeUnit: {
+          enum: [undefined]
+        },
+        aggregate: {
+          enum: [undefined]
+        }
+      };
+    }
+
+    return mixins;
   } else if (isAggregate(fn)) {
     return {aggregate: fn};
   } else if (fn === 'bin') {
@@ -72,31 +147,78 @@ export function toFunctionMixins(fn: ShelfFunction | Wildcard<ShelfFunction>) {
   return {};
 }
 
+function excludeUndefined(fn: string) {
+  if (!isShelfFunction) {
+    console.warn(`Invalid function ${fn} dropped`);
+    return false;
+  }
+  return fn !== undefined && fn !== null;
+}
+
 export function fromFieldQueryFunctionMixins(
   fieldQParts: Pick<FieldQuery, 'aggregate' | 'timeUnit' | 'bin' | 'hasFn'>
-): ShelfFunction {
-  const {aggregate, bin, timeUnit} = fieldQParts;
+): ShelfFunction | Wildcard<ShelfFunction> {
 
+  // FIXME make this a parameter
+  const config = DEFAULT_QUERY_CONFIG;
+
+  const {aggregate, bin, hasFn, timeUnit} = fieldQParts;
+
+  let fns: ShelfFunction[] = [];
   let fn: ShelfFunction;
+  let hasUndefinedInEnum = false;
+
   if (bin) {
-    if (isObject(bin)) {
-      console.warn('Voyager does not yet support loading VLspec with bin');
-    }
-    fn = 'bin';
-  } else if (aggregate) {
-    if (isWildcard(aggregate)) {
-      throw Error('Voyager does not support aggregate wildcard (yet)');
-    } else {
-      fn = aggregate;
-    }
-  } else if (timeUnit) {
-    if (isWildcard(timeUnit)) {
-      throw Error('Voyager does not support wildcard timeUnit (yet)');
-    } else {
-      fn = timeUnit;
+    if (isWildcard(bin)) {
+      const bins = isShortWildcard(bin) ? [false] : bin.enum;
+      fns = fns.concat(contains(bins, true) ? ['bin'] : []);
+      hasUndefinedInEnum = hasUndefinedInEnum || contains(bins, false);
+    } else if (bin) {
+      fn = 'bin';
     }
   }
-  return fn;
+
+  if (aggregate) {
+    if (isWildcard(aggregate)) {
+      const aggregates = isShortWildcard(aggregate) ? config.enum.aggregate : aggregate.enum;
+      fns = fns.concat(
+        // We already filter composite aggregate function so it is fine to cast here
+        // as the only thing left would be AggregateOp (but TS would not know that)
+        aggregates.filter(excludeUndefined) as AggregateOp[]
+      );
+      hasUndefinedInEnum = hasUndefinedInEnum || contains(aggregates, undefined);
+    } else if (!fn) {
+      fn = aggregate;
+    } else {
+      throw Error(`Invalid field with function ${fn} and ${aggregate}`);
+    }
+  }
+
+  if (timeUnit) {
+    if (isWildcard(timeUnit)) {
+      const timeUnits = isShortWildcard(timeUnit) ? config.enum.timeUnit : timeUnit.enum;
+      fns = fns.concat(timeUnits.filter(excludeUndefined));
+      hasUndefinedInEnum = hasUndefinedInEnum || contains(timeUnits, undefined);
+    } else if (!fn) {
+      fn = timeUnit;
+    } else {
+      throw Error(`Invalid field with function ${fn} and ${timeUnit}`);
+    }
+  }
+
+  if (fn) {
+    return fn;
+  }
+
+  if (hasUndefinedInEnum && !hasFn) {
+    // prepend undefined
+    fns.unshift(undefined);
+  }
+
+  if (fns.length > 0) {
+    return {enum: sortFunctions(fns)};
+  }
+  return undefined;
 }
 
 export function sortFunctions(fns: ShelfFunction[]): ShelfFunction[] {
