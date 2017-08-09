@@ -11,6 +11,7 @@ import {resultRequest} from '../actions/result';
 import {State} from '../models/index';
 import {ResultType} from '../models/result';
 import {selectIsQuerySpecific} from '../selectors/index';
+import {selectIsQueryEmpty} from '../selectors/shelf';
 import {alternativeEncodings} from './alternative-encodings';
 import {QueryCreator} from './base';
 import {addCategoricalField, addQuantitativeField, addTemporalField} from './field-suggestions';
@@ -34,7 +35,7 @@ export const RELATED_VIEWS_TYPES = Object.keys(RELATED_VIEWS_INDEX)
 export function dispatchQueries(store: Store<State>, query: Query) {
   const state = store.getState();
 
-  const isQueryEmpty = !query || query.spec.encodings.length === 0;
+  const isQueryEmpty = selectIsQueryEmpty(state);
   const isQuerySpecific = selectIsQuerySpecific(state);
   store.dispatch(resultRequest('main', query));
 
