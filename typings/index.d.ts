@@ -59,6 +59,11 @@ declare module 'redux-action-log' {
   export const createActionLog: any
 }
 
+declare module 'react-file-download' {
+  const fileDownload: any;
+  export = fileDownload;
+}
+
 interface Process {
   env: any;
 }

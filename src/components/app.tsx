@@ -12,6 +12,7 @@ import {AppRoot} from './app-root';
 import './app.scss';
 
 
+
 export interface Props extends React.Props<App> {
   config?: VoyagerConfig;
   data?: Data;
