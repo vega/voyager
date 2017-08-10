@@ -30,6 +30,7 @@ export function filterReducer(shelfSpec: Readonly<ShelfUnitSpec> = DEFAULT_SHELF
         filters
       };
     }
+
     case FILTER_CLEAR: {
       const filters: RangeFilter[] | OneOfFilter[] = [];
       return {
@@ -37,6 +38,7 @@ export function filterReducer(shelfSpec: Readonly<ShelfUnitSpec> = DEFAULT_SHELF
         filters
       };
     }
+
     case FILTER_REMOVE: {
       const {index} = action.payload;
       const filters = removeItemFromArray(shelfSpec.filters, index).array;
@@ -45,6 +47,7 @@ export function filterReducer(shelfSpec: Readonly<ShelfUnitSpec> = DEFAULT_SHELF
         filters
       };
     }
+
     case FILTER_MODIFY_EXTENT: {
       const {index, range} = action.payload;
       const min = range[0];
@@ -63,6 +66,7 @@ export function filterReducer(shelfSpec: Readonly<ShelfUnitSpec> = DEFAULT_SHELF
         filters: modifyItemInArray(shelfSpec.filters, index, modifyExtent)
       };
     }
+
     case FILTER_MODIFY_MAX_BOUND: {
       const {index, maxBound} = action.payload;
       const modifyMaxBound = (filter: RangeFilter) => {
@@ -81,6 +85,7 @@ export function filterReducer(shelfSpec: Readonly<ShelfUnitSpec> = DEFAULT_SHELF
         filters: modifyItemInArray(shelfSpec.filters, index, modifyMaxBound)
       };
     }
+
     case FILTER_MODIFY_MIN_BOUND: {
       const {index, minBound} = action.payload;
       const modifyMinBound = (filter: RangeFilter) => {
@@ -99,6 +104,7 @@ export function filterReducer(shelfSpec: Readonly<ShelfUnitSpec> = DEFAULT_SHELF
         filters: modifyItemInArray(shelfSpec.filters, index, modifyMinBound)
       };
     }
+
     case FILTER_MODIFY_ONE_OF: {
       const {index, oneOf} = action.payload;
       const modifyOneOf = (filter: OneOfFilter) => {
@@ -112,6 +118,7 @@ export function filterReducer(shelfSpec: Readonly<ShelfUnitSpec> = DEFAULT_SHELF
         filters: modifyItemInArray(shelfSpec.filters, index, modifyOneOf)
       };
     }
+
     case FILTER_MODIFY_TIME_UNIT: {
       const {index, timeUnit} = action.payload;
       const domain = schema.domain({field: shelfSpec.filters[index].field});
@@ -146,6 +153,7 @@ export function filterReducer(shelfSpec: Readonly<ShelfUnitSpec> = DEFAULT_SHELF
         filters: modifyItemInArray(shelfSpec.filters, index, modifyTimeUnit)
       };
     }
+
     default: {
       return shelfSpec;
     }
