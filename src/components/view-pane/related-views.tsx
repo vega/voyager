@@ -3,6 +3,7 @@ import * as CSSModules from 'react-css-modules';
 import {connect} from 'react-redux';
 import {BookmarkAction} from '../../actions/bookmark';
 import {ActionHandler, createDispatchHandler} from '../../actions/redux-action';
+import {ResultAction} from '../../actions/result';
 import {ShelfAction} from '../../actions/shelf';
 import {Bookmark} from '../../models/bookmark';
 import {State} from '../../models/index';
@@ -14,7 +15,7 @@ import {selectPlotList, selectResult} from '../../selectors/result';
 import {PlotList} from '../plot-list/index';
 import * as styles from './related-views.scss';
 
-export interface RelatedViewsProps extends ActionHandler<BookmarkAction|ShelfAction> {
+export interface RelatedViewsProps extends ActionHandler<BookmarkAction|ShelfAction|ResultAction> {
   plots: {
     [k in ResultType]: PlotObject[]
   };
@@ -38,7 +39,13 @@ export class RelatedViewsBase extends React.PureComponent<RelatedViewsProps, {}>
         plotObjects && plotObjects.length > 0 &&
         <div styleName="related-views-subpane" key={relatedViewType}>
           <h3>{title}</h3>
-          <PlotList handleAction={handleAction} plots={plotObjects} bookmark={bookmark} limit={limit}/>
+          <PlotList
+            handleAction={handleAction}
+            plots={plotObjects}
+            bookmark={bookmark}
+            limit={limit}
+            resultType={relatedViewType}
+          />
         </div>
       );
     });
