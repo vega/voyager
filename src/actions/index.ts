@@ -2,6 +2,7 @@ import {BookmarkAction} from './bookmark';
 import {ConfigAction} from './config';
 import {DatasetAction} from './dataset';
 import {FilterAction} from './filter';
+import {ResetAction} from './reset';
 import {ResultAction} from './result';
 import {ShelfAction} from './shelf';
 import {ShelfPreviewAction} from './shelf-preview';
@@ -13,6 +14,7 @@ export * from './config';
 export * from './dataset';
 export * from './filter';
 export * from './redux-action';
+export * from './reset';
 export * from './result';
 export * from './shelf';
 export * from './state';
@@ -22,7 +24,7 @@ export * from './shelf-preview';
 /**
  * Union type of all actions in our application.
  */
-export type Action = BookmarkAction | DatasetAction | ShelfAction | ShelfPreviewAction | UndoableAction |
+export type Action = ResetAction | BookmarkAction | DatasetAction | ShelfAction | ShelfPreviewAction | UndoableAction |
   ResultAction | ConfigAction | ApplicationStateAction | FilterAction;
 
 export type ActionType = Action['type'];
@@ -51,6 +53,8 @@ const ACTION_TYPE_INDEX: {[k in ActionType]: 1} = {
 
   RESULT_RECEIVE: 1,
   RESULT_REQUEST: 1,
+
+  RESET: 1,
 
   SET_CONFIG: 1,
 

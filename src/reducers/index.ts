@@ -8,7 +8,7 @@ import {DEFAULT_STATE} from '../models';
 import {SET_CONFIG} from '../actions/config';
 
 // tslint:disable-next-line:no-unused-variable
-import {Action as BaseReduxAction, combineReducers} from 'redux';
+import {Action as BaseReduxAction, combineReducers, Reducer} from 'redux';
 
 import {
   BOOKMARK_ADD_PLOT,
@@ -43,31 +43,63 @@ import {
 } from '../actions';
 
 import {ActionType} from '../actions';
-import {DEFAULT_UNDOABLE_STATE_BASE, State, UndoableStateBase} from '../models/index';
+import {RESET} from '../actions/reset';
+import {
+  DEFAULT_PERSISTENT_STATE,
+  DEFAULT_UNDOABLE_STATE_BASE,
+  PersistentState,
+  State,
+  UndoableStateBase
+} from '../models/index';
 import {bookmarkReducer} from './bookmark';
 import {configReducer} from './config';
 import {datasetReducer} from './dataset';
+import {makeResetReducer, ResetIndex} from './reset';
 import {resultIndexReducer} from './result';
 import {shelfReducer} from './shelf';
 import {shelfPreviewReducer} from './shelf-preview';
 import {stateReducer} from './state';
 
-function undoableReducerBase(
-  state: Readonly<UndoableStateBase> = DEFAULT_UNDOABLE_STATE_BASE,
-  action: Action
-): UndoableStateBase {
-  return {
-    config: configReducer(state.config, action),
-    dataset: datasetReducer(state.dataset, action),
-    shelf: shelfReducer(state.shelf, action, state.dataset.schema),
-    result: resultIndexReducer(state.result, action)
-  };
-}
+/**
+ * Whether to reset a particular property of the undoable state during RESET action
+ */
+const undoableStateToReset: ResetIndex<UndoableStateBase> = {
+  config: false,
+  dataset: true,
+  shelf: true,
+  result: true
+};
 
-const persistentReducer = combineReducers({
-  bookmark: bookmarkReducer,
-  shelfPreview: shelfPreviewReducer
-});
+const undoableReducerBase = makeResetReducer(
+  (state: Readonly<UndoableStateBase> = DEFAULT_UNDOABLE_STATE_BASE, action: Action): UndoableStateBase => {
+    return {
+      config: configReducer(state.config, action),
+      dataset: datasetReducer(state.dataset, action),
+      shelf: shelfReducer(state.shelf, action, state.dataset.schema),
+      result: resultIndexReducer(state.result, action)
+    };
+  },
+  undoableStateToReset,
+  DEFAULT_UNDOABLE_STATE_BASE
+);
+
+/**
+ * Whether to reset a particular property of the persistent state during RESET action
+ */
+const persistentStateToReset: ResetIndex<PersistentState> = {
+  bookmark: true,
+  shelfPreview: true
+};
+
+const persistentReducer = makeResetReducer(
+  combineReducers({
+    bookmark: bookmarkReducer,
+    shelfPreview: shelfPreviewReducer
+  }),
+  persistentStateToReset,
+  DEFAULT_PERSISTENT_STATE
+);
+
 
 /**
  * Exclude these actions from the history completely.
@@ -85,6 +117,7 @@ export const ACTIONS_EXCLUDED_FROM_HISTORY: ActionType[] = [
   UNDO,
   REDO,
   // Reset app state completely
+  RESET,
   SET_APPLICATION_STATE,
 ];
 
