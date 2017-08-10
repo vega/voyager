@@ -83,8 +83,16 @@ export function toSerializable(state: Readonly<State>): SerializableState {
 }
 
 export function fromSerializable(serializable: SerializableState): Readonly<State> {
-  const {dataset: datasetWithoutSchema, tableschema, ...serializableWithoutData} = serializable;
-  const {bookmark, shelfPreview, ...undoableStateBaseWithoutDataset} = serializableWithoutData;
+  const {
+    // Data
+    dataset: datasetWithoutSchema,
+    tableschema,
+    // Persistent
+    bookmark,
+    shelfPreview,
+    // Then the rest should be UndoableStateBaseWithoutDataset
+    ...undoableStateBaseWithoutDataset
+  } = serializable;
 
   const persistent: PersistentState = {bookmark, shelfPreview};
 
