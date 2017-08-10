@@ -3,11 +3,12 @@ import * as React from 'react';
 import { FacetedCompositeUnitSpec } from 'vega-lite/build/src/spec';
 import { BookmarkAction } from '../../actions/bookmark';
 import { ActionHandler } from '../../actions/redux-action';
+import { ResultAction } from '../../actions/result';
 import { ShelfAction } from '../../actions/shelf';
 import { ShelfPreviewAction } from '../../actions/shelf-preview';
 import { Bookmark } from '../../models/bookmark';
 import { PlotFieldInfo } from '../../models/plot';
-export interface PlotProps extends ActionHandler<ShelfAction | BookmarkAction | ShelfPreviewAction> {
+export interface PlotProps extends ActionHandler<ShelfAction | BookmarkAction | ShelfPreviewAction | ResultAction> {
     fieldInfos?: PlotFieldInfo[];
     isPlotListItem?: boolean;
     showBookmarkButton?: boolean;

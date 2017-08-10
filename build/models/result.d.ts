@@ -5,6 +5,7 @@ export interface Result {
     isLoading: boolean;
     modelGroup: SpecQueryGroup<PlotObject> | null;
     query: Query;
+    limit: number;
 }
 export interface ResultIndex {
     main: Result;
