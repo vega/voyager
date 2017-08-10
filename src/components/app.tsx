@@ -1,19 +1,28 @@
 
 import * as React from 'react';
+import {DragDropContext} from 'react-dnd';
+import HTML5Backend from 'react-dnd-html5-backend';
+import {connect} from 'react-redux';
+import * as SplitPane from 'react-split-pane';
 import {Dispatch} from 'redux';
 import {ActionCreators} from 'redux-undo';
 import {Data} from 'vega-lite/build/src/data';
-import { FacetedCompositeUnitSpec, TopLevel } from 'vega-lite/build/src/spec';
+import {FacetedCompositeUnitSpec, TopLevel} from 'vega-lite/build/src/spec';
 import {datasetLoad, SET_APPLICATION_STATE, SET_CONFIG} from '../actions';
 import {SHELF_SPEC_LOAD} from '../actions/shelf';
 import {VoyagerConfig} from '../models/config';
 import {State} from '../models/index';
-import {AppRoot} from './app-root';
+import {selectData} from '../selectors/dataset';
 import './app.scss';
+import {DataPane} from './data-pane/index';
+import {EncodingPane} from './encoding-pane/index';
+import {Footer} from './footer/index';
+import {Header} from './header/index';
+import {LoadData} from './load-data-pane/index';
+import {ViewPane} from './view-pane/index';
 
 
-
-export interface Props extends React.Props<App> {
+export interface OwnProps extends React.Props<AppBase> {
   config?: VoyagerConfig;
   data?: Data;
   applicationState?: Readonly<State>;
@@ -21,7 +30,13 @@ export interface Props extends React.Props<App> {
   dispatch: Dispatch<State>;
 }
 
-export class App extends React.PureComponent<Props, {}> {
+export interface ConnectProps {
+  connectData: Data;
+}
+
+export type Props = OwnProps & ConnectProps;
+
+export class AppBase extends React.PureComponent<Props, {}> {
 
   constructor(props: any) {
     super(props);
@@ -40,7 +55,28 @@ export class App extends React.PureComponent<Props, {}> {
   }
 
   public render() {
-    return <AppRoot/>;
+    let bottomPane, footer;
+    if (!this.props.connectData) {
+      bottomPane = <LoadData/>;
+    } else {
+      bottomPane = (
+        <SplitPane split="vertical" defaultSize={200}>
+          <DataPane/>
+          <SplitPane split="vertical" defaultSize={235}>
+            <EncodingPane/>
+            <ViewPane/>
+          </SplitPane>
+        </SplitPane>
+      );
+      footer = <Footer/>;
+    }
+    return (
+      <div className="voyager">
+        <Header/>
+        {bottomPane}
+        {footer}
+      </div>
+    );
   }
 
   private update(nextProps: Props) {
@@ -112,3 +148,11 @@ export class App extends React.PureComponent<Props, {}> {
     });
   }
 }
+
+export const App = connect<ConnectProps, {}, OwnProps>(
+  (state: State) => {
+    return {
+      connectData: selectData(state)
+    };
+  }
+)(DragDropContext(HTML5Backend)(AppBase));
