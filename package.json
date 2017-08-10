@@ -41,7 +41,7 @@
     "@types/json-stable-stringify": "^1.0.31",
     "@types/papaparse": "^4.1.30",
     "ajv": "^5.2.2",
-    "compassql": "^0.19.8",
+    "compassql": "^0.19.9",
     "font-awesome": "^4.7.0",
     "font-awesome-sass-loader": "^1.0.3",
     "isomorphic-fetch": "^2.2.1",
