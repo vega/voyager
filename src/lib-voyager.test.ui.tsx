@@ -3,6 +3,7 @@
  */
 
 import * as ReactDOM from 'react-dom';
+import {Data} from 'vega-lite/build/src/data';
 import {CreateVoyager} from './lib-voyager';
 import {SerializableState} from './models/index';
 
@@ -25,12 +26,17 @@ describe('lib-voyager', () => {
   describe('CreateVoyager, updateData', () => {
     it('initializes with empty data and can be updated with customized data', done => {
 
-      const data: any = {
+      const data: Data = {
         "values": [
           {"fieldA": "A", "fieldB": 28}, {"fieldA": "B", "fieldB": 55}, {"fieldA": "C", "fieldB": 43},
           {"fieldA": "D", "fieldB": 91}, {"fieldA": "E", "fieldB": 81}, {"fieldA": "F", "fieldB": 53},
           {"fieldA": "G", "fieldB": 19}, {"fieldA": "H", "fieldB": 87}, {"fieldA": "I", "fieldB": 52}
         ]
+      };
+
+      const voyagerData = {
+        data,
+        filename: 'Custom Data'
       };
 
       setTimeout(() => {
@@ -43,7 +49,7 @@ describe('lib-voyager', () => {
             try {
               const fieldList = document.querySelectorAll('.field-list__field-list-item');
               expect(fieldList.length).toEqual(0);
-              voyagerInst.updateData(data);
+              voyagerInst.updateData(voyagerData);
             } catch (err) {
               done.fail(err);
             }

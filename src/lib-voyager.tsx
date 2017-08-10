@@ -12,11 +12,10 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import {Store} from 'redux';
-import {Data} from 'vega-lite/build/src/data';
 import {FacetedCompositeUnitSpec, isUnitSpec, TopLevel, TopLevelExtendedSpec} from 'vega-lite/build/src/spec';
 import {isString} from 'vega-lite/build/src/util';
 import * as vlSchema from 'vega-lite/build/vega-lite-schema.json';
-import {App} from './components/app';
+import {App, VoyagerData} from './components/app';
 import {State} from './models';
 import {VoyagerConfig} from './models/config';
 import {fromSerializable, SerializableState, toSerializable} from './models/index';
@@ -33,9 +32,9 @@ export class Voyager {
   private container: HTMLElement;
   private config: VoyagerConfig;
   private store: Store<State>;
-  private data: Data;
+  private data: VoyagerData;
 
-  constructor(container: Container, config: VoyagerConfig, data: Data) {
+  constructor(container: Container, config: VoyagerConfig, data: VoyagerData) {
     if (isString(container)) {
       this.container = document.querySelector(container) as HTMLElement;
       // TODO throw error if not found
@@ -55,7 +54,7 @@ export class Voyager {
    *
    * @memberof Voyager
    */
-  public updateData(data: Data) {
+  public updateData(data: VoyagerData) {
     this.data = data;
     this.render(data, this.config);
   }
@@ -103,7 +102,11 @@ export class Voyager {
     // If it is unit, then we can cast to a top level unit spec
     const validSpec: TopLevel<FacetedCompositeUnitSpec> = spec as TopLevel<FacetedCompositeUnitSpec>;
 
-    this.data = validSpec.data;
+    this.data = {
+      data: validSpec.data,
+      filename: 'Custom Data'
+    };
+
     this.render(this.data, this.config, validSpec);
   }
 
@@ -176,7 +179,7 @@ export class Voyager {
     this.render(this.data, this.config);
   }
 
-  private render(data: Data, config: VoyagerConfig, spec?: TopLevel<FacetedCompositeUnitSpec>) {
+  private render(data: VoyagerData, config: VoyagerConfig, spec?: TopLevel<FacetedCompositeUnitSpec>) {
     const store = this.store;
     const root = this.container;
     ReactDOM.render(
@@ -214,8 +217,9 @@ export class Voyager {
  * @param {Container} container css selector or HTMLElement that will be the parent
  *                              element of the application
  * @param {Object}    config    configuration options
- * @param {Array}     data      data object. Can be a string or an array of objects.
+ * @param {Array}     data      VoyagerData object. Contains property `data`,
+ *                              a string or an array of objects, and property `filename`, a string.
  */
-export function CreateVoyager(container: Container, config: Object, data: Data): Voyager {
+export function CreateVoyager(container: Container, config: Object, data: VoyagerData): Voyager {
   return new Voyager(container, config, data);
 }
