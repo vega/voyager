@@ -40,7 +40,8 @@ const RELATED_VIEWS_PRIORITY: {[k in ResultType]: number} = {
 };
 
 export const RELATED_VIEWS_TYPES = Object.keys(RELATED_VIEWS_INDEX)
-  .filter(type => type !== 'main').sort((t1, t2) => RELATED_VIEWS_PRIORITY[t1] - RELATED_VIEWS_PRIORITY[t2]);
+  .filter(type => type !== 'main')
+  .sort((t1, t2) => RELATED_VIEWS_PRIORITY[t1] - RELATED_VIEWS_PRIORITY[t2]) as ResultType[];
 
 export function dispatchQueries(store: Store<State>, query: Query) {
   const state = store.getState();

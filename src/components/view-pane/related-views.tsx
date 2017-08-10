@@ -29,7 +29,7 @@ export class RelatedViewsBase extends React.PureComponent<RelatedViewsProps, {}>
       const plotObjects = plots[relatedViewType];
       const title = RELATED_VIEWS_INDEX[relatedViewType].title;
       return (
-        plotObjects &&
+        plotObjects && plotObjects.length > 0 &&
         <div styleName="related-views-subpane" key={relatedViewType}>
           <h3>{title}</h3>
           <PlotList handleAction={handleAction} plots={plotObjects} bookmark={bookmark}/>
