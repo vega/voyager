@@ -1,0 +1,20 @@
+{
+  "name": "vega-datasets",
+  "version": "1.8.0",
+  "description": "Common repository for example datasets used by Vega related projects.",
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/vega/vega-datasets.git"
+  },
+  "author": {
+    "name": "UW Interactive Data Lab",
+    "url": "http://idl.cs.washington.edu"
+  },
+  "devDependencies": {
+    "datalib": "^1.5.9"
+  },
+  "scripts": {
+    "flights": "node scripts/flights.js",
+    "github": "python scripts/github.py"
+  }
+}
