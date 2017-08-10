@@ -1,9 +1,8 @@
 import {FieldSchema, Schema, TableSchema} from 'compassql/build/src/schema';
 import {StateWithHistory} from 'redux-undo';
-import {Data} from 'vega-lite/build/src/data';
 import {Bookmark, DEFAULT_BOOKMARK} from './bookmark';
 import {DEFAULT_VOYAGER_CONFIG, VoyagerConfig} from './config';
-import {Dataset, DEFAULT_DATASET} from './dataset';
+import {Dataset, DatasetWithoutSchema, DEFAULT_DATASET} from './dataset';
 import {DEFAULT_RESULT_INDEX, ResultIndex} from './result';
 import {DEFAULT_SHELF, Shelf} from './shelf';
 import {DEFAULT_SHELF_PREVIEW, ShelfPreview} from './shelf-preview';
@@ -22,11 +21,14 @@ export interface PersistentState {
   shelfPreview: ShelfPreview;
 }
 
-export interface UndoableStateBase {
+export interface UndoableStateBaseWithoutDataset {
   config: VoyagerConfig;
-  dataset: Dataset;
   shelf: Shelf;
   result: ResultIndex;
+}
+
+export interface UndoableStateBase extends UndoableStateBaseWithoutDataset {
+  dataset: Dataset;
 }
 
 /**
@@ -63,62 +65,42 @@ export const DEFAULT_STATE: State = {
 };
 
 
-export interface SerializableState {
-  bookmark: Bookmark;
-  config: VoyagerConfig;
-  shelf: Shelf;
-  shelfPreview: ShelfPreview;
-  result: ResultIndex;
-  dataset: {
-    isLoading: boolean;
-    name: string;
-    data: Data
-  };
+export interface SerializableState extends PersistentState, UndoableStateBaseWithoutDataset {
+  dataset: DatasetWithoutSchema;
   tableschema: TableSchema<FieldSchema>;
 }
 
 export function toSerializable(state: Readonly<State>): SerializableState {
-  const persistentState = state.persistent;
-  const undoableState = state.undoable.present;
+  const {dataset, ...undoableStateBaseWithoutDataset} = state.undoable.present;
+  const {schema, ...datasetWithoutSchema} = dataset;
 
   return {
-    bookmark: persistentState.bookmark,
-    config: undoableState.config,
-    shelf: undoableState.shelf,
-    shelfPreview: persistentState.shelfPreview,
-    result: undoableState.result,
-    dataset: {
-      isLoading: undoableState.dataset.isLoading,
-      name: undoableState.dataset.name,
-      data: undoableState.dataset.data,
-    },
-    tableschema: undoableState.dataset.schema.tableSchema(),
+    ...state.persistent,
+    ...undoableStateBaseWithoutDataset,
+    dataset: datasetWithoutSchema,
+    tableschema: schema.tableSchema(),
   };
 }
 
 export function fromSerializable(serializable: SerializableState): Readonly<State> {
-  const {bookmark, config, shelf, shelfPreview, result, dataset, tableschema} = serializable;
+  const {dataset: datasetWithoutSchema, tableschema, ...serializableWithoutData} = serializable;
+  const {bookmark, shelfPreview, ...undoableStateBaseWithoutDataset} = serializableWithoutData;
+
+  const persistent: PersistentState = {bookmark, shelfPreview};
+
+  const undoableBase: UndoableStateBase = {
+    ...undoableStateBaseWithoutDataset,
+    dataset: {
+      ...datasetWithoutSchema,
+      schema : new Schema(serializable.tableschema)
+    }
+  };
 
   return {
-    persistent: {
-      bookmark,
-      shelfPreview
-    },
-
+    persistent,
     undoable: {
-      past: [],
-      present: {
-        config,
-        dataset: {
-          ...dataset,
-          schema: new Schema(serializable.tableschema)
-        },
-        shelf,
-        result
-      },
-      future: [],
-      _latestUnfiltered: null,
-      group: null
+      ...DEFAULT_UNDOABLE_STATE,
+      present: undoableBase
     }
   };
 }
