@@ -1,15 +1,15 @@
 import {ExpandedType} from 'compassql/build/src/query/expandedtype';
 import {FieldSchema, Schema} from 'compassql/build/src/schema';
-import {DATASET_INLINE_RECEIVE, DATASET_SCHEMA_CHANGE_FIELD_TYPE, DATASET_SCHEMA_CHANGE_ORDINAL_DOMAIN,
-        DATASET_URL_RECEIVE, DATASET_URL_REQUEST} from '../actions/dataset';
+import {DATASET_RECEIVE, DATASET_REQUEST,
+        DATASET_SCHEMA_CHANGE_FIELD_TYPE, DATASET_SCHEMA_CHANGE_ORDINAL_DOMAIN} from '../actions/dataset';
 import {Dataset, DEFAULT_DATASET} from '../models/dataset';
 import {datasetReducer} from './dataset';
 
 describe('reducers/dataset', () => {
-  describe(DATASET_URL_REQUEST, () => {
+  describe(DATASET_REQUEST, () => {
     it('returns new dataset state with isLoading = true', () => {
       expect(datasetReducer(DEFAULT_DATASET, {
-        type: DATASET_URL_REQUEST,
+        type: DATASET_REQUEST,
         payload: {
           name: 'cars',
           url: 'http://cars.com'
@@ -21,8 +21,8 @@ describe('reducers/dataset', () => {
     });
   });
 
-  describe(DATASET_URL_RECEIVE, () => {
-    it('returns new dataset state with isLoading=false and with new name, data, and schema', () => {
+  describe(DATASET_RECEIVE, () => {
+    it('accepts UrlData and returns new dataset state with isLoading=false and with new name, data, and schema', () => {
       const url = 'http://cars.com';
       const schema = new Schema({fields: []});
       expect(datasetReducer(
@@ -31,10 +31,10 @@ describe('reducers/dataset', () => {
           isLoading: true
         },
         {
-          type: DATASET_URL_RECEIVE,
+          type: DATASET_RECEIVE,
           payload: {
             name: 'cars',
-            url,
+            data: {url},
             schema
           }
         }
@@ -46,10 +46,8 @@ describe('reducers/dataset', () => {
         schema
       });
     });
-  });
 
-  describe(DATASET_INLINE_RECEIVE, () => {
-    it('returns new dataset state with isLoading=false and with new name, data, and schema', () => {
+    it('accepts inline data and returns new dataset state with isLoading=false and new name, data, and schema', () => {
       const data = {
         values: [
           {"a": "A", "b": 28}, {"a": "B", "b": 55}, {"a": "C", "b": 43},
@@ -64,7 +62,7 @@ describe('reducers/dataset', () => {
           isLoading: true
         },
         {
-          type: DATASET_INLINE_RECEIVE,
+          type: DATASET_RECEIVE,
           payload: {
             name: 'Custom Data',
             data,

@@ -4,7 +4,7 @@ import * as fetch from 'isomorphic-fetch';
 import {Dispatch} from 'redux';
 import {ThunkAction} from 'redux-thunk';
 import {ActionCreators} from 'redux-undo';
-import {Data, InlineData, isInlineData, isUrlData} from 'vega-lite/build/src/data';
+import {Data, InlineData, isInlineData, isUrlData, UrlData} from 'vega-lite/build/src/data';
 import {fetchCompassQLBuildSchema} from '../api/api';
 import {State} from '../models/index';
 import {selectConfig} from '../selectors';
@@ -25,27 +25,19 @@ export type DatasetSchemaChangeOrdinalDomain = ReduxAction<typeof DATASET_SCHEMA
   domain: string[]
 }>;
 
-export type DatasetAction = DatasetUrlReceive | DatasetSchemaChangeFieldType | DatasetSchemaChangeOrdinalDomain |
-            DatasetUrlRequest | DatasetReceive;
+export type DatasetAction = DatasetSchemaChangeFieldType | DatasetSchemaChangeOrdinalDomain |
+            DatasetRequest | DatasetReceive;
 export type DatasetAsyncAction = DatasetLoad;
 
-export const DATASET_URL_REQUEST = 'DATASET_URL_REQUEST';
-export type DatasetUrlRequest = ReduxAction<typeof DATASET_URL_REQUEST, {
-  name: string,
-  url: string
+export const DATASET_REQUEST = 'DATASET_REQUEST';
+export type DatasetRequest = ReduxAction<typeof DATASET_REQUEST, {
+  name: string
 }>;
 
-export const DATASET_URL_RECEIVE = 'DATASET_URL_RECEIVE';
-export type DatasetUrlReceive = ReduxAction<typeof DATASET_URL_RECEIVE, {
+export const DATASET_RECEIVE = 'DATASET_RECEIVE';
+export type DatasetReceive = ReduxAction<typeof DATASET_RECEIVE, {
   name: string,
-  url: string,
-  schema: Schema
-}>;
-
-export const DATASET_INLINE_RECEIVE = 'DATASET_INLINE_RECEIVE';
-export type DatasetReceive = ReduxAction<typeof DATASET_INLINE_RECEIVE, {
-  name: string,
-  data: InlineData,
+  data: InlineData | UrlData,
   schema: Schema,
 }>;
 
@@ -55,14 +47,15 @@ export function datasetLoad(name: string, dataset: Data): DatasetLoad {
   return (dispatch: Dispatch<Action>, getState) => {
 
     const config = selectConfig(getState());
+
+    dispatch({
+      type: DATASET_REQUEST,
+      payload: {name}
+    });
     // Get the new dataset
     if (isUrlData(dataset)) {
       const url = dataset.url;
 
-      dispatch({
-        type: DATASET_URL_REQUEST,
-        payload: {name, url}
-      });
 
       return fetch(url)
         .then(response => response.json()) // TODO: handle error
@@ -74,8 +67,8 @@ export function datasetLoad(name: string, dataset: Data): DatasetLoad {
           dispatch({ type: SHELF_CLEAR });
 
           dispatch({
-            type: DATASET_URL_RECEIVE,
-            payload: {name, url, schema}
+            type: DATASET_RECEIVE,
+            payload: {name, data: {url}, schema}
           });
           dispatch(ActionCreators.clearHistory());
         });
@@ -89,8 +82,8 @@ export function datasetLoad(name: string, dataset: Data): DatasetLoad {
 
           const data = dataset;
           dispatch({
-            type: DATASET_INLINE_RECEIVE,
-            payload: { name, schema, data }
+            type: DATASET_RECEIVE,
+            payload: {name, schema, data}
           });
 
           dispatch(ActionCreators.clearHistory());
