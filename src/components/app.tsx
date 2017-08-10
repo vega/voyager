@@ -149,10 +149,10 @@ export class AppBase extends React.PureComponent<Props, {}> {
   }
 }
 
-export const App = connect<ConnectProps, null, OwnProps>(
+export const App = connect<ConnectProps, {}, OwnProps>(
   (state: State) => {
     return {
       connectData: selectData(state)
     };
   }
-, null)(DragDropContext(HTML5Backend)(AppBase));
+)(DragDropContext(HTML5Backend)(AppBase));
