@@ -2,6 +2,7 @@ import {Schema} from 'compassql/build/src/schema';
 import {DEFAULT_BOOKMARK} from '../models/bookmark';
 import {DEFAULT_VOYAGER_CONFIG} from '../models/config';
 import {DEFAULT_STATE, State} from '../models/index';
+import {DEFAULT_LOG} from '../models/log';
 import {DEFAULT_RESULT_INDEX} from '../models/result';
 import {DEFAULT_SHELF_PREVIEW} from '../models/shelf-preview';
 import {toQuery} from '../models/shelf/index';
@@ -38,6 +39,7 @@ describe('selectors/shelf', () => {
                 fields: []
               }),
             },
+            log: DEFAULT_LOG,
             shelf: {
               spec: {
                 ...DEFAULT_SHELF_UNIT_SPEC

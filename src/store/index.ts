@@ -8,6 +8,7 @@ import {createActionLog} from 'redux-action-log';
 import {createLogger} from 'redux-logger';
 import thunkMiddleware from 'redux-thunk';
 import {DEFAULT_STATE, State} from '../models';
+import {Logger} from '../models/logger';
 import {rootReducer} from '../reducers';
 import {createQueryListener} from './listener';
 
@@ -28,6 +29,8 @@ if (process.env.NODE_ENV !== 'production' && process.env.NODE_ENV !== 'test') {
 }
 
 export let actionLogs: any;
+export const errorLogger = new Logger();
+
 export function configureStore(initialState = DEFAULT_STATE) {
   actionLogs = createActionLog({limit: null});
 
