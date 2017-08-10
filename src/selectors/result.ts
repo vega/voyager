@@ -1,5 +1,5 @@
 // tslint:disable:no-unused-variable
-import {getTopSpecQueryItem} from 'compassql/build/src/model';
+import {getTopSpecQueryItem, SpecQueryGroup} from 'compassql/build/src/model';
 import {createSelector} from 'reselect';
 import {Selector} from 'reselect/src/reselect';
 import {BoxPlotDef} from 'vega-lite/build/src/compositemark/boxplot';
@@ -23,26 +23,33 @@ export const selectResult: {
   return selectors;
 }, {});
 
+export const selectResultModelGroup: {
+  [k in ResultType]?: Selector<State, SpecQueryGroup<PlotObject>>
+} = RESULT_TYPES.reduce((selectors, resultType) => {
+  selectors[resultType] = (state: State) => state.undoable.present.result[resultType].modelGroup;
+  return selectors;
+}, {});
+
 export const selectMainSpec = createSelector(
   selectIsQuerySpecific,
   selectIsQueryEmpty,
   selectData,
   selectFilters,
-  selectResult.main,
+  selectResultModelGroup.main,
   (
     isQuerySpecific: boolean,
     isQueryEmpty: boolean,
     data: Data,
     filters: Array<RangeFilter|OneOfFilter>,
-    mainResult: Result
+    mainModelGroup: SpecQueryGroup<PlotObject>
   ): FacetedCompositeUnitSpec => {
-    if (!isQuerySpecific || !mainResult.modelGroup || isQueryEmpty) {
+    if (!isQuerySpecific || !mainModelGroup || isQueryEmpty) {
       return undefined;
     }
     return {
       data: data,
       transform: getTransforms(filters),
-      ...getTopSpecQueryItem(mainResult.modelGroup).spec
+      ...getTopSpecQueryItem(mainModelGroup).spec
     };
   }
 );
@@ -53,22 +60,22 @@ export const selectPlotList: {
     selectIsQuerySpecific,
     selectData,
     selectFilters,
-    selectResult[resultType],
+    selectResultModelGroup[resultType],
     (
       isQuerySpecific: boolean,
       data: Data,
       filters: Array<RangeFilter|OneOfFilter>,
-      result: Result,
+      modelGroup: SpecQueryGroup<PlotObject>
     ) => {
       if (
           // For main, do not return list if specific.  For others, do not return list if not specific.
           ((resultType === 'main') === isQuerySpecific) ||
-          !result.modelGroup
+          !modelGroup
         ) {
         return undefined;
       }
       // FIXME(https://github.com/vega/voyager/issues/448): use data and filter
-      return extractPlotObjects(result.modelGroup, filters);
+      return extractPlotObjects(modelGroup, filters);
     }
 
   );
