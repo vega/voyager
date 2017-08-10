@@ -15,7 +15,7 @@ import {Store} from 'redux';
 import {FacetedCompositeUnitSpec, isUnitSpec, TopLevel, TopLevelExtendedSpec} from 'vega-lite/build/src/spec';
 import {isString} from 'vega-lite/build/src/util';
 import * as vlSchema from 'vega-lite/build/vega-lite-schema.json';
-import {App, VoyagerData} from './components/app';
+import {App, SpecWithFilename, VoyagerData} from './components/app';
 import {State} from './models';
 import {VoyagerConfig} from './models/config';
 import {fromSerializable, SerializableState, toSerializable} from './models/index';
@@ -78,7 +78,8 @@ export class Voyager {
    *
    * @memberof Voyager
    */
-  public setSpec(spec: Object) {
+  public setSpec(specWithFilename: SpecWithFilename) {
+    const {spec, filename} = specWithFilename;
 
     const ajv = new Ajv({
       validateSchema: true,
@@ -107,7 +108,12 @@ export class Voyager {
       filename: 'Custom Data'
     };
 
-    this.render(this.data, this.config, validSpec);
+    const validSpecWithFilename = {
+      spec: validSpec,
+      filename
+    };
+
+    this.render(this.data, this.config, validSpecWithFilename);
   }
 
   /**
@@ -179,9 +185,10 @@ export class Voyager {
     this.render(this.data, this.config);
   }
 
-  private render(data: VoyagerData, config: VoyagerConfig, spec?: TopLevel<FacetedCompositeUnitSpec>) {
+  private render(data: VoyagerData, config: VoyagerConfig, spec?: SpecWithFilename) {
     const store = this.store;
     const root = this.container;
+
     ReactDOM.render(
       <Provider store={store}>
         <App

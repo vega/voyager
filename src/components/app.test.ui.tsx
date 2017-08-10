@@ -7,7 +7,7 @@ import {Provider} from 'react-redux';
 import {Data} from 'vega-lite/build/src/data';
 import {FacetedCompositeUnitSpec, TopLevel} from 'vega-lite/build/src/spec';
 import {configureStore} from '../store';
-import {App, VoyagerData} from './app';
+import {App, SpecWithFilename, VoyagerData} from './app';
 
 
 const DEFAULT_TIMEOUT_LENGTH = 300;
@@ -133,6 +133,11 @@ describe('Voyager', () => {
         }
       };
 
+      const specWithFilename: SpecWithFilename = {
+        spec,
+        filename: ''
+      };
+
       setTimeout(() => {
         try {
           const wrapper = mount(
@@ -141,7 +146,7 @@ describe('Voyager', () => {
                 config={config}
                 data={voyagerData}
                 dispatch={store.dispatch}
-                spec={spec}
+                spec={specWithFilename}
               />
             </Provider>,
           );

@@ -4,6 +4,8 @@
 
 import * as ReactDOM from 'react-dom';
 import {Data} from 'vega-lite/build/src/data';
+import { FacetedCompositeUnitSpec, TopLevel } from 'vega-lite/build/src/spec';
+import {SpecWithFilename} from './components/app';
 import {CreateVoyager} from './lib-voyager';
 import {SerializableState} from './models/index';
 
@@ -154,7 +156,7 @@ describe('lib-voyager', () => {
         try {
           const voyagerInst = CreateVoyager(container, undefined, undefined);
 
-          const spec: Object = {
+          const spec: TopLevel<FacetedCompositeUnitSpec> = {
             "$schema": "https://vega.github.io/schema/vega-lite/v2.json",
             "data": {
               "values": [
@@ -178,7 +180,13 @@ describe('lib-voyager', () => {
               }
             }
           };
-          voyagerInst.setSpec(spec);
+
+          const specWithFilename: SpecWithFilename = {
+            spec,
+            filename: ''
+          };
+
+          voyagerInst.setSpec(specWithFilename);
 
 
           setTimeout(() => {
@@ -204,19 +212,26 @@ describe('lib-voyager', () => {
       const config = {};
       const data: any = undefined;
 
-      const spec: Object = {
+      // HACK: We use any so we can assign this invalid spec to specWithFilename for testing
+      const spec: any = {
         "FAIL$schema": "https://vega.github.io/schema/vega-lite/v2.json",
         "FAILdata": {"url": "node_modules/vega-datasets/data/movies.json"},
         "FAILmark": "bar",
         "encoding": {
         }
       };
+
+      const specWithFilename: SpecWithFilename = {
+        spec,
+        filename: ''
+      };
+
       const voyagerInst = CreateVoyager(container, config, data);
 
       // This should throw an exception;
       setTimeout(() => {
         try {
-          voyagerInst.setSpec(spec);
+          voyagerInst.setSpec(specWithFilename);
           done.fail('No exception thrown with invalid spec');
 
         } catch (err) {

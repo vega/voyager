@@ -15,11 +15,16 @@ export interface VoyagerData {
   filename: string;
 }
 
+export interface SpecWithFilename {
+  spec: TopLevel<FacetedCompositeUnitSpec>;
+  filename: string;
+}
+
 export interface Props extends React.Props<App> {
   config?: VoyagerConfig;
   data?: VoyagerData;
   applicationState?: Readonly<State>;
-  spec?: TopLevel<FacetedCompositeUnitSpec>;
+  spec?: SpecWithFilename;
   dispatch: Dispatch<State>;
 }
 
@@ -80,11 +85,12 @@ export class App extends React.PureComponent<Props, {}> {
     });
   }
 
-  private setSpec(spec: TopLevel<FacetedCompositeUnitSpec>) {
+  private setSpec(specWithFilename: SpecWithFilename) {
+    const {spec, filename} = specWithFilename;
     if (spec.data) {
       this.setData({
         data: spec.data,
-        filename: 'Custom Data'
+        filename
       })
         .then(
           () => {
