@@ -8,10 +8,9 @@ import {Data, InlineData, isInlineData, isUrlData, UrlData} from 'vega-lite/buil
 import {fetchCompassQLBuildSchema} from '../api/api';
 import {State} from '../models/index';
 import {selectConfig} from '../selectors';
-import {FILTER_CLEAR} from './filter';
 import {Action} from './index';
 import {ReduxAction} from './redux-action';
-import {SHELF_CLEAR} from './shelf';
+import {RESET} from './reset';
 
 export const DATASET_SCHEMA_CHANGE_FIELD_TYPE = 'DATASET_SCHEMA_CHANGE_FIELD_TYPE';
 export type DatasetSchemaChangeFieldType = ReduxAction<typeof DATASET_SCHEMA_CHANGE_FIELD_TYPE, {
@@ -48,6 +47,7 @@ export function datasetLoad(name: string, dataset: Data): DatasetLoad {
 
     const config = selectConfig(getState());
 
+    dispatch({type: RESET});
     dispatch({
       type: DATASET_REQUEST,
       payload: {name}
@@ -56,15 +56,10 @@ export function datasetLoad(name: string, dataset: Data): DatasetLoad {
     if (isUrlData(dataset)) {
       const url = dataset.url;
 
-
       return fetch(url)
         .then(response => response.json()) // TODO: handle error
         .then(data => fetchCompassQLBuildSchema(data, config)) // TODO: handle error
         .then(schema => {
-          // Clear filters
-          dispatch({ type: FILTER_CLEAR});
-          // Clear history and shelf
-          dispatch({ type: SHELF_CLEAR });
 
           dispatch({
             type: DATASET_RECEIVE,
@@ -75,11 +70,6 @@ export function datasetLoad(name: string, dataset: Data): DatasetLoad {
     } else if (isInlineData(dataset)) {
       return fetchCompassQLBuildSchema(dataset.values, config) // TODO: handle error
         .then(schema => {
-          // clear filters
-          dispatch({ type: FILTER_CLEAR });
-          // Clear history and shelf
-          dispatch({ type: SHELF_CLEAR });
-
           const data = dataset;
           dispatch({
             type: DATASET_RECEIVE,
