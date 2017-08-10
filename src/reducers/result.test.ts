@@ -71,7 +71,8 @@ describe('reducers/result', () => {
         main: {
           isLoading: false,
           modelGroup,
-          query
+          query,
+          limit: 25
         }
       });
     });
