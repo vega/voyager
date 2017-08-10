@@ -1,0 +1,11 @@
+import { Schema } from 'compassql/build/src/schema';
+import { OneOfFilter, RangeFilter } from 'vega-lite/build/src/filter';
+import { TimeUnit } from 'vega-lite/build/src/timeunit';
+import { Action } from '../../actions/index';
+import { ShelfFieldDef } from '../../models/shelf/encoding';
+import { ShelfUnitSpec } from '../../models/shelf/spec';
+export declare function filterReducer(shelfSpec: Readonly<ShelfUnitSpec>, action: Action, schema: Schema): ShelfUnitSpec;
+export declare function getFilter(fieldDef: ShelfFieldDef, domain: any[]): RangeFilter | OneOfFilter;
+export declare function getAllTimeUnits(): ("year" | "month" | "day" | "date" | "hours" | "minutes" | "seconds" | "milliseconds" | "yearmonthdate" | "quarter")[];
+export declare function getDefaultRange(domain: number[], timeUnit: TimeUnit): number[];
+export declare function getDefaultList(timeUnit: TimeUnit): number[];

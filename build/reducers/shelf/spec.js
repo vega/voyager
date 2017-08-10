@@ -1,0 +1,140 @@
+"use strict";
+var __assign = (this && this.__assign) || Object.assign || function(t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+        s = arguments[i];
+        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+            t[p] = s[p];
+    }
+    return t;
+};
+var __rest = (this && this.__rest) || function (s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) if (e.indexOf(p[i]) < 0)
+            t[p[i]] = s[p[i]];
+    return t;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var model_1 = require("compassql/build/src/model");
+var spec_1 = require("compassql/build/src/query/spec");
+var recommend_1 = require("compassql/build/src/recommend");
+var wildcard_1 = require("compassql/build/src/wildcard");
+var shelf_1 = require("../../actions/shelf");
+var models_1 = require("../../models");
+var index_1 = require("../../models/shelf/index");
+var spec_2 = require("../../models/shelf/spec");
+var util_1 = require("../util");
+var filter_1 = require("./filter");
+function shelfSpecReducer(shelfSpec, action, schema) {
+    if (shelfSpec === void 0) { shelfSpec = spec_2.DEFAULT_SHELF_UNIT_SPEC; }
+    switch (action.type) {
+        case shelf_1.SHELF_CLEAR:
+            return spec_2.DEFAULT_SHELF_UNIT_SPEC;
+        case shelf_1.SHELF_MARK_CHANGE_TYPE: {
+            var mark = action.payload;
+            return __assign({}, shelfSpec, { mark: mark });
+        }
+        case shelf_1.SHELF_FIELD_ADD: {
+            var _a = action.payload, shelfId = _a.shelfId, fieldDef = _a.fieldDef, replace = _a.replace;
+            return addEncoding(shelfSpec, shelfId, fieldDef, replace);
+        }
+        case shelf_1.SHELF_FIELD_AUTO_ADD: {
+            var fieldDef = action.payload.fieldDef;
+            if (shelfSpec.anyEncodings.length > 0 || wildcard_1.isWildcard(fieldDef.field)) {
+                // If there was an encoding shelf or if the field is a wildcard, just add to wildcard shelf
+                return __assign({}, shelfSpec, { anyEncodings: shelfSpec.anyEncodings.concat([
+                        __assign({ channel: wildcard_1.SHORT_WILDCARD }, fieldDef)
+                    ]) });
+            }
+            else {
+                // Otherwise, query for the best encoding if there is no wildcard channel
+                var query = index_1.autoAddFieldQuery(shelfSpec, fieldDef);
+                var rec = recommend_1.recommend(query, schema);
+                var topSpecQuery = model_1.getTopSpecQueryItem(rec.result).specQuery;
+                return __assign({}, spec_2.fromSpecQuery(topSpecQuery, shelfSpec.config), (wildcard_1.isWildcard(shelfSpec.mark) ? { mark: shelfSpec.mark } : {}));
+            }
+        }
+        case shelf_1.SHELF_FIELD_REMOVE:
+            return removeEncoding(shelfSpec, action.payload).shelf;
+        case shelf_1.SHELF_FIELD_MOVE: {
+            var _b = action.payload, to = _b.to, from = _b.from;
+            var _c = removeEncoding(shelfSpec, from), fieldDefFrom = _c.fieldDef, removedShelf1 = _c.shelf;
+            var _d = removeEncoding(removedShelf1, to), fieldDefTo = _d.fieldDef, removedShelf2 = _d.shelf;
+            var addedShelf1 = addEncoding(removedShelf2, to, fieldDefFrom, false);
+            var addedShelf2 = addEncoding(addedShelf1, from, fieldDefTo, false);
+            return addedShelf2;
+        }
+        case shelf_1.SHELF_FUNCTION_CHANGE: {
+            var _e = action.payload, shelfId = _e.shelfId, fn_1 = _e.fn;
+            return modifyEncoding(shelfSpec, shelfId, function (fieldDef) {
+                return __assign({}, fieldDef, { fn: fn_1 });
+            });
+        }
+        case shelf_1.SHELF_SPEC_LOAD:
+            var _f = action.payload, spec = _f.spec, keepWildcardMark = _f.keepWildcardMark;
+            var specQ = __assign({}, spec_1.fromSpec(spec), (keepWildcardMark && wildcard_1.isWildcard(shelfSpec.mark) ? {
+                mark: wildcard_1.SHORT_WILDCARD
+            } : {}));
+            // Restore wildcard mark if the shelf previously has wildcard mark.
+            return spec_2.fromSpecQuery(specQ, shelfSpec.config);
+    }
+    return filter_1.filterReducer(shelfSpec, action, schema);
+}
+exports.shelfSpecReducer = shelfSpecReducer;
+function addEncoding(shelf, shelfId, fieldDef, replace) {
+    if (!fieldDef) {
+        return shelf;
+    }
+    else if (models_1.isWildcardChannelId(shelfId)) {
+        var index = shelfId.index;
+        if (replace && shelf.anyEncodings[index]) {
+            return __assign({}, shelf, { anyEncodings: util_1.modifyItemInArray(shelf.anyEncodings, index, function () {
+                    return __assign({ channel: wildcard_1.SHORT_WILDCARD }, fieldDef);
+                }) });
+        }
+        // insert between two pills (not replace!)
+        return __assign({}, shelf, { anyEncodings: util_1.insertItemToArray(shelf.anyEncodings, index, __assign({ channel: wildcard_1.SHORT_WILDCARD }, fieldDef)) });
+    }
+    else {
+        return __assign({}, shelf, { encoding: __assign({}, shelf.encoding, (_a = {}, _a[shelfId.channel] = fieldDef, _a)) });
+    }
+    var _a;
+}
+function modifyEncoding(shelf, shelfId, modifier) {
+    if (models_1.isWildcardChannelId(shelfId)) {
+        return __assign({}, shelf, { anyEncodings: util_1.modifyItemInArray(shelf.anyEncodings, shelfId.index, modifier) });
+    }
+    else {
+        return __assign({}, shelf, { encoding: __assign({}, shelf.encoding, (_a = {}, _a[shelfId.channel] = modifier(shelf.encoding[shelfId.channel]), _a)) });
+    }
+    var _a;
+}
+function removeEncoding(shelf, shelfId) {
+    if (models_1.isWildcardChannelId(shelfId)) {
+        var index = shelfId.index;
+        var _a = util_1.removeItemFromArray(shelf.anyEncodings, index), anyEncodings = _a.array, item = _a.item;
+        if (item) {
+            // Remove channel from the removed EncodingQuery if the removed shelf is not empty.
+            var _ = item.channel, fieldDef = __rest(item, ["channel"]);
+            return {
+                fieldDef: fieldDef,
+                shelf: __assign({}, shelf, { anyEncodings: anyEncodings })
+            };
+        }
+        else {
+            return {
+                fieldDef: undefined,
+                shelf: __assign({}, shelf, { anyEncodings: anyEncodings })
+            };
+        }
+    }
+    else {
+        var _b = shelf.encoding, _c = shelfId.channel, fieldDef = _b[_c], encoding = __rest(_b, [typeof _c === "symbol" ? _c : _c + ""]);
+        return {
+            fieldDef: fieldDef,
+            shelf: __assign({}, shelf, { encoding: encoding })
+        };
+    }
+}

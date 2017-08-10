@@ -1,0 +1,11 @@
+import { OneOfFilter, RangeFilter } from 'vega-lite/build/src/filter';
+import { State } from '../models/index';
+import { Query } from 'compassql/build/src/query/query';
+import { SpecQuery } from 'compassql/build/src/query/spec';
+import { Shelf } from '../models/shelf/index';
+export declare const selectFilters: (state: State) => (RangeFilter | OneOfFilter)[];
+export declare const selectShelf: (state: State) => Shelf;
+export declare const selectQuery: (state: State, props?: any) => Query;
+export declare const selectQuerySpec: (state: State, props?: any) => SpecQuery;
+export declare const selectIsQuerySpecific: (state: State, props?: any) => boolean;
+export declare const selectIsQueryEmpty: (state: State, props?: any) => boolean;
