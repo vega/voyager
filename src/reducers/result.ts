@@ -35,6 +35,12 @@ function resultReducer(state: Readonly<Result> = DEFAULT_RESULT, action: Action,
         modelGroup,
         query
       };
+    case RESULT_LIMIT_INCREASE:
+      const {increment} = action.payload;
+      return {
+        ...state,
+        limit: state.limit + increment
+      };
   }
   return state;
 }
@@ -43,6 +49,7 @@ export function resultIndexReducer(state: Readonly<ResultIndex> = DEFAULT_RESULT
   switch (action.type) {
     case RESULT_REQUEST:
     case RESULT_RECEIVE:
+    case RESULT_LIMIT_INCREASE:
       const {resultType} = action.payload;
       return {
         ...(

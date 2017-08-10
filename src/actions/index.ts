@@ -53,6 +53,7 @@ const ACTION_TYPE_INDEX: {[k in ActionType]: 1} = {
 
   RESULT_RECEIVE: 1,
   RESULT_REQUEST: 1,
+  RESULT_LIMIT_INCREASE: 1,
 
   RESET: 1,
 

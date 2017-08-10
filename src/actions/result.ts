@@ -10,12 +10,18 @@ import {selectConfig, selectData, selectSchema} from '../selectors';
 import {Action} from './index';
 import {ReduxAction} from './redux-action';
 
-export type ResultAction = ResultRequest | ResultReceive;
+export type ResultAction = ResultRequest | ResultReceive | ResultLimitIncrease;
 export type ResultAsyncAction = AsyncResultRequest;
 
 export const RESULT_REQUEST = 'RESULT_REQUEST';
 export type ResultRequest = ReduxAction<typeof RESULT_REQUEST, {
   resultType: ResultType
+}>;
+
+export const RESULT_LIMIT_INCREASE = 'RESULT_LIMIT_INCREASE';
+export type ResultLimitIncrease = ReduxAction<typeof RESULT_LIMIT_INCREASE, {
+  resultType: ResultType,
+  increment: number
 }>;
 
 export const RESULT_RECEIVE = 'RESULT_RECEIVE';

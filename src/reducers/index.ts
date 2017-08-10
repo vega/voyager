@@ -44,6 +44,7 @@ import {
 
 import {ActionType} from '../actions';
 import {RESET} from '../actions/reset';
+import {RESULT_LIMIT_INCREASE} from '../actions/result';
 import {
   DEFAULT_PERSISTENT_STATE,
   DEFAULT_UNDOABLE_STATE_BASE,
@@ -148,6 +149,10 @@ export const USER_ACTIONS: ActionType[] = [
   FILTER_MODIFY_ONE_OF,
   FILTER_MODIFY_TIME_UNIT,
   FILTER_REMOVE,
+
+  // Result Actions,
+  RESULT_LIMIT_INCREASE,
+
   // Shelf Actions,
   SHELF_CLEAR,
   SHELF_MARK_CHANGE_TYPE,
