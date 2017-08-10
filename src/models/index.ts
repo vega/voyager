@@ -22,7 +22,7 @@ export interface PersistentState {
   shelfPreview: ShelfPreview;
 }
 
-export interface UndoableState {
+export interface UndoableStateBase {
   config: VoyagerConfig;
   dataset: Dataset;
   shelf: Shelf;
@@ -34,14 +34,22 @@ export interface UndoableState {
  */
 export interface State {
   persistent: PersistentState;
-  undoable: StateWithHistory<UndoableState>;
+  undoable: StateWithHistory<UndoableStateBase>;
 };
 
-export const DEFAULT_UNDOABLE_STATE: UndoableState = {
+export const DEFAULT_UNDOABLE_STATE_BASE: UndoableStateBase = {
   config: DEFAULT_VOYAGER_CONFIG,
   dataset: DEFAULT_DATASET,
   shelf: DEFAULT_SHELF_SPEC,
   result: DEFAULT_RESULT_INDEX,
+};
+
+export const DEFAULT_UNDOABLE_STATE: StateWithHistory<UndoableStateBase> = {
+  past: [],
+  present: DEFAULT_UNDOABLE_STATE_BASE,
+  future: [],
+  _latestUnfiltered: null,
+  group: null
 };
 
 export const DEFAULT_PERSISTENT_STATE: PersistentState = {
@@ -51,13 +59,7 @@ export const DEFAULT_PERSISTENT_STATE: PersistentState = {
 
 export const DEFAULT_STATE: State = {
   persistent: DEFAULT_PERSISTENT_STATE,
-  undoable: {
-    past: [],
-    present: DEFAULT_UNDOABLE_STATE,
-    future: [],
-    _latestUnfiltered: null,
-    group: null
-  }
+  undoable: DEFAULT_UNDOABLE_STATE
 };
 
 

@@ -43,7 +43,7 @@ import {
 } from '../actions';
 
 import {ActionType} from '../actions';
-import {DEFAULT_UNDOABLE_STATE, State, UndoableState} from '../models/index';
+import {DEFAULT_UNDOABLE_STATE_BASE, State, UndoableStateBase} from '../models/index';
 import {bookmarkReducer} from './bookmark';
 import {configReducer} from './config';
 import {datasetReducer} from './dataset';
@@ -52,7 +52,10 @@ import {shelfReducer} from './shelf';
 import {shelfPreviewReducer} from './shelf-preview';
 import {stateReducer} from './state';
 
-function undoableReducerBase(state: Readonly<UndoableState> = DEFAULT_UNDOABLE_STATE, action: Action): UndoableState {
+function undoableReducerBase(
+  state: Readonly<UndoableStateBase> = DEFAULT_UNDOABLE_STATE_BASE,
+  action: Action
+): UndoableStateBase {
   return {
     config: configReducer(state.config, action),
     dataset: datasetReducer(state.dataset, action),
@@ -148,8 +151,8 @@ function getNextGroupId(): number {
   return _groupId;
 }
 
-function groupAction(action: Action, currentState: UndoableState,
-                     previousHistory: StateWithHistory<UndoableState>): any {
+function groupAction(action: Action, currentState: UndoableStateBase,
+                     previousHistory: StateWithHistory<UndoableStateBase>): any {
   const currentActionType = action.type;
 
   if (USER_ACTION_INDEX[currentActionType]) {
@@ -161,7 +164,7 @@ function groupAction(action: Action, currentState: UndoableState,
   }
 };
 
-const undoableReducer = undoable<UndoableState>(undoableReducerBase, {
+const undoableReducer = undoable<UndoableStateBase>(undoableReducerBase, {
   limit: HISTORY_LIMIT,
   undoType: UNDO,
   redoType: REDO,
