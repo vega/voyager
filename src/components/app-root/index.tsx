@@ -7,6 +7,7 @@ import * as SplitPane from 'react-split-pane';
 import {Data} from 'vega-lite/build/src/data';
 import {State} from '../../models/index';
 import {selectData} from '../../selectors/dataset';
+import '../app.scss';
 import {DataPane} from '../data-pane/index';
 import {EncodingPane} from '../encoding-pane/index';
 import {Footer} from '../footer/index';
