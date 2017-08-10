@@ -120,6 +120,13 @@ export const ACTIONS_EXCLUDED_FROM_HISTORY: ActionType[] = [
   // Reset app state completely
   RESET,
   SET_APPLICATION_STATE,
+
+  // Bookmark Actions -- not part of undoable users actions
+  // because bookmark is a part of persistent state
+  BOOKMARK_ADD_PLOT,
+  BOOKMARK_CLEAR_ALL,
+  BOOKMARK_MODIFY_NOTE,
+  BOOKMARK_REMOVE_PLOT,
 ];
 
 /**
@@ -129,12 +136,7 @@ export const ACTIONS_EXCLUDED_FROM_HISTORY: ActionType[] = [
  * of the preceding user action if one is available. If none is available it will be put
  * into its own group.
  */
-export const USER_ACTIONS: ActionType[] = [
-  // Bookmark Actions
-  BOOKMARK_ADD_PLOT,
-  BOOKMARK_CLEAR_ALL,
-  BOOKMARK_MODIFY_NOTE,
-  BOOKMARK_REMOVE_PLOT,
+export const UNDOABLE_USER_ACTIONS: ActionType[] = [
 
   // Dataset Actions
   DATASET_SCHEMA_CHANGE_FIELD_TYPE,
@@ -167,7 +169,7 @@ export const USER_ACTIONS: ActionType[] = [
 ];
 
 
-export const USER_ACTION_INDEX: Object = toSet(USER_ACTIONS);
+export const USER_ACTION_INDEX: Object = toSet(UNDOABLE_USER_ACTIONS);
 
 /**
  * Actions that are to be grouped with actions that precede them.
