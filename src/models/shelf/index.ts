@@ -5,7 +5,7 @@ import {DEFAULT_SHELF_UNIT_SPEC, hasWildcards, ShelfUnitSpec, toSpecQuery} from 
 
 export * from './encoding';
 export * from './spec';
-export const DEFAULT_SHELF_SPEC: Readonly<Shelf> = {
+export const DEFAULT_SHELF: Readonly<Shelf> = {
   spec: DEFAULT_SHELF_UNIT_SPEC
 };
 

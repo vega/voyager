@@ -12,7 +12,7 @@ import {DEFAULT_PERSISTENT_STATE, DEFAULT_STATE, State} from '../models/index';
 import {convertToPlotObjectsGroup, extractPlotObjects} from '../models/plot';
 import {DEFAULT_RESULT, DEFAULT_RESULT_INDEX} from '../models/result';
 import {ShelfAnyEncodingDef, ShelfMark, SpecificEncoding} from '../models/shelf/encoding';
-import {DEFAULT_SHELF_SPEC} from '../models/shelf/index';
+import {DEFAULT_SHELF} from '../models/shelf/index';
 import {getTransforms} from '../models/shelf/spec';
 import {selectMainSpec, selectPlotList} from './result';
 
@@ -67,7 +67,7 @@ const stateSpecific: State = {
         data
       },
       shelf: {
-        ...DEFAULT_SHELF_SPEC,
+        ...DEFAULT_SHELF,
         spec: {
           filters,
           mark,

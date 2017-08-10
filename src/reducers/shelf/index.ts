@@ -3,10 +3,10 @@ import {Schema} from 'compassql/build/src/schema';
 import {Action} from '../../actions';
 import {Shelf} from '../../models';
 
-import {DEFAULT_SHELF_SPEC} from '../../models/shelf';
+import {DEFAULT_SHELF} from '../../models/shelf';
 import {shelfSpecReducer} from './spec';
 
-export function shelfReducer(shelf: Readonly<Shelf> = DEFAULT_SHELF_SPEC, action: Action, schema: Schema): Shelf {
+export function shelfReducer(shelf: Readonly<Shelf> = DEFAULT_SHELF, action: Action, schema: Schema): Shelf {
   const spec = shelfSpecReducer(shelf.spec, action, schema);
 
   if (spec !== shelf.spec) {
