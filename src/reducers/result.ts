@@ -3,16 +3,29 @@ import {
   RESULT_RECEIVE,
   RESULT_REQUEST,
 } from '../actions';
+import {RESULT_LIMIT_INCREASE} from '../actions/result';
 import {DEFAULT_RESULT, DEFAULT_RESULT_INDEX, Result, ResultIndex} from '../models';
+import {ResultType} from '../models/result';
 
-export function resultReducer(state: Readonly<Result> = DEFAULT_RESULT, action: Action): Result {
+export const DEFAULT_LIMIT: {[K in ResultType]: number} = {
+  main: 8,
+  addCategoricalField: 4,
+  addQuantitativeField: 4,
+  addTemporalField: 2,
+  alternativeEncodings: 2,
+  summaries: 2,
+  histograms: 12
+};
+
+function resultReducer(state: Readonly<Result> = DEFAULT_RESULT, action: Action, resultType: ResultType): Result {
   switch (action.type) {
     case RESULT_REQUEST:
       return {
         ...state,
         isLoading: true,
         modelGroup: undefined,
-        query: undefined
+        query: undefined,
+        limit: DEFAULT_LIMIT[resultType]
       };
     case RESULT_RECEIVE:
       const {modelGroup, query} = action.payload;
@@ -39,7 +52,7 @@ export function resultIndexReducer(state: Readonly<ResultIndex> = DEFAULT_RESULT
             DEFAULT_RESULT_INDEX :
             state
         ),
-        [resultType]: resultReducer(state[resultType], action)
+        [resultType]: resultReducer(state[resultType], action, resultType)
       };
   }
   return state;

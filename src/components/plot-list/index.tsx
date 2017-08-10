@@ -11,12 +11,14 @@ import * as styles from './plot-list.scss';
 export interface PlotListProps extends ActionHandler<ShelfAction> {
   plots: PlotObject[];
   bookmark: Bookmark;
+
+  limit?: number;
 }
 
 export class PlotListBase extends React.PureComponent<PlotListProps, any> {
   public render() {
-    const {plots, handleAction, bookmark} = this.props;
-    const plotListItems = plots.map(plot => {
+    const {plots, handleAction, bookmark, limit} = this.props;
+    const plotListItems = plots.slice(0, limit).map(plot => {
       const {spec, fieldInfos} = plot;
       return (
         <Plot

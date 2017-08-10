@@ -63,7 +63,8 @@ describe('reducers/index', () => {
               main: {
                 isLoading: false,
                 modelGroup: {} as SpecQueryGroup<PlotObject>, // mock
-                query: null
+                query: null,
+                limit: 20
               }
             }
           }

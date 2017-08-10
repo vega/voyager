@@ -3,14 +3,14 @@ import {Query} from 'compassql/build/src/query/query';
 import {RESULT_RECEIVE, RESULT_REQUEST} from '../actions/result';
 import {PlotObject} from '../models/plot';
 import {DEFAULT_RESULT_INDEX, ResultIndex} from '../models/result';
-import {resultIndexReducer} from './result';
+import {DEFAULT_LIMIT, resultIndexReducer} from './result';
 
 describe('reducers/result', () => {
   describe(RESULT_REQUEST, () => {
     const resultIndex: ResultIndex = {
       ...DEFAULT_RESULT_INDEX,
       // This is not really sensible state, but just to mock the reset behavior
-      summaries: {isLoading: true, modelGroup: undefined, query: undefined}
+      summaries: {isLoading: true, modelGroup: undefined, query: undefined, limit: 5}
     };
     it('updates the provided result with isLoading = true for a non-main result type', () => {
       expect(resultIndexReducer(resultIndex, {
@@ -21,7 +21,8 @@ describe('reducers/result', () => {
         summaries: {
           isLoading: true,
           modelGroup: undefined,
-          query: undefined
+          query: undefined,
+          limit: DEFAULT_LIMIT.summaries
         }
       });
     });
@@ -35,7 +36,8 @@ describe('reducers/result', () => {
         main: {
           isLoading: true,
           modelGroup: undefined,
-          query: undefined
+          query: undefined,
+          limit: DEFAULT_LIMIT.main
         }
       });
     });
@@ -52,7 +54,8 @@ describe('reducers/result', () => {
           main: {
             isLoading: true,
             modelGroup: undefined,
-            query: undefined
+            query: undefined,
+            limit: 25
           }
         },
         {

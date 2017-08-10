@@ -9,6 +9,8 @@ export interface Result {
   modelGroup: SpecQueryGroup<PlotObject> | null;
 
   query: Query;
+
+  limit: number;
 }
 
 export interface ResultIndex {
@@ -26,7 +28,8 @@ export interface ResultIndex {
 export const DEFAULT_RESULT: Result = {
   isLoading: false,
   modelGroup: null,
-  query: null
+  query: null,
+  limit: 8
 };
 
 export const DEFAULT_RESULT_INDEX: ResultIndex = {
