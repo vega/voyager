@@ -38,7 +38,7 @@ export class OneOfFilterShelfBase extends React.PureComponent<OneOfFilterShelfPr
               type='checkbox'
               checked={(filter.oneOf as any[]).indexOf(option) !== -1}
               onChange={this.toggleCheckbox.bind(this, option)}
-            /> {option}
+            /> {'' + option}
           </label>
           <span onClick={this.onSelectOne.bind(this, option)} styleName='keep-only'>
             Keep Only
