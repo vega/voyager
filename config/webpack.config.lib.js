@@ -15,14 +15,14 @@ module.exports = {
     bundle: path.resolve(__dirname, '../src/lib-voyager.tsx'),
   },
   output: {
-    filename: "[name].js",
-    path: path.resolve(__dirname, '../lib-test'),
+    filename: "lib-voyager.js",
+    path: path.resolve(__dirname, '../build'),
     // Add /* filename */ comments to generated require()s in the output.
     pathinfo: true,
     // There are also additional JS chunk files if you use code splitting.
     chunkFilename: 'static/js/[name].chunk.js',
     sourceMapFilename: '[file].map',
-    publicPath: '/lib-test/',
+    publicPath: '/build/',
     library: 'voyager',
     libraryTarget: 'umd',
   },
