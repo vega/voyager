@@ -53,7 +53,7 @@ class FilterPaneBase extends React.PureComponent<FilterPaneProps, {}> {
       return this.renderFilterShelf(filter, index);
     });
     return connectDropTarget(
-      <div>
+      <div styleName='filter-pane'>
         {filterShelves}
         {this.fieldPlaceholder()}
       </div>
