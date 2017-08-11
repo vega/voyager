@@ -3,6 +3,9 @@
  */
 
 import * as ReactDOM from 'react-dom';
+import {Data} from 'vega-lite/build/src/data';
+import { FacetedCompositeUnitSpec, TopLevel } from 'vega-lite/build/src/spec';
+import {SpecWithFilename} from './components/app';
 import {CreateVoyager} from './lib-voyager';
 import {SerializableState} from './models/index';
 
@@ -25,12 +28,17 @@ describe('lib-voyager', () => {
   describe('CreateVoyager, updateData', () => {
     it('initializes with empty data and can be updated with customized data', done => {
 
-      const data: any = {
+      const data: Data = {
         "values": [
           {"fieldA": "A", "fieldB": 28}, {"fieldA": "B", "fieldB": 55}, {"fieldA": "C", "fieldB": 43},
           {"fieldA": "D", "fieldB": 91}, {"fieldA": "E", "fieldB": 81}, {"fieldA": "F", "fieldB": 53},
           {"fieldA": "G", "fieldB": 19}, {"fieldA": "H", "fieldB": 87}, {"fieldA": "I", "fieldB": 52}
         ]
+      };
+
+      const voyagerData = {
+        data,
+        filename: 'Custom Data'
       };
 
       setTimeout(() => {
@@ -43,7 +51,7 @@ describe('lib-voyager', () => {
             try {
               const fieldList = document.querySelectorAll('.field-list__field-list-item');
               expect(fieldList.length).toEqual(0);
-              voyagerInst.updateData(data);
+              voyagerInst.updateData(voyagerData);
             } catch (err) {
               done.fail(err);
             }
@@ -148,7 +156,7 @@ describe('lib-voyager', () => {
         try {
           const voyagerInst = CreateVoyager(container, undefined, undefined);
 
-          const spec: Object = {
+          const spec: TopLevel<FacetedCompositeUnitSpec> = {
             "$schema": "https://vega.github.io/schema/vega-lite/v2.json",
             "data": {
               "values": [
@@ -172,7 +180,13 @@ describe('lib-voyager', () => {
               }
             }
           };
-          voyagerInst.setSpec(spec);
+
+          const specWithFilename: SpecWithFilename = {
+            spec,
+            filename: ''
+          };
+
+          voyagerInst.setSpec(specWithFilename);
 
 
           setTimeout(() => {
@@ -198,19 +212,26 @@ describe('lib-voyager', () => {
       const config = {};
       const data: any = undefined;
 
-      const spec: Object = {
+      // HACK: We use any so we can assign this invalid spec to specWithFilename for testing
+      const spec: any = {
         "FAIL$schema": "https://vega.github.io/schema/vega-lite/v2.json",
         "FAILdata": {"url": "node_modules/vega-datasets/data/movies.json"},
         "FAILmark": "bar",
         "encoding": {
         }
       };
+
+      const specWithFilename: SpecWithFilename = {
+        spec,
+        filename: ''
+      };
+
       const voyagerInst = CreateVoyager(container, config, data);
 
       // This should throw an exception;
       setTimeout(() => {
         try {
-          voyagerInst.setSpec(spec);
+          voyagerInst.setSpec(specWithFilename);
           done.fail('No exception thrown with invalid spec');
 
         } catch (err) {

@@ -3,13 +3,12 @@
  */
 import {mount} from 'enzyme';
 import * as React from 'react';
-
-
 import {Provider} from 'react-redux';
 import {Data} from 'vega-lite/build/src/data';
 import {FacetedCompositeUnitSpec, TopLevel} from 'vega-lite/build/src/spec';
 import {configureStore} from '../store';
-import {App} from './app';
+import {App, SpecWithFilename, VoyagerData} from './app';
+
 
 const DEFAULT_TIMEOUT_LENGTH = 300;
 
@@ -44,13 +43,19 @@ describe('Voyager', () => {
 
     it('renders voyager with custom data', done => {
       const config = {};
-      const data: any = {
+      const data: Data = {
         "values": [
           {"fieldA": "A", "fieldB": 28}, {"fieldA": "B", "fieldB": 55}, {"fieldA": "C", "fieldB": 43},
           {"fieldA": "D", "fieldB": 91}, {"fieldA": "E", "fieldB": 81}, {"fieldA": "F", "fieldB": 53},
           {"fieldA": "G", "fieldB": 19}, {"fieldA": "H", "fieldB": 87}, {"fieldA": "I", "fieldB": 52}
         ]
       };
+
+      const voyagerData: VoyagerData = {
+        data,
+        filename: 'Custom Data'
+      };
+
       const store = configureStore();
 
       setTimeout(() => {
@@ -59,7 +64,7 @@ describe('Voyager', () => {
             <Provider store={store}>
               <App
                   config={config}
-                  data={data}
+                  data={voyagerData}
                   dispatch={store.dispatch}
               />
             </Provider>,
@@ -97,7 +102,12 @@ describe('Voyager', () => {
         {date: "26-Apr-07", close: "98.84"},
         {date: "27-Apr-07", close: "99.92"},
       ];
-      const data: Data = {values};
+
+      const voyagerData: VoyagerData = {
+        data: {values},
+        filename: ''
+      };
+
       const spec: TopLevel<FacetedCompositeUnitSpec> = {
         "$schema": "https://vega.github.io/schema/vega-lite/v2.json",
         "data": {
@@ -123,15 +133,20 @@ describe('Voyager', () => {
         }
       };
 
+      const specWithFilename: SpecWithFilename = {
+        spec,
+        filename: ''
+      };
+
       setTimeout(() => {
         try {
           const wrapper = mount(
             <Provider store={store}>
               <App
                 config={config}
-                data={data}
+                data={voyagerData}
                 dispatch={store.dispatch}
-                spec={spec}
+                spec={specWithFilename}
               />
             </Provider>,
           );

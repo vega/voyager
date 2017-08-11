@@ -10,11 +10,21 @@ import {VoyagerConfig} from '../models/config';
 import {State} from '../models/index';
 import {AppRoot} from './app-root';
 
+export interface VoyagerData {
+  data: Data;
+  filename: string;
+}
+
+export interface SpecWithFilename {
+  spec: TopLevel<FacetedCompositeUnitSpec>;
+  filename: string;
+}
+
 export interface Props extends React.Props<App> {
   config?: VoyagerConfig;
-  data?: Data;
+  data?: VoyagerData;
   applicationState?: Readonly<State>;
-  spec?: TopLevel<FacetedCompositeUnitSpec>;
+  spec?: SpecWithFilename;
   dispatch: Dispatch<State>;
 }
 
@@ -61,8 +71,9 @@ export class App extends React.PureComponent<Props, {}> {
     }
   }
 
-  private setData(data: Data): any {
-    return this.props.dispatch(datasetLoad("Custom Data", data));
+  private setData(voyagerData: VoyagerData): any {
+    const {filename, data} = voyagerData;
+    return this.props.dispatch(datasetLoad(filename, data));
   }
 
   private setConfig(config: VoyagerConfig) {
@@ -74,9 +85,13 @@ export class App extends React.PureComponent<Props, {}> {
     });
   }
 
-  private setSpec(spec: TopLevel<FacetedCompositeUnitSpec>) {
+  private setSpec(specWithFilename: SpecWithFilename) {
+    const {spec, filename} = specWithFilename;
     if (spec.data) {
-      this.setData(spec.data)
+      this.setData({
+        data: spec.data,
+        filename
+      })
         .then(
           () => {
             this.shelfSpecLoad(spec);
