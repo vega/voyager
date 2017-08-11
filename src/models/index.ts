@@ -18,11 +18,11 @@ export * from './config';
  */
 export interface PersistentState {
   bookmark: Bookmark;
+  config: VoyagerConfig;
   shelfPreview: ShelfPreview;
 }
 
 export interface UndoableStateBaseWithoutDataset {
-  config: VoyagerConfig;
   shelf: Shelf;
   result: ResultIndex;
 }
@@ -40,7 +40,6 @@ export interface State {
 };
 
 export const DEFAULT_UNDOABLE_STATE_BASE: UndoableStateBase = {
-  config: DEFAULT_VOYAGER_CONFIG,
   dataset: DEFAULT_DATASET,
   shelf: DEFAULT_SHELF,
   result: DEFAULT_RESULT_INDEX,
@@ -56,6 +55,7 @@ export const DEFAULT_UNDOABLE_STATE: StateWithHistory<UndoableStateBase> = {
 
 export const DEFAULT_PERSISTENT_STATE: PersistentState = {
   bookmark: DEFAULT_BOOKMARK,
+  config: DEFAULT_VOYAGER_CONFIG,
   shelfPreview: DEFAULT_SHELF_PREVIEW
 };
 
@@ -89,12 +89,13 @@ export function fromSerializable(serializable: SerializableState): Readonly<Stat
     tableschema,
     // Persistent
     bookmark,
+    config,
     shelfPreview,
     // Then the rest should be UndoableStateBaseWithoutDataset
     ...undoableStateBaseWithoutDataset
   } = serializable;
 
-  const persistent: PersistentState = {bookmark, shelfPreview};
+  const persistent: PersistentState = {bookmark, config, shelfPreview};
 
   const undoableBase: UndoableStateBase = {
     ...undoableStateBaseWithoutDataset,

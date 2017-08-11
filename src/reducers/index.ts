@@ -65,7 +65,6 @@ import {stateReducer} from './state';
  * Whether to reset a particular property of the undoable state during RESET action
  */
 const undoableStateToReset: ResetIndex<UndoableStateBase> = {
-  config: false,
   dataset: true,
   shelf: true,
   result: true
@@ -74,7 +73,6 @@ const undoableStateToReset: ResetIndex<UndoableStateBase> = {
 const undoableReducerBase = makeResetReducer(
   (state: Readonly<UndoableStateBase> = DEFAULT_UNDOABLE_STATE_BASE, action: Action): UndoableStateBase => {
     return {
-      config: configReducer(state.config, action),
       dataset: datasetReducer(state.dataset, action),
       shelf: shelfReducer(state.shelf, action, state.dataset.schema),
       result: resultIndexReducer(state.result, action)
@@ -89,14 +87,18 @@ const undoableReducerBase = makeResetReducer(
  */
 const persistentStateToReset: ResetIndex<PersistentState> = {
   bookmark: true,
+  config: false,
   shelfPreview: true
 };
 
 const persistentReducer = makeResetReducer(
-  combineReducers({
-    bookmark: bookmarkReducer,
-    shelfPreview: shelfPreviewReducer
-  }),
+  (state: Readonly<PersistentState> = DEFAULT_PERSISTENT_STATE, action: Action): PersistentState => {
+    return {
+      bookmark: bookmarkReducer(state.bookmark, action),
+      config: configReducer(state.config, action),
+      shelfPreview: shelfPreviewReducer(state.shelfPreview, action)
+    };
+  },
   persistentStateToReset,
   DEFAULT_PERSISTENT_STATE
 );
