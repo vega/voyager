@@ -1,5 +1,5 @@
 {
-  "testPathDirs": [
+  "roots": [
     "<rootDir>/lib-test/"
   ],
   "testPathIgnorePatterns": [
