@@ -18,24 +18,29 @@ function isTimeUnit(fn: ShelfFunction): fn is TimeUnit {
   return TIMEUNIT_INDEX[fn];
 }
 
+const QUANTITATIVE_FUNCTIONS: ShelfFunction[] = [
+  undefined, 'bin',
+  'min', 'max',
+  'mean', 'median',
+  'sum'
+];
+
+const TEMPORAL_FUNCTIONS = [
+  undefined,
+  'yearmonthdate',
+  'year', 'month', // hide 'quarter' for user study because it's buggy
+  'date', 'day',
+  'hours', 'minutes',
+  'seconds', 'milliseconds'
+];
+
 export function getSupportedFunction(type: ExpandedType) {
   switch (type) {
     case 'quantitative':
-      return [
-        undefined,
-        'bin',
-        'min', 'max', 'mean', 'median', 'sum'
-      ];
+      return QUANTITATIVE_FUNCTIONS;
 
     case 'temporal':
-      return [
-        undefined,
-        'yearmonthdate',
-        'year', 'month', // hide 'quarter' for user study because it's buggy
-        'date', 'day',
-        'hours', 'minutes',
-        'seconds', 'milliseconds'
-      ];
+      return TEMPORAL_FUNCTIONS;
   }
   return [];
 }
