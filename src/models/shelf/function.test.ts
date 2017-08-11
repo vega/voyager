@@ -1,22 +1,22 @@
 import {Wildcard} from 'compassql/build/src/wildcard';
-import {fromFieldQueryFunctionMixins, ShelfFunction, toFunctionMixins} from './function';
+import {fromFieldQueryFunctionMixins, ShelfFunction, toFieldQueryFunctionMixins} from './function';
 
 describe('model/shelf/function', () => {
-  describe('toFunctionMixins', () => {
+  describe('toFieldQueryFunctionMixins', () => {
     it('returns correct value for no function', () => {
-      expect(toFunctionMixins(undefined)).toEqual({});
+      expect(toFieldQueryFunctionMixins(undefined)).toEqual({});
     });
 
     it('returns correct value for raw aggregate', () => {
-      expect(toFunctionMixins('mean')).toEqual({aggregate: 'mean'});
+      expect(toFieldQueryFunctionMixins('mean')).toEqual({aggregate: 'mean'});
     });
 
     it('returns correct value for raw timeUnit', () => {
-      expect(toFunctionMixins('year')).toEqual({timeUnit: 'year'});
+      expect(toFieldQueryFunctionMixins('year')).toEqual({timeUnit: 'year'});
     });
 
     it('returns correct value for bin', () => {
-      expect(toFunctionMixins('bin')).toEqual({bin: true});
+      expect(toFieldQueryFunctionMixins('bin')).toEqual({bin: true});
     });
 
     it('returns correct value for a wildcard with undefined, aggregate and bin', () => {
@@ -24,7 +24,7 @@ describe('model/shelf/function', () => {
         enum: [undefined, 'bin', 'mean']
       };
 
-      expect(toFunctionMixins(wildcardFn)).toEqual({
+      expect(toFieldQueryFunctionMixins(wildcardFn)).toEqual({
         bin: {
           enum: [false, true]
         },
@@ -39,7 +39,7 @@ describe('model/shelf/function', () => {
         enum: ['bin', 'mean']
       };
 
-      expect(toFunctionMixins(wildcardFn)).toEqual({
+      expect(toFieldQueryFunctionMixins(wildcardFn)).toEqual({
         bin: {
           enum: [false, true]
         },
@@ -55,7 +55,7 @@ describe('model/shelf/function', () => {
         enum: ['median', 'mean']
       };
 
-      expect(toFunctionMixins(wildcardFn)).toEqual({
+      expect(toFieldQueryFunctionMixins(wildcardFn)).toEqual({
         aggregate: {
           enum: ['mean', 'median']
         },
@@ -68,7 +68,7 @@ describe('model/shelf/function', () => {
         enum: ['year', 'month']
       };
 
-      expect(toFunctionMixins(wildcardFn)).toEqual({
+      expect(toFieldQueryFunctionMixins(wildcardFn)).toEqual({
         timeUnit: {
           enum: ['year', 'month']
         },
@@ -81,7 +81,7 @@ describe('model/shelf/function', () => {
         enum: [undefined, 'month']
       };
 
-      expect(toFunctionMixins(wildcardFn)).toEqual({
+      expect(toFieldQueryFunctionMixins(wildcardFn)).toEqual({
         timeUnit: {
           enum: [undefined, 'month']
         }
@@ -93,7 +93,7 @@ describe('model/shelf/function', () => {
         enum: ['year']
       };
 
-      expect(toFunctionMixins(wildcardFn)).toEqual({
+      expect(toFieldQueryFunctionMixins(wildcardFn)).toEqual({
         timeUnit: {
           enum: ['year']
         },
@@ -106,7 +106,7 @@ describe('model/shelf/function', () => {
         enum: [undefined, 'bin']
       };
 
-      expect(toFunctionMixins(wildcardFn)).toEqual({
+      expect(toFieldQueryFunctionMixins(wildcardFn)).toEqual({
         bin: {
           enum: [false, true]
         }
@@ -118,7 +118,7 @@ describe('model/shelf/function', () => {
         enum: ['bin']
       };
 
-      expect(toFunctionMixins(wildcardFn)).toEqual({
+      expect(toFieldQueryFunctionMixins(wildcardFn)).toEqual({
         bin: {
           enum: [true]
         },
@@ -130,7 +130,7 @@ describe('model/shelf/function', () => {
         enum: [undefined]
       };
 
-      expect(toFunctionMixins(wildcardFn)).toEqual({
+      expect(toFieldQueryFunctionMixins(wildcardFn)).toEqual({
         bin: {
           enum: [false]
         },
@@ -164,7 +164,7 @@ describe('model/shelf/function', () => {
         {enum: [undefined]},
       ];
       for (const fn of fns) {
-        expect(fromFieldQueryFunctionMixins(toFunctionMixins(fn))).toEqual(fn);
+        expect(fromFieldQueryFunctionMixins(toFieldQueryFunctionMixins(fn))).toEqual(fn);
       }
     });
   });

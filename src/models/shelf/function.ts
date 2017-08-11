@@ -67,10 +67,10 @@ export function isShelfFunction(fn: string): fn is ShelfFunction {
     isAggregate(fn) || isTimeUnit(fn);
 }
 
-export type FunctionMixins = Pick<FieldQuery, 'aggregate' | 'timeUnit' | 'bin' | 'hasFn'>;
+export type FieldQueryFunctionMixins = Pick<FieldQuery, 'aggregate' | 'timeUnit' | 'bin' | 'hasFn'>;
 
-export function toFunctionMixins(fn: ShelfFunction | Wildcard<ShelfFunction>):
-  FunctionMixins {
+export function toFieldQueryFunctionMixins(fn: ShelfFunction | Wildcard<ShelfFunction>):
+  FieldQueryFunctionMixins {
 
   if (isWildcard(fn)) {
     const fns = sortFunctions(fn.enum); // sort a new copy of the array
@@ -103,7 +103,7 @@ export function toFunctionMixins(fn: ShelfFunction | Wildcard<ShelfFunction>):
     const baseEnum: Array<undefined> = enumerateUndefined ? [undefined] : [];
     const hasFn = !hasNoFn;
 
-    const mixins: FunctionMixins = {
+    const mixins: FieldQueryFunctionMixins = {
       ...(aggregates.length > 0 ? {
         aggregate: {enum: [].concat(baseEnum, aggregates)}
       } : {}),
@@ -156,7 +156,7 @@ function excludeUndefined(fn: string) {
 }
 
 export function fromFieldQueryFunctionMixins(
-  fieldQParts: Pick<FieldQuery, 'aggregate' | 'timeUnit' | 'bin' | 'hasFn'>
+  fieldQParts: FieldQueryFunctionMixins
 ): ShelfFunction | Wildcard<ShelfFunction> {
 
   // FIXME make this a parameter
