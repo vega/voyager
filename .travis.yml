@@ -6,8 +6,7 @@ before_script:
 script:
   - npm run build
   - npm run codecov
-  # Disable UI test until we fidn a solution to the core dump issue
-  # - npm run test:ui
+  - npm run test:ui
   - npm run lint
 after_success:
   - bash <(curl -s https://codecov.io/bash)
