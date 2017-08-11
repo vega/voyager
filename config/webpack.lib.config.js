@@ -21,6 +21,7 @@ module.exports = {
     pathinfo: true,
     // There are also additional JS chunk files if you use code splitting.
     chunkFilename: 'static/js/[name].chunk.js',
+    sourceMapFilename: '[file].map',
     publicPath: '/build/',
     library: 'voyager',
     libraryTarget: 'umd',

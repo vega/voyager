@@ -113,7 +113,7 @@
     "source-map-loader": "^0.1.6",
     "style-loader": "^0.13.1",
     "ts-jest": "20",
-    "ts-loader": "^2.0.0",
+    "ts-loader": "^2.3.2",
     "tslint": "^4.5.0",
     "tslint-config-standard": "^4.0.0",
     "tslint-react": "^2.3.0",

@@ -42,13 +42,13 @@ module.exports = {
     pathinfo: true,
     // There are also additional JS chunk files if you use code splitting.
     chunkFilename: 'static/js/[name].chunk.js',
-    publicPath: '/dist/'
+    publicPath: '/dist/',
+    sourceMapFilename: '[file].map'
   },
 
-  // Enable sourcemaps for debugging webpack's output.
-  // If it is inline, it will break CSS sourcemaps because of
-  // `extract-text-webpack-plugin`
-  devtool: 'source-map',
+  // https://github.com/TypeStrong/ts-loader#devtool--sourcemaps
+  // recommends 'cheap-module-eval-source-map' for debugging.
+  devtool: 'cheap-module-eval-source-map',
 
   devServer: {
     contentBase: path.resolve(__dirname, '../'),
