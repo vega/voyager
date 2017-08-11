@@ -48,7 +48,7 @@ class FieldListBase extends React.PureComponent<FieldListProps, {}> {
       );
     });
     return (
-      <div className="FieldList">
+      <div styleName='field-list'>
         {fieldItems}
       </div>
     );
