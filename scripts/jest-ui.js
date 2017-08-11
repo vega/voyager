@@ -11,13 +11,6 @@ const config = require('../config/webpack.config.lib');
 const glob = require('glob');
 
 
-// Set the output path for the build to lib-test
-// so that we do not clobber the built library.
-config.output.publicPath = '/lib-test/';
-config.output.path = path.resolve(__dirname, '../lib-test');
-config.output.filename = '[name].js';
-
-
 const basedir = path.resolve(__dirname, '../src');
 const tests = glob.sync('*.{test,spec}.ui.{ts,tsx,js,jsx}', {
   cwd: basedir,
@@ -39,6 +32,8 @@ compiler.plugin('done', function(compilation) {
   if (process.env.NODE_ENV == null) {
     process.env.NODE_ENV = 'test';
   }
+
+  console.log('Compiling lib done.  Now run jest');
 
   const jestConf = `--config ${path.resolve(__dirname, '../config', 'jest-ui.config.json')}`;
 
