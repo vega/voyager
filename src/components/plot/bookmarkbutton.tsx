@@ -41,7 +41,7 @@ export class BookmarkButtonBase extends React.PureComponent<BookmarkProps, Bookm
           targetAttachment="bottom left"
       >
         <i
-          title='bookmark'
+          title='Bookmark'
           className="fa fa-bookmark"
           styleName={styleName}
           onClick={this.onBookmarkClick}
