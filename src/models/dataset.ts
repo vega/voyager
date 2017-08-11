@@ -1,15 +1,17 @@
 import {Schema} from 'compassql/build/src/schema';
 import {Data} from 'vega-lite/build/src/data';
-
 export {FieldSchema, Schema} from 'compassql/build/src/schema';
 
-export interface Dataset {
+export interface DatasetWithoutSchema {
   isLoading: boolean;
 
   name: string;
-  schema: Schema;
 
   data: Data;
+}
+
+export interface Dataset extends DatasetWithoutSchema {
+  schema: Schema;
 }
 
 export const DEFAULT_DATASET: Dataset = {
@@ -18,4 +20,3 @@ export const DEFAULT_DATASET: Dataset = {
   schema: new Schema({fields: []}),
   data: null
 };
-
