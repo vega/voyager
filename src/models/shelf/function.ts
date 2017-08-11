@@ -1,4 +1,5 @@
 import {FieldQuery} from 'compassql/build/src/query/encoding';
+import {ExpandedType} from 'compassql/build/src/query/expandedtype';
 import {isWildcard, Wildcard} from 'compassql/build/src/wildcard';
 import {AGGREGATE_OPS, AggregateOp} from 'vega-lite/build/src/aggregate';
 import {TimeUnit, TIMEUNITS} from 'vega-lite/build/src/timeunit';
@@ -16,6 +17,29 @@ function isAggregate(fn: ShelfFunction): fn is AggregateOp {
 function isTimeUnit(fn: ShelfFunction): fn is TimeUnit {
   return TIMEUNIT_INDEX[fn];
 }
+
+export function getSupportedFunction(type: ExpandedType) {
+  switch (type) {
+    case 'quantitative':
+      return [
+        undefined,
+        'bin',
+        'min', 'max', 'mean', 'median', 'sum'
+      ];
+
+    case 'temporal':
+      return [
+        undefined,
+        'yearmonthdate',
+        'year', 'month', // hide 'quarter' for user study because it's buggy
+        'date', 'day',
+        'hours', 'minutes',
+        'seconds', 'milliseconds'
+      ];
+  }
+  return [];
+}
+
 export function toFunctionMixins(fn: ShelfFunction | Wildcard<ShelfFunction>) {
   if (isWildcard(fn)) {
     throw Error('fn cannot be a wildcard (yet)');

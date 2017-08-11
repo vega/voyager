@@ -1,10 +1,10 @@
-import {ExpandedType} from 'compassql/build/src/query/expandedtype';
 import {isWildcard} from 'compassql/build/src/wildcard';
 import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
 import {TimeUnit} from 'vega-lite/build/src/timeunit';
 import {ShelfFunction} from '../../models/shelf';
 import {ShelfFieldDef} from '../../models/shelf/encoding';
+import {getSupportedFunction} from '../../models/shelf/function';
 import * as styles from './function-picker.scss';
 
 export interface FunctionPickerProps {
@@ -60,24 +60,3 @@ export class FunctionPickerBase extends React.PureComponent<FunctionPickerProps,
 export const FunctionPicker = CSSModules(FunctionPickerBase, styles);
 
 // FIXME: move this to other parts and expand with more rules and test?
-function getSupportedFunction(type: ExpandedType) {
-  switch (type) {
-    case 'quantitative':
-      return [
-        undefined,
-        'bin',
-        'min', 'max', 'mean', 'median', 'sum'
-      ];
-
-    case 'temporal':
-      return [
-        undefined,
-        'yearmonthdate',
-        'year', 'month', // hide 'quarter' for user study because it's buggy
-        'date', 'day',
-        'hours', 'minutes',
-        'seconds', 'milliseconds'
-      ];
-  }
-  return [];
-}
