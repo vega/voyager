@@ -1,14 +1,13 @@
 
-import {isWildcard, SHORT_WILDCARD, Wildcard, WildcardProperty} from 'compassql/build/src/wildcard';
-
 import {EncodingQuery, isAutoCountQuery, isFieldQuery} from 'compassql/build/src/query/encoding';
 import {FieldQuery} from 'compassql/build/src/query/encoding';
 import {ExpandedType} from 'compassql/build/src/query/expandedtype';
-import {AGGREGATE_OPS, AggregateOp} from 'vega-lite/build/src/aggregate';
+import {isWildcard, SHORT_WILDCARD, Wildcard, WildcardProperty} from 'compassql/build/src/wildcard';
 import {Channel} from 'vega-lite/build/src/channel';
 import {Mark as VLMark} from 'vega-lite/build/src/mark';
-import {TimeUnit, TIMEUNITS} from 'vega-lite/build/src/timeunit';
-import {isObject, toSet} from '../../util';
+import {fromFieldQueryFunctionMixins, ShelfFunction, toFieldQueryFunctionMixins} from './function';
+
+export * from './function';
 
 /**
  * Identifier of shelf -- either a channel name for non-wildcard channel or
@@ -34,17 +33,13 @@ export type ShelfMark = VLMark | SHORT_WILDCARD;
 export interface ShelfFieldDef {
   field: WildcardProperty<string>;
 
-  fn?: ShelfFunction;
-
-  // | {
-  //   [K in ShelfFunction]?: true
-  // };
+  fn?: ShelfFunction | Wildcard<ShelfFunction>;
 
   type?: ExpandedType;
 
   title?: string;
 }
-export type ShelfFunction = AggregateOp | 'bin' | TimeUnit | undefined;
+
 
 export interface ShelfAnyEncodingDef extends ShelfFieldDef {
   channel: SHORT_WILDCARD;
@@ -86,68 +81,30 @@ export function toEncodingQuery(fieldDef: ShelfFieldDef, channel: Channel | SHOR
   return toFieldQuery(fieldDef, channel);
 }
 
-const AGGREGATE_INDEX = toSet(AGGREGATE_OPS);
-const TIMEUNIT_INDEX = toSet(TIMEUNITS);
-
-function isAggregate(fn: ShelfFunction): fn is AggregateOp {
-  return AGGREGATE_INDEX[fn];
-}
-
-function isTimeUnit(fn: ShelfFunction): fn is TimeUnit {
-  return TIMEUNIT_INDEX[fn];
-}
-function getFunctionMixins(fn: ShelfFunction) {
-  if (isAggregate(fn)) {
-    return {aggregate: fn};
-  } else if (fn === 'bin') {
-    return {bin: true};
-  } else if (isTimeUnit(fn)) {
-    return {timeUnit: fn};
-  }
-  return {};
-}
 
 export function toFieldQuery(fieldDef: ShelfFieldDef, channel: Channel | SHORT_WILDCARD): FieldQuery {
   const {field, fn, type, title: _t} = fieldDef;
-
-  if (isWildcard(fn)) {
-    throw Error('fn cannot be a wildcard (yet)');
-  }
 
   return {
     channel: channel,
     field: field,
     type: type,
-    ...getFunctionMixins(fn)
+    ...toFieldQueryFunctionMixins(fn)
   };
 }
 
 export function fromFieldQuery(fieldQ: FieldQuery): ShelfFieldDef {
-  const {aggregate, bin, timeUnit, field, type} = fieldQ;
+  const {aggregate, bin, hasFn, timeUnit, field, type} = fieldQ;
 
   if (isWildcard(type)) {
     throw Error('Voyager does not support wildcard type');
   }
 
-  let fn: ShelfFunction;
-  if (bin) {
-    if (isObject(bin)) {
-      console.warn('Voyager does not yet support loading VLspec with bin');
-    }
-    fn = 'bin';
-  } else if (aggregate) {
-    if (isWildcard(aggregate)) {
-      throw Error('Voyager does not support aggregate wildcard (yet)');
-    } else {
-      fn = aggregate;
-    }
-  } else if (timeUnit) {
-    if (isWildcard(timeUnit)) {
-      throw Error('Voyager does not support wildcard timeUnit (yet)');
-    } else {
-      fn = timeUnit;
-    }
-  }
+  const fn = fromFieldQueryFunctionMixins({aggregate, bin, timeUnit, hasFn});
 
-  return {field, type, fn};
+  return {
+    ...(fn ? {fn} : {}),
+    field,
+    type
+  };
 }
