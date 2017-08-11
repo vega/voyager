@@ -18,6 +18,9 @@ describe('selectors/shelf', () => {
           bookmark: {
             ...DEFAULT_BOOKMARK
           },
+          config: {
+            ...DEFAULT_VOYAGER_CONFIG
+          },
           shelfPreview: {
             ...DEFAULT_SHELF_PREVIEW
           }
@@ -25,9 +28,6 @@ describe('selectors/shelf', () => {
         undoable: {
           ...DEFAULT_STATE.undoable,
           present: {
-            config: {
-              ...DEFAULT_VOYAGER_CONFIG
-            },
             dataset: {
               data: {
                 values: []
