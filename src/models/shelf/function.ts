@@ -34,6 +34,20 @@ const TEMPORAL_FUNCTIONS = [
   'seconds', 'milliseconds'
 ];
 
+const FUNCTIONS_INDEX: {
+  [K in ShelfFunction]? : number;
+} = {
+  ...QUANTITATIVE_FUNCTIONS.reduce((index, fn, i) => {
+    index[fn] = i;
+    return index;
+  }, {}),
+
+  ...TEMPORAL_FUNCTIONS.reduce((index, fn, i) => {
+    index[fn] = i;
+    return index;
+  }, {})
+};
+
 export function getSupportedFunction(type: ExpandedType) {
   switch (type) {
     case 'quantitative':
@@ -83,4 +97,16 @@ export function fromFieldQueryFunctionMixins(
     }
   }
   return fn;
+}
+
+export function sortFunctions(fns: ShelfFunction[]): ShelfFunction[] {
+  // Javascript array.sort() always put undefined value at the end.
+  // So we have to convert them to null first and convert them back after sorting.
+
+  // Convert undefined so they don't get pushed to the end
+  return fns.map(f => f || null)
+    // sort
+    .sort((a, b) => FUNCTIONS_INDEX[a] - FUNCTIONS_INDEX[b])
+    // convert all nulls back to undefined
+    .map(f => f || undefined);
 }
