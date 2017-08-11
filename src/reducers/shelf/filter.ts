@@ -19,7 +19,8 @@ export function filterReducer(shelfSpec: Readonly<ShelfUnitSpec> = DEFAULT_SHELF
       const {filter} = action.payload;
       let index = action.payload.index;
       if (contains(shelfSpec.filters, filter)) {
-        throw new Error('Cannot add more than one filter of the same field');
+        window.alert('Cannot add more than one filter of the same field');
+        return shelfSpec;
       }
       if (!index) {
         index = shelfSpec.filters.length;
@@ -53,7 +54,8 @@ export function filterReducer(shelfSpec: Readonly<ShelfUnitSpec> = DEFAULT_SHELF
       const min = range[0];
       const max = range[range.length - 1];
       if (min > max) {
-        throw new Error('Invalid bound');
+        window.alert('Invalid bound');
+        return shelfSpec;
       }
       const modifyExtent = (filter: RangeFilter) => {
         return {
@@ -73,7 +75,8 @@ export function filterReducer(shelfSpec: Readonly<ShelfUnitSpec> = DEFAULT_SHELF
         const range = filter.range;
         const minBound = range[0];
         if (maxBound < minBound) {
-          throw new Error ('Maximum bound cannot be smaller than minimum bound');
+          window.alert('Maximum bound cannot be smaller than minimum bound');
+          return filter;
         }
         return {
           ...filter,
@@ -92,7 +95,8 @@ export function filterReducer(shelfSpec: Readonly<ShelfUnitSpec> = DEFAULT_SHELF
         const range = filter.range;
         const maxBound = range[range.length - 1];
         if (minBound > maxBound) {
-          throw new Error ('Minimum bound cannot be greater than maximum bound');
+          window.alert('Minimum bound cannot be greater than maximum bound');
+          return filter;
         }
         return {
           ...filter,

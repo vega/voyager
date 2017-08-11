@@ -6,6 +6,7 @@ import {isDiscrete, isFieldDef} from 'vega-lite/build/src/fielddef';
 import {SortField, SortOrder} from 'vega-lite/build/src/sort';
 import {FacetedCompositeUnitSpec} from 'vega-lite/build/src/spec';
 import {BOOKMARK_MODIFY_NOTE, BookmarkAction} from '../../actions/bookmark';
+import {LogAction} from '../../actions/log';
 import {ActionHandler} from '../../actions/redux-action';
 import {ResultAction} from '../../actions/result';
 import {ShelfAction, SPEC_LOAD} from '../../actions/shelf';
@@ -18,7 +19,8 @@ import {VegaLite} from '../vega-lite/index';
 import {BookmarkButton} from './bookmarkbutton';
 import * as styles from './plot.scss';
 
-export interface PlotProps extends ActionHandler<ShelfAction | BookmarkAction | ShelfPreviewAction | ResultAction> {
+export interface PlotProps extends ActionHandler<ShelfAction | BookmarkAction | ShelfPreviewAction |
+                                                  ResultAction | LogAction> {
   fieldInfos?: PlotFieldInfo[];
   isPlotListItem?: boolean;
   showBookmarkButton?: boolean;
@@ -77,7 +79,7 @@ export class PlotBase extends React.PureComponent<PlotProps, PlotState> {
   }
 
   public render() {
-    const {isPlotListItem, onSort, showBookmarkButton, showSpecifyButton, spec} = this.props;
+    const {isPlotListItem, onSort, showBookmarkButton, showSpecifyButton, spec, handleAction} = this.props;
 
     let notesDiv;
     const specKey = JSON.stringify(spec);
@@ -125,7 +127,7 @@ export class PlotBase extends React.PureComponent<PlotProps, PlotState> {
           onMouseEnter={this.onMouseEnter}
           onMouseLeave={this.onMouseLeave}
         >
-          <VegaLite spec={spec}/>
+          <VegaLite spec={spec} handleAction={handleAction}/>
         </div>
         {notesDiv}
       </div>

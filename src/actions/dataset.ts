@@ -9,6 +9,7 @@ import {fetchCompassQLBuildSchema} from '../api/api';
 import {State} from '../models/index';
 import {selectConfig} from '../selectors';
 import {Action} from './index';
+import {LOG_ERRORS_ADD} from './log';
 import {ReduxAction} from './redux-action';
 import {RESET} from './reset';
 
@@ -79,7 +80,12 @@ export function datasetLoad(name: string, dataset: Data): DatasetLoad {
           dispatch(ActionCreators.clearHistory());
         });
     } else {
-      throw new Error('dataset load error: dataset type not detected');
+      dispatch({
+        type: LOG_ERRORS_ADD,
+        payload: {
+          errors: ['dataset load error: dataset type not detected']
+        }
+      });
     }
 
 

@@ -28,8 +28,9 @@ if (process.env.NODE_ENV !== 'production' && process.env.NODE_ENV !== 'test') {
   middleware.push(loggerMiddleware);
 }
 
+export const localLogger = new Logger();
+
 export let actionLogs: any;
-export const errorLogger = new Logger();
 
 export function configureStore(initialState = DEFAULT_STATE) {
   actionLogs = createActionLog({limit: null});

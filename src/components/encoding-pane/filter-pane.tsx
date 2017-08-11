@@ -7,8 +7,11 @@ import * as CSSModules from 'react-css-modules';
 import {ConnectDropTarget, DropTarget, DropTargetCollector, DropTargetSpec} from 'react-dnd';
 import {isOneOfFilter, isRangeFilter, OneOfFilter, RangeFilter} from 'vega-lite/build/src/filter';
 import {TimeUnit} from 'vega-lite/build/src/timeunit';
-import {FILTER_ADD, FILTER_MODIFY_TIME_UNIT,
-  FILTER_REMOVE, FilterAction} from '../../actions';
+import {FILTER_ADD, FILTER_MODIFY_TIME_UNIT, FILTER_REMOVE, FilterAction} from '../../actions';
+import {DatasetSchemaChangeFieldType} from '../../actions/dataset';
+import {LogAction} from '../../actions/log';
+import {ActionHandler} from '../../actions/redux-action';
+import {ShelfAction} from '../../actions/shelf';
 import {DraggableType} from '../../constants';
 import {convertToDateTimeObject, getDefaultList, getDefaultRange} from '../../models/shelf/filter';
 import {DraggedFieldIdentifier} from '../field';
@@ -32,10 +35,10 @@ export interface FilterPaneDropTargetProps {
   canDrop: boolean;
 }
 
-export interface FilterPanePropsBase {
+export interface FilterPanePropsBase extends ActionHandler<FilterAction | LogAction |
+                                                            ShelfAction | DatasetSchemaChangeFieldType> {
   filters: Array<RangeFilter | OneOfFilter>;
   schema: Schema;
-  handleAction?: (action: FilterAction) => void;
 }
 
 interface FilterPaneProps extends FilterPaneDropTargetProps, FilterPanePropsBase {};
@@ -195,6 +198,7 @@ class FilterPaneBase extends React.PureComponent<FilterPaneProps, {}> {
       case TimeUnit.YEARMONTHDATE:
         return true;
       default:
+        // This should never happen because other time unit is not in the UI
         throw new Error(timeUnit + ' is not supported');
     }
   }
@@ -207,6 +211,7 @@ const filterShelfTarget: DropTargetSpec<FilterPaneProps> = {
     }
     const {filter} = monitor.getItem() as DraggedFieldIdentifier;
     if (isWildcard(filter.field)) {
+      // This should never happen -- we don't allow drop filter in wildcard shelf
       throw new Error ('Cannot add wildcard filter');
     }
     props.handleAction({

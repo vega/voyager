@@ -109,5 +109,5 @@ export const ViewPane = connect(
       mainLimit: selectResultLimit.main(state)
     };
   },
-  createDispatchHandler<ShelfAction>()
+  createDispatchHandler<ShelfAction | LogAction>()
 )(CSSModules(ViewPaneBase, styles));

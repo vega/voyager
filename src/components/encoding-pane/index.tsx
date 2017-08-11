@@ -6,7 +6,9 @@ import {connect} from 'react-redux';
 import {Channel} from 'vega-lite/build/src/channel';
 import {OneOfFilter, RangeFilter} from 'vega-lite/build/src/filter';
 import {FilterAction} from '../../actions';
+import {DatasetSchemaChangeFieldType} from '../../actions/dataset';
 import {ActionHandler} from '../../actions/index';
+import {LogAction} from '../../actions/log';
 import {createDispatchHandler} from '../../actions/redux-action';
 import {ResultAsyncAction} from '../../actions/result';
 import {ShelfAction, SPEC_CLEAR} from '../../actions/shelf';
@@ -21,7 +23,8 @@ import {MarkPicker} from './mark-picker';
 
 
 
-interface EncodingPanelProps extends ActionHandler<ShelfAction | ResultAsyncAction | FilterAction> {
+interface EncodingPanelProps extends ActionHandler<ShelfAction | ResultAsyncAction | FilterAction |
+                                                    LogAction | DatasetSchemaChangeFieldType > {
   spec: ShelfUnitSpec;
 
   specPreview: ShelfUnitSpec;
@@ -172,5 +175,5 @@ export const EncodingPane = connect(
       specPreview: selectShelfPreview(state).spec
     };
   },
-  createDispatchHandler<ShelfAction>()
+  createDispatchHandler<ShelfAction | LogAction>()
 )(CSSModules(EncodingPanelBase, styles));
