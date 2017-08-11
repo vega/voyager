@@ -218,6 +218,7 @@ export class PlotBase extends React.PureComponent<PlotProps, PlotState> {
 
   private specifyButton() {
     return <i
+      title='specify'
       className="fa fa-server"
       styleName="specify-command"
       onClick={this.onSpecify}
@@ -256,7 +257,7 @@ export class PlotBase extends React.PureComponent<PlotProps, PlotState> {
       <CopyToClipboard
         onCopy={this.copied.bind(this)}
         text={JSON.stringify(this.props.spec, null, 2)}>
-        <i className='fa fa-clipboard'/>
+        <i title='copy' className='fa fa-clipboard' />
       </CopyToClipboard>
     );
   }
