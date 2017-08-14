@@ -10,7 +10,9 @@ const SHORT_WILDCARD = '?';
 // FIXME doing property import can break the test
 // import {SHORT_WILDCARD} from 'compassql/build/src/wildcard';
 import {Schema} from 'compassql/build/src/schema';
-import {SHELF_SPEC_LOAD} from '../../actions/shelf';
+import {SHELF_FUNCTION_REMOVE_WILDCARD} from '../../actions/shelf';
+import {SHELF_FUNCTION_ADD_WILDCARD, SHELF_FUNCTION_DISABLE_WILDCARD,
+        SHELF_FUNCTION_ENABLE_WILDCARD, SHELF_SPEC_LOAD} from '../../actions/shelf';
 
 const schema = new Schema({fields: []});
 
@@ -509,6 +511,217 @@ describe('reducers/shelf/spec', () => {
         ...DEFAULT_SHELF_UNIT_SPEC,
         encoding: {
           x: {field: 'a', type: 'quantitative'}
+        }
+      });
+    });
+  });
+
+  describe(SHELF_FUNCTION_ADD_WILDCARD, () => {
+    it('should correctly add a quantitative function to enum', () => {
+      const shelfSpec = shelfSpecReducer(
+        {
+          ...DEFAULT_SHELF_UNIT_SPEC,
+          encoding: {
+            x: {fn: {enum: ['sum']}, field: 'a', type: 'quantitative'}
+          }
+        },
+        {
+          type: SHELF_FUNCTION_ADD_WILDCARD,
+          payload: {
+            shelfId: {channel: 'x'},
+            fn: 'bin'
+          }
+        },
+        schema
+      );
+
+      expect(shelfSpec).toEqual({
+        ...DEFAULT_SHELF_UNIT_SPEC,
+        encoding: {
+          x: {field: 'a', fn: {enum: ['bin', 'sum']}, type: 'quantitative'}
+        }
+      });
+    });
+
+    it('should correctly add a temporal function to enum', () => {
+      const shelfSpec = shelfSpecReducer(
+        {
+          ...DEFAULT_SHELF_UNIT_SPEC,
+          encoding: {
+            x: {fn: {enum: ['year']}, field: 'a', type: 'temporal'}
+          }
+        },
+        {
+          type: SHELF_FUNCTION_ADD_WILDCARD,
+          payload: {
+            shelfId: {channel: 'x'},
+            fn: undefined
+          }
+        },
+        schema
+      );
+
+      expect(shelfSpec).toEqual({
+        ...DEFAULT_SHELF_UNIT_SPEC,
+        encoding: {
+          x: {field: 'a', fn: {enum: [undefined, 'year']}, type: 'temporal'}
+        }
+      });
+    });
+  });
+
+  describe(SHELF_FUNCTION_DISABLE_WILDCARD, () => {
+    it('should assign undefined to fn when nothing is enumerated', () => {
+      const shelfSpec = shelfSpecReducer(
+        {
+          ...DEFAULT_SHELF_UNIT_SPEC,
+          encoding: {
+            x: {fn: {enum: []}, field: 'a', type: 'temporal'}
+          }
+        },
+        {
+          type: SHELF_FUNCTION_DISABLE_WILDCARD,
+          payload: {
+            shelfId: {channel: 'x'},
+          }
+        },
+        schema
+      );
+
+      expect(shelfSpec).toEqual({
+        ...DEFAULT_SHELF_UNIT_SPEC,
+        encoding: {
+          x: {field: 'a', type: 'temporal'}
+        }
+      });
+    });
+
+    it('should assign the first enum value to fn when wildcard is disabled', () => {
+      const shelfSpec = shelfSpecReducer(
+        {
+          ...DEFAULT_SHELF_UNIT_SPEC,
+          encoding: {
+            x: {fn: {enum: ['mean', 'median', 'sum']}, field: 'a', type: 'quantitative'}
+          }
+        },
+        {
+          type: SHELF_FUNCTION_DISABLE_WILDCARD,
+          payload: {
+            shelfId: {channel: 'x'},
+          }
+        },
+        schema
+      );
+
+      expect(shelfSpec).toEqual({
+        ...DEFAULT_SHELF_UNIT_SPEC,
+        encoding: {
+          x: {field: 'a', fn: 'mean', type: 'quantitative'}
+        }
+      });
+    });
+  });
+
+  describe(SHELF_FUNCTION_ENABLE_WILDCARD, () => {
+    it('should correctly change an aggregate function to wildcard', () => {
+      const shelfSpec = shelfSpecReducer(
+        {
+          ...DEFAULT_SHELF_UNIT_SPEC,
+          encoding: {
+            x: {fn: 'mean', field: 'a', type: 'quantitative'}
+          }
+        },
+        {
+          type: SHELF_FUNCTION_ENABLE_WILDCARD,
+          payload: {
+            shelfId: {channel: 'x'}
+          }
+        },
+        schema
+      );
+
+      expect(shelfSpec).toEqual({
+        ...DEFAULT_SHELF_UNIT_SPEC,
+        encoding: {
+          x: {field: 'a', fn: {enum: ['mean']}, type: 'quantitative'}
+        }
+      });
+    });
+
+    it('should correctly change a temporal function to wildcard', () => {
+      const shelfSpec = shelfSpecReducer(
+        {
+          ...DEFAULT_SHELF_UNIT_SPEC,
+          encoding: {
+            x: {fn: 'year', field: 'a', type: 'temporal'}
+          }
+        },
+        {
+          type: SHELF_FUNCTION_ENABLE_WILDCARD,
+          payload: {
+            shelfId: {channel: 'x'}
+          }
+        },
+        schema
+      );
+
+      expect(shelfSpec).toEqual({
+        ...DEFAULT_SHELF_UNIT_SPEC,
+        encoding: {
+          x: {field: 'a', fn: {enum: ['year']}, type: 'temporal'}
+        }
+      });
+    });
+
+    it('shoud correctly change undefined to wildcard', () => {
+      const shelfSpec = shelfSpecReducer(
+        {
+          ...DEFAULT_SHELF_UNIT_SPEC,
+          encoding: {
+            x: {field: 'a', type: 'quantitative'}
+          }
+        },
+        {
+          type: SHELF_FUNCTION_ENABLE_WILDCARD,
+          payload: {
+            shelfId: {channel: 'x'}
+          }
+        },
+        schema
+      );
+
+      expect(shelfSpec).toEqual({
+        ...DEFAULT_SHELF_UNIT_SPEC,
+        encoding: {
+          x: {field: 'a', fn: {enum: [undefined]}, type: 'quantitative'}
+        }
+      });
+    });
+  });
+
+  describe(SHELF_FUNCTION_REMOVE_WILDCARD, () => {
+    it('should remove a wildcard function', () => {
+      const shelfSpec = shelfSpecReducer(
+        {
+          ...DEFAULT_SHELF_UNIT_SPEC,
+          encoding: {
+            x: {fn: {enum: [undefined, 'mean', 'median', 'sum']}, field: 'a', type: 'quantitative'}
+          }
+        },
+        {
+          type: SHELF_FUNCTION_REMOVE_WILDCARD,
+          payload: {
+            shelfId: {channel: 'x'},
+            fn: undefined
+          }
+        },
+        schema
+      );
+
+      expect(shelfSpec).toEqual({
+        ...DEFAULT_SHELF_UNIT_SPEC,
+        encoding: {
+          x: {field: 'a', fn: {enum: ['mean', 'median', 'sum']}, type: 'quantitative'}
         }
       });
     });

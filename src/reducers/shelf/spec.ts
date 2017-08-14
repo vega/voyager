@@ -6,11 +6,14 @@ import {isWildcard, SHORT_WILDCARD} from 'compassql/build/src/wildcard';
 import {Action} from '../../actions';
 import {
   SHELF_CLEAR, SHELF_FIELD_ADD, SHELF_FIELD_AUTO_ADD, SHELF_FIELD_MOVE,
-  SHELF_FIELD_REMOVE, SHELF_FUNCTION_CHANGE, SHELF_MARK_CHANGE_TYPE,
-  SHELF_SPEC_LOAD
+  SHELF_FIELD_REMOVE, SHELF_FUNCTION_CHANGE, SHELF_FUNCTION_ENABLE_WILDCARD,
+  SHELF_MARK_CHANGE_TYPE, SHELF_SPEC_LOAD
 } from '../../actions/shelf';
+import {SHELF_FUNCTION_ADD_WILDCARD, SHELF_FUNCTION_DISABLE_WILDCARD,
+        SHELF_FUNCTION_REMOVE_WILDCARD} from '../../actions/shelf';
 import {isWildcardChannelId} from '../../models';
 import {ShelfAnyEncodingDef, ShelfFieldDef, ShelfId, ShelfUnitSpec} from '../../models/shelf';
+import {sortFunctions} from '../../models/shelf/function';
 import {autoAddFieldQuery} from '../../models/shelf/index';
 import {DEFAULT_SHELF_UNIT_SPEC, fromSpecQuery} from '../../models/shelf/spec';
 import {insertItemToArray, modifyItemInArray, removeItemFromArray} from '../util';
@@ -89,6 +92,67 @@ export function shelfSpecReducer(shelfSpec: Readonly<ShelfUnitSpec> = DEFAULT_SH
           ...fieldDef,
           fn: fn
         };
+      });
+    }
+
+    case SHELF_FUNCTION_ADD_WILDCARD: {
+      const {shelfId, fn} = action.payload;
+      return modifyEncoding(shelfSpec, shelfId, (fieldDef: Readonly<ShelfFieldDef | ShelfAnyEncodingDef>) => {
+        const {fn: oldFn, ...fieldDefWithoutFn} = fieldDef;
+
+        return {
+          ...fieldDefWithoutFn,
+          fn: {
+            enum: sortFunctions(oldFn['enum'].concat(fn))
+          }
+        };
+      });
+    }
+
+    case SHELF_FUNCTION_DISABLE_WILDCARD: {
+      const {shelfId} = action.payload;
+      return modifyEncoding(shelfSpec, shelfId, (fieldDef: Readonly<ShelfFieldDef | ShelfAnyEncodingDef>) => {
+        const {fn, ...fieldDefWithoutFn} = fieldDef;
+
+        if (isWildcard(fn)) {
+          return {
+            ...fieldDefWithoutFn,
+            ...fn.enum.length > 0 ? {fn: fn.enum[0]} : {}
+          };
+        } else {
+          throw Error('fn must be a wildcard to disable wildcard');
+        }
+      });
+    }
+
+    case SHELF_FUNCTION_ENABLE_WILDCARD: {
+      const {shelfId} = action.payload;
+      return modifyEncoding(shelfSpec, shelfId, (fieldDef: Readonly<ShelfFieldDef | ShelfAnyEncodingDef>) => {
+        const {fn, ...fieldDefWithoutFn} = fieldDef;
+        return {
+          ...fieldDefWithoutFn,
+          fn: {
+            enum: [fn]
+          }
+        };
+      });
+    }
+
+    case SHELF_FUNCTION_REMOVE_WILDCARD: {
+      const {shelfId, fn} = action.payload;
+      return modifyEncoding(shelfSpec, shelfId, (fieldDef: Readonly<ShelfFieldDef | ShelfAnyEncodingDef>) => {
+        const {fn: oldFn, ...fieldDefWithoutFn} = fieldDef;
+
+        if (isWildcard(oldFn)) {
+          return {
+            ...fieldDefWithoutFn,
+            fn: {
+              enum: oldFn.enum.filter(shelfFunc => shelfFunc !== fn)
+            }
+          };
+        } else {
+          throw Error('fn must be a wildcard to remove a wildcard');
+        }
       });
     }
 
