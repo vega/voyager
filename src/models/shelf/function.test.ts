@@ -1,7 +1,13 @@
 import {Wildcard} from 'compassql/build/src/wildcard';
-import {fromFieldQueryFunctionMixins, ShelfFunction, toFieldQueryFunctionMixins} from './function';
+import {fromFieldQueryFunctionMixins, ShelfFunction, sortFunctions, toFieldQueryFunctionMixins} from './function';
 
 describe('model/shelf/function', () => {
+  describe('sortFunctions', () => {
+    it('should sort a shelf function array with undefined correctly', () => {
+      expect(sortFunctions(['minutes', 'year', undefined])).toEqual([undefined, 'year', 'minutes']);
+    });
+  });
+
   describe('toFieldQueryFunctionMixins', () => {
     it('returns correct value for no function', () => {
       expect(toFieldQueryFunctionMixins(undefined)).toEqual({});
