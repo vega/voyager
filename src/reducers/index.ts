@@ -108,6 +108,12 @@ const persistentReducer = makeResetReducer(
  * Exclude these actions from the history completely.
  */
 export const ACTIONS_EXCLUDED_FROM_HISTORY: ActionType[] = [
+  // Bookmark Actions
+  BOOKMARK_ADD_PLOT,
+  BOOKMARK_CLEAR_ALL,
+  BOOKMARK_MODIFY_NOTE,
+  BOOKMARK_REMOVE_PLOT,
+
   // These actions are automatically re-triggered by some of the shelf components after
   // every state change. Including UNDO/REDO.
   RESULT_RECEIVE,
@@ -132,12 +138,6 @@ export const ACTIONS_EXCLUDED_FROM_HISTORY: ActionType[] = [
  * into its own group.
  */
 export const USER_ACTIONS: ActionType[] = [
-  // Bookmark Actions
-  BOOKMARK_ADD_PLOT,
-  BOOKMARK_CLEAR_ALL,
-  BOOKMARK_MODIFY_NOTE,
-  BOOKMARK_REMOVE_PLOT,
-
   // Dataset Actions
   DATASET_SCHEMA_CHANGE_FIELD_TYPE,
   DATASET_SCHEMA_CHANGE_ORDINAL_DOMAIN,
