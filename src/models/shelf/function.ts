@@ -9,7 +9,7 @@ import {toSet} from 'vega-util';
 
 export type ShelfFunction = AggregateOp | 'bin' | TimeUnit | undefined;
 
-const AGGREGATE_INDEX = toSet(AGGREGATE_OPS);
+export const AGGREGATE_INDEX = toSet(AGGREGATE_OPS);
 const TIMEUNIT_INDEX = toSet(TIMEUNITS);
 
 function isAggregate(fn: string): fn is AggregateOp {
@@ -228,7 +228,16 @@ export function sortFunctions(fns: ShelfFunction[]): ShelfFunction[] {
   // Convert undefined so they don't get pushed to the end
   return fns.map(f => f || null)
     // sort
-    .sort((a, b) => FUNCTIONS_INDEX[a] - FUNCTIONS_INDEX[b])
+    .sort((a, b) => {
+      if (a == null) {
+        a = undefined;
+      }
+
+      if (b == null) {
+        b = undefined;
+      }
+      return FUNCTIONS_INDEX[a] - FUNCTIONS_INDEX[b];
+    })
     // convert all nulls back to undefined
     .map(f => f || undefined);
 }
