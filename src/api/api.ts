@@ -9,6 +9,7 @@ import {Query} from 'compassql/build/src/query/query';
 import {recommend} from 'compassql/build/src/recommend';
 import {build as buildSchema, Schema} from 'compassql/build/src/schema';
 import {Data} from 'vega-lite/build/src/data';
+import {VoyagerConfig} from '../models/config';
 import {convertToPlotObjectsGroup, PlotObject} from '../models/plot';
 
 export {Query, Schema, Data};
@@ -16,7 +17,7 @@ export {Query, Schema, Data};
 /**
  * Submit recommendation query request from CompassQL
  */
-export function fetchCompassQLRecommend(query: Query, schema: Schema, data: Data, config?: any):
+export function fetchCompassQLRecommend(query: Query, schema: Schema, data: Data, config?: VoyagerConfig):
   Promise<SpecQueryGroup<PlotObject>> {
 
   if (config && config.serverUrl) {
@@ -51,7 +52,7 @@ export function fetchCompassQLRecommend(query: Query, schema: Schema, data: Data
 /**
  * Submit schema building request from CompassQL
  */
-export function fetchCompassQLBuildSchema(data: any, config?: any):
+export function fetchCompassQLBuildSchema(data: any, config?: VoyagerConfig):
   Promise<Schema> {
 
   if (config && config.serverUrl) {
