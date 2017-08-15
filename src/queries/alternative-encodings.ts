@@ -2,12 +2,12 @@
 import {Query} from 'compassql/build/src/query/query';
 import {isWildcard, SHORT_WILDCARD} from 'compassql/build/src/wildcard';
 import {QueryCreator} from './base';
-import {GROUP_BY_SIMILAR_ENCODINGS, makeWildcard} from './common';
+import {makeWildcard} from './common';
 
 export const alternativeEncodings: QueryCreator = {
   type: 'alternativeEncodings',
   title: 'Alternative Encodings',
-  filterGroupBy: GROUP_BY_SIMILAR_ENCODINGS,
+  filterSpecifiedView: true,
   createQuery(query: Query): Query {
     const {spec} = query;
     const {mark, encodings} = spec;

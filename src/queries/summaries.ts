@@ -1,12 +1,12 @@
 import {isFieldQuery} from 'compassql/build/src/query/encoding';
 import {Query} from 'compassql/build/src/query/query';
 import {QueryCreator} from './base';
-import {GROUP_BY_SIMILAR_DATA_AND_TRANSFORM, makeWildcard} from './common';
+import {makeWildcard} from './common';
 
 export const summaries: QueryCreator = {
   type: 'summaries',
   title: 'Related Summaries',
-  filterGroupBy: GROUP_BY_SIMILAR_DATA_AND_TRANSFORM,
+  filterSpecifiedView: true,
   createQuery(query: Query): Query {
     const {spec} = query;
     const newSpec = {

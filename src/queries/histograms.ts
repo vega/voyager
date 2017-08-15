@@ -6,7 +6,7 @@ import {QueryCreator} from './base';
 export const histograms: QueryCreator = {
   type: 'histograms',
   title: 'Univariate Summaries',
-  filterGroupBy: undefined,
+  filterSpecifiedView: undefined,
   createQuery(query: Query): Query {
     return {
       spec: {

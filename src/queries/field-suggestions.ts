@@ -14,7 +14,7 @@ function makeFieldSuggestionQueryCreator(params: {
   return {
     type,
     title,
-    filterGroupBy: undefined,
+    filterSpecifiedView: undefined,
     createQuery(query: Query): Query {
       return {
         spec: {

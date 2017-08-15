@@ -7,10 +7,8 @@ export interface QueryCreator {
 
   title: string;
 
-  /**
-   * Group by for generating abstract key for filtering the main query from the related view results.
-   */
-  filterGroupBy: GroupBy;
+
+  filterSpecifiedView: boolean;
 
   createQuery(query: Query): Query;
 }
