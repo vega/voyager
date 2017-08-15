@@ -100,9 +100,11 @@ class FieldBase extends React.PureComponent<FieldProps, FieldState> {
     /** Whether the fieldDef has a function that involves field. (Count doesn't involve a specific field.) */
     const isFieldFn = fn && fn !== 'count';
 
+    let fnName;
     if (isWildcard(fn)) {
-      // FIXME Felix will implement this.
-      throw new Error('We do not support wildcard function yet.');
+      fnName = (fn.enum.length > 1) ? '?' : fn.enum[0];
+    } else {
+      fnName = fn;
     }
 
     const component = (
@@ -111,7 +113,7 @@ class FieldBase extends React.PureComponent<FieldProps, FieldState> {
         onDoubleClick={this.onDoubleClick}
       >
         {this.caretTypeSpan()}
-        {this.funcSpan(fn)}
+        {this.funcSpan(fnName)}
         <span styleName={isFieldFn ? 'fn-text' : 'text'}>
           {title || (field !== '*' ? field : '')}
         </span>

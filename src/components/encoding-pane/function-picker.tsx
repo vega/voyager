@@ -2,6 +2,7 @@ import {isWildcard} from 'compassql/build/src/wildcard';
 import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
 import {TimeUnit} from 'vega-lite/build/src/timeunit';
+import {contains} from 'vega-lite/build/src/util';
 import {ShelfFunction} from '../../models/shelf';
 import {ShelfFieldDef} from '../../models/shelf/encoding';
 import {getSupportedFunction} from '../../models/shelf/function';
@@ -14,6 +15,10 @@ export interface FunctionPickerProps {
   };
 
   onFunctionChange: (fn: ShelfFunction | TimeUnit) => void;
+  onWildcardEnable?: () => void;
+  onWildcardDisable?: () => void;
+  onWildcardAdd?: (fn: ShelfFunction) => void;
+  onWildcardRemove?: (fn: ShelfFunction) => void;
 }
 
 export class FunctionPickerBase extends React.PureComponent<FunctionPickerProps, any> {
@@ -22,38 +27,72 @@ export class FunctionPickerBase extends React.PureComponent<FunctionPickerProps,
 
     // Bind - https://facebook.github.io/react/docs/handling-events.html
     this.onFunctionChange = this.onFunctionChange.bind(this);
+    this.onCheck = this.onCheck.bind(this);
+    this.onFunctionCheck = this.onFunctionCheck.bind(this);
   }
   public render() {
     const {fieldDefParts} = this.props;
 
     const {fn, type} = fieldDefParts;
     const supportedFns = getSupportedFunction(type);
-    const radios = supportedFns.map(f => (
+    const fnIsWildcard = isWildcard(fn);
+
+    const checkboxradios = supportedFns.map(f => (
       <label styleName="func-label" key={f || '-'}>
         <input
-          type="radio"
+          onChange={fnIsWildcard ? this.onFunctionCheck : this.onFunctionChange}
+          type={fnIsWildcard ? "checkbox" : "radio"}
+          checked={isWildcard(fn) ? contains(fn.enum, f) : (f === fn)}
           value={f || '-'}
-          checked={f === fn}
-          onChange={this.onFunctionChange}
         />
         {' '}
         {f || '-'}
       </label>
     ));
 
-    if (isWildcard(fn)) {
-      throw new Error('Wildcard function not supported yet');
+    return checkboxradios.length > 0 && (
+      <div styleName="function-chooser">
+        <label styleName="wildcard-button">
+          <input type="checkbox" onChange={this.onCheck}/> Wildcard
+        </label>
+        <h4>Function</h4>
+        {checkboxradios}
+      </div>
+    );
+  }
+
+  private onFunctionChange(event: any) {
+    let shelfFunction = event.target.value;
+    if (shelfFunction === '-') {
+      shelfFunction = undefined;
+    }
+
+    this.props.onFunctionChange(shelfFunction);
+  }
+
+  private onFunctionCheck(event: any) {
+    const checked = event.target.checked;
+
+    let shelfFunction = event.target.value;
+    if (shelfFunction === '-') {
+      shelfFunction = undefined;
+    }
+
+    if (checked) {
+      this.props.onWildcardAdd(shelfFunction);
     } else {
-      return radios.length > 0 && (
-        <div styleName="function-chooser">
-          <h4>Function</h4>
-          {radios}
-        </div>
-      );
+      this.props.onWildcardRemove(shelfFunction);
     }
   }
-  private onFunctionChange(event: any) {
-    this.props.onFunctionChange(event.target.value);
+
+  private onCheck(event: any) {
+    const checked = event.target.checked;
+
+    if (checked) {
+      this.props.onWildcardEnable();
+    } else {
+      this.props.onWildcardDisable();
+    }
   }
 }
 
