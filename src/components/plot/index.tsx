@@ -163,7 +163,7 @@ export class PlotBase extends React.PureComponent<PlotProps, PlotState> {
   }
 
   private onMouseEnter() {
-    this.hoverTimeoutId = setTimeout(
+    this.hoverTimeoutId = window.setTimeout(
       () => {
         // TODO log action
         this.setState({hovered: true});
@@ -193,7 +193,7 @@ export class PlotBase extends React.PureComponent<PlotProps, PlotState> {
   }
 
   private onPreviewMouseEnter() {
-    this.previewTimeoutId = setTimeout(
+    this.previewTimeoutId = window.setTimeout(
       () => {
         const {handleAction, spec} = this.props;
         this.setState({preview: true});
