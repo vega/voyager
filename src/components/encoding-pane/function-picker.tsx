@@ -28,18 +28,24 @@ export class FunctionPickerBase extends React.PureComponent<FunctionPickerProps,
 
     const {fn, type} = fieldDefParts;
     const supportedFns = getSupportedFunction(type);
-    const radios = supportedFns.map(f => (
-      <label styleName="func-label" key={f || '-'}>
-        <input
-          type="radio"
-          value={f || '-'}
-          checked={f === fn}
-          onChange={this.onFunctionChange}
-        />
-        {' '}
-        {f || '-'}
-      </label>
-    ));
+    const radios = supportedFns.map(f => {
+      if (f === undefined && fn !== undefined) {
+        f = '-';
+      }
+
+      return (
+        <label styleName="func-label" key={f || '-'}>
+          <input
+            type="radio"
+            value={f || '-'}
+            checked={f === fn}
+            onChange={this.onFunctionChange}
+          />
+          {' '}
+          {f || '-'}
+        </label>
+      );
+    });
 
     if (isWildcard(fn)) {
       throw new Error('Wildcard function not supported yet');
