@@ -1,14 +1,14 @@
-import {applyMiddleware, compose, createStore, Middleware, StoreEnhancer} from 'redux';
-import {createLogger} from 'redux-logger';
-import thunkMiddleware from 'redux-thunk';
-import {DEFAULT_STATE, State} from '../models';
-import {rootReducer} from '../reducers';
-
 // Imports to satisfy --declarations build requirements
 // https://github.com/Microsoft/TypeScript/issues/9944
 // tslint:disable-next-line:no-unused-variable
 import {Store} from 'redux';
+
+import {applyMiddleware, compose, createStore, Middleware, StoreEnhancer} from 'redux';
 import {createActionLog} from 'redux-action-log';
+import {createLogger} from 'redux-logger';
+import thunkMiddleware from 'redux-thunk';
+import {DEFAULT_STATE, State} from '../models';
+import {rootReducer} from '../reducers';
 import {createQueryListener} from './listener';
 
 const loggerMiddleware = createLogger({
@@ -48,6 +48,17 @@ export function configureStore(initialState = DEFAULT_STATE) {
     composeEnhancers(applyMiddleware(...middleware), actionLogs.enhancer) as StoreEnhancer<any>
     // HACK: cast to any to supress typescript complaint
   );
+
+
+  if (module.hot) {
+    // Enable webpack hot module replacement for reducers
+    module.hot.accept(
+      '../reducers', () => {
+        const nextRootReducer = require('../reducers').rootReducer;
+        store.replaceReducer(nextRootReducer);
+      }
+    );
+  }
 
   store.subscribe(createQueryListener(store));
   return store;

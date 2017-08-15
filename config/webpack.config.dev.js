@@ -12,7 +12,10 @@ const env = getClientEnvironment(publicUrl);
 
 module.exports = {
   entry: {
-    bundle: path.resolve(__dirname, '../src/index.tsx'),
+    bundle: [
+      'react-hot-loader/patch',
+      path.resolve(__dirname, '../src/index.tsx')
+    ],
     vendor: [
       // React
       'react-css-modules',
@@ -53,6 +56,7 @@ module.exports = {
   devServer: {
     contentBase: path.resolve(__dirname, '../'),
     compress: true,
+    hot: true,
     port: 9000
   },
 
@@ -63,7 +67,10 @@ module.exports = {
 
   module: {
     rules: [
-      { test: /\.tsx?$/, use: "ts-loader" },
+      { test: /\.tsx?$/, use: [
+        {loader: "react-hot-loader/webpack"},
+        {loader: "ts-loader"}
+      ]},
       // All output '.js' files will have any sourcemaps re-processed by 'source-map-loader'.
       { test: /\.js$/, use: "source-map-loader", enforce: "pre" },
 
@@ -130,6 +137,7 @@ module.exports = {
     "react-dom": "ReactDOM"
   },
   plugins: [
+    new webpack.HotModuleReplacementPlugin(),
     // Makes some environment variables available to the JS code, for example:
     // if (process.env.NODE_ENV === 'development') { ... }. See `./env.js`.
     new webpack.DefinePlugin(env.stringified),
