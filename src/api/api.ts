@@ -2,15 +2,13 @@
  * This file stores API for making request to CompassQL (either within the browser or via the server).
  */
 
-import 'isomorphic-fetch';
-
-import {SpecQueryGroup} from 'compassql/build/src/model';
 import {Query} from 'compassql/build/src/query/query';
 import {recommend} from 'compassql/build/src/recommend';
 import {build as buildSchema, Schema} from 'compassql/build/src/schema';
+import 'isomorphic-fetch';
 import {Data} from 'vega-lite/build/src/data';
 import {VoyagerConfig} from '../models/config';
-import {convertToPlotObjectsGroup, PlotObject} from '../models/plot';
+import {convertToPlotList, PlotObject} from '../models/plot';
 
 export {Query, Schema, Data};
 
@@ -18,7 +16,7 @@ export {Query, Schema, Data};
  * Submit recommendation query request from CompassQL
  */
 export function fetchCompassQLRecommend(query: Query, schema: Schema, data: Data, config?: VoyagerConfig):
-  Promise<SpecQueryGroup<PlotObject>> {
+  Promise<PlotObject[]> {
 
   if (config && config.serverUrl) {
     const endpoint = "recommend";
@@ -44,7 +42,7 @@ export function fetchCompassQLRecommend(query: Query, schema: Schema, data: Data
     return new Promise(resolve => {
       const modelGroup = recommend(query, schema).result;
 
-      resolve(convertToPlotObjectsGroup(modelGroup, data));
+      resolve(convertToPlotList(modelGroup, data));
     });
   }
 }

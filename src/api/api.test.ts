@@ -30,21 +30,22 @@ describe('api/api', () => {
       expect.assertions(1);
       return fetchCompassQLRecommend(q, schema, data).then(
         result => {
-          return expect(result.items.length).toEqual(1);
+          return expect(result.length).toEqual(1);
         }
       );
     });
     it('should return results for remote recommend', () => {
-      fetchMock.postOnce('*', {items: ['1']});
+      fetchMock.postOnce('*', ['1']);
       expect.assertions(1);
 
       return fetchCompassQLRecommend(q, schema, data, {serverUrl: 'http://localhost'}).then(
         result => {
-          return expect(result.items.length).toEqual(1);
+          return expect(result.length).toEqual(1);
         }
       );
     });
   });
+
   describe('fetchCompassQLBuildSchema', () => {
     const data: any[] = [];
     it('should return results for local recommend', () => {

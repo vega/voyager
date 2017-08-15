@@ -23,16 +23,16 @@ function resultReducer(state: Readonly<Result> = DEFAULT_RESULT, action: Action,
       return {
         ...state,
         isLoading: true,
-        modelGroup: undefined,
+        plots: undefined,
         query: undefined,
         limit: DEFAULT_LIMIT[resultType]
       };
     case RESULT_RECEIVE:
-      const {modelGroup, query} = action.payload;
+      const {plots, query} = action.payload;
       return {
         ...state,
         isLoading: false,
-        modelGroup,
+        plots,
         query
       };
     case RESULT_LIMIT_INCREASE:

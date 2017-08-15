@@ -1,5 +1,5 @@
 import {DEFAULT_QUERY_CONFIG} from 'compassql/build/src/config';
-import {getTopSpecQueryItem, SpecQueryModel} from 'compassql/build/src/model';
+import {SpecQueryModel} from 'compassql/build/src/model';
 import {ExpandedType} from 'compassql/build/src/query/expandedtype';
 import {SpecQuery} from 'compassql/build/src/query/spec';
 import {Schema} from 'compassql/build/src/schema';
@@ -9,7 +9,7 @@ import {OneOfFilter, RangeFilter} from 'vega-lite/build/src/filter';
 import {Mark} from 'vega-lite/build/src/mark';
 import {DEFAULT_DATASET} from '../models/dataset';
 import {DEFAULT_PERSISTENT_STATE, DEFAULT_STATE, State} from '../models/index';
-import {convertToPlotObjectsGroup, extractPlotObjects} from '../models/plot';
+import {convertToPlotList} from '../models/plot';
 import {DEFAULT_RESULT, DEFAULT_RESULT_INDEX} from '../models/result';
 import {ShelfAnyEncodingDef, ShelfMark, SpecificEncoding} from '../models/shelf/encoding';
 import {DEFAULT_SHELF} from '../models/shelf/index';
@@ -54,7 +54,7 @@ const group = buildSpecQueryModelGroup([
   }
 ]);
 
-const modelGroup = convertToPlotObjectsGroup(group, data);
+const plots = convertToPlotList(group, data);
 
 const stateSpecific: State = {
   persistent: DEFAULT_PERSISTENT_STATE,
@@ -80,7 +80,7 @@ const stateSpecific: State = {
         ...DEFAULT_RESULT_INDEX,
         main: {
           ...DEFAULT_RESULT,
-          modelGroup
+          plots
         }
       }
     }
@@ -115,7 +115,7 @@ describe('selectors/result', () => {
       expect(selectMainSpec(stateSpecific)).toEqual({
         data,
         transform: getTransforms(filters),
-        ...getTopSpecQueryItem(modelGroup).spec
+        ...plots[0].spec
       });
     });
   });
@@ -127,7 +127,10 @@ describe('selectors/result', () => {
 
     it('should return a main plot list', () => {
       expect(selectPlotList.main(stateWildcard)).toEqual(
-        extractPlotObjects(modelGroup, filters)
+        plots.map(p => ({
+          ...p,
+          transform: getTransforms(filters)
+        }))
       );
     });
   });
