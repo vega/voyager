@@ -63,9 +63,3 @@ declare module 'react-file-download' {
   const fileDownload: any;
   export = fileDownload;
 }
-
-interface Process {
-  env: any;
-}
-
-declare var process: Process;

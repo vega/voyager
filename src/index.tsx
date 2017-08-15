@@ -25,3 +25,20 @@ ReactDOM.render(
     </Provider>,
     document.getElementById('root')
 );
+
+// Hot Module Replacement API
+if (module.hot) {
+  module.hot.accept('./components/app', () => {
+    const NextApp = require('./components/app').App;
+    ReactDOM.render(
+      <Provider store={store}>
+        <NextApp
+          config={config}
+          data={data}
+          dispatch={store.dispatch}
+        />
+      </Provider>,
+      document.getElementById('root')
+    );
+  });
+}
