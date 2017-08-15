@@ -1,4 +1,4 @@
-import {SpecQueryGroup} from 'compassql/build/src/model';
+
 import {Query} from 'compassql/build/src/query/query';
 import {PlotObject} from '../models/plot';
 
@@ -6,7 +6,7 @@ import {PlotObject} from '../models/plot';
 export interface Result {
   isLoading: boolean;
 
-  modelGroup: SpecQueryGroup<PlotObject> | null;
+  plots: PlotObject[] | null;
 
   query: Query;
 
@@ -27,7 +27,7 @@ export interface ResultIndex {
 
 export const DEFAULT_RESULT: Result = {
   isLoading: false,
-  modelGroup: null,
+  plots: null,
   query: null,
   limit: 8
 };
@@ -47,3 +47,4 @@ export type ResultType = keyof ResultIndex;
 export const RESULT_TYPES: ResultType[] =
   // Need to cast as keys return string[] by default
   Object.keys(DEFAULT_RESULT_INDEX) as ResultType[];
+

@@ -1,4 +1,4 @@
-import {SpecQueryGroup} from 'compassql/build/src/model';
+
 import {Query} from 'compassql/build/src/query/query';
 import {Dispatch} from 'redux';
 import {ThunkAction} from 'redux-thunk';
@@ -28,7 +28,7 @@ export const RESULT_RECEIVE = 'RESULT_RECEIVE';
 export type ResultReceive = ReduxAction<typeof RESULT_RECEIVE, {
   resultType: ResultType,
   query: Query,
-  modelGroup: SpecQueryGroup<PlotObject>
+  plots: PlotObject[]
 }>;
 
 export type AsyncResultRequest = ThunkAction<void , State, undefined>;
@@ -43,10 +43,10 @@ export function resultRequest(resultType: ResultType, query: Query): AsyncResult
     });
     // TODO: pass in config
     return fetchCompassQLRecommend(query, schema, data, config).then(
-      modelGroup => {
+      (plots: PlotObject[]) => {
         dispatch({
           type: RESULT_RECEIVE,
-          payload: {query, modelGroup, resultType}
+          payload: {query, plots, resultType}
         });
       }
     );

@@ -1,4 +1,4 @@
-import {SpecQueryGroup} from 'compassql/build/src/model';
+
 import {Query} from 'compassql/build/src/query/query';
 import {RESULT_RECEIVE, RESULT_REQUEST} from '../actions/result';
 import {PlotObject} from '../models/plot';
@@ -10,7 +10,7 @@ describe('reducers/result', () => {
     const resultIndex: ResultIndex = {
       ...DEFAULT_RESULT_INDEX,
       // This is not really sensible state, but just to mock the reset behavior
-      summaries: {isLoading: true, modelGroup: undefined, query: undefined, limit: 5}
+      summaries: {isLoading: true, plots: undefined, query: undefined, limit: 5}
     };
     it('updates the provided result with isLoading = true for a non-main result type', () => {
       expect(resultIndexReducer(resultIndex, {
@@ -45,7 +45,7 @@ describe('reducers/result', () => {
 
   describe(RESULT_RECEIVE, () => {
     it('returns new compass state with isLoading=false and new recommends', () => {
-      const modelGroup = {} as SpecQueryGroup<PlotObject>; // Mock
+      const plots = [{}] as PlotObject[]; // Mock
       const query = {spec: {}} as Query;
 
       expect(resultIndexReducer(
@@ -53,7 +53,7 @@ describe('reducers/result', () => {
           ...DEFAULT_RESULT_INDEX,
           main: {
             isLoading: true,
-            modelGroup: undefined,
+            plots: undefined,
             query: undefined,
             limit: 25
           }
@@ -62,15 +62,15 @@ describe('reducers/result', () => {
           type: RESULT_RECEIVE,
           payload: {
             resultType: 'main',
-            modelGroup,
-            query // Mock
+            plots,
+            query
           }
         }
       )).toEqual({
         ...DEFAULT_RESULT_INDEX,
         main: {
           isLoading: false,
-          modelGroup,
+          plots,
           query,
           limit: 25
         }

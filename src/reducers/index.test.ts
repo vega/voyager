@@ -1,4 +1,4 @@
-import {SpecQueryGroup} from 'compassql/build/src/model';
+
 import {ACTION_TYPES} from '../actions/index';
 import {RESET} from '../actions/reset';
 import {Bookmark, DEFAULT_BOOKMARK} from '../models/bookmark';
@@ -10,7 +10,6 @@ import {
   DEFAULT_UNDOABLE_STATE_BASE,
   State
 } from '../models/index';
-import {PlotObject} from '../models/plot';
 import {DEFAULT_RESULT, DEFAULT_RESULT_INDEX} from '../models/result';
 import {DEFAULT_SHELF, DEFAULT_SHELF_UNIT_SPEC} from '../models/shelf/index';
 import {selectDataset} from '../selectors/dataset';
@@ -62,7 +61,7 @@ describe('reducers/index', () => {
               ...DEFAULT_RESULT_INDEX,
               main: {
                 isLoading: false,
-                modelGroup: {} as SpecQueryGroup<PlotObject>, // mock
+                plots: [], // mock
                 query: null,
                 limit: 20
               }
