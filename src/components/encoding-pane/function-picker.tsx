@@ -4,8 +4,8 @@ import * as CSSModules from 'react-css-modules';
 import {TimeUnit} from 'vega-lite/build/src/timeunit';
 import {contains} from 'vega-lite/build/src/util';
 import {ShelfFunction} from '../../models/shelf';
-import {ShelfFieldDef} from '../../models/shelf/encoding';
-import {getSupportedFunction} from '../../models/shelf/function';
+import {ShelfFieldDef} from '../../models/shelf';
+import {getSupportedFunction} from '../../models/shelf';
 import * as styles from './function-picker.scss';
 
 export interface FunctionPickerProps {

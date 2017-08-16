@@ -1,4 +1,4 @@
-import {fromSpecQuery, toSpecQuery} from './spec';
+import {fromSpecQuery, toSpecQuery} from './index';
 
 const SHORT_WILDCARD = '?';
 

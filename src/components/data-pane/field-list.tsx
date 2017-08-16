@@ -11,7 +11,7 @@ import {ActionHandler, createDispatchHandler} from '../../actions/redux-action';
 import {SHELF_FIELD_AUTO_ADD, ShelfFieldAutoAdd} from '../../actions/shelf';
 import {FieldParentType} from '../../constants';
 import {State} from '../../models/index';
-import {ShelfFieldDef} from '../../models/shelf/encoding';
+import {ShelfFieldDef} from '../../models/shelf';
 import {selectPresetWildcardFields, selectSchema, selectSchemaFieldDefs} from '../../selectors';
 import {Field} from '../field';
 import * as styles from './field-list.scss';

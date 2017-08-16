@@ -3,7 +3,7 @@ import {isWildcard} from 'compassql/build/src/wildcard';
 import {DateTime} from 'vega-lite/build/src/datetime';
 import {OneOfFilter, RangeFilter} from 'vega-lite/build/src/filter';
 import {convert, TimeUnit} from 'vega-lite/build/src/timeunit';
-import {ShelfFieldDef} from './encoding';
+import {ShelfFieldDef} from './spec';
 
 export function getFilter(fieldDef: ShelfFieldDef, domain: any[]): RangeFilter | OneOfFilter {
   if (isWildcard(fieldDef.field)) {

@@ -1,10 +1,10 @@
 
 import {Query} from 'compassql/build/src/query/query';
-import {ShelfFieldDef, toFieldQuery} from './encoding';
+import {ShelfFieldDef, toFieldQuery} from './spec';
 import {DEFAULT_SHELF_UNIT_SPEC, hasWildcards, ShelfUnitSpec, toSpecQuery} from './spec';
 
-export * from './encoding';
 export * from './spec';
+
 export const DEFAULT_SHELF: Readonly<Shelf> = {
   spec: DEFAULT_SHELF_UNIT_SPEC
 };

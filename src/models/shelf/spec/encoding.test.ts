@@ -1,6 +1,6 @@
 import {fromEncodingQueries} from './encoding';
 
-describe('models/shelf/encoding', () => {
+describe('models/shelf', () => {
   describe('fromEncodingQueries', () => {
     it('converts an array of encodingQueries into encoding mixins', () => {
       expect(fromEncodingQueries([

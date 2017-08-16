@@ -13,8 +13,8 @@ import {SHELF_FUNCTION_ADD_WILDCARD, SHELF_FUNCTION_DISABLE_WILDCARD,
         SHELF_FUNCTION_REMOVE_WILDCARD} from '../../actions/shelf';
 import {isWildcardChannelId} from '../../models';
 import {ShelfAnyEncodingDef, ShelfFieldDef, ShelfId, ShelfUnitSpec} from '../../models/shelf';
-import {sortFunctions} from '../../models/shelf/function';
-import {autoAddFieldQuery} from '../../models/shelf/index';
+import {sortFunctions} from '../../models/shelf';
+import {autoAddFieldQuery} from '../../models/shelf';
 import {DEFAULT_SHELF_UNIT_SPEC, fromSpecQuery} from '../../models/shelf/spec';
 import {insertItemToArray, modifyItemInArray, removeItemFromArray} from '../util';
 import {filterReducer} from './filter';

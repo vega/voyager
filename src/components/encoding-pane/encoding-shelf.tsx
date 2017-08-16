@@ -10,7 +10,7 @@ import {SHELF_FUNCTION_ADD_WILDCARD, SHELF_FUNCTION_DISABLE_WILDCARD,
         SHELF_FUNCTION_REMOVE_WILDCARD} from '../../actions/shelf';
 import {DraggableType, FieldParentType} from '../../constants';
 import {ShelfFieldDef, ShelfId} from '../../models';
-import {ShelfFunction} from '../../models/shelf/encoding';
+import {ShelfFunction} from '../../models/shelf';
 import {DraggedFieldIdentifier, Field} from '../field/index';
 import * as styles from './encoding-shelf.scss';
 import {FunctionPicker} from './function-picker';

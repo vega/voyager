@@ -11,7 +11,7 @@ import {createDispatchHandler} from '../../actions/redux-action';
 import {ResultAsyncAction} from '../../actions/result';
 import {SHELF_CLEAR, ShelfAction} from '../../actions/shelf';
 import {ShelfUnitSpec, State} from '../../models';
-import {ShelfFieldDef} from '../../models/shelf/encoding';
+import {ShelfFieldDef} from '../../models/shelf';
 import {selectDataset, selectShelf, selectShelfPreview} from '../../selectors';
 import {selectSchemaFieldDefs} from '../../selectors/index';
 import * as styles from './encoding-pane.scss';

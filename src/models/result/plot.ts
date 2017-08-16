@@ -9,8 +9,7 @@ import {ExtendedGroupBy} from 'compassql/build/src/query/groupby';
 import {toMap} from 'compassql/build/src/util';
 import {Data} from 'vega-lite/build/src/data';
 import {FacetedCompositeUnitSpec} from 'vega-lite/build/src/spec';
-import {fromFieldQuery} from '../shelf';
-import {ShelfFieldDef} from '../shelf/encoding';
+import {fromFieldQuery, ShelfFieldDef} from '../shelf';
 
 export interface PlotFieldInfo {
   fieldDef: ShelfFieldDef;

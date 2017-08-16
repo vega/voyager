@@ -11,7 +11,7 @@ import {DEFAULT_DATASET} from '../models/dataset';
 import {DEFAULT_PERSISTENT_STATE, DEFAULT_STATE, State} from '../models/index';
 import {fromSpecQueryModelGroup} from '../models/result';
 import {DEFAULT_RESULT, DEFAULT_RESULT_INDEX} from '../models/result';
-import {ShelfAnyEncodingDef, ShelfMark, SpecificEncoding} from '../models/shelf/encoding';
+import {ShelfAnyEncodingDef, ShelfMark, SpecificEncoding} from '../models/shelf';
 import {DEFAULT_SHELF} from '../models/shelf/index';
 import {getTransforms} from '../models/shelf/spec';
 import {selectMainSpec, selectPlotList} from './result';

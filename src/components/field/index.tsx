@@ -10,7 +10,7 @@ import {DatasetSchemaChangeFieldType} from '../../actions/dataset';
 import {ShelfAction} from '../../actions/shelf';
 import {DraggableType, FieldParentType} from '../../constants';
 import {ShelfId} from '../../models/shelf';
-import {ShelfFieldDef} from '../../models/shelf/encoding';
+import {ShelfFieldDef} from '../../models/shelf';
 import {getFilter} from '../../models/shelf/filter';
 import * as styles from './field.scss';
 

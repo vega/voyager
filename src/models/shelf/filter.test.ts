@@ -1,9 +1,14 @@
 import {DateTime} from 'vega-lite/build/src/datetime';
 import {RangeFilter} from 'vega-lite/build/src/filter';
-import {ShelfFieldDef} from './encoding';
-import {convertToDateTimeObject, convertToTimestamp, getAllTimeUnits, getDefaultList,
-  getDefaultRange, getFilter} from './filter';
-
+import {ShelfFieldDef} from './spec';
+import {
+  convertToDateTimeObject,
+  convertToTimestamp,
+  getAllTimeUnits,
+  getDefaultList,
+  getDefaultRange,
+  getFilter
+} from './filter';
 
 const timeStamp1 = 1437978615;
 const timeStamp2 = 1501137015;

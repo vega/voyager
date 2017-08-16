@@ -5,8 +5,17 @@ import {Channel} from 'vega-lite/build/src/channel';
 import {Config} from 'vega-lite/build/src/config';
 import {isOneOfFilter, isRangeFilter, OneOfFilter, RangeFilter} from 'vega-lite/build/src/filter';
 import {FilterTransform, isFilter, Transform} from 'vega-lite/build/src/transform';
-import {fromEncodingQueries, ShelfAnyEncodingDef, ShelfMark, SpecificEncoding, toEncodingQuery} from './encoding';
-import {toFieldQuery} from './index';
+import {
+  fromEncodingQueries,
+  ShelfAnyEncodingDef,
+  ShelfMark,
+  SpecificEncoding,
+  toEncodingQuery,
+  toFieldQuery
+} from './encoding';
+
+export * from './encoding';
+export * from './function';
 
 /**
  * A model state for the shelf of a unit specification.
