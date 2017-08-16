@@ -5,7 +5,7 @@ import {TimeUnit} from 'vega-lite/build/src/timeunit';
 import {
   FILTER_ADD, FILTER_CLEAR, FILTER_MODIFY_EXTENT, FILTER_MODIFY_MAX_BOUND, FILTER_MODIFY_MIN_BOUND,
   FILTER_MODIFY_ONE_OF, FILTER_MODIFY_TIME_UNIT, FILTER_REMOVE
-} from '../../actions/filter';
+} from '../../actions';
 import {Action} from '../../actions/index';
 import {convertToDateTimeObject, getDefaultList, getDefaultRange} from '../../models/shelf/filter';
 import {DEFAULT_SHELF_UNIT_SPEC, ShelfUnitSpec} from '../../models/shelf/spec';

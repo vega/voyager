@@ -8,7 +8,7 @@ import {ConnectDropTarget, DropTarget, DropTargetCollector, DropTargetSpec} from
 import {isOneOfFilter, isRangeFilter, OneOfFilter, RangeFilter} from 'vega-lite/build/src/filter';
 import {TimeUnit} from 'vega-lite/build/src/timeunit';
 import {FILTER_ADD, FILTER_MODIFY_TIME_UNIT,
-  FILTER_REMOVE, FilterAction} from '../../actions/filter';
+  FILTER_REMOVE, FilterAction} from '../../actions';
 import {DraggableType} from '../../constants';
 import {convertToDateTimeObject, getDefaultList, getDefaultRange} from '../../models/shelf/filter';
 import {DraggedFieldIdentifier} from '../field';

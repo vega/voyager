@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
 import {DateTime} from 'vega-lite/build/src/datetime';
 import {OneOfFilter} from 'vega-lite/build/src/filter';
-import {FILTER_MODIFY_ONE_OF, FilterAction} from '../../actions/filter';
+import {FILTER_MODIFY_ONE_OF, FilterAction} from '../../actions';
 import {insertItemToArray, removeItemFromArray} from '../../reducers/util';
 import * as styles from './one-of-filter-shelf.scss';
 

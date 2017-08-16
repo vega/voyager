@@ -1,9 +1,10 @@
 import {FacetedCompositeUnitSpec} from 'vega-lite/build/src/spec';
+import {ShelfFieldDef, ShelfFunction, ShelfId, ShelfMark} from '../../models';
+import {PlainReduxAction, ReduxAction} from '../redux-action';
 
-import {ShelfFieldDef, ShelfFunction, ShelfId, ShelfMark} from '../models';
-import {PlainReduxAction, ReduxAction} from './redux-action';
+// TODO: Rename these actions to have Spec- prefix instead of Shelf-
 
-export type ShelfAction =
+export type SpecAction =
   ShelfClear |
   ShelfMarkChangeType |
   ShelfEncodingAction;

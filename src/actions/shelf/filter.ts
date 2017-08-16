@@ -1,7 +1,7 @@
 import {DateTime} from 'vega-lite/build/src/datetime';
 import {OneOfFilter, RangeFilter} from 'vega-lite/build/src/filter';
 import {TimeUnit} from 'vega-lite/build/src/timeunit';
-import {PlainReduxAction, ReduxAction} from './redux-action';
+import {PlainReduxAction, ReduxAction} from '../redux-action';
 
 export type FilterAction = FilterAdd | FilterClear | FilterRemove | FilterModifyExtent| FilterModifyMinBound |
 FilterModifyMaxBound | FilterModifyOneOf | FilterModifyTimeUnit;

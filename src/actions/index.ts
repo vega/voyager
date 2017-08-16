@@ -1,7 +1,6 @@
 import {BookmarkAction} from './bookmark';
 import {ConfigAction} from './config';
 import {DatasetAction} from './dataset';
-import {FilterAction} from './filter';
 import {ResetAction} from './reset';
 import {ResultAction} from './result';
 import {ShelfAction} from './shelf';
@@ -12,7 +11,6 @@ import {UndoableAction} from './undo-redo';
 export * from './bookmark';
 export * from './config';
 export * from './dataset';
-export * from './filter';
 export * from './redux-action';
 export * from './reset';
 export * from './result';
@@ -24,8 +22,17 @@ export * from './shelf-preview';
 /**
  * Union type of all actions in our application.
  */
-export type Action = ResetAction | BookmarkAction | DatasetAction | ShelfAction | ShelfPreviewAction | UndoableAction |
-  ResultAction | ConfigAction | ApplicationStateAction | FilterAction;
+export type Action = (
+  ApplicationStateAction |
+  BookmarkAction |
+  ConfigAction |
+  DatasetAction |
+  ResetAction |
+  ResultAction |
+  ShelfAction |
+  ShelfPreviewAction |
+  UndoableAction
+);
 
 export type ActionType = Action['type'];
 

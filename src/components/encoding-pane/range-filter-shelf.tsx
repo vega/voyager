@@ -8,7 +8,7 @@ import {DateTime} from 'vega-lite/build/src/datetime';
 import {RangeFilter} from 'vega-lite/build/src/filter';
 import {TimeUnit} from 'vega-lite/build/src/timeunit';
 import {FILTER_MODIFY_EXTENT, FILTER_MODIFY_MAX_BOUND, FILTER_MODIFY_MIN_BOUND,
-  FilterAction} from '../../actions/filter';
+  FilterAction} from '../../actions';
 import {ActionHandler} from '../../actions/redux-action';
 import {convertToDateTimeObject, convertToTimestamp} from '../../models/shelf/filter';
 import * as styles from './range-filter-shelf.scss';

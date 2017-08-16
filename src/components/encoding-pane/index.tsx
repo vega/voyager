@@ -5,7 +5,7 @@ import * as CSSModules from 'react-css-modules';
 import {connect} from 'react-redux';
 import {Channel} from 'vega-lite/build/src/channel';
 import {OneOfFilter, RangeFilter} from 'vega-lite/build/src/filter';
-import {FilterAction} from '../../actions/filter';
+import {FilterAction} from '../../actions';
 import {ActionHandler} from '../../actions/index';
 import {createDispatchHandler} from '../../actions/redux-action';
 import {ResultAsyncAction} from '../../actions/result';
