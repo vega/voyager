@@ -5,7 +5,7 @@ import {PRIMITIVE_MARKS} from 'vega-lite/build/src/mark';
 
 import * as styles from './mark-picker.scss';
 
-import {ActionHandler, SHELF_MARK_CHANGE_TYPE, ShelfMarkChangeType} from '../../actions';
+import {ActionHandler, SPEC_MARK_CHANGE_TYPE, SpecMarkChangeType} from '../../actions';
 import {ShelfMark} from '../../models';
 
 const ALL_MARKS = [SHORT_WILDCARD, ...PRIMITIVE_MARKS];
@@ -16,7 +16,7 @@ const options = ALL_MARKS.map(mark => (
   </option>
 ));
 
-export interface MarkPickerProps extends ActionHandler<ShelfMarkChangeType> {
+export interface MarkPickerProps extends ActionHandler<SpecMarkChangeType> {
   mark: ShelfMark;
 }
 
@@ -45,7 +45,7 @@ export class MarkPickerBase extends React.PureComponent<MarkPickerProps, {}> {
   }
   private onMarkChange(event: any) {
     this.props.handleAction({
-      type: SHELF_MARK_CHANGE_TYPE,
+      type: SPEC_MARK_CHANGE_TYPE,
       payload: event.target.value as ShelfMark
     });
   }

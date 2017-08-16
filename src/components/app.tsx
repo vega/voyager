@@ -5,7 +5,7 @@ import {ActionCreators} from 'redux-undo';
 import {Data} from 'vega-lite/build/src/data';
 import { FacetedCompositeUnitSpec, TopLevel } from 'vega-lite/build/src/spec';
 import {datasetLoad, SET_APPLICATION_STATE, SET_CONFIG} from '../actions';
-import {SHELF_SPEC_LOAD} from '../actions/shelf';
+import {SPEC_LOAD} from '../actions/shelf';
 import {VoyagerConfig} from '../models/config';
 import {State} from '../models/index';
 import {AppRoot} from './app-root';
@@ -92,7 +92,7 @@ export class App extends React.PureComponent<Props, {}> {
 
   private shelfSpecLoad(spec: TopLevel<FacetedCompositeUnitSpec>) {
     this.props.dispatch({
-      type: SHELF_SPEC_LOAD,
+      type: SPEC_LOAD,
       payload: {
         spec,
         keepWildcardMark: false

@@ -8,7 +8,7 @@ import {connect} from 'react-redux';
 import {FilterAction} from '../../actions';
 import {DatasetSchemaChangeFieldType} from '../../actions/dataset';
 import {ActionHandler, createDispatchHandler} from '../../actions/redux-action';
-import {SHELF_FIELD_AUTO_ADD, ShelfFieldAutoAdd} from '../../actions/shelf';
+import {SPEC_FIELD_AUTO_ADD, SpecFieldAutoAdd} from '../../actions/shelf';
 import {FieldParentType} from '../../constants';
 import {State} from '../../models/index';
 import {ShelfFieldDef} from '../../models/shelf';
@@ -18,7 +18,7 @@ import * as styles from './field-list.scss';
 import {TypeChanger} from './type-changer';
 
 
-export interface FieldListProps extends ActionHandler<ShelfFieldAutoAdd | DatasetSchemaChangeFieldType | FilterAction> {
+export interface FieldListProps extends ActionHandler<SpecFieldAutoAdd | DatasetSchemaChangeFieldType | FilterAction> {
   fieldDefs: ShelfFieldDef[];
   schema: Schema;
 }
@@ -57,7 +57,7 @@ class FieldListBase extends React.PureComponent<FieldListProps, {}> {
   protected onAdd(fieldDef: ShelfFieldDef) {
     const {handleAction} = this.props;
     handleAction({
-      type: SHELF_FIELD_AUTO_ADD,
+      type: SPEC_FIELD_AUTO_ADD,
       payload: {fieldDef: fieldDef}
     });
   }
@@ -133,7 +133,7 @@ export const FieldList = connect(
       schema: selectSchema(state)
     };
   },
-  createDispatchHandler<ShelfFieldAutoAdd>()
+  createDispatchHandler<SpecFieldAutoAdd>()
 )(FieldListRenderer);
 
 export const PresetWildcardFieldList = connect(
@@ -143,5 +143,5 @@ export const PresetWildcardFieldList = connect(
       schema: selectSchema(state)
     };
   },
-  createDispatchHandler<ShelfFieldAutoAdd>()
+  createDispatchHandler<SpecFieldAutoAdd>()
 )(FieldListRenderer);

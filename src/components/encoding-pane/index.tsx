@@ -9,7 +9,7 @@ import {FilterAction} from '../../actions';
 import {ActionHandler} from '../../actions/index';
 import {createDispatchHandler} from '../../actions/redux-action';
 import {ResultAsyncAction} from '../../actions/result';
-import {SHELF_CLEAR, ShelfAction} from '../../actions/shelf';
+import {ShelfAction, SPEC_CLEAR} from '../../actions/shelf';
 import {ShelfUnitSpec, State} from '../../models';
 import {ShelfFieldDef} from '../../models/shelf';
 import {selectDataset, selectShelf, selectShelfPreview} from '../../selectors';
@@ -155,7 +155,7 @@ class EncodingPanelBase extends React.PureComponent<EncodingPanelProps, {}> {
   }
 
   private onClear() {
-    this.props.handleAction({type: SHELF_CLEAR});
+    this.props.handleAction({type: SPEC_CLEAR});
   }
 }
 

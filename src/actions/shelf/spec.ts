@@ -2,44 +2,44 @@ import {FacetedCompositeUnitSpec} from 'vega-lite/build/src/spec';
 import {ShelfFieldDef, ShelfFunction, ShelfId, ShelfMark} from '../../models';
 import {PlainReduxAction, ReduxAction} from '../redux-action';
 
-// TODO: Rename these actions to have Spec- prefix instead of Shelf-
+// TODO: Rename these actions to have Spec- prefix instead of Spec-
 
 export type SpecAction =
-  ShelfClear |
-  ShelfMarkChangeType |
-  ShelfEncodingAction;
+  SpecClear |
+  SpecMarkChangeType |
+  SpecEncodingAction;
 
-export type ShelfEncodingAction = ShelfFieldAdd | ShelfFieldAutoAdd |
-  ShelfFieldRemove | ShelfFieldMove | ShelfFunctionChange |
-  ShelfFunctionAddWildcard | ShelfFunctionDisableWildcard | ShelfFunctionEnableWildcard |
-  ShelfFunctionRemoveWildcard | ShelfSpecLoad;
+export type SpecEncodingAction = SpecFieldAdd | SpecFieldAutoAdd |
+  SpecFieldRemove | SpecFieldMove | SpecFunctionChange |
+  SpecFunctionAddWildcard | SpecFunctionDisableWildcard | SpecFunctionEnableWildcard |
+  SpecFunctionRemoveWildcard | SpecLoad;
 
-export const SHELF_CLEAR = 'SHELF_CLEAR';
-export type ShelfClear = PlainReduxAction<typeof SHELF_CLEAR>;
+export const SPEC_CLEAR = 'SPEC_CLEAR';
+export type SpecClear = PlainReduxAction<typeof SPEC_CLEAR>;
 
-export const SHELF_MARK_CHANGE_TYPE = 'SHELF_MARK_CHANGE_TYPE';
-export type ShelfMarkChangeType = ReduxAction<typeof SHELF_MARK_CHANGE_TYPE, ShelfMark>;
+export const SPEC_MARK_CHANGE_TYPE = 'SPEC_MARK_CHANGE_TYPE';
+export type SpecMarkChangeType = ReduxAction<typeof SPEC_MARK_CHANGE_TYPE, ShelfMark>;
 
 // Field
 
-export const SHELF_FIELD_ADD = 'SHELF_FIELD_ADD';
-export type ShelfFieldAdd = ReduxAction<typeof SHELF_FIELD_ADD, {
+export const SPEC_FIELD_ADD = 'SPEC_FIELD_ADD';
+export type SpecFieldAdd = ReduxAction<typeof SPEC_FIELD_ADD, {
   shelfId: ShelfId;
   fieldDef: ShelfFieldDef;
   replace: boolean;
 }>;
 
-export const SHELF_FIELD_AUTO_ADD = 'SHELF_FIELD_AUTO_ADD';
-export type ShelfFieldAutoAdd = ReduxAction<typeof SHELF_FIELD_AUTO_ADD, {
+export const SPEC_FIELD_AUTO_ADD = 'SPEC_FIELD_AUTO_ADD';
+export type SpecFieldAutoAdd = ReduxAction<typeof SPEC_FIELD_AUTO_ADD, {
   fieldDef: ShelfFieldDef;
 }>;
 
-export const SHELF_FIELD_REMOVE = 'SHELF_FIELD_REMOVE';
-export type ShelfFieldRemove = ReduxAction<typeof SHELF_FIELD_REMOVE, ShelfId>;
+export const SPEC_FIELD_REMOVE = 'SPEC_FIELD_REMOVE';
+export type SpecFieldRemove = ReduxAction<typeof SPEC_FIELD_REMOVE, ShelfId>;
 
 
-export const SHELF_FIELD_MOVE = 'SHELF_FIELD_MOVE';
-export type ShelfFieldMove = ReduxAction<typeof SHELF_FIELD_MOVE, {
+export const SPEC_FIELD_MOVE = 'SPEC_FIELD_MOVE';
+export type SpecFieldMove = ReduxAction<typeof SPEC_FIELD_MOVE, {
   from: ShelfId,
   to: ShelfId
 }>;
@@ -47,36 +47,36 @@ export type ShelfFieldMove = ReduxAction<typeof SHELF_FIELD_MOVE, {
 /**
  * Change Function of a FieldDef to a specific value.
  */
-export const SHELF_FUNCTION_CHANGE = 'SHELF_FUNCTION_CHANGE';
-export type ShelfFunctionChange = ReduxAction<typeof SHELF_FUNCTION_CHANGE, {
+export const SPEC_FUNCTION_CHANGE = 'SPEC_FUNCTION_CHANGE';
+export type SpecFunctionChange = ReduxAction<typeof SPEC_FUNCTION_CHANGE, {
   shelfId: ShelfId,
   fn: ShelfFunction;
 }>;
 
-export const SHELF_FUNCTION_ADD_WILDCARD = 'SHELF_FUNCTION_ADD_WILDCARD';
-export type ShelfFunctionAddWildcard = ReduxAction<typeof SHELF_FUNCTION_ADD_WILDCARD, {
+export const SPEC_FUNCTION_ADD_WILDCARD = 'SPEC_FUNCTION_ADD_WILDCARD';
+export type SpecFunctionAddWildcard = ReduxAction<typeof SPEC_FUNCTION_ADD_WILDCARD, {
   shelfId: ShelfId,
   fn: ShelfFunction
 }>;
 
-export const SHELF_FUNCTION_DISABLE_WILDCARD = 'SHELF_FUNCTION_DISABLE_WILDCARD';
-export type ShelfFunctionDisableWildcard = ReduxAction<typeof SHELF_FUNCTION_DISABLE_WILDCARD, {
+export const SPEC_FUNCTION_DISABLE_WILDCARD = 'SPEC_FUNCTION_DISABLE_WILDCARD';
+export type SpecFunctionDisableWildcard = ReduxAction<typeof SPEC_FUNCTION_DISABLE_WILDCARD, {
   shelfId: ShelfId
 }>;
 
-export const SHELF_FUNCTION_ENABLE_WILDCARD = 'SHELF_FUNCTION_ENABLE_WILDCARD';
-export type ShelfFunctionEnableWildcard = ReduxAction<typeof SHELF_FUNCTION_ENABLE_WILDCARD, {
+export const SPEC_FUNCTION_ENABLE_WILDCARD = 'SPEC_FUNCTION_ENABLE_WILDCARD';
+export type SpecFunctionEnableWildcard = ReduxAction<typeof SPEC_FUNCTION_ENABLE_WILDCARD, {
   shelfId: ShelfId
 }>;
 
-export const SHELF_FUNCTION_REMOVE_WILDCARD = 'SHELF_FUNCTION_REMOVE_WILDCARD';
-export type ShelfFunctionRemoveWildcard = ReduxAction<typeof SHELF_FUNCTION_REMOVE_WILDCARD, {
+export const SPEC_FUNCTION_REMOVE_WILDCARD = 'SPEC_FUNCTION_REMOVE_WILDCARD';
+export type SpecFunctionRemoveWildcard = ReduxAction<typeof SPEC_FUNCTION_REMOVE_WILDCARD, {
   shelfId: ShelfId,
   fn: ShelfFunction
 }>;
 
-export const SHELF_SPEC_LOAD = 'SHELF_SPEC_LOAD';
-export type ShelfSpecLoad = ReduxAction<typeof SHELF_SPEC_LOAD, {
+export const SPEC_LOAD = 'SPEC_LOAD';
+export type SpecLoad = ReduxAction<typeof SPEC_LOAD, {
   spec: FacetedCompositeUnitSpec,
   keepWildcardMark: boolean
 }>;

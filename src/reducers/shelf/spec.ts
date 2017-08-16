@@ -5,12 +5,12 @@ import {Schema} from 'compassql/build/src/schema';
 import {isWildcard, SHORT_WILDCARD} from 'compassql/build/src/wildcard';
 import {Action} from '../../actions';
 import {
-  SHELF_CLEAR, SHELF_FIELD_ADD, SHELF_FIELD_AUTO_ADD, SHELF_FIELD_MOVE,
-  SHELF_FIELD_REMOVE, SHELF_FUNCTION_CHANGE, SHELF_FUNCTION_ENABLE_WILDCARD,
-  SHELF_MARK_CHANGE_TYPE, SHELF_SPEC_LOAD
+  SPEC_CLEAR, SPEC_FIELD_ADD, SPEC_FIELD_AUTO_ADD, SPEC_FIELD_MOVE,
+  SPEC_FIELD_REMOVE, SPEC_FUNCTION_CHANGE, SPEC_FUNCTION_ENABLE_WILDCARD,
+  SPEC_LOAD, SPEC_MARK_CHANGE_TYPE
 } from '../../actions/shelf';
-import {SHELF_FUNCTION_ADD_WILDCARD, SHELF_FUNCTION_DISABLE_WILDCARD,
-        SHELF_FUNCTION_REMOVE_WILDCARD} from '../../actions/shelf';
+import {SPEC_FUNCTION_ADD_WILDCARD, SPEC_FUNCTION_DISABLE_WILDCARD,
+        SPEC_FUNCTION_REMOVE_WILDCARD} from '../../actions/shelf';
 import {isWildcardChannelId} from '../../models';
 import {ShelfAnyEncodingDef, ShelfFieldDef, ShelfId, ShelfUnitSpec} from '../../models/shelf';
 import {sortFunctions} from '../../models/shelf';
@@ -35,10 +35,10 @@ function shelfSpecReducerBase(
   schema: Schema
 ): ShelfUnitSpec {
   switch (action.type) {
-    case SHELF_CLEAR:
+    case SPEC_CLEAR:
       return DEFAULT_SHELF_UNIT_SPEC;
 
-    case SHELF_MARK_CHANGE_TYPE: {
+    case SPEC_MARK_CHANGE_TYPE: {
       const mark = action.payload;
       return {
         ...shelfSpec,
@@ -46,12 +46,12 @@ function shelfSpecReducerBase(
       };
     }
 
-    case SHELF_FIELD_ADD: {
+    case SPEC_FIELD_ADD: {
       const {shelfId, fieldDef, replace} = action.payload;
       return addEncoding(shelfSpec, shelfId, fieldDef, replace);
     }
 
-    case SHELF_FIELD_AUTO_ADD: {
+    case SPEC_FIELD_AUTO_ADD: {
       const {fieldDef} = action.payload;
 
       if (shelfSpec.anyEncodings.length > 0 || isWildcard(fieldDef.field)) {
@@ -80,10 +80,10 @@ function shelfSpecReducerBase(
       }
     }
 
-    case SHELF_FIELD_REMOVE:
+    case SPEC_FIELD_REMOVE:
       return removeEncoding(shelfSpec, action.payload).shelf;
 
-    case SHELF_FIELD_MOVE: {
+    case SPEC_FIELD_MOVE: {
       const {to, from} = action.payload;
 
       const {fieldDef: fieldDefFrom, shelf: removedShelf1} = removeEncoding(shelfSpec, from);
@@ -95,7 +95,7 @@ function shelfSpecReducerBase(
       return addedShelf2;
     }
 
-    case SHELF_FUNCTION_CHANGE: {
+    case SPEC_FUNCTION_CHANGE: {
       const {shelfId, fn} = action.payload;
 
       return modifyEncoding(shelfSpec, shelfId, (fieldDef: Readonly<ShelfFieldDef | ShelfAnyEncodingDef>) => {
@@ -106,7 +106,7 @@ function shelfSpecReducerBase(
       });
     }
 
-    case SHELF_FUNCTION_ADD_WILDCARD: {
+    case SPEC_FUNCTION_ADD_WILDCARD: {
       const {shelfId, fn} = action.payload;
       return modifyEncoding(shelfSpec, shelfId, (fieldDef: Readonly<ShelfFieldDef | ShelfAnyEncodingDef>) => {
         const {fn: oldFn, ...fieldDefWithoutFn} = fieldDef;
@@ -120,7 +120,7 @@ function shelfSpecReducerBase(
       });
     }
 
-    case SHELF_FUNCTION_DISABLE_WILDCARD: {
+    case SPEC_FUNCTION_DISABLE_WILDCARD: {
       const {shelfId} = action.payload;
       return modifyEncoding(shelfSpec, shelfId, (fieldDef: Readonly<ShelfFieldDef | ShelfAnyEncodingDef>) => {
         const {fn, ...fieldDefWithoutFn} = fieldDef;
@@ -136,7 +136,7 @@ function shelfSpecReducerBase(
       });
     }
 
-    case SHELF_FUNCTION_ENABLE_WILDCARD: {
+    case SPEC_FUNCTION_ENABLE_WILDCARD: {
       const {shelfId} = action.payload;
       return modifyEncoding(shelfSpec, shelfId, (fieldDef: Readonly<ShelfFieldDef | ShelfAnyEncodingDef>) => {
         const {fn, ...fieldDefWithoutFn} = fieldDef;
@@ -149,7 +149,7 @@ function shelfSpecReducerBase(
       });
     }
 
-    case SHELF_FUNCTION_REMOVE_WILDCARD: {
+    case SPEC_FUNCTION_REMOVE_WILDCARD: {
       const {shelfId, fn} = action.payload;
       return modifyEncoding(shelfSpec, shelfId, (fieldDef: Readonly<ShelfFieldDef | ShelfAnyEncodingDef>) => {
         const {fn: oldFn, ...fieldDefWithoutFn} = fieldDef;
@@ -167,7 +167,7 @@ function shelfSpecReducerBase(
       });
     }
 
-    case SHELF_SPEC_LOAD:
+    case SPEC_LOAD:
       const {spec, keepWildcardMark} = action.payload;
       const specQ = {
         ...fromSpec(spec),

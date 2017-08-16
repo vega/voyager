@@ -6,7 +6,7 @@ import {FacetedCompositeUnitSpec} from 'vega-lite/build/src/spec';
 import {BOOKMARK_MODIFY_NOTE, BookmarkAction} from '../../actions/bookmark';
 import {ActionHandler} from '../../actions/redux-action';
 import {ResultAction} from '../../actions/result';
-import {SHELF_SPEC_LOAD, ShelfAction} from '../../actions/shelf';
+import {ShelfAction, SPEC_LOAD} from '../../actions/shelf';
 import {SHELF_PREVIEW_SPEC, SHELF_PREVIEW_SPEC_DISABLE, ShelfPreviewAction} from '../../actions/shelf-preview';
 import {PLOT_HOVER_MIN_DURATION} from '../../constants';
 import {Bookmark} from '../../models/bookmark';
@@ -187,7 +187,7 @@ export class PlotBase extends React.PureComponent<PlotProps, PlotState> {
     this.onPreviewMouseLeave();
     const {handleAction, spec} = this.props;
     handleAction({
-      type: SHELF_SPEC_LOAD,
+      type: SPEC_LOAD,
       payload: {spec, keepWildcardMark: true}
     });
   }

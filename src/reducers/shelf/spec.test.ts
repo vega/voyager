@@ -1,6 +1,6 @@
 import {
-  SHELF_CLEAR, SHELF_FIELD_ADD, SHELF_FIELD_AUTO_ADD, SHELF_FIELD_MOVE,
-  SHELF_FIELD_REMOVE, SHELF_FUNCTION_CHANGE, SHELF_MARK_CHANGE_TYPE
+  SPEC_CLEAR, SPEC_FIELD_ADD, SPEC_FIELD_AUTO_ADD, SPEC_FIELD_MOVE,
+  SPEC_FIELD_REMOVE, SPEC_FUNCTION_CHANGE, SPEC_MARK_CHANGE_TYPE
 } from '../../actions/shelf';
 import {DEFAULT_SHELF_UNIT_SPEC} from '../../models';
 import {shelfSpecReducer} from './spec';
@@ -10,29 +10,29 @@ const SHORT_WILDCARD = '?';
 // FIXME doing property import can break the test
 // import {SHORT_WILDCARD} from 'compassql/build/src/wildcard';
 import {Schema} from 'compassql/build/src/schema';
-import {SHELF_FUNCTION_REMOVE_WILDCARD} from '../../actions/shelf';
-import {SHELF_FUNCTION_ADD_WILDCARD, SHELF_FUNCTION_DISABLE_WILDCARD,
-        SHELF_FUNCTION_ENABLE_WILDCARD, SHELF_SPEC_LOAD} from '../../actions/shelf';
+import {SPEC_FUNCTION_REMOVE_WILDCARD} from '../../actions/shelf';
+import {SPEC_FUNCTION_ADD_WILDCARD, SPEC_FUNCTION_DISABLE_WILDCARD,
+        SPEC_FUNCTION_ENABLE_WILDCARD, SPEC_LOAD} from '../../actions/shelf';
 
 const schema = new Schema({fields: []});
 
 describe('reducers/shelf/spec', () => {
-  describe(SHELF_CLEAR, () => {
+  describe(SPEC_CLEAR, () => {
     it('should return DEFAULT_SHELF_UNIT_SPEC', () => {
       expect(
         shelfSpecReducer({
           mark: 'bar', encoding: {}, anyEncodings: [], config: {}, filters: []
-        }, {type: SHELF_CLEAR}, schema),
+        }, {type: SPEC_CLEAR}, schema),
       ).toBe(DEFAULT_SHELF_UNIT_SPEC);
     });
   });
 
-  describe(SHELF_MARK_CHANGE_TYPE, () => {
+  describe(SPEC_MARK_CHANGE_TYPE, () => {
     it('should return shelf spec with new mark', () => {
       const shelfSpec = shelfSpecReducer(
         DEFAULT_SHELF_UNIT_SPEC,
         {
-          type: SHELF_MARK_CHANGE_TYPE,
+          type: SPEC_MARK_CHANGE_TYPE,
           payload: 'area'
         },
         schema
@@ -41,12 +41,12 @@ describe('reducers/shelf/spec', () => {
     });
   });
 
-  describe(SHELF_FIELD_ADD, () => {
+  describe(SPEC_FIELD_ADD, () => {
     it('should correctly add field to channel', () => {
       const shelfSpec = shelfSpecReducer(
         DEFAULT_SHELF_UNIT_SPEC,
         {
-          type: SHELF_FIELD_ADD,
+          type: SPEC_FIELD_ADD,
           payload: {
             shelfId: {channel: 'x'},
             fieldDef: {field: 'a', type: 'quantitative'},
@@ -65,7 +65,7 @@ describe('reducers/shelf/spec', () => {
       const shelfSpec = shelfSpecReducer(
         DEFAULT_SHELF_UNIT_SPEC,
         {
-          type: SHELF_FIELD_ADD,
+          type: SPEC_FIELD_ADD,
           payload: {
             shelfId: {channel: SHORT_WILDCARD, index: 0},
             fieldDef: {field: 'a', type: 'quantitative'},
@@ -82,7 +82,7 @@ describe('reducers/shelf/spec', () => {
       const insertedShelf = shelfSpecReducer(
         shelfSpec,
         {
-          type: SHELF_FIELD_ADD,
+          type: SPEC_FIELD_ADD,
           payload: {
             shelfId: {channel: SHORT_WILDCARD, index: 1},
             fieldDef: {field: 'b', type: 'quantitative'},
@@ -104,7 +104,7 @@ describe('reducers/shelf/spec', () => {
       const shelfSpec = shelfSpecReducer(
         DEFAULT_SHELF_UNIT_SPEC,
         {
-          type: SHELF_FIELD_ADD,
+          type: SPEC_FIELD_ADD,
           payload: {
             shelfId: {channel: SHORT_WILDCARD, index: 0},
             fieldDef: {field: 'a', type: 'quantitative'},
@@ -121,7 +121,7 @@ describe('reducers/shelf/spec', () => {
       const insertedShelf = shelfSpecReducer(
         shelfSpec,
         {
-          type: SHELF_FIELD_ADD,
+          type: SPEC_FIELD_ADD,
           payload: {
             shelfId: {channel: SHORT_WILDCARD, index: 0},
             fieldDef: {field: 'b', type: 'quantitative'},
@@ -137,13 +137,13 @@ describe('reducers/shelf/spec', () => {
     });
   });
 
-  describe(SHELF_FIELD_ADD, () => {
+  describe(SPEC_FIELD_ADD, () => {
     it('should query for new spec with CompassQL if there is no wildcard channel in the shelf ' +
         'and the field is not a wildcard.', () => {
       const shelfSpec = shelfSpecReducer(
         DEFAULT_SHELF_UNIT_SPEC,
         {
-          type: SHELF_FIELD_AUTO_ADD,
+          type: SPEC_FIELD_AUTO_ADD,
           payload: {
             fieldDef: {field: 'a', type: 'quantitative'}
           }
@@ -167,7 +167,7 @@ describe('reducers/shelf/spec', () => {
           ]
         },
         {
-          type: SHELF_FIELD_AUTO_ADD,
+          type: SPEC_FIELD_AUTO_ADD,
           payload: {
             fieldDef: {field: 'b', type: 'nominal'}
           }
@@ -187,7 +187,7 @@ describe('reducers/shelf/spec', () => {
       const shelfSpec = shelfSpecReducer(
         DEFAULT_SHELF_UNIT_SPEC,
         {
-          type: SHELF_FIELD_AUTO_ADD,
+          type: SPEC_FIELD_AUTO_ADD,
           payload: {
             fieldDef: {
               field: {enum: ['a', 'b']},
@@ -207,7 +207,7 @@ describe('reducers/shelf/spec', () => {
     });
   });
 
-  describe(SHELF_FIELD_REMOVE, () => {
+  describe(SPEC_FIELD_REMOVE, () => {
     it('should correctly remove field from channel', () => {
       const shelfSpec = shelfSpecReducer(
         {
@@ -217,7 +217,7 @@ describe('reducers/shelf/spec', () => {
           }
         },
         {
-          type: SHELF_FIELD_REMOVE,
+          type: SPEC_FIELD_REMOVE,
           payload: {channel: 'x'}
         },
         schema
@@ -234,7 +234,7 @@ describe('reducers/shelf/spec', () => {
           ]
         },
         {
-          type: SHELF_FIELD_REMOVE,
+          type: SPEC_FIELD_REMOVE,
           payload: {
             channel: SHORT_WILDCARD,
             index: 0
@@ -246,7 +246,7 @@ describe('reducers/shelf/spec', () => {
     });
   });
 
-  describe(SHELF_FIELD_MOVE, () => {
+  describe(SPEC_FIELD_MOVE, () => {
     it('should correct move field to an empty channel', () => {
       const shelfSpec = shelfSpecReducer(
         {
@@ -256,7 +256,7 @@ describe('reducers/shelf/spec', () => {
           }
         },
         {
-          type: SHELF_FIELD_MOVE,
+          type: SPEC_FIELD_MOVE,
           payload: {
             from: {channel: 'x'},
             to: {channel: 'y' }
@@ -282,7 +282,7 @@ describe('reducers/shelf/spec', () => {
           }
         },
         {
-          type: SHELF_FIELD_MOVE,
+          type: SPEC_FIELD_MOVE,
           payload: {
             from: {channel: 'x'},
             to: {channel: 'y' }
@@ -311,7 +311,7 @@ describe('reducers/shelf/spec', () => {
           ]
         },
         {
-          type: SHELF_FIELD_MOVE,
+          type: SPEC_FIELD_MOVE,
           payload: {
             from: {channel: 'x'},
             to: {channel: SHORT_WILDCARD, index: 0}
@@ -340,7 +340,7 @@ describe('reducers/shelf/spec', () => {
           }
         },
         {
-          type: SHELF_FIELD_MOVE,
+          type: SPEC_FIELD_MOVE,
           payload: {
             from: {channel: 'x'},
             to: {channel: SHORT_WILDCARD, index: 0}
@@ -366,7 +366,7 @@ describe('reducers/shelf/spec', () => {
           ]
         },
         {
-          type: SHELF_FIELD_MOVE,
+          type: SPEC_FIELD_MOVE,
           payload: {
             from: {channel: SHORT_WILDCARD, index: 0},
             to: {channel: 'x'}
@@ -384,7 +384,7 @@ describe('reducers/shelf/spec', () => {
     });
   });
 
-  describe(SHELF_FUNCTION_CHANGE, () => {
+  describe(SPEC_FUNCTION_CHANGE, () => {
     it('should correctly change function of x-field to aggregate:mean', () => {
       const shelfSpec = shelfSpecReducer(
         {
@@ -394,7 +394,7 @@ describe('reducers/shelf/spec', () => {
           }
         },
         {
-          type: SHELF_FUNCTION_CHANGE,
+          type: SPEC_FUNCTION_CHANGE,
           payload: {
             shelfId: {channel: 'x'},
             fn: 'mean'
@@ -420,7 +420,7 @@ describe('reducers/shelf/spec', () => {
           }
         },
         {
-          type: SHELF_FUNCTION_CHANGE,
+          type: SPEC_FUNCTION_CHANGE,
           payload: {
             shelfId: {channel: 'x'},
             fn: 'month'
@@ -446,7 +446,7 @@ describe('reducers/shelf/spec', () => {
           }
         },
         {
-          type: SHELF_FUNCTION_CHANGE,
+          type: SPEC_FUNCTION_CHANGE,
           payload: {
             shelfId: {channel: 'x'},
             fn: 'bin'
@@ -472,7 +472,7 @@ describe('reducers/shelf/spec', () => {
           ]
         },
         {
-          type: SHELF_FUNCTION_CHANGE,
+          type: SPEC_FUNCTION_CHANGE,
           payload: {
             shelfId: {channel: SHORT_WILDCARD, index: 0},
             fn: 'mean'
@@ -498,7 +498,7 @@ describe('reducers/shelf/spec', () => {
           }
         },
         {
-          type: SHELF_FUNCTION_CHANGE,
+          type: SPEC_FUNCTION_CHANGE,
           payload: {
             shelfId: {channel: 'x'},
             fn: undefined
@@ -516,7 +516,7 @@ describe('reducers/shelf/spec', () => {
     });
   });
 
-  describe(SHELF_FUNCTION_ADD_WILDCARD, () => {
+  describe(SPEC_FUNCTION_ADD_WILDCARD, () => {
     it('should correctly add a quantitative function to enum', () => {
       const shelfSpec = shelfSpecReducer(
         {
@@ -526,7 +526,7 @@ describe('reducers/shelf/spec', () => {
           }
         },
         {
-          type: SHELF_FUNCTION_ADD_WILDCARD,
+          type: SPEC_FUNCTION_ADD_WILDCARD,
           payload: {
             shelfId: {channel: 'x'},
             fn: 'bin'
@@ -552,7 +552,7 @@ describe('reducers/shelf/spec', () => {
           }
         },
         {
-          type: SHELF_FUNCTION_ADD_WILDCARD,
+          type: SPEC_FUNCTION_ADD_WILDCARD,
           payload: {
             shelfId: {channel: 'x'},
             fn: undefined
@@ -570,7 +570,7 @@ describe('reducers/shelf/spec', () => {
     });
   });
 
-  describe(SHELF_FUNCTION_DISABLE_WILDCARD, () => {
+  describe(SPEC_FUNCTION_DISABLE_WILDCARD, () => {
     it('should assign undefined to fn when nothing is enumerated', () => {
       const shelfSpec = shelfSpecReducer(
         {
@@ -580,7 +580,7 @@ describe('reducers/shelf/spec', () => {
           }
         },
         {
-          type: SHELF_FUNCTION_DISABLE_WILDCARD,
+          type: SPEC_FUNCTION_DISABLE_WILDCARD,
           payload: {
             shelfId: {channel: 'x'},
           }
@@ -605,7 +605,7 @@ describe('reducers/shelf/spec', () => {
           }
         },
         {
-          type: SHELF_FUNCTION_DISABLE_WILDCARD,
+          type: SPEC_FUNCTION_DISABLE_WILDCARD,
           payload: {
             shelfId: {channel: 'x'},
           }
@@ -622,7 +622,7 @@ describe('reducers/shelf/spec', () => {
     });
   });
 
-  describe(SHELF_FUNCTION_ENABLE_WILDCARD, () => {
+  describe(SPEC_FUNCTION_ENABLE_WILDCARD, () => {
     it('should correctly change an aggregate function to wildcard', () => {
       const shelfSpec = shelfSpecReducer(
         {
@@ -632,7 +632,7 @@ describe('reducers/shelf/spec', () => {
           }
         },
         {
-          type: SHELF_FUNCTION_ENABLE_WILDCARD,
+          type: SPEC_FUNCTION_ENABLE_WILDCARD,
           payload: {
             shelfId: {channel: 'x'}
           }
@@ -657,7 +657,7 @@ describe('reducers/shelf/spec', () => {
           }
         },
         {
-          type: SHELF_FUNCTION_ENABLE_WILDCARD,
+          type: SPEC_FUNCTION_ENABLE_WILDCARD,
           payload: {
             shelfId: {channel: 'x'}
           }
@@ -682,7 +682,7 @@ describe('reducers/shelf/spec', () => {
           }
         },
         {
-          type: SHELF_FUNCTION_ENABLE_WILDCARD,
+          type: SPEC_FUNCTION_ENABLE_WILDCARD,
           payload: {
             shelfId: {channel: 'x'}
           }
@@ -699,7 +699,7 @@ describe('reducers/shelf/spec', () => {
     });
   });
 
-  describe(SHELF_FUNCTION_REMOVE_WILDCARD, () => {
+  describe(SPEC_FUNCTION_REMOVE_WILDCARD, () => {
     it('should remove a wildcard function', () => {
       const shelfSpec = shelfSpecReducer(
         {
@@ -709,7 +709,7 @@ describe('reducers/shelf/spec', () => {
           }
         },
         {
-          type: SHELF_FUNCTION_REMOVE_WILDCARD,
+          type: SPEC_FUNCTION_REMOVE_WILDCARD,
           payload: {
             shelfId: {channel: 'x'},
             fn: undefined
@@ -727,7 +727,7 @@ describe('reducers/shelf/spec', () => {
     });
   });
 
-  describe(SHELF_SPEC_LOAD, () => {
+  describe(SPEC_LOAD, () => {
     it('loads spec and retains wildcard mark if the shelf has wildcard mark and keep wildcard mark is true', () => {
       const shelfSpec = shelfSpecReducer(
         {
@@ -735,7 +735,7 @@ describe('reducers/shelf/spec', () => {
           mark: SHORT_WILDCARD
         },
         {
-          type: SHELF_SPEC_LOAD,
+          type: SPEC_LOAD,
           payload: {
             spec: {
               mark: 'bar',
@@ -767,7 +767,7 @@ describe('reducers/shelf/spec', () => {
           mark: 'point'
         },
         {
-          type: SHELF_SPEC_LOAD,
+          type: SPEC_LOAD,
           payload: {
             spec: {
               mark: 'bar',

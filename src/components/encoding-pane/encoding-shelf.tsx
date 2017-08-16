@@ -4,10 +4,11 @@ import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
 import {ConnectDropTarget, DropTarget, DropTargetCollector, DropTargetSpec} from 'react-dnd';
 import {ActionHandler} from '../../actions/index';
-import {SHELF_FIELD_ADD, SHELF_FIELD_MOVE, SHELF_FIELD_REMOVE, SHELF_FUNCTION_CHANGE, SHELF_FUNCTION_ENABLE_WILDCARD,
-        ShelfEncodingAction} from '../../actions/shelf';
-import {SHELF_FUNCTION_ADD_WILDCARD, SHELF_FUNCTION_DISABLE_WILDCARD,
-        SHELF_FUNCTION_REMOVE_WILDCARD} from '../../actions/shelf';
+import {
+  SPEC_FIELD_ADD, SPEC_FIELD_MOVE, SPEC_FIELD_REMOVE, SPEC_FUNCTION_ADD_WILDCARD,
+  SPEC_FUNCTION_CHANGE, SPEC_FUNCTION_DISABLE_WILDCARD, SPEC_FUNCTION_ENABLE_WILDCARD,
+  SPEC_FUNCTION_REMOVE_WILDCARD, SpecEncodingAction
+} from '../../actions/shelf';
 import {DraggableType, FieldParentType} from '../../constants';
 import {ShelfFieldDef, ShelfId} from '../../models';
 import {ShelfFunction} from '../../models/shelf';
@@ -26,7 +27,7 @@ export interface EncodingShelfDropTargetProps {
   item: Object;
 }
 
-export interface EncodingShelfPropsBase extends ActionHandler<ShelfEncodingAction> {
+export interface EncodingShelfPropsBase extends ActionHandler<SpecEncodingAction> {
   id: ShelfId;
 
   fieldDef: ShelfFieldDef;
@@ -56,7 +57,7 @@ class EncodingShelfBase extends React.PureComponent<EncodingShelfProps, {}> {
     const {id, handleAction} = this.props;
 
     handleAction({
-      type: SHELF_FUNCTION_ENABLE_WILDCARD,
+      type: SPEC_FUNCTION_ENABLE_WILDCARD,
       payload: {
         shelfId: id
       }
@@ -67,7 +68,7 @@ class EncodingShelfBase extends React.PureComponent<EncodingShelfProps, {}> {
     const {id, handleAction} = this.props;
 
     handleAction({
-      type: SHELF_FUNCTION_DISABLE_WILDCARD,
+      type: SPEC_FUNCTION_DISABLE_WILDCARD,
       payload: {
         shelfId: id
       }
@@ -77,7 +78,7 @@ class EncodingShelfBase extends React.PureComponent<EncodingShelfProps, {}> {
   protected onWildcardAdd(fn: ShelfFunction) {
     const {id, handleAction} = this.props;
     handleAction({
-      type: SHELF_FUNCTION_ADD_WILDCARD,
+      type: SPEC_FUNCTION_ADD_WILDCARD,
       payload: {
         shelfId: id,
         fn
@@ -88,7 +89,7 @@ class EncodingShelfBase extends React.PureComponent<EncodingShelfProps, {}> {
   protected onWildcardRemove(fn: ShelfFunction) {
     const {id, handleAction} = this.props;
     handleAction({
-      type: SHELF_FUNCTION_REMOVE_WILDCARD,
+      type: SPEC_FUNCTION_REMOVE_WILDCARD,
       payload: {
         shelfId: id,
         fn
@@ -99,7 +100,7 @@ class EncodingShelfBase extends React.PureComponent<EncodingShelfProps, {}> {
   protected onFunctionChange(fn: ShelfFunction) {
     const {id, handleAction} = this.props;
     handleAction({
-      type: SHELF_FUNCTION_CHANGE,
+      type: SPEC_FUNCTION_CHANGE,
       payload: {
         shelfId: id,
         fn: fn
@@ -111,7 +112,7 @@ class EncodingShelfBase extends React.PureComponent<EncodingShelfProps, {}> {
     const {id, handleAction} = this.props;
 
     handleAction({
-      type: SHELF_FIELD_REMOVE,
+      type: SPEC_FIELD_REMOVE,
       payload: id
     });
   }
@@ -168,7 +169,7 @@ const encodingShelfTarget: DropTargetSpec<EncodingShelfProps> = {
     switch (parentId.type) {
       case FieldParentType.FIELD_LIST:
         props.handleAction({
-          type: SHELF_FIELD_ADD,
+          type: SPEC_FIELD_ADD,
           // TODO(https://github.com/vega/voyager/issues/428):
           // support inserting a field between two existing fields on the wildcard shelf (replace = false)
           payload: {shelfId: props.id, fieldDef, replace: true}
@@ -176,7 +177,7 @@ const encodingShelfTarget: DropTargetSpec<EncodingShelfProps> = {
         break;
       case FieldParentType.ENCODING_SHELF:
         props.handleAction({
-          type: SHELF_FIELD_MOVE,
+          type: SPEC_FIELD_MOVE,
           payload: {from: parentId.id, to: props.id}
         });
         break;
