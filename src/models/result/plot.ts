@@ -17,14 +17,14 @@ export interface PlotFieldInfo {
   isEnumeratedWildcardField: boolean;
 }
 
-export interface PlotObject {
+export interface ResultPlot {
   fieldInfos: PlotFieldInfo[];
 
   spec: FacetedCompositeUnitSpec;
 }
 
-export interface PlotObjectWithKey {
-  plot: PlotObject;
+export interface ResultPlotWithKey {
+  plot: ResultPlot;
   groupByKey: string;
 }
 
@@ -33,19 +33,19 @@ export interface PlotObjectWithKey {
 export function convertToPlotListWithKey(
   modelGroup: SpecQueryModelGroup,
   data: Data
-): PlotObjectWithKey[] {
+): ResultPlotWithKey[] {
   return modelGroup.items.map(item => {
     if (isSpecQueryGroup<SpecQueryModel>(item)) {
       const childModelGroup = item as SpecQueryModelGroup;
-      return plotObjectWithKey(data, getTopSpecQueryItem(childModelGroup), modelGroup.groupBy);
+      return plotWithKey(data, getTopSpecQueryItem(childModelGroup), modelGroup.groupBy);
     }
-    return plotObjectWithKey(data, item, modelGroup.groupBy);
+    return plotWithKey(data, item, modelGroup.groupBy);
   });
 }
 
-function plotObjectWithKey(
+function plotWithKey(
   data: Data, specQ: SpecQueryModel, groupBy: string | Array<string|ExtendedGroupBy>
-): PlotObjectWithKey {
+): ResultPlotWithKey {
 
   const wildcardFieldIndex = toMap(specQ.wildcardIndex.encodingIndicesByProperty.get('field') || []);
 

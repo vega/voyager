@@ -4,7 +4,7 @@ import {Dispatch} from 'redux';
 import {ThunkAction} from 'redux-thunk';
 import {fetchCompassQLRecommend} from '../api/api';
 import {State} from '../models/index';
-import {PlotObject, PlotObjectWithKey} from '../models/result';
+import {ResultPlot, ResultPlotWithKey} from '../models/result';
 import {ResultType} from '../models/result';
 import {selectConfig, selectData, selectSchema} from '../selectors';
 import {Action} from './index';
@@ -28,7 +28,7 @@ export const RESULT_RECEIVE = 'RESULT_RECEIVE';
 export type ResultReceive = ReduxAction<typeof RESULT_RECEIVE, {
   resultType: ResultType,
   query: Query,
-  plots: PlotObject[]
+  plots: ResultPlot[]
 }>;
 
 export type AsyncResultRequest = ThunkAction<void , State, undefined>;
@@ -45,8 +45,8 @@ export function resultRequest(resultType: ResultType, query: Query, filterKey?: 
 
     // TODO: pass in config
     return fetchCompassQLRecommend(query, schema, data, config).then(
-      (preFilteredPlots: PlotObjectWithKey[]) => {
-        const plots: PlotObject[] = (
+      (preFilteredPlots: ResultPlotWithKey[]) => {
+        const plots: ResultPlot[] = (
           filterKey ?
           preFilteredPlots.filter(p => p.groupByKey !== filterKey) :
           preFilteredPlots

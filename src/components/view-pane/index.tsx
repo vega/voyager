@@ -6,7 +6,7 @@ import {ActionHandler, createDispatchHandler} from '../../actions/redux-action';
 import {ShelfAction} from '../../actions/shelf';
 import {State} from '../../models';
 import {Bookmark} from '../../models/bookmark';
-import {PlotObject} from '../../models/result';
+import {ResultPlot} from '../../models/result';
 import {selectBookmark, selectMainSpec, selectPlotList} from '../../selectors';
 import {selectIsQuerySpecific} from '../../selectors/shelf';
 import {Plot} from '../plot';
@@ -17,7 +17,7 @@ import * as styles from './view-pane.scss';
 export interface ViewPaneProps extends ActionHandler<ShelfAction> {
   isQuerySpecific: boolean;
   spec: FacetedCompositeUnitSpec;
-  plots: PlotObject[];
+  plots: ResultPlot[];
   bookmark: Bookmark;
 }
 

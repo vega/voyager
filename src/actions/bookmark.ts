@@ -1,12 +1,12 @@
 import {FacetedCompositeUnitSpec} from 'vega-lite/build/src/spec';
-import {PlotObject} from '../models/result';
+import {ResultPlot} from '../models/result';
 import {PlainReduxAction, ReduxAction} from './redux-action';
 
 export type BookmarkAction = BookmarkAddPlot | BookmarkClearAll | BookmarkRemovePlot | BookmarkModifyNote;
 
 export const BOOKMARK_ADD_PLOT = 'BOOKMARK_ADD_PLOT';
 export type BookmarkAddPlot = ReduxAction<typeof BOOKMARK_ADD_PLOT, {
-  plotObject: PlotObject
+  plot: ResultPlot
 }>;
 
 export const BOOKMARK_REMOVE_PLOT = 'BOOKMARK_REMOVE_PLOT';

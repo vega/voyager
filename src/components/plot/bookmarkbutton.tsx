@@ -4,14 +4,14 @@ import * as TetherComponent from 'react-tether';
 import {BOOKMARK_ADD_PLOT, BOOKMARK_REMOVE_PLOT, BookmarkAction} from '../../actions/bookmark';
 import {ActionHandler} from '../../actions/redux-action';
 import {Bookmark} from '../../models/bookmark';
-import {PlotObject} from '../../models/result';
+import {ResultPlot} from '../../models/result';
 import * as styles from './bookmarkbutton.scss';
 
 
 
 export interface BookmarkProps extends ActionHandler<BookmarkAction> {
   bookmark: Bookmark;
-  plotObject: PlotObject;
+  plot: ResultPlot;
 }
 
 export interface BookmarkButtonState {
@@ -71,8 +71,8 @@ export class BookmarkButtonBase extends React.PureComponent<BookmarkProps, Bookm
   }
 
   private isBookmarked() {
-    const {bookmark, plotObject} = this.props;
-    return !!bookmark.dict[JSON.stringify(plotObject.spec)];
+    const {bookmark, plot} = this.props;
+    return !!bookmark.dict[JSON.stringify(plot.spec)];
   }
 
   private onBookmarkClick() {
@@ -88,7 +88,7 @@ export class BookmarkButtonBase extends React.PureComponent<BookmarkProps, Bookm
     this.props.handleAction({
       type: BOOKMARK_REMOVE_PLOT,
       payload: {
-        spec: this.props.plotObject.spec
+        spec: this.props.plot.spec
       }
     });
   }
@@ -97,7 +97,7 @@ export class BookmarkButtonBase extends React.PureComponent<BookmarkProps, Bookm
     this.props.handleAction({
       type: BOOKMARK_ADD_PLOT,
       payload: {
-        plotObject: this.props.plotObject
+        plot: this.props.plot
       }
     });
   }

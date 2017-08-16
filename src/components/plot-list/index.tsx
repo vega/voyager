@@ -4,13 +4,13 @@ import {ActionHandler} from '../../actions/redux-action';
 import {RESULT_LIMIT_INCREASE, ResultAction} from '../../actions/result';
 import {ShelfAction} from '../../actions/shelf';
 import {Bookmark} from '../../models/bookmark';
-import {PlotObject} from '../../models/result';
+import {ResultPlot} from '../../models/result';
 import {ResultType} from '../../models/result';
 import {Plot} from '../plot';
 import * as styles from './plot-list.scss';
 
 export interface PlotListProps extends ActionHandler<ShelfAction|ResultAction> {
-  plots: PlotObject[];
+  plots: ResultPlot[];
 
   resultType?: ResultType;
 

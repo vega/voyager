@@ -1,7 +1,7 @@
 
 import {Query} from 'compassql/build/src/query/query';
 import {RESULT_RECEIVE, RESULT_REQUEST} from '../actions/result';
-import {PlotObject} from '../models/result';
+import {ResultPlot} from '../models/result';
 import {DEFAULT_RESULT_INDEX, ResultIndex} from '../models/result';
 import {DEFAULT_LIMIT, resultIndexReducer} from './result';
 
@@ -45,7 +45,7 @@ describe('reducers/result', () => {
 
   describe(RESULT_RECEIVE, () => {
     it('returns new compass state with isLoading=false and new recommends', () => {
-      const plots = [{}] as PlotObject[]; // Mock
+      const plots = [{}] as ResultPlot[]; // Mock
       const query = {spec: {}} as Query;
 
       expect(resultIndexReducer(

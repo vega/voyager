@@ -6,7 +6,7 @@ import {BOOKMARK_CLEAR_ALL, BookmarkAction} from '../../actions/bookmark';
 import {ActionHandler, createDispatchHandler} from '../../actions/redux-action';
 import {State} from '../../models';
 import {Bookmark} from '../../models/bookmark';
-import {PlotObject} from '../../models/result';
+import {ResultPlot} from '../../models/result';
 import {selectBookmark} from '../../selectors/index';
 import {Plot} from '../plot';
 import * as styles from './bookmark.scss';
@@ -69,7 +69,7 @@ export class BookmarkBase extends React.PureComponent<BookmarkProps, any> {
     for (const specKey of bookmark.list) {
       const bookmarkItem = bookmark.dict[specKey];
       specs.push({
-        ...bookmarkItem.plotObject.spec,
+        ...bookmarkItem.plot.spec,
         description: bookmarkItem.note
       });
     }
@@ -96,7 +96,7 @@ export class BookmarkBase extends React.PureComponent<BookmarkProps, any> {
   }
 
   private renderBookmarks(bookmark: Bookmark) {
-    const plots: PlotObject[] = bookmark.list.map(key => bookmark.dict[key].plotObject);
+    const plots: ResultPlot[] = bookmark.list.map(key => bookmark.dict[key].plot);
 
     const bookmarkPlotListItems = plots.map(plot => {
       const {spec, fieldInfos} = plot;

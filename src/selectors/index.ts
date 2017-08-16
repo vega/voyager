@@ -7,7 +7,6 @@ import {State} from '../models';
 import {Bookmark} from '../models/bookmark';
 import {VoyagerConfig} from '../models/config';
 import {ShelfPreview} from '../models/shelf-preview';
-// import {PlotObject} from '../models/result';
 // tslint:disable-next-line:no-unused-variable
 
 export * from './dataset';
