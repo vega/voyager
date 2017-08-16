@@ -10,7 +10,7 @@ import {SHELF_SPEC_LOAD, ShelfAction} from '../../actions/shelf';
 import {SHELF_PREVIEW_SPEC, SHELF_PREVIEW_SPEC_DISABLE, ShelfPreviewAction} from '../../actions/shelf-preview';
 import {PLOT_HOVER_MIN_DURATION} from '../../constants';
 import {Bookmark} from '../../models/bookmark';
-import {PlotFieldInfo} from '../../models/plot';
+import {PlotFieldInfo, PlotObject} from '../../models/plot';
 import {Field} from '../field/index';
 import {VegaLite} from '../vega-lite/index';
 import {BookmarkButton} from './bookmarkbutton';
@@ -228,7 +228,7 @@ export class PlotBase extends React.PureComponent<PlotProps, PlotState> {
   }
 
   private bookmarkButton() {
-    const plotObject = {
+    const plotObject: PlotObject = {
       fieldInfos: this.props.fieldInfos,
       spec: this.props.spec
     };

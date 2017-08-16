@@ -8,7 +8,7 @@ import {build as buildSchema, Schema} from 'compassql/build/src/schema';
 import 'isomorphic-fetch';
 import {Data} from 'vega-lite/build/src/data';
 import {VoyagerConfig} from '../models/config';
-import {convertToPlotList, PlotObject} from '../models/plot';
+import {convertToPlotListWithKey, PlotObjectWithKey} from '../models/plot';
 
 export {Query, Schema, Data};
 
@@ -16,7 +16,7 @@ export {Query, Schema, Data};
  * Submit recommendation query request from CompassQL
  */
 export function fetchCompassQLRecommend(query: Query, schema: Schema, data: Data, config?: VoyagerConfig):
-  Promise<PlotObject[]> {
+  Promise<PlotObjectWithKey[]> {
 
   if (config && config.serverUrl) {
     const endpoint = "recommend";
@@ -42,7 +42,7 @@ export function fetchCompassQLRecommend(query: Query, schema: Schema, data: Data
     return new Promise(resolve => {
       const modelGroup = recommend(query, schema).result;
 
-      resolve(convertToPlotList(modelGroup, data));
+      resolve(convertToPlotListWithKey(modelGroup, data));
     });
   }
 }

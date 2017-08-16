@@ -2,11 +2,12 @@
  * Namespace for creating CompassQL query specifications.
  */
 
+import {getGroupByKey} from 'compassql/build/src/nest';
 import {Query} from 'compassql/build/src/query/query';
 import {isAggregate, SpecQuery} from 'compassql/build/src/query/spec';
 import {Store} from 'redux';
 import {NONSPATIAL_SCALE_CHANNELS} from 'vega-lite/build/src/channel';
-import {contains} from 'vega-lite/build/src/util';
+import {contains, isString} from 'vega-lite/build/src/util';
 import {resultRequest} from '../actions/result';
 import {State} from '../models/index';
 import {ResultType} from '../models/result';
@@ -48,7 +49,7 @@ export function dispatchQueries(store: Store<State>, query: Query) {
 
   const isQueryEmpty = selectIsQueryEmpty(state);
   const isQuerySpecific = selectIsQuerySpecific(state);
-  store.dispatch(resultRequest('main', query));
+  store.dispatch(resultRequest('main', query, null));
 
   // FIXME clear other types of results
 
@@ -61,9 +62,21 @@ export function dispatchQueries(store: Store<State>, query: Query) {
   }
 }
 
-function relatedViewResultRequest(queryCreator: QueryCreator, query: Query) {
-  return resultRequest(queryCreator.type, queryCreator.createQuery(query));
+function relatedViewResultRequest(queryCreator: QueryCreator, mainQuery: Query) {
+  const query = queryCreator.createQuery(mainQuery);
+
+  let mainQueryKey;
+
+  if (queryCreator.filterSpecifiedView) {
+    if (!isString(query.groupBy)) {
+      throw new Error('Cannot get key if query.groupBy is not string');
+    }
+    mainQueryKey = getGroupByKey(mainQuery.spec, query.groupBy);
+  }
+  return resultRequest(queryCreator.type, query, mainQueryKey);
 }
+
+
 
 function getFeaturesForRelatedViewRules(spec: SpecQuery) {
   let hasOpenPosition = false;
