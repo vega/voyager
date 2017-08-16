@@ -1,19 +1,22 @@
+import {Schema} from 'compassql/build/src/schema';
 import {
   SPEC_CLEAR, SPEC_FIELD_ADD, SPEC_FIELD_AUTO_ADD, SPEC_FIELD_MOVE,
   SPEC_FIELD_REMOVE, SPEC_FUNCTION_CHANGE, SPEC_MARK_CHANGE_TYPE
 } from '../../actions/shelf';
+import {
+  SPEC_FIELD_NESTED_PROP_CHANGE,
+  SPEC_FIELD_PROP_CHANGE,
+  SPEC_FUNCTION_ADD_WILDCARD,
+  SPEC_FUNCTION_DISABLE_WILDCARD,
+  SPEC_FUNCTION_ENABLE_WILDCARD,
+  SPEC_FUNCTION_REMOVE_WILDCARD,
+  SPEC_LOAD,
+  SpecFieldNestedPropChange
+} from '../../actions/shelf/spec';
 import {DEFAULT_SHELF_UNIT_SPEC} from '../../models';
 import {shelfSpecReducer} from './spec';
 
-
 const SHORT_WILDCARD = '?';
-// FIXME doing property import can break the test
-// import {SHORT_WILDCARD} from 'compassql/build/src/wildcard';
-import {Schema} from 'compassql/build/src/schema';
-import {SPEC_FUNCTION_REMOVE_WILDCARD} from '../../actions/shelf';
-import {SPEC_FUNCTION_ADD_WILDCARD, SPEC_FUNCTION_DISABLE_WILDCARD,
-        SPEC_FUNCTION_ENABLE_WILDCARD, SPEC_LOAD} from '../../actions/shelf';
-import {SPEC_FIELD_PROP_CHANGE} from '../../actions/shelf/spec';
 
 const schema = new Schema({fields: []});
 
@@ -429,6 +432,66 @@ describe('reducers/shelf/spec', () => {
             value: undefined
           }
         },
+        schema
+      );
+
+      expect(shelfSpec).toEqual({
+        ...DEFAULT_SHELF_UNIT_SPEC,
+        encoding: {
+          x: {field: 'a', type: 'quantitative'}
+        }
+      });
+    });
+  });
+
+  describe(SPEC_FIELD_NESTED_PROP_CHANGE, () => {
+    it('should correctly change scale type of x-field to "log"', () => {
+      const action: SpecFieldNestedPropChange<'scale', 'type'> = {
+        type: SPEC_FIELD_NESTED_PROP_CHANGE,
+        payload: {
+          shelfId: {channel: 'x'},
+          prop: 'scale',
+          nestedProp: 'type',
+          value: 'log'
+        }
+      };
+      const shelfSpec = shelfSpecReducer(
+        {
+          ...DEFAULT_SHELF_UNIT_SPEC,
+          encoding: {
+            x: {field: 'a', type: 'quantitative'}
+          }
+        },
+        action,
+        schema
+      );
+
+      expect(shelfSpec).toEqual({
+        ...DEFAULT_SHELF_UNIT_SPEC,
+        encoding: {
+          x: {field: 'a', type: 'quantitative', scale: {type: 'log'}}
+        }
+      });
+    });
+
+    it('should correctly remove scale type', () => {
+      const action: SpecFieldNestedPropChange<'scale', 'type'> = {
+        type: SPEC_FIELD_NESTED_PROP_CHANGE,
+        payload: {
+          shelfId: {channel: 'x'},
+          prop: 'scale',
+          nestedProp: 'type',
+          value: undefined
+        }
+      };
+      const shelfSpec = shelfSpecReducer(
+        {
+          ...DEFAULT_SHELF_UNIT_SPEC,
+          encoding: {
+            x: {field: 'a', type: 'quantitative', scale: {type: 'log'}}
+          }
+        },
+        action,
         schema
       );
 

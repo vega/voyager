@@ -10,7 +10,7 @@ export type SpecAction =
 
 export type SpecEncodingAction = SpecFieldAdd | SpecFieldAutoAdd |
   SpecFieldRemove | SpecFieldMove |
-  SpecFieldPropChange<any> |
+  SpecFieldPropChange<any> | SpecFieldNestedPropChange<any, any> |
   SpecFunctionChange |
   SpecFunctionAddWildcard | SpecFunctionRemoveWildcard |
   SpecFunctionDisableWildcard | SpecFunctionEnableWildcard |
@@ -58,6 +58,19 @@ export type SpecFieldPropChange<
   value: ShelfFieldDef[P];
 }>;
 
+/**
+ * Change nested property of a FieldDef to a specific value.
+ */
+export const SPEC_FIELD_NESTED_PROP_CHANGE = 'SPEC_FIELD_NESTED_PROP_CHANGE';
+export type SpecFieldNestedPropChange<
+  P extends 'scale' | 'axis' | 'legend',
+  N extends (keyof ShelfFieldDef[P])
+> = ReduxAction<typeof SPEC_FIELD_NESTED_PROP_CHANGE, {
+  shelfId: ShelfId,
+  prop: P,
+  nestedProp: N,
+  value: ShelfFieldDef[P][N]
+}>;
 
 /**
  * Change Function of a FieldDef to a specific value.
