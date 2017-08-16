@@ -31,7 +31,11 @@ describe('models/shelf/unit', () => {
       expect(toSpecQuery({
         mark: 'point',
         encoding: {
-          x: {field: 'a', type: 'quantitative'}
+          x: {
+            field: 'a', type: 'quantitative',
+            sort: 'descending',
+            scale: {type: 'linear'}
+          }
         },
         anyEncodings: [
           {channel: SHORT_WILDCARD, field: 'b', type: 'ordinal'}
@@ -41,7 +45,11 @@ describe('models/shelf/unit', () => {
       })).toEqual({
         mark: 'point',
         encodings: [
-          {channel: 'x', field: 'a', type: 'quantitative'},
+          {
+            channel: 'x', field: 'a', type: 'quantitative',
+            sort: 'descending',
+            scale: {type: 'linear'}
+          },
           {channel: '?', field: 'b', type: 'ordinal'}
         ],
         config: {numberFormat: 'd'},
