@@ -11,6 +11,19 @@ import {Action} from './index';
 import {ReduxAction} from './redux-action';
 
 export type ResultAction = ResultRequest | ResultReceive | ResultLimitIncrease;
+
+type ResultActionType = ResultAction['type'];
+
+const RESULT_ACTION_TYPE_INDEX: {[K in ResultActionType]: 1} = {
+  RESULT_REQUEST: 1,
+  RESULT_RECEIVE: 1,
+  RESULT_LIMIT_INCREASE: 1
+};
+
+export function isResultAction(action: Action): action is ResultAction {
+  return RESULT_ACTION_TYPE_INDEX[action.type];
+}
+
 export type ResultAsyncAction = AsyncResultRequest;
 
 export const RESULT_REQUEST = 'RESULT_REQUEST';
