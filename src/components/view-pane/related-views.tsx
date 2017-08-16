@@ -7,7 +7,7 @@ import {ResultAction} from '../../actions/result';
 import {ShelfAction} from '../../actions/shelf';
 import {Bookmark} from '../../models/bookmark';
 import {State} from '../../models/index';
-import {PlotObject} from '../../models/plot';
+import {PlotObject} from '../../models/result';
 import {Result, RESULT_TYPES, ResultType} from '../../models/result';
 import {RELATED_VIEWS_INDEX, RELATED_VIEWS_TYPES} from '../../queries/index';
 import {selectBookmark} from '../../selectors/index';

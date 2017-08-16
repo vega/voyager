@@ -11,7 +11,7 @@ import {Selector} from 'reselect/src/reselect';
 import {Data} from 'vega-lite/build/src/data';
 import {OneOfFilter, RangeFilter} from 'vega-lite/build/src/filter';
 import {State} from '../models/index';
-import {PlotObject} from '../models/plot';
+import {PlotObject} from '../models/result';
 import {Result, RESULT_TYPES, ResultType} from '../models/result';
 import {getTransforms} from '../models/shelf/spec';
 import {selectData} from './dataset';

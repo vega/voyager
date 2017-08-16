@@ -1,7 +1,7 @@
 
 import {Query} from 'compassql/build/src/query/query';
 import {RESULT_RECEIVE, RESULT_REQUEST} from '../actions/result';
-import {PlotObject} from '../models/plot';
+import {PlotObject} from '../models/result';
 import {DEFAULT_RESULT_INDEX, ResultIndex} from '../models/result';
 import {DEFAULT_LIMIT, resultIndexReducer} from './result';
 

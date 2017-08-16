@@ -6,7 +6,7 @@ import {ActionHandler, createDispatchHandler} from '../../actions/redux-action';
 import {ShelfAction} from '../../actions/shelf';
 import {State} from '../../models';
 import {Bookmark} from '../../models/bookmark';
-import {PlotObject} from '../../models/plot';
+import {PlotObject} from '../../models/result';
 import {selectBookmark, selectMainSpec, selectPlotList} from '../../selectors';
 import {selectIsQuerySpecific} from '../../selectors/shelf';
 import {Plot} from '../plot';

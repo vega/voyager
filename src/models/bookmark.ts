@@ -1,4 +1,4 @@
-import {PlotObject} from '../models/plot';
+import {PlotObject} from '../models/result';
 
 export interface BookmarkItem {
   plotObject: PlotObject;
