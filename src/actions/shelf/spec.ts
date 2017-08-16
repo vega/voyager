@@ -1,8 +1,7 @@
+
 import {FacetedCompositeUnitSpec} from 'vega-lite/build/src/spec';
 import {ShelfFieldDef, ShelfFunction, ShelfId, ShelfMark} from '../../models';
 import {PlainReduxAction, ReduxAction} from '../redux-action';
-
-// TODO: Rename these actions to have Spec- prefix instead of Spec-
 
 export type SpecAction =
   SpecClear |
@@ -10,9 +9,12 @@ export type SpecAction =
   SpecEncodingAction;
 
 export type SpecEncodingAction = SpecFieldAdd | SpecFieldAutoAdd |
-  SpecFieldRemove | SpecFieldMove | SpecFunctionChange |
-  SpecFunctionAddWildcard | SpecFunctionDisableWildcard | SpecFunctionEnableWildcard |
-  SpecFunctionRemoveWildcard | SpecLoad;
+  SpecFieldRemove | SpecFieldMove |
+  SpecFieldPropChange<any> |
+  SpecFunctionChange |
+  SpecFunctionAddWildcard | SpecFunctionRemoveWildcard |
+  SpecFunctionDisableWildcard | SpecFunctionEnableWildcard |
+  SpecLoad ;
 
 export const SPEC_CLEAR = 'SPEC_CLEAR';
 export type SpecClear = PlainReduxAction<typeof SPEC_CLEAR>;
@@ -43,6 +45,19 @@ export type SpecFieldMove = ReduxAction<typeof SPEC_FIELD_MOVE, {
   from: ShelfId,
   to: ShelfId
 }>;
+
+/**
+ * Change a property of a FieldDef to a specific value.
+ */
+export const SPEC_FIELD_PROP_CHANGE = 'SPEC_FIELD_PROP_CHANGE';
+export type SpecFieldPropChange<
+  P extends 'sort' // TODO: 'stack' | 'format'
+> = ReduxAction<typeof SPEC_FIELD_PROP_CHANGE, {
+  shelfId: ShelfId;
+  prop: P;
+  value: ShelfFieldDef[P];
+}>;
+
 
 /**
  * Change Function of a FieldDef to a specific value.

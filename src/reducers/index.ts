@@ -49,6 +49,7 @@ import {
 import {ActionType} from '../actions';
 import {RESET} from '../actions/reset';
 import {RESULT_LIMIT_INCREASE} from '../actions/result';
+import {SPEC_FIELD_PROP_CHANGE} from '../actions/shelf/spec';
 import {
   DEFAULT_PERSISTENT_STATE,
   DEFAULT_UNDOABLE_STATE_BASE,
@@ -166,6 +167,7 @@ export const USER_ACTIONS: ActionType[] = [
   SPEC_FIELD_AUTO_ADD,
   SPEC_FIELD_REMOVE,
   SPEC_FIELD_MOVE,
+  SPEC_FIELD_PROP_CHANGE,
   SPEC_FUNCTION_CHANGE,
   SPEC_FUNCTION_ADD_WILDCARD,
   SPEC_FUNCTION_DISABLE_WILDCARD,

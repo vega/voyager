@@ -13,6 +13,7 @@ import {Schema} from 'compassql/build/src/schema';
 import {SPEC_FUNCTION_REMOVE_WILDCARD} from '../../actions/shelf';
 import {SPEC_FUNCTION_ADD_WILDCARD, SPEC_FUNCTION_DISABLE_WILDCARD,
         SPEC_FUNCTION_ENABLE_WILDCARD, SPEC_LOAD} from '../../actions/shelf';
+import {SPEC_FIELD_PROP_CHANGE} from '../../actions/shelf/spec';
 
 const schema = new Schema({fields: []});
 
@@ -370,6 +371,62 @@ describe('reducers/shelf/spec', () => {
           payload: {
             from: {channel: SHORT_WILDCARD, index: 0},
             to: {channel: 'x'}
+          }
+        },
+        schema
+      );
+
+      expect(shelfSpec).toEqual({
+        ...DEFAULT_SHELF_UNIT_SPEC,
+        encoding: {
+          x: {field: 'a', type: 'quantitative'}
+        }
+      });
+    });
+  });
+
+  describe(SPEC_FIELD_PROP_CHANGE, () => {
+    it('should correctly change sort of x-field to "descending"', () => {
+      const shelfSpec = shelfSpecReducer(
+        {
+          ...DEFAULT_SHELF_UNIT_SPEC,
+          encoding: {
+            x: {field: 'a', type: 'quantitative'}
+          }
+        },
+        {
+          type: SPEC_FIELD_PROP_CHANGE,
+          payload: {
+            shelfId: {channel: 'x'},
+            prop: 'sort',
+            value: 'descending'
+          }
+        },
+        schema
+      );
+
+      expect(shelfSpec).toEqual({
+        ...DEFAULT_SHELF_UNIT_SPEC,
+        encoding: {
+          x: {field: 'a', type: 'quantitative', sort: 'descending'}
+        }
+      });
+    });
+
+    it('should correctly change sort of x-field to undefined', () => {
+      const shelfSpec = shelfSpecReducer(
+        {
+          ...DEFAULT_SHELF_UNIT_SPEC,
+          encoding: {
+            x: {field: 'a', type: 'quantitative'}
+          }
+        },
+        {
+          type: SPEC_FIELD_PROP_CHANGE,
+          payload: {
+            shelfId: {channel: 'x'},
+            prop: 'sort',
+            value: undefined
           }
         },
         schema
