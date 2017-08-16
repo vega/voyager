@@ -28,9 +28,7 @@ export interface ResultPlotWithKey {
   groupByKey: string;
 }
 
-
-// TODO: rename to from SpecQueryModelGroup
-export function convertToPlotListWithKey(
+export function fromSpecQueryModelGroup(
   modelGroup: SpecQueryModelGroup,
   data: Data
 ): ResultPlotWithKey[] {
