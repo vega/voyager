@@ -8,7 +8,7 @@ import {build as buildSchema, Schema} from 'compassql/build/src/schema';
 import 'isomorphic-fetch';
 import {Data} from 'vega-lite/build/src/data';
 import {VoyagerConfig} from '../models/config';
-import {convertToPlotListWithKey, PlotObjectWithKey} from '../models/plot';
+import {convertToPlotListWithKey, PlotObjectWithKey} from '../models/result';
 
 export {Query, Schema, Data};
 

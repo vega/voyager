@@ -6,7 +6,7 @@ import {BOOKMARK_CLEAR_ALL, BookmarkAction} from '../../actions/bookmark';
 import {ActionHandler, createDispatchHandler} from '../../actions/redux-action';
 import {State} from '../../models';
 import {Bookmark} from '../../models/bookmark';
-import {PlotObject} from '../../models/plot';
+import {PlotObject} from '../../models/result';
 import {selectBookmark} from '../../selectors/index';
 import {Plot} from '../plot';
 import * as styles from './bookmark.scss';

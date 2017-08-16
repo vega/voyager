@@ -2,7 +2,7 @@ import {Mark} from 'vega-lite/build/src/mark';
 import {Type} from 'vega-lite/build/src/type';
 import {BOOKMARK_ADD_PLOT, BOOKMARK_CLEAR_ALL, BOOKMARK_MODIFY_NOTE, BOOKMARK_REMOVE_PLOT} from '../actions';
 import {Bookmark, BookmarkItem, DEFAULT_BOOKMARK} from '../models';
-import {PlotObject} from '../models/plot';
+import {PlotObject} from '../models/result';
 import {bookmarkReducer} from './bookmark';
 
 

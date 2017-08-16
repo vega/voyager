@@ -1,5 +1,5 @@
 import {FacetedCompositeUnitSpec} from 'vega-lite/build/src/spec';
-import {PlotObject} from '../models/plot';
+import {PlotObject} from '../models/result';
 import {PlainReduxAction, ReduxAction} from './redux-action';
 
 export type BookmarkAction = BookmarkAddPlot | BookmarkClearAll | BookmarkRemovePlot | BookmarkModifyNote;

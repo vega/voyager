@@ -4,7 +4,7 @@ import * as TetherComponent from 'react-tether';
 import {BOOKMARK_ADD_PLOT, BOOKMARK_REMOVE_PLOT, BookmarkAction} from '../../actions/bookmark';
 import {ActionHandler} from '../../actions/redux-action';
 import {Bookmark} from '../../models/bookmark';
-import {PlotObject} from '../../models/plot';
+import {PlotObject} from '../../models/result';
 import * as styles from './bookmarkbutton.scss';
 
 

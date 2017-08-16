@@ -4,7 +4,7 @@ import {Dispatch} from 'redux';
 import {ThunkAction} from 'redux-thunk';
 import {fetchCompassQLRecommend} from '../api/api';
 import {State} from '../models/index';
-import {PlotObject, PlotObjectWithKey} from '../models/plot';
+import {PlotObject, PlotObjectWithKey} from '../models/result';
 import {ResultType} from '../models/result';
 import {selectConfig, selectData, selectSchema} from '../selectors';
 import {Action} from './index';

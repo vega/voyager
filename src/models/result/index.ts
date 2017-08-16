@@ -1,7 +1,8 @@
 
 import {Query} from 'compassql/build/src/query/query';
-import {PlotObject} from '../models/plot';
+import {PlotObject} from './plot';
 
+export * from './plot';
 
 export interface Result {
   isLoading: boolean;
