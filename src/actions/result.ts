@@ -4,7 +4,7 @@ import {Dispatch} from 'redux';
 import {ThunkAction} from 'redux-thunk';
 import {fetchCompassQLRecommend} from '../api/api';
 import {State} from '../models/index';
-import {PlotObject} from '../models/plot';
+import {PlotObject, PlotObjectWithKey} from '../models/plot';
 import {ResultType} from '../models/result';
 import {selectConfig, selectData, selectSchema} from '../selectors';
 import {Action} from './index';
@@ -32,18 +32,26 @@ export type ResultReceive = ReduxAction<typeof RESULT_RECEIVE, {
 }>;
 
 export type AsyncResultRequest = ThunkAction<void , State, undefined>;
-export function resultRequest(resultType: ResultType, query: Query): AsyncResultRequest {
+export function resultRequest(resultType: ResultType, query: Query, filterKey?: string): AsyncResultRequest {
   return (dispatch: Dispatch<Action>, getState) => {
     const schema = selectSchema(getState());
     const data = selectData(getState());
     const config = selectConfig(getState());
+
     dispatch({
       type: RESULT_REQUEST,
       payload: {resultType}
     });
+
     // TODO: pass in config
     return fetchCompassQLRecommend(query, schema, data, config).then(
-      (plots: PlotObject[]) => {
+      (preFilteredPlots: PlotObjectWithKey[]) => {
+        const plots: PlotObject[] = (
+          filterKey ?
+          preFilteredPlots.filter(p => p.groupByKey !== filterKey) :
+          preFilteredPlots
+        ).map(p => p.plot);
+
         dispatch({
           type: RESULT_RECEIVE,
           payload: {query, plots, resultType}

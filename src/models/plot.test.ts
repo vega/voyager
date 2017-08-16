@@ -5,7 +5,7 @@ import {SpecQueryModel} from 'compassql/build/src/model';
 import {SpecQuery} from 'compassql/build/src/query/spec';
 import {Schema} from 'compassql/build/src/schema';
 
-import {convertToPlotList} from './plot';
+import {convertToPlotListWithKey} from './plot';
 
 import {DEFAULT_QUERY_CONFIG} from 'compassql/build/src/config';
 
@@ -27,8 +27,8 @@ describe('models/plot', () => {
     };
   }
 
-  describe('convertToPlotObjectsGroup', () => {
-    it('converts SpecQueryGroup<SpecQueryModel> to SpecQueryGroup<PlotObject>', () => {
+  describe('convertToPlotListWithKey', () => {
+    it('converts SpecQueryGroup<SpecQueryModel> to ResultPlotWithKey[]', () => {
       const group = buildSpecQueryModelGroup([
         {
           mark: Mark.BAR,
@@ -40,9 +40,9 @@ describe('models/plot', () => {
 
       const data = {url: 'a/data/set.csv'};
 
-      const plotObjectGroup = convertToPlotList(group, data);
+      const plotObjectGroup = convertToPlotListWithKey(group, data);
       // should have a spec
-      expect(plotObjectGroup[0].spec).toEqual(
+      expect(plotObjectGroup[0].plot.spec).toEqual(
         {
           data: { url: 'a/data/set.csv' },
           mark: 'bar',

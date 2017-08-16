@@ -23,24 +23,29 @@ export interface PlotObject {
   spec: FacetedCompositeUnitSpec;
 }
 
+export interface PlotObjectWithKey {
+  plot: PlotObject;
+  groupByKey: string;
+}
+
 
 // TODO: rename to from SpecQueryModelGroup
-export function convertToPlotList(
+export function convertToPlotListWithKey(
   modelGroup: SpecQueryModelGroup,
   data: Data
-): PlotObject[] {
+): PlotObjectWithKey[] {
   return modelGroup.items.map(item => {
     if (isSpecQueryGroup<SpecQueryModel>(item)) {
       const childModelGroup = item as SpecQueryModelGroup;
-      return plotObject(data, getTopSpecQueryItem(childModelGroup), modelGroup.groupBy);
+      return plotObjectWithKey(data, getTopSpecQueryItem(childModelGroup), modelGroup.groupBy);
     }
-    // FIXME: include data in the main spec?
-    return plotObject(data, item as SpecQueryModel, modelGroup.groupBy);
+    return plotObjectWithKey(data, item, modelGroup.groupBy);
   });
 }
 
-// FIXME: include data in the main query?
-function plotObject(data: Data, specQ: SpecQueryModel, groupBy: string | Array<string|ExtendedGroupBy>): PlotObject {
+function plotObjectWithKey(
+  data: Data, specQ: SpecQueryModel, groupBy: string | Array<string|ExtendedGroupBy>
+): PlotObjectWithKey {
 
   const wildcardFieldIndex = toMap(specQ.wildcardIndex.encodingIndicesByProperty.get('field') || []);
 
@@ -58,5 +63,7 @@ function plotObject(data: Data, specQ: SpecQueryModel, groupBy: string | Array<s
     ...specQ.toSpec()
   };
 
-  return {fieldInfos, spec};
+  const groupByKey = specQ.toShorthand(groupBy);
+
+  return {plot: {fieldInfos, spec}, groupByKey};
 }
