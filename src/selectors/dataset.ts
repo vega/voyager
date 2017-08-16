@@ -1,7 +1,7 @@
 // tslint:disable:no-unused-variable
 import {StateWithHistory} from 'redux-undo';
 import {Selector} from 'reselect/src/reselect';
-import {PlotObject} from '../models/result';
+import {ResultPlot} from '../models/result';
 // tslint:enable:no-unused-variable
 
 import {Schema} from 'compassql/build/src/schema';

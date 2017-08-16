@@ -2,7 +2,7 @@ import {Mark} from 'vega-lite/build/src/mark';
 import {Type} from 'vega-lite/build/src/type';
 import {BOOKMARK_ADD_PLOT, BOOKMARK_CLEAR_ALL, BOOKMARK_MODIFY_NOTE, BOOKMARK_REMOVE_PLOT} from '../actions';
 import {Bookmark, BookmarkItem, DEFAULT_BOOKMARK} from '../models';
-import {PlotObject} from '../models/result';
+import {ResultPlot} from '../models/result';
 import {bookmarkReducer} from './bookmark';
 
 
@@ -10,7 +10,7 @@ import {bookmarkReducer} from './bookmark';
 describe('reducers/bookmark', () => {
   const data = {url: 'a/data/set.csv'};
 
-  const plotObject: PlotObject = {
+  const plot: ResultPlot = {
     fieldInfos: [],
     spec: {
       data: data,
@@ -21,11 +21,11 @@ describe('reducers/bookmark', () => {
     }
   };
 
-  const specKey = JSON.stringify(plotObject.spec);
+  const specKey = JSON.stringify(plot.spec);
 
   describe(BOOKMARK_ADD_PLOT, () => {
     it('should add a plot to the bookmark list', () => {
-      const expectedBookmarkItem: BookmarkItem = {plotObject: plotObject, note: ''};
+      const expectedBookmarkItem: BookmarkItem = {plot: plot, note: ''};
       const expectedDict = {};
       expectedDict[specKey] = expectedBookmarkItem;
 
@@ -38,7 +38,7 @@ describe('reducers/bookmark', () => {
         {
           type: BOOKMARK_ADD_PLOT,
           payload: {
-            plotObject: plotObject
+            plot: plot
           }
         }
       )).toEqual({
@@ -51,7 +51,7 @@ describe('reducers/bookmark', () => {
 
   describe(BOOKMARK_CLEAR_ALL, () => {
     it('should clear all bookmarks', () => {
-      const bookmarkItem: BookmarkItem = {plotObject: plotObject, note: ''};
+      const bookmarkItem: BookmarkItem = {plot: plot, note: ''};
       expect(bookmarkReducer(
         {
           dict: {
@@ -69,9 +69,9 @@ describe('reducers/bookmark', () => {
 
   describe(BOOKMARK_MODIFY_NOTE, () => {
     it('should modify notes for a bookmarked plot', () => {
-      const bookmarkItem: BookmarkItem = {plotObject: plotObject, note: ''};
+      const bookmarkItem: BookmarkItem = {plot: plot, note: ''};
 
-      const expectedBookmarkItem: BookmarkItem = {plotObject: plotObject, note: 'This is very interesting.'};
+      const expectedBookmarkItem: BookmarkItem = {plot: plot, note: 'This is very interesting.'};
       const expectedDict = {};
       expectedDict[specKey] = expectedBookmarkItem;
 
@@ -87,7 +87,7 @@ describe('reducers/bookmark', () => {
           type: BOOKMARK_MODIFY_NOTE,
           payload: {
             note: 'This is very interesting.',
-            spec: plotObject.spec
+            spec: plot.spec
           }
         }
       )).toEqual({
@@ -100,7 +100,7 @@ describe('reducers/bookmark', () => {
 
   describe(BOOKMARK_REMOVE_PLOT, () => {
     it('should remove a bookmark from the bookmark list', () => {
-      const bookmarkItem: BookmarkItem = {plotObject: plotObject, note: ''};
+      const bookmarkItem: BookmarkItem = {plot: plot, note: ''};
 
       expect(bookmarkReducer(
         {
@@ -113,7 +113,7 @@ describe('reducers/bookmark', () => {
         {
           type: BOOKMARK_REMOVE_PLOT,
           payload: {
-            spec: plotObject.spec
+            spec: plot.spec
           }
         }
       )).toEqual({

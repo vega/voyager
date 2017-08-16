@@ -11,7 +11,7 @@ import {Selector} from 'reselect/src/reselect';
 import {Data} from 'vega-lite/build/src/data';
 import {OneOfFilter, RangeFilter} from 'vega-lite/build/src/filter';
 import {State} from '../models/index';
-import {PlotObject} from '../models/result';
+import {ResultPlot} from '../models/result';
 import {Result, RESULT_TYPES, ResultType} from '../models/result';
 import {getTransforms} from '../models/shelf/spec';
 import {selectData} from './dataset';
@@ -27,7 +27,7 @@ export const selectResult: {
 
 // This one is not exported as it does not correctly include filter transforms yet
 const selectResultPlots: {
-  [k in ResultType]?: Selector<State, PlotObject[]>
+  [k in ResultType]?: Selector<State, ResultPlot[]>
 } = RESULT_TYPES.reduce((selectors, resultType) => {
   selectors[resultType] = (state: State) => state.undoable.present.result[resultType].plots;
   return selectors;
@@ -44,7 +44,7 @@ export const selectMainSpec = createSelector(
     isQueryEmpty: boolean,
     data: Data,
     filters: Array<RangeFilter|OneOfFilter>,
-    mainPlots: PlotObject[]
+    mainPlots: ResultPlot[]
   ): FacetedCompositeUnitSpec => {
     if (!isQuerySpecific || !mainPlots || isQueryEmpty) {
       return undefined;
@@ -60,7 +60,7 @@ export const selectMainSpec = createSelector(
 
 // TODO(https://github.com/vega/voyager/issues/617): get rid of this once we bind data at runtime.
 export const selectPlotList: {
-  [k in ResultType]?: Selector<State, PlotObject[]>
+  [k in ResultType]?: Selector<State, ResultPlot[]>
 } = RESULT_TYPES.reduce((selectors, resultType) => {
   selectors[resultType] = createSelector(
     selectIsQuerySpecific,
@@ -71,7 +71,7 @@ export const selectPlotList: {
       isQuerySpecific: boolean,
       data: Data,
       filters: Array<RangeFilter|OneOfFilter>,
-      plots: PlotObject[]
+      plots: ResultPlot[]
     ) => {
       if (
           // For main, do not return list if specific.  For others, do not return list if not specific.

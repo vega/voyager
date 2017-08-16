@@ -7,14 +7,14 @@ export function bookmarkReducer(bookmark: Bookmark = DEFAULT_BOOKMARK, action: A
 
   switch (action.type) {
     case BOOKMARK_ADD_PLOT: {
-      const {plotObject} = action.payload;
-      const specKey = JSON.stringify(plotObject.spec);
+      const {plot} = action.payload;
+      const specKey = JSON.stringify(plot.spec);
 
       return {
         dict: {
           ...dict,
           [specKey]: {
-            plotObject: plotObject,
+            plot: plot,
             note: '',
           }
         },

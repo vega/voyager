@@ -40,9 +40,9 @@ describe('models/plot', () => {
 
       const data = {url: 'a/data/set.csv'};
 
-      const plotObjectGroup = convertToPlotListWithKey(group, data);
+      const plotWithKey = convertToPlotListWithKey(group, data);
       // should have a spec
-      expect(plotObjectGroup[0].plot.spec).toEqual(
+      expect(plotWithKey[0].plot.spec).toEqual(
         {
           data: { url: 'a/data/set.csv' },
           mark: 'bar',

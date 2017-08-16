@@ -1,13 +1,13 @@
 
 import {Query} from 'compassql/build/src/query/query';
-import {PlotObject} from './plot';
+import {ResultPlot} from './plot';
 
 export * from './plot';
 
 export interface Result {
   isLoading: boolean;
 
-  plots: PlotObject[] | null;
+  plots: ResultPlot[] | null;
 
   query: Query;
 

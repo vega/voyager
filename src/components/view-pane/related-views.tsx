@@ -7,7 +7,7 @@ import {ResultAction} from '../../actions/result';
 import {ShelfAction} from '../../actions/shelf';
 import {Bookmark} from '../../models/bookmark';
 import {State} from '../../models/index';
-import {PlotObject} from '../../models/result';
+import {ResultPlot} from '../../models/result';
 import {Result, RESULT_TYPES, ResultType} from '../../models/result';
 import {RELATED_VIEWS_INDEX, RELATED_VIEWS_TYPES} from '../../queries/index';
 import {selectBookmark} from '../../selectors/index';
@@ -16,8 +16,8 @@ import {PlotList} from '../plot-list/index';
 import * as styles from './related-views.scss';
 
 export interface RelatedViewsProps extends ActionHandler<BookmarkAction|ShelfAction|ResultAction> {
-  plots: {
-    [k in ResultType]: PlotObject[]
+  plotsIndex: {
+    [k in ResultType]: ResultPlot[]
   };
 
   results: {
@@ -29,19 +29,19 @@ export interface RelatedViewsProps extends ActionHandler<BookmarkAction|ShelfAct
 
 export class RelatedViewsBase extends React.PureComponent<RelatedViewsProps, {}> {
   public render() {
-    const {bookmark, handleAction, plots, results} = this.props;
+    const {bookmark, handleAction, plotsIndex, results} = this.props;
 
     const subpanes = RELATED_VIEWS_TYPES.map(relatedViewType => {
-      const plotObjects = plots[relatedViewType];
+      const plots = plotsIndex[relatedViewType];
       const title = RELATED_VIEWS_INDEX[relatedViewType].title;
       const {limit} = results[relatedViewType];
       return (
-        plotObjects && plotObjects.length > 0 &&
+        plots && plots.length > 0 &&
         <div styleName="related-views-subpane" key={relatedViewType}>
           <h3>{title}</h3>
           <PlotList
             handleAction={handleAction}
-            plots={plotObjects}
+            plots={plots}
             bookmark={bookmark}
             limit={limit}
             resultType={relatedViewType}
@@ -62,9 +62,9 @@ export class RelatedViewsBase extends React.PureComponent<RelatedViewsProps, {}>
 export const RelatedViews = connect(
   (state: State) => {
     return {
-      plots: RESULT_TYPES.reduce((plots, resultType) => {
-        plots[resultType] = selectPlotList[resultType](state);
-        return plots;
+      plotsIndex: RESULT_TYPES.reduce((index, resultType) => {
+        index[resultType] = selectPlotList[resultType](state);
+        return index;
       }, {}),
       results: RESULT_TYPES.reduce((results, resultType) => {
         results[resultType] = selectResult[resultType](state);
