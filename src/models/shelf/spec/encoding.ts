@@ -3,8 +3,13 @@ import {EncodingQuery, isAutoCountQuery, isFieldQuery} from 'compassql/build/src
 import {FieldQuery} from 'compassql/build/src/query/encoding';
 import {ExpandedType} from 'compassql/build/src/query/expandedtype';
 import {isWildcard, SHORT_WILDCARD, Wildcard, WildcardProperty} from 'compassql/build/src/wildcard';
+import {Axis} from 'vega-lite/build/src/axis';
 import {Channel} from 'vega-lite/build/src/channel';
+import {Legend} from 'vega-lite/build/src/legend';
 import {Mark as VLMark} from 'vega-lite/build/src/mark';
+import {Scale} from 'vega-lite/build/src/scale';
+import {SortField, SortOrder} from 'vega-lite/build/src/sort';
+import {isBoolean} from 'vega-lite/build/src/util';
 import {fromFieldQueryFunctionMixins, ShelfFunction, toFieldQueryFunctionMixins} from './function';
 
 export * from './function';
@@ -34,6 +39,12 @@ export interface ShelfFieldDef {
   field: WildcardProperty<string>;
 
   fn?: ShelfFunction | Wildcard<ShelfFunction>;
+
+  scale?: Scale;
+  axis?: Axis;
+  legend?: Legend;
+
+  sort?: SortOrder | SortField;
 
   type?: ExpandedType;
 
@@ -81,20 +92,18 @@ export function toEncodingQuery(fieldDef: ShelfFieldDef, channel: Channel | SHOR
   return toFieldQuery(fieldDef, channel);
 }
 
-
 export function toFieldQuery(fieldDef: ShelfFieldDef, channel: Channel | SHORT_WILDCARD): FieldQuery {
-  const {field, fn, type, title: _t} = fieldDef;
+  const {fn, title: _t, ...fieldDefWithoutFnAndTitle} = fieldDef;
 
   return {
-    channel: channel,
-    field: field,
-    type: type,
-    ...toFieldQueryFunctionMixins(fn)
+    channel,
+    ...toFieldQueryFunctionMixins(fn),
+    ...fieldDefWithoutFnAndTitle
   };
 }
 
 export function fromFieldQuery(fieldQ: FieldQuery): ShelfFieldDef {
-  const {aggregate, bin, hasFn, timeUnit, field, type} = fieldQ;
+  const {aggregate, bin, hasFn, timeUnit, field, type, scale, axis, legend, sort} = fieldQ;
 
   if (isWildcard(type)) {
     throw Error('Voyager does not support wildcard type');
@@ -105,6 +114,31 @@ export function fromFieldQuery(fieldQ: FieldQuery): ShelfFieldDef {
   return {
     ...(fn ? {fn} : {}),
     field,
-    type
+    type,
+    ...(sort ? {sort} : {}),
+    ...(scale ? {scale: fromFieldQueryNestedProp(fieldQ, 'scale')} : {}),
+    ...(axis ? {axis: fromFieldQueryNestedProp(fieldQ, 'axis')} : {}),
+    ...(legend ? {legend: fromFieldQueryNestedProp(fieldQ, 'legend')} : {})
   };
+}
+
+export function fromFieldQueryNestedProp<P extends 'scale' | 'axis' | 'legend'>(
+  fieldQ: FieldQuery, prop: P
+): ShelfFieldDef[P] {
+  const propQ = fieldQ[prop];
+  if (!propQ) {
+    return undefined;
+  } else if (isWildcard(propQ)) {
+    throw Error(`Voyager does not support wildcard ${prop}`);
+  } else if (isBoolean(propQ)) {
+    throw Error(`Voyager does not support boolean ${prop}`);
+  } else {
+    Object.keys(propQ).forEach(nestedProp => {
+      if (isWildcard(propQ[nestedProp])) {
+        throw Error(`Voyager does not support wildcard ${prop} ${nestedProp}`);
+      }
+    });
+  }
+  // We already catch all the unsupported types above so here we can just cast
+  return propQ as ShelfFieldDef[P];
 }
