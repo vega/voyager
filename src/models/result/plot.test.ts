@@ -5,7 +5,7 @@ import {SpecQueryModel} from 'compassql/build/src/model';
 import {SpecQuery} from 'compassql/build/src/query/spec';
 import {Schema} from 'compassql/build/src/schema';
 
-import {convertToPlotListWithKey} from './plot';
+import {fromSpecQueryModelGroup} from './plot';
 
 import {DEFAULT_QUERY_CONFIG} from 'compassql/build/src/config';
 
@@ -40,7 +40,7 @@ describe('models/plot', () => {
 
       const data = {url: 'a/data/set.csv'};
 
-      const plotWithKey = convertToPlotListWithKey(group, data);
+      const plotWithKey = fromSpecQueryModelGroup(group, data);
       // should have a spec
       expect(plotWithKey[0].plot.spec).toEqual(
         {

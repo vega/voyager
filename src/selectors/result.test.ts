@@ -9,7 +9,7 @@ import {OneOfFilter, RangeFilter} from 'vega-lite/build/src/filter';
 import {Mark} from 'vega-lite/build/src/mark';
 import {DEFAULT_DATASET} from '../models/dataset';
 import {DEFAULT_PERSISTENT_STATE, DEFAULT_STATE, State} from '../models/index';
-import {convertToPlotListWithKey} from '../models/result';
+import {fromSpecQueryModelGroup} from '../models/result';
 import {DEFAULT_RESULT, DEFAULT_RESULT_INDEX} from '../models/result';
 import {ShelfAnyEncodingDef, ShelfMark, SpecificEncoding} from '../models/shelf/encoding';
 import {DEFAULT_SHELF} from '../models/shelf/index';
@@ -54,7 +54,7 @@ const group = buildSpecQueryModelGroup([
   }
 ]);
 
-const plots = convertToPlotListWithKey(group, data).map(p => p.plot);
+const plots = fromSpecQueryModelGroup(group, data).map(p => p.plot);
 
 const stateSpecific: State = {
   persistent: DEFAULT_PERSISTENT_STATE,
