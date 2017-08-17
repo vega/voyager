@@ -5,6 +5,7 @@ import {BookmarkAction} from '../../actions/bookmark';
 import {ActionHandler, createDispatchHandler} from '../../actions/redux-action';
 import {ResultAction} from '../../actions/result';
 import {ShelfAction} from '../../actions/shelf';
+import {SHELF_LOAD_QUERY} from '../../actions/shelf/index';
 import {Bookmark} from '../../models/bookmark';
 import {State} from '../../models/index';
 import {ResultPlot} from '../../models/result';
@@ -38,7 +39,21 @@ export class RelatedViewsBase extends React.PureComponent<RelatedViewsProps, {}>
       return (
         plots && plots.length > 0 &&
         <div styleName="related-views-subpane" key={relatedViewType}>
-          <h3>{title}</h3>
+          <div>
+            <h3>
+              {title}
+            </h3>
+            {
+              relatedViewType !== 'histograms' &&
+              <i
+                title='Specify'
+                styleName='command'
+                className="fa fa-server"
+                onClick={this.onSpecify.bind(this, relatedViewType)}
+              />
+            }
+          </div>
+
           <PlotList
             handleAction={handleAction}
             plots={plots}
@@ -55,6 +70,15 @@ export class RelatedViewsBase extends React.PureComponent<RelatedViewsProps, {}>
         {subpanes}
       </div>
     );
+  }
+
+  private onSpecify(relatedViewType: ResultType) {
+    const {handleAction, results} = this.props;
+    const query = results[relatedViewType].query;
+    handleAction({
+      type: SHELF_LOAD_QUERY,
+      payload: {query}
+    });
   }
 }
 

@@ -22,7 +22,7 @@ describe('reducers/shelf', () => {
           type: SHELF_LOAD_QUERY,
           payload: {query}
         }, schema),
-      ).toBe({
+      ).toEqual({
         spec: {
           filters: [],
           mark: '?',
@@ -32,7 +32,7 @@ describe('reducers/shelf', () => {
             field: '?',
             type: 'nominal'
           }],
-          "config": {}
+          config: {}
         }
       });
     });
