@@ -187,12 +187,14 @@ function shelfSpecReducerBase(
       const {spec, keepWildcardMark} = action.payload;
       const specQ = {
         ...fromSpec(spec),
+
+        // Restore wildcard mark if the shelf previously has wildcard mark.
+        // and keepWildcardMark is true
         ...(keepWildcardMark && isWildcard(shelfSpec.mark) ? {
           mark: SHORT_WILDCARD
         } : {})
       };
 
-      // Restore wildcard mark if the shelf previously has wildcard mark.
       return fromSpecQuery(specQ, shelfSpec.config);
   }
   return shelfSpec;
