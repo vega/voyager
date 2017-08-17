@@ -1,9 +1,11 @@
 import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
 import {connect} from 'react-redux';
+import {SortField, SortOrder} from 'vega-lite/build/src/sort';
 import {FacetedCompositeUnitSpec} from 'vega-lite/build/src/spec';
 import {ActionHandler, createDispatchHandler} from '../../actions/redux-action';
 import {ShelfAction} from '../../actions/shelf';
+import {SPEC_FIELD_PROP_CHANGE} from '../../actions/shelf/spec';
 import {State} from '../../models';
 import {Bookmark} from '../../models/bookmark';
 import {ResultPlot} from '../../models/result';
@@ -26,6 +28,11 @@ const NO_PLOT_MESSAGE = `No specified visualization yet. ` +
 `on the left or examining univariate summaries below.`;
 
 class ViewPaneBase extends React.PureComponent<ViewPaneProps, {}> {
+
+  constructor(props: ViewPaneProps) {
+    super(props);
+    this.onSort = this.onSort.bind(this);
+  }
 
   public render() {
     const {bookmark, isQuerySpecific, handleAction, plots} = this.props;
@@ -56,12 +63,31 @@ class ViewPaneBase extends React.PureComponent<ViewPaneProps, {}> {
       return null;
     }
   }
+
+  private onSort(channel: 'x' | 'y', value: SortOrder | SortField) {
+    const {handleAction} = this.props;
+    handleAction({
+      type: SPEC_FIELD_PROP_CHANGE,
+      payload: {
+        shelfId: {channel},
+        prop: 'sort',
+        value
+      }
+    });
+  }
+
   private renderSpecifiedView() {
     const {bookmark, handleAction, spec} = this.props;
 
     if (spec) {
       return (
-        <Plot handleAction={handleAction} spec={spec} showBookmarkButton={true} bookmark={bookmark}/>
+        <Plot
+          bookmark={bookmark}
+          handleAction={handleAction}
+          onSort={this.onSort}
+          showBookmarkButton={true}
+          spec={spec}
+        />
       );
     } else {
       return (

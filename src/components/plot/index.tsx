@@ -2,6 +2,8 @@ import * as React from 'react';
 import * as CopyToClipboard from 'react-copy-to-clipboard';
 import * as CSSModules from 'react-css-modules';
 import * as TetherComponent from 'react-tether';
+import {isDiscrete, isFieldDef} from 'vega-lite/build/src/fielddef';
+import {SortField, SortOrder} from 'vega-lite/build/src/sort';
 import {FacetedCompositeUnitSpec} from 'vega-lite/build/src/spec';
 import {BOOKMARK_MODIFY_NOTE, BookmarkAction} from '../../actions/bookmark';
 import {ActionHandler} from '../../actions/redux-action';
@@ -21,10 +23,15 @@ export interface PlotProps extends ActionHandler<ShelfAction | BookmarkAction | 
   isPlotListItem?: boolean;
   showBookmarkButton?: boolean;
   showSpecifyButton?: boolean;
+
+  onSort?: (channel: 'x' | 'y', sort: SortField | SortOrder) => void;
+
   spec: FacetedCompositeUnitSpec;
   bookmark?: Bookmark;
-  closeModal?: () => void;
+
   // specified when it's in the modal
+  // so we can close the modal when the specify button is clicked.
+  closeModal?: () => void;
 }
 
 export interface PlotState {
@@ -54,6 +61,7 @@ export class PlotBase extends React.PureComponent<PlotProps, PlotState> {
     this.onPreviewMouseEnter = this.onPreviewMouseEnter.bind(this);
     this.onPreviewMouseLeave = this.onPreviewMouseLeave.bind(this);
     this.onSpecify = this.onSpecify.bind(this);
+    this.onSort = this.onSort.bind(this);
   }
 
   public componentDidUpdate(prevProps: PlotProps, prevState: PlotState) {
@@ -69,7 +77,7 @@ export class PlotBase extends React.PureComponent<PlotProps, PlotState> {
   }
 
   public render() {
-    const {isPlotListItem, showBookmarkButton, showSpecifyButton, spec} = this.props;
+    const {isPlotListItem, onSort, showBookmarkButton, showSpecifyButton, spec} = this.props;
 
     let notesDiv;
     const specKey = JSON.stringify(spec);
@@ -89,8 +97,10 @@ export class PlotBase extends React.PureComponent<PlotProps, PlotState> {
       <div styleName={isPlotListItem ? 'plot-list-item-group' : 'plot-group'}>
         <div styleName="plot-info">
           <div styleName="command-toolbox">
-            {showSpecifyButton && this.specifyButton()}
+            {onSort && this.sortButton('x')}
+            {onSort && this.sortButton('y')}
             {showBookmarkButton && this.bookmarkButton()}
+            {showSpecifyButton && this.specifyButton()}
             <span styleName='command'>
               <TetherComponent
                 attachment='bottom left'
@@ -180,6 +190,16 @@ export class PlotBase extends React.PureComponent<PlotProps, PlotState> {
     }
   }
 
+  private onSort(channel: 'x' | 'y') {
+    // TODO: really take `sort` as input instead of toggling like this
+    const {spec, onSort} = this.props;
+    const channelDef = spec.encoding[channel];
+    if (isFieldDef(channelDef)) {
+      const sort = channelDef.sort === 'descending' ? undefined : 'descending';
+      onSort(channel, sort);
+    }
+  }
+
   private onSpecify() {
     if (this.props.closeModal) {
       this.props.closeModal();
@@ -214,6 +234,20 @@ export class PlotBase extends React.PureComponent<PlotProps, PlotState> {
       const {handleAction} = this.props;
       handleAction({type: SHELF_PREVIEW_SPEC_DISABLE});
     }
+  }
+
+  private sortButton(channel: 'x' | 'y') {
+    const {spec} = this.props;
+    const channelDef = spec.encoding[channel];
+    if (isFieldDef(channelDef) && isDiscrete(channelDef)) {
+      return <i
+        title='Sort'
+        className="fa fa-sort-alpha-asc"
+        styleName={channel === 'x' ? 'sort-x-command' : 'command'}
+        onClick={this.onSort.bind(this, channel)}
+      />;
+    }
+    return undefined;
   }
 
   private specifyButton() {

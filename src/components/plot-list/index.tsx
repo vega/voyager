@@ -1,7 +1,11 @@
 import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
+import {SortField, SortOrder} from 'vega-lite/build/src/sort';
 import {ActionHandler} from '../../actions/redux-action';
-import {RESULT_LIMIT_INCREASE, ResultAction} from '../../actions/result';
+import {
+  RESULT_LIMIT_INCREASE, RESULT_MODIFY_FIELD_PROP,
+  ResultAction, ResultModifyFieldProp
+} from '../../actions/result';
 import {ShelfAction} from '../../actions/shelf';
 import {Bookmark} from '../../models/bookmark';
 import {ResultPlot} from '../../models/result';
@@ -23,12 +27,12 @@ export class PlotListBase extends React.PureComponent<PlotListProps, any> {
   constructor(props: PlotListProps) {
     super(props);
 
-    this.handleLoadMore = this.handleLoadMore.bind(this);
+    this.onLoadMore = this.onLoadMore.bind(this);
   }
 
   public render() {
     const {plots, handleAction, bookmark, limit} = this.props;
-    const plotListItems = plots.slice(0, limit).map(plot => {
+    const plotListItems = plots.slice(0, limit).map((plot, index) => {
       const {spec, fieldInfos} = plot;
       return (
         <Plot
@@ -36,6 +40,7 @@ export class PlotListBase extends React.PureComponent<PlotListProps, any> {
           fieldInfos={fieldInfos}
           handleAction={handleAction}
           isPlotListItem={true}
+          onSort={this.onPlotSort.bind(this, index)}
           showBookmarkButton={true}
           showSpecifyButton={true}
           spec={spec}
@@ -50,14 +55,30 @@ export class PlotListBase extends React.PureComponent<PlotListProps, any> {
           {plotListItems}
         </div>
         {plots.length > limit && (
-          <a styleName="load-more" onClick={this.handleLoadMore}>
+          <a styleName="load-more" onClick={this.onLoadMore}>
             Load more...
           </a>
         )}
       </div>
     );
   }
-  private handleLoadMore() {
+
+  private onPlotSort(index: number, channel: 'x' | 'y', value: SortOrder | SortField) {
+    const {handleAction, resultType} = this.props;
+    const action: ResultModifyFieldProp<'sort'> = {
+      type: RESULT_MODIFY_FIELD_PROP,
+      payload: {
+        resultType,
+        index,
+        channel,
+        prop: 'sort',
+        value
+      }
+    };
+    handleAction(action);
+  }
+
+  private onLoadMore() {
     const {handleAction, resultType} = this.props;
     handleAction({
       type: RESULT_LIMIT_INCREASE,

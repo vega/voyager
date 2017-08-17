@@ -45,6 +45,11 @@
   color: #aaa;
 }
 
+.sort-x-command {
+  @extend .command;
+  transform: rotateZ(270deg);
+}
+
 .command:hover {
   color: #72c1d5;
 }
