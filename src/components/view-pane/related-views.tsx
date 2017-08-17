@@ -5,6 +5,7 @@ import {BookmarkAction} from '../../actions/bookmark';
 import {ActionHandler, createDispatchHandler} from '../../actions/redux-action';
 import {ResultAction} from '../../actions/result';
 import {ShelfAction} from '../../actions/shelf';
+import {SHELF_PREVIEW_DISABLE, SHELF_PREVIEW_QUERY, ShelfPreviewAction} from '../../actions/shelf-preview';
 import {SHELF_LOAD_QUERY} from '../../actions/shelf/index';
 import {Bookmark} from '../../models/bookmark';
 import {State} from '../../models/index';
@@ -16,7 +17,7 @@ import {selectPlotList, selectResultLimit} from '../../selectors/result';
 import {PlotList} from '../plot-list/index';
 import * as styles from './related-views.scss';
 
-export interface RelatedViewsProps extends ActionHandler<BookmarkAction|ShelfAction|ResultAction> {
+export interface RelatedViewsProps extends ActionHandler<BookmarkAction|ShelfAction|ShelfPreviewAction|ResultAction> {
   plotsIndex: {
     [k in ResultType]: ResultPlot[]
   };
@@ -51,6 +52,8 @@ export class RelatedViewsBase extends React.PureComponent<RelatedViewsProps, {}>
                 styleName='command'
                 className="fa fa-server"
                 onClick={this.onSpecify.bind(this, relatedViewType)}
+                onMouseEnter={this.onPreviewMouseEnter.bind(this, relatedViewType)}
+                onMouseLeave={this.onPreviewMouseLeave.bind(this, relatedViewType)}
               />
             }
           </div>
@@ -80,6 +83,20 @@ export class RelatedViewsBase extends React.PureComponent<RelatedViewsProps, {}>
       type: SHELF_LOAD_QUERY,
       payload: {query}
     });
+  }
+
+  private onPreviewMouseEnter(relatedViewType: ResultType) {
+    const {handleAction, results} = this.props;
+    const query = results[relatedViewType].query;
+    handleAction({
+      type: SHELF_PREVIEW_QUERY,
+      payload: {query}
+    });
+  }
+
+  private onPreviewMouseLeave(relatedViewType: ResultType) {
+    const {handleAction} = this.props;
+    handleAction({type: SHELF_PREVIEW_DISABLE});
   }
 }
 

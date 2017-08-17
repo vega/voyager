@@ -31,8 +31,8 @@ import {
   RESULT_REQUEST,
   SET_APPLICATION_STATE,
   SHELF_LOAD_QUERY,
+  SHELF_PREVIEW_DISABLE,
   SHELF_PREVIEW_SPEC,
-  SHELF_PREVIEW_SPEC_DISABLE,
   SPEC_CLEAR,
   SPEC_FIELD_ADD,
   SPEC_FIELD_AUTO_ADD,
@@ -50,6 +50,7 @@ import {
 import {ActionType} from '../actions';
 import {RESET} from '../actions/reset';
 import {RESULT_LIMIT_INCREASE, RESULT_MODIFY_FIELD_PROP, RESULT_MODIFY_NESTED_FIELD_PROP} from '../actions/result';
+import {SHELF_PREVIEW_QUERY} from '../actions/shelf-preview';
 import {SPEC_FIELD_NESTED_PROP_CHANGE, SPEC_FIELD_PROP_CHANGE} from '../actions/shelf/spec';
 import {
   DEFAULT_PERSISTENT_STATE,
@@ -130,7 +131,8 @@ export const ACTIONS_EXCLUDED_FROM_HISTORY: ActionType[] = [
 
   // Preview Action should not be a part of the undo stack
   SHELF_PREVIEW_SPEC,
-  SHELF_PREVIEW_SPEC_DISABLE,
+  SHELF_PREVIEW_QUERY,
+  SHELF_PREVIEW_DISABLE,
 
   // Undo and Redo actions will not be put in the history, but listing them here
   // allows to check that every action is put in one of these lists.

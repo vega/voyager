@@ -9,7 +9,7 @@ import {BOOKMARK_MODIFY_NOTE, BookmarkAction} from '../../actions/bookmark';
 import {ActionHandler} from '../../actions/redux-action';
 import {ResultAction} from '../../actions/result';
 import {ShelfAction, SPEC_LOAD} from '../../actions/shelf';
-import {SHELF_PREVIEW_SPEC, SHELF_PREVIEW_SPEC_DISABLE, ShelfPreviewAction} from '../../actions/shelf-preview';
+import {SHELF_PREVIEW_DISABLE, SHELF_PREVIEW_SPEC, ShelfPreviewAction} from '../../actions/shelf-preview';
 import {PLOT_HOVER_MIN_DURATION} from '../../constants';
 import {Bookmark} from '../../models/bookmark';
 import {PlotFieldInfo, ResultPlot} from '../../models/result';
@@ -232,7 +232,7 @@ export class PlotBase extends React.PureComponent<PlotProps, PlotState> {
     if (this.state.preview) {
       this.setState({preview: false});
       const {handleAction} = this.props;
-      handleAction({type: SHELF_PREVIEW_SPEC_DISABLE});
+      handleAction({type: SHELF_PREVIEW_DISABLE});
     }
   }
 
