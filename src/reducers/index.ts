@@ -48,7 +48,7 @@ import {
 
 import {ActionType} from '../actions';
 import {RESET} from '../actions/reset';
-import {RESULT_LIMIT_INCREASE} from '../actions/result';
+import {RESULT_LIMIT_INCREASE, RESULT_MODIFY_FIELD_PROP, RESULT_MODIFY_NESTED_FIELD_PROP} from '../actions/result';
 import {SPEC_FIELD_NESTED_PROP_CHANGE, SPEC_FIELD_PROP_CHANGE} from '../actions/shelf/spec';
 import {
   DEFAULT_PERSISTENT_STATE,
@@ -159,6 +159,8 @@ export const USER_ACTIONS: ActionType[] = [
 
   // Result Actions,
   RESULT_LIMIT_INCREASE,
+  RESULT_MODIFY_FIELD_PROP,
+  RESULT_MODIFY_NESTED_FIELD_PROP,
 
   // Shelf Actions,
   SPEC_CLEAR,

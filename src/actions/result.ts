@@ -2,22 +2,29 @@
 import {Query} from 'compassql/build/src/query/query';
 import {Dispatch} from 'redux';
 import {ThunkAction} from 'redux-thunk';
+import {Channel} from 'vega-lite/build/src/channel';
 import {fetchCompassQLRecommend} from '../api/api';
 import {State} from '../models/index';
 import {ResultPlot, ResultPlotWithKey} from '../models/result';
 import {ResultType} from '../models/result';
+import {ShelfFieldDef} from '../models/shelf/spec/encoding';
 import {selectConfig, selectData, selectSchema} from '../selectors';
 import {Action} from './index';
 import {ReduxAction} from './redux-action';
 
-export type ResultAction = ResultRequest | ResultReceive | ResultLimitIncrease;
+export type ResultAction = ResultRequest | ResultReceive | ResultLimitIncrease | ResultModifyAction;
+
+export type ResultModifyAction = ResultModifyFieldProp<any> | ResultModifyNestedFieldProp<any, any>;
 
 type ResultActionType = ResultAction['type'];
 
 const RESULT_ACTION_TYPE_INDEX: {[K in ResultActionType]: 1} = {
   RESULT_REQUEST: 1,
   RESULT_RECEIVE: 1,
-  RESULT_LIMIT_INCREASE: 1
+  RESULT_LIMIT_INCREASE: 1,
+  // Result modify actions
+  RESULT_MODIFY_FIELD_PROP: 1,
+  RESULT_MODIFY_NESTED_FIELD_PROP: 1
 };
 
 export function isResultAction(action: Action): action is ResultAction {
@@ -42,6 +49,30 @@ export type ResultReceive = ReduxAction<typeof RESULT_RECEIVE, {
   resultType: ResultType,
   query: Query,
   plots: ResultPlot[]
+}>;
+
+export const RESULT_MODIFY_FIELD_PROP = 'RESULT_MODIFY_FIELD_PROP';
+export type ResultModifyFieldProp<
+  P extends 'sort' // TODO: stack and format
+> = ReduxAction<typeof RESULT_MODIFY_FIELD_PROP, {
+  resultType: ResultType,
+  index: number,
+  channel: Channel,
+  prop: P
+  value: ShelfFieldDef[P]
+}>;
+
+export const RESULT_MODIFY_NESTED_FIELD_PROP = 'RESULT_MODIFY_NESTED_FIELD_PROP';
+export type ResultModifyNestedFieldProp<
+  P extends 'scale' | 'axis' | 'legend',
+  N extends keyof ShelfFieldDef[P]
+> = ReduxAction<typeof RESULT_MODIFY_NESTED_FIELD_PROP, {
+  resultType: ResultType,
+  index: number,
+  channel: Channel,
+  prop: P,
+  nestedProp: N,
+  value: ShelfFieldDef[P][N]
 }>;
 
 export type AsyncResultRequest = ThunkAction<void , State, undefined>;

@@ -3,6 +3,7 @@ import {fromSpec} from 'compassql/build/src/query/spec';
 import {recommend} from 'compassql/build/src/recommend';
 import {Schema} from 'compassql/build/src/schema';
 import {isWildcard, SHORT_WILDCARD} from 'compassql/build/src/wildcard';
+import {FieldDef} from 'vega-lite/build/src/fielddef';
 import {Action} from '../../actions';
 import {
   SPEC_CLEAR, SPEC_FIELD_ADD, SPEC_FIELD_AUTO_ADD, SPEC_FIELD_MOVE,
@@ -294,11 +295,13 @@ function removeEncoding(shelf: Readonly<ShelfUnitSpec>, shelfId: ShelfId):
   }
 }
 
+export type AnyFieldDef = ShelfFieldDef | ShelfAnyEncodingDef | FieldDef<any>;
+
 export function modifyFieldProp(
-  fieldDef: Readonly<ShelfFieldDef | ShelfAnyEncodingDef>,
+  fieldDef: Readonly<AnyFieldDef>,
   prop: string,
   value: any
-): Readonly<ShelfFieldDef | ShelfAnyEncodingDef> {
+): Readonly<AnyFieldDef> {
   const {[prop]: _oldProp, ...fieldDefWithoutProp} = fieldDef;
   return {
     ...fieldDefWithoutProp,
@@ -307,11 +310,11 @@ export function modifyFieldProp(
 }
 
 export function modifyNestedFieldProp(
-  fieldDef: Readonly<ShelfFieldDef | ShelfAnyEncodingDef>,
+  fieldDef: Readonly<AnyFieldDef>,
   prop: string,
   nestedProp: string,
   value: any
-): Readonly<ShelfFieldDef | ShelfAnyEncodingDef> {
+): Readonly<AnyFieldDef> {
   const {[prop]: oldParent, ...fieldDefWithoutProp} = fieldDef;
   const {[nestedProp]: _oldValue, ...parentWithoutNestedProp} = oldParent || {};
   const parent = {
