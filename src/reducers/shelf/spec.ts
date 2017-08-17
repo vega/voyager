@@ -99,26 +99,14 @@ function shelfSpecReducerBase(
     case SPEC_FIELD_PROP_CHANGE: {
       const {shelfId, prop, value} = action.payload;
       return modifyEncoding(shelfSpec, shelfId, (fieldDef: Readonly<ShelfFieldDef | ShelfAnyEncodingDef>) => {
-        const {[prop]: _oldProp, ...fieldDefWithoutProp} = fieldDef;
-        return {
-          ...fieldDefWithoutProp,
-          ...(value !== undefined ? {[prop]: value} : {})
-        };
+        return modifyFieldProp(fieldDef, prop, value);
       });
     }
 
     case SPEC_FIELD_NESTED_PROP_CHANGE: {
       const {shelfId, prop, nestedProp, value} = action.payload;
       return modifyEncoding(shelfSpec, shelfId, (fieldDef: Readonly<ShelfFieldDef | ShelfAnyEncodingDef>) => {
-        const {[nestedProp]: _oldValue, ...parentWithoutNestedProp} = fieldDef[prop] || {};
-        const parent = {
-          ...parentWithoutNestedProp,
-          ...(value !== undefined ? {[nestedProp] : value} : {})
-        };
-        return {
-          ...fieldDef,
-          ...(Object.keys(parent).length > 0 ? {[prop]: parent} : {})
-        };
+        return modifyNestedFieldProp(fieldDef, prop, nestedProp, value);
       });
     }
 
@@ -304,4 +292,34 @@ function removeEncoding(shelf: Readonly<ShelfUnitSpec>, shelfId: ShelfId):
       }
     };
   }
+}
+
+export function modifyFieldProp(
+  fieldDef: Readonly<ShelfFieldDef | ShelfAnyEncodingDef>,
+  prop: string,
+  value: any
+): Readonly<ShelfFieldDef | ShelfAnyEncodingDef> {
+  const {[prop]: _oldProp, ...fieldDefWithoutProp} = fieldDef;
+  return {
+    ...fieldDefWithoutProp,
+    ...(value !== undefined ? {[prop]: value} : {})
+  };
+}
+
+export function modifyNestedFieldProp(
+  fieldDef: Readonly<ShelfFieldDef | ShelfAnyEncodingDef>,
+  prop: string,
+  nestedProp: string,
+  value: any
+): Readonly<ShelfFieldDef | ShelfAnyEncodingDef> {
+  const {[prop]: oldParent, ...fieldDefWithoutProp} = fieldDef;
+  const {[nestedProp]: _oldValue, ...parentWithoutNestedProp} = oldParent || {};
+  const parent = {
+    ...parentWithoutNestedProp,
+    ...(value !== undefined ? {[nestedProp] : value} : {})
+  };
+  return {
+    ...fieldDefWithoutProp,
+    ...(Object.keys(parent).length > 0 ? {[prop]: parent} : {})
+  };
 }
