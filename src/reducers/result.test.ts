@@ -1,8 +1,11 @@
 
 import {Query} from 'compassql/build/src/query/query';
-import {RESULT_RECEIVE, RESULT_REQUEST} from '../actions/result';
-import {ResultPlot} from '../models/result';
+import {
+  RESULT_MODIFY_FIELD_PROP, RESULT_MODIFY_NESTED_FIELD_PROP, RESULT_RECEIVE,
+  RESULT_REQUEST, ResultModifyFieldProp, ResultModifyNestedFieldProp
+} from '../actions/result';
 import {DEFAULT_RESULT_INDEX, ResultIndex} from '../models/result';
+import {ResultPlot} from '../models/result/plot';
 import {DEFAULT_LIMIT, resultIndexReducer} from './result';
 
 describe('reducers/result', () => {
@@ -75,6 +78,59 @@ describe('reducers/result', () => {
           limit: 25
         }
       });
+    });
+  });
+
+  describe(RESULT_MODIFY_FIELD_PROP, () => {
+    const plots: ResultPlot[] = [{
+      fieldInfos: null,
+      spec: {
+        mark: 'point',
+        encoding: {
+          x: {field: 'a', type: 'quantitative'}
+        }
+      }
+    }];
+    const resultIndex: ResultIndex = {
+      ...DEFAULT_RESULT_INDEX,
+      // This is not really sensible state, but just to mock the reset behavior
+      summaries: {isLoading: true, plots, query: undefined, limit: 5}
+    };
+    it('updates the provided result with isLoading = true for a non-main result type', () => {
+      const action: ResultModifyFieldProp<'sort'> = {
+        type: RESULT_MODIFY_FIELD_PROP,
+        payload: {resultType: 'summaries', index: 0, channel: 'x', prop: 'sort', value: 'descending'}
+      };
+      const newResultIndex = resultIndexReducer(resultIndex, action);
+      expect(newResultIndex.summaries.plots[0].spec.encoding.x)
+        .toEqual({field: 'a', type: 'quantitative', sort: 'descending'});
+    });
+  });
+
+  describe(RESULT_MODIFY_FIELD_PROP, () => {
+    const plots: ResultPlot[] = [{
+      fieldInfos: null,
+      spec: {
+        mark: 'point',
+        encoding: {
+          x: {field: 'a', type: 'quantitative'}
+        }
+      }
+    }];
+    const resultIndex: ResultIndex = {
+      ...DEFAULT_RESULT_INDEX,
+      // This is not really sensible state, but just to mock the reset behavior
+      summaries: {isLoading: true, plots, query: undefined, limit: 5}
+    };
+
+    it('updates the provided result with isLoading = true for a non-main result type', () => {
+      const action: ResultModifyNestedFieldProp<'scale', 'type'> = {
+        type: RESULT_MODIFY_NESTED_FIELD_PROP,
+        payload: {resultType: 'summaries', index: 0, channel: 'x', prop: 'scale', nestedProp: 'type', value: 'log'}
+      };
+      const newResultIndex = resultIndexReducer(resultIndex, action);
+      expect(newResultIndex.summaries.plots[0].spec.encoding.x)
+        .toEqual({field: 'a', type: 'quantitative', scale: {type: 'log'}});
     });
   });
 });
