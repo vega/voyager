@@ -170,7 +170,7 @@ export function fromFieldQueryFunctionMixins(
 
   if (bin) {
     if (isWildcard(bin)) {
-      const bins = isShortWildcard(bin) ? [false] : bin.enum;
+      const bins = isShortWildcard(bin) ? [true, false] : bin.enum;
       fns = fns.concat(contains(bins, true) ? ['bin'] : []);
       hasUndefinedInEnum = hasUndefinedInEnum || contains(bins, false);
     } else if (bin) {
