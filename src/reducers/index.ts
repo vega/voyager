@@ -126,6 +126,11 @@ export const ACTIONS_EXCLUDED_FROM_HISTORY: ActionType[] = [
   // These actions are not (at least at the moment) trigerrable from a user action.
   // They are either initialization options or triggered by an api call when embedding voyager.
   SET_CONFIG,
+
+  // Preview Action should not be a part of the undo stack
+  SHELF_PREVIEW_SPEC,
+  SHELF_PREVIEW_SPEC_DISABLE,
+
   // Undo and Redo actions will not be put in the history, but listing them here
   // allows to check that every action is put in one of these lists.
   UNDO,
@@ -177,9 +182,7 @@ export const USER_ACTIONS: ActionType[] = [
   SPEC_FUNCTION_DISABLE_WILDCARD,
   SPEC_FUNCTION_ENABLE_WILDCARD,
   SPEC_FUNCTION_REMOVE_WILDCARD,
-  SPEC_LOAD,
-  SHELF_PREVIEW_SPEC,
-  SHELF_PREVIEW_SPEC_DISABLE
+  SPEC_LOAD
 ];
 
 
