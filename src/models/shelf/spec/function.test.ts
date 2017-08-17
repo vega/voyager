@@ -173,5 +173,13 @@ describe('model/shelf/function', () => {
         expect(fromFieldQueryFunctionMixins(toFieldQueryFunctionMixins(fn))).toEqual(fn);
       }
     });
+
+    it('correctly treat SHORT_WILDCARD for bin and aggregate', () => {
+      expect(fromFieldQueryFunctionMixins({
+        bin: '?',
+        aggregate: '?',
+        hasFn: true
+      })).toEqual({enum: ['bin', 'mean']});
+    });
   });
 });
