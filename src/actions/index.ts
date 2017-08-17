@@ -68,6 +68,8 @@ const ACTION_TYPE_INDEX: {[k in ActionType]: 1} = {
 
   SET_CONFIG: 1,
 
+  SHELF_LOAD_QUERY: 1,
+
   SPEC_CLEAR: 1,
   SPEC_LOAD: 1,
   SPEC_MARK_CHANGE_TYPE: 1,
