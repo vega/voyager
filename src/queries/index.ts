@@ -51,8 +51,6 @@ export function dispatchQueries(store: Store<State>, query: Query) {
   const isQuerySpecific = selectIsQuerySpecific(state);
   store.dispatch(resultRequest('main', query, null));
 
-  // FIXME clear other types of results
-
   if (isQueryEmpty) {
     store.dispatch(relatedViewResultRequest(histograms, query));
   } else {
