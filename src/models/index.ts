@@ -50,7 +50,9 @@ export const DEFAULT_UNDOABLE_STATE: StateWithHistory<UndoableStateBase> = {
   present: DEFAULT_UNDOABLE_STATE_BASE,
   future: [],
   _latestUnfiltered: null,
-  group: null
+  group: null,
+  index: null,
+  limit: 30
 };
 
 export const DEFAULT_PERSISTENT_STATE: PersistentState = {
