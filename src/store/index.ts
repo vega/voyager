@@ -31,22 +31,9 @@ export let actionLogs: any;
 export function configureStore(initialState = DEFAULT_STATE) {
   actionLogs = createActionLog({limit: null});
 
-  const initialStateWithHistory: State = {
-    persistent: initialState.persistent,
-    undoable: {
-      past: [],
-      present: initialState.undoable.present,
-      future: [],
-      _latestUnfiltered: null,
-      group: null,
-      index: null,
-      limit: 30
-    }
-  };
-
   const store: Store<State> = createStore<State>(
     rootReducer,
-    initialStateWithHistory,
+    initialState,
     composeEnhancers(applyMiddleware(...middleware), actionLogs.enhancer) as StoreEnhancer<any>
     // HACK: cast to any to supress typescript complaint
   );
