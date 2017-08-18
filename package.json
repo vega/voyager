@@ -64,7 +64,7 @@
     "redux-action-log": "^2.0.1",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.2.0",
-    "redux-undo": "beta",
+    "redux-undo": "1.0.0-beta9-9-6",
     "reselect": "^2.5.4",
     "tether": "^1.4.0",
     "tslib": "^1.5.0",
