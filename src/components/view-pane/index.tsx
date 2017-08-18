@@ -55,7 +55,7 @@ class ViewPaneBase extends React.PureComponent<ViewPaneProps, {}> {
       return (
         <div className="pane" styleName="view-pane-gallery">
           <h2>Specified Views</h2>
-          <PlotList handleAction={handleAction} plots={plots} bookmark={bookmark}/>
+          <PlotList resultType="main" handleAction={handleAction} plots={plots} bookmark={bookmark}/>
         </div>
       );
     } else {
