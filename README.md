@@ -45,6 +45,8 @@ Voyager can be embedded in another web application. The following sections docum
 
 Using npm or yarn? Add the following to your package.json then run `npm install datavoyager` or `yarn add datavoyager`.
 
+If you want to use the latest development version, you may want to clone and [link](https://docs.npmjs.com/cli/link) Voyager.
+
 ### Example Use
 
 Instantiation
