@@ -5,13 +5,14 @@ import {SortField, SortOrder} from 'vega-lite/build/src/sort';
 import {FacetedCompositeUnitSpec} from 'vega-lite/build/src/spec';
 import {ActionHandler, createDispatchHandler} from '../../actions/redux-action';
 import {ShelfAction} from '../../actions/shelf';
+import {SHELF_AUTO_ADD_COUNT_CHANGE} from '../../actions/shelf/index';
 import {SPEC_FIELD_PROP_CHANGE} from '../../actions/shelf/spec';
 import {State} from '../../models';
 import {Bookmark} from '../../models/bookmark';
 import {ResultPlot} from '../../models/result';
 import {selectBookmark, selectMainSpec, selectPlotList} from '../../selectors';
 import {selectResultLimit} from '../../selectors/result';
-import {selectIsQuerySpecific} from '../../selectors/shelf';
+import {selectAutoAddCount, selectIsQuerySpecific} from '../../selectors/shelf';
 import {Plot} from '../plot';
 import {PlotList} from '../plot-list';
 import {RelatedViews} from './related-views';
@@ -23,6 +24,8 @@ export interface ViewPaneProps extends ActionHandler<ShelfAction> {
   plots: ResultPlot[];
   bookmark: Bookmark;
   mainLimit: number;
+
+  autoAddCount: boolean;
 }
 
 const NO_PLOT_MESSAGE = `No specified visualization yet. ` +
@@ -34,10 +37,12 @@ class ViewPaneBase extends React.PureComponent<ViewPaneProps, {}> {
   constructor(props: ViewPaneProps) {
     super(props);
     this.onSort = this.onSort.bind(this);
+
+    this.onAutoAddCountChange = this.onAutoAddCountChange.bind(this);
   }
 
   public render() {
-    const {bookmark, isQuerySpecific, handleAction, mainLimit, plots} = this.props;
+    const {isQuerySpecific, plots} = this.props;
 
     if (isQuerySpecific) {
       return (
@@ -54,12 +59,7 @@ class ViewPaneBase extends React.PureComponent<ViewPaneProps, {}> {
         </div>
       );
     } else if (plots) {
-      return (
-        <div className="pane" styleName="view-pane-gallery">
-          <h2>Specified Views</h2>
-          <PlotList resultType="main" handleAction={handleAction} plots={plots} bookmark={bookmark} limit={mainLimit}/>
-        </div>
-      );
+      return this.renderSpecifiedViews();
     } else {
       // if there are no results, then nothing to render.
       return null;
@@ -97,15 +97,45 @@ class ViewPaneBase extends React.PureComponent<ViewPaneProps, {}> {
       );
     }
   }
+
+  private renderSpecifiedViews() {
+    const {bookmark, handleAction, plots, mainLimit, autoAddCount} = this.props;
+    return (
+      <div className="pane" styleName="view-pane-gallery">
+        <label className="right">
+          <input
+            type="checkbox"
+            checked={autoAddCount}
+            onChange={this.onAutoAddCountChange}
+          />
+          {' '}
+          Auto Add Count
+        </label>
+        <h2>Specified Views</h2>
+        <PlotList resultType="main" handleAction={handleAction} plots={plots} bookmark={bookmark} limit={mainLimit}/>
+      </div>
+    );
+  }
+
+  private onAutoAddCountChange(event: any) {
+    const autoAddCount = event.target.checked;
+    const {handleAction} = this.props;
+    handleAction({
+      type: SHELF_AUTO_ADD_COUNT_CHANGE,
+      payload: {autoAddCount}
+    });
+  }
 }
 export const ViewPane = connect(
   (state: State) => {
     return {
       isQuerySpecific: selectIsQuerySpecific(state),
-      plots: selectPlotList.main(state),
-      spec: selectMainSpec(state),
       bookmark: selectBookmark(state),
-      mainLimit: selectResultLimit.main(state)
+      spec: selectMainSpec(state),
+
+      plots: selectPlotList.main(state),
+      mainLimit: selectResultLimit.main(state),
+      autoAddCount: selectAutoAddCount(state)
     };
   },
   createDispatchHandler<ShelfAction>()
