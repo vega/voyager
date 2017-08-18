@@ -102,7 +102,7 @@
     "cross-env": "^5.0.1",
     "css-loader": "^0.26.1",
     "enzyme": "^2.8.2",
-    "extract-text-webpack-plugin": "beta",
+    "extract-text-webpack-plugin": "2.1.2",
     "fetch-mock": "^5.11.0",
     "file-loader": "^0.10.1",
     "fs-extra": "^3.0.1",
