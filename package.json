@@ -43,7 +43,7 @@
     "@types/papaparse": "^4.1.30",
     "@types/webpack-env": "^1.13.0",
     "ajv": "^5.2.2",
-    "compassql": "^0.19.14",
+    "compassql": "0.19.15",
     "font-awesome": "^4.7.0",
     "font-awesome-sass-loader": "^1.0.3",
     "isomorphic-fetch": "^2.2.1",

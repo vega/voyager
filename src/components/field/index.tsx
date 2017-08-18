@@ -94,7 +94,7 @@ class FieldBase extends React.PureComponent<FieldProps, FieldState> {
 
   public render(): JSX.Element {
     const {connectDragSource, fieldDef, isPill, popupComponent} = this.props;
-    const {fn, field, title} = fieldDef;
+    const {fn, field, description} = fieldDef;
     const isWildcardField = isWildcard(field) || this.props.isEnumeratedWildcardField;
 
     /** Whether the fieldDef has a function that involves field. (Count doesn't involve a specific field.) */
@@ -115,7 +115,7 @@ class FieldBase extends React.PureComponent<FieldProps, FieldState> {
         {this.caretTypeSpan()}
         {this.funcSpan(fnName)}
         <span styleName={isFieldFn ? 'fn-text' : 'text'}>
-          {title || (field !== '*' ? field : '')}
+          {description || (field !== '*' ? field : '')}
         </span>
         {this.addFilterSpan()}
         {this.addSpan()}
