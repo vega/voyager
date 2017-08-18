@@ -30,7 +30,8 @@ describe('reducers/shelf', () => {
           anyEncodings: [{
             channel: '?',
             field: '?',
-            type: 'nominal'
+            type: 'nominal',
+            description: 'Categorical Fields'
           }],
           config: {}
         }

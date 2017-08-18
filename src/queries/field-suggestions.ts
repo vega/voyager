@@ -41,7 +41,8 @@ export const addCategoricalField = makeFieldSuggestionQueryCreator({
   additionalFieldQuery: {
     channel: SHORT_WILDCARD,
     field: SHORT_WILDCARD,
-    type: 'nominal'
+    type: 'nominal',
+    description: 'Categorical Fields'
   }
 });
 
@@ -53,7 +54,8 @@ export const addQuantitativeField = makeFieldSuggestionQueryCreator({
     bin: SHORT_WILDCARD,
     aggregate: SHORT_WILDCARD,
     field: SHORT_WILDCARD,
-    type: 'quantitative'
+    type: 'quantitative',
+    description: 'Quantitative Fields'
   }
 });
 
@@ -65,6 +67,7 @@ export const addTemporalField = makeFieldSuggestionQueryCreator({
     hasFn: true, // Do not show raw time in the summary
     timeUnit: SHORT_WILDCARD,
     field: SHORT_WILDCARD,
-    type: 'temporal'
+    type: 'temporal',
+    description: 'Temporal Fields'
   }
 });
