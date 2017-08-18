@@ -14,6 +14,8 @@ export const selectFilters = (state: State) => state.undoable.present.shelf.spec
 
 export const selectShelf = (state: State): Shelf => state.undoable.present.shelf;
 
+export const selectAutoAddCount = (state: State) => state.undoable.present.shelf.autoAddCount;
+
 export const selectQuery = createSelector(
   selectShelf,
   (shelf: Shelf): Query => {

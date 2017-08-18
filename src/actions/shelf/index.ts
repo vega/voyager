@@ -6,9 +6,14 @@ import {SpecAction} from './spec';
 export * from './filter';
 export * from './spec';
 
-export type ShelfAction = FilterAction | SpecAction | ShelfLoadQuery;
+export type ShelfAction = FilterAction | SpecAction | ShelfLoadQuery | ShelfAutoAddCountChange;
 
 export const SHELF_LOAD_QUERY = 'SHELF_LOAD_QUERY';
 export type ShelfLoadQuery = ReduxAction<typeof SHELF_LOAD_QUERY, {
   query: Query
+}>;
+
+export const SHELF_AUTO_ADD_COUNT_CHANGE = 'SHELF_AUTO_ADD_COUNT_CHANGE';
+export type ShelfAutoAddCountChange = ReduxAction<typeof SHELF_AUTO_ADD_COUNT_CHANGE, {
+  autoAddCount: boolean
 }>;

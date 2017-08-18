@@ -6,35 +6,35 @@ import {DEFAULT_SHELF_UNIT_SPEC, hasWildcards, ShelfUnitSpec, toSpecQuery} from 
 export * from './spec';
 
 export const DEFAULT_SHELF: Readonly<Shelf> = {
-  spec: DEFAULT_SHELF_UNIT_SPEC
+  spec: DEFAULT_SHELF_UNIT_SPEC,
+  autoAddCount: true
 };
 
 export interface Shelf {
   spec: ShelfUnitSpec; // TODO: support other type of specs.
   // TODO: support groupBy, autoCount, orderBy
+
+  autoAddCount: boolean;
 }
 
 export const DEFAULT_ORDER_BY = ['fieldOrder', 'aggregationQuality', 'effectiveness'];
 export const DEFAULT_CHOOSE_BY = ['aggregationQuality', 'effectiveness'];
 
 export function toQuery(shelf: Shelf): Query {
-  const spec = toSpecQuery(shelf.spec);
-  const {hasWildcardField, hasWildcardFn, hasWildcardChannel} = hasWildcards(spec);
-
+  const {spec, autoAddCount} = shelf;
+  const specQ = toSpecQuery(spec);
+  const {hasWildcardField, hasWildcardFn, hasAnyWildcard} = hasWildcards(specQ);
   // TODO: support custom groupBy
   const groupBy = hasWildcardFn ? 'fieldTransform' :
     hasWildcardField ? 'field' :
     'encoding';
 
   return {
-    spec: spec,
+    spec: specQ,
     groupBy: groupBy,
     orderBy: DEFAULT_ORDER_BY,
     chooseBy: DEFAULT_CHOOSE_BY,
-    config: {
-      // TODO: support customAutoAddCount
-      autoAddCount: (hasWildcardField || hasWildcardFn || hasWildcardChannel)
-    }
+    ...(hasAnyWildcard ? {config: {autoAddCount}} : {})
   };
 }
 

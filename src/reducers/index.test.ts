@@ -15,7 +15,7 @@ import {DEFAULT_SHELF, DEFAULT_SHELF_UNIT_SPEC} from '../models/shelf/index';
 import {selectDataset} from '../selectors/dataset';
 import {selectBookmark} from '../selectors/index';
 import {selectResult} from '../selectors/result';
-import {selectShelf} from '../selectors/shelf';
+import {selectAutoAddCount, selectShelf} from '../selectors/shelf';
 import {ACTIONS_EXCLUDED_FROM_HISTORY, GROUPED_ACTIONS, rootReducer, USER_ACTIONS} from './index';
 
 describe('reducers/index', () => {
@@ -55,7 +55,8 @@ describe('reducers/index', () => {
               spec: {
                 mark: 'point',
                 ...DEFAULT_SHELF_UNIT_SPEC
-              }
+              },
+              autoAddCount: false
             },
             result: {
               ...DEFAULT_RESULT_INDEX,
@@ -70,9 +71,11 @@ describe('reducers/index', () => {
         }
       };
       const state = rootReducer(oldState, {type: RESET});
+
       expect(selectBookmark(state)).toEqual(DEFAULT_BOOKMARK);
       expect(selectDataset(state)).toEqual(DEFAULT_DATASET);
       expect(selectShelf(state)).toEqual(DEFAULT_SHELF);
+      expect(selectAutoAddCount(state)).toEqual(true);
       expect(selectResult.main(state)).toEqual(DEFAULT_RESULT);
     });
   });
