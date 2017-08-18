@@ -39,6 +39,8 @@ export function configureStore(initialState = DEFAULT_STATE) {
       future: [],
       _latestUnfiltered: null,
       group: null,
+      index: null,
+      limit: 30
     }
   };
 
