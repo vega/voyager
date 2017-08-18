@@ -11,8 +11,9 @@ import {createDispatchHandler} from '../../actions/redux-action';
 import {ResultAsyncAction} from '../../actions/result';
 import {ShelfAction, SPEC_CLEAR} from '../../actions/shelf';
 import {ShelfUnitSpec, State} from '../../models';
+import {VoyagerConfig} from '../../models/config';
 import {ShelfFieldDef} from '../../models/shelf';
-import {selectDataset, selectShelf, selectShelfPreview} from '../../selectors';
+import {selectConfig, selectDataset, selectShelf, selectShelfPreview} from '../../selectors';
 import {selectSchemaFieldDefs} from '../../selectors/index';
 import * as styles from './encoding-pane.scss';
 import {EncodingShelf} from './encoding-shelf';
@@ -31,6 +32,8 @@ interface EncodingPanelProps extends ActionHandler<ShelfAction | ResultAsyncActi
   schema: Schema;
 
   fieldDefs: ShelfFieldDef[];
+
+  config: VoyagerConfig;
 }
 
 class EncodingPanelBase extends React.PureComponent<EncodingPanelProps, {}> {
@@ -43,15 +46,20 @@ class EncodingPanelBase extends React.PureComponent<EncodingPanelProps, {}> {
 
   public render() {
     const {specPreview, spec} = this.props;
+    const {manualSpecificationOnly} = this.props.config;
     const {anyEncodings} = specPreview || spec;
 
     const positionShelves = ['x', 'y'].map(this.encodingShelf, this);
     const facetShelves = ['row', 'column'].map(this.encodingShelf, this);
     const nonPositionShelves = ['size', 'color', 'shape', 'detail', 'text'].map(this.encodingShelf, this);
-    const wildcardShelves = [
-      ...anyEncodings.map((_, i) => i),
-      -1 // map the empty placeholder to -1
-    ].map(this.wildcardShelf, this);
+    const wildcardShelves = !manualSpecificationOnly ? (
+      <div>
+        <h3>Wildcard Shelves</h3>
+        {[...anyEncodings.map((_, i) => i),
+          -1 // map the empty placeholder to -1
+        ].map(this.wildcardShelf, this)}
+      </div>
+    ) : null;
 
     return (
       <div className="pane" styleName="encoding-pane">
@@ -85,7 +93,6 @@ class EncodingPanelBase extends React.PureComponent<EncodingPanelProps, {}> {
 
         {/* TODO: correctly highlight field in the wildcard */}
         <div styleName="shelf-group">
-          <h3>Wildcard Shelves</h3>
           {wildcardShelves}
         </div>
 
@@ -169,7 +176,8 @@ export const EncodingPane = connect(
       filters: selectShelf(state).spec.filters,
       schema: selectDataset(state).schema,
       fieldDefs: selectSchemaFieldDefs(state),
-      specPreview: selectShelfPreview(state).spec
+      specPreview: selectShelfPreview(state).spec,
+      config: selectConfig(state)
     };
   },
   createDispatchHandler<ShelfAction>()

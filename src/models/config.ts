@@ -7,5 +7,5 @@ export interface VoyagerConfig {
 export const DEFAULT_VOYAGER_CONFIG: VoyagerConfig = {
   showDataSourceSelector: true,
   serverUrl: null,
-  manualSpecificationOnly: true
+  manualSpecificationOnly: false
 };
