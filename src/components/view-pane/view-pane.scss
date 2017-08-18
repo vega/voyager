@@ -1,7 +1,4 @@
 .view-pane {
-  width: calc(100vw - 200px - 235px);
-  // widow width - data pane width - encoding pane width - left and right paddings
-
   overflow: scroll;
 
   // Absolute positon relative to Pane wrapper from `react-split-pane`
