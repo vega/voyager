@@ -24,12 +24,24 @@ export const selectResult: {
   return selectors;
 }, {});
 
+export const selectResultLimit: {
+  [k in ResultType]?: Selector<State, number>
+} = RESULT_TYPES.reduce((selectors, resultType) => {
+  selectors[resultType] = createSelector(
+    selectResult[resultType],
+    (result: Result) => result.limit
+  );
+  return selectors;
+}, {});
 
 // This one is not exported as it does not correctly include filter transforms yet
 const selectResultPlots: {
   [k in ResultType]?: Selector<State, ResultPlot[]>
 } = RESULT_TYPES.reduce((selectors, resultType) => {
-  selectors[resultType] = (state: State) => state.undoable.present.result[resultType].plots;
+  selectors[resultType] = createSelector(
+    selectResult[resultType],
+    (result: Result) => result.plots
+  );
   return selectors;
 }, {});
 
