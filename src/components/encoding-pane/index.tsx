@@ -42,14 +42,16 @@ class EncodingPanelBase extends React.PureComponent<EncodingPanelProps, {}> {
   }
 
   public render() {
-    const {specPreview} = this.props;
-    const {anyEncodings} = this.props.spec;
+    const {specPreview, spec} = this.props;
+    const {anyEncodings} = specPreview || spec;
 
     const positionShelves = ['x', 'y'].map(this.encodingShelf, this);
     const facetShelves = ['row', 'column'].map(this.encodingShelf, this);
     const nonPositionShelves = ['size', 'color', 'shape', 'detail', 'text'].map(this.encodingShelf, this);
-    const wildcardShelves = [...anyEncodings.map((_, i) => i), anyEncodings.length + 1]
-                                            .map(this.wildcardShelf, this);
+    const wildcardShelves = [
+      ...anyEncodings.map((_, i) => i),
+      -1 // map the empty placeholder to -1
+    ].map(this.wildcardShelf, this);
 
     return (
       <div className="pane" styleName="encoding-pane">
@@ -124,8 +126,8 @@ class EncodingPanelBase extends React.PureComponent<EncodingPanelProps, {}> {
   }
 
   private wildcardShelf(index: number) {
-    const {anyEncodings} = this.props.spec;
-    const {handleAction, schema} = this.props;
+    const {handleAction, spec, specPreview, schema} = this.props;
+    const {anyEncodings} = specPreview || spec;
 
     const id = {
       channel: SHORT_WILDCARD,
