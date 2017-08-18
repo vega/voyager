@@ -37,17 +37,13 @@ There are 3 artifacts build using `yarn build`:
 * Compiled Javscript and `.d.js` declaration files for a subset of the Voyager source code in `build/src/`. These declarations and sources can be included in other packages that use Voyager as a dependency. See [voyager-server](https://github.com/vega/voyager-server) for an example.
 * Embeddable Voyager build in `build/`. See below for more details on embedding Voyager in other applications.
 
-## Embed Voyager
+## Embed Voyager (`datavoyager` library)
 
-This repository also hosts an experimental interface that allows for embedding voyager in another web application. The following sections document how to use it.
+Voyager can be embedded in another web application. The following sections document how to use it.
 
 ### Installation
 
-Using npm or yarn? Add the following to your package.json then run `npm install` or `yarn`.
-
-```
-"voyager": "git://github.com/vega/voyager.git"
-```
+Using npm or yarn? Add the following to your package.json then run `npm install datavoyager` or `yarn add datavoyager`.
 
 ### Example Use
 
