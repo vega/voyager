@@ -10,6 +10,7 @@ import {State} from '../../models';
 import {Bookmark} from '../../models/bookmark';
 import {ResultPlot} from '../../models/result';
 import {selectBookmark, selectMainSpec, selectPlotList} from '../../selectors';
+import {selectResultLimit} from '../../selectors/result';
 import {selectIsQuerySpecific} from '../../selectors/shelf';
 import {Plot} from '../plot';
 import {PlotList} from '../plot-list';
@@ -21,6 +22,7 @@ export interface ViewPaneProps extends ActionHandler<ShelfAction> {
   spec: FacetedCompositeUnitSpec;
   plots: ResultPlot[];
   bookmark: Bookmark;
+  mainLimit: number;
 }
 
 const NO_PLOT_MESSAGE = `No specified visualization yet. ` +
@@ -35,7 +37,7 @@ class ViewPaneBase extends React.PureComponent<ViewPaneProps, {}> {
   }
 
   public render() {
-    const {bookmark, isQuerySpecific, handleAction, plots} = this.props;
+    const {bookmark, isQuerySpecific, handleAction, mainLimit, plots} = this.props;
 
     if (isQuerySpecific) {
       return (
@@ -55,7 +57,7 @@ class ViewPaneBase extends React.PureComponent<ViewPaneProps, {}> {
       return (
         <div className="pane" styleName="view-pane-gallery">
           <h2>Specified Views</h2>
-          <PlotList resultType="main" handleAction={handleAction} plots={plots} bookmark={bookmark}/>
+          <PlotList resultType="main" handleAction={handleAction} plots={plots} bookmark={bookmark} limit={mainLimit}/>
         </div>
       );
     } else {
@@ -102,7 +104,8 @@ export const ViewPane = connect(
       isQuerySpecific: selectIsQuerySpecific(state),
       plots: selectPlotList.main(state),
       spec: selectMainSpec(state),
-      bookmark: selectBookmark(state)
+      bookmark: selectBookmark(state),
+      mainLimit: selectResultLimit.main(state)
     };
   },
   createDispatchHandler<ShelfAction>()

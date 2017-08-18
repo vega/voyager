@@ -21,7 +21,7 @@ import {modifyFieldProp, modifyNestedFieldProp} from './shelf/spec';
 import {modifyItemInArray} from './util';
 
 export const DEFAULT_LIMIT: {[K in ResultType]: number} = {
-  main: 8,
+  main: 12,
   addCategoricalField: 4,
   addQuantitativeField: 4,
   addTemporalField: 2,
