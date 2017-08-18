@@ -49,7 +49,7 @@ describe('selectors/dataset', () => {
     it('should return wildcard fields', () => {
       expect(selectPresetWildcardFields(stateWithSchema)).toEqual(
         [
-          {field: '?', title: 'Quantitative Fields', type: ExpandedType.QUANTITATIVE}
+          {field: '?', description: 'Quantitative Fields', type: ExpandedType.QUANTITATIVE}
         ]
       );
     });

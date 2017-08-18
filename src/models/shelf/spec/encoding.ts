@@ -48,7 +48,7 @@ export interface ShelfFieldDef {
 
   type?: ExpandedType;
 
-  title?: string;
+  description?: string;
 }
 
 
@@ -93,17 +93,17 @@ export function toEncodingQuery(fieldDef: ShelfFieldDef, channel: Channel | SHOR
 }
 
 export function toFieldQuery(fieldDef: ShelfFieldDef, channel: Channel | SHORT_WILDCARD): FieldQuery {
-  const {fn, title: _t, ...fieldDefWithoutFnAndTitle} = fieldDef;
+  const {fn, ...fieldDefWithoutFn} = fieldDef;
 
   return {
     channel,
     ...toFieldQueryFunctionMixins(fn),
-    ...fieldDefWithoutFnAndTitle
+    ...fieldDefWithoutFn
   };
 }
 
 export function fromFieldQuery(fieldQ: FieldQuery): ShelfFieldDef {
-  const {aggregate, bin, hasFn, timeUnit, field, type, scale, axis, legend, sort} = fieldQ;
+  const {aggregate, bin, hasFn, timeUnit, field, type, scale, axis, legend, sort, description} = fieldQ;
 
   if (isWildcard(type)) {
     throw Error('Voyager does not support wildcard type');
@@ -118,7 +118,8 @@ export function fromFieldQuery(fieldQ: FieldQuery): ShelfFieldDef {
     ...(sort ? {sort} : {}),
     ...(scale ? {scale: fromFieldQueryNestedProp(fieldQ, 'scale')} : {}),
     ...(axis ? {axis: fromFieldQueryNestedProp(fieldQ, 'axis')} : {}),
-    ...(legend ? {legend: fromFieldQueryNestedProp(fieldQ, 'legend')} : {})
+    ...(legend ? {legend: fromFieldQueryNestedProp(fieldQ, 'legend')} : {}),
+    ...(description ? {description} : {})
   };
 }
 
