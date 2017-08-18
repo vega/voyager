@@ -32,7 +32,8 @@ describe('queries/field-suggestions', () => {
             bin: SHORT_WILDCARD,
             aggregate: SHORT_WILDCARD,
             field: SHORT_WILDCARD,
-            type: 'quantitative'
+            type: 'quantitative',
+            description: 'Quantitative Fields'
           }]
         },
         groupBy: 'field',
@@ -71,7 +72,8 @@ describe('queries/field-suggestions', () => {
             timeUnit: SHORT_WILDCARD,
             hasFn: true,
             field: SHORT_WILDCARD,
-            type: 'temporal'
+            type: 'temporal',
+            description: 'Temporal Fields'
           }]
         },
         groupBy: 'field',
@@ -108,7 +110,8 @@ describe('queries/field-suggestions', () => {
           encodings: [{
             channel: SHORT_WILDCARD,
             field: SHORT_WILDCARD,
-            type: 'nominal'
+            type: 'nominal',
+            description: 'Categorical Fields'
           }]
         },
         groupBy: 'field',

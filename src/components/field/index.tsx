@@ -115,7 +115,7 @@ class FieldBase extends React.PureComponent<FieldProps, FieldState> {
         {this.caretTypeSpan()}
         {this.funcSpan(fnName)}
         <span styleName={isFieldFn ? 'fn-text' : 'text'}>
-          {description || (field !== '*' ? field : '')}
+          {isWildcard(field) ? description : field !== '*' ? field : ''}
         </span>
         {this.addFilterSpan()}
         {this.addSpan()}
