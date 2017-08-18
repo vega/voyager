@@ -29,7 +29,7 @@ function makeFieldSuggestionQueryCreator(params: {
         orderBy: ['fieldOrder', 'aggregationQuality', 'effectiveness'],
         // aggregationQuality should be the same
         chooseBy: ['aggregationQuality', 'effectiveness'],
-        config: { autoAddCount: false }
+        config: { autoAddCount: true }
       };
     }
   };

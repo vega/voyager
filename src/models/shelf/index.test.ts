@@ -29,7 +29,7 @@ describe('models/shelf', () => {
   });
 
   describe('toQuery', () => {
-    it('returns a query that groups by encoding and does not auto add count' +
+    it('returns a query that groups by encoding and does not auto add count ' +
         'if there is no wildcard', () => {
       expect(toQuery({
         spec: {
@@ -40,7 +40,8 @@ describe('models/shelf', () => {
           },
           anyEncodings: [],
           config: {numberFormat: 'd'}
-        }
+        },
+        autoAddCount: false
       })).toEqual({
         spec: {
           transform: [],
@@ -52,14 +53,12 @@ describe('models/shelf', () => {
         },
         groupBy: 'encoding',
         chooseBy: DEFAULT_CHOOSE_BY,
-        orderBy: DEFAULT_ORDER_BY,
-        config: {
-          autoAddCount: false
-        }
+        orderBy: DEFAULT_ORDER_BY
       });
     });
 
-    it('returns the query that groups by field and auto add count if there is a wildcard field', () => {
+    it('returns the query that groups by field and autoAddCount' +
+       'if there is a wildcard field and autoAddCount is true', () => {
       expect(toQuery({
         spec: {
           filters: [],
@@ -69,7 +68,8 @@ describe('models/shelf', () => {
           },
           anyEncodings: [],
           config: {numberFormat: 'd'}
-        }
+        },
+        autoAddCount: true
       })).toEqual({
         spec: {
           transform: [],

@@ -4,7 +4,7 @@ import {DEFAULT_VOYAGER_CONFIG} from '../models/config';
 import {DEFAULT_STATE, State} from '../models/index';
 import {DEFAULT_RESULT_INDEX} from '../models/result';
 import {DEFAULT_SHELF_PREVIEW} from '../models/shelf-preview';
-import {toQuery} from '../models/shelf/index';
+import {DEFAULT_SHELF, toQuery} from '../models/shelf/index';
 import {DEFAULT_SHELF_UNIT_SPEC, hasWildcards} from '../models/shelf/spec';
 import {selectFilters, selectIsQuerySpecific, selectQuery, selectQuerySpec, selectShelf} from './shelf';
 
@@ -39,8 +39,10 @@ describe('selectors/shelf', () => {
               }),
             },
             shelf: {
+              ...DEFAULT_SHELF,
               spec: {
-                ...DEFAULT_SHELF_UNIT_SPEC
+                ...DEFAULT_SHELF_UNIT_SPEC,
+                filters
               }
             },
             result: {
@@ -49,8 +51,6 @@ describe('selectors/shelf', () => {
           }
         }
       };
-
-      state.undoable.present.shelf.spec.filters = filters;
 
       expect(selectFilters(state)).toBe(filters);
     });

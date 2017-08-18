@@ -68,6 +68,7 @@ const ACTION_TYPE_INDEX: {[k in ActionType]: 1} = {
 
   SET_CONFIG: 1,
 
+  SHELF_AUTO_ADD_COUNT_CHANGE: 1,
   SHELF_LOAD_QUERY: 1,
 
   SPEC_CLEAR: 1,
