@@ -1,5 +1,6 @@
 
 import {Query} from 'compassql/build/src/query/query';
+import {isString} from 'vega-lite/build/src/util';
 import {ShelfFieldDef, toFieldQuery} from './spec';
 import {DEFAULT_SHELF_UNIT_SPEC, hasWildcards, ShelfUnitSpec, toSpecQuery} from './spec';
 
@@ -7,12 +8,30 @@ export * from './spec';
 
 export const DEFAULT_SHELF: Readonly<Shelf> = {
   spec: DEFAULT_SHELF_UNIT_SPEC,
+  groupBy: 'auto',
   autoAddCount: true
 };
+
+export type ShelfGroupBy = 'auto' | 'field' | 'fieldTransform' | 'encoding';
+
+const SHELF_GROUP_BY_INDEX: {[K in ShelfGroupBy]: 1} = {
+  auto: 1,
+  field: 1,
+  fieldTransform: 1,
+  encoding: 1
+};
+
+export const SHELF_GROUP_BYS = Object.keys(SHELF_GROUP_BY_INDEX) as ShelfGroupBy[];
+
+export function isShelfGroupBy(s: any): s is ShelfGroupBy {
+  return isString(s) && SHELF_GROUP_BY_INDEX[s];
+}
 
 export interface Shelf {
   spec: ShelfUnitSpec; // TODO: support other type of specs.
   // TODO: support groupBy, autoCount, orderBy
+
+  groupBy: ShelfGroupBy;
 
   autoAddCount: boolean;
 }
@@ -23,19 +42,26 @@ export const DEFAULT_CHOOSE_BY = ['aggregationQuality', 'effectiveness'];
 export function toQuery(shelf: Shelf): Query {
   const {spec, autoAddCount} = shelf;
   const specQ = toSpecQuery(spec);
-  const {hasWildcardField, hasWildcardFn, hasAnyWildcard} = hasWildcards(specQ);
-  // TODO: support custom groupBy
-  const groupBy = hasWildcardFn ? 'fieldTransform' :
-    hasWildcardField ? 'field' :
-    'encoding';
+  const {hasAnyWildcard, hasWildcardFn, hasWildcardField} = hasWildcards(specQ);
+
+  const groupBy = shelf.groupBy !== 'auto' ? shelf.groupBy :
+    getDefaultGroupBy({hasWildcardFn, hasWildcardField});
 
   return {
     spec: specQ,
-    groupBy: groupBy,
+    groupBy,
     orderBy: DEFAULT_ORDER_BY,
     chooseBy: DEFAULT_CHOOSE_BY,
     ...(hasAnyWildcard ? {config: {autoAddCount}} : {})
   };
+}
+
+export function getDefaultGroupBy(args: {hasWildcardField: boolean, hasWildcardFn: boolean}) {
+  const {hasWildcardFn, hasWildcardField} = args;
+
+  return hasWildcardFn ? 'fieldTransform' :
+    hasWildcardField ? 'field' :
+    'encoding';
 }
 
 export function autoAddFieldQuery(shelf: ShelfUnitSpec, fieldDef: ShelfFieldDef): Query {
