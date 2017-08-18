@@ -1,11 +1,10 @@
 import {Schema} from 'compassql/build/src/schema';
-
 import {Action} from '../../actions';
+import {SHELF_AUTO_ADD_COUNT_CHANGE, SHELF_GROUP_BY_CHANGE, SHELF_LOAD_QUERY} from '../../actions/shelf/index';
 import {Shelf} from '../../models';
-
-import {SHELF_AUTO_ADD_COUNT_CHANGE, SHELF_LOAD_QUERY} from '../../actions/shelf/index';
 import {DEFAULT_SHELF} from '../../models/shelf';
-import {fromSpecQuery} from '../../models/shelf/spec/index';
+import {getDefaultGroupBy, isShelfGroupBy} from '../../models/shelf/index';
+import {fromSpecQuery, hasWildcards} from '../../models/shelf/spec/index';
 import {shelfSpecReducer} from './spec';
 
 export function shelfReducer(shelf: Readonly<Shelf> = DEFAULT_SHELF, action: Action, schema: Schema): Shelf {
@@ -18,15 +17,37 @@ export function shelfReducer(shelf: Readonly<Shelf> = DEFAULT_SHELF, action: Act
       };
     }
 
-    case SHELF_LOAD_QUERY: {
-      const {query} = action.payload;
-      const {autoAddCount} = query.config || {autoAddCount: false};
+    case SHELF_GROUP_BY_CHANGE: {
+      const {groupBy} = action.payload;
       return {
         ...shelf,
-        spec: fromSpecQuery(query.spec, shelf.spec.config),
-        ...(autoAddCount ? {autoAddCount} : {})
-        // TODO: load other query components too, once we have them in the model
+        groupBy
       };
+    }
+
+    case SHELF_LOAD_QUERY: {
+      const {query} = action.payload;
+
+      const spec = fromSpecQuery(query.spec, shelf.spec.config);
+
+      // If the groupBy is equivalent to "auto", let's set to auto for more flexibility.
+      const defaultGroupBy = getDefaultGroupBy(hasWildcards(query.spec));
+      const groupBy = query.groupBy === defaultGroupBy ? 'auto' : query.groupBy;
+
+      const {autoAddCount} = query.config || {autoAddCount: false};
+
+      /* istanbul ignore else: it should reach else */
+      if (isShelfGroupBy(groupBy)) {
+        return {
+          ...shelf,
+          spec,
+          groupBy,
+          ...(autoAddCount ? {autoAddCount} : {})
+          // TODO: load other query components too, once we have them in the model
+        };
+      } else {
+        throw new Error(`SHELF_LOAD_QUERY does not support groupBy ${JSON.stringify(groupBy)}`);
+      }
     }
   }
 

@@ -1,6 +1,6 @@
 import {Schema} from 'compassql/build/src/schema';
 import {SHELF_LOAD_QUERY} from '../../actions';
-import {SHELF_AUTO_ADD_COUNT_CHANGE} from '../../actions/shelf/index';
+import {SHELF_AUTO_ADD_COUNT_CHANGE, SHELF_GROUP_BY_CHANGE} from '../../actions/shelf/index';
 import {DEFAULT_SHELF} from '../../models/shelf/index';
 import {DEFAULT_SHELF_UNIT_SPEC} from '../../models/shelf/spec/index';
 import {addCategoricalField} from '../../queries/field-suggestions';
@@ -20,10 +20,24 @@ describe('reducers/shelf', () => {
           payload: {autoAddCount: false}
         }, schema),
       ).toEqual({
-        spec: {
-          ...DEFAULT_SHELF_UNIT_SPEC,
-        },
+        ...DEFAULT_SHELF,
         autoAddCount: false
+      });
+    });
+  });
+
+  describe(SHELF_GROUP_BY_CHANGE, () => {
+    it('changes autoAddCount', () => {
+      expect(
+        shelfReducer({
+          ...DEFAULT_SHELF
+        }, {
+          type: SHELF_GROUP_BY_CHANGE,
+          payload: {groupBy: 'encoding'}
+        }, schema),
+      ).toEqual({
+        ...DEFAULT_SHELF,
+        groupBy: 'encoding'
       });
     });
   });
@@ -39,6 +53,7 @@ describe('reducers/shelf', () => {
           payload: {query}
         }, schema),
       ).toEqual({
+        ...DEFAULT_SHELF,
         spec: {
           ...DEFAULT_SHELF_UNIT_SPEC,
           anyEncodings: [{
@@ -47,8 +62,7 @@ describe('reducers/shelf', () => {
             type: 'nominal',
             description: 'Categorical Fields'
           }]
-        },
-        autoAddCount: true
+        }
       });
     });
 
@@ -70,13 +84,13 @@ describe('reducers/shelf', () => {
           payload: {query}
         }, schema),
       ).toEqual({
+        ...DEFAULT_SHELF,
         spec: {
           ...DEFAULT_SHELF_UNIT_SPEC,
           encoding: {
             x: {fn: {enum: ['bin', 'mean']}, field: 'displacement', type: 'quantitative'}
           }
-        },
-        autoAddCount: true
+        }
       });
     });
   });

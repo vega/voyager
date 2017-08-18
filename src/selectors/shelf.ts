@@ -7,7 +7,7 @@ import {State} from '../models/index';
 import {Query} from 'compassql/build/src/query/query';
 import {SpecQuery} from 'compassql/build/src/query/spec';
 import {createSelector} from 'reselect';
-import {Shelf, toQuery} from '../models/shelf/index';
+import {getDefaultGroupBy, Shelf, toQuery} from '../models/shelf/index';
 import {hasWildcards} from '../models/shelf/spec';
 
 export const selectFilters = (state: State) => state.undoable.present.shelf.spec.filters;
@@ -26,6 +26,13 @@ export const selectQuery = createSelector(
 export const selectQuerySpec = createSelector(
   selectQuery,
   (query: Query): SpecQuery => query.spec
+);
+
+export const selectDefaultGroupBy = createSelector(
+  selectQuerySpec,
+  (specQ: SpecQuery) => {
+    return getDefaultGroupBy(hasWildcards(specQ));
+  }
 );
 
 export const selectIsQuerySpecific = createSelector(

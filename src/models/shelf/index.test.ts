@@ -41,7 +41,8 @@ describe('models/shelf', () => {
           anyEncodings: [],
           config: {numberFormat: 'd'}
         },
-        autoAddCount: false
+        autoAddCount: false,
+        groupBy: 'auto'
       })).toEqual({
         spec: {
           transform: [],
@@ -69,6 +70,7 @@ describe('models/shelf', () => {
           anyEncodings: [],
           config: {numberFormat: 'd'}
         },
+        groupBy: 'auto',
         autoAddCount: true
       })).toEqual({
         spec: {

@@ -52,11 +52,11 @@ describe('reducers/index', () => {
               data: null
             },
             shelf: {
+              ...DEFAULT_SHELF,
               spec: {
                 mark: 'point',
                 ...DEFAULT_SHELF_UNIT_SPEC
               },
-              autoAddCount: false
             },
             result: {
               ...DEFAULT_RESULT_INDEX,
