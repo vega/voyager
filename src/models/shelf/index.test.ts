@@ -90,35 +90,34 @@ describe('models/shelf', () => {
       });
     });
 
-    // TODO: WILDCARD TEST NOT YET SUPPORTED
-    // it('returns the query that groups by field transform and auto add count' +
-    //     'if there is a wildcard field and function', () => {
-    //   expect(toQuery({
-    //     spec: {
-    //       filters: [],
-    //       mark: 'point',
-    //       encoding: {
-    //         x: {fn: INSERT PROPER FN HERE, field: '?', type: 'quantitative'}
-    //       },
-    //       anyEncodings: [],
-    //       config: {numberFormat: 'd'}
-    //     }
-    //   })).toEqual({
-    //     spec: {
-    //       transform: [],
-    //       mark: 'point',
-    //       encodings: [
-    //         {channel: 'x', field: '?', SHORT WILDCARD HERE, type: 'quantitative'},
-    //       ],
-    //       config: {numberFormat: 'd'}
-    //     },
-    //     groupBy: 'fieldTransform',
-    //     chooseBy: DEFAULT_CHOOSE_BY,
-    //     orderBy: DEFAULT_ORDER_BY,
-    //     config:  {
-    //       autoAddCount: true
-    //     }
-    //   });
-    // });
+    it('returns the query that groups by field transform and auto add count' +
+        'if there is a wildcard field and function', () => {
+      expect(toQuery({
+        spec: {
+          filters: [],
+          mark: 'point',
+          encoding: {
+            x: {fn: {enum: ['mean', 'median']}, field: '?', type: 'quantitative'}
+          },
+          anyEncodings: [],
+          config: {numberFormat: 'd'}
+        }
+      })).toEqual({
+        spec: {
+          transform: [],
+          mark: 'point',
+          encodings: [
+            {channel: 'x', field: '?', aggregate: {enum: ['mean', 'median']}, hasFn: true, type: 'quantitative'},
+          ],
+          config: {numberFormat: 'd'}
+        },
+        groupBy: 'fieldTransform',
+        chooseBy: DEFAULT_CHOOSE_BY,
+        orderBy: DEFAULT_ORDER_BY,
+        config:  {
+          autoAddCount: true
+        }
+      });
+    });
   });
 });
