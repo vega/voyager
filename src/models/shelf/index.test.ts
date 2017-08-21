@@ -90,7 +90,7 @@ describe('models/shelf', () => {
       });
     });
 
-    it('returns the query that groups by field transform and auto add count' +
+    it('returns the query that groups by field transform and auto add count ' +
         'if there is a wildcard field and function', () => {
       expect(toQuery({
         spec: {
@@ -101,7 +101,9 @@ describe('models/shelf', () => {
           },
           anyEncodings: [],
           config: {numberFormat: 'd'}
-        }
+        },
+        autoAddCount: true,
+        groupBy: 'auto'
       })).toEqual({
         spec: {
           transform: [],
