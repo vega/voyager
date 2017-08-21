@@ -9,7 +9,7 @@ import {fetchCompassQLBuildSchema} from '../api/api';
 import {State} from '../models/index';
 import {selectConfig} from '../selectors';
 import {Action} from './index';
-import {LOG_ERRORS_ADD} from './log';
+import {LOG_ERROR_CHANGE} from './log';
 import {ReduxAction} from './redux-action';
 import {RESET} from './reset';
 
@@ -58,8 +58,24 @@ export function datasetLoad(name: string, dataset: Data): DatasetLoad {
       const url = dataset.url;
 
       return fetch(url)
-        .then(response => response.json()) // TODO: handle error
-        .then(data => fetchCompassQLBuildSchema(data, config)) // TODO: handle error
+        .then(response => response.json())
+        .catch(err => {
+          dispatch({
+            type: LOG_ERROR_CHANGE,
+            payload: {
+              error: err
+            }
+          });
+        })
+        .then(data => fetchCompassQLBuildSchema(data, config))
+        .catch(err => {
+          dispatch({
+            type: LOG_ERROR_CHANGE,
+            payload: {
+              error: err
+            }
+          });
+        })
         .then(schema => {
 
           dispatch({
@@ -69,7 +85,15 @@ export function datasetLoad(name: string, dataset: Data): DatasetLoad {
           dispatch(ActionCreators.clearHistory());
         });
     } else if (isInlineData(dataset)) {
-      return fetchCompassQLBuildSchema(dataset.values, config) // TODO: handle error
+      return fetchCompassQLBuildSchema(dataset.values, config)
+        .catch(err => {
+          dispatch({
+            type: LOG_ERROR_CHANGE,
+            payload: {
+              error: err
+            }
+          });
+        })
         .then(schema => {
           const data = dataset;
           dispatch({
@@ -81,9 +105,9 @@ export function datasetLoad(name: string, dataset: Data): DatasetLoad {
         });
     } else {
       dispatch({
-        type: LOG_ERRORS_ADD,
+        type: LOG_ERROR_CHANGE,
         payload: {
-          errors: ['dataset load error: dataset type not detected']
+          error: 'dataset load error: dataset type not detected'
         }
       });
     }

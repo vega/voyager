@@ -17,6 +17,7 @@ import {
   datasetLoad,
 } from '../../actions';
 
+import {LOG_ERROR_CHANGE, LogAction} from '../../actions/log';
 import {DEFAULT_DATASETS} from '../../constants';
 import {Dataset, State} from '../../models';
 import {selectDataset} from '../../selectors';
@@ -30,7 +31,8 @@ export interface DataSelectorConnectProps {
   data: Dataset;
 }
 
-export type DataSelectorProps = DataSelectorConnectProps & DataSelectorOwnProps & ActionHandler<DatasetAsyncAction>;
+export type DataSelectorProps = DataSelectorConnectProps & DataSelectorOwnProps &
+                                ActionHandler<DatasetAsyncAction | LogAction>;
 
 export class DataSelectorBase extends React.PureComponent<DataSelectorProps, any> {
 
@@ -157,12 +159,23 @@ export class DataSelectorBase extends React.PureComponent<DataSelectorProps, any
     const reader = new FileReader();
 
     const file = event.target.files[0];
-
     reader.onload = (lEvent: any) => {
       const name = file.name.replace(/\.\w+$/, '');
       const format = file.name.split('.').pop();
 
-      const values = vega.read(lEvent.target.result, {type: format});
+      let values;
+      try {
+        values = vega.read(lEvent.target.result, {type: format});
+      } catch (err) {
+        // handle error like invalid file format
+        handleAction({
+          type: LOG_ERROR_CHANGE,
+          payload: {
+            error: err.toString()
+          }
+        });
+        return;
+      }
 
       handleAction(datasetLoad(name, {values, format}));
       this.closeModal();
