@@ -5165,13 +5165,11 @@ redux-thunk:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/redux-thunk/-/redux-thunk-2.2.0.tgz#e615a16e16b47a19a515766133d1e3e99b7852e5"
 
-redux-undo@beta:
-  version "1.0.0-beta9-9-1"
-  resolved "https://registry.yarnpkg.com/redux-undo/-/redux-undo-1.0.0-beta9-9-1.tgz#a2208b30611f44e2cfc5480bc15272b0afb84b1b"
-  dependencies:
-    redux "^3.5.2"
+redux-undo@1.0.0-beta9-9-6:
+  version "1.0.0-beta9-9-6"
+  resolved "https://registry.yarnpkg.com/redux-undo/-/redux-undo-1.0.0-beta9-9-6.tgz#4bfd591b3e46b37c19eb7309766d7f020b2403e8"
 
-redux@^3.2.0, redux@^3.5.2, redux@^3.6.0:
+redux@^3.2.0, redux@^3.6.0:
   version "3.6.0"
   resolved "https://registry.yarnpkg.com/redux/-/redux-3.6.0.tgz#887c2b3d0b9bd86eca2be70571c27654c19e188d"
   dependencies:
