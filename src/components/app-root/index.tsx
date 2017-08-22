@@ -13,6 +13,7 @@ import {EncodingPane} from '../encoding-pane/index';
 import {Footer} from '../footer/index';
 import {Header} from '../header/index';
 import {LoadData} from '../load-data-pane/index';
+import {LogPane} from '../log-pane/index';
 import {ViewPane} from '../view-pane/index';
 
 export interface AppRootProps {
@@ -38,6 +39,7 @@ class AppRootBase extends React.PureComponent<AppRootProps, {}> {
     }
     return (
       <div className="voyager">
+        <LogPane/>
         <Header/>
         {bottomPane}
         {footer}
