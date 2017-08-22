@@ -57,8 +57,10 @@ export function datasetLoad(name: string, dataset: Data): DatasetLoad {
       const url = dataset.url;
 
       return fetch(url)
-        .then(response => response.json()) // TODO: handle error
-        .then(data => fetchCompassQLBuildSchema(data, config)) // TODO: handle error
+        .then(response => response.json())
+        .catch(errorCatch)
+        .then(data => fetchCompassQLBuildSchema(data, config))
+        .catch(errorCatch)
         .then(schema => {
 
           dispatch({
@@ -68,7 +70,8 @@ export function datasetLoad(name: string, dataset: Data): DatasetLoad {
           dispatch(ActionCreators.clearHistory());
         });
     } else if (isInlineData(dataset)) {
-      return fetchCompassQLBuildSchema(dataset.values, config) // TODO: handle error
+      return fetchCompassQLBuildSchema(dataset.values, config)
+        .catch(errorCatch)
         .then(schema => {
           const data = dataset;
           dispatch({
@@ -81,7 +84,9 @@ export function datasetLoad(name: string, dataset: Data): DatasetLoad {
     } else {
       throw new Error('dataset load error: dataset type not detected');
     }
-
-
   };
 };
+
+function errorCatch(err: Error) {
+  window.alert(err.message);
+}

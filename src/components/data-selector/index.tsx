@@ -162,7 +162,12 @@ export class DataSelectorBase extends React.PureComponent<DataSelectorProps, any
       const name = file.name.replace(/\.\w+$/, '');
       const format = file.name.split('.').pop();
 
-      const values = vega.read(lEvent.target.result, {type: format});
+      let values;
+      try {
+        values = vega.read(lEvent.target.result, {type: format});
+      } catch (err) {
+        window.alert(err.message);
+      }
 
       handleAction(datasetLoad(name, {values, format}));
       this.closeModal();
