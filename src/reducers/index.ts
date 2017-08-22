@@ -48,6 +48,7 @@ import {
 } from '../actions';
 
 import {ActionType} from '../actions';
+import {LOG_ERRORS_ADD, LOG_ERRORS_CLEAR, LOG_WARNINGS_ADD, LOG_WARNINGS_CLEAR} from '../actions/log';
 import {RESET} from '../actions/reset';
 import {RESULT_LIMIT_INCREASE, RESULT_MODIFY_FIELD_PROP, RESULT_MODIFY_NESTED_FIELD_PROP} from '../actions/result';
 import {SHELF_PREVIEW_QUERY} from '../actions/shelf-preview';
@@ -63,6 +64,7 @@ import {
 import {bookmarkReducer} from './bookmark';
 import {configReducer} from './config';
 import {datasetReducer} from './dataset';
+import {logReducer} from './log';
 import {makeResetReducer, ResetIndex} from './reset';
 import {resultIndexReducer} from './result';
 import {shelfReducer} from './shelf';
@@ -96,6 +98,7 @@ const undoableReducerBase = makeResetReducer(
 const persistentStateToReset: ResetIndex<PersistentState> = {
   bookmark: true,
   config: false,
+  log: true,
   shelfPreview: true
 };
 
@@ -104,6 +107,7 @@ const persistentReducer = makeResetReducer(
     return {
       bookmark: bookmarkReducer(state.bookmark, action),
       config: configReducer(state.config, action),
+      log: logReducer(state.log, action),
       shelfPreview: shelfPreviewReducer(state.shelfPreview, action)
     };
   },
@@ -121,6 +125,12 @@ export const ACTIONS_EXCLUDED_FROM_HISTORY: ActionType[] = [
   BOOKMARK_CLEAR_ALL,
   BOOKMARK_MODIFY_NOTE,
   BOOKMARK_REMOVE_PLOT,
+
+  // Log Actions
+  LOG_ERRORS_ADD,
+  LOG_ERRORS_CLEAR,
+  LOG_WARNINGS_ADD,
+  LOG_WARNINGS_CLEAR,
 
   // These actions are automatically re-triggered by some of the shelf components after
   // every state change. Including UNDO/REDO.

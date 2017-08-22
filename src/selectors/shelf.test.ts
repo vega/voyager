@@ -1,9 +1,6 @@
 import {Schema} from 'compassql/build/src/schema';
-import {DEFAULT_BOOKMARK} from '../models/bookmark';
-import {DEFAULT_VOYAGER_CONFIG} from '../models/config';
-import {DEFAULT_STATE, State} from '../models/index';
+import {DEFAULT_PERSISTENT_STATE, DEFAULT_STATE, State} from '../models/index';
 import {DEFAULT_RESULT_INDEX} from '../models/result';
-import {DEFAULT_SHELF_PREVIEW} from '../models/shelf-preview';
 import {DEFAULT_SHELF, toQuery} from '../models/shelf/index';
 import {DEFAULT_SHELF_UNIT_SPEC, hasWildcards} from '../models/shelf/spec';
 import {selectFilters, selectIsQuerySpecific, selectQuery, selectQuerySpec, selectShelf} from './shelf';
@@ -14,17 +11,7 @@ describe('selectors/shelf', () => {
       const filters = [{field: 'q1', range: [0, 1]}];
 
       const state: State = {
-        persistent: {
-          bookmark: {
-            ...DEFAULT_BOOKMARK
-          },
-          config: {
-            ...DEFAULT_VOYAGER_CONFIG
-          },
-          shelfPreview: {
-            ...DEFAULT_SHELF_PREVIEW
-          }
-        },
+        persistent: DEFAULT_PERSISTENT_STATE,
         undoable: {
           ...DEFAULT_STATE.undoable,
           present: {
@@ -45,9 +32,7 @@ describe('selectors/shelf', () => {
                 filters
               }
             },
-            result: {
-              ...DEFAULT_RESULT_INDEX
-            }
+            result: DEFAULT_RESULT_INDEX
           }
         }
       };
