@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import {LOG_ERRORS_CLEAR, LOG_WARNINGS_CLEAR, LogAction} from '../../actions/log';
 import {ActionHandler, createDispatchHandler} from '../../actions/redux-action';
 import {State} from '../../models/index';
-import {Log} from '../../models/log';
+import {Log, WarningLevel} from '../../models/log';
 import {selectLog} from '../../selectors/index';
 import * as styles from './log-pane.scss';
 
@@ -16,16 +16,13 @@ export class LogPaneBase extends React.PureComponent<LogPaneProps, {}> {
   public render() {
     const warnings = this.props.log.warnings;
     const errors = this.props.log.errors;
-
-    const warningPane = warnings.length > 0 ? (
+    const warningPane = warnings.warn.length > 0 || warnings.debug.length > 0 || warnings.info.length > 0 ? (
       <div styleName='warning-pane'>
         <a styleName='close' onClick={this.closeWarnings.bind(this)}>x</a>
         <ul>
-          {warnings.map((warning, index) => {
-            return (
-              <li key={index}>{warning}</li>
-            );
-          })}
+          {this.returnLevelWarnings(warnings, 'warn')}
+          {this.returnLevelWarnings(warnings, 'info')}
+          {this.returnLevelWarnings(warnings, 'debug')}
         </ul>
       </div>
     ) : null;
@@ -60,6 +57,15 @@ export class LogPaneBase extends React.PureComponent<LogPaneProps, {}> {
   protected closeErrors() {
     this.props.handleAction({
       type: LOG_ERRORS_CLEAR,
+    });
+  }
+
+  private returnLevelWarnings(warnings: {warn: string[], info: string[], debug: string[]},
+                              level: WarningLevel): JSX.Element[] {
+    return warnings[level].map((warning, index: number) => {
+      return (
+        <li key={index}>[{level.toUpperCase()}] {warning}</li>
+      );
     });
   }
 }
