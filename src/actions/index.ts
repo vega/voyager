@@ -6,6 +6,7 @@ import {ResetAction} from './reset';
 import {ResultAction} from './result';
 import {ShelfAction} from './shelf';
 import {ShelfPreviewAction} from './shelf-preview';
+import {SPEC_ACTION_TYPE_INDEX} from './shelf/spec';
 import {ApplicationStateAction} from './state';
 import {UndoableAction} from './undo-redo';
 
@@ -84,22 +85,7 @@ const ACTION_TYPE_INDEX: {[k in ActionType]: 1} = {
   SHELF_PREVIEW_QUERY: 1,
   SHELF_PREVIEW_DISABLE: 1,
 
-  SPEC_CLEAR: 1,
-  SPEC_LOAD: 1,
-  SPEC_MARK_CHANGE_TYPE: 1,
-
-  SPEC_FIELD_ADD: 1,
-  SPEC_FIELD_AUTO_ADD: 1,
-  SPEC_FIELD_MOVE: 1,
-  SPEC_FIELD_PROP_CHANGE: 1,
-  SPEC_FIELD_NESTED_PROP_CHANGE: 1,
-  SPEC_FIELD_REMOVE: 1,
-
-  SPEC_FUNCTION_CHANGE: 1,
-  SPEC_FUNCTION_ADD_WILDCARD: 1,
-  SPEC_FUNCTION_DISABLE_WILDCARD: 1,
-  SPEC_FUNCTION_ENABLE_WILDCARD: 1,
-  SPEC_FUNCTION_REMOVE_WILDCARD: 1,
+  ...SPEC_ACTION_TYPE_INDEX,
 
   UNDO: 1,
   REDO: 1,

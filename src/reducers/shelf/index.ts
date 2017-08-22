@@ -64,4 +64,3 @@ export function shelfReducer(shelf: Readonly<Shelf> = DEFAULT_SHELF, action: Act
   }
   return shelf;
 }
-
