@@ -3,6 +3,7 @@ import {StateWithHistory} from 'redux-undo';
 import {Bookmark, DEFAULT_BOOKMARK} from './bookmark';
 import {DEFAULT_VOYAGER_CONFIG, VoyagerConfig} from './config';
 import {Dataset, DatasetWithoutSchema, DEFAULT_DATASET} from './dataset';
+import {DEFAULT_LOG, Log} from './log';
 import {DEFAULT_RESULT_INDEX, ResultIndex} from './result';
 import {DEFAULT_SHELF, Shelf} from './shelf';
 import {DEFAULT_SHELF_PREVIEW, ShelfPreview} from './shelf-preview';
@@ -19,6 +20,7 @@ export * from './config';
 export interface PersistentState {
   bookmark: Bookmark;
   config: VoyagerConfig;
+  log: Log;
   shelfPreview: ShelfPreview;
 }
 
@@ -42,7 +44,7 @@ export interface State {
 export const DEFAULT_UNDOABLE_STATE_BASE: UndoableStateBase = {
   dataset: DEFAULT_DATASET,
   shelf: DEFAULT_SHELF,
-  result: DEFAULT_RESULT_INDEX,
+  result: DEFAULT_RESULT_INDEX
 };
 
 export const DEFAULT_UNDOABLE_STATE: StateWithHistory<UndoableStateBase> = {
@@ -58,6 +60,7 @@ export const DEFAULT_UNDOABLE_STATE: StateWithHistory<UndoableStateBase> = {
 export const DEFAULT_PERSISTENT_STATE: PersistentState = {
   bookmark: DEFAULT_BOOKMARK,
   config: DEFAULT_VOYAGER_CONFIG,
+  log: DEFAULT_LOG,
   shelfPreview: DEFAULT_SHELF_PREVIEW
 };
 
@@ -92,12 +95,13 @@ export function fromSerializable(serializable: SerializableState): Readonly<Stat
     // Persistent
     bookmark,
     config,
+    log,
     shelfPreview,
     // Then the rest should be UndoableStateBaseWithoutDataset
     ...undoableStateBaseWithoutDataset
   } = serializable;
 
-  const persistent: PersistentState = {bookmark, config, shelfPreview};
+  const persistent: PersistentState = {bookmark, config, shelfPreview, log};
 
   const undoableBase: UndoableStateBase = {
     ...undoableStateBaseWithoutDataset,
