@@ -6,19 +6,23 @@ import {isDiscrete, isFieldDef} from 'vega-lite/build/src/fielddef';
 import {SortField, SortOrder} from 'vega-lite/build/src/sort';
 import {FacetedCompositeUnitSpec} from 'vega-lite/build/src/spec';
 import {BOOKMARK_MODIFY_NOTE, BookmarkAction} from '../../actions/bookmark';
+import {LogAction} from '../../actions/log';
 import {ActionHandler} from '../../actions/redux-action';
 import {ResultAction} from '../../actions/result';
 import {ShelfAction, SPEC_LOAD} from '../../actions/shelf';
 import {SHELF_PREVIEW_DISABLE, SHELF_PREVIEW_SPEC, ShelfPreviewAction} from '../../actions/shelf-preview';
 import {PLOT_HOVER_MIN_DURATION} from '../../constants';
 import {Bookmark} from '../../models/bookmark';
+import {Logger} from '../../models/logger';
 import {PlotFieldInfo, ResultPlot} from '../../models/result';
 import {Field} from '../field/index';
 import {VegaLite} from '../vega-lite/index';
 import {BookmarkButton} from './bookmarkbutton';
 import * as styles from './plot.scss';
 
-export interface PlotProps extends ActionHandler<ShelfAction | BookmarkAction | ShelfPreviewAction | ResultAction> {
+export interface PlotProps extends ActionHandler<
+  ShelfAction | BookmarkAction | ShelfPreviewAction | ResultAction | LogAction
+> {
   fieldInfos?: PlotFieldInfo[];
   isPlotListItem?: boolean;
   showBookmarkButton?: boolean;
@@ -45,6 +49,7 @@ export class PlotBase extends React.PureComponent<PlotProps, PlotState> {
   private hoverTimeoutId: number;
   private previewTimeoutId: number;
   private vegaLiteWrapper: HTMLElement;
+  private plotLogger: Logger;
 
   constructor(props: PlotProps) {
     super(props);
@@ -62,6 +67,8 @@ export class PlotBase extends React.PureComponent<PlotProps, PlotState> {
     this.onPreviewMouseLeave = this.onPreviewMouseLeave.bind(this);
     this.onSpecify = this.onSpecify.bind(this);
     this.onSort = this.onSort.bind(this);
+
+    this.plotLogger = new Logger(props.handleAction);
   }
 
   public componentDidUpdate(prevProps: PlotProps, prevState: PlotState) {
@@ -125,7 +132,7 @@ export class PlotBase extends React.PureComponent<PlotProps, PlotState> {
           onMouseEnter={this.onMouseEnter}
           onMouseLeave={this.onMouseLeave}
         >
-          <VegaLite spec={spec}/>
+          <VegaLite spec={spec} logger={this.plotLogger}/>
         </div>
         {notesDiv}
       </div>

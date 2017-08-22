@@ -1,6 +1,7 @@
 
 import {FacetedCompositeUnitSpec} from 'vega-lite/build/src/spec';
 import {ShelfFieldDef, ShelfFunction, ShelfId, ShelfMark} from '../../models';
+import {Action} from '../index';
 import {PlainReduxAction, ReduxAction} from '../redux-action';
 
 export type SpecAction =
@@ -108,3 +109,26 @@ export type SpecLoad = ReduxAction<typeof SPEC_LOAD, {
   spec: FacetedCompositeUnitSpec,
   keepWildcardMark: boolean
 }>;
+
+export const SPEC_ACTION_TYPE_INDEX: {[k in SpecAction['type']]: 1} = {
+  SPEC_CLEAR: 1,
+  SPEC_LOAD: 1,
+  SPEC_MARK_CHANGE_TYPE: 1,
+
+  SPEC_FIELD_ADD: 1,
+  SPEC_FIELD_AUTO_ADD: 1,
+  SPEC_FIELD_MOVE: 1,
+  SPEC_FIELD_PROP_CHANGE: 1,
+  SPEC_FIELD_NESTED_PROP_CHANGE: 1,
+  SPEC_FIELD_REMOVE: 1,
+
+  SPEC_FUNCTION_CHANGE: 1,
+  SPEC_FUNCTION_ADD_WILDCARD: 1,
+  SPEC_FUNCTION_DISABLE_WILDCARD: 1,
+  SPEC_FUNCTION_ENABLE_WILDCARD: 1,
+  SPEC_FUNCTION_REMOVE_WILDCARD: 1
+};
+
+export function isSpecAction(a: Action): a is SpecAction {
+  return SPEC_ACTION_TYPE_INDEX[a.type];
+}
