@@ -4,6 +4,7 @@ import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
 import {ConnectDropTarget, DropTarget, DropTargetCollector, DropTargetSpec} from 'react-dnd';
 import {ActionHandler} from '../../actions/index';
+import {LOG_ERROR_CHANGE, LogAction} from '../../actions/log';
 import {
   SPEC_FIELD_ADD, SPEC_FIELD_MOVE, SPEC_FIELD_REMOVE, SPEC_FUNCTION_ADD_WILDCARD,
   SPEC_FUNCTION_CHANGE, SPEC_FUNCTION_DISABLE_WILDCARD, SPEC_FUNCTION_ENABLE_WILDCARD,
@@ -27,7 +28,7 @@ export interface EncodingShelfDropTargetProps {
   item: Object;
 }
 
-export interface EncodingShelfPropsBase extends ActionHandler<SpecEncodingAction> {
+export interface EncodingShelfPropsBase extends ActionHandler<SpecEncodingAction | LogAction> {
   id: ShelfId;
 
   fieldDef: ShelfFieldDef;
@@ -182,7 +183,12 @@ const encodingShelfTarget: DropTargetSpec<EncodingShelfProps> = {
         });
         break;
       default:
-        throw new Error('Field dragged from unregistered source type to EncodingShelf');
+        props.handleAction({
+          type: LOG_ERROR_CHANGE,
+          payload: {
+            error: 'Field dragged from unregistered source type to EncodingShelf'
+          }
+        });
     }
   }
 };

@@ -3,6 +3,7 @@ import {StateWithHistory} from 'redux-undo';
 import {Bookmark, DEFAULT_BOOKMARK} from './bookmark';
 import {DEFAULT_VOYAGER_CONFIG, VoyagerConfig} from './config';
 import {Dataset, DatasetWithoutSchema, DEFAULT_DATASET} from './dataset';
+import {DEFAULT_LOG, Log} from './log';
 import {DEFAULT_RESULT_INDEX, ResultIndex} from './result';
 import {DEFAULT_SHELF, Shelf} from './shelf';
 import {DEFAULT_SHELF_PREVIEW, ShelfPreview} from './shelf-preview';
@@ -25,6 +26,7 @@ export interface PersistentState {
 export interface UndoableStateBaseWithoutDataset {
   shelf: Shelf;
   result: ResultIndex;
+  log: Log;
 }
 
 export interface UndoableStateBase extends UndoableStateBaseWithoutDataset {
@@ -43,6 +45,7 @@ export const DEFAULT_UNDOABLE_STATE_BASE: UndoableStateBase = {
   dataset: DEFAULT_DATASET,
   shelf: DEFAULT_SHELF,
   result: DEFAULT_RESULT_INDEX,
+  log: DEFAULT_LOG
 };
 
 export const DEFAULT_UNDOABLE_STATE: StateWithHistory<UndoableStateBase> = {

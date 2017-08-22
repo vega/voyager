@@ -21,7 +21,7 @@ export interface FunctionPickerProps {
   onWildcardRemove?: (fn: ShelfFunction) => void;
 }
 
-export class FunctionPickerBase extends React.PureComponent<FunctionPickerProps, any> {
+export class FunctionPickerBase extends React.PureComponent<FunctionPickerProps, {}> {
   constructor(props: FunctionPickerProps) {
     super(props);
 

@@ -1,6 +1,7 @@
 import {BookmarkAction} from './bookmark';
 import {ConfigAction} from './config';
 import {DatasetAction} from './dataset';
+import {LogAction} from './log';
 import {ResetAction} from './reset';
 import {ResultAction} from './result';
 import {ShelfAction} from './shelf';
@@ -18,6 +19,7 @@ export * from './shelf';
 export * from './state';
 export * from './undo-redo';
 export * from './shelf-preview';
+export * from './log';
 
 /**
  * Union type of all actions in our application.
@@ -27,6 +29,7 @@ export type Action = (
   BookmarkAction |
   ConfigAction |
   DatasetAction |
+  LogAction |
   ResetAction |
   ResultAction |
   ShelfAction |
@@ -57,6 +60,11 @@ const ACTION_TYPE_INDEX: {[k in ActionType]: 1} = {
   FILTER_MODIFY_TIME_UNIT: 1,
   FILTER_MODIFY_ONE_OF: 1,
   FILTER_REMOVE: 1,
+
+  LOG_ERROR_CHANGE: 1,
+  LOG_WARNINGS_ADD: 1,
+  LOG_WARNINGS_REMOVE: 1,
+  LOG_ERROR_REMOVE: 1,
 
   RESULT_RECEIVE: 1,
   RESULT_REQUEST: 1,

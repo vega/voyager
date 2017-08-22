@@ -5,6 +5,7 @@ import {ActionCreators} from 'redux-undo';
 import {Data} from 'vega-lite/build/src/data';
 import { FacetedCompositeUnitSpec, TopLevel } from 'vega-lite/build/src/spec';
 import {datasetLoad, SET_APPLICATION_STATE, SET_CONFIG} from '../actions';
+import {LOG_ERROR_CHANGE} from '../actions/log';
 import {SPEC_LOAD} from '../actions/shelf';
 import {VoyagerConfig} from '../models/config';
 import {State} from '../models/index';
@@ -82,7 +83,12 @@ export class App extends React.PureComponent<Props, {}> {
             this.shelfSpecLoad(spec);
           },
           (err: any) => {
-            throw new Error('error setting data for spec:' + err.toString());
+            this.props.dispatch({
+              type: LOG_ERROR_CHANGE,
+              payload: {
+                error: 'error setting data for spec:' + err.toString()
+              }
+            });
           }
         );
     } else {

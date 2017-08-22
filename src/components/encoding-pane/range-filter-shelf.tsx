@@ -46,22 +46,22 @@ export class RangeFilterShelfBase extends React.PureComponent<RangeFilterShelfPr
     const Range = createSliderWithTooltip(Slider.Range);
     let minInput, maxInput, currMin, currMax, lowerBound, upperBound;
     if (renderDateTimePicker) {
+      lowerBound = Math.floor(convertToTimestamp(domain[0] as DateTime));
+      upperBound = Math.ceil(convertToTimestamp(domain[1] as DateTime));
       // when render date time picker, it must be an temporal filter, thus the range must be DateTime[].
       minInput = this.renderDateTimePicker(new Date(convertToTimestamp(filter.range[0] as DateTime)), 'min');
       maxInput = this.renderDateTimePicker(new Date(convertToTimestamp(filter.range[1] as DateTime)), 'max');
       currMin = convertToTimestamp(filter.range[0] as DateTime);
       currMax = convertToTimestamp(filter.range[1] as DateTime);
-      lowerBound = Math.floor(convertToTimestamp(domain[0] as DateTime));
-      upperBound = Math.ceil(convertToTimestamp(domain[1] as DateTime));
     } else {
-      minInput = this.renderNumberInput('min');
-      maxInput = this.renderNumberInput('max');
-      currMin = filter.range[0];
-      currMax = filter.range[1];
       // Math.floor/ceil because the slider requires the the difference between max and min
       // must be a multiple of step (which is 1 by default)
       lowerBound = Math.floor(Number(domain[0]));
       upperBound = Math.ceil(Number(domain[1]));
+      minInput = this.renderNumberInput('min', lowerBound, upperBound);
+      maxInput = this.renderNumberInput('max', lowerBound, upperBound);
+      currMin = filter.range[0];
+      currMax = filter.range[1];
     }
     return (
       <div styleName='range-filter-pane'>
@@ -144,7 +144,7 @@ export class RangeFilterShelfBase extends React.PureComponent<RangeFilterShelfPr
     });
   }
 
-  private renderNumberInput(bound: 'min' | 'max') {
+  private renderNumberInput(bound: 'min' | 'max', min: number, max: number) {
     const {filter} = this.props;
     let onChangeAction, value;
     if (bound === 'min') {
@@ -162,6 +162,8 @@ export class RangeFilterShelfBase extends React.PureComponent<RangeFilterShelfPr
           id={`${filter.field}_${bound}`}
           type='number'
           value={value.toString()}
+          min={min}
+          max={max}
           onChange={onChangeAction}
         />
       </div>
@@ -240,6 +242,7 @@ export class RangeFilterShelfBase extends React.PureComponent<RangeFilterShelfPr
         // hide time component as we do not care about it
         return false;
       default:
+        // This should never happen because the UI doesn't have other time units
         throw new Error(timeUnit + ' is not supported');
     }
   }
@@ -278,6 +281,7 @@ export class RangeFilterShelfBase extends React.PureComponent<RangeFilterShelfPr
           return new Date(value).toString();
         };
       default:
+        // This should never happen because the UI doesn't have other time units
         throw new Error(timeUnit + ' is not supported');
     }
   }
@@ -300,6 +304,7 @@ export class RangeFilterShelfBase extends React.PureComponent<RangeFilterShelfPr
       case TimeUnit.YEARMONTHDATE:
         return 24 * 60 * 60 * 1000; // step is one day in timestamp
       default:
+        // This should never happen because the UI doesn't have other time units
         throw new Error(timeUnit + ' is not supported');
     }
   }

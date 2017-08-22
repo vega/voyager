@@ -27,6 +27,10 @@ import {
   FILTER_MODIFY_ONE_OF,
   FILTER_MODIFY_TIME_UNIT,
   FILTER_REMOVE,
+  LOG_ERROR_CHANGE,
+  LOG_ERROR_REMOVE,
+  LOG_WARNINGS_ADD,
+  LOG_WARNINGS_REMOVE,
   RESULT_RECEIVE,
   RESULT_REQUEST,
   SET_APPLICATION_STATE,
@@ -63,6 +67,7 @@ import {
 import {bookmarkReducer} from './bookmark';
 import {configReducer} from './config';
 import {datasetReducer} from './dataset';
+import {logReducer} from './log';
 import {makeResetReducer, ResetIndex} from './reset';
 import {resultIndexReducer} from './result';
 import {shelfReducer} from './shelf';
@@ -74,6 +79,7 @@ import {stateReducer} from './state';
  */
 const undoableStateToReset: ResetIndex<UndoableStateBase> = {
   dataset: true,
+  log: true,
   shelf: true,
   result: true
 };
@@ -82,6 +88,7 @@ const undoableReducerBase = makeResetReducer(
   (state: Readonly<UndoableStateBase> = DEFAULT_UNDOABLE_STATE_BASE, action: Action): UndoableStateBase => {
     return {
       dataset: datasetReducer(state.dataset, action),
+      log: logReducer(state.log, action),
       shelf: shelfReducer(state.shelf, action, state.dataset.schema),
       result: resultIndexReducer(state.result, action)
     };
@@ -124,6 +131,11 @@ export const ACTIONS_EXCLUDED_FROM_HISTORY: ActionType[] = [
 
   // These actions are automatically re-triggered by some of the shelf components after
   // every state change. Including UNDO/REDO.
+  LOG_ERROR_CHANGE,
+  LOG_WARNINGS_ADD,
+  LOG_WARNINGS_REMOVE,
+  LOG_ERROR_REMOVE,
+
   RESULT_RECEIVE,
   RESULT_REQUEST,
   // These actions are not (at least at the moment) trigerrable from a user action.
