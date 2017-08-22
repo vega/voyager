@@ -52,8 +52,8 @@ class EncodingPanelBase extends React.PureComponent<EncodingPanelProps, {}> {
     const positionShelves = ['x', 'y'].map(this.encodingShelf, this);
     const facetShelves = ['row', 'column'].map(this.encodingShelf, this);
     const nonPositionShelves = ['size', 'color', 'shape', 'detail', 'text'].map(this.encodingShelf, this);
-    const wildcardShelves = !manualSpecificationOnly ? (
-      <div>
+    const wildcardShelvesGroup = !manualSpecificationOnly ? (
+      <div styleName="shelf-group">
         <h3>Wildcard Shelves</h3>
         {[...anyEncodings.map((_, i) => i),
           -1 // map the empty placeholder to -1
@@ -92,9 +92,7 @@ class EncodingPanelBase extends React.PureComponent<EncodingPanelProps, {}> {
         </div>
 
         {/* TODO: correctly highlight field in the wildcard */}
-        <div styleName="shelf-group">
-          {wildcardShelves}
-        </div>
+        {wildcardShelvesGroup}
 
         <div styleName="shelf-group">
           <h3>Filter</h3>
