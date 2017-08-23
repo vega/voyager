@@ -5,6 +5,7 @@ import * as stringify from 'json-stable-stringify';
 import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
 import {connect} from 'react-redux';
+import {OneOfFilter, RangeFilter} from 'vega-lite/build/src/filter';
 import {FilterAction} from '../../actions';
 import {DatasetSchemaChangeFieldType} from '../../actions/dataset';
 import {ActionHandler, createDispatchHandler} from '../../actions/redux-action';
@@ -13,6 +14,7 @@ import {FieldParentType} from '../../constants';
 import {State} from '../../models/index';
 import {ShelfFieldDef} from '../../models/shelf';
 import {selectPresetWildcardFields, selectSchema, selectSchemaFieldDefs} from '../../selectors';
+import {selectFilters} from '../../selectors/shelf';
 import {Field} from '../field';
 import * as styles from './field-list.scss';
 import {TypeChanger} from './type-changer';
@@ -21,6 +23,7 @@ import {TypeChanger} from './type-changer';
 export interface FieldListProps extends ActionHandler<SpecFieldAutoAdd | DatasetSchemaChangeFieldType | FilterAction> {
   fieldDefs: ShelfFieldDef[];
   schema: Schema;
+  filters: Array<RangeFilter | OneOfFilter>;
 }
 
 class FieldListBase extends React.PureComponent<FieldListProps, {}> {
@@ -86,13 +89,17 @@ class FieldListBase extends React.PureComponent<FieldListProps, {}> {
   }
 
   private renderField(fieldDef: ShelfFieldDef, popupComponent?: JSX.Element) {
-    const {schema, handleAction} = this.props;
+    const {schema, filters, handleAction} = this.props;
+    let filterShow;
+    if (!isWildcard(fieldDef.field) && !(fieldDef.field === '*')) {
+      filterShow = {filters};
+    }
     return (
       <Field
         fieldDef={fieldDef}
         isPill={true}
         draggable={true}
-        filterShow={!isWildcard(fieldDef.field) && !(fieldDef.field === '*')}
+        filterShow={filterShow}
         parentId={{type: FieldParentType.FIELD_LIST}}
         caretShow={true}
         popupComponent={popupComponent}
@@ -130,7 +137,8 @@ export const FieldList = connect(
       fieldDefs: selectSchemaFieldDefs(state).concat([
         {fn: 'count', field: '*', type: 'quantitative'}
       ]),
-      schema: selectSchema(state)
+      schema: selectSchema(state),
+      filters: selectFilters(state)
     };
   },
   createDispatchHandler<SpecFieldAutoAdd>()

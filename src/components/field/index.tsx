@@ -11,7 +11,7 @@ import {ShelfAction} from '../../actions/shelf';
 import {DraggableType, FieldParentType} from '../../constants';
 import {ShelfId} from '../../models/shelf';
 import {ShelfFieldDef} from '../../models/shelf';
-import {getFilter} from '../../models/shelf/filter';
+import {containsFilter, getFilter} from '../../models/shelf/filter';
 import * as styles from './field.scss';
 
 /**
@@ -49,7 +49,13 @@ export interface FieldPropsBase {
 
   handleAction?: (action: FilterAction | ShelfAction | DatasetSchemaChangeFieldType) => void;
 
-  filterShow?: boolean;
+  /**
+   * If filter button is shown, we need to provide filters to check duplicated filters.
+   * If not provided, filter button will disappear.
+   */
+  filterShow?: {
+    filters: Array<RangeFilter | OneOfFilter>;
+  };
 
   caretShow: boolean;
 
@@ -142,18 +148,17 @@ class FieldBase extends React.PureComponent<FieldProps, FieldState> {
     }
   }
 
-  protected filterAddToIndex(index: number): void {
-    const {handleAction} = this.props;
-    handleAction({
-      type: FILTER_ADD,
-      payload: {
-        filter: this.getFilter(),
-        index
-      }
-    });
-  }
-
   protected filterAddToEnd(): void {
+    const {filterShow, fieldDef, schema} = this.props;
+    let domain;
+    if (!isWildcard(fieldDef.field) && fieldDef.field !== '*') {
+      domain = schema.domain({field: fieldDef.field});
+    }
+    const filter = getFilter(fieldDef, domain);
+    if (containsFilter(filterShow.filters, filter)) {
+      window.alert('Cannot add more than one filter of the same field');
+      return;
+    }
     const {handleAction} = this.props;
     handleAction({
       type: FILTER_ADD,
