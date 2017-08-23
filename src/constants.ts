@@ -21,6 +21,8 @@ export enum FieldParentType {
 
 const BASE_DATA_DIR = (process.env.NODE_ENV === 'production') ? 'datasets/' : 'node_modules/vega-datasets/';
 
+export const SPINNER_COLOR = '#4C78A8';
+
 export const DEFAULT_DATASETS = [
 {
   name: 'Barley',

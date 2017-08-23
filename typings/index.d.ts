@@ -63,3 +63,8 @@ declare module 'react-file-download' {
   const fileDownload: any;
   export = fileDownload;
 }
+
+
+declare module 'react-spinners' {
+  export const ClipLoader: any;
+}
