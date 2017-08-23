@@ -3,7 +3,7 @@ import * as vega from 'vega';
 import * as vl from 'vega-lite';
 import {TopLevelExtendedSpec} from 'vega-lite/build/src/spec';
 import * as vegaTooltip from 'vega-tooltip';
-import {Logger} from '../../models/logger';
+import {Logger} from '../util/util.logger';
 
 export interface VegaLiteProps {
   spec: TopLevelExtendedSpec;
