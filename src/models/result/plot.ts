@@ -7,7 +7,7 @@ import {
 import {FieldQuery, isFieldQuery} from 'compassql/build/src/query/encoding';
 import {ExtendedGroupBy} from 'compassql/build/src/query/groupby';
 import {toMap} from 'compassql/build/src/util';
-import {Data} from 'vega-lite/build/src/data';
+import {NamedData, UrlData} from 'vega-lite/build/src/data';
 import {FacetedCompositeUnitSpec} from 'vega-lite/build/src/spec';
 import {fromFieldQuery, ShelfFieldDef} from '../shelf';
 
@@ -29,7 +29,7 @@ export interface ResultPlotWithKey {
 
 export function fromSpecQueryModelGroup(
   modelGroup: SpecQueryModelGroup,
-  data: Data
+  data: NamedData | UrlData // TODO remove | UrlData
 ): ResultPlotWithKey[] {
   return modelGroup.items.map(item => {
     if (isSpecQueryGroup<SpecQueryModel>(item)) {
@@ -41,7 +41,9 @@ export function fromSpecQueryModelGroup(
 }
 
 function plotWithKey(
-  data: Data, specQ: SpecQueryModel, groupBy: string | Array<string|ExtendedGroupBy>
+  data: NamedData | UrlData, // TODO remove | UrlData
+  specQ: SpecQueryModel,
+  groupBy: string | Array<string|ExtendedGroupBy>
 ): ResultPlotWithKey {
 
   const wildcardFieldIndex = toMap(specQ.wildcardIndex.encodingIndicesByProperty.get('field') || []);
