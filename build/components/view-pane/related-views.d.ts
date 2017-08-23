@@ -4,12 +4,13 @@ import { BookmarkAction } from '../../actions/bookmark';
 import { ActionHandler } from '../../actions/redux-action';
 import { ResultAction } from '../../actions/result';
 import { ShelfAction } from '../../actions/shelf';
+import { ShelfPreviewAction } from '../../actions/shelf-preview';
 import { Bookmark } from '../../models/bookmark';
-import { PlotObject } from '../../models/plot';
+import { ResultPlot } from '../../models/result';
 import { Result, ResultType } from '../../models/result';
-export interface RelatedViewsProps extends ActionHandler<BookmarkAction | ShelfAction | ResultAction> {
-    plots: {
-        [k in ResultType]: PlotObject[];
+export interface RelatedViewsProps extends ActionHandler<BookmarkAction | ShelfAction | ShelfPreviewAction | ResultAction> {
+    plotsIndex: {
+        [k in ResultType]: ResultPlot[];
     };
     results: {
         [k in ResultType]: Result;
@@ -18,5 +19,8 @@ export interface RelatedViewsProps extends ActionHandler<BookmarkAction | ShelfA
 }
 export declare class RelatedViewsBase extends React.PureComponent<RelatedViewsProps, {}> {
     render(): JSX.Element;
+    private onSpecify(relatedViewType);
+    private onPreviewMouseEnter(relatedViewType);
+    private onPreviewMouseLeave(relatedViewType);
 }
 export declare const RelatedViews: React.ComponentClass<{}>;

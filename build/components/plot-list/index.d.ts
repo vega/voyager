@@ -4,10 +4,10 @@ import { ActionHandler } from '../../actions/redux-action';
 import { ResultAction } from '../../actions/result';
 import { ShelfAction } from '../../actions/shelf';
 import { Bookmark } from '../../models/bookmark';
-import { PlotObject } from '../../models/plot';
+import { ResultPlot } from '../../models/result';
 import { ResultType } from '../../models/result';
 export interface PlotListProps extends ActionHandler<ShelfAction | ResultAction> {
-    plots: PlotObject[];
+    plots: ResultPlot[];
     resultType?: ResultType;
     bookmark: Bookmark;
     limit?: number;
@@ -15,6 +15,7 @@ export interface PlotListProps extends ActionHandler<ShelfAction | ResultAction>
 export declare class PlotListBase extends React.PureComponent<PlotListProps, any> {
     constructor(props: PlotListProps);
     render(): JSX.Element;
-    private handleLoadMore();
+    private onPlotSort(index, channel, value);
+    private onLoadMore();
 }
 export declare const PlotList: typeof PlotListBase;

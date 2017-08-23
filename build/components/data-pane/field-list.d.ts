@@ -1,12 +1,12 @@
 /// <reference types="react" />
 import { Schema } from 'compassql/build/src/schema';
 import * as React from 'react';
+import { FilterAction } from '../../actions';
 import { DatasetSchemaChangeFieldType } from '../../actions/dataset';
-import { FilterAction } from '../../actions/filter';
 import { ActionHandler } from '../../actions/redux-action';
-import { ShelfFieldAutoAdd } from '../../actions/shelf';
-import { ShelfFieldDef } from '../../models/shelf/encoding';
-export interface FieldListProps extends ActionHandler<ShelfFieldAutoAdd | DatasetSchemaChangeFieldType | FilterAction> {
+import { SpecFieldAutoAdd } from '../../actions/shelf';
+import { ShelfFieldDef } from '../../models/shelf';
+export interface FieldListProps extends ActionHandler<SpecFieldAutoAdd | DatasetSchemaChangeFieldType | FilterAction> {
     fieldDefs: ShelfFieldDef[];
     schema: Schema;
 }

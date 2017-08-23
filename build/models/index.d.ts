@@ -1,9 +1,8 @@
 import { FieldSchema, TableSchema } from 'compassql/build/src/schema';
 import { StateWithHistory } from 'redux-undo';
-import { Data } from 'vega-lite/build/src/data';
 import { Bookmark } from './bookmark';
 import { VoyagerConfig } from './config';
-import { Dataset } from './dataset';
+import { Dataset, DatasetWithoutSchema } from './dataset';
 import { ResultIndex } from './result';
 import { Shelf } from './shelf';
 import { ShelfPreview } from './shelf-preview';
@@ -17,13 +16,15 @@ export * from './config';
  */
 export interface PersistentState {
     bookmark: Bookmark;
+    config: VoyagerConfig;
     shelfPreview: ShelfPreview;
 }
-export interface UndoableStateBase {
-    config: VoyagerConfig;
-    dataset: Dataset;
+export interface UndoableStateBaseWithoutDataset {
     shelf: Shelf;
     result: ResultIndex;
+}
+export interface UndoableStateBase extends UndoableStateBaseWithoutDataset {
+    dataset: Dataset;
 }
 /**
  * Application state (wrapped with redux-undo's StateWithHistory interface).
@@ -36,17 +37,8 @@ export declare const DEFAULT_UNDOABLE_STATE_BASE: UndoableStateBase;
 export declare const DEFAULT_UNDOABLE_STATE: StateWithHistory<UndoableStateBase>;
 export declare const DEFAULT_PERSISTENT_STATE: PersistentState;
 export declare const DEFAULT_STATE: State;
-export interface SerializableState {
-    bookmark: Bookmark;
-    config: VoyagerConfig;
-    shelf: Shelf;
-    shelfPreview: ShelfPreview;
-    result: ResultIndex;
-    dataset: {
-        isLoading: boolean;
-        name: string;
-        data: Data;
-    };
+export interface SerializableState extends PersistentState, UndoableStateBaseWithoutDataset {
+    dataset: DatasetWithoutSchema;
     tableschema: TableSchema<FieldSchema>;
 }
 export declare function toSerializable(state: Readonly<State>): SerializableState;

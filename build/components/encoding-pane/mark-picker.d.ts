@@ -1,8 +1,8 @@
 /// <reference types="react" />
 import * as React from 'react';
-import { ActionHandler, ShelfMarkChangeType } from '../../actions';
+import { ActionHandler, SpecMarkChangeType } from '../../actions';
 import { ShelfMark } from '../../models';
-export interface MarkPickerProps extends ActionHandler<ShelfMarkChangeType> {
+export interface MarkPickerProps extends ActionHandler<SpecMarkChangeType> {
     mark: ShelfMark;
 }
 /**

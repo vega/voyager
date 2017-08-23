@@ -12,6 +12,7 @@ export declare class Voyager {
     private config;
     private store;
     private data;
+    private filename;
     constructor(container: Container, config: VoyagerConfig, data: Data);
     /**
      * Update the dataset currently loaded into voyager
@@ -29,6 +30,7 @@ export declare class Voyager {
      * @memberof Voyager
      */
     updateConfig(config: VoyagerConfig): void;
+    setFilename(filename: string): void;
     /**
      * Apply a vega-lite spec to voyager.
      *

@@ -1,7 +1,7 @@
 import { DateTime } from 'vega-lite/build/src/datetime';
 import { OneOfFilter, RangeFilter } from 'vega-lite/build/src/filter';
 import { TimeUnit } from 'vega-lite/build/src/timeunit';
-import { ShelfFieldDef } from './encoding';
+import { ShelfFieldDef } from './spec';
 export declare function getFilter(fieldDef: ShelfFieldDef, domain: any[]): RangeFilter | OneOfFilter;
 export declare function getAllTimeUnits(): ("year" | "month" | "day" | "date" | "hours" | "minutes" | "seconds" | "milliseconds" | "yearmonthdate" | "quarter")[];
 export declare function getDefaultRange(domain: number[], timeUnit: TimeUnit): number[] | DateTime[];

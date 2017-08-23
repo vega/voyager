@@ -2,7 +2,7 @@
 import * as React from 'react';
 import { DateTime } from 'vega-lite/build/src/datetime';
 import { RangeFilter } from 'vega-lite/build/src/filter';
-import { FilterAction } from '../../actions/filter';
+import { FilterAction } from '../../actions';
 import { ActionHandler } from '../../actions/redux-action';
 export interface RangeFilterShelfProps extends ActionHandler<FilterAction> {
     domain: number[] | DateTime[];

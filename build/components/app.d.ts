@@ -10,6 +10,7 @@ export interface Props extends React.Props<App> {
     data?: Data;
     applicationState?: Readonly<State>;
     spec?: TopLevel<FacetedCompositeUnitSpec>;
+    filename?: string;
     dispatch: Dispatch<State>;
 }
 export declare class App extends React.PureComponent<Props, {}> {
@@ -18,9 +19,9 @@ export declare class App extends React.PureComponent<Props, {}> {
     componentWillMount(): void;
     render(): JSX.Element;
     private update(nextProps);
-    private setData(data);
+    private setData(data, filename);
     private setConfig(config);
-    private setSpec(spec);
+    private setSpec(spec, filename);
     private shelfSpecLoad(spec);
     private setApplicationState(state);
 }

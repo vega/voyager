@@ -1,6 +1,3 @@
-/**
- * Namespace for creating CompassQL query specifications.
- */
 import { Query } from 'compassql/build/src/query/query';
 import { Store } from 'redux';
 import { State } from '../models/index';

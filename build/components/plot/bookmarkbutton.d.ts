@@ -3,10 +3,10 @@ import * as React from 'react';
 import { BookmarkAction } from '../../actions/bookmark';
 import { ActionHandler } from '../../actions/redux-action';
 import { Bookmark } from '../../models/bookmark';
-import { PlotObject } from '../../models/plot';
+import { ResultPlot } from '../../models/result';
 export interface BookmarkProps extends ActionHandler<BookmarkAction> {
     bookmark: Bookmark;
-    plotObject: PlotObject;
+    plot: ResultPlot;
 }
 export interface BookmarkButtonState {
     openDialog: boolean;

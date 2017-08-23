@@ -1,6 +1,6 @@
-import { PlotObject } from '../models/plot';
+import { ResultPlot } from '../models/result';
 export interface BookmarkItem {
-    plotObject: PlotObject;
+    plot: ResultPlot;
     note: string;
 }
 export interface Bookmark {

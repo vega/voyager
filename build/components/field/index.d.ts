@@ -4,12 +4,12 @@ import { Schema } from 'compassql/build/src/schema';
 import * as React from 'react';
 import { DragElementWrapper } from 'react-dnd';
 import { OneOfFilter, RangeFilter } from 'vega-lite/build/src/filter';
+import { FilterAction } from '../../actions';
 import { DatasetSchemaChangeFieldType } from '../../actions/dataset';
-import { FilterAction } from '../../actions/filter';
 import { ShelfAction } from '../../actions/shelf';
 import { FieldParentType } from '../../constants';
 import { ShelfId } from '../../models/shelf';
-import { ShelfFieldDef } from '../../models/shelf/encoding';
+import { ShelfFieldDef } from '../../models/shelf';
 /**
  * Props for react-dnd of Field
  */
