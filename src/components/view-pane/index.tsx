@@ -9,9 +9,10 @@ import {SHELF_AUTO_ADD_COUNT_CHANGE, SHELF_GROUP_BY_CHANGE} from '../../actions/
 import {SPEC_FIELD_PROP_CHANGE} from '../../actions/shelf/spec';
 import {State} from '../../models';
 import {Bookmark} from '../../models/bookmark';
+import {VoyagerConfig} from '../../models/config';
 import {ResultPlot} from '../../models/result';
 import {SHELF_GROUP_BYS, ShelfGroupBy} from '../../models/shelf/index';
-import {selectBookmark, selectMainSpec, selectPlotList} from '../../selectors';
+import {selectBookmark, selectConfig, selectMainSpec, selectPlotList} from '../../selectors';
 import {selectResultLimit} from '../../selectors/result';
 import {selectAutoAddCount, selectDefaultGroupBy, selectIsQuerySpecific, selectShelf} from '../../selectors/shelf';
 import {Plot} from '../plot';
@@ -30,6 +31,7 @@ export interface ViewPaneProps extends ActionHandler<ShelfAction> {
 
   groupBy: ShelfGroupBy;
   defaultGroupBy: ShelfGroupBy;
+  config: VoyagerConfig;
 }
 
 const NO_PLOT_MESSAGE = `No specified visualization yet. ` +
@@ -55,6 +57,14 @@ class ViewPaneBase extends React.PureComponent<ViewPaneProps, {}> {
 
   public render() {
     const {isQuerySpecific, plots} = this.props;
+    const {manualSpecificationOnly} = this.props.config;
+
+    const relatedViews = !manualSpecificationOnly && (
+      <div className="pane" styleName="view-pane-related-views">
+        <h2>Related Views</h2>
+        <RelatedViews/>
+      </div>
+    );
 
     if (isQuerySpecific) {
       return (
@@ -63,11 +73,7 @@ class ViewPaneBase extends React.PureComponent<ViewPaneProps, {}> {
             <h2>Specified View</h2>
             {this.renderSpecifiedView()}
           </div>
-
-          <div className="pane" styleName="view-pane-related-views">
-            <h2>Related Views</h2>
-            <RelatedViews/>
-          </div>
+          {relatedViews}
         </div>
       );
     } else if (plots) {
@@ -180,7 +186,8 @@ export const ViewPane = connect(
       mainLimit: selectResultLimit.main(state),
       autoAddCount: selectAutoAddCount(state),
       groupBy: selectShelf(state).groupBy,
-      defaultGroupBy: selectDefaultGroupBy(state)
+      defaultGroupBy: selectDefaultGroupBy(state),
+      config: selectConfig(state)
     };
   },
   createDispatchHandler<ShelfAction>()
