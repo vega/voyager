@@ -34,6 +34,7 @@ export class Voyager {
   private config: VoyagerConfig;
   private store: Store<State>;
   private data: Data;
+  private filename: string;
 
   constructor(container: Container, config: VoyagerConfig, data: Data) {
     if (isString(container)) {
@@ -70,6 +71,10 @@ export class Voyager {
   public updateConfig(config: VoyagerConfig) {
     this.config = config;
     this.render(this.data, config);
+  }
+
+  public setFilename(filename: string) {
+    this.filename = filename;
   }
 
   /**
@@ -186,6 +191,7 @@ export class Voyager {
           data={data}
           config={config}
           spec={spec}
+          filename={this.filename}
         />
       </Provider>,
       root
