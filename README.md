@@ -13,7 +13,7 @@ This repository now hosts the ongoing migration of Voyager 2 to a React/Redux ap
 Since this new version of Voyager is not ready for demo / usage yet, you can access the demo and older versions of Voyager built in AngularJS at the following URL.
 
 - The __Voyager 2__ visualization tool, which blends manual and automated chart specification – demo at http://vega.github.io/voyager2 and source code at https://github.com/vega/voyager2
-- The __Voyager 1__ visualization browser -- demo at http://vega.github.io/voyager and source code in the `vy1` branch of this repository.
+- The __Voyager 1__ visualization browser -- demo at http://uwdata.github.io/voyager and source code in the `vy1` branch of this repository.
 
 ## Basic Setup
 
