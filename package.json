@@ -58,6 +58,7 @@
     "react-file-download": "^0.3.4",
     "react-modal": "^2.0.6",
     "react-redux": "^5.0.2",
+    "react-spinners": "^0.0.30",
     "react-split-pane": "^0.1.58",
     "react-tabs": "^1.1.0",
     "react-tether": "^0.5.6",

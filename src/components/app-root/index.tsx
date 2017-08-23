@@ -3,10 +3,12 @@ import * as React from 'react';
 import {DragDropContext} from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import {connect} from 'react-redux';
+import {ClipLoader} from 'react-spinners';
 import * as SplitPane from 'react-split-pane';
-import {Data} from 'vega-lite/build/src/data';
+import {SPINNER_COLOR} from '../../constants';
+import {Dataset} from '../../models/dataset';
 import {State} from '../../models/index';
-import {selectData} from '../../selectors/dataset';
+import {selectDataset} from '../../selectors/dataset';
 import '../app.scss';
 import {DataPane} from '../data-pane/index';
 import {EncodingPane} from '../encoding-pane/index';
@@ -17,30 +19,34 @@ import {LogPane} from '../log-pane/index';
 import {ViewPane} from '../view-pane/index';
 
 export interface AppRootProps {
-  data: Data;
+  dataset: Dataset;
 }
 
 class AppRootBase extends React.PureComponent<AppRootProps, {}> {
   public render() {
+    const {dataset} = this.props;
     let bottomPane, footer;
-    if (!this.props.data) {
-      bottomPane = <LoadData/>;
-    } else {
-      bottomPane = (
-        <SplitPane split="vertical" defaultSize={200}>
-          <DataPane/>
-          <SplitPane split="vertical" defaultSize={235}>
-            <EncodingPane/>
-            <ViewPane/>
+    if (!dataset.isLoading) {
+      if (!dataset.data) {
+        bottomPane = <LoadData/>;
+      } else {
+        bottomPane = (
+          <SplitPane split="vertical" defaultSize={200}>
+            <DataPane/>
+            <SplitPane split="vertical" defaultSize={235}>
+              <EncodingPane/>
+              <ViewPane/>
+            </SplitPane>
           </SplitPane>
-        </SplitPane>
-      );
-      footer = <Footer/>;
+        );
+        footer = <Footer/>;
+      }
     }
     return (
       <div className="voyager">
         <LogPane/>
         <Header/>
+        <ClipLoader color={SPINNER_COLOR} loading={dataset.isLoading}/>
         {bottomPane}
         {footer}
       </div>
@@ -51,7 +57,7 @@ class AppRootBase extends React.PureComponent<AppRootProps, {}> {
 export const AppRoot = connect(
   (state: State) => {
     return {
-      data: selectData(state)
+      dataset: selectDataset(state)
     };
   }
 )(DragDropContext(HTML5Backend)(AppRootBase));
