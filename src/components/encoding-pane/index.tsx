@@ -52,14 +52,14 @@ class EncodingPanelBase extends React.PureComponent<EncodingPanelProps, {}> {
     const positionShelves = ['x', 'y'].map(this.encodingShelf, this);
     const facetShelves = ['row', 'column'].map(this.encodingShelf, this);
     const nonPositionShelves = ['size', 'color', 'shape', 'detail', 'text'].map(this.encodingShelf, this);
-    const wildcardShelvesGroup = !manualSpecificationOnly ? (
+    const wildcardShelvesGroup = !manualSpecificationOnly && (
       <div styleName="shelf-group">
         <h3>Wildcard Shelves</h3>
         {[...anyEncodings.map((_, i) => i),
           -1 // map the empty placeholder to -1
         ].map(this.wildcardShelf, this)}
       </div>
-    ) : null;
+    );
 
     return (
       <div className="pane" styleName="encoding-pane">

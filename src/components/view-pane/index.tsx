@@ -59,12 +59,12 @@ class ViewPaneBase extends React.PureComponent<ViewPaneProps, {}> {
     const {isQuerySpecific, plots} = this.props;
     const {manualSpecificationOnly} = this.props.config;
 
-    const relatedViews = !manualSpecificationOnly ? (
+    const relatedViews = !manualSpecificationOnly && (
       <div className="pane" styleName="view-pane-related-views">
         <h2>Related Views</h2>
         <RelatedViews/>
       </div>
-    ) : null;
+    );
 
     if (isQuerySpecific) {
       return (

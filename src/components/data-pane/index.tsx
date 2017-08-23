@@ -25,12 +25,12 @@ export class DataPanelBase extends React.PureComponent<DataPanelProps, {}> {
         <FieldList/>
       </div>) : null;
 
-    const wildcardFields = !manualSpecificationOnly && fieldCount > 0 ? (
+    const wildcardFields = !manualSpecificationOnly && fieldCount > 0 && (
       <div styleName="data-pane-section">
         <h3>Wildcard Fields</h3>
         <PresetWildcardFieldList/>
       </div>
-    ) : null;
+    );
     return (
       <div className="pane" styleName="data-pane">
         <h2 styleName="data-pane-title">Data</h2>
