@@ -15,6 +15,7 @@ export interface Props extends React.Props<App> {
   data?: Data;
   applicationState?: Readonly<State>;
   spec?: TopLevel<FacetedCompositeUnitSpec>;
+  filename?: string;
   dispatch: Dispatch<State>;
 }
 
@@ -41,9 +42,9 @@ export class App extends React.PureComponent<Props, {}> {
   }
 
   private update(nextProps: Props) {
-    const { data, config, applicationState, dispatch, spec } = nextProps;
+    const { data, config, applicationState, dispatch, spec, filename } = nextProps;
     if (data) {
-      this.setData(data);
+      this.setData(data, filename);
     }
 
     if (config) {
@@ -52,7 +53,7 @@ export class App extends React.PureComponent<Props, {}> {
 
     if (spec) {
       // Note that this will overwrite other passed in props
-      this.setSpec(spec);
+      this.setSpec(spec, filename);
     }
 
     if (applicationState) {
@@ -61,8 +62,8 @@ export class App extends React.PureComponent<Props, {}> {
     }
   }
 
-  private setData(data: Data): any {
-    return this.props.dispatch(datasetLoad("Custom Data", data));
+  private setData(data: Data, filename: string): any {
+    return this.props.dispatch(datasetLoad(filename, data));
   }
 
   private setConfig(config: VoyagerConfig) {
@@ -74,9 +75,9 @@ export class App extends React.PureComponent<Props, {}> {
     });
   }
 
-  private setSpec(spec: TopLevel<FacetedCompositeUnitSpec>) {
+  private setSpec(spec: TopLevel<FacetedCompositeUnitSpec>, filename: string) {
     if (spec.data) {
-      this.setData(spec.data)
+      this.setData(spec.data, filename)
         .then(
           () => {
             this.shelfSpecLoad(spec);
