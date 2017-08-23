@@ -1,5 +1,4 @@
-
-import {LOG_ERRORS_ADD, LOG_WARNINGS_ADD, LogAction} from '../actions/log';
+import {LOG_ERRORS_ADD, LOG_WARNINGS_ADD, LogAction} from '../../actions/log';
 
 export class Logger {
   private handleAction: (action: LogAction) => void;
