@@ -8,13 +8,11 @@ import {FacetedCompositeUnitSpec, GenericUnitSpec, isUnitSpec} from 'vega-lite/b
 
 import {createSelector} from 'reselect';
 import {Selector} from 'reselect/src/reselect';
-import {Data} from 'vega-lite/build/src/data';
 import {OneOfFilter, RangeFilter} from 'vega-lite/build/src/filter';
 import {State} from '../models/index';
 import {ResultPlot} from '../models/result';
 import {Result, RESULT_TYPES, ResultType} from '../models/result';
 import {getTransforms} from '../models/shelf/spec';
-import {selectData} from './dataset';
 import {selectFilters, selectIsQueryEmpty, selectIsQuerySpecific} from './shelf';
 
 export const selectResult: {
@@ -48,13 +46,11 @@ const selectResultPlots: {
 export const selectMainSpec = createSelector(
   selectIsQuerySpecific,
   selectIsQueryEmpty,
-  selectData,
   selectFilters,
   selectResultPlots.main,
   (
     isQuerySpecific: boolean,
     isQueryEmpty: boolean,
-    data: Data,
     filters: Array<RangeFilter|OneOfFilter>,
     mainPlots: ResultPlot[]
   ): FacetedCompositeUnitSpec => {
@@ -62,7 +58,6 @@ export const selectMainSpec = createSelector(
       return undefined;
     }
     return {
-      data: data,
       transform: getTransforms(filters),
       ...mainPlots[0].spec
     };
@@ -70,18 +65,17 @@ export const selectMainSpec = createSelector(
 );
 
 
-// TODO(https://github.com/vega/voyager/issues/617): get rid of this once we bind data at runtime.
+// TODO(https://github.com/vega/voyager/issues/617):
+// get rid of this once separate filter from specs.
 export const selectPlotList: {
   [k in ResultType]?: Selector<State, ResultPlot[]>
 } = RESULT_TYPES.reduce((selectors, resultType) => {
   selectors[resultType] = createSelector(
     selectIsQuerySpecific,
-    selectData,
     selectFilters,
     selectResultPlots[resultType],
     (
       isQuerySpecific: boolean,
-      data: Data,
       filters: Array<RangeFilter|OneOfFilter>,
       plots: ResultPlot[]
     ) => {
