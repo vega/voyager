@@ -94,6 +94,10 @@ export class RangeFilterShelfBase extends React.PureComponent<RangeFilterShelfPr
     } else {
       range = input;
     }
+    if (range[0] > range[1]) {
+      window.alert('Invalid bound');
+      return;
+    }
     const {handleAction, index} = this.props;
     handleAction({
       type: FILTER_MODIFY_EXTENT,
@@ -115,6 +119,11 @@ export class RangeFilterShelfBase extends React.PureComponent<RangeFilterShelfPr
     if (this.props.renderDateTimePicker) {
       maxBound = convertToDateTimeObject(maxBound);
     }
+    const minBound = this.props.filter.range[0];
+    if (maxBound < minBound) {
+      window.alert('Maximum bound cannot be smaller than minimum bound');
+      return;
+    }
     handleAction({
       type: FILTER_MODIFY_MAX_BOUND,
       payload: {
@@ -134,6 +143,12 @@ export class RangeFilterShelfBase extends React.PureComponent<RangeFilterShelfPr
     const {handleAction, index, renderDateTimePicker} = this.props;
     if (renderDateTimePicker) {
       minBound = convertToDateTimeObject(minBound);
+    }
+    const range = this.props.filter.range;
+    const maxBound = range[1];
+    if (minBound > maxBound) {
+      window.alert('Minimum bound cannot be greater than maximum bound');
+      return;
     }
     handleAction({
       type: FILTER_MODIFY_MIN_BOUND,

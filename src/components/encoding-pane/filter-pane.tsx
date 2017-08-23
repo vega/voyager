@@ -10,7 +10,7 @@ import {TimeUnit} from 'vega-lite/build/src/timeunit';
 import {FILTER_ADD, FILTER_MODIFY_TIME_UNIT,
   FILTER_REMOVE, FilterAction} from '../../actions';
 import {DraggableType} from '../../constants';
-import {convertToDateTimeObject, getDefaultList, getDefaultRange} from '../../models/shelf/filter';
+import {containsFilter, convertToDateTimeObject, getDefaultList, getDefaultRange} from '../../models/shelf/filter';
 import {DraggedFieldIdentifier} from '../field';
 import {Field} from '../field/index';
 import * as styles from './filter-pane.scss';
@@ -143,7 +143,6 @@ class FilterPaneBase extends React.PureComponent<FilterPaneProps, {}> {
           draggable={false}
           fieldDef={fieldDef}
           caretShow={true}
-          filterShow={false}
           isPill={true}
           onRemove={this.filterRemove.bind(this, index)}
           popupComponent={popupComponent}
@@ -207,7 +206,12 @@ const filterShelfTarget: DropTargetSpec<FilterPaneProps> = {
     }
     const {filter} = monitor.getItem() as DraggedFieldIdentifier;
     if (isWildcard(filter.field)) {
-      throw new Error ('Cannot add wildcard filter');
+      window.alert('Cannot add wildcard filter');
+      throw new Error('Cannot add wildcard filter');
+    }
+    if (containsFilter(props.filters, filter)) {
+      window.alert('Cannot add more than one filter of the same field');
+      return;
     }
     props.handleAction({
       type: FILTER_ADD,

@@ -105,3 +105,12 @@ export function convertToTimestamp(dateTime: DateTime): number {
   );
   return Number(date);
 }
+
+export function containsFilter(filters: Array<RangeFilter | OneOfFilter>, target: RangeFilter | OneOfFilter) {
+  for (const filter of filters) {
+    if (filter.field === target.field) {
+      return true;
+    }
+  }
+  return false;
+}
