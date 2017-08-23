@@ -1,7 +1,9 @@
 import * as React from 'react';
 import * as CopyToClipboard from 'react-copy-to-clipboard';
 import * as CSSModules from 'react-css-modules';
+import {connect} from 'react-redux';
 import * as TetherComponent from 'react-tether';
+import {Data} from 'vega-lite/build/src/data';
 import {isDiscrete, isFieldDef} from 'vega-lite/build/src/fielddef';
 import {SortField, SortOrder} from 'vega-lite/build/src/sort';
 import {FacetedCompositeUnitSpec} from 'vega-lite/build/src/spec';
@@ -13,14 +15,16 @@ import {ShelfAction, SPEC_LOAD} from '../../actions/shelf';
 import {SHELF_PREVIEW_DISABLE, SHELF_PREVIEW_SPEC, ShelfPreviewAction} from '../../actions/shelf-preview';
 import {PLOT_HOVER_MIN_DURATION} from '../../constants';
 import {Bookmark} from '../../models/bookmark';
+import {State} from '../../models/index';
 import {PlotFieldInfo, ResultPlot} from '../../models/result';
+import {selectData} from '../../selectors/dataset';
 import {Field} from '../field/index';
 import {Logger} from '../util/util.logger';
 import {VegaLite} from '../vega-lite/index';
 import {BookmarkButton} from './bookmarkbutton';
 import * as styles from './plot.scss';
 
-export interface PlotProps extends ActionHandler<
+export interface PlotOwnProps extends ActionHandler<
   ShelfAction | BookmarkAction | ShelfPreviewAction | ResultAction | LogAction
 > {
   fieldInfos?: PlotFieldInfo[];
@@ -37,6 +41,12 @@ export interface PlotProps extends ActionHandler<
   // so we can close the modal when the specify button is clicked.
   closeModal?: () => void;
 }
+
+export interface PlotConnectProps {
+  data: Data;
+}
+
+export type PlotProps = PlotOwnProps & PlotConnectProps;
 
 export interface PlotState {
   hovered: boolean;
@@ -84,7 +94,7 @@ export class PlotBase extends React.PureComponent<PlotProps, PlotState> {
   }
 
   public render() {
-    const {isPlotListItem, onSort, showBookmarkButton, showSpecifyButton, spec} = this.props;
+    const {isPlotListItem, onSort, showBookmarkButton, showSpecifyButton, spec, data} = this.props;
 
     let notesDiv;
     const specKey = JSON.stringify(spec);
@@ -132,7 +142,7 @@ export class PlotBase extends React.PureComponent<PlotProps, PlotState> {
           onMouseEnter={this.onMouseEnter}
           onMouseLeave={this.onMouseLeave}
         >
-          <VegaLite spec={spec} logger={this.plotLogger}/>
+          <VegaLite spec={spec} logger={this.plotLogger} data={data}/>
         </div>
         {notesDiv}
       </div>
@@ -293,6 +303,11 @@ export class PlotBase extends React.PureComponent<PlotProps, PlotState> {
   }
 
   private copySpecButton() {
+    // TODO: spec would only contain NamedData, but not the actual data.
+    // Need to augment spec.data
+    // TODO instead of pre-generating a text for the copy button, which
+    // takes a lot of memory for each plot
+    // Can only generate the text only when the button is clicked?
     return (
       <CopyToClipboard
         onCopy={this.copied.bind(this)}
@@ -322,4 +337,12 @@ export class PlotBase extends React.PureComponent<PlotProps, PlotState> {
   }
 }
 
-export const Plot = CSSModules(PlotBase, styles);
+export const Plot = connect<PlotConnectProps, {}, PlotOwnProps>(
+  (state: State /*, props*/) => {
+    // TODO: once we have multiple cached data from Leilani's engine
+    // take spec from props and read spec.data.name
+    return {
+      data: selectData(state)
+    };
+  }
+)(CSSModules(PlotBase, styles));

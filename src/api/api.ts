@@ -6,7 +6,7 @@ import {Query} from 'compassql/build/src/query/query';
 import {recommend} from 'compassql/build/src/recommend';
 import {build as buildSchema, Schema} from 'compassql/build/src/schema';
 import 'isomorphic-fetch';
-import {Data} from 'vega-lite/build/src/data';
+import {Data, isUrlData} from 'vega-lite/build/src/data';
 import {VoyagerConfig} from '../models/config';
 import {fromSpecQueryModelGroup, ResultPlotWithKey} from '../models/result';
 
@@ -42,6 +42,11 @@ export function fetchCompassQLRecommend(query: Query, schema: Schema, data: Data
     return new Promise(resolve => {
       const modelGroup = recommend(query, schema).result;
 
+      // TODO:
+      // - replace this with different cached data source's unique names
+      // once we have multiple cached data source from Leilani's optimizer engine
+      // - (short term) always bind data at runtime
+      data = isUrlData(data) ? data : {name: 'source'};
       resolve(fromSpecQueryModelGroup(modelGroup, data));
     });
   }

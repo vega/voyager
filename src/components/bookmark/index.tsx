@@ -98,15 +98,13 @@ export class BookmarkBase extends React.PureComponent<BookmarkProps, any> {
   private renderBookmarks(bookmark: Bookmark) {
     const plots: ResultPlot[] = bookmark.list.map(key => bookmark.dict[key].plot);
 
-    const bookmarkPlotListItems = plots.map(plot => {
+    const bookmarkPlotListItems = plots.map((plot, index) => {
       const {spec, fieldInfos} = plot;
-      const specKey = JSON.stringify(spec);
-
       return (
         <Plot
           bookmark={this.props.bookmark}
           closeModal={this.closeModal.bind(this)}
-          key={specKey}
+          key={index}
           fieldInfos={fieldInfos}
           handleAction={this.props.handleAction}
           isPlotListItem={true}
