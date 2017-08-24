@@ -8,3 +8,4 @@ export declare function getDefaultRange(domain: number[], timeUnit: TimeUnit): n
 export declare function getDefaultList(timeUnit: TimeUnit): string[];
 export declare function convertToDateTimeObject(timeStamp: number): DateTime;
 export declare function convertToTimestamp(dateTime: DateTime): number;
+export declare function containsFilter(filters: Array<RangeFilter | OneOfFilter>, target: RangeFilter | OneOfFilter): boolean;

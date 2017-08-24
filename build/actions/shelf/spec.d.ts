@@ -1,5 +1,6 @@
 import { FacetedCompositeUnitSpec } from 'vega-lite/build/src/spec';
 import { ShelfFieldDef, ShelfFunction, ShelfId, ShelfMark } from '../../models';
+import { Action } from '../index';
 import { PlainReduxAction, ReduxAction } from '../redux-action';
 export declare type SpecAction = SpecClear | SpecMarkChangeType | SpecEncodingAction;
 export declare type SpecEncodingAction = SpecFieldAdd | SpecFieldAutoAdd | SpecFieldRemove | SpecFieldMove | SpecFieldPropChange<any> | SpecFieldNestedPropChange<any, any> | SpecFunctionChange | SpecFunctionAddWildcard | SpecFunctionRemoveWildcard | SpecFunctionDisableWildcard | SpecFunctionEnableWildcard | SpecLoad;
@@ -74,3 +75,7 @@ export declare type SpecLoad = ReduxAction<typeof SPEC_LOAD, {
     spec: FacetedCompositeUnitSpec;
     keepWildcardMark: boolean;
 }>;
+export declare const SPEC_ACTION_TYPE_INDEX: {
+    [k in SpecAction['type']]: 1;
+};
+export declare function isSpecAction(a: Action): a is SpecAction;

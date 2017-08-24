@@ -3,6 +3,7 @@ import { StateWithHistory } from 'redux-undo';
 import { Bookmark } from './bookmark';
 import { VoyagerConfig } from './config';
 import { Dataset, DatasetWithoutSchema } from './dataset';
+import { Log } from './log';
 import { ResultIndex } from './result';
 import { Shelf } from './shelf';
 import { ShelfPreview } from './shelf-preview';
@@ -17,6 +18,7 @@ export * from './config';
 export interface PersistentState {
     bookmark: Bookmark;
     config: VoyagerConfig;
+    log: Log;
     shelfPreview: ShelfPreview;
 }
 export interface UndoableStateBaseWithoutDataset {

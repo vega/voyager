@@ -31,7 +31,13 @@ export interface FieldPropsBase {
     /** Remove field event handler.  If not provided, remove button will disappear. */
     onRemove?: () => void;
     handleAction?: (action: FilterAction | ShelfAction | DatasetSchemaChangeFieldType) => void;
-    filterShow?: boolean;
+    /**
+     * If filter button is shown, we need to provide filters to check duplicated filters.
+     * If not provided, filter button will disappear.
+     */
+    filterShow?: {
+        filters: Array<RangeFilter | OneOfFilter>;
+    };
     caretShow: boolean;
     schema?: Schema;
     /** If not provided, it does not have a popup */

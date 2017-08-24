@@ -4,6 +4,7 @@ import { FacetedCompositeUnitSpec } from 'vega-lite/build/src/spec';
 import { ActionHandler } from '../../actions/redux-action';
 import { ShelfAction } from '../../actions/shelf';
 import { Bookmark } from '../../models/bookmark';
+import { VoyagerConfig } from '../../models/config';
 import { ResultPlot } from '../../models/result';
 import { ShelfGroupBy } from '../../models/shelf/index';
 export interface ViewPaneProps extends ActionHandler<ShelfAction> {
@@ -15,5 +16,6 @@ export interface ViewPaneProps extends ActionHandler<ShelfAction> {
     autoAddCount: boolean;
     groupBy: ShelfGroupBy;
     defaultGroupBy: ShelfGroupBy;
+    config: VoyagerConfig;
 }
 export declare const ViewPane: React.ComponentClass<{}>;
