@@ -13,7 +13,7 @@ export interface DataPanelProps {
   config: VoyagerConfig;
 }
 
-export class DataPanelBase extends React.PureComponent<DataPanelProps, {}> {
+export class DataPaneBase extends React.PureComponent<DataPanelProps, {}> {
   public render() {
     const {name} = this.props.data;
     const fieldCount = this.props.data.schema.fieldSchemas.length;
@@ -58,4 +58,4 @@ export const DataPane = connect(
       config: selectConfig(state)
     };
   }
-)(CSSModules(DataPanelBase, styles));
+)(CSSModules(DataPaneBase, styles));
