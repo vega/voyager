@@ -11,13 +11,14 @@ import {
   SPEC_FUNCTION_REMOVE_WILDCARD, SpecEncodingAction
 } from '../../actions/shelf';
 import {DraggableType, FieldParentType} from '../../constants';
-import {ShelfFieldDef, ShelfId} from '../../models';
+import {ShelfFieldDef, ShelfId, ShelfValueDef} from '../../models';
 import {ShelfFunction} from '../../models/shelf';
 import {isWildcardChannelId} from '../../models/shelf/spec/encoding';
 import {DraggedFieldIdentifier, Field} from '../field/index';
 import * as styles from './encoding-shelf.scss';
 import {FieldCustomizer} from './field-customizer';
 import {FunctionPicker, FunctionPickerWildcardHandler} from './function-picker';
+import {ValueCustomizer} from './value-customizer';
 
 /**
  * Props for react-dnd of EncodingShelf
@@ -34,6 +35,8 @@ export interface EncodingShelfPropsBase extends ActionHandler<SpecEncodingAction
   id: ShelfId;
 
   fieldDef: ShelfFieldDef;
+
+  valueDef: ShelfValueDef;
 
   schema: Schema;
 }
@@ -60,7 +63,7 @@ class EncodingShelfBase extends React.PureComponent<
   }
 
   public render() {
-    const {id, connectDropTarget, fieldDef, handleAction} = this.props;
+    const {id, connectDropTarget, fieldDef, handleAction, valueDef} = this.props;
 
     const isWildcardShelf = isWildcard(id.channel);
     const channelName = isWildcardShelf ? 'any' : id.channel;
@@ -82,11 +85,18 @@ class EncodingShelfBase extends React.PureComponent<
             }
 
             {this.state.customizerIsOpened &&
-              <FieldCustomizer
-                shelfId={id}
-                fieldDef={fieldDef}
-                handleAction={handleAction}
-              />
+              <div>
+                <FieldCustomizer
+                  shelfId={id}
+                  fieldDef={fieldDef}
+                  handleAction={handleAction}
+                />
+                <ValueCustomizer
+                  shelfId={id}
+                  valueDef={valueDef}
+                  handleAction={handleAction}
+                />
+              </div>
             }
           </TetherComponent>
         </div>

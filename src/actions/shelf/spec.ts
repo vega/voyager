@@ -1,6 +1,6 @@
 
 import {FacetedCompositeUnitSpec} from 'vega-lite/build/src/spec';
-import {ShelfFieldDef, ShelfFunction, ShelfId, ShelfMark} from '../../models';
+import {ShelfFieldDef, ShelfFunction, ShelfId, ShelfMark, ShelfValueDef} from '../../models';
 import {Action} from '../index';
 import {PlainReduxAction, ReduxAction} from '../redux-action';
 
@@ -15,6 +15,7 @@ export type SpecEncodingAction = SpecFieldAdd | SpecFieldAutoAdd |
   SpecFunctionChange |
   SpecFunctionAddWildcard | SpecFunctionRemoveWildcard |
   SpecFunctionDisableWildcard | SpecFunctionEnableWildcard |
+  SpecValueChange |
   SpecLoad ;
 
 export const SPEC_CLEAR = 'SPEC_CLEAR';
@@ -104,6 +105,14 @@ export type SpecFunctionRemoveWildcard = ReduxAction<typeof SPEC_FUNCTION_REMOVE
   fn: ShelfFunction
 }>;
 
+// Value
+
+export const SPEC_VALUE_CHANGE = 'SPEC_VALUE_CHANGE';
+export type SpecValueChange = ReduxAction<typeof SPEC_VALUE_CHANGE, {
+  shelfId: ShelfId,
+  valueDef: ShelfValueDef
+}>;
+
 export const SPEC_LOAD = 'SPEC_LOAD';
 export type SpecLoad = ReduxAction<typeof SPEC_LOAD, {
   spec: FacetedCompositeUnitSpec,
@@ -126,7 +135,9 @@ export const SPEC_ACTION_TYPE_INDEX: {[k in SpecAction['type']]: 1} = {
   SPEC_FUNCTION_ADD_WILDCARD: 1,
   SPEC_FUNCTION_DISABLE_WILDCARD: 1,
   SPEC_FUNCTION_ENABLE_WILDCARD: 1,
-  SPEC_FUNCTION_REMOVE_WILDCARD: 1
+  SPEC_FUNCTION_REMOVE_WILDCARD: 1,
+
+  SPEC_VALUE_CHANGE: 1
 };
 
 export function isSpecAction(a: Action): a is SpecAction {
