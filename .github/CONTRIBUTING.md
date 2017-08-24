@@ -30,9 +30,14 @@ In the future, we plan to migrate to use `webpack-dev-server` with hot module lo
 
 ### Actions
 
-- Synchronous actions should implement `ReduxAction` interfaces in `src/actions/redux-action`, which follows pattern described in https://github.com/acdlite/redux-actions.
+- Action names should start with the part of the model it is modifying, so it's easy to categorize. For example, all bookmark actions have the "Bookmark" prefix.
 
-- Asynchronous actions should implement `ThunkAction`.  See `actions/dataset.ts` for example.
+- Synchronous actions should implement `ReduxAction` interfaces in `src/actions/redux-action`, which follows pattern described in https://github.com/acdlite/redux-actions.
+  - Since we already have types, we do not make action creator functions.
+
+  - For asynchronous actions, since they involve multiple sub-actions, we still have action creator functions (e.g., `datasetLoad()` in `actions/dataset.ts`). These action creators follow  `redux-thunk` patterns.
+
+- In `src/action/index.ts`, we have `ACTION_TYPE_INDEX` that uses TS's mapped type to declare so we make sure we generate `ACTION_TYPES` that contain all actions.
 
 ## Vega-Lite / CompassQL Directives
 
@@ -40,11 +45,9 @@ In the future, we plan to migrate to use `webpack-dev-server` with hot module lo
 
 ## React Components
 
-- We make our props and states immutable. (TypeScript's `Readonly` type wrapper is very helpful to enforce immutability.)
-
 - Since our props and states are immutable, we always use [`PureComponent`](https://facebook.github.io/react/docs/react-api.html#react.purecomponent) for all of our components and rely on its shallow prop and state comparison.
 
-- Use lowercase-dash-separated-names for file names. (Using Pascal-case as filename can be problematic for OSX in general as OSX is case-insensitive.)
+- Use lowercase-dash-separated-names for file names. (Using PascalCase as filename can be problematic for OSX in general as OSX is case-insensitive.)
 
 - Following Redux's [Using with React](http://redux.js.org/docs/basics/UsageWithReact.html) guide, we distinguish between presentation and container components. However, instead of having event handlers (e.g., `onTodoClick` in the guide) for every single events, we pass in `handleAction` property to presentation components (which implements our `ActionHandler` interface).  For more information, see `src/actions/redux-action.ts`.
 
@@ -52,3 +55,15 @@ In the future, we plan to migrate to use `webpack-dev-server` with hot module lo
 
 - For CSS, we use [react-css-modules](https://github.com/gajus/react-css-modules) and SASS, which makes it easy to modularize style in React using the `styleName` tag.  (See [react-css-modules](https://github.com/gajus/react-css-modules)'s README for more details.)
   - Since CSS-Modules use filename as a prefix, never name a scss file `index.scss`.  Instead use the module name.  For example, the scss file for `data-pane/index.tsx` is `data-pane/data-pane.scss`.
+
+## Reducer
+
+- We make our props and states immutable. (Using TypeScript's `Readonly` type wrapper in reducers is very helpful to enforce immutability.)
+
+- We use `...` to make sure things are immutable and we don't cause side-effects.
+
+- For array, we have utility methods in `src/reducers/util.ts`.
+
+## Models
+
+- `src/models` contains all interfaces and helper methods for our redux state.

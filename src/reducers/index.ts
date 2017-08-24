@@ -207,17 +207,11 @@ export const USER_ACTIONS: ActionType[] = [
 export const USER_ACTION_INDEX: Object = toSet(USER_ACTIONS);
 
 /**
- * Actions that are to be grouped with actions that precede them.
- *
- * This list is here for documentation purposes
- *
- * DATASET_INLINE_RECEIVE,
- * DATASET_URL_RECEIVE,
+ * Actions that are to be grouped with actions that precede them. (Usually for async actions.)
  */
 
 export const GROUPED_ACTIONS: ActionType[] = [
-  DATASET_RECEIVE,
-  DATASET_RECEIVE,
+  DATASET_RECEIVE // Should be grouped with DATASET_REQUEST
 ];
 
 let _groupId = 0;
