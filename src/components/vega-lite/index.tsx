@@ -20,11 +20,16 @@ const CHART_REF = 'chart';
 
 export class VegaLite extends React.PureComponent<VegaLiteProps, {}> {
   private view: vega.View;
+  private size: {width: number, height: number};
+
+  private mountTimeout: number;
+  private updateTimeout: number;
 
   public render() {
     return (
       <div>
         <div className='chart' ref={CHART_REF}/>
+        {/* chart is defined in app.scss */}
         <div id="vis-tooltip" className="vg-tooltip"/>
       </div>
     );
@@ -61,7 +66,7 @@ export class VegaLite extends React.PureComponent<VegaLiteProps, {}> {
       this.view = new vega.View(runtime)
         .logLevel(vega.Warn)
         .initialize(this.refs[CHART_REF] as any)
-        .renderer(this.props.renderer || 'svg')
+        .renderer(this.props.renderer || 'canvas')
         .hover();
       vegaTooltip.vega(this.view);
       this.bindData();
@@ -71,17 +76,48 @@ export class VegaLite extends React.PureComponent<VegaLiteProps, {}> {
   }
 
   protected componentDidMount() {
-    this.updateSpec();
-    this.runView();
+    if (this.mountTimeout) {
+      clearTimeout(this.mountTimeout);
+    }
+    this.mountTimeout = setTimeout(() => {
+      this.updateSpec();
+      this.runView();
+    });
+  }
+
+  protected componentWillUpdate() {
+    this.size = this.getChartSize();
   }
 
   protected componentDidUpdate(prevProps: VegaLiteProps, prevState: {}) {
-    if (prevProps.spec !== this.props.spec) {
-      this.updateSpec();
-    } else if (prevProps.data !== this.props.data) {
-      this.bindData();
+    if (this.updateTimeout) {
+      clearTimeout(this.updateTimeout);
     }
-    this.runView();
+    this.updateTimeout = setTimeout(() => {
+      if (prevProps.spec !== this.props.spec) {
+        const chart = this.refs[CHART_REF] as HTMLElement;
+        chart.style.width = this.size.width + 'px';
+        chart.style.height = this.size.height + 'px';
+        this.updateSpec();
+      } else if (prevProps.data !== this.props.data) {
+        this.bindData();
+      }
+      this.runView();
+    });
+  }
+
+  protected componentWillUnmount() {
+    if (this.mountTimeout) {
+      clearTimeout(this.mountTimeout);
+    }
+
+    if (this.updateTimeout) {
+      clearTimeout(this.updateTimeout);
+    }
+
+    if (this.view) {
+      this.view.finalize();
+    }
   }
 
   private bindData() {
@@ -89,9 +125,8 @@ export class VegaLite extends React.PureComponent<VegaLiteProps, {}> {
     if (isInlineData(data) && isNamedData(spec.data) && !this.view.data(spec.data.name)) {
       this.view.change(spec.data.name,
         vega.changeset()
-            .remove(() => true)
+            .remove(() => true) // remove previous data
             .insert(data.values)
-           // remove previous data
       );
     }
   }
@@ -102,5 +137,13 @@ export class VegaLite extends React.PureComponent<VegaLiteProps, {}> {
     } catch (err) {
       this.props.logger.error(err);
     }
+  }
+
+  private getChartSize(): {width: number, height: number} {
+    const chart = this.refs[CHART_REF] as HTMLElement;
+    const chartContainer = chart.querySelector(this.props.renderer || 'canvas');
+    const width = Number(chartContainer.getAttribute('width'));
+    const height = Number(chartContainer.getAttribute('height'));
+    return {width, height};
   }
 }

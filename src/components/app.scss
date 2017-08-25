@@ -122,7 +122,16 @@
   .react-spinners--clip {
     margin: auto;
   }
-}
+
+  .chart > canvas, .chart > svg {
+    margin: auto; // center the plot
+    display: block;
+  }
+
+  .chart {
+    margin: auto;
+  }
+
 
 :global .vg-tooltip {
     visibility: hidden;
@@ -155,3 +164,4 @@
     max-width: 200px;
     text-align: left;
   }
+}
