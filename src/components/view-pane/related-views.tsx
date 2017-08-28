@@ -36,10 +36,10 @@ export class RelatedViewsBase extends React.PureComponent<RelatedViewsProps, {}>
     const subpanes = RELATED_VIEWS_TYPES.map(relatedViewType => {
       const plots = plotsIndex[relatedViewType];
       const title = RELATED_VIEWS_INDEX[relatedViewType].title;
-      const {limit} = results[relatedViewType];
+      const result = results[relatedViewType];
+      const {isLoading} = result;
       return (
-        plots && plots.length > 0 &&
-        <div styleName="related-views-subpane" key={relatedViewType}>
+        (isLoading || plots && plots.length > 0) && <div styleName="related-views-subpane" key={relatedViewType}>
           <div>
             <h3>
               {title}
@@ -59,10 +59,9 @@ export class RelatedViewsBase extends React.PureComponent<RelatedViewsProps, {}>
 
           <PlotList
             handleAction={handleAction}
-            plots={plots}
             bookmark={bookmark}
-            limit={limit}
             resultType={relatedViewType}
+            result={result}
           />
         </div>
       );
