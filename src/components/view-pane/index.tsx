@@ -10,10 +10,10 @@ import {SPEC_FIELD_PROP_CHANGE} from '../../actions/shelf/spec';
 import {State} from '../../models';
 import {Bookmark} from '../../models/bookmark';
 import {VoyagerConfig} from '../../models/config';
-import {ResultPlot} from '../../models/result';
+import {Result} from '../../models/result/index';
 import {SHELF_GROUP_BYS, ShelfGroupBy} from '../../models/shelf/index';
-import {selectBookmark, selectConfig, selectMainSpec, selectPlotList} from '../../selectors';
-import {selectResultLimit} from '../../selectors/result';
+import {selectBookmark, selectConfig, selectMainSpec} from '../../selectors';
+import {selectResult} from '../../selectors/result';
 import {selectAutoAddCount, selectDefaultGroupBy, selectIsQuerySpecific, selectShelf} from '../../selectors/shelf';
 import {Plot} from '../plot';
 import {PlotList} from '../plot-list';
@@ -23,10 +23,8 @@ import * as styles from './view-pane.scss';
 export interface ViewPaneProps extends ActionHandler<ShelfAction> {
   isQuerySpecific: boolean;
   spec: FacetedCompositeUnitSpec;
-  plots: ResultPlot[];
+  result: Result;
   bookmark: Bookmark;
-  mainLimit: number;
-
   autoAddCount: boolean;
 
   groupBy: ShelfGroupBy;
@@ -56,7 +54,7 @@ class ViewPaneBase extends React.PureComponent<ViewPaneProps, {}> {
   }
 
   public render() {
-    const {isQuerySpecific, plots} = this.props;
+    const {isQuerySpecific} = this.props;
     const {manualSpecificationOnly} = this.props.config;
 
     const relatedViews = !manualSpecificationOnly && (
@@ -65,6 +63,7 @@ class ViewPaneBase extends React.PureComponent<ViewPaneProps, {}> {
         <RelatedViews/>
       </div>
     );
+
 
     if (isQuerySpecific) {
       return (
@@ -76,11 +75,8 @@ class ViewPaneBase extends React.PureComponent<ViewPaneProps, {}> {
           {relatedViews}
         </div>
       );
-    } else if (plots) {
-      return this.renderSpecifiedViews();
     } else {
-      // if there are no results, then nothing to render.
-      return null;
+      return this.renderSpecifiedViews();
     }
   }
 
@@ -117,7 +113,7 @@ class ViewPaneBase extends React.PureComponent<ViewPaneProps, {}> {
   }
 
   private renderSpecifiedViews() {
-    const {bookmark, handleAction, plots, mainLimit, autoAddCount, groupBy, defaultGroupBy} = this.props;
+    const {bookmark, handleAction, autoAddCount, groupBy, defaultGroupBy, result} = this.props;
 
     const options = SHELF_GROUP_BYS.map(value => {
       const label = value === 'auto' ?
@@ -129,7 +125,6 @@ class ViewPaneBase extends React.PureComponent<ViewPaneProps, {}> {
         </option>
       );
     });
-
     return (
       <div className="pane" styleName="view-pane-gallery">
         <div className="right">
@@ -153,7 +148,12 @@ class ViewPaneBase extends React.PureComponent<ViewPaneProps, {}> {
         </div>
 
         <h2>Specified Views</h2>
-        <PlotList resultType="main" handleAction={handleAction} plots={plots} bookmark={bookmark} limit={mainLimit}/>
+        <PlotList
+          result={result}
+          resultType="main"
+          handleAction={handleAction}
+          bookmark={bookmark}
+        />
       </div>
     );
   }
@@ -181,9 +181,7 @@ export const ViewPane = connect(
       isQuerySpecific: selectIsQuerySpecific(state),
       bookmark: selectBookmark(state),
       spec: selectMainSpec(state),
-
-      plots: selectPlotList.main(state),
-      mainLimit: selectResultLimit.main(state),
+      result: selectResult.main(state),
       autoAddCount: selectAutoAddCount(state),
       groupBy: selectShelf(state).groupBy,
       defaultGroupBy: selectDefaultGroupBy(state),

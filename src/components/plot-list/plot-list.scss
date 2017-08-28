@@ -5,6 +5,12 @@
   flex-wrap: wrap;
 }
 
+.plot-list-loading {
+  min-height: 290px;
+  margin: auto;
+  display: flex;
+}
+
 .load-more {
   display: block;
   background: #e2e9f3;

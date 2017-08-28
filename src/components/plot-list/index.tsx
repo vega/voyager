@@ -1,5 +1,6 @@
 import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
+import {ClipLoader} from 'react-spinners';
 import {SortField, SortOrder} from 'vega-lite/build/src/sort';
 import {ActionHandler} from '../../actions/redux-action';
 import {
@@ -7,20 +8,19 @@ import {
   ResultAction, ResultModifyFieldProp
 } from '../../actions/result';
 import {ShelfAction} from '../../actions/shelf';
+import {SPINNER_COLOR} from '../../constants';
 import {Bookmark} from '../../models/bookmark';
-import {ResultPlot} from '../../models/result';
 import {ResultType} from '../../models/result';
+import {Result} from '../../models/result/index';
 import {Plot} from '../plot';
 import * as styles from './plot-list.scss';
 
 export interface PlotListProps extends ActionHandler<ShelfAction|ResultAction> {
-  plots: ResultPlot[];
+  result: Result;
 
   resultType?: ResultType;
 
   bookmark: Bookmark;
-
-  limit?: number;
 }
 
 export class PlotListBase extends React.PureComponent<PlotListProps, any> {
@@ -31,8 +31,9 @@ export class PlotListBase extends React.PureComponent<PlotListProps, any> {
   }
 
   public render() {
-    const {plots, handleAction, bookmark, limit} = this.props;
-    const plotListItems = plots.slice(0, limit).map((plot, index) => {
+    const {handleAction, bookmark, result} = this.props;
+    const {plots, limit, isLoading} = result;
+    const plotListItems = plots && plots.slice(0, limit).map((plot, index) => {
       const {spec, fieldInfos} = plot;
       return (
         <Plot
@@ -48,13 +49,16 @@ export class PlotListBase extends React.PureComponent<PlotListProps, any> {
         />
       );
     });
-
     return (
       <div>
         <div styleName="plot-list">
-          {plotListItems}
+          {isLoading ?
+            <div styleName='plot-list-loading'>
+              <ClipLoader color={SPINNER_COLOR}/>
+            </div> :
+          plotListItems}
         </div>
-        {plots.length > limit && (
+        {plots && plots.length > limit && (
           <a styleName="load-more" onClick={this.onLoadMore}>
             Load more...
           </a>
