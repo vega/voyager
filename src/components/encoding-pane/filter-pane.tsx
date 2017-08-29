@@ -71,14 +71,16 @@ class FilterPaneBase extends React.PureComponent<FilterPaneProps, {}> {
   }
 
   protected filterModifyTimeUnit(timeUnit: string, index: number) {
-    const {handleAction} = this.props;
+    const {handleAction, schema, filters} = this.props;
+    const domain = schema.domain({field: filters[index].field});
     if (timeUnit === '-') {
       timeUnit = undefined;
     }
     handleAction({
       type: FILTER_MODIFY_TIME_UNIT,
       payload: {
-        index: index,
+        index,
+        domain,
         timeUnit: timeUnit as TimeUnit
       }
     });

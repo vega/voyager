@@ -25,10 +25,16 @@ export function shelfSpecReducer(
   shelfSpec: Readonly<ShelfUnitSpec> = DEFAULT_SHELF_UNIT_SPEC,
   action: Action,
   schema: Schema
-) {
-  return [shelfSpecReducerBase, filterReducer].reduce((spec, reducer) => {
-    return reducer(spec, action, schema);
-  }, shelfSpec);
+): Readonly<ShelfUnitSpec> {
+  const filters = filterReducer(shelfSpec.filters, action);
+  if (filters !== shelfSpec.filters) {
+    return {
+      ...shelfSpecReducerBase(shelfSpec, action, schema),
+      filters: filterReducer(shelfSpec.filters, action)
+    };
+  } else {
+    return shelfSpecReducerBase(shelfSpec, action, schema);
+  }
 }
 
 function shelfSpecReducerBase(
