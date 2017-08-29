@@ -31,29 +31,31 @@ export function datasetReducer(dataset: Readonly<Dataset> = DEFAULT_DATASET, act
     }
   }
 
-  return schemaReducer(dataset, action);
+  const schema = schemaReducer(dataset.schema, action);
+  if (dataset.schema !== schema) {
+    return {
+      ...dataset,
+      schema
+    };
+  } else {
+    return dataset;
+  }
 }
 
-export function schemaReducer(dataset: Readonly<Dataset> = DEFAULT_DATASET, action: Action) {
+export function schemaReducer(schema = DEFAULT_DATASET.schema, action: Action): Schema {
   switch (action.type) {
     case DATASET_SCHEMA_CHANGE_FIELD_TYPE: {
       const {field, type} = action.payload;
-      return {
-        ...dataset,
-        schema: changeFieldType(dataset.schema, field, type)
-      };
+      return changeFieldType(schema, field, type);
     }
 
     case DATASET_SCHEMA_CHANGE_ORDINAL_DOMAIN: {
       const {field, domain} = action.payload;
-      return {
-        ...dataset,
-        schema: changeOrdinalDomain(dataset.schema, field, domain)
-      };
+      return changeOrdinalDomain(schema, field, domain);
     }
   }
 
-  return dataset;
+  return schema;
 }
 
 function updateSchema(schema: Schema, field: string, changedFieldSchema: FieldSchema) {
