@@ -1,5 +1,3 @@
-
-import {Schema} from 'compassql/build/src/schema';
 import {OneOfFilter, RangeFilter} from 'vega-lite/build/src/filter';
 import {TimeUnit} from 'vega-lite/build/src/timeunit';
 import {
@@ -8,41 +6,28 @@ import {
 } from '../../actions';
 import {Action} from '../../actions/index';
 import {convertToDateTimeObject, getDefaultList, getDefaultRange} from '../../models/shelf/filter';
-import {DEFAULT_SHELF_UNIT_SPEC, ShelfUnitSpec} from '../../models/shelf/spec';
 import {insertItemToArray, modifyItemInArray, removeItemFromArray} from '../util';
 
 
-export function filterReducer(shelfSpec: Readonly<ShelfUnitSpec> = DEFAULT_SHELF_UNIT_SPEC,
-                              action: Action, schema: Schema): ShelfUnitSpec {
+export function filterReducer(filters: Array<RangeFilter | OneOfFilter> = [],
+                              action: Action): Array<RangeFilter | OneOfFilter> {
   switch (action.type) {
     case FILTER_ADD: {
       const {filter} = action.payload;
       let index = action.payload.index;
       if (!index) {
-        index = shelfSpec.filters.length;
+        index = filters.length;
       }
-      const filters = insertItemToArray(shelfSpec.filters, index, filter);
-      return {
-        ...shelfSpec,
-        filters
-      };
+      return insertItemToArray(filters, index, filter);
     }
 
     case FILTER_CLEAR: {
-      const filters: RangeFilter[] | OneOfFilter[] = [];
-      return {
-        ...shelfSpec,
-        filters
-      };
+      return [];
     }
 
     case FILTER_REMOVE: {
       const {index} = action.payload;
-      const filters = removeItemFromArray(shelfSpec.filters, index).array;
-      return {
-        ...shelfSpec,
-        filters
-      };
+      return removeItemFromArray(filters, index).array;
     }
 
     case FILTER_MODIFY_EXTENT: {
@@ -53,10 +38,7 @@ export function filterReducer(shelfSpec: Readonly<ShelfUnitSpec> = DEFAULT_SHELF
           range
         };
       };
-      return {
-        ...shelfSpec,
-        filters: modifyItemInArray(shelfSpec.filters, index, modifyExtent)
-      };
+      return modifyItemInArray(filters, index, modifyExtent);
     }
 
     case FILTER_MODIFY_MAX_BOUND: {
@@ -67,10 +49,7 @@ export function filterReducer(shelfSpec: Readonly<ShelfUnitSpec> = DEFAULT_SHELF
           range: [filter.range[0], maxBound]
         };
       };
-      return {
-        ...shelfSpec,
-        filters: modifyItemInArray(shelfSpec.filters, index, modifyMaxBound)
-      };
+      return modifyItemInArray(filters, index, modifyMaxBound);
     }
 
     case FILTER_MODIFY_MIN_BOUND: {
@@ -81,10 +60,7 @@ export function filterReducer(shelfSpec: Readonly<ShelfUnitSpec> = DEFAULT_SHELF
           range: [minBound, filter.range[1]]
         };
       };
-      return {
-        ...shelfSpec,
-        filters: modifyItemInArray(shelfSpec.filters, index, modifyMinBound)
-      };
+      return modifyItemInArray(filters, index, modifyMinBound);
     }
 
     case FILTER_MODIFY_ONE_OF: {
@@ -95,49 +71,44 @@ export function filterReducer(shelfSpec: Readonly<ShelfUnitSpec> = DEFAULT_SHELF
           oneOf: oneOf
         };
       };
-      return {
-        ...shelfSpec,
-        filters: modifyItemInArray(shelfSpec.filters, index, modifyOneOf)
-      };
+      return modifyItemInArray(filters, index, modifyOneOf);
     }
 
     case FILTER_MODIFY_TIME_UNIT: {
-      const {index, timeUnit} = action.payload;
-      const domain = schema.domain({field: shelfSpec.filters[index].field});
-      let modifyTimeUnit;
-      if (!timeUnit) {
-        modifyTimeUnit = (filter: RangeFilter) => {
-          return {
-            field: filter.field,
-            timeUnit,
-            range: [convertToDateTimeObject(domain[0]), convertToDateTimeObject(domain[1])]
-          };
-        };
-      } else if (timeUnit === TimeUnit.MONTH || timeUnit === TimeUnit.DAY) {
-        modifyTimeUnit = (filter: RangeFilter) => {
-          return {
-            field: filter.field,
-            timeUnit,
-            oneOf: getDefaultList(timeUnit)
-          };
-        };
-      } else {
-        modifyTimeUnit = (filter: RangeFilter) => {
-          return {
-            field: filter.field,
-            timeUnit,
-            range: getDefaultRange(domain, timeUnit)
-          };
-        };
-      }
-      return {
-        ...shelfSpec,
-        filters: modifyItemInArray(shelfSpec.filters, index, modifyTimeUnit)
-      };
+      const {index, timeUnit, domain} = action.payload;
+      return modifyItemInArray(filters, index, getModifyTimeUnitFunction(timeUnit, domain));
     }
 
     default: {
-      return shelfSpec;
+      return filters;
     }
+  }
+}
+
+function getModifyTimeUnitFunction(timeUnit: TimeUnit, domain: number[]) {
+  if (!timeUnit) {
+    return (filter: RangeFilter) => {
+      return {
+        field: filter.field,
+        timeUnit,
+        range: [convertToDateTimeObject(domain[0]), convertToDateTimeObject(domain[1])]
+      };
+    };
+  } else if (timeUnit === TimeUnit.MONTH || timeUnit === TimeUnit.DAY) {
+    return (filter: RangeFilter) => {
+      return {
+        field: filter.field,
+        timeUnit,
+        oneOf: getDefaultList(timeUnit)
+      };
+    };
+  } else {
+    return (filter: RangeFilter) => {
+      return {
+        field: filter.field,
+        timeUnit,
+        range: getDefaultRange(domain, timeUnit)
+      };
+    };
   }
 }

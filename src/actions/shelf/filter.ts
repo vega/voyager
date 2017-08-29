@@ -47,5 +47,6 @@ export type FilterModifyOneOf = ReduxAction<typeof FILTER_MODIFY_ONE_OF, {
 export const FILTER_MODIFY_TIME_UNIT = 'FILTER_MODIFY_TIME_UNIT';
 export type FilterModifyTimeUnit = ReduxAction<typeof FILTER_MODIFY_TIME_UNIT, {
   timeUnit: TimeUnit,
-  index: number
+  index: number,
+  domain: number[]
 }>;
