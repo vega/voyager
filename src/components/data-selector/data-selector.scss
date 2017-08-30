@@ -148,6 +148,30 @@
   }
 }
 
+.url-panel {
+  width: 50%;
+  display: inline-block;
+  vertical-align: top;
+  margin-left: 20px;
+
+  :global .form-group {
+    margin-top: 1em;
+    clear: both;
+  }
+
+  label {
+    width: 55px;
+    display: block;
+    float: left;
+    font-weight: bold;
+    margin-right: 10px;
+  }
+
+  button {
+    margin-top: 0.5em;
+  }
+}
+
 .dropzone-target {
   width: 100%;
   padding: 20px;

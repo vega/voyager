@@ -29,6 +29,15 @@ declare module 'font-awesome-webpack' {
 declare module 'vega' {
   export function parse(spec: any, config?: any): any;
   export function read(data: any, schema: any, dateParse?: any): any;
+  export function loader(options?: any): LoaderInstance;
+}
+
+interface LoaderInstance {
+  options: any,
+  sanitize: any,
+  load(uri: string, options?: any): Promise<any>,
+  file: any,
+  http: any,
 }
 
 declare module 'react-modal' {
