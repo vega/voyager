@@ -16,13 +16,11 @@ import {
   DatasetAsyncAction,
   datasetLoad,
 } from '../../actions';
-
 import {DEFAULT_DATASETS} from '../../constants';
 import {Dataset, State} from '../../models';
 import {selectDataset} from '../../selectors';
 
 export interface DataSelectorOwnProps {
-
   title: 'Change' | 'Load';
 }
 
@@ -32,12 +30,20 @@ export interface DataSelectorConnectProps {
 
 export type DataSelectorProps = DataSelectorConnectProps & DataSelectorOwnProps & ActionHandler<DatasetAsyncAction>;
 
-export class DataSelectorBase extends React.PureComponent<DataSelectorProps, any> {
+export interface DataSelectorState {
+  modalIsOpen: boolean;
+  dataText: string;
+  dataName: string;
+  dataUrl: string;
+  fileType: string;
+}
+
+export class DataSelectorBase extends React.PureComponent<DataSelectorProps, DataSelectorState> {
 
   constructor(props: DataSelectorProps) {
     super(props);
 
-    this.state = {modalIsOpen: false, dataText: '', dataName: ''};
+    this.state = {modalIsOpen: false, dataText: '', dataName: '', dataUrl: '', fileType: undefined};
 
     this.onDatasetChange = this.onDatasetChange.bind(this);
     this.openModal = this.openModal.bind(this);
@@ -46,6 +52,8 @@ export class DataSelectorBase extends React.PureComponent<DataSelectorProps, any
     this.onFileChange = this.onFileChange.bind(this);
     this.onDataTextSubmit = this.onDataTextSubmit.bind(this);
     this.handleTextChange = this.handleTextChange.bind(this);
+    this.handleFileTypeChange = this.handleFileTypeChange.bind(this);
+    this.onDataUrlSubmit = this.onDataUrlSubmit.bind(this);
   }
 
   public render() {
@@ -69,6 +77,7 @@ export class DataSelectorBase extends React.PureComponent<DataSelectorProps, any
             <TabList className={styles['tab-list']}>
               <Tab className={styles.tab}>Change Dataset</Tab>
               <Tab className={styles.tab}>Paste or Upload Data</Tab>
+              <Tab className={styles.tab}>From URL</Tab>
             </TabList>
 
             <TabPanel className={styles['tab-panel']}>
@@ -79,6 +88,9 @@ export class DataSelectorBase extends React.PureComponent<DataSelectorProps, any
                 {this.renderUploadPanel()}
                 {this.renderPastePanel()}
               </div>
+            </TabPanel>
+            <TabPanel className={styles['tab-panel']}>
+              {this.renderUrlPanel()}
             </TabPanel>
           </Tabs>
        </Modal>
@@ -91,10 +103,9 @@ export class DataSelectorBase extends React.PureComponent<DataSelectorProps, any
 
     return (
       <li key={dataset.name} className={`${styles['dataset-list-element']} ${selected}`} >
-
-      <a onClick={this.onDatasetChange.bind(this, dataset)}>
-        <i className="fa fa-database" /> {dataset.name}
-      </a>
+        <a onClick={this.onDatasetChange.bind(this, dataset)}>
+          <i className="fa fa-database" /> {dataset.name}
+        </a>
       </li>
     );
   }
@@ -120,6 +131,51 @@ export class DataSelectorBase extends React.PureComponent<DataSelectorProps, any
         <div styleName='dropzone-target' />
       </div>
     );
+  }
+
+  private renderUrlPanel() {
+    return (
+      <div styleName='url-panel'>
+        <p>
+          Add the name of the dataset and the URL to a <b> JSON </b>, <b> CSV </b> (with header), or
+          <b> TSV </b> file. Make sure that the formatting is correct and clean the data before adding it.
+          The added dataset is only visible to you.
+        </p>
+        <div className='form-group'>
+          <label htmlFor='filetype-selector'>File Type</label>
+          <select value={this.state.fileType} onChange={this.handleFileTypeChange} id='filetype-selector'>
+            <option value="json">JSON</option>
+            <option value="csv">CSV</option>
+            <option value="tsv">TSV</option>
+          </select>
+        </div>
+        <div className='form-group'>
+          <label htmlFor='data-name'>Name</label>
+          <input
+            name='dataName'
+            value={this.state.dataName}
+            onChange={this.handleTextChange}
+            id='data-name'
+            type='name'
+          />
+        </div>
+        <div className='form-group'>
+          <label htmlFor='data-url'>URL</label>
+          <input
+            name='dataUrl'
+            value={this.state.dataUrl}
+            onChange={this.handleTextChange}
+            id='data-url'
+            type='name'
+          />
+        </div>
+        <button onClick={this.onDataUrlSubmit}>Add Dataset</button>
+      </div>
+    );
+  }
+
+  private handleFileTypeChange(event: any) {
+    this.setState({fileType: event.target.value});
   }
 
   private renderPastePanel() {
@@ -177,9 +233,24 @@ export class DataSelectorBase extends React.PureComponent<DataSelectorProps, any
   }
 
   private onDataTextSubmit() {
-    const name = this.state.dataName;
     const values = vega.read(this.state.dataText, {type: 'csv'});
+    this.props.handleAction(datasetLoad(this.state.dataName, {values}));
+  }
+
+  private loadDataString(data: string) {
+    const name = this.state.dataName;
+    const fileType = this.state.fileType;
+    const values = vega.read(data, {type: fileType});
     this.props.handleAction(datasetLoad(name, {values}));
+  }
+
+  private onDataUrlSubmit() {
+    const loader = vega.loader();
+    loader.load(this.state.dataUrl).then(data => {
+      this.loadDataString(data);
+    }).catch(error => {
+      console.warn('Error occurred while loading data: ', error);
+    });
   }
 
   private openModal() {
