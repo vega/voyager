@@ -15,11 +15,10 @@ import {VoyagerConfig} from '../../models/config';
 import {ShelfFieldDef} from '../../models/shelf';
 import {selectConfig, selectDataset, selectShelf, selectShelfPreview} from '../../selectors';
 import {selectSchemaFieldDefs} from '../../selectors/index';
+import {FilterPane} from '../filter-pane';
 import * as styles from './encoding-pane.scss';
 import {EncodingShelf} from './encoding-shelf';
-import {FilterPane} from './filter-pane';
 import {MarkPicker} from './mark-picker';
-
 
 
 interface EncodingPanelProps extends ActionHandler<ShelfAction | ResultAsyncAction | FilterAction> {
