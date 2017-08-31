@@ -9,19 +9,14 @@ import {SHELF_PREVIEW_DISABLE, SHELF_PREVIEW_QUERY, ShelfPreviewAction} from '..
 import {SHELF_LOAD_QUERY} from '../../actions/shelf/index';
 import {Bookmark} from '../../models/bookmark';
 import {State} from '../../models/index';
-import {ResultPlot} from '../../models/result';
 import {Result, RESULT_TYPES, ResultType} from '../../models/result';
 import {RELATED_VIEWS_INDEX, RELATED_VIEWS_TYPES} from '../../queries/index';
 import {selectBookmark} from '../../selectors/index';
-import {selectPlotList, selectResult} from '../../selectors/result';
+import {selectResult} from '../../selectors/result';
 import {PlotList} from '../plot-list/index';
 import * as styles from './related-views.scss';
 
 export interface RelatedViewsProps extends ActionHandler<BookmarkAction|ShelfAction|ShelfPreviewAction|ResultAction> {
-  plotsIndex: {
-    [k in ResultType]: ResultPlot[]
-  };
-
   results: {
     [k in ResultType]: Result
   };
@@ -31,13 +26,12 @@ export interface RelatedViewsProps extends ActionHandler<BookmarkAction|ShelfAct
 
 export class RelatedViewsBase extends React.PureComponent<RelatedViewsProps, {}> {
   public render() {
-    const {bookmark, handleAction, plotsIndex, results} = this.props;
+    const {bookmark, handleAction, results} = this.props;
 
     const subpanes = RELATED_VIEWS_TYPES.map(relatedViewType => {
-      const plots = plotsIndex[relatedViewType];
       const title = RELATED_VIEWS_INDEX[relatedViewType].title;
       const result = results[relatedViewType];
-      const {isLoading} = result;
+      const {isLoading, plots} = result;
       return (
         (isLoading || plots && plots.length > 0) && <div styleName="related-views-subpane" key={relatedViewType}>
           <div>
@@ -102,10 +96,6 @@ export class RelatedViewsBase extends React.PureComponent<RelatedViewsProps, {}>
 export const RelatedViews = connect(
   (state: State) => {
     return {
-      plotsIndex: RESULT_TYPES.reduce((index, resultType) => {
-        index[resultType] = selectPlotList[resultType](state);
-        return index;
-      }, {}),
       results: RESULT_TYPES.reduce((results, resultType) => {
         results[resultType] = selectResult[resultType](state);
         return results;

@@ -44,6 +44,8 @@ export interface ShelfUnitSpec {
 
 export function toSpecQuery(spec: ShelfUnitSpec): SpecQuery {
   return {
+    // TODO(https://github.com/vega/voyager/issues/617):
+    // do not include filter here once we separate filter execution
     transform: getTransforms(spec.filters),
     mark: spec.mark,
     encodings: specificEncodingsToEncodingQueries(spec.encoding).concat(

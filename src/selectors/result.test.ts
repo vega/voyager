@@ -3,18 +3,14 @@ import {SpecQueryModel} from 'compassql/build/src/model';
 import {ExpandedType} from 'compassql/build/src/query/expandedtype';
 import {SpecQuery} from 'compassql/build/src/query/spec';
 import {Schema} from 'compassql/build/src/schema';
-import {Channel} from 'vega-lite/build/src/channel';
 import {Data} from 'vega-lite/build/src/data';
-import {OneOfFilter, RangeFilter} from 'vega-lite/build/src/filter';
-import {Mark} from 'vega-lite/build/src/mark';
 import {DEFAULT_DATASET} from '../models/dataset';
 import {DEFAULT_PERSISTENT_STATE, DEFAULT_STATE, State} from '../models/index';
 import {fromSpecQueryModelGroup} from '../models/result';
 import {DEFAULT_RESULT, DEFAULT_RESULT_INDEX} from '../models/result';
-import {ShelfAnyEncodingDef, ShelfMark, SpecificEncoding} from '../models/shelf';
 import {DEFAULT_SHELF} from '../models/shelf/index';
-import {getTransforms} from '../models/shelf/spec';
-import {selectMainSpec, selectPlotList} from './result';
+import {ShelfUnitSpec, toSpecQuery} from '../models/shelf/spec/index';
+import {selectMainSpec} from './result';
 
 function buildSpecQueryModel(specQ: SpecQuery) {
   return SpecQueryModel.build(specQ, new Schema({fields: []}), DEFAULT_QUERY_CONFIG);
@@ -33,33 +29,24 @@ const data: Data = {
   url: 'a/data/set.csv'
 };
 
-const filters: Array<RangeFilter|OneOfFilter> = [{field: 'q1', range: [0, 1]}];
-
-const mark: ShelfMark = 'point';
-
-const encodingWildcard: SpecificEncoding = {
-  x: {field: '?', type: ExpandedType.QUANTITATIVE}
+const spec: ShelfUnitSpec = {
+  filters: [{field: 'q1', range: [0, 1]}],
+  mark: 'point',
+  encoding: {
+    y: {field: 'q1', type: ExpandedType.TEMPORAL}
+  },
+  anyEncodings: [],
+  config: {numberFormat: 'd'}
 };
 
-const encodingSpecific: SpecificEncoding = {
-  y: {field: 'q1', type: ExpandedType.TEMPORAL}
-};
-
-const group = buildSpecQueryModelGroup([
-  {
-    mark: Mark.BAR,
-    encodings: [
-      {channel: Channel.X}
-    ]
-  }
-]);
+const group = buildSpecQueryModelGroup([toSpecQuery(spec)]);
 
 const plots = fromSpecQueryModelGroup(group, data).map(p => p.plot);
 
 const stateSpecific: State = {
   persistent: DEFAULT_PERSISTENT_STATE,
   undoable: {
-    ...DEFAULT_STATE.undoable, // maybe i can't use spread and i have to type it all out manually :(
+    ...DEFAULT_STATE.undoable,
     present: {
       ...DEFAULT_STATE.undoable.present,
       dataset: {
@@ -68,37 +55,13 @@ const stateSpecific: State = {
       },
       shelf: {
         ...DEFAULT_SHELF,
-        spec: {
-          filters,
-          mark,
-          encoding: encodingSpecific,
-          anyEncodings: [] as ShelfAnyEncodingDef[],
-          config: {numberFormat: 'd'}
-        }
+        spec
       },
       result: {
         ...DEFAULT_RESULT_INDEX,
         main: {
           ...DEFAULT_RESULT,
           plots
-        }
-      }
-    }
-  }
-};
-
-
-const stateWildcard: State = {
-  persistent: DEFAULT_PERSISTENT_STATE,
-  undoable: {
-    ...DEFAULT_STATE.undoable,
-    present: {
-      ...stateSpecific.undoable.present,
-      shelf: {
-        ...stateSpecific.undoable.present.shelf,
-        spec: {
-          ...stateSpecific.undoable.present.shelf.spec,
-          encoding: encodingWildcard
         }
       }
     }
@@ -112,26 +75,7 @@ describe('selectors/result', () => {
     });
 
     it('should return a main spec', () => {
-      expect(selectMainSpec(stateSpecific)).toEqual({
-        data,
-        transform: getTransforms(filters),
-        ...plots[0].spec
-      });
-    });
-  });
-
-  describe('selectMainPlotList', () => {
-    it('should return undefined', () => {
-      expect(selectPlotList.main(DEFAULT_STATE)).toBe(undefined);
-    });
-
-    it('should return a main plot list', () => {
-      expect(selectPlotList.main(stateWildcard)).toEqual(
-        plots.map(p => ({
-          ...p,
-          transform: getTransforms(filters)
-        }))
-      );
+      expect(selectMainSpec(stateSpecific)).toEqual(plots[0].spec);
     });
   });
 });
