@@ -11,10 +11,10 @@ import {FILTER_ADD, FILTER_MODIFY_TIME_UNIT,
   FILTER_REMOVE, FilterAction} from '../../actions';
 import {DraggableType} from '../../constants';
 import {containsFilter, convertToDateTimeObject, getDefaultList, getDefaultRange} from '../../models/shelf/filter';
+import {FunctionPicker} from '../encoding-pane/function-picker';
 import {DraggedFieldIdentifier} from '../field';
 import {Field} from '../field/index';
 import * as styles from './filter-pane.scss';
-import {FunctionPicker} from './function-picker';
 import {OneOfFilterShelf} from './one-of-filter-shelf';
 import {RangeFilterShelf} from './range-filter-shelf';
 
