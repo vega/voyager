@@ -2,23 +2,11 @@ import {DEFAULT_QUERY_CONFIG} from 'compassql/build/src/config';
 import {FieldQuery} from 'compassql/build/src/query/encoding';
 import {ExpandedType} from 'compassql/build/src/query/expandedtype';
 import {isShortWildcard, isWildcard, Wildcard} from 'compassql/build/src/wildcard';
-import {AGGREGATE_OPS, AggregateOp} from 'vega-lite/build/src/aggregate';
-import {TimeUnit, TIMEUNITS} from 'vega-lite/build/src/timeunit';
+import {AggregateOp, isAggregateOp} from 'vega-lite/build/src/aggregate';
+import {isTimeUnit, TimeUnit} from 'vega-lite/build/src/timeunit';
 import {contains} from 'vega-lite/build/src/util';
-import {toSet} from 'vega-util';
 
 export type ShelfFunction = AggregateOp | 'bin' | TimeUnit | undefined;
-
-export const AGGREGATE_INDEX = toSet(AGGREGATE_OPS);
-const TIMEUNIT_INDEX = toSet(TIMEUNITS);
-
-function isAggregate(fn: string): fn is AggregateOp {
-  return AGGREGATE_INDEX[fn];
-}
-
-function isTimeUnit(fn: string): fn is TimeUnit {
-  return TIMEUNIT_INDEX[fn];
-}
 
 const QUANTITATIVE_FUNCTIONS: ShelfFunction[] = [
   undefined, 'bin',
@@ -64,7 +52,7 @@ export function getSupportedFunction(type: ExpandedType) {
 export function isShelfFunction(fn: string): fn is ShelfFunction {
   return fn === 'bin' ||
     fn === undefined || fn === null || // check null for duplicate
-    isAggregate(fn) || isTimeUnit(fn);
+    isAggregateOp(fn) || isTimeUnit(fn);
 }
 
 export type FieldQueryFunctionMixins = Pick<FieldQuery, 'aggregate' | 'timeUnit' | 'bin' | 'hasFn'>;
@@ -81,7 +69,7 @@ export function toFieldQueryFunctionMixins(fn: ShelfFunction | Wildcard<ShelfFun
     let hasNoFn: boolean = false;
 
     for (const f of fns) {
-      if (isAggregate(f)) {
+      if (isAggregateOp(f)) {
         aggregates.push(f);
       } else if (isTimeUnit(f)) {
         timeUnits.push(f);
@@ -137,7 +125,7 @@ export function toFieldQueryFunctionMixins(fn: ShelfFunction | Wildcard<ShelfFun
     }
 
     return mixins;
-  } else if (isAggregate(fn)) {
+  } else if (isAggregateOp(fn)) {
     return {aggregate: fn};
   } else if (fn === 'bin') {
     return {bin: true};
