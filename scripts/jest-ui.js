@@ -16,6 +16,7 @@ const glob = require('glob');
 config.output.publicPath = '/lib-test/';
 config.output.path = path.resolve(__dirname, '../lib-test');
 config.output.filename = '[name].js';
+config.externals = {};
 
 
 const basedir = path.resolve(__dirname, '../src');
@@ -29,7 +30,6 @@ config.entry = tests
     carry[key] = path.resolve(basedir, key);
     return carry;
   }, {});
-
 
 const compiler = webpack(config);
 compiler.run(function() {});
