@@ -27,6 +27,11 @@ module.exports = {
     libraryTarget: 'umd',
   },
 
+  // Enable sourcemaps for debugging webpack's output.
+  // If it is inline, it will break CSS sourcemaps because of
+  // `extract-text-webpack-plugin`
+  devtool: 'source-map',
+
   devServer: {
     contentBase: path.resolve(__dirname, '../'),
     compress: true,
@@ -129,7 +134,7 @@ module.exports = {
       output: {
         comments: false,
       },
-      sourceMap: false,
+      sourceMap: true,
     }),
     // Watcher doesn't work well if you mistype casing in a path so we use
     // a plugin that prints an error when you attempt to do this.
