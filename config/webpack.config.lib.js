@@ -27,11 +27,6 @@ module.exports = {
     libraryTarget: 'umd',
   },
 
-  // Enable sourcemaps for debugging webpack's output.
-  // If it is inline, it will break CSS sourcemaps because of
-  // `extract-text-webpack-plugin`
-  devtool: 'source-map',
-
   devServer: {
     contentBase: path.resolve(__dirname, '../'),
     compress: true,
@@ -46,9 +41,6 @@ module.exports = {
   module: {
     rules: [
       { test: /\.tsx?$/, use: "ts-loader" },
-      // All output '.js' files will have any sourcemaps re-processed by 'source-map-loader'.
-      { test: /\.js$/, use: "source-map-loader", enforce: "pre" },
-
       {
         test: /\.scss$/,
         use: ExtractTextPlugin.extract({
@@ -108,14 +100,37 @@ module.exports = {
   // This is important because it allows us to avoid bundling all of our
   // dependencies, which allows browsers to cache those libraries between builds.
   externals: {
-    // "react": "React",
-    // "react-dom": "ReactDOM"
+    "react": "react",
+    "react-dom": "react-dom",
+    "react-css-modules": 'react-css-modules',
+    "react-dnd": "react-dnd",
+    "react-dnd-html5-backend": "react-dnd-html5-backend",
+    "react-redux": "react-redux",
+    "react-tether": "react-tether",
+    "redux": "redux",
+    "redux-thunk": "redux-thunk",
+    "redux-undo": "redux-undo",
+    "vega": "vega",
+    "vega-lite": "vega-lite",
+    "vega-tooltip": "vega-tooltip",
+    "moment": "moment",
+    "font-awesome": "font-awesome",
+    "font-awesome-sass-loader": "font-awesome-sass-loader"
   },
   plugins: [
     // Makes some environment variables available to the JS code, for example:
     // if (process.env.NODE_ENV === 'development') { ... }. See `./env.js`.
     new webpack.DefinePlugin(env.stringified),
 
+    new webpack.optimize.UglifyJsPlugin({
+      compress: {
+        warnings: false,
+      },
+      output: {
+        comments: false,
+      },
+      sourceMap: false,
+    }),
     // Watcher doesn't work well if you mistype casing in a path so we use
     // a plugin that prints an error when you attempt to do this.
     // See https://github.com/facebookincubator/create-react-app/issues/240
