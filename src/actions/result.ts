@@ -8,7 +8,9 @@ import {State} from '../models/index';
 import {ResultPlot, ResultPlotWithKey} from '../models/result';
 import {ResultType} from '../models/result';
 import {ShelfFieldDef} from '../models/shelf/spec/encoding';
+import {getTransforms} from '../models/shelf/spec/index';
 import {selectConfig, selectData, selectSchema} from '../selectors';
+import {selectFilters} from '../selectors/shelf';
 import {Action} from './index';
 import {ReduxAction} from './redux-action';
 
@@ -82,6 +84,9 @@ export function resultRequest(resultType: ResultType, query: Query, filterKey?: 
     const data = selectData(getState());
     const config = selectConfig(getState());
 
+    // TODO: remove filters once we use dataflow api to filter data locally
+    const filters = selectFilters(getState());
+
     dispatch({
       type: RESULT_REQUEST,
       payload: {resultType}
@@ -94,7 +99,13 @@ export function resultRequest(resultType: ResultType, query: Query, filterKey?: 
           filterKey ?
           preFilteredPlots.filter(p => p.groupByKey !== filterKey) :
           preFilteredPlots
-        ).map(p => p.plot);
+        ).map(p => ({
+          ...p.plot,
+          spec: {
+            ...p.plot.spec,
+            transform: getTransforms(filters)
+          }
+        }));
 
         dispatch({
           type: RESULT_RECEIVE,
