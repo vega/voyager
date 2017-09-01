@@ -1,9 +1,14 @@
 
+import {fromSpec} from 'compassql/build/src/query/spec';
+import {isWildcard, SHORT_WILDCARD} from 'compassql/build/src/wildcard';
+import * as stringify from 'json-stable-stringify';
 import {combineReducers} from 'redux';
 import {Action} from '../../actions';
 import {SHELF_AUTO_ADD_COUNT_CHANGE, SHELF_GROUP_BY_CHANGE, SHELF_LOAD_QUERY} from '../../actions/shelf/index';
+import {SPEC_LOAD} from '../../actions/shelf/spec';
 import {Shelf} from '../../models';
 import {DEFAULT_SHELF} from '../../models/shelf';
+import {fromTransforms} from '../../models/shelf/filter';
 import {getDefaultGroupBy, isShelfGroupBy, ShelfGroupBy} from '../../models/shelf/index';
 import {fromSpecQuery, hasWildcards} from '../../models/shelf/spec/index';
 import {filterReducer} from './filter';
@@ -60,6 +65,29 @@ export function shelfReducer(shelf: Readonly<Shelf> = DEFAULT_SHELF, action: Act
         throw new Error(`SHELF_LOAD_QUERY does not support groupBy ${JSON.stringify(groupBy)}`);
       }
     }
+
+    case SPEC_LOAD:
+      const {keepWildcardMark} = action.payload;
+      const {transform, ...specWithoutTransform} = action.payload.spec;
+
+      const specQ = {
+        ...fromSpec(specWithoutTransform),
+
+        // Restore wildcard mark if the shelf previously has wildcard mark.
+        // and keepWildcardMark is true
+        ...(keepWildcardMark && isWildcard(shelf.spec.mark) ? {
+          mark: SHORT_WILDCARD
+        } : {})
+      };
+
+      const spec = fromSpecQuery(specQ, shelf.spec.config);
+
+      const newFilters = fromTransforms(transform);
+      const filters = stringify(newFilters) !== stringify(shelf.filters) ?
+        // Use newFilters only if it is different
+        newFilters : shelf.filters;
+
+      return {...DEFAULT_SHELF, spec, filters};
   }
 
   return shelfReducerBase(shelf, action);

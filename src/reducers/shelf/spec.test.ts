@@ -10,7 +10,6 @@ import {
   SPEC_FUNCTION_DISABLE_WILDCARD,
   SPEC_FUNCTION_ENABLE_WILDCARD,
   SPEC_FUNCTION_REMOVE_WILDCARD,
-  SPEC_LOAD,
   SpecFieldNestedPropChange
 } from '../../actions/shelf/spec';
 import {DEFAULT_SHELF_UNIT_SPEC} from '../../models';
@@ -742,70 +741,6 @@ describe('reducers/shelf/spec', () => {
         ...DEFAULT_SHELF_UNIT_SPEC,
         encoding: {
           x: {field: 'a', fn: {enum: ['mean', 'median', 'sum']}, type: 'quantitative'}
-        }
-      });
-    });
-  });
-
-  describe(SPEC_LOAD, () => {
-    it('loads spec and retains wildcard mark if the shelf has wildcard mark and keep wildcard mark is true', () => {
-      const shelfSpec = shelfSpecReducer(
-        {
-          ...DEFAULT_SHELF_UNIT_SPEC,
-          mark: SHORT_WILDCARD
-        },
-        {
-          type: SPEC_LOAD,
-          payload: {
-            spec: {
-              mark: 'bar',
-              encoding: {
-                x: {field: 'b', type: 'nominal'},
-                y: {aggregate: 'count', field: '*', type: 'quantitative'}
-              }
-            },
-            keepWildcardMark: true
-          }
-        },
-      );
-
-      expect(shelfSpec).toEqual({
-        ...DEFAULT_SHELF_UNIT_SPEC,
-        mark: SHORT_WILDCARD,
-        encoding: {
-          x: {field: 'b', type: 'nominal'},
-          y: {field: '*', fn: 'count', type: 'quantitative'}
-        }
-      });
-    });
-
-    it('completely loads spec if the shelf has no wildcard mark', () => {
-      const shelfSpec = shelfSpecReducer(
-        {
-          ...DEFAULT_SHELF_UNIT_SPEC,
-          mark: 'point'
-        },
-        {
-          type: SPEC_LOAD,
-          payload: {
-            spec: {
-              mark: 'bar',
-              encoding: {
-                x: {field: 'b', type: 'nominal'},
-                y: {field: '*', aggregate: 'count', type: 'quantitative'}
-              }
-            },
-            keepWildcardMark: true
-          }
-        },
-      );
-
-      expect(shelfSpec).toEqual({
-        ...DEFAULT_SHELF_UNIT_SPEC,
-        mark: 'bar',
-        encoding: {
-          x: {field: 'b', type: 'nominal'},
-          y: {fn: 'count', field: '*', type: 'quantitative'}
         }
       });
     });
