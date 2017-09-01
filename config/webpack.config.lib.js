@@ -46,6 +46,8 @@ module.exports = {
   module: {
     rules: [
       { test: /\.tsx?$/, use: "ts-loader" },
+      // All output '.js' files will have any sourcemaps re-processed by 'source-map-loader'.
+      { test: /\.js$/, use: "source-map-loader", enforce: "pre" },
       {
         test: /\.scss$/,
         use: ExtractTextPlugin.extract({
