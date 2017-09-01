@@ -6,13 +6,13 @@ import {isWildcard, SHORT_WILDCARD} from 'compassql/build/src/wildcard';
 import {FieldDef} from 'vega-lite/build/src/fielddef';
 import {Action} from '../../actions';
 import {
-  SPEC_CLEAR, SPEC_FIELD_ADD, SPEC_FIELD_AUTO_ADD, SPEC_FIELD_MOVE,
+  SPEC_CLEAR, SPEC_FIELD_ADD, SPEC_FIELD_MOVE,
   SPEC_FIELD_REMOVE, SPEC_FUNCTION_CHANGE, SPEC_FUNCTION_ENABLE_WILDCARD,
   SPEC_LOAD, SPEC_MARK_CHANGE_TYPE
 } from '../../actions/shelf';
 import {SPEC_FUNCTION_ADD_WILDCARD, SPEC_FUNCTION_DISABLE_WILDCARD,
         SPEC_FUNCTION_REMOVE_WILDCARD} from '../../actions/shelf';
-import {SPEC_FIELD_NESTED_PROP_CHANGE, SPEC_FIELD_PROP_CHANGE} from '../../actions/shelf/spec';
+import {SPEC_FIELD_NESTED_PROP_CHANGE, SPEC_FIELD_PROP_CHANGE, SpecFieldAutoAdd} from '../../actions/shelf/spec';
 import {isWildcardChannelId} from '../../models';
 import {ShelfAnyEncodingDef, ShelfFieldDef, ShelfId, ShelfUnitSpec} from '../../models/shelf';
 import {sortFunctions} from '../../models/shelf';
@@ -23,24 +23,54 @@ import {filterReducer} from './filter';
 
 export function shelfSpecReducer(
   shelfSpec: Readonly<ShelfUnitSpec> = DEFAULT_SHELF_UNIT_SPEC,
-  action: Action,
-  schema: Schema
+  action: Action
 ): Readonly<ShelfUnitSpec> {
   const filters = filterReducer(shelfSpec.filters, action);
   if (filters !== shelfSpec.filters) {
     return {
-      ...shelfSpecReducerBase(shelfSpec, action, schema),
+      ...shelfSpecReducerBase(shelfSpec, action),
       filters: filterReducer(shelfSpec.filters, action)
     };
   } else {
-    return shelfSpecReducerBase(shelfSpec, action, schema);
+    return shelfSpecReducerBase(shelfSpec, action);
   }
 }
 
+export function reduceSpecFieldAutoAdd(
+  shelfSpec: Readonly<ShelfUnitSpec>, action: SpecFieldAutoAdd, schema: Schema
+): ShelfUnitSpec {
+  const {fieldDef} = action.payload;
+
+  if (shelfSpec.anyEncodings.length > 0 || isWildcard(fieldDef.field)) {
+    // If there was an encoding shelf or if the field is a wildcard, just add to wildcard shelf
+    return {
+      ...shelfSpec,
+      anyEncodings: [
+        ...shelfSpec.anyEncodings,
+        {
+          channel: SHORT_WILDCARD,
+          ...fieldDef
+        }
+      ]
+    };
+  } else {
+    // Otherwise, query for the best encoding if there is no wildcard channel
+    const query = autoAddFieldQuery(shelfSpec, fieldDef);
+    const rec = recommend(query, schema);
+    const topSpecQuery = getTopSpecQueryItem(rec.result).specQuery;
+
+    return {
+      ...fromSpecQuery(topSpecQuery, shelfSpec.config),
+      // retain auto-mark if mark is previously auto
+      ...(isWildcard(shelfSpec.mark) ? {mark: shelfSpec.mark} : {})
+    };
+  }
+}
+
+
 function shelfSpecReducerBase(
   shelfSpec: Readonly<ShelfUnitSpec> = DEFAULT_SHELF_UNIT_SPEC,
-  action: Action,
-  schema: Schema
+  action: Action
 ): ShelfUnitSpec {
   switch (action.type) {
     case SPEC_CLEAR:
@@ -57,35 +87,6 @@ function shelfSpecReducerBase(
     case SPEC_FIELD_ADD: {
       const {shelfId, fieldDef, replace} = action.payload;
       return addEncoding(shelfSpec, shelfId, fieldDef, replace);
-    }
-
-    case SPEC_FIELD_AUTO_ADD: {
-      const {fieldDef} = action.payload;
-
-      if (shelfSpec.anyEncodings.length > 0 || isWildcard(fieldDef.field)) {
-        // If there was an encoding shelf or if the field is a wildcard, just add to wildcard shelf
-        return {
-          ...shelfSpec,
-          anyEncodings: [
-            ...shelfSpec.anyEncodings,
-            {
-              channel: SHORT_WILDCARD,
-              ...fieldDef
-            }
-          ]
-        };
-      } else {
-        // Otherwise, query for the best encoding if there is no wildcard channel
-        const query = autoAddFieldQuery(shelfSpec, fieldDef);
-        const rec = recommend(query, schema);
-        const topSpecQuery = getTopSpecQueryItem(rec.result).specQuery;
-
-        return {
-          ...fromSpecQuery(topSpecQuery, shelfSpec.config),
-          // retain auto-mark if mark is previously auto
-          ...(isWildcard(shelfSpec.mark) ? {mark: shelfSpec.mark} : {})
-        };
-      }
     }
 
     case SPEC_FIELD_REMOVE:

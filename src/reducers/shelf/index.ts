@@ -1,4 +1,4 @@
-import {Schema} from 'compassql/build/src/schema';
+
 import {Action} from '../../actions';
 import {SHELF_AUTO_ADD_COUNT_CHANGE, SHELF_GROUP_BY_CHANGE, SHELF_LOAD_QUERY} from '../../actions/shelf/index';
 import {Shelf} from '../../models';
@@ -7,7 +7,7 @@ import {getDefaultGroupBy, isShelfGroupBy} from '../../models/shelf/index';
 import {fromSpecQuery, hasWildcards} from '../../models/shelf/spec/index';
 import {shelfSpecReducer} from './spec';
 
-export function shelfReducer(shelf: Readonly<Shelf> = DEFAULT_SHELF, action: Action, schema: Schema): Shelf {
+export function shelfReducer(shelf: Readonly<Shelf> = DEFAULT_SHELF, action: Action): Shelf {
   switch (action.type) {
     case SHELF_AUTO_ADD_COUNT_CHANGE: {
       const {autoAddCount} = action.payload;
@@ -51,7 +51,7 @@ export function shelfReducer(shelf: Readonly<Shelf> = DEFAULT_SHELF, action: Act
     }
   }
 
-  const spec = shelfSpecReducer(shelf.spec, action, schema);
+  const spec = shelfSpecReducer(shelf.spec, action);
   if (spec !== shelf.spec) {
     // Make sure we only re-create a new object if something has changed.
     // TODO: once we have more query-based property here, better use some combineReducers() like function.

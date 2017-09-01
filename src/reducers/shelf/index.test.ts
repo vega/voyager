@@ -1,4 +1,3 @@
-import {Schema} from 'compassql/build/src/schema';
 import {SHELF_LOAD_QUERY} from '../../actions';
 import {SHELF_AUTO_ADD_COUNT_CHANGE, SHELF_GROUP_BY_CHANGE} from '../../actions/shelf/index';
 import {DEFAULT_SHELF} from '../../models/shelf/index';
@@ -8,8 +7,6 @@ import {summaries} from '../../queries/summaries';
 import {shelfReducer} from './index';
 
 describe('reducers/shelf', () => {
-  const schema = new Schema({fields: []});
-
   describe(SHELF_AUTO_ADD_COUNT_CHANGE, () => {
     it('changes autoAddCount', () => {
       expect(
@@ -18,7 +15,7 @@ describe('reducers/shelf', () => {
         }, {
           type: SHELF_AUTO_ADD_COUNT_CHANGE,
           payload: {autoAddCount: false}
-        }, schema),
+        }),
       ).toEqual({
         ...DEFAULT_SHELF,
         autoAddCount: false
@@ -34,7 +31,7 @@ describe('reducers/shelf', () => {
         }, {
           type: SHELF_GROUP_BY_CHANGE,
           payload: {groupBy: 'encoding'}
-        }, schema),
+        }),
       ).toEqual({
         ...DEFAULT_SHELF,
         groupBy: 'encoding'
@@ -51,7 +48,7 @@ describe('reducers/shelf', () => {
         }, {
           type: SHELF_LOAD_QUERY,
           payload: {query}
-        }, schema),
+        }),
       ).toEqual({
         ...DEFAULT_SHELF,
         spec: {
@@ -82,7 +79,7 @@ describe('reducers/shelf', () => {
         }, {
           type: SHELF_LOAD_QUERY,
           payload: {query}
-        }, schema),
+        }),
       ).toEqual({
         ...DEFAULT_SHELF,
         spec: {

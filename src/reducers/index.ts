@@ -69,28 +69,8 @@ import {makeResetReducer, ResetIndex} from './reset';
 import {resultIndexReducer} from './result';
 import {shelfReducer} from './shelf';
 import {shelfPreviewReducer} from './shelf-preview';
+import {reduceSpecFieldAutoAdd} from './shelf/spec';
 import {stateReducer} from './state';
-
-/**
- * Whether to reset a particular property of the undoable state during RESET action
- */
-const undoableStateToReset: ResetIndex<UndoableStateBase> = {
-  dataset: true,
-  shelf: true,
-  result: true
-};
-
-const undoableReducerBase = makeResetReducer(
-  (state: Readonly<UndoableStateBase> = DEFAULT_UNDOABLE_STATE_BASE, action: Action): UndoableStateBase => {
-    return {
-      dataset: datasetReducer(state.dataset, action),
-      shelf: shelfReducer(state.shelf, action, state.dataset.schema),
-      result: resultIndexReducer(state.result, action)
-    };
-  },
-  undoableStateToReset,
-  DEFAULT_UNDOABLE_STATE_BASE
-);
 
 /**
  * Whether to reset a particular property of the persistent state during RESET action
@@ -232,6 +212,42 @@ function groupAction(action: Action, currentState: UndoableStateBase,
     return lastGroup;
   }
 };
+
+/**
+ * Whether to reset a particular property of the undoable state during RESET action
+ */
+const undoableStateToReset: ResetIndex<UndoableStateBase> = {
+  dataset: true,
+  shelf: true,
+  result: true
+};
+
+const combinedUndoableReducer = combineReducers<UndoableStateBase>({
+  dataset: datasetReducer,
+  shelf: shelfReducer,
+  result: resultIndexReducer
+});
+
+const undoableReducerBase = makeResetReducer(
+  (state: Readonly<UndoableStateBase> = DEFAULT_UNDOABLE_STATE_BASE, action: Action): UndoableStateBase => {
+    switch (action.type) {
+      // SPEC_FIELD_AUTO_ADD is a special case that requires schema as a parameter
+      case SPEC_FIELD_AUTO_ADD:
+        return {
+          ...state,
+          shelf: {
+            ...state.shelf,
+            spec: reduceSpecFieldAutoAdd(state.shelf.spec, action, state.dataset.schema)
+          }
+        };
+    }
+
+    return combinedUndoableReducer(state, action);
+  },
+  undoableStateToReset,
+  DEFAULT_UNDOABLE_STATE_BASE
+);
+
 
 const undoableReducer = undoable<UndoableStateBase>(undoableReducerBase, {
   limit: HISTORY_LIMIT,

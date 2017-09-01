@@ -14,7 +14,7 @@ import {
   SpecFieldNestedPropChange
 } from '../../actions/shelf/spec';
 import {DEFAULT_SHELF_UNIT_SPEC} from '../../models';
-import {shelfSpecReducer} from './spec';
+import {reduceSpecFieldAutoAdd, shelfSpecReducer} from './spec';
 
 const SHORT_WILDCARD = '?';
 
@@ -26,7 +26,7 @@ describe('reducers/shelf/spec', () => {
       expect(
         shelfSpecReducer({
           mark: 'bar', encoding: {}, anyEncodings: [], config: {}, filters: []
-        }, {type: SPEC_CLEAR}, schema),
+        }, {type: SPEC_CLEAR}),
       ).toBe(DEFAULT_SHELF_UNIT_SPEC);
     });
   });
@@ -39,7 +39,6 @@ describe('reducers/shelf/spec', () => {
           type: SPEC_MARK_CHANGE_TYPE,
           payload: 'area'
         },
-        schema
       );
       expect(shelfSpec.mark).toBe('area');
     });
@@ -57,7 +56,6 @@ describe('reducers/shelf/spec', () => {
             replace: true
           }
         },
-        schema
       );
 
       expect(shelfSpec.encoding.x).toEqual({
@@ -76,7 +74,6 @@ describe('reducers/shelf/spec', () => {
             replace: true
           }
         },
-        schema
       );
 
       expect(shelfSpec.anyEncodings[0]).toEqual({
@@ -93,7 +90,6 @@ describe('reducers/shelf/spec', () => {
             replace: true
           }
         },
-        schema
       );
 
       expect(insertedShelf.anyEncodings[0]).toEqual({
@@ -115,7 +111,6 @@ describe('reducers/shelf/spec', () => {
             replace: true
           }
         },
-        schema
       );
 
       expect(shelfSpec.anyEncodings[0]).toEqual({
@@ -132,7 +127,6 @@ describe('reducers/shelf/spec', () => {
             replace: true
           }
         },
-        schema
       );
 
       expect(insertedShelf.anyEncodings[0]).toEqual({
@@ -141,10 +135,10 @@ describe('reducers/shelf/spec', () => {
     });
   });
 
-  describe(SPEC_FIELD_ADD, () => {
+  describe('reduceSpecFieldAutoAdd / ' + SPEC_FIELD_AUTO_ADD, () => {
     it('should query for new spec with CompassQL if there is no wildcard channel in the shelf ' +
         'and the field is not a wildcard.', () => {
-      const shelfSpec = shelfSpecReducer(
+      const shelfSpec = reduceSpecFieldAutoAdd(
         DEFAULT_SHELF_UNIT_SPEC,
         {
           type: SPEC_FIELD_AUTO_ADD,
@@ -163,7 +157,7 @@ describe('reducers/shelf/spec', () => {
     });
 
     it('should add the field to anyEncodings if there is a wildcard channel in the shelf', () => {
-      const shelfSpec = shelfSpecReducer(
+      const shelfSpec = reduceSpecFieldAutoAdd(
         {
           ...DEFAULT_SHELF_UNIT_SPEC,
           anyEncodings: [
@@ -188,7 +182,7 @@ describe('reducers/shelf/spec', () => {
     });
 
     it('should add the field to anyEncodings if the field is a wildcard', () => {
-      const shelfSpec = shelfSpecReducer(
+      const shelfSpec = reduceSpecFieldAutoAdd(
         DEFAULT_SHELF_UNIT_SPEC,
         {
           type: SPEC_FIELD_AUTO_ADD,
@@ -224,7 +218,6 @@ describe('reducers/shelf/spec', () => {
           type: SPEC_FIELD_REMOVE,
           payload: {channel: 'x'}
         },
-        schema
       );
       expect(shelfSpec).toEqual(DEFAULT_SHELF_UNIT_SPEC);
     });
@@ -244,7 +237,6 @@ describe('reducers/shelf/spec', () => {
             index: 0
           }
         },
-        schema
       );
       expect(shelfSpec).toEqual(DEFAULT_SHELF_UNIT_SPEC);
     });
@@ -266,7 +258,6 @@ describe('reducers/shelf/spec', () => {
             to: {channel: 'y' }
           }
         },
-        schema
       );
       expect(shelfSpec).toEqual({
         ...DEFAULT_SHELF_UNIT_SPEC,
@@ -292,7 +283,6 @@ describe('reducers/shelf/spec', () => {
             to: {channel: 'y' }
           }
         },
-        schema
       );
       expect(shelfSpec).toEqual({
         ...DEFAULT_SHELF_UNIT_SPEC,
@@ -321,7 +311,6 @@ describe('reducers/shelf/spec', () => {
             to: {channel: SHORT_WILDCARD, index: 0}
           }
         },
-        schema
       );
 
       expect(shelfSpec).toEqual({
@@ -350,7 +339,6 @@ describe('reducers/shelf/spec', () => {
             to: {channel: SHORT_WILDCARD, index: 0}
           }
         },
-        schema
       );
 
       expect(shelfSpec).toEqual({
@@ -376,7 +364,6 @@ describe('reducers/shelf/spec', () => {
             to: {channel: 'x'}
           }
         },
-        schema
       );
 
       expect(shelfSpec).toEqual({
@@ -405,7 +392,6 @@ describe('reducers/shelf/spec', () => {
             value: 'descending'
           }
         },
-        schema
       );
 
       expect(shelfSpec).toEqual({
@@ -432,7 +418,6 @@ describe('reducers/shelf/spec', () => {
             value: undefined
           }
         },
-        schema
       );
 
       expect(shelfSpec).toEqual({
@@ -463,7 +448,6 @@ describe('reducers/shelf/spec', () => {
           }
         },
         action,
-        schema
       );
 
       expect(shelfSpec).toEqual({
@@ -492,7 +476,6 @@ describe('reducers/shelf/spec', () => {
           }
         },
         action,
-        schema
       );
 
       expect(shelfSpec).toEqual({
@@ -520,7 +503,6 @@ describe('reducers/shelf/spec', () => {
             fn: 'mean'
           }
         },
-        schema
       );
 
       expect(shelfSpec).toEqual({
@@ -546,7 +528,6 @@ describe('reducers/shelf/spec', () => {
             fn: 'month'
           }
         },
-        schema
       );
 
       expect(shelfSpec).toEqual({
@@ -572,7 +553,6 @@ describe('reducers/shelf/spec', () => {
             fn: 'bin'
           }
         },
-        schema
       );
 
       expect(shelfSpec).toEqual({
@@ -598,7 +578,6 @@ describe('reducers/shelf/spec', () => {
             fn: 'mean'
           }
         },
-      schema
       );
 
       expect(shelfSpec).toEqual({
@@ -624,7 +603,6 @@ describe('reducers/shelf/spec', () => {
             fn: undefined
           }
         },
-        schema
       );
 
       expect(shelfSpec).toEqual({
@@ -652,7 +630,6 @@ describe('reducers/shelf/spec', () => {
             fn: 'bin'
           }
         },
-        schema
       );
 
       expect(shelfSpec).toEqual({
@@ -678,7 +655,6 @@ describe('reducers/shelf/spec', () => {
             fn: undefined
           }
         },
-        schema
       );
 
       expect(shelfSpec).toEqual({
@@ -705,7 +681,6 @@ describe('reducers/shelf/spec', () => {
             shelfId: {channel: 'x'},
           }
         },
-        schema
       );
 
       expect(shelfSpec).toEqual({
@@ -730,7 +705,6 @@ describe('reducers/shelf/spec', () => {
             shelfId: {channel: 'x'},
           }
         },
-        schema
       );
 
       expect(shelfSpec).toEqual({
@@ -757,7 +731,6 @@ describe('reducers/shelf/spec', () => {
             shelfId: {channel: 'x'}
           }
         },
-        schema
       );
 
       expect(shelfSpec).toEqual({
@@ -782,7 +755,6 @@ describe('reducers/shelf/spec', () => {
             shelfId: {channel: 'x'}
           }
         },
-        schema
       );
 
       expect(shelfSpec).toEqual({
@@ -807,7 +779,6 @@ describe('reducers/shelf/spec', () => {
             shelfId: {channel: 'x'}
           }
         },
-        schema
       );
 
       expect(shelfSpec).toEqual({
@@ -835,7 +806,6 @@ describe('reducers/shelf/spec', () => {
             fn: undefined
           }
         },
-        schema
       );
 
       expect(shelfSpec).toEqual({
@@ -867,7 +837,6 @@ describe('reducers/shelf/spec', () => {
             keepWildcardMark: true
           }
         },
-        schema
       );
 
       expect(shelfSpec).toEqual({
@@ -899,7 +868,6 @@ describe('reducers/shelf/spec', () => {
             keepWildcardMark: true
           }
         },
-        schema
       );
 
       expect(shelfSpec).toEqual({
