@@ -14,7 +14,9 @@ import {Result} from '../../models/result/index';
 import {SHELF_GROUP_BYS, ShelfGroupBy} from '../../models/shelf/index';
 import {selectBookmark, selectConfig, selectMainSpec} from '../../selectors';
 import {selectResult} from '../../selectors/result';
-import {selectAutoAddCount, selectDefaultGroupBy, selectIsQuerySpecific, selectShelf} from '../../selectors/shelf';
+import {
+  selectDefaultGroupBy, selectIsQuerySpecific, selectShelfAutoAddCount, selectShelfGroupBy
+} from '../../selectors/shelf';
 import {Plot} from '../plot';
 import {PlotList} from '../plot-list';
 import {RelatedViews} from './related-views';
@@ -182,8 +184,8 @@ export const ViewPane = connect(
       bookmark: selectBookmark(state),
       spec: selectMainSpec(state),
       result: selectResult.main(state),
-      autoAddCount: selectAutoAddCount(state),
-      groupBy: selectShelf(state).groupBy,
+      autoAddCount: selectShelfAutoAddCount(state),
+      groupBy: selectShelfGroupBy(state),
       defaultGroupBy: selectDefaultGroupBy(state),
       config: selectConfig(state)
     };

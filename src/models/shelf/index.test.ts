@@ -5,7 +5,6 @@ describe('models/shelf', () => {
     it('makes a query that has an additional fieldQuery with wildcard channel', () => {
       expect(
         autoAddFieldQuery({
-          filters: [],
           mark: 'point',
           encoding: {
             x: {field: 'a', type: 'quantitative'}
@@ -15,7 +14,6 @@ describe('models/shelf', () => {
         }, {field: 'b', type: 'nominal'})
       ).toEqual({
         spec: {
-          transform: [],
           mark: 'point',
           encodings: [
             {channel: 'x', field: 'a', type: 'quantitative'},
@@ -33,7 +31,6 @@ describe('models/shelf', () => {
         'if there is no wildcard', () => {
       expect(toQuery({
         spec: {
-          filters: [],
           mark: 'point',
           encoding: {
             x: {field: 'a', type: 'quantitative'}
@@ -45,7 +42,6 @@ describe('models/shelf', () => {
         groupBy: 'auto'
       })).toEqual({
         spec: {
-          transform: [],
           mark: 'point',
           encodings: [
             {channel: 'x', field: 'a', type: 'quantitative'},
@@ -62,7 +58,6 @@ describe('models/shelf', () => {
        'if there is a wildcard field and autoAddCount is true', () => {
       expect(toQuery({
         spec: {
-          filters: [],
           mark: 'point',
           encoding: {
             x: {field: '?', type: 'quantitative'}
@@ -74,7 +69,6 @@ describe('models/shelf', () => {
         autoAddCount: true
       })).toEqual({
         spec: {
-          transform: [],
           mark: 'point',
           encodings: [
             {channel: 'x', field: '?', type: 'quantitative'},
@@ -94,7 +88,6 @@ describe('models/shelf', () => {
         'if there is a wildcard field and function', () => {
       expect(toQuery({
         spec: {
-          filters: [],
           mark: 'point',
           encoding: {
             x: {fn: {enum: ['mean', 'median']}, field: '?', type: 'quantitative'}
@@ -106,7 +99,6 @@ describe('models/shelf', () => {
         groupBy: 'auto'
       })).toEqual({
         spec: {
-          transform: [],
           mark: 'point',
           encodings: [
             {channel: 'x', field: '?', aggregate: {enum: ['mean', 'median']}, hasFn: true, type: 'quantitative'},

@@ -21,7 +21,6 @@ describe('models/shelf/unit', () => {
           {channel: SHORT_WILDCARD, field: 'b', type: 'ordinal'}
         ],
         config: {numberFormat: 'd'},
-        filters: []
       });
     });
   });
@@ -41,7 +40,6 @@ describe('models/shelf/unit', () => {
           {channel: SHORT_WILDCARD, field: 'b', type: 'ordinal'}
         ],
         config: {numberFormat: 'd'},
-        filters: []
       })).toEqual({
         mark: 'point',
         encodings: [
@@ -52,8 +50,7 @@ describe('models/shelf/unit', () => {
           },
           {channel: '?', field: 'b', type: 'ordinal'}
         ],
-        config: {numberFormat: 'd'},
-        transform: []
+        config: {numberFormat: 'd'}
       });
     });
   });

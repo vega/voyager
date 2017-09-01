@@ -13,8 +13,9 @@ import {ShelfAction, SPEC_CLEAR} from '../../actions/shelf';
 import {ShelfUnitSpec, State} from '../../models';
 import {VoyagerConfig} from '../../models/config';
 import {ShelfFieldDef} from '../../models/shelf';
-import {selectConfig, selectDataset, selectShelf, selectShelfPreview} from '../../selectors';
+import {selectConfig, selectDataset, selectShelfPreview} from '../../selectors';
 import {selectSchemaFieldDefs} from '../../selectors/index';
+import {selectFilters, selectShelfSpec} from '../../selectors/shelf';
 import {FilterPane} from '../filter-pane';
 import * as styles from './encoding-pane.scss';
 import {EncodingShelf} from './encoding-shelf';
@@ -169,8 +170,8 @@ export const EncodingPane = connect(
   (state: State) => {
     const presentUndoableState = state.undoable.present;
     return {
-      spec: selectShelf(state).spec,
-      filters: selectShelf(state).spec.filters,
+      spec: selectShelfSpec(state),
+      filters: selectFilters(state),
       schema: selectDataset(state).schema,
       fieldDefs: selectSchemaFieldDefs(state),
       specPreview: selectShelfPreview(state).spec,

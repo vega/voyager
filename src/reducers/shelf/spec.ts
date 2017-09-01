@@ -19,24 +19,8 @@ import {sortFunctions} from '../../models/shelf';
 import {autoAddFieldQuery} from '../../models/shelf';
 import {DEFAULT_SHELF_UNIT_SPEC, fromSpecQuery} from '../../models/shelf/spec';
 import {insertItemToArray, modifyItemInArray, removeItemFromArray} from '../util';
-import {filterReducer} from './filter';
 
-export function shelfSpecReducer(
-  shelfSpec: Readonly<ShelfUnitSpec> = DEFAULT_SHELF_UNIT_SPEC,
-  action: Action
-): Readonly<ShelfUnitSpec> {
-  const filters = filterReducer(shelfSpec.filters, action);
-  if (filters !== shelfSpec.filters) {
-    return {
-      ...shelfSpecReducerBase(shelfSpec, action),
-      filters: filterReducer(shelfSpec.filters, action)
-    };
-  } else {
-    return shelfSpecReducerBase(shelfSpec, action);
-  }
-}
-
-export function reduceSpecFieldAutoAdd(
+export function shelfSpecFieldAutoAddReducer(
   shelfSpec: Readonly<ShelfUnitSpec>, action: SpecFieldAutoAdd, schema: Schema
 ): ShelfUnitSpec {
   const {fieldDef} = action.payload;
@@ -67,8 +51,7 @@ export function reduceSpecFieldAutoAdd(
   }
 }
 
-
-function shelfSpecReducerBase(
+export function shelfSpecReducer(
   shelfSpec: Readonly<ShelfUnitSpec> = DEFAULT_SHELF_UNIT_SPEC,
   action: Action
 ): ShelfUnitSpec {
@@ -190,6 +173,7 @@ function shelfSpecReducerBase(
       });
     }
 
+    // FIXME move this to shelf/index as it should reset other query parameter
     case SPEC_LOAD:
       const {spec, keepWildcardMark} = action.payload;
       const specQ = {
