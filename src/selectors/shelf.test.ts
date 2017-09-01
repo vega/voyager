@@ -2,8 +2,9 @@ import {Schema} from 'compassql/build/src/schema';
 import {DEFAULT_PERSISTENT_STATE, DEFAULT_STATE, State} from '../models/index';
 import {DEFAULT_RESULT_INDEX} from '../models/result';
 import {DEFAULT_SHELF, toQuery} from '../models/shelf/index';
-import {DEFAULT_SHELF_UNIT_SPEC, hasWildcards} from '../models/shelf/spec';
-import {selectFilters, selectIsQuerySpecific, selectQuery, selectQuerySpec, selectShelf} from './shelf';
+import {hasWildcards} from '../models/shelf/spec';
+import {toSpecQuery} from '../models/shelf/spec/index';
+import {selectFilters, selectIsQuerySpecific, selectQuery, selectQuerySpec, selectShelfGroupBy} from './shelf';
 
 describe('selectors/shelf', () => {
   describe('selectFilters', () => {
@@ -27,10 +28,7 @@ describe('selectors/shelf', () => {
             },
             shelf: {
               ...DEFAULT_SHELF,
-              spec: {
-                ...DEFAULT_SHELF_UNIT_SPEC,
-                filters
-              }
+              filters
             },
             result: DEFAULT_RESULT_INDEX
           }
@@ -41,9 +39,9 @@ describe('selectors/shelf', () => {
     });
   });
 
-  describe('selectShelf', () => {
+  describe('selectShelfGroupBy', () => {
     it('selecting shelf should return the default shelf', () => {
-      expect(selectShelf(DEFAULT_STATE)).toBe(DEFAULT_STATE.undoable.present.shelf);
+      expect(selectShelfGroupBy(DEFAULT_STATE)).toBe(DEFAULT_STATE.undoable.present.shelf.groupBy);
     });
   });
 
@@ -61,8 +59,9 @@ describe('selectors/shelf', () => {
 
   describe('selectIsQuerySpecific', () => {
     it('selecting isQuerySpecific should return whether the default query is specific', () => {
+      const specQ = toSpecQuery(DEFAULT_STATE.undoable.present.shelf.spec);
       expect(selectIsQuerySpecific(DEFAULT_STATE)).toEqual(
-        !hasWildcards(toQuery(DEFAULT_STATE.undoable.present.shelf).spec).hasAnyWildcard
+        !hasWildcards(specQ).hasAnyWildcard
       );
     });
   });

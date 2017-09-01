@@ -7,19 +7,34 @@ import {State} from '../models/index';
 import {Query} from 'compassql/build/src/query/query';
 import {SpecQuery} from 'compassql/build/src/query/spec';
 import {createSelector} from 'reselect';
-import {getDefaultGroupBy, Shelf, toQuery} from '../models/shelf/index';
-import {hasWildcards} from '../models/shelf/spec';
-
-export const selectFilters = (state: State) => state.undoable.present.shelf.spec.filters;
+import {ShelfFilter} from '../models/shelf/filter';
+import {getDefaultGroupBy, Shelf, ShelfGroupBy, toQuery} from '../models/shelf/index';
+import {hasWildcards, ShelfUnitSpec} from '../models/shelf/spec';
 
 export const selectShelf = (state: State): Shelf => state.undoable.present.shelf;
 
-export const selectAutoAddCount = (state: State) => state.undoable.present.shelf.autoAddCount;
+export const selectShelfGroupBy = createSelector(selectShelf,
+  (shelf: Shelf): ShelfGroupBy => shelf.groupBy
+);
+
+export const selectShelfSpec = createSelector(selectShelf,
+  (shelf: Shelf): ShelfUnitSpec => shelf.spec
+);
+
+export const selectFilters = createSelector(selectShelf,
+  (shelf: Shelf): ShelfFilter[] => shelf.filters
+);
+
+export const selectShelfAutoAddCount = createSelector(selectShelf,
+  (shelf: Shelf) => shelf.autoAddCount
+);
 
 export const selectQuery = createSelector(
-  selectShelf,
-  (shelf: Shelf): Query => {
-    return toQuery(shelf);
+  selectShelfSpec,
+  selectShelfGroupBy,
+  selectShelfAutoAddCount,
+  (spec: ShelfUnitSpec, groupBy: ShelfGroupBy, autoAddCount: boolean): Query => {
+    return toQuery({spec, groupBy, autoAddCount});
   }
 );
 

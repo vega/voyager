@@ -69,7 +69,7 @@ import {makeResetReducer, ResetIndex} from './reset';
 import {resultIndexReducer} from './result';
 import {shelfReducer} from './shelf';
 import {shelfPreviewReducer} from './shelf-preview';
-import {reduceSpecFieldAutoAdd} from './shelf/spec';
+import {shelfSpecFieldAutoAddReducer} from './shelf/spec';
 import {stateReducer} from './state';
 
 /**
@@ -235,7 +235,7 @@ const undoableReducerBase = makeResetReducer(
           ...state,
           shelf: {
             ...state.shelf,
-            spec: reduceSpecFieldAutoAdd(state.shelf.spec, action, state.dataset.schema)
+            spec: shelfSpecFieldAutoAddReducer(state.shelf.spec, action, state.dataset.schema)
           }
         };
     }

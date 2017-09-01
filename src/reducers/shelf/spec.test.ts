@@ -14,7 +14,7 @@ import {
   SpecFieldNestedPropChange
 } from '../../actions/shelf/spec';
 import {DEFAULT_SHELF_UNIT_SPEC} from '../../models';
-import {reduceSpecFieldAutoAdd, shelfSpecReducer} from './spec';
+import {shelfSpecFieldAutoAddReducer, shelfSpecReducer} from './spec';
 
 const SHORT_WILDCARD = '?';
 
@@ -25,7 +25,7 @@ describe('reducers/shelf/spec', () => {
     it('should return DEFAULT_SHELF_UNIT_SPEC', () => {
       expect(
         shelfSpecReducer({
-          mark: 'bar', encoding: {}, anyEncodings: [], config: {}, filters: []
+          mark: 'bar', encoding: {}, anyEncodings: [], config: {}
         }, {type: SPEC_CLEAR}),
       ).toBe(DEFAULT_SHELF_UNIT_SPEC);
     });
@@ -135,10 +135,10 @@ describe('reducers/shelf/spec', () => {
     });
   });
 
-  describe('reduceSpecFieldAutoAdd / ' + SPEC_FIELD_AUTO_ADD, () => {
+  describe('shelfSpecFieldAutoAddReducer / ' + SPEC_FIELD_AUTO_ADD, () => {
     it('should query for new spec with CompassQL if there is no wildcard channel in the shelf ' +
         'and the field is not a wildcard.', () => {
-      const shelfSpec = reduceSpecFieldAutoAdd(
+      const shelfSpec = shelfSpecFieldAutoAddReducer(
         DEFAULT_SHELF_UNIT_SPEC,
         {
           type: SPEC_FIELD_AUTO_ADD,
@@ -157,7 +157,7 @@ describe('reducers/shelf/spec', () => {
     });
 
     it('should add the field to anyEncodings if there is a wildcard channel in the shelf', () => {
-      const shelfSpec = reduceSpecFieldAutoAdd(
+      const shelfSpec = shelfSpecFieldAutoAddReducer(
         {
           ...DEFAULT_SHELF_UNIT_SPEC,
           anyEncodings: [
@@ -182,7 +182,7 @@ describe('reducers/shelf/spec', () => {
     });
 
     it('should add the field to anyEncodings if the field is a wildcard', () => {
-      const shelfSpec = reduceSpecFieldAutoAdd(
+      const shelfSpec = shelfSpecFieldAutoAddReducer(
         DEFAULT_SHELF_UNIT_SPEC,
         {
           type: SPEC_FIELD_AUTO_ADD,

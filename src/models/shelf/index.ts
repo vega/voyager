@@ -1,13 +1,15 @@
-
 import {Query} from 'compassql/build/src/query/query';
 import {isString} from 'vega-lite/build/src/util';
+import {ShelfFilter} from './filter';
 import {ShelfFieldDef, toFieldQuery} from './spec';
 import {DEFAULT_SHELF_UNIT_SPEC, hasWildcards, ShelfUnitSpec, toSpecQuery} from './spec';
 
 export * from './spec';
+export * from './filter';
 
 export const DEFAULT_SHELF: Readonly<Shelf> = {
   spec: DEFAULT_SHELF_UNIT_SPEC,
+  filters: [],
   groupBy: 'auto',
   autoAddCount: true
 };
@@ -29,7 +31,10 @@ export function isShelfGroupBy(s: any): s is ShelfGroupBy {
 
 export interface Shelf {
   spec: ShelfUnitSpec; // TODO: support other type of specs.
-  // TODO: support groupBy, autoCount, orderBy
+
+  filters: ShelfFilter[];
+
+  // TODO: support orderBy
 
   groupBy: ShelfGroupBy;
 
@@ -39,12 +44,12 @@ export interface Shelf {
 export const DEFAULT_ORDER_BY = ['fieldOrder', 'aggregationQuality', 'effectiveness'];
 export const DEFAULT_CHOOSE_BY = ['aggregationQuality', 'effectiveness'];
 
-export function toQuery(shelf: Shelf): Query {
-  const {spec, autoAddCount} = shelf;
+export function toQuery(params: {spec: ShelfUnitSpec, autoAddCount: boolean, groupBy: ShelfGroupBy}): Query {
+  const {spec, autoAddCount} = params;
   const specQ = toSpecQuery(spec);
   const {hasAnyWildcard, hasWildcardFn, hasWildcardField} = hasWildcards(specQ);
 
-  const groupBy = shelf.groupBy !== 'auto' ? shelf.groupBy :
+  const groupBy = params.groupBy !== 'auto' ? params.groupBy :
     getDefaultGroupBy({hasWildcardFn, hasWildcardField});
 
   return {

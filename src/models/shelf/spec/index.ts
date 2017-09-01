@@ -24,8 +24,6 @@ export * from './function';
  * but provide structure that better serves as internal structure of shelf in Voyager.
  */
 export interface ShelfUnitSpec {
-  filters: Array<RangeFilter | OneOfFilter>;
-
   mark: ShelfMark;
 
   /**
@@ -41,12 +39,8 @@ export interface ShelfUnitSpec {
   config: Config;
 }
 
-
 export function toSpecQuery(spec: ShelfUnitSpec): SpecQuery {
   return {
-    // TODO(https://github.com/vega/voyager/issues/617):
-    // do not include filter here once we separate filter execution
-    transform: getTransforms(spec.filters),
     mark: spec.mark,
     encodings: specificEncodingsToEncodingQueries(spec.encoding).concat(
       spec.anyEncodings.map(fieldDef => toEncodingQuery(fieldDef, '?'))
@@ -61,8 +55,11 @@ export function fromSpecQuery(spec: SpecQuery, oldConfig?: Config): ShelfUnitSpe
     throw new Error('Voyager 2 does not support custom wildcard mark yet');
   }
 
+  if (transform && transform.length > 0) {
+    throw new Error('fromSpecQuery should not contain transform');
+  }
+
   return {
-    filters: getFilters(transform),
     mark,
     ...fromEncodingQueries(encodings),
     config: config || oldConfig
@@ -143,7 +140,6 @@ export function getTransforms(filters: Array<RangeFilter|OneOfFilter>) {
 }
 
 export const DEFAULT_SHELF_UNIT_SPEC: Readonly<ShelfUnitSpec> = {
-  filters: [],
   mark: SHORT_WILDCARD,
   encoding: {},
   anyEncodings: [],

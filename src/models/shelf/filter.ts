@@ -5,6 +5,8 @@ import {OneOfFilter, RangeFilter} from 'vega-lite/build/src/filter';
 import {convert, TimeUnit} from 'vega-lite/build/src/timeunit';
 import {ShelfFieldDef} from './spec';
 
+export type ShelfFilter = RangeFilter | OneOfFilter;
+
 export function getFilter(fieldDef: ShelfFieldDef, domain: any[]): RangeFilter | OneOfFilter {
   if (isWildcard(fieldDef.field)) {
     return;

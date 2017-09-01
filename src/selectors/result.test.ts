@@ -30,7 +30,6 @@ const data: Data = {
 };
 
 const spec: ShelfUnitSpec = {
-  filters: [{field: 'q1', range: [0, 1]}],
   mark: 'point',
   encoding: {
     y: {field: 'q1', type: ExpandedType.TEMPORAL}

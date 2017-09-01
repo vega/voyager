@@ -24,8 +24,7 @@ describe('reducers/shelf/spec-preview', () => {
           y: {field: '*', fn: 'count', type: 'quantitative'}
         },
         anyEncodings: [],
-        config: undefined,
-        filters: []
+        config: undefined
       });
     });
   });
@@ -55,7 +54,6 @@ describe('reducers/shelf/spec-preview', () => {
         },
         anyEncodings: [],
         config: undefined,
-        filters: []
       });
     });
   });
@@ -69,8 +67,7 @@ describe('reducers/shelf/spec-preview', () => {
           y: {fn: 'count', field: '*', type: 'quantitative'}
         },
         anyEncodings: [],
-        config: undefined,
-        filters: []
+        config: undefined
       }}, {type: SHELF_PREVIEW_DISABLE});
 
       expect(specPreview.spec).toEqual(null);

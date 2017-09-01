@@ -15,7 +15,7 @@ import {DEFAULT_SHELF, DEFAULT_SHELF_UNIT_SPEC} from '../models/shelf/index';
 import {selectDataset} from '../selectors/dataset';
 import {selectBookmark} from '../selectors/index';
 import {selectResult} from '../selectors/result';
-import {selectAutoAddCount, selectShelf} from '../selectors/shelf';
+import {selectShelf, selectShelfAutoAddCount} from '../selectors/shelf';
 import {ACTIONS_EXCLUDED_FROM_HISTORY, GROUPED_ACTIONS, rootReducer, USER_ACTIONS} from './index';
 
 describe('reducers/index', () => {
@@ -75,7 +75,7 @@ describe('reducers/index', () => {
       expect(selectBookmark(state)).toEqual(DEFAULT_BOOKMARK);
       expect(selectDataset(state)).toEqual(DEFAULT_DATASET);
       expect(selectShelf(state)).toEqual(DEFAULT_SHELF);
-      expect(selectAutoAddCount(state)).toEqual(true);
+      expect(selectShelfAutoAddCount(state)).toEqual(true);
       expect(selectResult.main(state)).toEqual(DEFAULT_RESULT);
     });
   });
