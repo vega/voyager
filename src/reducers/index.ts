@@ -83,14 +83,12 @@ const persistentStateToReset: ResetIndex<PersistentState> = {
 };
 
 const persistentReducer = makeResetReducer(
-  (state: Readonly<PersistentState> = DEFAULT_PERSISTENT_STATE, action: Action): PersistentState => {
-    return {
-      bookmark: bookmarkReducer(state.bookmark, action),
-      config: configReducer(state.config, action),
-      log: logReducer(state.log, action),
-      shelfPreview: shelfPreviewReducer(state.shelfPreview, action)
-    };
-  },
+  combineReducers<PersistentState>({
+    bookmark: bookmarkReducer,
+    config: configReducer,
+    log: logReducer,
+    shelfPreview: shelfPreviewReducer
+  }),
   persistentStateToReset,
   DEFAULT_PERSISTENT_STATE
 );
