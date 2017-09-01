@@ -12,8 +12,10 @@ import {
 import {DraggableType, FieldParentType} from '../../constants';
 import {ShelfFieldDef, ShelfId} from '../../models';
 import {ShelfFunction} from '../../models/shelf';
+import {isWildcardChannelId} from '../../models/shelf/spec/encoding';
 import {DraggedFieldIdentifier, Field} from '../field/index';
 import * as styles from './encoding-shelf.scss';
+import {FieldCustomizer} from './field-customizer';
 import {FunctionPicker} from './function-picker';
 
 /**
@@ -40,14 +42,21 @@ interface EncodingShelfProps extends EncodingShelfPropsBase, EncodingShelfDropTa
 class EncodingShelfBase extends React.PureComponent<EncodingShelfProps, {}> {
 
   public render() {
-    const {id, connectDropTarget, fieldDef} = this.props;
+    const {id, connectDropTarget, fieldDef, handleAction} = this.props;
 
     const isWildcardShelf = isWildcard(id.channel);
     const channelName = isWildcardShelf ? 'any' : id.channel;
 
     return connectDropTarget(
       <div styleName={isWildcardShelf ? 'wildcard-shelf' : 'encoding-shelf'}>
-        <div styleName="shelf-label">{channelName}</div>
+        <div styleName="shelf-label">
+          <FieldCustomizer
+            showCaret={!!fieldDef && !isWildcardChannelId(id)}
+            shelfId={id}
+            handleAction={handleAction}
+          />
+          {channelName}
+        </div>
         {fieldDef ? this.field() : this.fieldPlaceholder()}
       </div>
     );

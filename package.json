@@ -56,6 +56,7 @@
     "react-dnd-html5-backend": "^2.2.3",
     "react-dom": "^15.4.2",
     "react-file-download": "^0.3.4",
+    "react-jsonschema-form": "^0.49.0",
     "react-modal": "^2.0.6",
     "react-redux": "^5.0.2",
     "react-spinners": "^0.0.30",
