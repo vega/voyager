@@ -1,5 +1,4 @@
 import {getTopSpecQueryItem} from 'compassql/build/src/model';
-import {fromSpec} from 'compassql/build/src/query/spec';
 import {recommend} from 'compassql/build/src/recommend';
 import {Schema} from 'compassql/build/src/schema';
 import {isWildcard, SHORT_WILDCARD} from 'compassql/build/src/wildcard';
@@ -7,8 +6,7 @@ import {FieldDef} from 'vega-lite/build/src/fielddef';
 import {Action} from '../../actions';
 import {
   SPEC_CLEAR, SPEC_FIELD_ADD, SPEC_FIELD_MOVE,
-  SPEC_FIELD_REMOVE, SPEC_FUNCTION_CHANGE, SPEC_FUNCTION_ENABLE_WILDCARD,
-  SPEC_LOAD, SPEC_MARK_CHANGE_TYPE
+  SPEC_FIELD_REMOVE, SPEC_FUNCTION_CHANGE, SPEC_FUNCTION_ENABLE_WILDCARD, SPEC_MARK_CHANGE_TYPE
 } from '../../actions/shelf';
 import {SPEC_FUNCTION_ADD_WILDCARD, SPEC_FUNCTION_DISABLE_WILDCARD,
         SPEC_FUNCTION_REMOVE_WILDCARD} from '../../actions/shelf';
@@ -172,21 +170,6 @@ export function shelfSpecReducer(
         }
       });
     }
-
-    // FIXME move this to shelf/index as it should reset other query parameter
-    case SPEC_LOAD:
-      const {spec, keepWildcardMark} = action.payload;
-      const specQ = {
-        ...fromSpec(spec),
-
-        // Restore wildcard mark if the shelf previously has wildcard mark.
-        // and keepWildcardMark is true
-        ...(keepWildcardMark && isWildcard(shelfSpec.mark) ? {
-          mark: SHORT_WILDCARD
-        } : {})
-      };
-
-      return fromSpecQuery(specQ, shelfSpec.config);
   }
   return shelfSpec;
 }

@@ -1,3 +1,4 @@
+
 import {OneOfFilter, RangeFilter} from 'vega-lite/build/src/filter';
 import {TimeUnit} from 'vega-lite/build/src/timeunit';
 import {
@@ -9,8 +10,10 @@ import {convertToDateTimeObject, getDefaultList, getDefaultRange} from '../../mo
 import {insertItemToArray, modifyItemInArray, removeItemFromArray} from '../util';
 
 
-export function filterReducer(filters: Array<RangeFilter | OneOfFilter> = [],
-                              action: Action): Array<RangeFilter | OneOfFilter> {
+export function filterReducer(
+  filters: Readonly<Array<RangeFilter | OneOfFilter>> = [],
+  action: Action
+): Array<RangeFilter | OneOfFilter> {
   switch (action.type) {
     case FILTER_ADD: {
       const {filter} = action.payload;

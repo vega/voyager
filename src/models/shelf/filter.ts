@@ -1,11 +1,31 @@
 import {ExpandedType} from 'compassql/build/src/query/expandedtype';
 import {isWildcard} from 'compassql/build/src/wildcard';
 import {DateTime} from 'vega-lite/build/src/datetime';
-import {OneOfFilter, RangeFilter} from 'vega-lite/build/src/filter';
+import {isOneOfFilter, isRangeFilter, OneOfFilter, RangeFilter} from 'vega-lite/build/src/filter';
 import {convert, TimeUnit} from 'vega-lite/build/src/timeunit';
+import {isFilter, Transform} from 'vega-lite/build/src/transform';
 import {ShelfFieldDef} from './spec';
 
 export type ShelfFilter = RangeFilter | OneOfFilter;
+
+export function fromTransforms(transforms: Transform[]): ShelfFilter[] {
+  if (!transforms) {
+    return [];
+  } else {
+    return transforms.map(transform => {
+      if (!isFilter(transform)) {
+        throw new Error('Voyager does not support transforms other than FilterTransform');
+      } else if (!isRangeFilter(transform.filter) && !isOneOfFilter(transform.filter)) {
+        throw new Error('Voyager does not support filters other than RangeFilter and OneOfFilter');
+      }
+      return transform.filter;
+    });
+  }
+}
+
+export function toTransforms(filters: Array<RangeFilter|OneOfFilter>) {
+  return filters.map(filter => ({filter}));
+}
 
 export function getFilter(fieldDef: ShelfFieldDef, domain: any[]): RangeFilter | OneOfFilter {
   if (isWildcard(fieldDef.field)) {

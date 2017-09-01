@@ -7,8 +7,8 @@ import {fetchCompassQLRecommend} from '../api/api';
 import {State} from '../models/index';
 import {ResultPlot, ResultPlotWithKey} from '../models/result';
 import {ResultType} from '../models/result';
+import {toTransforms} from '../models/shelf/';
 import {ShelfFieldDef} from '../models/shelf/spec/encoding';
-import {getTransforms} from '../models/shelf/spec/index';
 import {selectConfig, selectData, selectSchema} from '../selectors';
 import {selectFilters} from '../selectors/shelf';
 import {Action} from './index';
@@ -103,7 +103,7 @@ export function resultRequest(resultType: ResultType, query: Query, filterKey?: 
           ...p.plot,
           spec: {
             ...p.plot.spec,
-            transform: getTransforms(filters)
+            transform: toTransforms(filters)
           }
         }));
 
