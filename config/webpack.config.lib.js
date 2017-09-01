@@ -45,7 +45,15 @@ module.exports = {
 
   module: {
     rules: [
-      { test: /\.tsx?$/, use: "ts-loader" },
+      {
+        test: /\.tsx?$/,
+        use: {
+          loader: "ts-loader",
+          options: {
+            transpileOnly: true
+          }
+        },
+      },
       // All output '.js' files will have any sourcemaps re-processed by 'source-map-loader'.
       { test: /\.js$/, use: "source-map-loader", enforce: "pre" },
 
