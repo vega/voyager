@@ -169,7 +169,7 @@ module.exports = {
 
       },
       {
-        test: /\.(png|ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+        test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
         use: "url-loader"
       }
       // ** STOP ** Are you adding a new loader?
