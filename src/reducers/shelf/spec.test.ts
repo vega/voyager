@@ -135,76 +135,6 @@ describe('reducers/shelf/spec', () => {
     });
   });
 
-  describe('shelfSpecFieldAutoAddReducer / ' + SPEC_FIELD_AUTO_ADD, () => {
-    it('should query for new spec with CompassQL if there is no wildcard channel in the shelf ' +
-        'and the field is not a wildcard.', () => {
-      const shelfSpec = shelfSpecFieldAutoAddReducer(
-        DEFAULT_SHELF_UNIT_SPEC,
-        {
-          type: SPEC_FIELD_AUTO_ADD,
-          payload: {
-            fieldDef: {field: 'a', type: 'quantitative'}
-          }
-        },
-        schema
-      );
-      expect(shelfSpec).toEqual({
-        ...DEFAULT_SHELF_UNIT_SPEC,
-        encoding: {
-          x: {field: 'a', type: 'quantitative'}
-        }
-      });
-    });
-
-    it('should add the field to anyEncodings if there is a wildcard channel in the shelf', () => {
-      const shelfSpec = shelfSpecFieldAutoAddReducer(
-        {
-          ...DEFAULT_SHELF_UNIT_SPEC,
-          anyEncodings: [
-            {channel: SHORT_WILDCARD, field: 'a', type: 'quantitative'}
-          ]
-        },
-        {
-          type: SPEC_FIELD_AUTO_ADD,
-          payload: {
-            fieldDef: {field: 'b', type: 'nominal'}
-          }
-        },
-        schema
-      );
-      expect(shelfSpec).toEqual({
-        ...DEFAULT_SHELF_UNIT_SPEC,
-        anyEncodings: [
-          {channel: SHORT_WILDCARD, field: 'a', type: 'quantitative'},
-          {channel: SHORT_WILDCARD, field: 'b', type: 'nominal'}
-        ]
-      });
-    });
-
-    it('should add the field to anyEncodings if the field is a wildcard', () => {
-      const shelfSpec = shelfSpecFieldAutoAddReducer(
-        DEFAULT_SHELF_UNIT_SPEC,
-        {
-          type: SPEC_FIELD_AUTO_ADD,
-          payload: {
-            fieldDef: {
-              field: {enum: ['a', 'b']},
-
-              type: 'nominal'
-            }
-          }
-        },
-        schema
-      );
-      expect(shelfSpec).toEqual({
-        ...DEFAULT_SHELF_UNIT_SPEC,
-        anyEncodings: [
-          {channel: SHORT_WILDCARD, field: {enum: ['a', 'b']}, type: 'nominal'}
-        ]
-      });
-    });
-  });
-
   describe(SPEC_FIELD_REMOVE, () => {
     it('should correctly remove field from channel', () => {
       const shelfSpec = shelfSpecReducer(
@@ -877,6 +807,76 @@ describe('reducers/shelf/spec', () => {
           x: {field: 'b', type: 'nominal'},
           y: {fn: 'count', field: '*', type: 'quantitative'}
         }
+      });
+    });
+  });
+
+  describe('shelfSpecFieldAutoAddReducer / ' + SPEC_FIELD_AUTO_ADD, () => {
+    it('should query for new spec with CompassQL if there is no wildcard channel in the shelf ' +
+        'and the field is not a wildcard.', () => {
+      const shelfSpec = shelfSpecFieldAutoAddReducer(
+        DEFAULT_SHELF_UNIT_SPEC,
+        {
+          type: SPEC_FIELD_AUTO_ADD,
+          payload: {
+            fieldDef: {field: 'a', type: 'quantitative'}
+          }
+        },
+        schema
+      );
+      expect(shelfSpec).toEqual({
+        ...DEFAULT_SHELF_UNIT_SPEC,
+        encoding: {
+          x: {field: 'a', type: 'quantitative'}
+        }
+      });
+    });
+
+    it('should add the field to anyEncodings if there is a wildcard channel in the shelf', () => {
+      const shelfSpec = shelfSpecFieldAutoAddReducer(
+        {
+          ...DEFAULT_SHELF_UNIT_SPEC,
+          anyEncodings: [
+            {channel: SHORT_WILDCARD, field: 'a', type: 'quantitative'}
+          ]
+        },
+        {
+          type: SPEC_FIELD_AUTO_ADD,
+          payload: {
+            fieldDef: {field: 'b', type: 'nominal'}
+          }
+        },
+        schema
+      );
+      expect(shelfSpec).toEqual({
+        ...DEFAULT_SHELF_UNIT_SPEC,
+        anyEncodings: [
+          {channel: SHORT_WILDCARD, field: 'a', type: 'quantitative'},
+          {channel: SHORT_WILDCARD, field: 'b', type: 'nominal'}
+        ]
+      });
+    });
+
+    it('should add the field to anyEncodings if the field is a wildcard', () => {
+      const shelfSpec = shelfSpecFieldAutoAddReducer(
+        DEFAULT_SHELF_UNIT_SPEC,
+        {
+          type: SPEC_FIELD_AUTO_ADD,
+          payload: {
+            fieldDef: {
+              field: {enum: ['a', 'b']},
+
+              type: 'nominal'
+            }
+          }
+        },
+        schema
+      );
+      expect(shelfSpec).toEqual({
+        ...DEFAULT_SHELF_UNIT_SPEC,
+        anyEncodings: [
+          {channel: SHORT_WILDCARD, field: {enum: ['a', 'b']}, type: 'nominal'}
+        ]
       });
     });
   });
