@@ -88,16 +88,20 @@ describe('lib-voyager', () => {
           voyagerInst.setApplicationState(state);
 
           setTimeout(() => {
-            const newState = voyagerInst.getApplicationState();
+            try {
+              const newState = voyagerInst.getApplicationState();
 
-            expect(newState).toHaveProperty('config');
-            expect(newState).toHaveProperty('dataset');
-            expect(newState).toHaveProperty('result');
-            expect(newState).toHaveProperty('shelf');
+              expect(newState).toHaveProperty('config');
+              expect(newState).toHaveProperty('dataset');
+              expect(newState).toHaveProperty('result');
+              expect(newState).toHaveProperty('shelf');
 
-            expect(newState.config.showDataSourceSelector).toEqual(!originalConfigOption);
+              expect(newState.config.showDataSourceSelector).toEqual(!originalConfigOption);
 
-            done();
+              done();
+            } catch (err) {
+              done.fail(err);
+            }
           }, DEFAULT_TIMEOUT_LENGTH);
 
         } catch (err) {
