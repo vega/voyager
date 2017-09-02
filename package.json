@@ -25,7 +25,7 @@
     "build": "node scripts/build.js",
     "postbuild": "npm run tsc && npm run build:lib",
     "build:lib": "webpack --config config/webpack.config.lib.js",
-    "watch": "webpack -d --watch",
+    "watch": "webpack --config config/webpack.config.dev.js -d --watch",
     "clean": "find -E dist  -regex '.*\\.(js|js.map|d.ts)' -delete",
     "lint": "tslint -c tslint.json 'src/**/*.ts' 'src/**/*.tsx'",
     "lint-fix": "npm run lint -- --fix",
