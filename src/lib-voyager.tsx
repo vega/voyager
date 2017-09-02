@@ -18,7 +18,7 @@ import {isString} from 'vega-lite/build/src/util';
 import * as vlSchema from 'vega-lite/build/vega-lite-schema.json';
 import {App} from './components/app';
 import {State} from './models';
-import {VoyagerConfig} from './models/config';
+import {DEFAULT_VOYAGER_CONFIG, VoyagerConfig} from './models/config';
 import {fromSerializable, SerializableState, toSerializable} from './models/index';
 import {configureStore} from './store';
 
@@ -44,7 +44,10 @@ export class Voyager {
       this.container = container;
     }
 
-    this.config = config;
+    this.config = {
+      ...DEFAULT_VOYAGER_CONFIG,
+      ...config
+    };
     this.data = data;
     this.init();
   }
