@@ -6,8 +6,10 @@ import {connect} from 'react-redux';
 import {ClipLoader} from 'react-spinners';
 import * as SplitPane from 'react-split-pane';
 import {SPINNER_COLOR} from '../../constants';
+import {VoyagerConfig} from '../../models/config';
 import {Dataset} from '../../models/dataset';
 import {State} from '../../models/index';
+import {selectConfig} from '../../selectors';
 import {selectDataset} from '../../selectors/dataset';
 import '../app.scss';
 import {DataPane} from '../data-pane/index';
@@ -20,11 +22,15 @@ import {ViewPane} from '../view-pane/index';
 
 export interface AppRootProps {
   dataset: Dataset;
+  config: VoyagerConfig;
 }
 
 class AppRootBase extends React.PureComponent<AppRootProps, {}> {
   public render() {
-    const {dataset} = this.props;
+    const {dataset, config} = this.props;
+    const {embedProps = {}} = config;
+    const hideHeader = embedProps.hideHeader || false;
+    const hideFooter = embedProps.hideFooter || false;
     let bottomPane, footer;
     if (!dataset.isLoading) {
       if (!dataset.data) {
@@ -39,13 +45,15 @@ class AppRootBase extends React.PureComponent<AppRootProps, {}> {
             </SplitPane>
           </SplitPane>
         );
-        footer = <Footer/>;
+        if (!hideFooter) {
+          footer = <Footer/>;
+        }
       }
     }
     return (
       <div className="voyager">
         <LogPane/>
-        <Header/>
+        {!hideHeader ? <Header/> : null}
         <ClipLoader color={SPINNER_COLOR} loading={dataset.isLoading}/>
         {bottomPane}
         {footer}
@@ -57,7 +65,8 @@ class AppRootBase extends React.PureComponent<AppRootProps, {}> {
 export const AppRoot = connect(
   (state: State) => {
     return {
-      dataset: selectDataset(state)
+      dataset: selectDataset(state),
+      config: selectConfig(state)
     };
   }
 )(DragDropContext(HTML5Backend)(AppRootBase));
