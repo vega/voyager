@@ -37,12 +37,6 @@
   version "18.1.1"
   resolved "https://registry.yarnpkg.com/@types/jest/-/jest-18.1.1.tgz#6f63488c64726900885ab9cd5697bb7fa1b416cc"
 
-"@types/json-schema@^4.0.0":
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/@types/json-schema/-/json-schema-4.0.0.tgz#fbf6c078369546bd15ffa78ba7f3f2e170480769"
-  dependencies:
-    "@types/node" "*"
-
 "@types/json-stable-stringify@^1.0.31":
   version "1.0.31"
   resolved "https://registry.yarnpkg.com/@types/json-stable-stringify/-/json-stable-stringify-1.0.31.tgz#b6c7bc507f5267e88cd2839b3ac6a2b39b653a32"
@@ -1037,13 +1031,13 @@ commander@2, commander@2.9.0, commander@2.9.x, commander@^2.9.0, commander@~2.9.
   dependencies:
     graceful-readlink ">= 1.0.0"
 
-compassql@0.19.16:
-  version "0.19.16"
-  resolved "https://registry.yarnpkg.com/compassql/-/compassql-0.19.16.tgz#28305227c04b16c0534addf96eb82cd6720375f1"
+compassql@0.19.18:
+  version "0.19.18"
+  resolved "https://registry.yarnpkg.com/compassql/-/compassql-0.19.18.tgz#69b6009b6a5bb93ef03b21415d62af867b9e4804"
   dependencies:
     datalib "~1.7.0"
     typescript-json-schema "^0.9.0"
-    vega-lite "2.0.0-beta.19"
+    vega-lite "2.0.0-rc1"
 
 component-classes@^1.2.5:
   version "1.2.6"
@@ -6326,6 +6320,12 @@ vega-expression@2:
   dependencies:
     vega-util "1"
 
+vega-expression@^2.3.1:
+  version "2.3.1"
+  resolved "https://registry.yarnpkg.com/vega-expression/-/vega-expression-2.3.1.tgz#d802a329190bdeb999ce6d8083af56b51f686e83"
+  dependencies:
+    vega-util "1"
+
 vega-force@1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/vega-force/-/vega-force-1.0.1.tgz#2e996456d6305006af1f8ec2692aa7211554d964"
@@ -6353,7 +6353,17 @@ vega-hierarchy@1:
     vega-dataflow "2"
     vega-util "1"
 
-vega-lite@2.0.0-beta.19, vega-lite@^2.0.0-beta.3:
+vega-lite@2.0.0-rc1:
+  version "2.0.0-rc1"
+  resolved "https://registry.yarnpkg.com/vega-lite/-/vega-lite-2.0.0-rc1.tgz#d3251ba9426d24b2a7b1cd59b1880302628700e6"
+  dependencies:
+    json-stable-stringify "^1.0.1"
+    tslib "^1.7.1"
+    vega-event-selector "^2.0.0"
+    vega-util "^1.5.0"
+    yargs "^8.0.2"
+
+vega-lite@^2.0.0-beta.3:
   version "2.0.0-beta.19"
   resolved "https://registry.yarnpkg.com/vega-lite/-/vega-lite-2.0.0-beta.19.tgz#75bfcee41f2734d928b2449d025b2a5ae00b5044"
   dependencies:

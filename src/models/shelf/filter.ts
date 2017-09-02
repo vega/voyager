@@ -1,7 +1,10 @@
 import {ExpandedType} from 'compassql/build/src/query/expandedtype';
 import {isWildcard} from 'compassql/build/src/wildcard';
+import * as vegaExpression from 'vega-expression';
 import {DateTime} from 'vega-lite/build/src/datetime';
-import {isOneOfFilter, isRangeFilter, OneOfFilter, RangeFilter} from 'vega-lite/build/src/filter';
+import {
+  fieldFilterExpression, isOneOfFilter, isRangeFilter, OneOfFilter, RangeFilter
+} from 'vega-lite/build/src/filter';
 import {convert, isTimeUnit, TimeUnit} from 'vega-lite/build/src/timeunit';
 import {isFilter, Transform} from 'vega-lite/build/src/transform';
 import {ShelfFieldDef} from './spec';
@@ -25,6 +28,26 @@ export function fromTransforms(transforms: Transform[]): ShelfFilter[] {
 
 export function toTransforms(filters: Array<RangeFilter|OneOfFilter>) {
   return filters.map(filter => ({filter}));
+}
+
+/**
+ * Return a dataflow expression function for a given array of filter.
+ * Following example code from https://github.com/uwdata/dataflow-api/blob/master/test/filter-test.js
+ */
+export function toPredicateFunction(filters: ShelfFilter[]) {
+  const expr = '(' +
+    filters.map(f => {
+      return fieldFilterExpression(f, false); // Do not use inrange as it is not included in the main Vega Expression
+    }).join(')&&(') +
+  ')';
+  const ast = vegaExpression.parse(expr);
+  const codegen = vegaExpression.codegen({
+    whitelist: ['datum'],
+    globalvar: 'global'
+  });
+  const value = codegen(ast);
+
+  return new Function('datum', `return ${value.code};`) as (d: object) => boolean;
 }
 
 export function createDefaultFilter(fieldDef: ShelfFieldDef, domain: any[]): RangeFilter | OneOfFilter {

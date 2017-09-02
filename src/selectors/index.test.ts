@@ -1,9 +1,12 @@
+
 import {DEFAULT_BOOKMARK} from '../models/bookmark';
 import {DEFAULT_VOYAGER_CONFIG} from '../models/config';
-import {DEFAULT_STATE} from '../models/index';
+import {DEFAULT_DATASET} from '../models/dataset';
+import {DEFAULT_STATE, State} from '../models/index';
 import {DEFAULT_LOG} from '../models/log';
 import {DEFAULT_SHELF_PREVIEW} from '../models/shelf-preview';
-import {selectBookmark, selectConfig, selectLog, selectShelfPreview} from './index';
+import {DEFAULT_SHELF} from '../models/shelf/index';
+import {selectBookmark, selectConfig, selectFilteredData, selectLog, selectShelfPreview} from './index';
 
 describe('selectors/index', () => {
   describe('selectBookmark', () => {
@@ -27,6 +30,59 @@ describe('selectors/index', () => {
   describe('selectLog', () => {
     it('selecting log from the default state should return the default log', () => {
       expect(selectLog(DEFAULT_STATE)).toBe(DEFAULT_LOG);
+    });
+  });
+
+  describe('selectFilteredData', () => {
+    it('returns filtered data', () => {
+      const state: State = {
+        ...DEFAULT_STATE,
+        undoable: {
+          ...DEFAULT_STATE.undoable,
+          present: {
+            ...DEFAULT_STATE.undoable.present,
+            dataset: {
+              ...DEFAULT_DATASET,
+              data: {
+                values: [{a: 1}, {a: 3}]
+              }
+            },
+            shelf: {
+              ...DEFAULT_SHELF,
+              filters: [{field: 'a', oneOf: [3]}]
+            }
+          },
+        }
+      };
+      const filteredData = selectFilteredData(state);
+      expect(filteredData.values.length).toEqual(1);
+      expect(filteredData.values[0].a).toEqual(3);
+    });
+  });
+
+  describe('selectFilteredData', () => {
+    it('returns original data if there is no filter.', () => {
+      const data = {values: [{a: 1}, {a: 3}]};
+      const state: State = {
+        ...DEFAULT_STATE,
+        undoable: {
+          ...DEFAULT_STATE.undoable,
+          present: {
+            ...DEFAULT_STATE.undoable.present,
+            dataset: {
+              ...DEFAULT_DATASET,
+              data
+            }
+          },
+        }
+      };
+
+      expect(selectFilteredData(state)).toBe(data);
+    });
+  });
+  describe('selectFilteredData', () => {
+    it('returns null data if there is no data.', () => {
+      expect(selectFilteredData(DEFAULT_STATE)).toBe(DEFAULT_DATASET.data);
     });
   });
 });
