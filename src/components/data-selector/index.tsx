@@ -226,7 +226,6 @@ export class DataSelectorBase extends React.PureComponent<DataSelectorProps, Dat
       }
 
       handleAction(datasetLoad(name, {values, format}));
-      this.closeModal();
     };
 
     reader.readAsText(file);
