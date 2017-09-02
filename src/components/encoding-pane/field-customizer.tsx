@@ -1,17 +1,17 @@
 
 import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
-import Form from 'react-jsonschema-form';
 import * as TetherComponent from 'react-tether';
-import * as vlSchema from 'vega-lite/build/vega-lite-schema.json';
 import {ActionHandler} from '../../actions/redux-action';
-import {SPEC_FIELD_NESTED_PROP_CHANGE, SpecEncodingAction} from '../../actions/shelf/spec';
-import {ShelfId} from '../../models/shelf/spec/encoding';
+import {SpecEncodingAction} from '../../actions/shelf/spec';
+import {ShelfFieldDef, ShelfId} from '../../models/shelf/spec/encoding';
 import * as styles from './field-customizer.scss';
+import {PropertyEditor} from './property-editor';
 
 export interface FieldCustomizerProps extends ActionHandler<SpecEncodingAction> {
   showCaret: boolean;
   shelfId: ShelfId;
+  fieldDef: ShelfFieldDef;
 }
 
 export interface FieldCustomizerState {
@@ -29,7 +29,7 @@ export class FieldCustomizerBase extends React.PureComponent<FieldCustomizerProp
   }
 
   public render() {
-    const {showCaret} = this.props;
+    const {showCaret, shelfId, handleAction, fieldDef} = this.props;
     return (
       <TetherComponent
         attachment="top left"
@@ -39,39 +39,24 @@ export class FieldCustomizerBase extends React.PureComponent<FieldCustomizerProp
           <i className={(showCaret ? '' : 'hidden ') + 'fa fa-caret-down'}/>
           {' '}
         </span>
-        {this.state.customizerIsOpened && this.renderCustomizer()}
+        {this.state.customizerIsOpened &&
+          <div styleName='customizer-container'>
+            {this.customizableProps().map(customizableProp => {
+              const {prop, nestedProp} = customizableProp;
+              return (
+                <PropertyEditor
+                  key={JSON.stringify({prop, nestedProp})}
+                  prop={prop}
+                  nestedProp={nestedProp}
+                  shelfId={shelfId}
+                  fieldDef={fieldDef}
+                  handleAction={handleAction}
+                />
+              );
+            })}
+          </div>
+        }
       </TetherComponent>
-    );
-  }
-
-  protected changeFieldProperty(prop: string, nestedProp: string, result: any) {
-    const {handleAction, shelfId} = this.props;
-    const value = result.formData;
-    handleAction({
-      type: SPEC_FIELD_NESTED_PROP_CHANGE,
-      payload: {
-        shelfId,
-        prop,
-        nestedProp,
-        value
-      }
-    });
-  }
-
-  private renderCustomizer() {
-    const uiSchema = {
-      "ui:title": "Scale Type",
-      "ui:emptyValue": "auto",
-      "ui:placeholder": "auto"
-    };
-    return (
-      <div styleName='field-customizer'>
-        <Form
-          schema={(vlSchema as any).definitions.ScaleType} // TODO don't use any
-          uiSchema={uiSchema}
-          onSubmit={this.changeFieldProperty.bind(this, 'scale', 'type')}
-        />
-      </div>
     );
   }
 
@@ -81,6 +66,13 @@ export class FieldCustomizerBase extends React.PureComponent<FieldCustomizerProp
         customizerIsOpened: !this.state.customizerIsOpened
       });
     }
+  }
+
+  private customizableProps() {
+    return [{
+      prop: 'scale',
+      nestedProp: 'type'
+    }];
   }
 }
 

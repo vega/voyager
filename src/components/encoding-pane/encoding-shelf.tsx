@@ -52,6 +52,7 @@ class EncodingShelfBase extends React.PureComponent<EncodingShelfProps, {}> {
         <div styleName="shelf-label">
           <FieldCustomizer
             showCaret={!!fieldDef && !isWildcardChannelId(id)}
+            fieldDef={fieldDef}
             shelfId={id}
             handleAction={handleAction}
           />
