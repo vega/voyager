@@ -132,9 +132,9 @@ module.exports = {
   // assume a corresponding global variable exists and use that instead.
   // This is important because it allows us to avoid bundling all of our
   // dependencies, which allows browsers to cache those libraries between builds.
+
+  // Since its a local dev build we don't need to mark anything external.
   externals: {
-    "react": "React",
-    "react-dom": "ReactDOM"
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
