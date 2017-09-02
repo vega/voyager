@@ -8,6 +8,7 @@ import {
   getDefaultTimeRange
 } from './filter';
 import {filterIndexOf} from './filter';
+import {toPredicateFunction} from './filter';
 import {ShelfFieldDef} from './spec';
 
 const timeStamp1 = 1437978615;
@@ -134,6 +135,20 @@ describe('models/shelf/filter', () => {
         range: [0, 1000]
       }];
       expect(filterIndexOf(filters, 'q1')).toEqual(0);
+    });
+  });
+
+  describe('toPredicateFunction', () => {
+    it('creates an expression function for a  oneOf filter', () => {
+      const fn = toPredicateFunction([{field: 'a', oneOf: [1, 2]}]);
+      expect(fn({a: 1})).toEqual(true);
+      expect(fn({a: 3})).toEqual(false);
+    });
+
+    it('creates an expression function for a range filter', () => {
+      const fn = toPredicateFunction([{field: 'a', range: [1, 2]}]);
+      expect(fn({a: 1})).toEqual(true);
+      expect(fn({a: 3})).toEqual(false);
     });
   });
 });
