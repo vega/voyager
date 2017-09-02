@@ -38,13 +38,11 @@ describe('models/plot', () => {
         }
       ]);
 
-      const data = {url: 'a/data/set.csv'};
-
-      const plotWithKey = fromSpecQueryModelGroup(group, data);
+      const plotWithKey = fromSpecQueryModelGroup(group, {name: 'a'});
       // should have a spec
       expect(plotWithKey[0].plot.spec).toEqual(
         {
-          data: { url: 'a/data/set.csv' },
+          data: {name: 'a'},
           mark: 'bar',
           encoding: { x: {} },
           config:

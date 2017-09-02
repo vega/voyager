@@ -22,31 +22,6 @@ describe('reducers/dataset', () => {
   });
 
   describe(DATASET_RECEIVE, () => {
-    it('accepts UrlData and returns new dataset state with isLoading=false and with new name, data, and schema', () => {
-      const url = 'http://cars.com';
-      const schema = new Schema({fields: []});
-      expect(datasetReducer(
-        {
-          ...DEFAULT_DATASET,
-          isLoading: true
-        },
-        {
-          type: DATASET_RECEIVE,
-          payload: {
-            name: 'cars',
-            data: {url},
-            schema
-          }
-        }
-      )).toEqual({
-        ...DEFAULT_DATASET,
-        isLoading: false,
-        name: 'cars',
-        data: {url},
-        schema
-      });
-    });
-
     it('accepts inline data and returns new dataset state with isLoading=false and new name, data, and schema', () => {
       const data = {
         values: [

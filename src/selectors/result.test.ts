@@ -26,7 +26,7 @@ function buildSpecQueryModelGroup(specQs: SpecQuery[]) {
 }
 
 const data: Data = {
-  url: 'a/data/set.csv'
+  values: [{a: 1}]
 };
 
 const spec: ShelfUnitSpec = {
@@ -40,7 +40,7 @@ const spec: ShelfUnitSpec = {
 
 const group = buildSpecQueryModelGroup([toSpecQuery(spec)]);
 
-const plots = fromSpecQueryModelGroup(group, data).map(p => p.plot);
+const plots = fromSpecQueryModelGroup(group, {name: 'source'}).map(p => p.plot);
 
 const stateSpecific: State = {
   persistent: DEFAULT_PERSISTENT_STATE,

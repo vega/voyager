@@ -6,7 +6,7 @@ import {Query} from 'compassql/build/src/query/query';
 import {recommend} from 'compassql/build/src/recommend';
 import {build as buildSchema, Schema} from 'compassql/build/src/schema';
 import 'isomorphic-fetch';
-import {Data, isUrlData} from 'vega-lite/build/src/data';
+import {Data, InlineData} from 'vega-lite/build/src/data';
 import {VoyagerConfig} from '../models/config';
 import {fromSpecQueryModelGroup, ResultPlotWithKey} from '../models/result';
 
@@ -15,7 +15,7 @@ export {Query, Schema, Data};
 /**
  * Submit recommendation query request from CompassQL
  */
-export function fetchCompassQLRecommend(query: Query, schema: Schema, data: Data, config?: VoyagerConfig):
+export function fetchCompassQLRecommend(query: Query, schema: Schema, data: InlineData, config?: VoyagerConfig):
   Promise<ResultPlotWithKey[]> {
 
   if (config && config.serverUrl) {
@@ -45,9 +45,7 @@ export function fetchCompassQLRecommend(query: Query, schema: Schema, data: Data
       // TODO:
       // - replace this with different cached data source's unique names
       // once we have multiple cached data source from Leilani's optimizer engine
-      // - (short term) always bind data at runtime
-      data = isUrlData(data) ? data : {name: 'source'};
-      resolve(fromSpecQueryModelGroup(modelGroup, data));
+      resolve(fromSpecQueryModelGroup(modelGroup, {name: 'source'}));
     });
   }
 }
@@ -55,7 +53,7 @@ export function fetchCompassQLRecommend(query: Query, schema: Schema, data: Data
 /**
  * Submit schema building request from CompassQL
  */
-export function fetchCompassQLBuildSchema(data: any, config?: VoyagerConfig):
+export function fetchCompassQLBuildSchema(data: Array<object>, config?: VoyagerConfig):
   Promise<Schema> {
 
   if (config && config.serverUrl) {

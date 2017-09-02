@@ -3,7 +3,7 @@ import * as CopyToClipboard from 'react-copy-to-clipboard';
 import * as CSSModules from 'react-css-modules';
 import {connect} from 'react-redux';
 import * as TetherComponent from 'react-tether';
-import {Data} from 'vega-lite/build/src/data';
+import {InlineData} from 'vega-lite/build/src/data';
 import {isDiscrete, isFieldDef} from 'vega-lite/build/src/fielddef';
 import {SortField, SortOrder} from 'vega-lite/build/src/sort';
 import {FacetedCompositeUnitSpec} from 'vega-lite/build/src/spec';
@@ -17,7 +17,7 @@ import {PLOT_HOVER_MIN_DURATION} from '../../constants';
 import {Bookmark} from '../../models/bookmark';
 import {State} from '../../models/index';
 import {PlotFieldInfo, ResultPlot} from '../../models/result';
-import {selectData} from '../../selectors/dataset';
+import {selectFilteredData} from '../../selectors/index';
 import {Field} from '../field/index';
 import {Logger} from '../util/util.logger';
 import {VegaLite} from '../vega-lite/index';
@@ -43,7 +43,7 @@ export interface PlotOwnProps extends ActionHandler<
 }
 
 export interface PlotConnectProps {
-  data: Data;
+  data: InlineData;
 }
 
 export type PlotProps = PlotOwnProps & PlotConnectProps;
@@ -342,7 +342,7 @@ export const Plot = connect<PlotConnectProps, {}, PlotOwnProps>(
     // TODO: once we have multiple cached data from Leilani's engine
     // take spec from props and read spec.data.name
     return {
-      data: selectData(state)
+      data: selectFilteredData(state)
     };
   }
 )(CSSModules(PlotBase, styles));

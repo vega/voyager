@@ -1,5 +1,5 @@
 import {Schema} from 'compassql/build/src/schema';
-import {Data} from 'vega-lite/build/src/data';
+import {InlineData} from 'vega-lite/build/src/data';
 export {FieldSchema, Schema} from 'compassql/build/src/schema';
 
 export interface DatasetWithoutSchema {
@@ -7,7 +7,7 @@ export interface DatasetWithoutSchema {
 
   name: string;
 
-  data: Data;
+  data: InlineData;
 }
 
 export interface Dataset extends DatasetWithoutSchema {
