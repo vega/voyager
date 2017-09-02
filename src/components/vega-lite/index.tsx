@@ -2,7 +2,7 @@ import * as React from 'react';
 import {ClipLoader} from 'react-spinners';
 import * as vega from 'vega';
 import * as vl from 'vega-lite';
-import {Data, isInlineData, isNamedData} from 'vega-lite/build/src/data';
+import {InlineData, isNamedData} from 'vega-lite/build/src/data';
 import {TopLevelExtendedSpec} from 'vega-lite/build/src/spec';
 import * as vegaTooltip from 'vega-tooltip';
 import {SPINNER_COLOR} from '../../constants';
@@ -15,7 +15,7 @@ export interface VegaLiteProps {
 
   logger: Logger;
 
-  data: Data;
+  data: InlineData;
 }
 
 export interface VegaLiteState {
@@ -150,7 +150,7 @@ export class VegaLite extends React.PureComponent<VegaLiteProps, VegaLiteState> 
 
   private bindData() {
     const {data, spec} = this.props;
-    if (isInlineData(data) && isNamedData(spec.data) && !this.view.data(spec.data.name)) {
+    if (data && isNamedData(spec.data) && !this.view.data(spec.data.name)) {
       this.view.change(spec.data.name,
         vega.changeset()
             .remove(() => true) // remove previous data

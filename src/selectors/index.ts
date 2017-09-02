@@ -4,7 +4,7 @@
 // tslint:disable-next-line:no-unused-variable
 import {StateWithHistory} from 'redux-undo';
 import {createSelector} from 'reselect';
-import {Data} from 'vega-lite/build/src/data';
+import {InlineData} from 'vega-lite/build/src/data';
 import {State} from '../models';
 import {Bookmark} from '../models/bookmark';
 import {VoyagerConfig} from '../models/config';
@@ -27,7 +27,7 @@ export const selectLog = (state: State): Log => state.persistent.log;
 export const selectFilteredData = createSelector(
   selectData,
   selectFilters,
-  (data: Data, filters: ShelfFilter[]) => {
+  (data: InlineData, filters: ShelfFilter[]): InlineData => {
     if (!data || filters.length === 0) {
       return data;
     }

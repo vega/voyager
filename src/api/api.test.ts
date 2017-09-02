@@ -13,7 +13,7 @@ import {Schema} from 'compassql/build/src/schema';
 describe('api/api', () => {
   describe('fetchCompassQLRecommend', () => {
     const schema = new Schema({fields: []});
-    const data = {url: 'a/file/path'};
+    const data = {values: [{a: 1}]};
     const q: Query = {
       spec: {
         mark: '?',

@@ -4,8 +4,9 @@ import * as fetch from 'isomorphic-fetch';
 import {Dispatch} from 'redux';
 import {ThunkAction} from 'redux-thunk';
 import {ActionCreators} from 'redux-undo';
-import {Data, InlineData, isInlineData, isUrlData, UrlData} from 'vega-lite/build/src/data';
+import {Data, InlineData, isInlineData, isUrlData} from 'vega-lite/build/src/data';
 import {fetchCompassQLBuildSchema} from '../api/api';
+import {VoyagerConfig} from '../models/config';
 import {State} from '../models/index';
 import {selectConfig} from '../selectors';
 import {Action} from './index';
@@ -36,13 +37,13 @@ export type DatasetRequest = ReduxAction<typeof DATASET_REQUEST, {
 export const DATASET_RECEIVE = 'DATASET_RECEIVE';
 export type DatasetReceive = ReduxAction<typeof DATASET_RECEIVE, {
   name: string,
-  data: InlineData | UrlData,
+  data: InlineData,
   schema: Schema,
 }>;
 
 
 export type DatasetLoad = ThunkAction<void , State, undefined>;
-export function datasetLoad(name: string, dataset: Data): DatasetLoad {
+export function datasetLoad(name: string, data: Data): DatasetLoad {
   return (dispatch: Dispatch<Action>, getState) => {
 
     const config = selectConfig(getState());
@@ -52,40 +53,35 @@ export function datasetLoad(name: string, dataset: Data): DatasetLoad {
       type: DATASET_REQUEST,
       payload: {name}
     });
-    // Get the new dataset
-    if (isUrlData(dataset)) {
-      const url = dataset.url;
 
-      return fetch(url)
+    // Get the new dataset
+    if (isUrlData(data)) {
+      return fetch(data.url)
         .then(response => response.json())
         .catch(errorCatch)
-        .then(data => fetchCompassQLBuildSchema(data, config))
-        .catch(errorCatch)
-        .then(schema => {
-
-          dispatch({
-            type: DATASET_RECEIVE,
-            payload: {name, data: {url}, schema}
-          });
-          dispatch(ActionCreators.clearHistory());
+        .then((values: any) => {
+          return buildSchemaAndDispatchDataReceive({values}, config, dispatch);
         });
-    } else if (isInlineData(dataset)) {
-      return fetchCompassQLBuildSchema(dataset.values, config)
-        .catch(errorCatch)
-        .then(schema => {
-          const data = dataset;
-          dispatch({
-            type: DATASET_RECEIVE,
-            payload: {name, schema, data}
-          });
-
-          dispatch(ActionCreators.clearHistory());
-        });
+    } else if (isInlineData(data)) {
+      return buildSchemaAndDispatchDataReceive(data, config, dispatch);
     } else {
       throw new Error('dataset load error: dataset type not detected');
     }
   };
 };
+
+function buildSchemaAndDispatchDataReceive(data: InlineData, config: VoyagerConfig, dispatch: Dispatch<Action>) {
+  return fetchCompassQLBuildSchema(data.values, config)
+  .catch(errorCatch)
+  .then(schema => {
+    dispatch({
+      type: DATASET_RECEIVE,
+      payload: {name, schema, data}
+    });
+
+    dispatch(ActionCreators.clearHistory());
+  });
+}
 
 function errorCatch(err: Error) {
   window.alert(err.message);

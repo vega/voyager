@@ -7,7 +7,7 @@ import {
 import {FieldQuery, isFieldQuery} from 'compassql/build/src/query/encoding';
 import {ExtendedGroupBy} from 'compassql/build/src/query/groupby';
 import {toMap} from 'compassql/build/src/util';
-import {NamedData, UrlData} from 'vega-lite/build/src/data';
+import {NamedData} from 'vega-lite/build/src/data';
 import {FacetedCompositeUnitSpec} from 'vega-lite/build/src/spec';
 import {fromFieldQuery, ShelfFieldDef} from '../shelf';
 
@@ -29,7 +29,7 @@ export interface ResultPlotWithKey {
 
 export function fromSpecQueryModelGroup(
   modelGroup: SpecQueryModelGroup,
-  data: NamedData | UrlData // TODO remove | UrlData
+  data: NamedData
 ): ResultPlotWithKey[] {
   return modelGroup.items.map(item => {
     if (isSpecQueryGroup<SpecQueryModel>(item)) {
@@ -41,7 +41,7 @@ export function fromSpecQueryModelGroup(
 }
 
 function plotWithKey(
-  data: NamedData | UrlData, // TODO remove | UrlData
+  data: NamedData,
   specQ: SpecQueryModel,
   groupBy: string | Array<string|ExtendedGroupBy>
 ): ResultPlotWithKey {
