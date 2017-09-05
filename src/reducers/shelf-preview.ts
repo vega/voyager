@@ -16,8 +16,8 @@ export function shelfPreviewReducer(preview: ShelfPreview = DEFAULT_SHELF_PREVIE
         spec: fromSpecQuery(query.spec)
       };
     case SHELF_PREVIEW_SPEC:
-      const {spec} = action.payload;
-      const specQ = fromSpec(spec);
+      const {transform: _t, ...specWithoutTransform} = action.payload.spec;
+      const specQ = fromSpec(specWithoutTransform);
       return {
         spec: fromSpecQuery(specQ)
       };
