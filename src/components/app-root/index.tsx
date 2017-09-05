@@ -28,7 +28,7 @@ export interface AppRootProps {
 class AppRootBase extends React.PureComponent<AppRootProps, {}> {
   public render() {
     const {dataset, config} = this.props;
-    const {hideHeader = false, hideFooter = false} = config;
+    const {hideHeader, hideFooter} = config;
     let bottomPane, footer;
     if (!dataset.isLoading) {
       if (!dataset.data) {
