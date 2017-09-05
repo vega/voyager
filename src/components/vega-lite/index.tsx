@@ -96,7 +96,7 @@ export class VegaLite extends React.PureComponent<VegaLiteProps, VegaLiteState> 
     this.setState({
       isLoading: true
     });
-    this.mountTimeout = setTimeout(() => {
+    this.mountTimeout = window.setTimeout(() => {
       this.updateSpec();
       this.runView();
       this.setState({
@@ -118,20 +118,23 @@ export class VegaLite extends React.PureComponent<VegaLiteProps, VegaLiteState> 
     if (this.updateTimeout) {
       clearTimeout(this.updateTimeout);
     }
-    this.updateTimeout = setTimeout(() => {
-      if (prevProps.spec !== this.props.spec) {
-        const chart = this.refs[CHART_REF] as HTMLElement;
-        chart.style.width = this.size.width + 'px';
-        chart.style.height = this.size.height + 'px';
-        this.updateSpec();
-      } else if (prevProps.data !== this.props.data) {
-        this.bindData();
-      }
-      this.runView();
-      this.setState({
-        isLoading: false
-      });
-    });
+    this.updateTimeout = window.setTimeout(
+      (spec: TopLevelExtendedSpec, data: InlineData) => {
+        if (prevProps.spec !== spec) {
+          const chart = this.refs[CHART_REF] as HTMLElement;
+          chart.style.width = this.size.width + 'px';
+          chart.style.height = this.size.height + 'px';
+          this.updateSpec();
+        } else if (prevProps.data !== data) {
+          this.bindData();
+        }
+        this.runView();
+        this.setState({
+          isLoading: false
+        });
+      },
+      0, this.props.spec, this.props.data
+    );
   }
 
   protected componentWillUnmount() {
@@ -150,7 +153,7 @@ export class VegaLite extends React.PureComponent<VegaLiteProps, VegaLiteState> 
 
   private bindData() {
     const {data, spec} = this.props;
-    if (data && isNamedData(spec.data) && !this.view.data(spec.data.name)) {
+    if (data && isNamedData(spec.data)) {
       this.view.change(spec.data.name,
         vega.changeset()
             .remove(() => true) // remove previous data
