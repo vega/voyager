@@ -44,7 +44,10 @@ export class Voyager {
       this.container = container;
     }
 
-    this.config = Object.assign({}, DEFAULT_VOYAGER_CONFIG, config);
+    this.config = {
+      ...DEFAULT_VOYAGER_CONFIG,
+      ...config
+    };
     this.data = data;
     this.init();
   }

@@ -28,9 +28,7 @@ export interface AppRootProps {
 class AppRootBase extends React.PureComponent<AppRootProps, {}> {
   public render() {
     const {dataset, config} = this.props;
-    const {embedProps = {}} = config;
-    const hideHeader = embedProps.hideHeader || false;
-    const hideFooter = embedProps.hideFooter || false;
+    const {hideHeader = false, hideFooter = false} = config;
     let bottomPane, footer;
     if (!dataset.isLoading) {
       if (!dataset.data) {
@@ -53,7 +51,7 @@ class AppRootBase extends React.PureComponent<AppRootProps, {}> {
     return (
       <div className="voyager">
         <LogPane/>
-        {!hideHeader ? <Header/> : null}
+        {!hideHeader && <Header/>}
         <ClipLoader color={SPINNER_COLOR} loading={dataset.isLoading}/>
         {bottomPane}
         {footer}
