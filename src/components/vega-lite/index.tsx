@@ -1,9 +1,11 @@
 import * as React from 'react';
+import {ClipLoader} from 'react-spinners';
 import * as vega from 'vega';
 import * as vl from 'vega-lite';
 import {Data, isInlineData, isNamedData} from 'vega-lite/build/src/data';
 import {TopLevelExtendedSpec} from 'vega-lite/build/src/spec';
 import * as vegaTooltip from 'vega-tooltip';
+import {SPINNER_COLOR} from '../../constants';
 import {Logger} from '../util/util.logger';
 
 export interface VegaLiteProps {
@@ -16,18 +18,30 @@ export interface VegaLiteProps {
   data: Data;
 }
 
+export interface VegaLiteState {
+  isLoading: boolean;
+}
+
 const CHART_REF = 'chart';
 
-export class VegaLite extends React.PureComponent<VegaLiteProps, {}> {
+export class VegaLite extends React.PureComponent<VegaLiteProps, VegaLiteState> {
   private view: vega.View;
   private size: {width: number, height: number};
 
   private mountTimeout: number;
   private updateTimeout: number;
 
+  constructor(props: VegaLiteProps) {
+    super(props);
+    this.state = {
+      isLoading: true
+    };
+  }
+
   public render() {
     return (
       <div>
+        <ClipLoader color={SPINNER_COLOR} loading={this.state.isLoading}/>
         <div className='chart' ref={CHART_REF}/>
         {/* chart is defined in app.scss */}
         <div id="vis-tooltip" className="vg-tooltip"/>
@@ -79,17 +93,28 @@ export class VegaLite extends React.PureComponent<VegaLiteProps, {}> {
     if (this.mountTimeout) {
       clearTimeout(this.mountTimeout);
     }
+    this.setState({
+      isLoading: true
+    });
     this.mountTimeout = setTimeout(() => {
       this.updateSpec();
       this.runView();
+      this.setState({
+        isLoading: false
+      });
     });
   }
 
-  protected componentWillUpdate() {
-    this.size = this.getChartSize();
+  protected componentWillReceiveProps(nextProps: VegaLiteProps) {
+    if (nextProps.spec !== this.props.spec) {
+      this.setState({
+        isLoading: true
+      });
+      this.size = this.getChartSize();
+    }
   }
 
-  protected componentDidUpdate(prevProps: VegaLiteProps, prevState: {}) {
+  protected componentDidUpdate(prevProps: VegaLiteProps, prevState: VegaLiteState) {
     if (this.updateTimeout) {
       clearTimeout(this.updateTimeout);
     }
@@ -103,6 +128,9 @@ export class VegaLite extends React.PureComponent<VegaLiteProps, {}> {
         this.bindData();
       }
       this.runView();
+      this.setState({
+        isLoading: false
+      });
     });
   }
 
