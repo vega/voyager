@@ -303,7 +303,16 @@ export interface DraggedFieldIdentifier {
 
 const fieldSource: DragSourceSpec<FieldProps> = {
   beginDrag(props): DraggedFieldIdentifier {
-    const {fieldDef, parentId, schema} = props;
+    const {parentId, schema} = props;
+    let {fieldDef} = props;
+
+    if (fieldDef.type === 'temporal') {
+      fieldDef = {
+        ...fieldDef,
+        fn: 'year' // TODO: replace this with a better default time unit
+      };
+    }
+
     let domain;
     if (!isWildcard(fieldDef.field) && fieldDef.field !== '*') {
       domain = schema.domain({field: fieldDef.field});
