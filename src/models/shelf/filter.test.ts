@@ -1,11 +1,10 @@
 import {DateTime} from 'vega-lite/build/src/datetime';
-import {RangeFilter} from 'vega-lite/build/src/filter';
 import {
   convertToDateTimeObject,
   convertToTimestamp,
   getAllTimeUnits,
   getDefaultList,
-  getDefaultRange,
+  getDefaultTimeRange,
   getFilter
 } from './filter';
 import {containsFilter} from './filter';
@@ -15,8 +14,6 @@ const timeStamp1 = 1437978615;
 const timeStamp2 = 1501137015;
 // 1437978615: Sat Jan 17 1970 07:26:18:615 GMT-0800 (PST);
 // 1501137015: Sun Jan 18 1970 00:58:57:15 GMT-0800 (PST);
-
-const rangeFilter: RangeFilter = {field: 'q1', range: [timeStamp1, timeStamp2]};
 
 const dateTime1: DateTime = {
   year: 1970,
@@ -47,7 +44,8 @@ describe('models/shelf/filter', () => {
       const fieldDef: ShelfFieldDef = {field: 'q1', type: 'quantitative'};
       const domain: any[] = [1437978615, 1501137015];
       const filter = getFilter(fieldDef, domain);
-      expect(filter).toEqual(rangeFilter);
+
+      expect(filter).toEqual({field: 'q1', range: [timeStamp1, timeStamp2]});
     });
   });
 
@@ -60,13 +58,13 @@ describe('models/shelf/filter', () => {
     });
   });
 
-  describe('getDefaultRange', () => {
+  describe('getDefaultTimeRange', () => {
     it('should return the range in year', () => {
-      expect(getDefaultRange([timeStamp1, timeStamp2], 'year')).toEqual([1970, 1970]);
+      expect(getDefaultTimeRange([timeStamp1, timeStamp2], 'year')).toEqual([1970, 1970]);
     });
 
     describe('should return the range in YearMonthDate', () => {
-      expect(getDefaultRange([timeStamp1, timeStamp2], 'yearmonthdate')).toEqual([
+      expect(getDefaultTimeRange([timeStamp1, timeStamp2], 'yearmonthdate')).toEqual([
         {
           year: 1970,
           quarter: 1,
