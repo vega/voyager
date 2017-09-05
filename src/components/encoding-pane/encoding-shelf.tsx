@@ -3,6 +3,7 @@ import {isWildcard} from 'compassql/build/src/wildcard';
 import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
 import {ConnectDropTarget, DropTarget, DropTargetCollector, DropTargetSpec} from 'react-dnd';
+import * as TetherComponent from 'react-tether';
 import {ActionHandler} from '../../actions/index';
 import {
   SPEC_FIELD_ADD, SPEC_FIELD_MOVE, SPEC_FIELD_REMOVE, SPEC_FUNCTION_ADD_WILDCARD,
@@ -39,7 +40,17 @@ export interface EncodingShelfPropsBase extends ActionHandler<SpecEncodingAction
 
 interface EncodingShelfProps extends EncodingShelfPropsBase, EncodingShelfDropTargetProps {};
 
-class EncodingShelfBase extends React.PureComponent<EncodingShelfProps, {}> {
+export interface EncodingShelfState {
+  customizerIsOpened: boolean;
+}
+class EncodingShelfBase extends React.PureComponent<EncodingShelfProps, EncodingShelfState> {
+
+  constructor(props: EncodingShelfProps) {
+    super(props);
+    this.state = {
+      customizerIsOpened: false
+    };
+  }
 
   public render() {
     const {id, connectDropTarget, fieldDef, handleAction} = this.props;
@@ -50,13 +61,26 @@ class EncodingShelfBase extends React.PureComponent<EncodingShelfProps, {}> {
     return connectDropTarget(
       <div styleName={isWildcardShelf ? 'wildcard-shelf' : 'encoding-shelf'}>
         <div styleName="shelf-label">
-          <FieldCustomizer
-            showCaret={!!fieldDef && !isWildcardChannelId(id)}
-            fieldDef={fieldDef}
-            shelfId={id}
-            handleAction={handleAction}
-          />
           {channelName}
+          <TetherComponent
+            attachment="top left"
+            targetAttachment="bottom left"
+          >
+            {(fieldDef && !isWildcardChannelId(id)) ?
+              <span onClick={this.toggleCustomizer.bind(this)}>
+                {' '} <i className={'fa fa-caret-down'}/>
+              </span>
+              : <span>{' '}</span>
+            }
+
+            {this.state.customizerIsOpened &&
+              <FieldCustomizer
+                shelfId={id}
+                fieldDef={fieldDef}
+                handleAction={handleAction}
+              />
+            }
+          </TetherComponent>
         </div>
         {fieldDef ? this.field() : this.fieldPlaceholder()}
       </div>
@@ -163,6 +187,12 @@ class EncodingShelfBase extends React.PureComponent<EncodingShelfProps, {}> {
         Drop a field here
       </span>
     );
+  }
+
+  private toggleCustomizer() {
+    this.setState ({
+      customizerIsOpened: !this.state.customizerIsOpened
+    });
   }
 }
 
