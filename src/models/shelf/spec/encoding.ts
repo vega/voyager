@@ -103,10 +103,14 @@ export function toFieldQuery(fieldDef: ShelfFieldDef, channel: Channel | SHORT_W
 }
 
 export function fromFieldQuery(fieldQ: FieldQuery): ShelfFieldDef {
-  const {aggregate, bin, hasFn, timeUnit, field, type, scale, axis, legend, sort, description} = fieldQ;
+  const {aggregate, bin, hasFn, timeUnit, field, scale, axis, legend, sort, description} = fieldQ;
+  let {type} = fieldQ;
 
   if (isWildcard(type)) {
     throw Error('Voyager does not support wildcard type');
+  } else if (type === 'ordinal') {
+    console.warn('Voyager does not support ordinal type yet, converting to nominal');
+    type = 'nominal';
   }
 
   const fn = fromFieldQueryFunctionMixins({aggregate, bin, timeUnit, hasFn});
@@ -114,7 +118,9 @@ export function fromFieldQuery(fieldQ: FieldQuery): ShelfFieldDef {
   return {
     ...(fn ? {fn} : {}),
     field,
-    type,
+    // Need to cast as TS2.3 isn't smart about this.
+    // Upgrading to TS2.4 would solve this issue but creates other issues instead.
+    type: type as ExpandedType,
     ...(sort ? {sort} : {}),
     ...(scale ? {scale: fromFieldQueryNestedProp(fieldQ, 'scale')} : {}),
     ...(axis ? {axis: fromFieldQueryNestedProp(fieldQ, 'axis')} : {}),

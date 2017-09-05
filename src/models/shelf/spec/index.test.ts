@@ -9,7 +9,7 @@ describe('models/shelf/unit', () => {
         mark: 'point',
         encodings: [
           {channel: 'x', bin: true, field: 'a', type: 'quantitative'},
-          {channel: '?', field: 'b', type: 'ordinal'}
+          {channel: '?', field: 'b', type: 'ordinal'} // ordinal should be converted to nominal
         ],
         config: {numberFormat: 'd'}
       })).toEqual({
@@ -18,7 +18,7 @@ describe('models/shelf/unit', () => {
           x: {fn: 'bin', field: 'a', type: 'quantitative'}
         },
         anyEncodings: [
-          {channel: SHORT_WILDCARD, field: 'b', type: 'ordinal'}
+          {channel: SHORT_WILDCARD, field: 'b', type: 'nominal'}
         ],
         config: {numberFormat: 'd'},
       });
@@ -37,7 +37,7 @@ describe('models/shelf/unit', () => {
           }
         },
         anyEncodings: [
-          {channel: SHORT_WILDCARD, field: 'b', type: 'ordinal'}
+          {channel: SHORT_WILDCARD, field: 'b', type: 'nominal'}
         ],
         config: {numberFormat: 'd'},
       })).toEqual({
@@ -48,7 +48,7 @@ describe('models/shelf/unit', () => {
             sort: 'descending',
             scale: {type: 'linear'}
           },
-          {channel: '?', field: 'b', type: 'ordinal'}
+          {channel: '?', field: 'b', type: 'nominal'}
         ],
         config: {numberFormat: 'd'}
       });
