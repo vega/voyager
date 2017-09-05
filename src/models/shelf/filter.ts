@@ -2,7 +2,7 @@ import {ExpandedType} from 'compassql/build/src/query/expandedtype';
 import {isWildcard} from 'compassql/build/src/wildcard';
 import {DateTime} from 'vega-lite/build/src/datetime';
 import {isOneOfFilter, isRangeFilter, OneOfFilter, RangeFilter} from 'vega-lite/build/src/filter';
-import {convert, TimeUnit} from 'vega-lite/build/src/timeunit';
+import {convert, isTimeUnit, TimeUnit} from 'vega-lite/build/src/timeunit';
 import {isFilter, Transform} from 'vega-lite/build/src/transform';
 import {ShelfFieldDef} from './spec';
 
@@ -28,21 +28,24 @@ export function toTransforms(filters: Array<RangeFilter|OneOfFilter>) {
 }
 
 export function getFilter(fieldDef: ShelfFieldDef, domain: any[]): RangeFilter | OneOfFilter {
-  if (isWildcard(fieldDef.field)) {
+  const {field, type, fn} = fieldDef;
+  if (isWildcard(field)) {
     return;
   }
-  switch (fieldDef.type) {
+  switch (type) {
     case ExpandedType.QUANTITATIVE:
-      return {field: fieldDef.field, range: domain};
+      return {field, range: domain};
     case ExpandedType.TEMPORAL:
+      const timeUnit = !isWildcard(fn) && isTimeUnit(fn) ? fn : undefined;
       return {
-        field: fieldDef.field,
-        range: [convertToDateTimeObject(domain[0]), convertToDateTimeObject(domain[1])]
+        ...(timeUnit ? {timeUnit} : {}),
+        field,
+        range: getDefaultTimeRange(domain, timeUnit)
       };
     case ExpandedType.NOMINAL:
     case ExpandedType.ORDINAL:
     case ExpandedType.KEY:
-      return {field: fieldDef.field, oneOf: domain};
+      return {field, oneOf: domain};
     default:
       throw new Error('Unsupported type ' + fieldDef.type);
   }
