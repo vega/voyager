@@ -63,7 +63,7 @@ export function getAllTimeUnits() {
   ];
 }
 
-export function getDefaultRange(domain: number[], timeUnit: TimeUnit): number[] | DateTime[] {
+export function getDefaultTimeRange(domain: number[], timeUnit: TimeUnit): number[] | DateTime[] {
   switch (timeUnit) {
     case TimeUnit.YEARMONTHDATE:
       return [convertToDateTimeObject(Number(convert(timeUnit, new Date(domain[0])))),
@@ -83,9 +83,10 @@ export function getDefaultRange(domain: number[], timeUnit: TimeUnit): number[] 
       return [0, 59];
     case TimeUnit.MILLISECONDS:
       return [0, 999];
-    default:
-      throw new Error ('Invalid range time unit ' + timeUnit);
+    case undefined:
+      return [convertToDateTimeObject(Number(domain[0])), convertToDateTimeObject(Number(domain[1]))];
   }
+  throw new Error ('Cannot determine range for unsupported time unit ' + timeUnit);
 }
 
 export function getDefaultList(timeUnit: TimeUnit): string[] {

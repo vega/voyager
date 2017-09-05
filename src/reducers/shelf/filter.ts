@@ -6,7 +6,7 @@ import {
   FILTER_MODIFY_ONE_OF, FILTER_MODIFY_TIME_UNIT, FILTER_REMOVE
 } from '../../actions';
 import {Action} from '../../actions/index';
-import {convertToDateTimeObject, getDefaultList, getDefaultRange} from '../../models/shelf/filter';
+import {getDefaultList, getDefaultTimeRange, ShelfFilter} from '../../models/shelf/filter';
 import {insertItemToArray, modifyItemInArray, removeItemFromArray} from '../util';
 
 
@@ -89,16 +89,8 @@ export function filterReducer(
 }
 
 function getModifyTimeUnitFunction(timeUnit: TimeUnit, domain: number[]) {
-  if (!timeUnit) {
-    return (filter: RangeFilter) => {
-      return {
-        field: filter.field,
-        timeUnit,
-        range: [convertToDateTimeObject(domain[0]), convertToDateTimeObject(domain[1])]
-      };
-    };
-  } else if (timeUnit === TimeUnit.MONTH || timeUnit === TimeUnit.DAY) {
-    return (filter: RangeFilter) => {
+  if (timeUnit === TimeUnit.MONTH || timeUnit === TimeUnit.DAY) {
+    return (filter: ShelfFilter): OneOfFilter => {
       return {
         field: filter.field,
         timeUnit,
@@ -106,11 +98,11 @@ function getModifyTimeUnitFunction(timeUnit: TimeUnit, domain: number[]) {
       };
     };
   } else {
-    return (filter: RangeFilter) => {
+    return (filter: ShelfFilter): RangeFilter => {
       return {
         field: filter.field,
-        timeUnit,
-        range: getDefaultRange(domain, timeUnit)
+        ...timeUnit ? {timeUnit} : {},
+        range: getDefaultTimeRange(domain, timeUnit)
       };
     };
   }
