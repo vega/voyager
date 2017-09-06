@@ -12,7 +12,7 @@ import {FILTER_TOGGLE} from '../../actions/shelf/filter';
 import {DraggableType, FieldParentType} from '../../constants';
 import {ShelfId} from '../../models/shelf';
 import {ShelfFieldDef} from '../../models/shelf';
-import {createDefaultFilter} from '../../models/shelf/filter';
+import {createDefaultFilter, filterIndexOf} from '../../models/shelf/filter';
 import * as styles from './field.scss';
 
 /**
@@ -206,13 +206,17 @@ class FieldBase extends React.PureComponent<FieldProps, FieldState> {
   }
 
   private addFilterSpan() {
-    return this.props.filterShow && (
-      <span>
-        <a onClick={this.filterToggle.bind(this)}>
-          <i className='fa fa-filter'/>
-        </a>
-      </span>
-    );
+    const {filterShow, fieldDef} = this.props;
+    if (filterShow && !isWildcard(fieldDef.field)) {
+      const index = filterIndexOf(filterShow.filters, fieldDef.field);
+      return this.props.filterShow && (
+        <span styleName={index === -1 ? 'filter-button-unadded' : ''}>
+          <a onClick={this.filterToggle.bind(this)}>
+            <i className='fa fa-filter'/>
+          </a>
+        </span>
+      );
+    }
   }
 
   private funcSpan(fnName: string) {
