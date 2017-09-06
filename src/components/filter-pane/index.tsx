@@ -10,7 +10,7 @@ import {TimeUnit} from 'vega-lite/build/src/timeunit';
 import {FILTER_ADD, FILTER_MODIFY_TIME_UNIT,
   FILTER_REMOVE, FilterAction} from '../../actions';
 import {DraggableType} from '../../constants';
-import {containsFilter, getDefaultList, getDefaultTimeRange} from '../../models/shelf/filter';
+import {filterIndexOf, getDefaultList, getDefaultTimeRange} from '../../models/shelf/filter';
 import {FunctionPicker} from '../encoding-pane/function-picker';
 import {DraggedFieldIdentifier} from '../field';
 import {Field} from '../field/index';
@@ -206,7 +206,7 @@ const filterShelfTarget: DropTargetSpec<FilterPaneProps> = {
       window.alert('Cannot add wildcard filter');
       throw new Error('Cannot add wildcard filter');
     }
-    if (containsFilter(props.filters, filter)) {
+    if (filterIndexOf(props.filters, filter.field) > -1) {
       window.alert('Cannot add more than one filter of the same field');
       return;
     }

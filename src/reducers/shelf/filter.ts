@@ -3,10 +3,10 @@ import {OneOfFilter, RangeFilter} from 'vega-lite/build/src/filter';
 import {TimeUnit} from 'vega-lite/build/src/timeunit';
 import {
   FILTER_ADD, FILTER_CLEAR, FILTER_MODIFY_EXTENT, FILTER_MODIFY_MAX_BOUND, FILTER_MODIFY_MIN_BOUND,
-  FILTER_MODIFY_ONE_OF, FILTER_MODIFY_TIME_UNIT, FILTER_REMOVE
+  FILTER_MODIFY_ONE_OF, FILTER_MODIFY_TIME_UNIT, FILTER_REMOVE, FILTER_TOGGLE
 } from '../../actions';
 import {Action} from '../../actions/index';
-import {getDefaultList, getDefaultTimeRange, ShelfFilter} from '../../models/shelf/filter';
+import {filterIndexOf, getDefaultList, getDefaultTimeRange, ShelfFilter} from '../../models/shelf/filter';
 import {insertItemToArray, modifyItemInArray, removeItemFromArray} from '../util';
 
 
@@ -31,6 +31,17 @@ export function filterReducer(
     case FILTER_REMOVE: {
       const {index} = action.payload;
       return removeItemFromArray(filters, index).array;
+    }
+
+    case FILTER_TOGGLE: {
+      const {filter} = action.payload;
+      const index = filterIndexOf(filters, filter.field);
+      if (index === -1) {
+        // add filter
+        return insertItemToArray(filters, filters.length, filter);
+      } else {
+        return removeItemFromArray(filters, index).array;
+      }
     }
 
     case FILTER_MODIFY_EXTENT: {

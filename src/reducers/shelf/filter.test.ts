@@ -5,6 +5,7 @@ import {
   FILTER_ADD, FILTER_CLEAR, FILTER_MODIFY_EXTENT, FILTER_MODIFY_MAX_BOUND,
   FILTER_MODIFY_MIN_BOUND, FILTER_MODIFY_ONE_OF, FILTER_MODIFY_TIME_UNIT, FILTER_REMOVE
 } from '../../actions';
+import {FILTER_TOGGLE} from '../../actions/shelf/filter';
 import {convertToDateTimeObject} from '../../models/shelf/filter';
 import {filterReducer} from './filter';
 
@@ -41,6 +42,32 @@ describe('reducers/shelf/filter', () => {
         }
       });
       expect(filters).toEqual([rangeFilter, oneOfFilter, rangeFilter2]);
+    });
+  });
+
+  describe(FILTER_TOGGLE, () => {
+    it('should add the given filter when toggled', () => {
+      const filter = {
+        field: 'q3',
+        range: [0, 100]
+      };
+      const filters = filterReducer(simpleFilters, {
+        type: FILTER_TOGGLE,
+        payload: {
+          filter
+        }
+      });
+      expect(filters).toEqual([rangeFilter, oneOfFilter, filter]);
+    });
+
+    it('should remove the given filter when toggled', () => {
+      const filters = filterReducer(simpleFilters, {
+        type: FILTER_TOGGLE,
+        payload: {
+          filter: rangeFilter
+        }
+      });
+      expect(filters).toEqual([oneOfFilter]);
     });
   });
 
