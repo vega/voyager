@@ -27,7 +27,7 @@ export function toTransforms(filters: Array<RangeFilter|OneOfFilter>) {
   return filters.map(filter => ({filter}));
 }
 
-export function getFilter(fieldDef: ShelfFieldDef, domain: any[]): RangeFilter | OneOfFilter {
+export function createDefaultFilter(fieldDef: ShelfFieldDef, domain: any[]): RangeFilter | OneOfFilter {
   const {field, type, fn} = fieldDef;
   if (isWildcard(field)) {
     return;

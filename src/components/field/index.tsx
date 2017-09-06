@@ -11,7 +11,7 @@ import {ShelfAction} from '../../actions/shelf';
 import {DraggableType, FieldParentType} from '../../constants';
 import {ShelfId} from '../../models/shelf';
 import {ShelfFieldDef} from '../../models/shelf';
-import {containsFilter, getFilter} from '../../models/shelf/filter';
+import {containsFilter, createDefaultFilter} from '../../models/shelf/filter';
 import * as styles from './field.scss';
 
 /**
@@ -154,7 +154,7 @@ class FieldBase extends React.PureComponent<FieldProps, FieldState> {
     if (!isWildcard(fieldDef.field) && fieldDef.field !== '*') {
       domain = schema.domain({field: fieldDef.field});
     }
-    const filter = getFilter(fieldDef, domain);
+    const filter = createDefaultFilter(fieldDef, domain);
     if (containsFilter(filterShow.filters, filter)) {
       window.alert('Cannot add more than one filter of the same field');
       return;
@@ -184,7 +184,7 @@ class FieldBase extends React.PureComponent<FieldProps, FieldState> {
       return;
     }
     const domain = schema.domain({field: fieldDef.field});
-    return getFilter(fieldDef, domain);
+    return createDefaultFilter(fieldDef, domain);
   }
 
   private caretTypeSpan() {
@@ -317,7 +317,7 @@ const fieldSource: DragSourceSpec<FieldProps> = {
     if (!isWildcard(fieldDef.field) && fieldDef.field !== '*') {
       domain = schema.domain({field: fieldDef.field});
     }
-    const filter = getFilter(fieldDef, domain);
+    const filter = createDefaultFilter(fieldDef, domain);
     return {fieldDef, parentId, filter};
   },
   canDrag(props, monitor) {
