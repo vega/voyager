@@ -17,6 +17,9 @@ config.output.publicPath = '/lib-test/';
 config.output.path = path.resolve(__dirname, '../lib-test');
 config.output.filename = '[name].js';
 config.externals = {};
+
+// UI test build runs with NODE_ENV === 'test' and React expects this to be production if minified
+// Thus do not use UglifyJS for UI test
 config.plugins = config.plugins.filter(plugin => !(plugin instanceof webpack.optimize.UglifyJsPlugin));
 
 
