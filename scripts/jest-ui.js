@@ -18,6 +18,10 @@ config.output.path = path.resolve(__dirname, '../lib-test');
 config.output.filename = '[name].js';
 config.externals = {};
 
+// UI test build runs with NODE_ENV === 'test' and React expects this to be production if minified
+// Thus do not use UglifyJS for UI test
+config.plugins = config.plugins.filter(plugin => !(plugin instanceof webpack.optimize.UglifyJsPlugin));
+
 
 const basedir = path.resolve(__dirname, '../src');
 const tests = glob.sync('*.{test,spec}.ui.{ts,tsx,js,jsx}', {
@@ -30,6 +34,7 @@ config.entry = tests
     carry[key] = path.resolve(basedir, key);
     return carry;
   }, {});
+
 
 const compiler = webpack(config);
 compiler.run(function() {});
