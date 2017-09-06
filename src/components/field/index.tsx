@@ -5,13 +5,14 @@ import * as CSSModules from 'react-css-modules';
 import {DragElementWrapper, DragSource, DragSourceCollector, DragSourceSpec} from 'react-dnd';
 import * as TetherComponent from 'react-tether';
 import {OneOfFilter, RangeFilter} from 'vega-lite/build/src/filter';
-import {FILTER_ADD, FILTER_REMOVE, FilterAction} from '../../actions';
+import {FILTER_REMOVE, FilterAction} from '../../actions';
 import {DatasetSchemaChangeFieldType} from '../../actions/dataset';
 import {ShelfAction} from '../../actions/shelf';
+import {FILTER_TOGGLE} from '../../actions/shelf/filter';
 import {DraggableType, FieldParentType} from '../../constants';
 import {ShelfId} from '../../models/shelf';
 import {ShelfFieldDef} from '../../models/shelf';
-import {containsFilter, createDefaultFilter} from '../../models/shelf/filter';
+import {createDefaultFilter} from '../../models/shelf/filter';
 import * as styles from './field.scss';
 
 /**
@@ -148,20 +149,10 @@ class FieldBase extends React.PureComponent<FieldProps, FieldState> {
     }
   }
 
-  protected filterAddToEnd(): void {
-    const {filterShow, fieldDef, schema} = this.props;
-    let domain;
-    if (!isWildcard(fieldDef.field) && fieldDef.field !== '*') {
-      domain = schema.domain({field: fieldDef.field});
-    }
-    const filter = createDefaultFilter(fieldDef, domain);
-    if (containsFilter(filterShow.filters, filter)) {
-      window.alert('Cannot add more than one filter of the same field');
-      return;
-    }
+  protected filterToggle(): void {
     const {handleAction} = this.props;
     handleAction({
-      type: FILTER_ADD,
+      type: FILTER_TOGGLE,
       payload: {
         filter: this.getFilter()
       }
@@ -216,7 +207,11 @@ class FieldBase extends React.PureComponent<FieldProps, FieldState> {
 
   private addFilterSpan() {
     return this.props.filterShow && (
-      <span><a onClick={this.filterAddToEnd.bind(this)}><i className='fa fa-filter'/></a></span>
+      <span>
+        <a onClick={this.filterToggle.bind(this)}>
+          <i className='fa fa-filter'/>
+        </a>
+      </span>
     );
   }
 

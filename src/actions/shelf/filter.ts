@@ -3,13 +3,18 @@ import {OneOfFilter, RangeFilter} from 'vega-lite/build/src/filter';
 import {TimeUnit} from 'vega-lite/build/src/timeunit';
 import {PlainReduxAction, ReduxAction} from '../redux-action';
 
-export type FilterAction = FilterAdd | FilterClear | FilterRemove | FilterModifyExtent| FilterModifyMinBound |
-FilterModifyMaxBound | FilterModifyOneOf | FilterModifyTimeUnit;
+export type FilterAction = FilterAdd | FilterClear | FilterRemove | FilterToggle | FilterModifyExtent |
+  FilterModifyMinBound | FilterModifyMaxBound | FilterModifyOneOf | FilterModifyTimeUnit;
 
 export const FILTER_ADD = 'FILTER_ADD';
 export type FilterAdd = ReduxAction<typeof FILTER_ADD, {
   filter: RangeFilter | OneOfFilter,
   index?: number
+}>;
+
+export const FILTER_TOGGLE = 'FILTER_TOGGLE';
+export type FilterToggle = ReduxAction<typeof FILTER_TOGGLE, {
+  filter: RangeFilter | OneOfFilter
 }>;
 
 export const FILTER_REMOVE = 'FILTER_REMOVE';

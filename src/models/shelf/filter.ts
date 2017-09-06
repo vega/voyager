@@ -132,11 +132,12 @@ export function convertToTimestamp(dateTime: DateTime): number {
   return Number(date);
 }
 
-export function containsFilter(filters: Array<RangeFilter | OneOfFilter>, target: RangeFilter | OneOfFilter) {
-  for (const filter of filters) {
-    if (filter.field === target.field) {
-      return true;
+export function filterIndexOf(filters: Array<RangeFilter | OneOfFilter>, targetField: string) {
+  for (let i = 0; i < filters.length; i++) {
+    const filter = filters[i];
+    if (filter.field === targetField) {
+      return i;
     }
   }
-  return false;
+  return -1;
 }

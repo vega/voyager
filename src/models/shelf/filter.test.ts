@@ -7,7 +7,7 @@ import {
   getDefaultList,
   getDefaultTimeRange
 } from './filter';
-import {containsFilter} from './filter';
+import {filterIndexOf} from './filter';
 import {ShelfFieldDef} from './spec';
 
 const timeStamp1 = 1437978615;
@@ -124,7 +124,7 @@ describe('models/shelf/filter', () => {
     });
   });
 
-  describe('containsFilter', () => {
+  describe('filterIndexOf', () => {
     it('should return whether filters contain the given filter', () => {
       const filters = [{
         field: 'q1',
@@ -133,11 +133,7 @@ describe('models/shelf/filter', () => {
         field: 'q2',
         range: [0, 1000]
       }];
-      const filter = {
-        field: 'q1',
-        range: [0, 100]
-      };
-      expect(containsFilter(filters, filter)).toBeTruthy();
+      expect(filterIndexOf(filters, 'q1')).toEqual(0);
     });
   });
 });
