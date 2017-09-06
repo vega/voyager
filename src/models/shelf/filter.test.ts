@@ -2,10 +2,10 @@ import {DateTime} from 'vega-lite/build/src/datetime';
 import {
   convertToDateTimeObject,
   convertToTimestamp,
+  createDefaultFilter,
   getAllTimeUnits,
   getDefaultList,
-  getDefaultTimeRange,
-  getFilter
+  getDefaultTimeRange
 } from './filter';
 import {containsFilter} from './filter';
 import {ShelfFieldDef} from './spec';
@@ -39,13 +39,26 @@ const dateTime2: DateTime = {
 };
 
 describe('models/shelf/filter', () => {
-  describe('getFilter', () => {
-    it('should return a range filter', () => {
+  describe('createDefaultFilter', () => {
+    it('should return a range filter for quantitative field', () => {
       const fieldDef: ShelfFieldDef = {field: 'q1', type: 'quantitative'};
-      const domain: any[] = [1437978615, 1501137015];
-      const filter = getFilter(fieldDef, domain);
+      const domain = [1437978615, 1501137015];
+      const filter = createDefaultFilter(fieldDef, domain);
+      expect(filter).toEqual({field: 'q1', range: domain});
+    });
 
-      expect(filter).toEqual({field: 'q1', range: [timeStamp1, timeStamp2]});
+    it('should return a range filter for temporal field', () => {
+      const fieldDef: ShelfFieldDef = {field: 'q1', type: 'temporal'};
+      const domain = [1437978615, 1501137015];
+      const filter = createDefaultFilter(fieldDef, domain);
+      expect(filter).toEqual({field: 'q1', range: [dateTime1, dateTime2]});
+    });
+
+    it('should return a oneof filter for temporal field with year', () => {
+      const fieldDef: ShelfFieldDef = {fn: 'year', field: 'q1', type: 'temporal'};
+      const domain = [1437978615, 1501137015];
+      const filter = createDefaultFilter(fieldDef, domain);
+      expect(filter).toEqual({timeUnit: 'year', field: 'q1', range: [1970, 1970]});
     });
   });
 
