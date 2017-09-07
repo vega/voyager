@@ -28,7 +28,7 @@ export class TetherComponentWrapper extends React.PureComponent<TetherComponentW
   public render() {
     const {attachment, targetAttachment, offset} = this.props;
     return (
-      <div ref={this.targetRefHandler}>
+      <span ref={this.targetRefHandler}>
         <TetherComponent
           attachment={attachment}
           targetAttachment={targetAttachment || 'auto auto'}
@@ -39,7 +39,7 @@ export class TetherComponentWrapper extends React.PureComponent<TetherComponentW
             {this.props.children[1]}
           </div>
         </TetherComponent>
-      </div>
+      </span>
     );
   }
 
