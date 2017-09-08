@@ -11,5 +11,9 @@
     div {
       display: inline-block;
     }
+
+    select:focus {
+      outline: none
+    }
   }
 }

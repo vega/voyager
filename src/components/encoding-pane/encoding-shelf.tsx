@@ -61,16 +61,17 @@ class EncodingShelfBase extends React.PureComponent<EncodingShelfProps, Encoding
     return connectDropTarget(
       <div styleName={isWildcardShelf ? 'wildcard-shelf' : 'encoding-shelf'}>
         <div styleName="shelf-label">
-          {channelName}
           <TetherComponent
             attachment="top left"
             targetAttachment="bottom left"
           >
             {(fieldDef && !isWildcardChannelId(id)) ?
               <span onClick={this.toggleCustomizer.bind(this)}>
-                {' '} <i className={'fa fa-caret-down'}/>
+                {channelName}{' '} <i className={'fa fa-caret-down'}/>
+              </span> :
+              <span>
+                {channelName}
               </span>
-              : <span>{' '}</span>
             }
 
             {this.state.customizerIsOpened &&
