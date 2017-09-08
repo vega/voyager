@@ -141,7 +141,7 @@ describe('Voyager', () => {
               const fieldList = wrapper.find('.encoding-shelf__encoding-shelf');
               const fields = fieldList.map(d => d.text());
 
-              expect(fields).toContain('x binclose');
+              expect(fields).toContain('x   binclose');
               done();
             } catch (err) {
               done.fail(err);
