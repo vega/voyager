@@ -5,7 +5,7 @@ import * as CSSModules from 'react-css-modules';
 import {DragElementWrapper, DragSource, DragSourceCollector, DragSourceSpec} from 'react-dnd';
 import * as TetherComponent from 'react-tether';
 import {OneOfFilter, RangeFilter} from 'vega-lite/build/src/filter';
-import {FILTER_REMOVE, FilterAction} from '../../actions';
+import {FilterAction} from '../../actions';
 import {DatasetSchemaChangeFieldType} from '../../actions/dataset';
 import {ShelfAction} from '../../actions/shelf';
 import {FILTER_TOGGLE} from '../../actions/shelf/filter';
@@ -155,16 +155,6 @@ class FieldBase extends React.PureComponent<FieldProps, FieldState> {
       type: FILTER_TOGGLE,
       payload: {
         filter: this.getFilter()
-      }
-    });
-  }
-
-  protected filterRemove(index: number): void {
-    const {handleAction} = this.props;
-    handleAction({
-      type: FILTER_REMOVE,
-      payload: {
-        index
       }
     });
   }
