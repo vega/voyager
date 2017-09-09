@@ -1,13 +1,11 @@
 import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
-import * as TetherComponent from 'react-tether';
 import {BOOKMARK_ADD_PLOT, BOOKMARK_REMOVE_PLOT, BookmarkAction} from '../../actions/bookmark';
 import {ActionHandler} from '../../actions/redux-action';
 import {Bookmark} from '../../models/bookmark';
 import {ResultPlot} from '../../models/result';
+import {TetherComponentWrapper} from '../tether-component-wrapper/index';
 import * as styles from './bookmarkbutton.scss';
-
-
 
 export interface BookmarkProps extends ActionHandler<BookmarkAction> {
   bookmark: Bookmark;
@@ -34,35 +32,39 @@ export class BookmarkButtonBase extends React.PureComponent<BookmarkProps, Bookm
 
   public render() {
     const styleName = (this.isBookmarked()) ? 'bookmark-command-selected' : 'command';
+    const targetComponent =
+      <i
+        title='Bookmark'
+        className='fa fa-bookmark'
+        styleName={styleName}
+        onClick={this.onBookmarkClick}
+      />;
+
+    const popupComponent = this.state.openDialog && (
+      <div styleName='bookmark-alert'>
+        <div>Remove bookmark?</div>
+          <small>Your notes will be lost.</small>
+          <div>
+            <a onClick={this.onBookmarkRemove}>
+              <i className="fa fa-trash-o">&nbsp;&nbsp;remove it&nbsp;&nbsp;</i>
+            </a>
+          <a onClick={this.onKeepBookmark}>
+              <i className="fa fa-bookmark">&nbsp;&nbsp;keep it&nbsp;&nbsp;</i>
+          </a>
+        </div>
+      </div>
+    );
 
     return (
-      <TetherComponent
-          attachment="top right"
-          targetAttachment="bottom left"
+      <TetherComponentWrapper
+        closePopup={this.onKeepBookmark}
+        popupIsOpened={this.state.openDialog}
+        attachment="top right"
+        targetAttachment="bottom left"
       >
-        <i
-          title='Bookmark'
-          className="fa fa-bookmark"
-          styleName={styleName}
-          onClick={this.onBookmarkClick}
-        />
-
-        {
-          this.state.openDialog &&
-          <div styleName='bookmark-alert'>
-            <div>Remove bookmark?</div>
-            <small>Your notes will be lost.</small>
-            <div>
-              <a onClick={this.onBookmarkRemove}>
-                <i className="fa fa-trash-o">&nbsp;&nbsp;remove it&nbsp;&nbsp;</i>
-              </a>
-              <a onClick={this.onKeepBookmark}>
-                <i className="fa fa-bookmark">&nbsp;&nbsp;keep it&nbsp;&nbsp;</i>
-              </a>
-            </div>
-          </div>
-        }
-      </TetherComponent>
+      {targetComponent}
+      {popupComponent}
+      </TetherComponentWrapper>
     );
   }
 

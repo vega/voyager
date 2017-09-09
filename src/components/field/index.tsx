@@ -3,7 +3,6 @@ import {isWildcard} from 'compassql/build/src/wildcard';
 import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
 import {DragElementWrapper, DragSource, DragSourceCollector, DragSourceSpec} from 'react-dnd';
-import * as TetherComponent from 'react-tether';
 import {OneOfFilter, RangeFilter} from 'vega-lite/build/src/filter';
 import {FILTER_REMOVE, FilterAction} from '../../actions';
 import {DatasetSchemaChangeFieldType} from '../../actions/dataset';
@@ -13,6 +12,7 @@ import {DraggableType, FieldParentType} from '../../constants';
 import {ShelfId} from '../../models/shelf';
 import {ShelfFieldDef} from '../../models/shelf';
 import {createDefaultFilter, filterIndexOf} from '../../models/shelf/filter';
+import {TetherComponentWrapper} from '../tether-component-wrapper/index';
 import * as styles from './field.scss';
 
 /**
@@ -129,22 +129,21 @@ class FieldBase extends React.PureComponent<FieldProps, FieldState> {
         {this.removeSpan()}
       </span>
     );
+    const targetComponent = connectDragSource ? connectDragSource(component) : component;
     // Wrap with connect dragSource if it is injected
     if (!popupComponent) {
-      return connectDragSource ? connectDragSource(component) : component;
+      return targetComponent;
     } else {
       return (
-        <div ref={this.fieldRefHandler} >
-          <TetherComponent
-            attachment="top left"
-            targetAttachment="bottom left"
-          >
-            {connectDragSource ? connectDragSource(component) : component}
-            <div ref={this.popupRefHandler}>
-              {this.state.popupIsOpened && popupComponent}
-            </div>
-          </TetherComponent>
-        </div>
+        <TetherComponentWrapper
+          closePopup={this.closePopup}
+          popupIsOpened={this.state.popupIsOpened}
+          attachment="top left"
+          targetAttachment="bottom left"
+        >
+          {targetComponent}
+          {this.state.popupIsOpened && popupComponent}
+        </TetherComponentWrapper>
       );
     }
   }
@@ -258,13 +257,6 @@ class FieldBase extends React.PureComponent<FieldProps, FieldState> {
         popupIsOpened: !this.state.popupIsOpened
       });
     }
-  }
-
-  private fieldRefHandler = (ref: any) => {
-    this.field = ref;
-  }
-  private popupRefHandler = (ref: any) => {
-    this.popup = ref;
   }
 };
 

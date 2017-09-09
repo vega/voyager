@@ -1,9 +1,7 @@
-
 import * as Slider from 'rc-slider';
 import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
 import * as DateTimePicker from 'react-datetime';
-import * as TetherComponent from 'react-tether';
 import {DateTime} from 'vega-lite/build/src/datetime';
 import {RangeFilter} from 'vega-lite/build/src/filter';
 import {TimeUnit} from 'vega-lite/build/src/timeunit';
@@ -11,6 +9,7 @@ import {FILTER_MODIFY_EXTENT, FILTER_MODIFY_MAX_BOUND, FILTER_MODIFY_MIN_BOUND,
   FilterAction} from '../../actions';
 import {ActionHandler} from '../../actions/redux-action';
 import {convertToDateTimeObject, convertToTimestamp} from '../../models/shelf/filter';
+import {TetherComponentWrapper} from '../tether-component-wrapper/index';
 import * as styles from './range-filter-shelf.scss';
 
 export interface RangeFilterShelfProps extends ActionHandler<FilterAction> {
@@ -184,40 +183,50 @@ export class RangeFilterShelfBase extends React.PureComponent<RangeFilterShelfPr
   }
 
   private renderDateTimePicker(date: Date, bound: 'min' | 'max') {
-    let onChangeAction, dateTimePickerOpen, dataTimePickerOpenAction;
+    let onChangeAction, dateTimePickerOpen, dateTimePickerOpenAction;
     if (bound === 'min') {
       onChangeAction = this.filterModifyMinBound;
       dateTimePickerOpen = this.state.minDateTimePickerOpen;
-      dataTimePickerOpenAction = this.toggleMinDateTimePicker;
+      dateTimePickerOpenAction = this.toggleMinDateTimePicker;
     } else if (bound === 'max') {
       onChangeAction = this.filterModifyMaxBound;
       dateTimePickerOpen = this.state.maxDateTimePickerOpen;
-      dataTimePickerOpenAction = this.toggleMaxDateTimePicker;
+      dateTimePickerOpenAction = this.toggleMaxDateTimePicker;
     }
+    const targetComponent =
+      <div styleName='bound'>
+        {bound}:
+        <a onClick={dateTimePickerOpenAction}><i className="fa fa-pencil"/></a>
+        {date.toString()}
+      </div>;
+
+    const popupComponent = dateTimePickerOpen &&
+      <div styleName='date-time-picker-wrapper'>
+        <DateTimePicker
+          defaultValue={date}
+          timeFormat={this.showTime(this.props.filter.timeUnit)}
+          open={false}
+          onChange={onChangeAction}
+          disableOnClickOutside={false}
+        />
+      </div>;
     return (
-      <div>
-        <TetherComponent
-          attachment='bottom center'
-        >
-          <div styleName='bound'>
-            {bound}:
-            <a onClick={dataTimePickerOpenAction}><i className="fa fa-pencil"/></a>
-            {date.toString()}
-          </div>
-          {dateTimePickerOpen &&
-            <div styleName='date-time-picker-wrapper'>
-              <DateTimePicker
-                defaultValue={date}
-                timeFormat={this.showTime(this.props.filter.timeUnit)}
-                open={false}
-                onChange={onChangeAction}
-                disableOnClickOutside={false}
-              />
-            </div>
-          }
-        </TetherComponent>
-      </div>
+      <TetherComponentWrapper
+        attachment='bottom center'
+        closePopup={this.closePopup.bind(this)}
+        popupIsOpened={dateTimePickerOpen}
+      >
+        {targetComponent}
+        {popupComponent}
+      </TetherComponentWrapper>
     );
+  }
+
+  private closePopup() {
+    this.setState({
+      minDateTimePickerOpen: false,
+      maxDateTimePickerOpen: false
+    });
   }
 
   private focusInput(id: string) {
