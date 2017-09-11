@@ -3,7 +3,7 @@ import {ReduxAction} from './redux-action';
 
 export type CustomWildcardAction = CustomWildcardAdd | CustomWildcardAddField |
                                    CustomWildcardRemove | CustomWildcardRemoveField |
-                                   CustomWildcardModifyWildcardDescription;
+                                   CustomWildcardModifyDescription;
 
 export const CUSTOM_WILDCARD_ADD = 'CUSTOM_WILDCARD_ADD';
 export type CustomWildcardAdd = ReduxAction<typeof CUSTOM_WILDCARD_ADD, {
@@ -29,8 +29,8 @@ export type CustomWildcardRemoveField = ReduxAction<typeof CUSTOM_WILDCARD_REMOV
   index: number;
 }>;
 
-export const CUSTOM_WILDCARD_MODIFY_WILDCARD_DESCRIPTION = 'CUSTOM_WILDCARD_MODIFY_WILDCARD_DESCRIPTION';
-export type CustomWildcardModifyWildcardDescription = ReduxAction<typeof CUSTOM_WILDCARD_MODIFY_WILDCARD_DESCRIPTION, {
-  wildcardDescription: string;
+export const CUSTOM_WILDCARD_MODIFY_DESCRIPTION = 'CUSTOM_WILDCARD_MODIFY_DESCRIPTION';
+export type CustomWildcardModifyDescription = ReduxAction<typeof CUSTOM_WILDCARD_MODIFY_DESCRIPTION, {
+  description: string;
   index: number;
 }>;

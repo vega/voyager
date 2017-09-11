@@ -1,5 +1,5 @@
 import {ExpandedType} from 'compassql/build/src/query/expandedtype';
-import {CUSTOM_WILDCARD_ADD, CUSTOM_WILDCARD_ADD_FIELD, CUSTOM_WILDCARD_MODIFY_WILDCARD_DESCRIPTION,
+import {CUSTOM_WILDCARD_ADD, CUSTOM_WILDCARD_ADD_FIELD, CUSTOM_WILDCARD_MODIFY_DESCRIPTION,
         CUSTOM_WILDCARD_REMOVE, CUSTOM_WILDCARD_REMOVE_FIELD} from '../actions/custom-wildcard-field';
 import {CustomWildcardField} from '../models/custom-wildcard-field';
 import {customWildcardFieldReducer} from './custom-wildcard-field';
@@ -23,7 +23,7 @@ describe('reducers/custom-wildcard-field', () => {
         {
           fields: ['acceleration', 'horsepower'],
           type: ExpandedType.QUANTITATIVE,
-          wildcardDescription: null
+          description: null
         }
       ]);
     });
@@ -33,7 +33,7 @@ describe('reducers/custom-wildcard-field', () => {
     {
       fields: ['acceleration', 'horsepower'],
       type: ExpandedType.QUANTITATIVE,
-      wildcardDescription: null
+      description: null
     }
   ];
 
@@ -72,7 +72,7 @@ describe('reducers/custom-wildcard-field', () => {
         {
           fields: ['acceleration', 'horsepower', 'displacement', 'miles per gallon'],
           type: ExpandedType.QUANTITATIVE,
-          wildcardDescription: null
+          description: null
         }
       ]);
     });
@@ -94,7 +94,7 @@ describe('reducers/custom-wildcard-field', () => {
         {
           fields: ['acceleration', 'horsepower', 'displacement'],
           type: ExpandedType.QUANTITATIVE,
-          wildcardDescription: null
+          description: null
         }
       ]);
     });
@@ -117,21 +117,21 @@ describe('reducers/custom-wildcard-field', () => {
         {
           fields: ['horsepower'],
           type: ExpandedType.QUANTITATIVE,
-          wildcardDescription: null
+          description: null
         }
       ]);
     });
   });
 
-  describe(CUSTOM_WILDCARD_MODIFY_WILDCARD_DESCRIPTION, () => {
+  describe(CUSTOM_WILDCARD_MODIFY_DESCRIPTION, () => {
     it('should modify the title of a custom wildcard field', () => {
       const customWildcardFieldsAfterTitleUpdate = customWildcardFieldReducer(
         customWildcardFields,
         {
-          type: CUSTOM_WILDCARD_MODIFY_WILDCARD_DESCRIPTION,
+          type: CUSTOM_WILDCARD_MODIFY_DESCRIPTION,
           payload: {
             index: 0,
-            wildcardDescription: 'Custom Q Wildcard'
+            description: 'Custom Q Wildcard'
           }
         }
       );
@@ -140,7 +140,7 @@ describe('reducers/custom-wildcard-field', () => {
         {
           fields: ['acceleration', 'horsepower'],
           type: ExpandedType.QUANTITATIVE,
-          wildcardDescription: 'Custom Q Wildcard'
+          description: 'Custom Q Wildcard'
         }
       ]);
     });

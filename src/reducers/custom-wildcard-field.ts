@@ -1,7 +1,7 @@
 
 import {toMap} from 'compassql/build/src/util';
 import {Action} from '../actions';
-import {CUSTOM_WILDCARD_ADD, CUSTOM_WILDCARD_ADD_FIELD, CUSTOM_WILDCARD_MODIFY_WILDCARD_DESCRIPTION,
+import {CUSTOM_WILDCARD_ADD, CUSTOM_WILDCARD_ADD_FIELD, CUSTOM_WILDCARD_MODIFY_DESCRIPTION,
         CUSTOM_WILDCARD_REMOVE, CUSTOM_WILDCARD_REMOVE_FIELD} from '../actions/custom-wildcard-field';
 import {CustomWildcardField} from '../models/custom-wildcard-field';
 import {insertItemToArray, modifyItemInArray, removeItemFromArray} from './util';
@@ -31,7 +31,7 @@ export function customWildcardFieldReducer(
       return insertItemToArray(customWildcardFields, index, {
         fields,
         type,
-        wildcardDescription: null
+        description: null
       });
     }
 
@@ -64,12 +64,12 @@ export function customWildcardFieldReducer(
       return modifyItemInArray(customWildcardFields, index, modifyFieldsProperty(updatedFields));
     }
 
-    case CUSTOM_WILDCARD_MODIFY_WILDCARD_DESCRIPTION: {
-      const {index, wildcardDescription} = action.payload;
+    case CUSTOM_WILDCARD_MODIFY_DESCRIPTION: {
+      const {index, description} = action.payload;
       const modifyTitle = (customWildcardField: CustomWildcardField) => {
         return {
           ...customWildcardField,
-          wildcardDescription
+          description
         };
       };
       return modifyItemInArray(customWildcardFields, index, modifyTitle);
