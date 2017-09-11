@@ -89,25 +89,26 @@ class FilterPaneBase extends React.PureComponent<FilterPaneProps, {}> {
   private renderFilterShelf(filter: RangeFilter | OneOfFilter, index: number) {
     const {handleAction, schema} = this.props;
     let domain = schema.domain({field: filter.field});
+    const {field, timeUnit} = filter;
     const fieldSchema = schema.fieldSchema(filter.field);
     const fieldDef = {
-      field: fieldSchema.name,
+      fn: timeUnit,
+      field,
       type: fieldSchema.vlType
     };
-    const onFunctionChange = (timeUnit: string) => {
-      this.filterModifyTimeUnit(timeUnit, index);
+    const onFunctionChange = (tu: TimeUnit) => {
+      this.filterModifyTimeUnit(tu, index);
     };
     const popupComponent =
       fieldDef.type === ExpandedType.TEMPORAL &&
       <FunctionPicker
         fieldDefParts={{
-          fn: filter.timeUnit,
+          fn: timeUnit,
           type: ExpandedType.TEMPORAL
         }}
         onFunctionChange={onFunctionChange}
       /> ;
     let filterComponent;
-    const timeUnit = filter.timeUnit;
     if (isRangeFilter(filter)) {
       if (fieldDef.type === ExpandedType.TEMPORAL) {
         domain = getDefaultTimeRange(domain, timeUnit);
@@ -117,7 +118,7 @@ class FilterPaneBase extends React.PureComponent<FilterPaneProps, {}> {
           domain={domain}
           filter={filter}
           index={index}
-          renderDateTimePicker={this.renderDateTimePicker(fieldDef.type, filter.timeUnit)}
+          renderDateTimePicker={this.renderDateTimePicker(fieldDef.type, timeUnit)}
           handleAction={handleAction}
         />
       );
