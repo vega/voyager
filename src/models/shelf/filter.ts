@@ -59,9 +59,10 @@ export function createDefaultFilter(fieldDef: ShelfFieldDef, domain: any[]): Ran
     case ExpandedType.QUANTITATIVE:
       return {field, range: domain};
     case ExpandedType.TEMPORAL:
-      const timeUnit = !isWildcard(fn) && isTimeUnit(fn) ? fn : undefined;
+      // TODO: consider if we want to change default time unit?
+      const timeUnit = !isWildcard(fn) && isTimeUnit(fn) ? fn : 'year';
       return {
-        ...(timeUnit ? {timeUnit} : {}),
+        timeUnit,
         field,
         range: getDefaultTimeRange(domain, timeUnit)
       };

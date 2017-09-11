@@ -1,3 +1,4 @@
+
 import {DateTime} from 'vega-lite/build/src/datetime';
 import {
   convertToDateTimeObject,
@@ -52,7 +53,8 @@ describe('models/shelf/filter', () => {
       const fieldDef: ShelfFieldDef = {field: 'q1', type: 'temporal'};
       const domain = [1437978615, 1501137015];
       const filter = createDefaultFilter(fieldDef, domain);
-      expect(filter).toEqual({field: 'q1', range: [dateTime1, dateTime2]});
+
+      expect(filter).toEqual({timeUnit: 'year', field: 'q1', range: [1970, 1970]});
     });
 
     it('should return a oneof filter for temporal field with year', () => {
