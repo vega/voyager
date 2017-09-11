@@ -1,7 +1,6 @@
 import * as React from 'react';
 import * as CopyToClipboard from 'react-copy-to-clipboard';
 import * as CSSModules from 'react-css-modules';
-import {connect} from 'react-redux';
 import * as TetherComponent from 'react-tether';
 import {InlineData} from 'vega-lite/build/src/data';
 import {isDiscrete, isFieldDef} from 'vega-lite/build/src/fielddef';
@@ -15,18 +14,17 @@ import {ShelfAction, SPEC_LOAD} from '../../actions/shelf';
 import {SHELF_PREVIEW_DISABLE, SHELF_PREVIEW_SPEC, ShelfPreviewAction} from '../../actions/shelf-preview';
 import {PLOT_HOVER_MIN_DURATION} from '../../constants';
 import {Bookmark} from '../../models/bookmark';
-import {State} from '../../models/index';
 import {PlotFieldInfo, ResultPlot} from '../../models/result';
-import {selectFilteredData} from '../../selectors/index';
 import {Field} from '../field/index';
 import {Logger} from '../util/util.logger';
 import {VegaLite} from '../vega-lite/index';
 import {BookmarkButton} from './bookmarkbutton';
 import * as styles from './plot.scss';
 
-export interface PlotOwnProps extends ActionHandler<
+export interface PlotProps extends ActionHandler<
   ShelfAction | BookmarkAction | ShelfPreviewAction | ResultAction | LogAction
 > {
+  data: InlineData;
   fieldInfos?: PlotFieldInfo[];
   isPlotListItem?: boolean;
   showBookmarkButton?: boolean;
@@ -42,11 +40,6 @@ export interface PlotOwnProps extends ActionHandler<
   closeModal?: () => void;
 }
 
-export interface PlotConnectProps {
-  data: InlineData;
-}
-
-export type PlotProps = PlotOwnProps & PlotConnectProps;
 
 export interface PlotState {
   hovered: boolean;
@@ -337,12 +330,4 @@ export class PlotBase extends React.PureComponent<PlotProps, PlotState> {
   }
 }
 
-export const Plot = connect<PlotConnectProps, {}, PlotOwnProps>(
-  (state: State /*, props*/) => {
-    // TODO: once we have multiple cached data from Leilani's engine
-    // take spec from props and read spec.data.name
-    return {
-      data: selectFilteredData(state)
-    };
-  }
-)(CSSModules(PlotBase, styles));
+export const Plot = CSSModules(PlotBase, styles);
