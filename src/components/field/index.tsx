@@ -269,6 +269,7 @@ const TYPE_NAMES = {
 };
 
 const TYPE_ICONS = {
+  key: 'fa-drivers-license-o',
   nominal: 'fa-font',
   ordinal: 'fa-font',
   quantitative: 'fa-hashtag',
