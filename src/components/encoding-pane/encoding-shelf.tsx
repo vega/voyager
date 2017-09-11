@@ -17,7 +17,7 @@ import {isWildcardChannelId} from '../../models/shelf/spec/encoding';
 import {DraggedFieldIdentifier, Field} from '../field/index';
 import * as styles from './encoding-shelf.scss';
 import {FieldCustomizer} from './field-customizer';
-import {FunctionPicker} from './function-picker';
+import {FunctionPicker, FunctionPickerWildcardHandler} from './function-picker';
 
 /**
  * Props for react-dnd of EncodingShelf
@@ -43,13 +43,20 @@ interface EncodingShelfProps extends EncodingShelfPropsBase, EncodingShelfDropTa
 export interface EncodingShelfState {
   customizerIsOpened: boolean;
 }
-class EncodingShelfBase extends React.PureComponent<EncodingShelfProps, EncodingShelfState> {
+class EncodingShelfBase extends React.PureComponent<
+  EncodingShelfProps, EncodingShelfState
+> implements FunctionPickerWildcardHandler {
 
   constructor(props: EncodingShelfProps) {
     super(props);
     this.state = {
       customizerIsOpened: false
     };
+
+    this.onWildcardAdd = this.onWildcardAdd.bind(this);
+    this.onWildcardRemove = this.onWildcardRemove.bind(this);
+    this.onWildcardDisable = this.onWildcardDisable.bind(this);
+    this.onWildcardEnable = this.onWildcardEnable.bind(this);
   }
 
   public render() {
@@ -88,7 +95,7 @@ class EncodingShelfBase extends React.PureComponent<EncodingShelfProps, Encoding
     );
   }
 
-  protected onWildcardEnable() {
+  public onWildcardEnable() {
     const {id, handleAction} = this.props;
 
     handleAction({
@@ -99,7 +106,7 @@ class EncodingShelfBase extends React.PureComponent<EncodingShelfProps, Encoding
     });
   }
 
-  protected onWildcardDisable() {
+  public onWildcardDisable() {
     const {id, handleAction} = this.props;
 
     handleAction({
@@ -110,7 +117,7 @@ class EncodingShelfBase extends React.PureComponent<EncodingShelfProps, Encoding
     });
   }
 
-  protected onWildcardAdd(fn: ShelfFunction) {
+  public onWildcardAdd(fn: ShelfFunction) {
     const {id, handleAction} = this.props;
     handleAction({
       type: SPEC_FUNCTION_ADD_WILDCARD,
@@ -121,7 +128,7 @@ class EncodingShelfBase extends React.PureComponent<EncodingShelfProps, Encoding
     });
   }
 
-  protected onWildcardRemove(fn: ShelfFunction) {
+  public onWildcardRemove(fn: ShelfFunction) {
     const {id, handleAction} = this.props;
     handleAction({
       type: SPEC_FUNCTION_REMOVE_WILDCARD,
@@ -160,10 +167,7 @@ class EncodingShelfBase extends React.PureComponent<EncodingShelfProps, Encoding
       <FunctionPicker
         fieldDefParts={fieldDef}
         onFunctionChange={this.onFunctionChange.bind(this)}
-        onWildcardEnable={this.onWildcardEnable.bind(this)}
-        onWildcardDisable={this.onWildcardDisable.bind(this)}
-        onWildcardAdd={this.onWildcardAdd.bind(this)}
-        onWildcardRemove={this.onWildcardRemove.bind(this)}
+        wildcardHandler={this}
       /> : null;
     return (
       <div styleName='field-wrapper'>

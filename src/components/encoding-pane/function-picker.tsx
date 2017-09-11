@@ -15,10 +15,15 @@ export interface FunctionPickerProps {
   };
 
   onFunctionChange: (fn: ShelfFunction | TimeUnit) => void;
-  onWildcardEnable?: () => void;
-  onWildcardDisable?: () => void;
-  onWildcardAdd?: (fn: ShelfFunction) => void;
-  onWildcardRemove?: (fn: ShelfFunction) => void;
+
+  wildcardHandler?: FunctionPickerWildcardHandler;
+}
+
+export interface FunctionPickerWildcardHandler {
+  onWildcardEnable: () => void;
+  onWildcardDisable: () => void;
+  onWildcardAdd: (fn: ShelfFunction) => void;
+  onWildcardRemove: (fn: ShelfFunction) => void;
 }
 
 export class FunctionPickerBase extends React.PureComponent<FunctionPickerProps, any> {
@@ -31,7 +36,7 @@ export class FunctionPickerBase extends React.PureComponent<FunctionPickerProps,
     this.onFunctionCheck = this.onFunctionCheck.bind(this);
   }
   public render() {
-    const {fieldDefParts} = this.props;
+    const {fieldDefParts, wildcardHandler} = this.props;
 
     const {fn, type} = fieldDefParts;
     const supportedFns = getSupportedFunction(type);
@@ -52,9 +57,12 @@ export class FunctionPickerBase extends React.PureComponent<FunctionPickerProps,
 
     return checkboxradios.length > 0 && (
       <div styleName="function-chooser">
-        <label styleName="wildcard-button">
-          <input type="checkbox" onChange={this.onCheck}/> Wildcard
-        </label>
+        {
+          wildcardHandler && (
+          <label styleName="wildcard-button">
+            <input type="checkbox" onChange={this.onCheck}/> Wildcard
+          </label>
+        )}
         <h4>Function</h4>
         {checkboxradios}
       </div>
@@ -79,9 +87,9 @@ export class FunctionPickerBase extends React.PureComponent<FunctionPickerProps,
     }
 
     if (checked) {
-      this.props.onWildcardAdd(shelfFunction);
+      this.props.wildcardHandler.onWildcardAdd(shelfFunction);
     } else {
-      this.props.onWildcardRemove(shelfFunction);
+      this.props.wildcardHandler.onWildcardRemove(shelfFunction);
     }
   }
 
@@ -89,9 +97,9 @@ export class FunctionPickerBase extends React.PureComponent<FunctionPickerProps,
     const checked = event.target.checked;
 
     if (checked) {
-      this.props.onWildcardEnable();
+      this.props.wildcardHandler.onWildcardEnable();
     } else {
-      this.props.onWildcardDisable();
+      this.props.wildcardHandler.onWildcardDisable();
     }
   }
 }
