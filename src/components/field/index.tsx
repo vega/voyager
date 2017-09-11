@@ -83,6 +83,7 @@ class FieldBase extends React.PureComponent<FieldProps, FieldState> {
     });
 
     // Bind - https://facebook.github.io/react/docs/handling-events.html
+    this.filterToggle = this.filterToggle.bind(this);
     this.onAdd = this.onAdd.bind(this);
     this.onDoubleClick = this.onDoubleClick.bind(this);
     this.togglePopup = this.togglePopup.bind(this);
@@ -201,7 +202,7 @@ class FieldBase extends React.PureComponent<FieldProps, FieldState> {
       const index = filterIndexOf(filterShow.filters, fieldDef.field);
       return this.props.filterShow && (
         <span styleName={index === -1 ? 'filter-button-unadded' : ''}>
-          <a onClick={this.filterToggle.bind(this)}>
+          <a onClick={this.filterToggle}>
             <i className='fa fa-filter'/>
           </a>
         </span>
@@ -292,15 +293,7 @@ export interface DraggedFieldIdentifier {
 
 const fieldSource: DragSourceSpec<FieldProps> = {
   beginDrag(props): DraggedFieldIdentifier {
-    const {parentId, schema} = props;
-    let {fieldDef} = props;
-
-    if (fieldDef.type === 'temporal') {
-      fieldDef = {
-        ...fieldDef,
-        fn: 'year' // TODO: replace this with a better default time unit
-      };
-    }
+    const {fieldDef, parentId, schema} = props;
 
     let domain;
     if (!isWildcard(fieldDef.field) && fieldDef.field !== '*') {
