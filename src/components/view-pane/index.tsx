@@ -12,12 +12,14 @@ import {State} from '../../models';
 import {Bookmark} from '../../models/bookmark';
 import {VoyagerConfig} from '../../models/config';
 import {Result} from '../../models/result/index';
+import {ShelfFilter} from '../../models/shelf/filter';
 import {SHELF_GROUP_BYS, ShelfGroupBy} from '../../models/shelf/index';
 import {selectBookmark, selectConfig, selectMainSpec} from '../../selectors';
 import {selectFilteredData} from '../../selectors/index';
 import {selectResult} from '../../selectors/result';
 import {
-  selectDefaultGroupBy, selectIsQuerySpecific, selectShelfAutoAddCount, selectShelfGroupBy
+  selectDefaultGroupBy, selectFilters, selectIsQuerySpecific,
+  selectShelfAutoAddCount, selectShelfGroupBy
 } from '../../selectors/shelf';
 import {Plot} from '../plot';
 import {PlotList} from '../plot-list';
@@ -36,6 +38,7 @@ export interface ViewPaneProps extends ActionHandler<ShelfAction> {
   config: VoyagerConfig;
 
   data: InlineData;
+  filters: ShelfFilter[];
 }
 
 const NO_PLOT_MESSAGE = `No specified visualization yet. ` +
@@ -99,13 +102,14 @@ class ViewPaneBase extends React.PureComponent<ViewPaneProps, {}> {
   }
 
   private renderSpecifiedView() {
-    const {bookmark, data, handleAction, spec} = this.props;
+    const {bookmark, data, filters, handleAction, spec} = this.props;
 
     if (spec) {
       return (
         <Plot
           bookmark={bookmark}
           data={data}
+          filters={filters}
           handleAction={handleAction}
           onSort={this.onSort}
           showBookmarkButton={true}
@@ -189,6 +193,7 @@ export const ViewPane = connect(
       bookmark: selectBookmark(state),
       config: selectConfig(state),
       data: selectFilteredData(state),
+      filters: selectFilters(state),
       groupBy: selectShelfGroupBy(state),
       defaultGroupBy: selectDefaultGroupBy(state),
       isQuerySpecific: selectIsQuerySpecific(state),
