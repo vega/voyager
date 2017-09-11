@@ -2,11 +2,13 @@ import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
 import Modal from 'react-modal';
 import {connect} from 'react-redux';
+import {InlineData} from 'vega-lite/build/src/data';
 import {BOOKMARK_CLEAR_ALL, BookmarkAction} from '../../actions/bookmark';
 import {ActionHandler, createDispatchHandler} from '../../actions/redux-action';
 import {State} from '../../models';
 import {Bookmark} from '../../models/bookmark';
 import {ResultPlot} from '../../models/result';
+import {selectData} from '../../selectors/dataset';
 import {selectBookmark} from '../../selectors/index';
 import {Plot} from '../plot';
 import * as styles from './bookmark.scss';
@@ -14,6 +16,7 @@ import * as styles from './bookmark.scss';
 
 export interface BookmarkProps extends ActionHandler<BookmarkAction> {
   bookmark: Bookmark;
+  data: InlineData;
 }
 
 export class BookmarkBase extends React.PureComponent<BookmarkProps, any> {
@@ -96,6 +99,7 @@ export class BookmarkBase extends React.PureComponent<BookmarkProps, any> {
   }
 
   private renderBookmarks(bookmark: Bookmark) {
+    const {data} = this.props;
     const plots: ResultPlot[] = bookmark.list.map(key => bookmark.dict[key].plot);
 
     const bookmarkPlotListItems = plots.map((plot, index) => {
@@ -104,6 +108,7 @@ export class BookmarkBase extends React.PureComponent<BookmarkProps, any> {
         <Plot
           bookmark={this.props.bookmark}
           closeModal={this.closeModal.bind(this)}
+          data={data}
           key={index}
           fieldInfos={fieldInfos}
           handleAction={this.props.handleAction}
@@ -132,7 +137,8 @@ const BookmarkRenderer = CSSModules(BookmarkBase, styles);
 export const BookmarkPane = connect(
   (state: State) => {
     return {
-      bookmark: selectBookmark(state)
+      bookmark: selectBookmark(state),
+      data: selectData(state)
     };
   },
   createDispatchHandler<BookmarkAction>()

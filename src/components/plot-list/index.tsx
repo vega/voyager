@@ -1,6 +1,8 @@
 import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
+import {connect} from 'react-redux';
 import {ClipLoader} from 'react-spinners';
+import {InlineData} from 'vega-lite/build/src/data';
 import {SortField, SortOrder} from 'vega-lite/build/src/sort';
 import {ActionHandler} from '../../actions/redux-action';
 import {
@@ -10,18 +12,26 @@ import {
 import {ShelfAction} from '../../actions/shelf';
 import {SPINNER_COLOR} from '../../constants';
 import {Bookmark} from '../../models/bookmark';
+import {State} from '../../models/index';
 import {ResultType} from '../../models/result';
 import {Result} from '../../models/result/index';
+import {selectFilteredData} from '../../selectors/index';
 import {Plot} from '../plot';
 import * as styles from './plot-list.scss';
 
-export interface PlotListProps extends ActionHandler<ShelfAction|ResultAction> {
+export interface PlotListOwnProps extends ActionHandler<ShelfAction|ResultAction> {
   result: Result;
 
   resultType?: ResultType;
 
   bookmark: Bookmark;
 }
+
+export interface PlotListConnectProps {
+  data: InlineData;
+}
+
+export type PlotListProps = PlotListOwnProps & PlotListConnectProps;
 
 export class PlotListBase extends React.PureComponent<PlotListProps, any> {
   constructor(props: PlotListProps) {
@@ -31,12 +41,13 @@ export class PlotListBase extends React.PureComponent<PlotListProps, any> {
   }
 
   public render() {
-    const {handleAction, bookmark, result} = this.props;
+    const {handleAction, bookmark, data, result} = this.props;
     const {plots, limit, isLoading} = result;
     const plotListItems = plots && plots.slice(0, limit).map((plot, index) => {
       const {spec, fieldInfos} = plot;
       return (
         <Plot
+          data={data}
           key={index}
           fieldInfos={fieldInfos}
           handleAction={handleAction}
@@ -94,4 +105,12 @@ export class PlotListBase extends React.PureComponent<PlotListProps, any> {
   }
 }
 
-export const PlotList = CSSModules(PlotListBase, styles);
+export const PlotList = connect<PlotListConnectProps, {}, PlotListOwnProps>(
+  (state: State /*, props*/) => {
+    // TODO: once we have multiple cached data from Leilani's engine
+    // take spec from props and read spec.data.name
+    return {
+      data: selectFilteredData(state)
+    };
+  }
+)(CSSModules(PlotListBase, styles));

@@ -1,6 +1,7 @@
 import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
 import {connect} from 'react-redux';
+import {InlineData} from 'vega-lite/build/src/data';
 import {SortField, SortOrder} from 'vega-lite/build/src/sort';
 import {FacetedCompositeUnitSpec} from 'vega-lite/build/src/spec';
 import {ActionHandler, createDispatchHandler} from '../../actions/redux-action';
@@ -13,6 +14,7 @@ import {VoyagerConfig} from '../../models/config';
 import {Result} from '../../models/result/index';
 import {SHELF_GROUP_BYS, ShelfGroupBy} from '../../models/shelf/index';
 import {selectBookmark, selectConfig, selectMainSpec} from '../../selectors';
+import {selectFilteredData} from '../../selectors/index';
 import {selectResult} from '../../selectors/result';
 import {
   selectDefaultGroupBy, selectIsQuerySpecific, selectShelfAutoAddCount, selectShelfGroupBy
@@ -32,6 +34,8 @@ export interface ViewPaneProps extends ActionHandler<ShelfAction> {
   groupBy: ShelfGroupBy;
   defaultGroupBy: ShelfGroupBy;
   config: VoyagerConfig;
+
+  data: InlineData;
 }
 
 const NO_PLOT_MESSAGE = `No specified visualization yet. ` +
@@ -95,12 +99,13 @@ class ViewPaneBase extends React.PureComponent<ViewPaneProps, {}> {
   }
 
   private renderSpecifiedView() {
-    const {bookmark, handleAction, spec} = this.props;
+    const {bookmark, data, handleAction, spec} = this.props;
 
     if (spec) {
       return (
         <Plot
           bookmark={bookmark}
+          data={data}
           handleAction={handleAction}
           onSort={this.onSort}
           showBookmarkButton={true}
@@ -180,14 +185,15 @@ class ViewPaneBase extends React.PureComponent<ViewPaneProps, {}> {
 export const ViewPane = connect(
   (state: State) => {
     return {
-      isQuerySpecific: selectIsQuerySpecific(state),
-      bookmark: selectBookmark(state),
-      spec: selectMainSpec(state),
-      result: selectResult.main(state),
       autoAddCount: selectShelfAutoAddCount(state),
+      bookmark: selectBookmark(state),
+      config: selectConfig(state),
+      data: selectFilteredData(state),
       groupBy: selectShelfGroupBy(state),
       defaultGroupBy: selectDefaultGroupBy(state),
-      config: selectConfig(state)
+      isQuerySpecific: selectIsQuerySpecific(state),
+      result: selectResult.main(state),
+      spec: selectMainSpec(state),
     };
   },
   createDispatchHandler<ShelfAction>()
