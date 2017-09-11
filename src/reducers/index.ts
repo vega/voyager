@@ -15,6 +15,11 @@ import {
   BOOKMARK_CLEAR_ALL,
   BOOKMARK_MODIFY_NOTE,
   BOOKMARK_REMOVE_PLOT,
+  CUSTOM_WILDCARD_ADD,
+  CUSTOM_WILDCARD_ADD_FIELD,
+  CUSTOM_WILDCARD_MODIFY_WILDCARD_DESCRIPTION,
+  CUSTOM_WILDCARD_REMOVE,
+  CUSTOM_WILDCARD_REMOVE_FIELD,
   DATASET_RECEIVE,
   DATASET_REQUEST,
   DATASET_SCHEMA_CHANGE_FIELD_TYPE,
@@ -64,6 +69,7 @@ import {
 } from '../models/index';
 import {bookmarkReducer} from './bookmark';
 import {configReducer} from './config';
+import {customWildcardFieldReducer} from './custom-wildcard-field';
 import {datasetReducer} from './dataset';
 import {logReducer} from './log';
 import {makeResetReducer, ResetIndex} from './reset';
@@ -141,6 +147,13 @@ export const ACTIONS_EXCLUDED_FROM_HISTORY: ActionType[] = [
  * into its own group.
  */
 export const USER_ACTIONS: ActionType[] = [
+  // Custom Wildcard Actions
+  CUSTOM_WILDCARD_ADD,
+  CUSTOM_WILDCARD_ADD_FIELD,
+  CUSTOM_WILDCARD_MODIFY_WILDCARD_DESCRIPTION,
+  CUSTOM_WILDCARD_REMOVE,
+  CUSTOM_WILDCARD_REMOVE_FIELD,
+
   // Dataset Actions
   DATASET_SCHEMA_CHANGE_FIELD_TYPE,
   DATASET_SCHEMA_CHANGE_ORDINAL_DOMAIN,
@@ -217,12 +230,14 @@ function groupAction(action: Action, currentState: UndoableStateBase,
  * Whether to reset a particular property of the undoable state during RESET action
  */
 const undoableStateToReset: ResetIndex<UndoableStateBase> = {
+  customWildcardFields: true,
   dataset: true,
   shelf: true,
   result: true
 };
 
 const combinedUndoableReducer = combineReducers<UndoableStateBase>({
+  customWildcardFields: customWildcardFieldReducer,
   dataset: datasetReducer,
   shelf: shelfReducer,
   result: resultIndexReducer

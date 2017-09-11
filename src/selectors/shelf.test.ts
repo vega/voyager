@@ -1,6 +1,5 @@
 import {Schema} from 'compassql/build/src/schema';
-import {DEFAULT_PERSISTENT_STATE, DEFAULT_STATE, State} from '../models/index';
-import {DEFAULT_RESULT_INDEX} from '../models/result';
+import {DEFAULT_PERSISTENT_STATE, DEFAULT_STATE, DEFAULT_UNDOABLE_STATE_BASE, State} from '../models/index';
 import {DEFAULT_SHELF, toQuery} from '../models/shelf/index';
 import {hasWildcards} from '../models/shelf/spec';
 import {toSpecQuery} from '../models/shelf/spec/index';
@@ -16,6 +15,7 @@ describe('selectors/shelf', () => {
         undoable: {
           ...DEFAULT_STATE.undoable,
           present: {
+            ...DEFAULT_UNDOABLE_STATE_BASE,
             dataset: {
               data: {
                 values: []
@@ -30,7 +30,6 @@ describe('selectors/shelf', () => {
               ...DEFAULT_SHELF,
               filters
             },
-            result: DEFAULT_RESULT_INDEX
           }
         }
       };
