@@ -1,5 +1,6 @@
 import {BookmarkAction} from './bookmark';
 import {ConfigAction} from './config';
+import {CustomWildcardAction} from './custom-wildcard-field';
 import {DatasetAction} from './dataset';
 import {LogAction} from './log';
 import {ResetAction} from './reset';
@@ -11,6 +12,7 @@ import {ApplicationStateAction} from './state';
 import {UndoableAction} from './undo-redo';
 
 export * from './bookmark';
+export * from './custom-wildcard-field';
 export * from './config';
 export * from './dataset';
 export * from './log';
@@ -29,6 +31,7 @@ export type Action = (
   ApplicationStateAction |
   BookmarkAction |
   ConfigAction |
+  CustomWildcardAction |
   DatasetAction |
   LogAction |
   ResetAction |
@@ -46,6 +49,12 @@ const ACTION_TYPE_INDEX: {[k in ActionType]: 1} = {
   BOOKMARK_CLEAR_ALL: 1,
   BOOKMARK_MODIFY_NOTE: 1,
   BOOKMARK_REMOVE_PLOT: 1,
+
+  CUSTOM_WILDCARD_ADD: 1,
+  CUSTOM_WILDCARD_ADD_FIELD: 1,
+  CUSTOM_WILDCARD_MODIFY_WILDCARD_DESCRIPTION: 1,
+  CUSTOM_WILDCARD_REMOVE: 1,
+  CUSTOM_WILDCARD_REMOVE_FIELD: 1,
 
   DATASET_SCHEMA_CHANGE_FIELD_TYPE: 1,
   DATASET_SCHEMA_CHANGE_ORDINAL_DOMAIN: 1,
