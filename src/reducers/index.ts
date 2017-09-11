@@ -79,7 +79,7 @@ import {stateReducer} from './state';
 const persistentStateToReset: ResetIndex<PersistentState> = {
   bookmark: true,
   config: false,
-  log: true,
+  log: false,
   shelfPreview: true
 };
 
