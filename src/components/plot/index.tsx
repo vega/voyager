@@ -15,6 +15,7 @@ import {SHELF_PREVIEW_DISABLE, SHELF_PREVIEW_SPEC, ShelfPreviewAction} from '../
 import {PLOT_HOVER_MIN_DURATION} from '../../constants';
 import {Bookmark} from '../../models/bookmark';
 import {PlotFieldInfo, ResultPlot} from '../../models/result';
+import {ShelfFilter, toTransforms} from '../../models/shelf/filter';
 import {Field} from '../field/index';
 import {Logger} from '../util/util.logger';
 import {VegaLite} from '../vega-lite/index';
@@ -25,6 +26,7 @@ export interface PlotProps extends ActionHandler<
   ShelfAction | BookmarkAction | ShelfPreviewAction | ResultAction | LogAction
 > {
   data: InlineData;
+  filters: ShelfFilter[];
   fieldInfos?: PlotFieldInfo[];
   isPlotListItem?: boolean;
   showBookmarkButton?: boolean;
@@ -273,13 +275,13 @@ export class PlotBase extends React.PureComponent<PlotProps, PlotState> {
   private bookmarkButton() {
     const plot: ResultPlot = {
       fieldInfos: this.props.fieldInfos,
-      spec: this.props.spec
+      spec: this.specWithFilter
     };
     return (
       <BookmarkButton
-        bookmark = {this.props.bookmark}
-        plot = {plot}
-        handleAction = {this.props.handleAction}
+        bookmark={this.props.bookmark}
+        plot={plot}
+        handleAction={this.props.handleAction}
       />
     );
   }
@@ -295,6 +297,15 @@ export class PlotBase extends React.PureComponent<PlotProps, PlotState> {
     });
   }
 
+  private get specWithFilter() {
+    const {spec, filters} = this.props;
+    const transform = (spec.transform || []).concat(toTransforms(filters));
+    return {
+      ...spec,
+      ...(transform.length > 0 ? {transform} : {})
+    };
+  }
+
   private copySpecButton() {
     // TODO: spec would only contain NamedData, but not the actual data.
     // Need to augment spec.data
@@ -304,7 +315,7 @@ export class PlotBase extends React.PureComponent<PlotProps, PlotState> {
     return (
       <CopyToClipboard
         onCopy={this.copied.bind(this)}
-        text={JSON.stringify(this.props.spec, null, 2)}>
+        text={JSON.stringify(this.specWithFilter, null, 2)}>
         <i title='Copy' className='fa fa-clipboard' />
       </CopyToClipboard>
     );

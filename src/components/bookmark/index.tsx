@@ -109,6 +109,7 @@ export class BookmarkBase extends React.PureComponent<BookmarkProps, any> {
           bookmark={this.props.bookmark}
           closeModal={this.closeModal.bind(this)}
           data={data}
+          filters={[]} /* Bookmark specs already have filters included */
           key={index}
           fieldInfos={fieldInfos}
           handleAction={this.props.handleAction}

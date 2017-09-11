@@ -15,7 +15,9 @@ import {Bookmark} from '../../models/bookmark';
 import {State} from '../../models/index';
 import {ResultType} from '../../models/result';
 import {Result} from '../../models/result/index';
+import {ShelfFilter} from '../../models/shelf/filter';
 import {selectFilteredData} from '../../selectors/index';
+import {selectFilters} from '../../selectors/shelf';
 import {Plot} from '../plot';
 import * as styles from './plot-list.scss';
 
@@ -29,6 +31,8 @@ export interface PlotListOwnProps extends ActionHandler<ShelfAction|ResultAction
 
 export interface PlotListConnectProps {
   data: InlineData;
+
+  filters: ShelfFilter[];
 }
 
 export type PlotListProps = PlotListOwnProps & PlotListConnectProps;
@@ -41,7 +45,7 @@ export class PlotListBase extends React.PureComponent<PlotListProps, any> {
   }
 
   public render() {
-    const {handleAction, bookmark, data, result} = this.props;
+    const {handleAction, bookmark, data, filters, result} = this.props;
     const {plots, limit, isLoading} = result;
     const plotListItems = plots && plots.slice(0, limit).map((plot, index) => {
       const {spec, fieldInfos} = plot;
@@ -50,6 +54,7 @@ export class PlotListBase extends React.PureComponent<PlotListProps, any> {
           data={data}
           key={index}
           fieldInfos={fieldInfos}
+          filters={filters}
           handleAction={handleAction}
           isPlotListItem={true}
           onSort={this.onPlotSort.bind(this, index)}
@@ -110,7 +115,8 @@ export const PlotList = connect<PlotListConnectProps, {}, PlotListOwnProps>(
     // TODO: once we have multiple cached data from Leilani's engine
     // take spec from props and read spec.data.name
     return {
-      data: selectFilteredData(state)
+      data: selectFilteredData(state),
+      filters: selectFilters(state)
     };
   }
 )(CSSModules(PlotListBase, styles));
