@@ -80,13 +80,17 @@ export class VegaLite extends React.PureComponent<VegaLiteProps, VegaLiteState> 
       this.view = new vega.View(runtime)
         .logLevel(vega.Warn)
         .initialize(this.refs[CHART_REF] as any)
-        .renderer(this.props.renderer || 'canvas')
+        .renderer(this.renderer)
         .hover();
       vegaTooltip.vega(this.view);
       this.bindData();
     } catch (err) {
       logger.error(err);
     }
+  }
+
+  protected get renderer() {
+    return this.props.renderer || 'svg'; // SVG is more flexible for larger plots
   }
 
   protected componentDidMount() {
@@ -172,7 +176,7 @@ export class VegaLite extends React.PureComponent<VegaLiteProps, VegaLiteState> 
 
   private getChartSize(): {width: number, height: number} {
     const chart = this.refs[CHART_REF] as HTMLElement;
-    const chartContainer = chart.querySelector(this.props.renderer || 'canvas');
+    const chartContainer = chart.querySelector(this.renderer);
     const width = Number(chartContainer.getAttribute('width'));
     const height = Number(chartContainer.getAttribute('height'));
     return {width, height};
