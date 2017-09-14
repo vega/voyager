@@ -53,6 +53,8 @@ In the future, we plan to migrate to use `webpack-dev-server` with hot module lo
 
 - You can use [this plugin](https://marketplace.visualstudio.com/items?itemName=infeng.vscode-react-typescript) to generate snippets (but manually remove default exports).
 
+- Use `render` as a prefix for class method that returns a React component and gets called by the component's `render` method (e.g., `renderAddFilterSpan` in `<Field/>`).
+
 - For CSS, we use [react-css-modules](https://github.com/gajus/react-css-modules) and SASS, which makes it easy to modularize style in React using the `styleName` tag.  (See [react-css-modules](https://github.com/gajus/react-css-modules)'s README for more details.)
   - Since CSS-Modules use filename as a prefix, never name a scss file `index.scss`.  Instead use the module name.  For example, the scss file for `data-pane/index.tsx` is `data-pane/data-pane.scss`.
 

@@ -120,14 +120,14 @@ class FieldBase extends React.PureComponent<FieldProps, FieldState> {
         styleName={isWildcardField ? 'wildcard-field-pill' : isPill ? 'field-pill' : 'field'}
         onDoubleClick={this.onDoubleClick}
       >
-        {this.caretTypeSpan()}
-        {this.funcSpan(fnName)}
+        {this.renderCaretTypeSpan()}
+        {this.renderFuncSpan(fnName)}
         <span styleName={isFieldFn ? 'fn-text' : 'text'}>
           {isWildcard(field) ? description : field !== '*' ? field : ''}
         </span>
-        {this.addFilterSpan()}
-        {this.addSpan()}
-        {this.removeSpan()}
+        {this.renderAddFilterSpan()}
+        {this.renderAddSpan()}
+        {this.renderRemoveSpan()}
       </span>
     );
     // Wrap with connect dragSource if it is injected
@@ -169,7 +169,7 @@ class FieldBase extends React.PureComponent<FieldProps, FieldState> {
     return createDefaultFilter(fieldDef, domain);
   }
 
-  private caretTypeSpan() {
+  private renderCaretTypeSpan() {
     const {caretShow, fieldDef, popupComponent} = this.props;
     const type = fieldDef.type;
     const icon = TYPE_ICONS[type];
@@ -183,20 +183,20 @@ class FieldBase extends React.PureComponent<FieldProps, FieldState> {
     );
   }
 
-  private addSpan() {
+  private renderAddSpan() {
     return this.props.onAdd && (
       <span><a onClick={this.onAdd}><i className="fa fa-plus"/></a></span>
     );
   }
 
-  private removeSpan() {
+  private renderRemoveSpan() {
     const onRemove = this.props.onRemove;
     return onRemove && (
       <span><a onClick={onRemove}><i className="fa fa-times"/></a></span>
     );
   }
 
-  private addFilterSpan() {
+  private renderAddFilterSpan() {
     const {filterShow, fieldDef} = this.props;
     if (filterShow && !isWildcard(fieldDef.field)) {
       const index = filterIndexOf(filterShow.filters, fieldDef.field);
@@ -210,7 +210,7 @@ class FieldBase extends React.PureComponent<FieldProps, FieldState> {
     }
   }
 
-  private funcSpan(fnName: string) {
+  private renderFuncSpan(fnName: string) {
     return (
       <span styleName="func" title={fnName}>
         {fnName}
