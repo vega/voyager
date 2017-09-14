@@ -90,7 +90,7 @@ class EncodingShelfBase extends React.PureComponent<
             }
           </TetherComponent>
         </div>
-        {fieldDef ? this.field() : this.fieldPlaceholder()}
+        {fieldDef ? this.renderField() : this.renderFieldPlaceholder()}
       </div>
     );
   }
@@ -159,7 +159,7 @@ class EncodingShelfBase extends React.PureComponent<
     });
   }
 
-  private field() {
+  private renderField() {
     const {id, fieldDef, schema} = this.props;
     const renderFunctionPicker = fieldDef.type === 'quantitative' || fieldDef.type === 'temporal';
 
@@ -185,7 +185,7 @@ class EncodingShelfBase extends React.PureComponent<
     );
   }
 
-  private fieldPlaceholder() {
+  private renderFieldPlaceholder() {
     const {item, isOver} = this.props;
     return (
       <span styleName={isOver ? 'placeholder-over' : item ? 'placeholder-active' : 'placeholder'}>

@@ -109,16 +109,16 @@ export class PlotBase extends React.PureComponent<PlotProps, PlotState> {
       <div styleName={isPlotListItem ? 'plot-list-item-group' : 'plot-group'}>
         <div styleName="plot-info">
           <div styleName="command-toolbox">
-            {onSort && this.sortButton('x')}
-            {onSort && this.sortButton('y')}
-            {showBookmarkButton && this.bookmarkButton()}
-            {showSpecifyButton && this.specifyButton()}
+            {onSort && this.renderSortButton('x')}
+            {onSort && this.renderSortButton('y')}
+            {showBookmarkButton && this.renderBookmarkButton()}
+            {showSpecifyButton && this.renderSpecifyButton()}
             <span styleName='command'>
               <TetherComponent
                 attachment='bottom left'
                 offset='0px 30px'
               >
-                {this.copySpecButton()}
+                {this.renderCopySpecButton()}
                 {this.state.copiedPopupIsOpened && <span styleName='copied'>copied</span>}
               </TetherComponent>
             </span>
@@ -127,7 +127,7 @@ export class PlotBase extends React.PureComponent<PlotProps, PlotState> {
             onMouseEnter={this.onPreviewMouseEnter}
             onMouseLeave={this.onPreviewMouseLeave}
           >
-            {this.fields()}
+            {this.renderFields()}
           </span>
         </div>
         <div
@@ -148,7 +148,7 @@ export class PlotBase extends React.PureComponent<PlotProps, PlotState> {
     this.clearHoverTimeout();
   }
 
-  private fields() {
+  private renderFields() {
     const {fieldInfos} = this.props;
     if (fieldInfos) {
       return fieldInfos.map(fieldInfo => {
@@ -247,7 +247,7 @@ export class PlotBase extends React.PureComponent<PlotProps, PlotState> {
     }
   }
 
-  private sortButton(channel: 'x' | 'y') {
+  private renderSortButton(channel: 'x' | 'y') {
     const {spec} = this.props;
     const channelDef = spec.encoding[channel];
     if (isFieldDef(channelDef) && isDiscrete(channelDef)) {
@@ -261,7 +261,7 @@ export class PlotBase extends React.PureComponent<PlotProps, PlotState> {
     return undefined;
   }
 
-  private specifyButton() {
+  private renderSpecifyButton() {
     return <i
       title='Specify'
       className="fa fa-server"
@@ -272,7 +272,7 @@ export class PlotBase extends React.PureComponent<PlotProps, PlotState> {
     />;
   }
 
-  private bookmarkButton() {
+  private renderBookmarkButton() {
     const plot: ResultPlot = {
       fieldInfos: this.props.fieldInfos,
       spec: this.specWithFilter
@@ -306,7 +306,7 @@ export class PlotBase extends React.PureComponent<PlotProps, PlotState> {
     };
   }
 
-  private copySpecButton() {
+  private renderCopySpecButton() {
     // TODO: spec would only contain NamedData, but not the actual data.
     // Need to augment spec.data
     // TODO instead of pre-generating a text for the copy button, which

@@ -55,7 +55,7 @@ class FilterPaneBase extends React.PureComponent<FilterPaneProps, {}> {
     return connectDropTarget(
       <div styleName='filter-pane'>
         {filterShelves}
-        {this.fieldPlaceholder()}
+        {this.renderFieldPlaceholder()}
       </div>
     );
   }
@@ -151,7 +151,7 @@ class FilterPaneBase extends React.PureComponent<FilterPaneProps, {}> {
     );
   }
 
-  private fieldPlaceholder() {
+  private renderFieldPlaceholder() {
     const {item, isOver, canDrop} = this.props;
     let styleName, text;
     if (item && !canDrop) {
