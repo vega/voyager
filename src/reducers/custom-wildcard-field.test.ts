@@ -1,15 +1,15 @@
 import {ExpandedType} from 'compassql/build/src/query/expandedtype';
 import {CUSTOM_WILDCARD_ADD, CUSTOM_WILDCARD_ADD_FIELD, CUSTOM_WILDCARD_MODIFY_DESCRIPTION,
         CUSTOM_WILDCARD_REMOVE, CUSTOM_WILDCARD_REMOVE_FIELD} from '../actions/custom-wildcard-field';
-import {CustomWildcardField} from '../models/custom-wildcard-field';
+import {CustomWildcardFieldDef} from '../models/custom-wildcard-field';
 import {customWildcardFieldReducer} from './custom-wildcard-field';
 
 describe('reducers/custom-wildcard-field', () => {
   describe(CUSTOM_WILDCARD_ADD, () => {
     it('should return a custom wildcard field array containing one custom wildcard field', () => {
-      const noCustomWildcardFields: CustomWildcardField[] = [];
-      const customWildcardFields = customWildcardFieldReducer(
-        noCustomWildcardFields,
+      const noCustomWildcardFieldDefs: CustomWildcardFieldDef[] = [];
+      const customWildcardFieldDefs = customWildcardFieldReducer(
+        noCustomWildcardFieldDefs,
         {
           type: CUSTOM_WILDCARD_ADD,
           payload: {
@@ -19,9 +19,11 @@ describe('reducers/custom-wildcard-field', () => {
         }
       );
 
-      expect(customWildcardFields).toEqual([
+      expect(customWildcardFieldDefs).toEqual([
         {
-          fields: ['acceleration', 'horsepower'],
+          field: {
+            enum: ['acceleration', 'horsepower']
+          },
           type: ExpandedType.QUANTITATIVE,
           description: null
         }
@@ -29,9 +31,11 @@ describe('reducers/custom-wildcard-field', () => {
     });
   });
 
-  const customWildcardFields: CustomWildcardField[] = [
+  const customWildcardFields: CustomWildcardFieldDef[] = [
     {
-      fields: ['acceleration', 'horsepower'],
+      field: {
+        enum: ['acceleration', 'horsepower']
+      },
       type: ExpandedType.QUANTITATIVE,
       description: null
     }
@@ -70,7 +74,9 @@ describe('reducers/custom-wildcard-field', () => {
 
       expect(customWildcardFieldsAfterAddField).toEqual([
         {
-          fields: ['acceleration', 'horsepower', 'displacement', 'miles per gallon'],
+          field: {
+            enum: ['acceleration', 'horsepower', 'displacement', 'miles per gallon']
+          },
           type: ExpandedType.QUANTITATIVE,
           description: null
         }
@@ -92,7 +98,9 @@ describe('reducers/custom-wildcard-field', () => {
 
       expect(customWildcardFieldsAfterAddField).toEqual([
         {
-          fields: ['acceleration', 'horsepower', 'displacement'],
+          field: {
+            enum: ['acceleration', 'horsepower', 'displacement']
+          },
           type: ExpandedType.QUANTITATIVE,
           description: null
         }
@@ -115,7 +123,9 @@ describe('reducers/custom-wildcard-field', () => {
 
       expect(customWildcardFieldsAfterRemoveField).toEqual([
         {
-          fields: ['horsepower'],
+          field: {
+            enum: ['horsepower']
+          },
           type: ExpandedType.QUANTITATIVE,
           description: null
         }
@@ -138,7 +148,9 @@ describe('reducers/custom-wildcard-field', () => {
 
       expect(customWildcardFieldsAfterTitleUpdate).toEqual([
         {
-          fields: ['acceleration', 'horsepower'],
+          field: {
+            enum: ['acceleration', 'horsepower']
+          },
           type: ExpandedType.QUANTITATIVE,
           description: 'Custom Q Wildcard'
         }

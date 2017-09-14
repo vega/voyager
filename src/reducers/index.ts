@@ -247,14 +247,15 @@ function groupAction(action: Action, currentState: UndoableStateBase,
 /**
  * Whether to reset a particular property of the undoable state during RESET action
  */
-export const undoableStateToReset: ResetIndex<UndoableStateBase> = {
-  customWildcardFields: true,
+
+const undoableStateToReset: ResetIndex<UndoableStateBase> = {
+  customWildcardFieldDefs: true,
   dataset: true,
   tab: true
 };
 
 const combinedUndoableReducer = combineReducers<UndoableStateBase>({
-  customWildcardFields: customWildcardFieldReducer,
+  customWildcardFieldDefs: customWildcardFieldReducer,
   dataset: datasetReducer,
   tab: tabReducer,
 });

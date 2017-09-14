@@ -2,7 +2,7 @@
 import {ACTION_TYPES} from '../actions/index';
 import {RESET} from '../actions/reset';
 import {Bookmark, DEFAULT_BOOKMARK} from '../models/bookmark';
-import {DEFAULT_CUSTOM_WILDCARD_FIELDS} from '../models/custom-wildcard-field';
+import {DEFAULT_CUSTOM_WILDCARD_FIELDDEFS} from '../models/custom-wildcard-field';
 import {DEFAULT_DATASET} from '../models/dataset';
 import {
   DEFAULT_PERSISTENT_STATE,
@@ -87,7 +87,7 @@ describe('reducers/index', () => {
       const state = rootReducer(oldState, {type: RESET});
 
       expect(selectBookmark(state)).toEqual(DEFAULT_BOOKMARK);
-      expect(selectCustomWildcardFields(state)).toEqual(DEFAULT_CUSTOM_WILDCARD_FIELDS);
+      expect(selectCustomWildcardFieldDefs(state)).toEqual(DEFAULT_CUSTOM_WILDCARD_FIELDDEFS);
       expect(selectDataset(state)).toEqual(DEFAULT_DATASET);
       expect(selectRelatedViews(state)).toEqual(DEFAULT_RELATED_VIEWS);
       expect(selectShelf(state)).toEqual(DEFAULT_SHELF);

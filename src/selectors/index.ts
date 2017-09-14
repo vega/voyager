@@ -11,7 +11,7 @@ import {InlineData} from 'vega-lite/build/src/data';
 import {State} from '../models';
 import {Bookmark} from '../models/bookmark';
 import {VoyagerConfig} from '../models/config';
-import {CustomWildcardField} from '../models/custom-wildcard-field';
+import {CustomWildcardFieldDef} from '../models/custom-wildcard-field';
 import {Log} from '../models/log';
 import {RelatedViews} from '../models/related-views';
 import {ShelfPreview} from '../models/shelf-preview';
@@ -30,8 +30,8 @@ export const selectRelatedViews = (state: State): RelatedViews => state.persiste
 export const selectShelfPreview = (state: State): ShelfPreview => state.persistent.shelfPreview;
 export const selectLog = (state: State): Log => state.persistent.log;
 
-export const selectCustomWildcardFields = (state: State): CustomWildcardField[] => {
-  return state.undoable.present.customWildcardFields;
+export const selectCustomWildcardFieldDefs = (state: State): CustomWildcardFieldDef[] => {
+  return state.undoable.present.customWildcardFieldDefs;
 };
 
 export const selectFilteredData = createSelector(
