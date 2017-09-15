@@ -61,7 +61,7 @@ export class Voyager {
    */
   public updateData(data: Data) {
     this.data = data;
-    this.render(data, this.config);
+    this.render();
   }
 
   /**
@@ -73,7 +73,7 @@ export class Voyager {
    */
   public updateConfig(config: VoyagerConfig) {
     this.config = config;
-    this.render(this.data, config);
+    this.render();
   }
 
   public setFilename(filename: string) {
@@ -112,7 +112,7 @@ export class Voyager {
     const validSpec: TopLevel<FacetedCompositeUnitSpec> = spec as TopLevel<FacetedCompositeUnitSpec>;
 
     this.data = validSpec.data;
-    this.render(this.data, this.config, validSpec);
+    this.render(validSpec);
   }
 
   /**
@@ -181,18 +181,18 @@ export class Voyager {
    */
   private init() {
     this.store = configureStore();
-    this.render(this.data, this.config);
+    this.render();
   }
 
-  private render(data: Data, config: VoyagerConfig, spec?: TopLevel<FacetedCompositeUnitSpec>) {
+  private render(spec?: TopLevel<FacetedCompositeUnitSpec>) {
     const store = this.store;
     const root = this.container;
     ReactDOM.render(
       <Provider store={store}>
         <App
           dispatch={store.dispatch}
-          data={data}
-          config={config}
+          data={this.data}
+          config={this.config}
           spec={spec}
           filename={this.filename}
         />
@@ -225,6 +225,6 @@ export class Voyager {
  * @param {Object}    config    configuration options
  * @param {Array}     data      data object. Can be a string or an array of objects.
  */
-export function CreateVoyager(container: Container, config: Object, data: Data): Voyager {
+export function CreateVoyager(container: Container, config: VoyagerConfig, data: Data): Voyager {
   return new Voyager(container, config, data);
 }
