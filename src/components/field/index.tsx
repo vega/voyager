@@ -44,6 +44,7 @@ export interface FieldPropsBase {
   /** Remove field event handler.  If not provided, remove button will disappear. */
   onRemove?: () => void;
 
+
   /**
    * If filter button is shown, we need to the status whether it is active and an event handler for onToggle
    */
