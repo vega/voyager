@@ -7,7 +7,8 @@ import * as CSSModules from 'react-css-modules';
 import {connect} from 'react-redux';
 import {OneOfFilter, RangeFilter} from 'vega-lite/build/src/filter';
 import {FilterAction} from '../../actions';
-import {CustomWildcardAction} from '../../actions/custom-wildcard-field';
+import {CUSTOM_WILDCARD_ADD_FIELD, CUSTOM_WILDCARD_REMOVE,
+        CustomWildcardAction} from '../../actions/custom-wildcard-field';
 import {DatasetSchemaChangeFieldType} from '../../actions/dataset';
 import {ActionHandler, createDispatchHandler} from '../../actions/redux-action';
 import {SPEC_FIELD_AUTO_ADD, SpecFieldAutoAdd} from '../../actions/shelf';
@@ -21,9 +22,9 @@ import {selectPresetWildcardFields, selectSchema, selectSchemaFieldDefs} from '.
 import {selectCustomWildcardFieldDefs} from '../../selectors/index';
 import {selectFilters} from '../../selectors/shelf';
 import {Field} from '../field';
+import {DroppableField} from '../field/index';
 import * as styles from './field-list.scss';
 import {TypeChanger} from './type-changer';
-import {WildcardFieldDropper} from './wildcard-field-dropper';
 import {CustomWildcardFieldEditor} from './wildcard-field-editor';
 
 
@@ -111,6 +112,27 @@ class FieldListBase extends React.PureComponent<FieldListProps, {}> {
       onToggle: this.onFilterToggle
     };
 
+    function onDrop(fields: string[]) {
+      handleAction({
+        type: CUSTOM_WILDCARD_ADD_FIELD,
+        payload: {
+          fields,
+          index
+        }
+      });
+    }
+
+    function onRemove() {
+      handleAction({
+        type: CUSTOM_WILDCARD_REMOVE,
+        payload: {
+          index
+        }
+      });
+    }
+
+    const FieldComponent = isCustomWildcardField ? DroppableField : Field;
+
     const field = (
       <FieldComponent
         fieldDef={fieldDef}
@@ -122,23 +144,15 @@ class FieldListBase extends React.PureComponent<FieldListProps, {}> {
         popupComponent={popupComponent}
         onDoubleClick={this.onAdd}
         onAdd={this.onAdd}
+        onDrop={isCustomWildcardField ? onDrop : undefined}
+        onRemove={isCustomWildcardField ? onRemove : undefined}
         schema={schema}
       />
     );
 
     return (
       <div key={key} styleName="field-list-item">
-        {
-          (isCustomWildcardField) ?
-            <WildcardFieldDropper
-              customWildcardField={fieldDef as CustomWildcardFieldDef}
-              schema={schema}
-              index={index}
-            >
-              {field}
-            </WildcardFieldDropper> :
-            field
-          }
+        {field}
       </div>
     );
   }
@@ -211,5 +225,5 @@ export const CustomWildcardFieldList = connect(
       filters: selectFilters(state)
     };
   },
-  createDispatchHandler<SpecFieldAutoAdd>()
+  createDispatchHandler<SpecFieldAutoAdd | CustomWildcardAction>()
 )(FieldListRenderer);

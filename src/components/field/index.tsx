@@ -2,7 +2,8 @@ import {Schema} from 'compassql/build/src/schema';
 import {isWildcard} from 'compassql/build/src/wildcard';
 import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
-import {DragElementWrapper, DragSource, DragSourceCollector, DragSourceSpec} from 'react-dnd';
+import {ConnectDropTarget, DragElementWrapper, DragSource, DragSourceCollector, DragSourceSpec,
+        DropTarget, DropTargetCollector, DropTargetSpec} from 'react-dnd';
 import * as TetherComponent from 'react-tether';
 import {OneOfFilter, RangeFilter} from 'vega-lite/build/src/filter';
 import {DraggableType, FieldParentType} from '../../constants';
@@ -23,6 +24,13 @@ export interface FieldDragSourceProps {
   isDragging?: boolean;
 }
 
+export interface FieldDropTargetProps {
+  connectDropTarget?: ConnectDropTarget;
+  isOver?: boolean;
+  item?: Object;
+  canDrop?: boolean;
+}
+
 export interface FieldPropsBase {
   fieldDef: ShelfFieldDef;
 
@@ -40,6 +48,8 @@ export interface FieldPropsBase {
   onAdd?: (fieldDef: ShelfFieldDef) => void;
 
   onDoubleClick?: (fieldDef: ShelfFieldDef) => void;
+
+  onDrop?: (fields: string[]) => void;
 
   /** Remove field event handler.  If not provided, remove button will disappear. */
   onRemove?: () => void;
@@ -306,5 +316,52 @@ const collect: DragSourceCollector = (connect, monitor): FieldDragSourceProps =>
 // HACK: do type casting to suppress compile error for: https://github.com/Microsoft/TypeScript/issues/13526
 export const Field: () => React.PureComponent<FieldPropsBase, {}> =
   DragSource(DraggableType.FIELD, fieldSource, collect)(
+    CSSModules(FieldBase, styles)
+  ) as any;
+
+
+const customWildcardFieldTarget: DropTargetSpec<FieldProps> = {
+  drop(props, monitor) {
+    if (monitor.didDrop()) {
+      return;
+    }
+    const {fieldDef} = monitor.getItem() as DraggedFieldIdentifier;
+    const {schema, fieldDef: customWildcardField} = props;
+
+    const type = customWildcardField.type;
+    if (type === fieldDef.type) {
+      let fields: string[];
+      if (isWildcard(fieldDef.field)) {
+        if (fieldDef.field === '?') {
+          fields = schema.fieldNames()
+                          .filter(field => schema.vlType(field) === type);
+        } else {
+          fields = fieldDef.field.enum.concat([]);
+        }
+      } else {
+        fields = [fieldDef.field];
+      }
+
+      this.onDrop(fields);
+    } else {
+      window.alert('Cannot create a wildcard that mixes multiple types');
+    }
+  }
+};
+
+const dropCollect: DropTargetCollector = (connect, monitor): FieldDropTargetProps => {
+  return {
+    connectDropTarget: connect.dropTarget(),
+    isOver: monitor.isOver(),
+    item: monitor.getItem(),
+    canDrop: true
+  };
+};
+
+// export const DroppableField: () => React.PureComponent<FieldPropsBase, {}> =
+//   DropTarget(DraggableType.FIELD, customWildcardFieldTarget, dropCollect)(Field);
+
+export const DroppableField: () => React.PureComponent<FieldPropsBase, {}> =
+  DragSource(DropTarget(DraggableType.FIELD, customWildcardFieldTarget, dropCollect)(Field), fieldSource, collect)(
     CSSModules(FieldBase, styles)
   ) as any;
