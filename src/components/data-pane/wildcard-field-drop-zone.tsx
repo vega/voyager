@@ -1,9 +1,10 @@
 import {Schema} from 'compassql/build/src/schema';
-import {isWildcard} from 'compassql/build/src/wildcard';
+import {isWildcard, SHORT_WILDCARD} from 'compassql/build/src/wildcard';
 import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
 import {ConnectDropTarget, DropTarget, DropTargetCollector, DropTargetSpec} from 'react-dnd';
 import {CUSTOM_WILDCARD_ADD, CustomWildcardAction} from '../../actions/custom-wildcard-field';
+import {ActionHandler} from '../../actions/redux-action';
 import {DraggableType} from '../../constants';
 import {DraggedFieldIdentifier} from '../field/index';
 import * as styles from './wildcard-field-drop-zone.scss';
@@ -16,9 +17,8 @@ export interface CustomWildcardFieldDropZoneDropTargetProps {
   canDrop: boolean;
 }
 
-export interface CustomWildcardFieldDropZonePropsBase {
+export interface CustomWildcardFieldDropZonePropsBase extends ActionHandler<CustomWildcardAction> {
   schema: Schema;
-  handleAction?: (action: CustomWildcardAction) => void;
 }
 
 interface CustomWildcardFieldDropZoneProps extends
@@ -52,7 +52,7 @@ const customWildcardFieldTarget: DropTargetSpec<CustomWildcardFieldDropZoneProps
 
     let fields;
     if (isWildcard(fieldDef.field)) {
-      if (fieldDef.field === '?') {
+      if (fieldDef.field === SHORT_WILDCARD) {
         const {schema} = props;
         fields = schema.fieldNames()
                         .filter(field => schema.vlType(field) === type);

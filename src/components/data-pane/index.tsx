@@ -6,10 +6,8 @@ import {CustomWildcardAction} from '../../actions/custom-wildcard-field';
 import {ActionHandler, createDispatchHandler} from '../../actions/redux-action';
 import {Dataset, State} from '../../models';
 import {VoyagerConfig} from '../../models/config';
-import {CustomWildcardFieldDef} from '../../models/custom-wildcard-field';
 import {selectConfig, selectDataset} from '../../selectors/';
 import {selectSchema} from '../../selectors/dataset';
-import {selectCustomWildcardFieldDefs} from '../../selectors/index';
 import {DataSelector} from '../data-selector';
 import * as styles from './data-pane.scss';
 import {CustomWildcardFieldList, FieldList, PresetWildcardFieldList} from './field-list';
@@ -17,7 +15,6 @@ import {CustomWildcardFieldDropZone} from './wildcard-field-drop-zone';
 
 export interface DataPanelProps extends ActionHandler<CustomWildcardAction> {
   config: VoyagerConfig;
-  customWildcardFieldDefs: CustomWildcardFieldDef[];
   data: Dataset;
   schema: Schema;
 }
@@ -71,7 +68,6 @@ export const DataPane = connect(
   (state: State) => {
     return {
       config: selectConfig(state),
-      customWildcardFieldDefs: selectCustomWildcardFieldDefs(state),
       data: selectDataset(state),
       schema: selectSchema(state)
     };

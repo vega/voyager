@@ -85,9 +85,8 @@ class FieldListBase extends React.PureComponent<FieldListProps, {}> {
     const {schema, filters, handleAction} = this.props;
     const key = isWildcard(fieldDef.field) ? stringify(fieldDef) : fieldDef.field;
 
-    let field;
     let popupComponent;
-    let isCustomWildcardField;
+    const isCustomWildcardField = isWildcardDef(fieldDef.field);
 
     if (!isWildcard(fieldDef.field)) {
       const primitiveType = schema.primitiveType(fieldDef.field);
@@ -96,7 +95,6 @@ class FieldListBase extends React.PureComponent<FieldListProps, {}> {
         popupComponent = this.renderTypeChanger(fieldDef, primitiveType);
       }
     } else {
-      isCustomWildcardField = isWildcardDef(fieldDef);
       if (isCustomWildcardField) {
         popupComponent = (
           <CustomWildcardFieldEditor
@@ -113,8 +111,8 @@ class FieldListBase extends React.PureComponent<FieldListProps, {}> {
       onToggle: this.onFilterToggle
     };
 
-    field = (
-      <Field
+    const field = (
+      <FieldComponent
         fieldDef={fieldDef}
         isPill={true}
         draggable={true}

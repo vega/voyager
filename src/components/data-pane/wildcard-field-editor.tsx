@@ -15,8 +15,8 @@ export interface CustomWildcardFieldEditorProps extends ActionHandler<CustomWild
 export class CustomWildcardFieldEditorBase extends React.PureComponent<CustomWildcardFieldEditorProps, {}> {
   public constructor(props: CustomWildcardFieldEditorProps) {
     super(props);
-    this.customWildcardRemoveField = this.customWildcardRemoveField.bind(this);
-    this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
+    this.onRemoveField = this.onRemoveField.bind(this);
+    this.onDescriptionChange = this.onDescriptionChange.bind(this);
   }
 
   public render() {
@@ -30,7 +30,7 @@ export class CustomWildcardFieldEditorBase extends React.PureComponent<CustomWil
           isPill={false}
           draggable={false}
           caretShow={false}
-          onRemove={this.customWildcardRemoveField.bind(this, field)}
+          onRemove={this.onRemoveField.bind(this, field)}
           key={fieldIndex}
         />
       );
@@ -46,7 +46,7 @@ export class CustomWildcardFieldEditorBase extends React.PureComponent<CustomWil
                 type='text'
                 placeholder={'description'}
                 value={customWildcardFielddef.description || ''}
-                onChange={this.handleDescriptionChange}
+                onChange={this.onDescriptionChange}
               />
             </label>
           </div>
@@ -59,7 +59,7 @@ export class CustomWildcardFieldEditorBase extends React.PureComponent<CustomWil
     );
   }
 
-  protected customWildcardRemoveField(field: string) {
+  protected onRemoveField(field: string) {
     const {handleAction, index} = this.props;
     handleAction({
       type: CUSTOM_WILDCARD_REMOVE_FIELD,
@@ -70,7 +70,7 @@ export class CustomWildcardFieldEditorBase extends React.PureComponent<CustomWil
     });
   }
 
-  private handleDescriptionChange(event: any) {
+  private onDescriptionChange(event: any) {
     const {handleAction, index} = this.props;
     handleAction({
       type: CUSTOM_WILDCARD_MODIFY_DESCRIPTION,

@@ -7,9 +7,8 @@ import {customWildcardFieldReducer} from './custom-wildcard-field';
 describe('reducers/custom-wildcard-field', () => {
   describe(CUSTOM_WILDCARD_ADD, () => {
     it('should return a custom wildcard field array containing one custom wildcard field', () => {
-      const noCustomWildcardFieldDefs: CustomWildcardFieldDef[] = [];
       const customWildcardFieldDefs = customWildcardFieldReducer(
-        noCustomWildcardFieldDefs,
+        [],
         {
           type: CUSTOM_WILDCARD_ADD,
           payload: {
