@@ -8,7 +8,7 @@ import {
   getDefaultList,
   getDefaultTimeRange
 } from './filter';
-import {filterIndexOf} from './filter';
+import {filterHasField} from './filter';
 import {toPredicateFunction} from './filter';
 import {ShelfFieldDef} from './spec';
 
@@ -127,7 +127,7 @@ describe('models/shelf/filter', () => {
     });
   });
 
-  describe('filterIndexOf', () => {
+  describe('filterHasField', () => {
     it('should return whether filters contain the given filter', () => {
       const filters = [{
         field: 'q1',
@@ -136,7 +136,7 @@ describe('models/shelf/filter', () => {
         field: 'q2',
         range: [0, 1000]
       }];
-      expect(filterIndexOf(filters, 'q1')).toEqual(0);
+      expect(filterHasField(filters, 'q1')).toEqual(true);
     });
   });
 
