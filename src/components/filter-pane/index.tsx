@@ -9,6 +9,7 @@ import {isOneOfFilter, isRangeFilter, OneOfFilter, RangeFilter} from 'vega-lite/
 import {TimeUnit} from 'vega-lite/build/src/timeunit';
 import {FILTER_ADD, FILTER_MODIFY_TIME_UNIT,
   FILTER_REMOVE, FilterAction} from '../../actions';
+import {ActionHandler} from '../../actions/redux-action';
 import {DraggableType} from '../../constants';
 import {filterHasField, getDefaultList, getDefaultTimeRange} from '../../models/shelf/filter';
 import {FunctionPicker} from '../encoding-pane/function-picker';
@@ -32,10 +33,9 @@ export interface FilterPaneDropTargetProps {
   canDrop: boolean;
 }
 
-export interface FilterPanePropsBase {
+export interface FilterPanePropsBase extends ActionHandler<FilterAction> {
   filters: Array<RangeFilter | OneOfFilter>;
   schema: Schema;
-  handleAction?: (action: FilterAction) => void;
 }
 
 interface FilterPaneProps extends FilterPaneDropTargetProps, FilterPanePropsBase {};
