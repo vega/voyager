@@ -2,8 +2,10 @@ import {Schema} from 'compassql/build/src/schema';
 import {isWildcard} from 'compassql/build/src/wildcard';
 import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
-import {ConnectDropTarget, DragElementWrapper, DragSource, DragSourceCollector, DragSourceSpec,
-        DropTarget, DropTargetCollector, DropTargetSpec} from 'react-dnd';
+import {
+  ConnectDropTarget, DragElementWrapper, DragSource, DragSourceCollector, DragSourceSpec,
+  DropTarget, DropTargetCollector, DropTargetSpec
+} from 'react-dnd';
 import * as TetherComponent from 'react-tether';
 import {OneOfFilter, RangeFilter} from 'vega-lite/build/src/filter';
 import {DraggableType, FieldParentType} from '../../constants';
@@ -71,7 +73,7 @@ export interface FieldPropsBase {
   popupComponent?: JSX.Element;
 };
 
-export interface FieldProps extends FieldDragSourceProps, FieldPropsBase {};
+export interface FieldProps extends FieldDragSourceProps, FieldDropTargetProps, FieldPropsBase {};
 
 export interface FieldState {
   popupIsOpened: boolean;
@@ -105,8 +107,9 @@ class FieldBase extends React.PureComponent<FieldProps, FieldState> {
     }
   }
 
+
   public render(): JSX.Element {
-    const {connectDragSource, fieldDef, isPill, popupComponent} = this.props;
+    const {connectDragSource, connectDropTarget, fieldDef, isPill, popupComponent} = this.props;
     const {fn, field, description} = fieldDef;
     const isWildcardField = isWildcard(field) || this.props.isEnumeratedWildcardField;
 
@@ -120,7 +123,7 @@ class FieldBase extends React.PureComponent<FieldProps, FieldState> {
       fnName = fn;
     }
 
-    const component = (
+    let component = (
       <span
         styleName={isWildcardField ? 'wildcard-field-pill' : isPill ? 'field-pill' : 'field'}
         onDoubleClick={this.onDoubleClick}
@@ -135,9 +138,13 @@ class FieldBase extends React.PureComponent<FieldProps, FieldState> {
         {this.renderRemoveSpan()}
       </span>
     );
+
+    component = connectDragSource ? connectDragSource(component) : component;
+    component = connectDropTarget ? connectDropTarget(component) : component;
+
     // Wrap with connect dragSource if it is injected
     if (!popupComponent) {
-      return connectDragSource ? connectDragSource(component) : component;
+      return component;
     } else {
       return (
         <div ref={this.fieldRefHandler} >
@@ -145,7 +152,7 @@ class FieldBase extends React.PureComponent<FieldProps, FieldState> {
             attachment="top left"
             targetAttachment="bottom left"
           >
-            {connectDragSource ? connectDragSource(component) : component}
+            {component}
             <div ref={this.popupRefHandler}>
               {this.state.popupIsOpened && popupComponent}
             </div>
@@ -326,7 +333,7 @@ const customWildcardFieldTarget: DropTargetSpec<FieldProps> = {
       return;
     }
     const {fieldDef} = monitor.getItem() as DraggedFieldIdentifier;
-    const {schema, fieldDef: customWildcardField} = props;
+    const {schema, onDrop, fieldDef: customWildcardField} = props;
 
     const type = customWildcardField.type;
     if (type === fieldDef.type) {
@@ -342,7 +349,7 @@ const customWildcardFieldTarget: DropTargetSpec<FieldProps> = {
         fields = [fieldDef.field];
       }
 
-      this.onDrop(fields);
+      onDrop(fields);
     } else {
       window.alert('Cannot create a wildcard that mixes multiple types');
     }
@@ -358,10 +365,5 @@ const dropCollect: DropTargetCollector = (connect, monitor): FieldDropTargetProp
   };
 };
 
-// export const DroppableField: () => React.PureComponent<FieldPropsBase, {}> =
-//   DropTarget(DraggableType.FIELD, customWildcardFieldTarget, dropCollect)(Field);
-
 export const DroppableField: () => React.PureComponent<FieldPropsBase, {}> =
-  DragSource(DropTarget(DraggableType.FIELD, customWildcardFieldTarget, dropCollect)(Field), fieldSource, collect)(
-    CSSModules(FieldBase, styles)
-  ) as any;
+  DropTarget(DraggableType.FIELD, customWildcardFieldTarget, dropCollect)(Field as any) as any;
