@@ -5,14 +5,10 @@ import * as CSSModules from 'react-css-modules';
 import {DragElementWrapper, DragSource, DragSourceCollector, DragSourceSpec} from 'react-dnd';
 import * as TetherComponent from 'react-tether';
 import {OneOfFilter, RangeFilter} from 'vega-lite/build/src/filter';
-import {FilterAction} from '../../actions';
-import {DatasetSchemaChangeFieldType} from '../../actions/dataset';
-import {ShelfAction} from '../../actions/shelf';
-import {FILTER_TOGGLE} from '../../actions/shelf/filter';
 import {DraggableType, FieldParentType} from '../../constants';
 import {ShelfId} from '../../models/shelf';
 import {ShelfFieldDef} from '../../models/shelf';
-import {createDefaultFilter, filterHasField} from '../../models/shelf/filter';
+import {createDefaultFilter} from '../../models/shelf/filter';
 import * as styles from './field.scss';
 
 /**
@@ -48,14 +44,13 @@ export interface FieldPropsBase {
   /** Remove field event handler.  If not provided, remove button will disappear. */
   onRemove?: () => void;
 
-  handleAction?: (action: FilterAction | ShelfAction | DatasetSchemaChangeFieldType) => void;
-
   /**
    * If filter button is shown, we need to provide filters to check duplicated filters.
    * If not provided, filter button will disappear.
    */
-  filterShow?: {
-    filters: Array<RangeFilter | OneOfFilter>;
+  filter?: {
+    active: boolean,
+    onToggle: (fieldDef: ShelfFieldDef) => void
   };
 
   caretShow: boolean;
@@ -83,7 +78,7 @@ class FieldBase extends React.PureComponent<FieldProps, FieldState> {
     });
 
     // Bind - https://facebook.github.io/react/docs/handling-events.html
-    this.filterToggle = this.filterToggle.bind(this);
+    this.onFilterToggle = this.onFilterToggle.bind(this);
     this.onAdd = this.onAdd.bind(this);
     this.onDoubleClick = this.onDoubleClick.bind(this);
     this.togglePopup = this.togglePopup.bind(this);
@@ -150,23 +145,9 @@ class FieldBase extends React.PureComponent<FieldProps, FieldState> {
     }
   }
 
-  protected filterToggle(): void {
-    const {handleAction} = this.props;
-    handleAction({
-      type: FILTER_TOGGLE,
-      payload: {
-        filter: this.getFilter()
-      }
-    });
-  }
-
-  private getFilter() {
-    const {fieldDef, schema} = this.props;
-    if (isWildcard(fieldDef.field)) {
-      return;
-    }
-    const domain = schema.domain({field: fieldDef.field});
-    return createDefaultFilter(fieldDef, domain);
+  protected onFilterToggle(): void {
+    const {filter, fieldDef} = this.props;
+    filter.onToggle(fieldDef);
   }
 
   private renderCaretTypeSpan() {
@@ -197,12 +178,12 @@ class FieldBase extends React.PureComponent<FieldProps, FieldState> {
   }
 
   private renderAddFilterSpan() {
-    const {filterShow, fieldDef} = this.props;
-    if (filterShow && !isWildcard(fieldDef.field)) {
-      const style = filterHasField(filterShow.filters, fieldDef.field) ? 'filter-button-unadded' : '';
-      return this.props.filterShow && (
+    const {filter, fieldDef} = this.props;
+    if (filter && !isWildcard(fieldDef.field)) {
+      const style = filter.active ? '' : 'filter-button-unadded';
+      return this.props.filter && (
         <span styleName={style}>
-          <a onClick={this.filterToggle}>
+          <a onClick={this.onFilterToggle}>
             <i className='fa fa-filter'/>
           </a>
         </span>

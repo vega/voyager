@@ -144,7 +144,6 @@ class FilterPaneBase extends React.PureComponent<FilterPaneProps, {}> {
           isPill={true}
           onRemove={this.filterRemove.bind(this, index)}
           popupComponent={popupComponent}
-          handleAction={handleAction}
         />
         {filterComponent}
       </div>
