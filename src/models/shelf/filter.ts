@@ -156,12 +156,16 @@ export function convertToTimestamp(dateTime: DateTime): number {
   return Number(date);
 }
 
-export function filterIndexOf(filters: Array<RangeFilter | OneOfFilter>, targetField: string) {
+export function filterIndexOf(filters: Array<RangeFilter | OneOfFilter>, field: string) {
   for (let i = 0; i < filters.length; i++) {
     const filter = filters[i];
-    if (filter.field === targetField) {
+    if (filter.field === field) {
       return i;
     }
   }
   return -1;
+}
+
+export function filterHasField(filters: Array<RangeFilter | OneOfFilter>, field: string) {
+  return filterIndexOf(filters, field) >= 0;
 }
