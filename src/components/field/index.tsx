@@ -45,8 +45,7 @@ export interface FieldPropsBase {
   onRemove?: () => void;
 
   /**
-   * If filter button is shown, we need to provide filters to check duplicated filters.
-   * If not provided, filter button will disappear.
+   * If filter button is shown, we need to the status whether it is active and an event handler for onToggle
    */
   filter?: {
     active: boolean,
