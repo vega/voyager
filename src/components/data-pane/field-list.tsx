@@ -10,9 +10,11 @@ import {FilterAction} from '../../actions';
 import {DatasetSchemaChangeFieldType} from '../../actions/dataset';
 import {ActionHandler, createDispatchHandler} from '../../actions/redux-action';
 import {SPEC_FIELD_AUTO_ADD, SpecFieldAutoAdd} from '../../actions/shelf';
+import {FILTER_TOGGLE} from '../../actions/shelf/filter';
 import {FieldParentType} from '../../constants';
 import {State} from '../../models/index';
 import {ShelfFieldDef} from '../../models/shelf';
+import {createDefaultFilter, filterHasField} from '../../models/shelf/filter';
 import {selectPresetWildcardFields, selectSchema, selectSchemaFieldDefs} from '../../selectors';
 import {selectFilters} from '../../selectors/shelf';
 import {Field} from '../field';
@@ -33,6 +35,7 @@ class FieldListBase extends React.PureComponent<FieldListProps, {}> {
 
     // Bind - https://facebook.github.io/react/docs/handling-events.html
     this.onAdd = this.onAdd.bind(this);
+    this.onFilterToggle = this.onFilterToggle.bind(this);
   }
 
   public render() {
@@ -65,6 +68,25 @@ class FieldListBase extends React.PureComponent<FieldListProps, {}> {
     });
   }
 
+  protected onFilterToggle(fieldDef: ShelfFieldDef): void {
+    const {handleAction} = this.props;
+    handleAction({
+      type: FILTER_TOGGLE,
+      payload: {
+        filter: this.getFilter(fieldDef)
+      }
+    });
+  }
+
+  private getFilter(fieldDef: ShelfFieldDef) {
+    const {schema} = this.props;
+    if (isWildcard(fieldDef.field)) {
+      return;
+    }
+    const domain = schema.domain({field: fieldDef.field});
+    return createDefaultFilter(fieldDef, domain);
+  }
+
   private renderComponent(fieldDef: ShelfFieldDef, hideTypeChanger: boolean, primitiveType: PrimitiveType) {
     if (hideTypeChanger) {
       return this.renderField(fieldDef);
@@ -89,24 +111,24 @@ class FieldListBase extends React.PureComponent<FieldListProps, {}> {
   }
 
   private renderField(fieldDef: ShelfFieldDef, popupComponent?: JSX.Element) {
-    const {schema, filters, handleAction} = this.props;
-    let filterShow;
-    if (!isWildcard(fieldDef.field) && !(fieldDef.field === '*')) {
-      filterShow = {filters};
-    }
+    const {schema, filters} = this.props;
+    const filter = {
+      active: !isWildcard(fieldDef.field) && filterHasField(filters, fieldDef.field),
+      onToggle: this.onFilterToggle
+    };
+
     return (
       <Field
         fieldDef={fieldDef}
         isPill={true}
         draggable={true}
-        filterShow={filterShow}
+        filter={filter}
         parentId={{type: FieldParentType.FIELD_LIST}}
         caretShow={true}
         popupComponent={popupComponent}
         onDoubleClick={this.onAdd}
         onAdd={this.onAdd}
         schema={schema}
-        handleAction={handleAction}
       />
     );
   }
