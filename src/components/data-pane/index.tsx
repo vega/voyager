@@ -3,7 +3,7 @@ import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
 import {connect} from 'react-redux';
 import {CustomWildcardAction} from '../../actions/custom-wildcard-field';
-import {ActionHandler} from '../../actions/redux-action';
+import {ActionHandler, createDispatchHandler} from '../../actions/redux-action';
 import {Dataset, State} from '../../models';
 import {VoyagerConfig} from '../../models/config';
 import {CustomWildcardFieldDef} from '../../models/custom-wildcard-field';
@@ -75,5 +75,6 @@ export const DataPane = connect(
       data: selectDataset(state),
       schema: selectSchema(state)
     };
-  }
+  },
+  createDispatchHandler<CustomWildcardAction>()
 )(CSSModules(DataPaneBase, styles));
