@@ -51,7 +51,7 @@ export interface FieldPropsBase {
 
   onDoubleClick?: (fieldDef: ShelfFieldDef) => void;
 
-  onDrop?: (fields: string[]) => void;
+  onDrop?: (fielddef: ShelfFieldDef) => void;
 
   /** Remove field event handler.  If not provided, remove button will disappear. */
   onRemove?: () => void;
@@ -333,26 +333,9 @@ const customWildcardFieldTarget: DropTargetSpec<FieldProps> = {
       return;
     }
     const {fieldDef} = monitor.getItem() as DraggedFieldIdentifier;
-    const {schema, onDrop, fieldDef: customWildcardField} = props;
+    const {onDrop} = props;
 
-    const type = customWildcardField.type;
-    if (type === fieldDef.type) {
-      let fields: string[];
-      if (isWildcard(fieldDef.field)) {
-        if (fieldDef.field === '?') {
-          fields = schema.fieldNames()
-                          .filter(field => schema.vlType(field) === type);
-        } else {
-          fields = fieldDef.field.enum.concat([]);
-        }
-      } else {
-        fields = [fieldDef.field];
-      }
-
-      onDrop(fields);
-    } else {
-      window.alert('Cannot create a wildcard that mixes multiple types');
-    }
+    onDrop(fieldDef);
   }
 };
 

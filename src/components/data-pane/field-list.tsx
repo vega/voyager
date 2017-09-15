@@ -112,14 +112,31 @@ class FieldListBase extends React.PureComponent<FieldListProps, {}> {
       onToggle: this.onFilterToggle
     };
 
-    function onDrop(fields: string[]) {
-      handleAction({
-        type: CUSTOM_WILDCARD_ADD_FIELD,
-        payload: {
-          fields,
-          index
+    function onDrop(droppedFieldDef: ShelfFieldDef) {
+      const type = fieldDef.type;
+      if (type === droppedFieldDef.type) {
+        let fields: string[];
+        if (isWildcard(droppedFieldDef.field)) {
+          if (droppedFieldDef.field === '?') {
+            fields = schema.fieldNames()
+                       .filter(field => schema.vlType(field) === type);
+          } else {
+            fields = droppedFieldDef.field.enum.concat([]);
+          }
+        } else {
+          fields = [droppedFieldDef.field];
         }
-      });
+
+        handleAction({
+          type: CUSTOM_WILDCARD_ADD_FIELD,
+          payload: {
+            fields,
+            index
+          }
+        });
+      } else {
+        window.alert('Cannot create a wildcard that mixes multiple types');
+      }
     }
 
     function onRemove() {
