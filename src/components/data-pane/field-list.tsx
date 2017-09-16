@@ -1,7 +1,6 @@
 import {ExpandedType} from 'compassql/build/src/query/expandedtype';
 import {PrimitiveType, Schema} from 'compassql/build/src/schema';
 import {isWildcard, isWildcardDef} from 'compassql/build/src/wildcard';
-import * as stringify from 'json-stable-stringify';
 import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
 import {connect} from 'react-redux';
@@ -84,7 +83,6 @@ class FieldListBase extends React.PureComponent<FieldListProps, {}> {
 
   private renderListItem(fieldDef: ShelfFieldDef, index: number) {
     const {schema, filters, handleAction} = this.props;
-    const key = isWildcard(fieldDef.field) ? stringify(fieldDef) : fieldDef.field;
 
     let popupComponent;
     const isCustomWildcardField = isWildcardDef(fieldDef.field);
@@ -114,7 +112,10 @@ class FieldListBase extends React.PureComponent<FieldListProps, {}> {
 
     function onDrop(droppedFieldDef: ShelfFieldDef) {
       const type = fieldDef.type;
-      if (type === droppedFieldDef.type) {
+
+      if (droppedFieldDef.field === '*') {
+        window.alert('Cannot add COUNT');
+      } else if (type === droppedFieldDef.type) {
         let fields: string[];
         if (isWildcard(droppedFieldDef.field)) {
           if (droppedFieldDef.field === '?') {
@@ -168,7 +169,7 @@ class FieldListBase extends React.PureComponent<FieldListProps, {}> {
     );
 
     return (
-      <div key={key} styleName="field-list-item">
+      <div key={index} styleName="field-list-item">
         {field}
       </div>
     );

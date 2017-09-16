@@ -1,3 +1,22 @@
-div {
-  display: block; // I need CSS for debugging so it can compile. Will write real CSS later.
+.drop-zone {
+  color: white;
+  height: 24px;
+  margin-top: 5px;
+  text-align: center;
+  padding: 5px;
+}
+
+.drop-zone-is-over {
+  @extend .drop-zone;
+  border: 1px dashed #4CAF50;
+  border-radius: 3px;
+  background-color: #d0efb3;
+}
+
+.drop-zone-can-drop {
+  @extend .drop-zone;
+  border: 1px dashed #4CAF50;
+  border-radius: 3px;
+  background-color: #C8E6C9;
+  color: black;
 }

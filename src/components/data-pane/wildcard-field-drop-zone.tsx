@@ -30,11 +30,20 @@ class CustomWildcardFieldDropZoneBase extends React.PureComponent<CustomWildcard
   }
 
   public render() {
-    const {connectDropTarget} = this.props;
+    const {connectDropTarget, canDrop} = this.props;
+
+    let styleName, text;
+    if (canDrop) {
+      styleName = 'drop-zone-can-drop';
+      text = 'Drop to create a custom wildcard field';
+    } else {
+      styleName = 'drop-zone';
+      text = '';
+    }
 
     return connectDropTarget(
-      <div className='drop-zone'>
-        Drop a field here!
+      <div styleName={styleName}>
+        {text}
       </div>
     );
   }
@@ -70,6 +79,10 @@ const customWildcardFieldTarget: DropTargetSpec<CustomWildcardFieldDropZoneProps
         type
       }
     });
+  },
+  canDrop(props, monitor) {
+    const {fieldDef} = monitor.getItem() as DraggedFieldIdentifier;
+    return fieldDef.field !== '*';
   }
 };
 
@@ -79,7 +92,7 @@ const collect: DropTargetCollector = (connect, monitor): CustomWildcardFieldDrop
     connectDropTarget: connect.dropTarget(),
     isOver: monitor.isOver(),
     item: monitor.getItem(),
-    canDrop: true
+    canDrop: monitor.canDrop()
   };
 };
 
