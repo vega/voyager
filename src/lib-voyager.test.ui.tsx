@@ -3,10 +3,17 @@
  */
 
 import * as ReactDOM from 'react-dom';
-import {CreateVoyager} from './lib-voyager';
+import {Data} from 'vega-lite/build/src/data';
+import {createVoyager, VoyagerParams} from './lib-voyager';
+import {VoyagerConfig} from './models/config';
 import {SerializableState} from './models/index';
 
 const DEFAULT_TIMEOUT_LENGTH = 300;
+
+const DEFAULT_VOYAGER_PARAMS: VoyagerParams = {
+  config: undefined,
+  data: undefined
+};
 
 describe('lib-voyager', () => {
   let container: HTMLElement;
@@ -35,7 +42,7 @@ describe('lib-voyager', () => {
 
       setTimeout(() => {
         try {
-          const voyagerInst = CreateVoyager(container, undefined, undefined);
+          const voyagerInst = createVoyager(container, DEFAULT_VOYAGER_PARAMS);
           const dataPaneHeader = document.querySelector('.load-data-pane__load-data-pane');
           expect(dataPaneHeader.textContent).toContain('Please load a dataset');
 
@@ -74,7 +81,7 @@ describe('lib-voyager', () => {
     it('gets and sets application state', done => {
       setTimeout(() => {
         try {
-          const voyagerInst = CreateVoyager(container, undefined, undefined);
+          const voyagerInst = createVoyager(container, DEFAULT_VOYAGER_PARAMS);
           const state = voyagerInst.getApplicationState();
 
           expect(state).toHaveProperty('config');
@@ -114,7 +121,7 @@ describe('lib-voyager', () => {
 
       setTimeout(() => {
         try {
-          const voyagerInst = CreateVoyager(container, undefined, undefined);
+          const voyagerInst = createVoyager(container, DEFAULT_VOYAGER_PARAMS);
 
           const aState = voyagerInst.getApplicationState();
           const originalConfigOption = aState.config.showDataSourceSelector;
@@ -150,7 +157,7 @@ describe('lib-voyager', () => {
     it('accepts valid spec', done => {
       setTimeout(() => {
         try {
-          const voyagerInst = CreateVoyager(container, undefined, undefined);
+          const voyagerInst = createVoyager(container, DEFAULT_VOYAGER_PARAMS);
 
           const spec: Object = {
             "$schema": "https://vega.github.io/schema/vega-lite/v2.json",
@@ -199,8 +206,8 @@ describe('lib-voyager', () => {
     });
 
     it('error on invalid spec', done => {
-      const config = {};
-      const data: any = undefined;
+      const config: VoyagerConfig = {};
+      const data: Data = undefined;
 
       const spec: Object = {
         "FAIL$schema": "https://vega.github.io/schema/vega-lite/v2.json",
@@ -209,7 +216,11 @@ describe('lib-voyager', () => {
         "encoding": {
         }
       };
-      const voyagerInst = CreateVoyager(container, config, data);
+      const voyagerInst = createVoyager(container, {
+        ...DEFAULT_VOYAGER_PARAMS,
+        config,
+        data
+      });
 
       // This should throw an exception;
       setTimeout(() => {
