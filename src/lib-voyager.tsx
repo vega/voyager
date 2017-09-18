@@ -24,6 +24,15 @@ import {configureStore} from './store';
 
 
 export type Container = string | HTMLElement;
+export interface VoyagerParams {
+  data?: Data;
+  config?: VoyagerConfig;
+};
+
+const DEFAULT_VOYAGER_PARAMS = {
+  data: {values: ([] as any)},
+  config: DEFAULT_VOYAGER_CONFIG
+};
 
 /**
  * The Voyager class encapsulates the voyager application and allows for easy
@@ -36,7 +45,8 @@ export class Voyager {
   private data: Data;
   private filename: string;
 
-  constructor(container: Container, config: VoyagerConfig, data: Data) {
+  constructor(container: Container, params: VoyagerParams = DEFAULT_VOYAGER_PARAMS) {
+    const {config, data} = params;
     if (isString(container)) {
       this.container = document.querySelector(container) as HTMLElement;
       // TODO throw error if not found
@@ -48,6 +58,7 @@ export class Voyager {
       ...DEFAULT_VOYAGER_CONFIG,
       ...config
     };
+
     this.data = data;
     this.init();
   }
@@ -220,11 +231,35 @@ export class Voyager {
 /**
  * Create an instance of the voyager application.
  *
- * @param {Container} container css selector or HTMLElement that will be the parent
- *                              element of the application
- * @param {Object}    config    configuration options
- * @param {Array}     data      data object. Can be a string or an array of objects.
+ * @param {Container}       container css selector or HTMLElement that will be the parent
+ *                                    element of the application
+ * @param {VoyagerParams}   params    Voyager params. {data, config}. Any new additional parameter
+ *                                    required by voyager can be added here as named parameter for easier visibilty
  */
-export function CreateVoyager(container: Container, config: VoyagerConfig, data: Data): Voyager {
-  return new Voyager(container, config, data);
+export function createVoyager(container: Container, params: VoyagerParams): Voyager {
+  return new Voyager(container, params);
+}
+
+
+/**
+ * Create an instance of the voyager application.
+ *
+ * @param {Container}       container css selector or HTMLElement that will be the parent
+ *                                    element of the application
+ * @param {Object}          config    configuration options
+ * @param {Array}           data      data object. Can be a string or an array of objects.
+ */
+export function CreateVoyager(container: Container, data: Data, config: VoyagerConfig): Voyager {
+  const voyagerParams: VoyagerParams = {
+    config,
+    data
+  };
+  if (console.warn) {
+    // TODO: Not sure about the language.
+    console.warn(
+      `"createVoyager(container, {data, config})" is favored over CreateVoyager.`
+    + `Please check documentation for new API`
+    );
+  }
+  return createVoyager(container, voyagerParams);
 }
