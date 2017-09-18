@@ -76,6 +76,94 @@ describe('lib-voyager', () => {
     });
   });
 
+  describe('CreateVoyager, pass vegalite configuration', () => {
+    it('initializes with empty config', done => {
+      const data = undefined;
+      const config = undefined;
+      const voyagerParams = {data, config};
+      setTimeout(() => {
+        try {
+          createVoyager(container, voyagerParams);
+          const dataPaneHeader = document.querySelector('.load-data-pane__load-data-pane');
+          expect(dataPaneHeader.textContent).toContain('Please load a dataset');
+
+          setTimeout(() => {
+            try {
+              const fieldList = document.querySelectorAll('.field-list__field-list-item');
+              expect(fieldList.length).toEqual(0);
+              done();
+            } catch (err) {
+              done.fail(err);
+            }
+          }, DEFAULT_TIMEOUT_LENGTH);
+        } catch (err) {
+          done.fail(err);
+        }
+      }, 10);
+    });
+    it ('accepts data and no config', done => {
+      const data: any = {
+        "values": [
+          {"fieldA": "A", "fieldB": 28}, {"fieldA": "B", "fieldB": 55}, {"fieldA": "C", "fieldB": 43},
+          {"fieldA": "D", "fieldB": 91}, {"fieldA": "E", "fieldB": 81}, {"fieldA": "F", "fieldB": 53},
+          {"fieldA": "G", "fieldB": 19}, {"fieldA": "H", "fieldB": 87}, {"fieldA": "I", "fieldB": 52}
+        ]
+      };
+      const config = undefined;
+      const voyagerParams = {data, config};
+      setTimeout(() => {
+        try {
+          createVoyager(container, voyagerParams);
+          setTimeout(() => {
+            try {
+              const fieldList = document.querySelectorAll('.field-list__field-list-item');
+              expect(fieldList.length).toEqual(5);
+              done();
+            } catch (err) {
+              done.fail(err);
+            }
+          }, DEFAULT_TIMEOUT_LENGTH);
+        } catch (err) {
+          done.fail(err);
+        }
+      }, 10);
+    });
+
+    it ('accepts data and vegalite config', done => {
+      const data: any = {
+        "values": [
+          {"fieldA": "A", "fieldB": 28}, {"fieldA": "B", "fieldB": 55}, {"fieldA": "C", "fieldB": 43},
+          {"fieldA": "D", "fieldB": 91}, {"fieldA": "E", "fieldB": 81}, {"fieldA": "F", "fieldB": 53},
+          {"fieldA": "G", "fieldB": 19}, {"fieldA": "H", "fieldB": 87}, {"fieldA": "I", "fieldB": 52}
+        ]
+      };
+      const config = {
+        vegaliteConfig: {
+          mark: {
+            color: 'black'
+          }
+        }
+      };
+      const voyagerParams = {data, config};
+      setTimeout(() => {
+        try {
+          const voyagerInstance = createVoyager(container, voyagerParams);
+          setTimeout(() => {
+            try {
+              const state = voyagerInstance.getApplicationState();
+              expect(state.config.vegaliteConfig.mark.color).toBe('black');
+              done();
+            } catch (err) {
+              done.fail(err);
+            }
+          }, DEFAULT_TIMEOUT_LENGTH);
+        } catch (err) {
+          done.fail(err);
+        }
+      }, 10);
+    });
+  });
+
 
   describe('get/setApplicationState', () => {
     it('gets and sets application state', done => {
