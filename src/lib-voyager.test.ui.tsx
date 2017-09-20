@@ -3,6 +3,7 @@
  */
 
 import * as ReactDOM from 'react-dom';
+import {Config} from 'vega-lite/build/src/config';
 import {Data} from 'vega-lite/build/src/data';
 import {createVoyager, VoyagerParams} from './lib-voyager';
 import {VoyagerConfig} from './models/config';
@@ -78,8 +79,8 @@ describe('lib-voyager', () => {
 
   describe('CreateVoyager, pass vegalite configuration', () => {
     it('initializes with empty config', done => {
-      const data = undefined;
-      const config = undefined;
+      const data: Data = undefined;
+      const config: Config = undefined;
       const voyagerParams = {data, config};
       setTimeout(() => {
         try {
@@ -109,7 +110,7 @@ describe('lib-voyager', () => {
           {"fieldA": "G", "fieldB": 19}, {"fieldA": "H", "fieldB": 87}, {"fieldA": "I", "fieldB": 52}
         ]
       };
-      const config = undefined;
+      const config: Config = undefined;
       const voyagerParams = {data, config};
       setTimeout(() => {
         try {
