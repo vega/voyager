@@ -57,7 +57,7 @@ const libVoyager = require('voyager');
 const container = document.getElementById("voyager-embed");
 const config = undefined;
 const data = undefined;
-const voyagerInstance = libVoyager.CreateVoyager(container, config, data)
+const voyagerInstance = libVoyager.createVoyager(container, {config, data})
 ```
 
 Initializing with data
@@ -71,14 +71,14 @@ const data: any = {
   ]
 };
 
-const voyagerInstance = libVoyager.CreateVoyager(container, undefined, data)
+const voyagerInstance = libVoyager.createVoyager(container, {config: undefined, data})
 ```
 
 Updating Data
 
 ```js
 
-const voyagerInstance = libVoyager.CreateVoyager(container, undefined, undefined)
+const voyagerInstance = libVoyager.createVoyager(container)
 
 const data: any = {
   "values": [
@@ -103,16 +103,16 @@ You currently also need to include the CSS. Note that this has not yet been opti
 
 The voyager _module_ exposes 1 function.
 
-#### CreateVoyager(container, config, data)
+#### createVoyager(container, VoyagerParams)
 
 ```js
 /**
- * Create an instance of the voyager application and return it.
+ * Create an instance of the voyager application.
  *
- * @param {Container} container css selector or HTMLElement that will be the parent
- *                              element of the application
- * @param {Object|undefined}    config    Optional: configuration options
- * @param {Array|undefined}     data      Optional: data object. Can be a string or an array of objects.
+ * @param {Container}       container css selector or HTMLElement that will be the parent
+ *                                    element of the application
+ * @param {VoyagerParams}   params    Voyager params. {data, config}. Any new additional parameter
+ *                                    required by voyager can be added here as named parameter for easier visibilty
  */
 ```
 
