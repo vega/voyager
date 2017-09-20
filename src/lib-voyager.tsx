@@ -29,10 +29,7 @@ export interface VoyagerParams {
   config?: VoyagerConfig;
 };
 
-const DEFAULT_VOYAGER_PARAMS = {
-  data: {values: ([] as any)},
-  config: DEFAULT_VOYAGER_CONFIG
-};
+const DEFAULT_DATA: any = undefined;
 
 /**
  * The Voyager class encapsulates the voyager application and allows for easy
@@ -45,8 +42,8 @@ export class Voyager {
   private data: Data;
   private filename: string;
 
-  constructor(container: Container, params: VoyagerParams = DEFAULT_VOYAGER_PARAMS) {
-    const {config, data} = params;
+  constructor(container: Container, params: VoyagerParams) {
+    const {config = DEFAULT_VOYAGER_CONFIG, data = DEFAULT_DATA} = params;
     if (isString(container)) {
       this.container = document.querySelector(container) as HTMLElement;
       // TODO throw error if not found
@@ -238,28 +235,4 @@ export class Voyager {
  */
 export function createVoyager(container: Container, params: VoyagerParams): Voyager {
   return new Voyager(container, params);
-}
-
-
-/**
- * Create an instance of the voyager application.
- *
- * @param {Container}       container css selector or HTMLElement that will be the parent
- *                                    element of the application
- * @param {Object}          config    configuration options
- * @param {Array}           data      data object. Can be a string or an array of objects.
- */
-export function CreateVoyager(container: Container, data: Data, config: VoyagerConfig): Voyager {
-  const voyagerParams: VoyagerParams = {
-    config,
-    data
-  };
-  if (console.warn) {
-    // TODO: Not sure about the language.
-    console.warn(
-      `"createVoyager(container, {data, config})" is favored over CreateVoyager.`
-    + `Please check documentation for new API`
-    );
-  }
-  return createVoyager(container, voyagerParams);
 }
