@@ -18,7 +18,7 @@ export interface VegaLiteProps {
 
   data: InlineData;
 
-  vegaliteConfig: Config;
+  config: Config;
 }
 
 export interface VegaLiteState {
@@ -75,13 +75,13 @@ export class VegaLite extends React.PureComponent<VegaLiteProps, VegaLiteState> 
     //     "y": {"field": "b", "type": "quantitative"}
     //   }
     // };
-    const {logger, vegaliteConfig} = this.props;
+    const {logger, config} = this.props;
     let vlSpec = this.props.spec;
     vlSpec = {
       ...vlSpec,
       config: {
         ...vlSpec.config,
-        ...vegaliteConfig
+        ...config
       }
     };
     try {

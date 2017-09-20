@@ -102,7 +102,7 @@ class ViewPaneBase extends React.PureComponent<ViewPaneProps, {}> {
   }
 
   private renderSpecifiedView() {
-    const {bookmark, data, filters, handleAction, spec} = this.props;
+    const {bookmark, data, filters, handleAction, spec, config} = this.props;
 
     if (spec) {
       return (
@@ -114,6 +114,7 @@ class ViewPaneBase extends React.PureComponent<ViewPaneProps, {}> {
           onSort={this.onSort}
           showBookmarkButton={true}
           spec={spec}
+          config={config}
         />
       );
     } else {
