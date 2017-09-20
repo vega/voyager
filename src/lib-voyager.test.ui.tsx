@@ -163,6 +163,48 @@ describe('lib-voyager', () => {
         }
       }, 10);
     });
+    it('CreateVoyager, update config and update data should retain correct config', done => {
+      let data;
+      const config = {
+        vegaliteConfig: {
+          mark: {
+            color: 'black'
+          }
+        }
+      };
+      const voyagerParams = {data, config};
+      setTimeout(() => {
+        try {
+          const voyagerInstance = createVoyager(container, voyagerParams);
+          let state = voyagerInstance.getApplicationState();
+          expect(state.config.vegaliteConfig.mark.color).toBe('black');
+          data = {
+            "values": [
+              {"fieldA": "A", "fieldB": 28}, {"fieldA": "B", "fieldB": 55}, {"fieldA": "C", "fieldB": 43},
+              {"fieldA": "D", "fieldB": 91}, {"fieldA": "E", "fieldB": 81}, {"fieldA": "F", "fieldB": 53},
+              {"fieldA": "G", "fieldB": 19}, {"fieldA": "H", "fieldB": 87}, {"fieldA": "I", "fieldB": 52}
+            ]
+          };
+          voyagerInstance.updateData(data);
+          state = voyagerInstance.getApplicationState();
+          expect(state.config.vegaliteConfig.mark.color).toBe('black');
+          voyagerInstance.updateConfig(
+            {
+              vegaliteConfig: {
+                mark: {
+                  color: 'blue'
+                }
+              }
+            }
+          );
+          state = voyagerInstance.getApplicationState();
+          expect(state.config.vegaliteConfig.mark.color).toBe('blue');
+          done();
+        } catch (err) {
+          done.fail(err);
+        }
+      }, 10);
+    });
   });
 
 
