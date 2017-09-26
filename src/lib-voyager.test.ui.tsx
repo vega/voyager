@@ -163,7 +163,7 @@ describe('lib-voyager', () => {
         }
       }, 10);
     });
-    it('CreateVoyager, update config and update data should retain correct config', done => {
+    it('creates a Voyager instance, update config and update data should retain correct config', done => {
       let data;
       const config = {
         vegaliteConfig: {

@@ -29,8 +29,6 @@ export interface VoyagerParams {
   config?: VoyagerConfig;
 };
 
-const DEFAULT_DATA: any = undefined;
-
 /**
  * The Voyager class encapsulates the voyager application and allows for easy
  * instantiation and interaction from non-react projects.
@@ -43,7 +41,7 @@ export class Voyager {
   private filename: string;
 
   constructor(container: Container, params: VoyagerParams) {
-    const {config = DEFAULT_VOYAGER_CONFIG, data = DEFAULT_DATA} = params;
+    const {config = DEFAULT_VOYAGER_CONFIG, data} = params;
     if (isString(container)) {
       this.container = document.querySelector(container) as HTMLElement;
       // TODO throw error if not found
