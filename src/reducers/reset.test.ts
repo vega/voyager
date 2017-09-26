@@ -1,47 +1,53 @@
 import {combineReducers} from 'redux';
 import {RESET} from '../actions';
-import {DEFAULT_PERSISTENT_STATE, PersistentState} from '../models/index';
 import {makeResetReducer, ResetIndex} from './reset';
 
 describe(RESET, () => {
 
-  const persistentStateToReset: ResetIndex<PersistentState> = {
-    bookmark: true,
-    config: false,
-    log: false,
-    shelfPreview: true
+  interface DummyState {
+    persistentState: object;
+    nonPersistentState: object;
+  }
+
+  const DEFAULT_DUMMY_STATE = {
+    persistentState: {},
+    nonPersistentState: {}
   };
 
-  const getResetReducer = (defaultState = DEFAULT_PERSISTENT_STATE) => {
+  const persistentStateToReset: ResetIndex<DummyState> = {
+    persistentState: false,
+    nonPersistentState: true
+  };
+
+  const getResetReducer = (defaultState = DEFAULT_DUMMY_STATE) => {
     return makeResetReducer(
-      combineReducers<PersistentState>({
-        bookmark: (state: any = defaultState.bookmark) => state,
-        config: (state: any = defaultState.config) => state,
-        log: (state: any = defaultState.log) => state,
-        shelfPreview: (state: any = defaultState.shelfPreview) => state
+      combineReducers<DummyState>({
+        persistentState: (state: any = defaultState.persistentState) => state,
+        nonPersistentState: (state: any = defaultState.nonPersistentState) => state
       }),
       persistentStateToReset,
       defaultState
     );
   };
 
-  it('Should reset to right default value', () => {
+  it('should reset to right default value', () => {
     const resetReducer = getResetReducer();
     expect(
-      resetReducer(DEFAULT_PERSISTENT_STATE, {type: RESET})
-    ).toEqual(DEFAULT_PERSISTENT_STATE);
+      resetReducer(DEFAULT_DUMMY_STATE, {type: RESET})
+    ).toEqual(DEFAULT_DUMMY_STATE);
   });
 
-  it('Should reset bookmark when resetIndex is true', () => {
+  it('should reset bookmark when resetIndex is true', () => {
     const resetReducer = getResetReducer();
     expect(
-      resetReducer(DEFAULT_PERSISTENT_STATE, {type: RESET})
-    ).toEqual(DEFAULT_PERSISTENT_STATE);
+      resetReducer(DEFAULT_DUMMY_STATE, {type: RESET})
+    ).toEqual(DEFAULT_DUMMY_STATE);
     const newModifiedState = {
-      ...DEFAULT_PERSISTENT_STATE,
-      bookmark: {
-        ...DEFAULT_PERSISTENT_STATE.bookmark,
-        count: 100
+      ...DEFAULT_DUMMY_STATE,
+      nonPersistentState: {
+        ...DEFAULT_DUMMY_STATE.persistentState,
+        nonPersistentProperty1: 1,
+        nonPersistentProperty2: 2
       }
     };
     expect(
@@ -50,16 +56,14 @@ describe(RESET, () => {
 
     expect(
       resetReducer(newModifiedState, {type: RESET})
-    ).toEqual(DEFAULT_PERSISTENT_STATE);
+    ).toEqual(DEFAULT_DUMMY_STATE);
   });
 
-  it('Should not reset config when resetIndex is false', () => {
+  it('should not reset config when resetIndex is false', () => {
     const modifiedDefaultState = {
-      ...DEFAULT_PERSISTENT_STATE,
-      vegaliteConfig: {
-        mark: {
-          color: 'black'
-        }
+      ...DEFAULT_DUMMY_STATE,
+      persistentState: {
+        persistentStateProperty1: 1
       }
     };
     const resetReducer = getResetReducer(modifiedDefaultState);
@@ -68,12 +72,9 @@ describe(RESET, () => {
     ).toEqual(modifiedDefaultState);
     const newModifiedState = {
       ...modifiedDefaultState,
-      config: {
-        vegaliteConfig: {
-          mark: {
-            color: 'white'
-          }
-        }
+      persistentState: {
+        persistentStateProperty2: 2,
+        persistentStateProperty3: 3
       }
     };
     expect(
