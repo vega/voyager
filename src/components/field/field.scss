@@ -42,6 +42,18 @@ $any-hover-color: #666;
   flex-shrink: 0;
 }
 
+.can-drop {
+  border: 1px dashed #4CAF50;
+  border-radius: 3px;
+  background-color: #C8E6C9;
+}
+
+.is-over {
+  border: 1px dashed #4CAF50;
+  border-radius: 3px;
+  background-color: #d0efb3;
+}
+
 .type {
   font-size: 0.8rem;
   margin-right: 3px;

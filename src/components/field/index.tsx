@@ -109,7 +109,7 @@ class FieldBase extends React.PureComponent<FieldProps, FieldState> {
 
 
   public render(): JSX.Element {
-    const {connectDragSource, connectDropTarget, fieldDef, isPill, popupComponent} = this.props;
+    const {canDrop, connectDragSource, connectDropTarget, fieldDef, isOver, isPill, popupComponent} = this.props;
     const {fn, field, description} = fieldDef;
     const isWildcardField = isWildcard(field) || this.props.isEnumeratedWildcardField;
 
@@ -147,7 +147,7 @@ class FieldBase extends React.PureComponent<FieldProps, FieldState> {
       return component;
     } else {
       return (
-        <div ref={this.fieldRefHandler} >
+        <div ref={this.fieldRefHandler} styleName={(isOver ? 'is-over' : canDrop ? 'can-drop' : null)}>
           <TetherComponent
             attachment="top left"
             targetAttachment="bottom left"
@@ -336,6 +336,10 @@ const customWildcardFieldTarget: DropTargetSpec<FieldProps> = {
     const {onDrop} = props;
 
     onDrop(fieldDef);
+  },
+  canDrop(props, monitor) {
+    const {fieldDef} = monitor.getItem() as DraggedFieldIdentifier;
+    return fieldDef.type === props.fieldDef.type;
   }
 };
 
@@ -344,7 +348,7 @@ const dropCollect: DropTargetCollector = (connect, monitor): FieldDropTargetProp
     connectDropTarget: connect.dropTarget(),
     isOver: monitor.isOver(),
     item: monitor.getItem(),
-    canDrop: true
+    canDrop: monitor.canDrop()
   };
 };
 
