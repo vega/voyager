@@ -66,7 +66,7 @@ const customWildcardFieldTarget: DropTargetSpec<CustomWildcardFieldDropZoneProps
         fields = schema.fieldNames()
                         .filter(field => schema.vlType(field) === type);
       } else {
-        fields = fieldDef.field.enum.concat([]);
+        fields = fieldDef.field.enum;
       }
     } else {
       fields = [fieldDef.field];
