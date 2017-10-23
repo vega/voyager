@@ -35,9 +35,9 @@ class AppRootBase extends React.PureComponent<AppRootProps, {}> {
         bottomPane = <LoadData/>;
       } else {
         bottomPane = (
-          <SplitPane split="vertical" defaultSize={200} minSize={100} maxSize={200}>
+          <SplitPane split="vertical" defaultSize={200} minSize={175} maxSize={350}>
             <DataPane/>
-            <SplitPane split="vertical" defaultSize={235} minSize={117} maxSize={235}>
+            <SplitPane split="vertical" defaultSize={235} minSize={200} maxSize={350}>
               <EncodingPane/>
               <ViewPane/>
             </SplitPane>

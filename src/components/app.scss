@@ -134,7 +134,6 @@
 
   // split-pane css
   .Resizer {
-    background: #000;
     opacity: .2;
     z-index: 1;
     -moz-box-sizing: border-box;
@@ -160,8 +159,8 @@
 }
 
 .Resizer.horizontal:hover {
-    border-top: 5px solid rgba(0, 0, 0, 0.5);
-    border-bottom: 5px solid rgba(0, 0, 0, 0.5);
+    border-top: 5px solid rgba(0, 0, 0, 0);
+    border-bottom: 5px solid rgba(0, 0, 0, 0);
 }
 
 .Resizer.vertical {
@@ -173,8 +172,9 @@
 }
 
 .Resizer.vertical:hover {
-    border-left: 5px solid rgba(0, 0, 0, 0.5);
-    border-right: 5px solid rgba(0, 0, 0, 0.5);
+    overflow-y:hidden;
+    border-left: 5px solid rgba(0, 0, 0, 0);
+    border-right: 5px solid rgba(0, 0, 0, 0);
 }
 .Resizer.disabled {
   cursor: not-allowed;
