@@ -3,8 +3,8 @@ import {DEFAULT_RELATED_VIEW_TOGGLER, RelatedViewToggler} from '../models/relate
 
 export function relatedViewReducer(relatedViewToggler: RelatedViewToggler = DEFAULT_RELATED_VIEW_TOGGLER,
                                    action: Action): RelatedViewToggler {
-  const {isRelatedViewHidden} = relatedViewToggler;
+  const {isHidden} = relatedViewToggler;
   return {
-    isRelatedViewHidden: !isRelatedViewHidden
+    isHidden: !isHidden
   };
 }

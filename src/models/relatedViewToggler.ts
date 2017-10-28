@@ -1,8 +1,8 @@
 
 export interface RelatedViewToggler {
-  isRelatedViewHidden: boolean;
+  isHidden: boolean;
 };
 
 export const DEFAULT_RELATED_VIEW_TOGGLER: RelatedViewToggler = {
-  isRelatedViewHidden: false
+  isHidden: false
 };

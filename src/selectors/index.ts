@@ -23,7 +23,7 @@ export * from './shelf';
 
 export const selectBookmark = (state: State): Bookmark => state.persistent.bookmark;
 export const selectConfig = (state: State): VoyagerConfig => state.persistent.config;
-export const selectRelatedViewToggler = (state: State): RelatedViewToggler => state.persistent.relatedViewToggler;
+export const selectRelatedViewToggler = (state: State): RelatedViewToggler => state.persistent.relatedViews;
 export const selectShelfPreview = (state: State): ShelfPreview => state.persistent.shelfPreview;
 export const selectLog = (state: State): Log => state.persistent.log;
 

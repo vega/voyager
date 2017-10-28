@@ -23,7 +23,7 @@ export interface PersistentState {
   bookmark: Bookmark;
   config: VoyagerConfig;
   log: Log;
-  relatedViewToggler: RelatedViewToggler;
+  relatedViews: RelatedViewToggler;
   shelfPreview: ShelfPreview;
 }
 
@@ -66,7 +66,7 @@ export const DEFAULT_PERSISTENT_STATE: PersistentState = {
   bookmark: DEFAULT_BOOKMARK,
   config: DEFAULT_VOYAGER_CONFIG,
   log: DEFAULT_LOG,
-  relatedViewToggler: DEFAULT_RELATED_VIEW_TOGGLER,
+  relatedViews: DEFAULT_RELATED_VIEW_TOGGLER,
   shelfPreview: DEFAULT_SHELF_PREVIEW
 };
 
@@ -102,13 +102,13 @@ export function fromSerializable(serializable: SerializableState): Readonly<Stat
     bookmark,
     config,
     log,
-    relatedViewToggler,
+    relatedViews,
     shelfPreview,
     // Then the rest should be UndoableStateBaseWithoutDataset
     ...undoableStateBaseWithoutDataset
   } = serializable;
 
-  const persistent: PersistentState = {bookmark, config, relatedViewToggler, shelfPreview, log};
+  const persistent: PersistentState = {bookmark, config, relatedViews, shelfPreview, log};
 
   const undoableBase: UndoableStateBase = {
     ...undoableStateBaseWithoutDataset,

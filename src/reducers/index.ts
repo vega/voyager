@@ -55,7 +55,7 @@ import {
 import {ActionType} from '../actions';
 import {CUSTOM_WILDCARD_MODIFY_DESCRIPTION} from '../actions/custom-wildcard-field';
 import {LOG_ERRORS_ADD, LOG_ERRORS_CLEAR, LOG_WARNINGS_ADD, LOG_WARNINGS_CLEAR} from '../actions/log';
-import {RELATED_VIEW_HIDE_TOGGLE} from '../actions/related-views';
+import {RELATED_VIEWS_HIDE_TOGGLE} from '../actions/related-views';
 import {RESET} from '../actions/reset';
 import {RESULT_LIMIT_INCREASE, RESULT_MODIFY_FIELD_PROP, RESULT_MODIFY_NESTED_FIELD_PROP} from '../actions/result';
 import {SHELF_PREVIEW_QUERY} from '../actions/shelf-preview';
@@ -88,7 +88,7 @@ const persistentStateToReset: ResetIndex<PersistentState> = {
   bookmark: true,
   config: false,
   log: false,
-  relatedViewToggler: true,
+  relatedViews: true,
   shelfPreview: true
 };
 
@@ -173,7 +173,7 @@ export const USER_ACTIONS: ActionType[] = [
   FILTER_TOGGLE,
 
   // Toggle Related View Actions
-  RELATED_VIEW_HIDE_TOGGLE,
+  RELATED_VIEWS_HIDE_TOGGLE,
 
   // Result Actions,
   RESULT_LIMIT_INCREASE,

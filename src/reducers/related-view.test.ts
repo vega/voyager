@@ -1,18 +1,18 @@
-import {RELATED_VIEW_HIDE_TOGGLE} from '../actions/related-views';
+import {RELATED_VIEWS_HIDE_TOGGLE} from '../actions/related-views';
 import {RelatedViewToggler} from '../models/relatedViewToggler';
 import {relatedViewReducer} from './related-views';
 
 describe('reducers/related-views', () => {
   it('should toggle relatedViewToggler to hide related-views', () => {
     const expectedRelatedViewToggler: RelatedViewToggler = {
-      isRelatedViewHidden: true
+      isHidden: true
     };
     expect(relatedViewReducer(
       {
-        isRelatedViewHidden: false
+        isHidden: false
       },
       {
-        type: RELATED_VIEW_HIDE_TOGGLE
+        type: RELATED_VIEWS_HIDE_TOGGLE
       }
     )).toEqual(expectedRelatedViewToggler);
   });
@@ -21,14 +21,14 @@ describe('reducers/related-views', () => {
 describe('reducers/related-views', () => {
   it('should toggle relatedViewToggler to unhide related-views', () => {
     const expectedRelatedViewToggler: RelatedViewToggler = {
-      isRelatedViewHidden: false
+      isHidden: false
     };
     expect(relatedViewReducer(
       {
-        isRelatedViewHidden: true
+        isHidden: true
       },
       {
-        type: RELATED_VIEW_HIDE_TOGGLE
+        type: RELATED_VIEWS_HIDE_TOGGLE
       }
     )).toEqual(expectedRelatedViewToggler);
   });
