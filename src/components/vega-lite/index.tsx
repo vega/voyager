@@ -18,7 +18,7 @@ export interface VegaLiteProps {
 
   data: InlineData;
 
-  config: Config;
+  config?: Config;
 }
 
 export interface VegaLiteState {

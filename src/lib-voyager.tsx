@@ -228,9 +228,8 @@ export class Voyager {
  *
  * @param {Container}       container css selector or HTMLElement that will be the parent
  *                                    element of the application
- * @param {VoyagerParams}   params    Voyager params. {data, config}. Any new additional parameter
- *                                    required by voyager can be added here as named parameter for easier visibilty
+ * @param {VoyagerParams}   params    Voyager params. {data, config}.
  */
-export function createVoyager(container: Container, params: VoyagerParams): Voyager {
+export function createVoyager(container: Container, params: VoyagerParams = {}): Voyager {
   return new Voyager(container, params);
 }
