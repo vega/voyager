@@ -11,11 +11,11 @@ import {
   DEFAULT_UNDOABLE_STATE_BASE,
   State
 } from '../models/index';
-import {DEFAULT_RELATED_VIEW_TOGGLER} from '../models/relatedViewToggler';
+import {DEFAULT_RELATED_VIEWS} from '../models/related-views';
 import {DEFAULT_RESULT, DEFAULT_RESULT_INDEX} from '../models/result';
 import {DEFAULT_SHELF, DEFAULT_SHELF_UNIT_SPEC} from '../models/shelf/index';
 import {selectDataset} from '../selectors/dataset';
-import {selectBookmark, selectCustomWildcardFields, selectRelatedViewToggler} from '../selectors/index';
+import {selectBookmark, selectCustomWildcardFields, selectRelatedViews} from '../selectors/index';
 import {selectResult} from '../selectors/result';
 import {selectShelf, selectShelfAutoAddCount} from '../selectors/shelf';
 import {ACTIONS_EXCLUDED_FROM_HISTORY, GROUPED_ACTIONS, rootReducer, USER_ACTIONS} from './index';
@@ -77,7 +77,7 @@ describe('reducers/index', () => {
       expect(selectBookmark(state)).toEqual(DEFAULT_BOOKMARK);
       expect(selectCustomWildcardFields(state)).toEqual(DEFAULT_CUSTOM_WILDCARD_FIELDS);
       expect(selectDataset(state)).toEqual(DEFAULT_DATASET);
-      expect(selectRelatedViewToggler(state)).toEqual(DEFAULT_RELATED_VIEW_TOGGLER);
+      expect(selectRelatedViews(state)).toEqual(DEFAULT_RELATED_VIEWS);
       expect(selectShelf(state)).toEqual(DEFAULT_SHELF);
       expect(selectShelfAutoAddCount(state)).toEqual(true);
       expect(selectResult.main(state)).toEqual(DEFAULT_RESULT);

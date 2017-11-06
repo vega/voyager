@@ -5,7 +5,7 @@ import {DEFAULT_VOYAGER_CONFIG, VoyagerConfig} from './config';
 import {CustomWildcardField, DEFAULT_CUSTOM_WILDCARD_FIELDS} from './custom-wildcard-field';
 import {Dataset, DatasetWithoutSchema, DEFAULT_DATASET} from './dataset';
 import {DEFAULT_LOG, Log} from './log';
-import {DEFAULT_RELATED_VIEW_TOGGLER, RelatedViewToggler} from './relatedViewToggler';
+import {DEFAULT_RELATED_VIEWS, RelatedViews} from './related-views';
 import {DEFAULT_RESULT_INDEX, ResultIndex} from './result';
 import {DEFAULT_SHELF, Shelf} from './shelf';
 import {DEFAULT_SHELF_PREVIEW, ShelfPreview} from './shelf-preview';
@@ -23,7 +23,7 @@ export interface PersistentState {
   bookmark: Bookmark;
   config: VoyagerConfig;
   log: Log;
-  relatedViews: RelatedViewToggler;
+  relatedViews: RelatedViews;
   shelfPreview: ShelfPreview;
 }
 
@@ -66,7 +66,7 @@ export const DEFAULT_PERSISTENT_STATE: PersistentState = {
   bookmark: DEFAULT_BOOKMARK,
   config: DEFAULT_VOYAGER_CONFIG,
   log: DEFAULT_LOG,
-  relatedViews: DEFAULT_RELATED_VIEW_TOGGLER,
+  relatedViews: DEFAULT_RELATED_VIEWS,
   shelfPreview: DEFAULT_SHELF_PREVIEW
 };
 

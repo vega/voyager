@@ -73,7 +73,7 @@ import {configReducer} from './config';
 import {customWildcardFieldReducer} from './custom-wildcard-field';
 import {datasetReducer} from './dataset';
 import {logReducer} from './log';
-import {relatedViewReducer} from './related-views';
+import {relatedViewsReducer} from './related-views';
 import {makeResetReducer, ResetIndex} from './reset';
 import {resultIndexReducer} from './result';
 import {shelfReducer} from './shelf';
@@ -96,7 +96,7 @@ const persistentReducer = makeResetReducer(
   combineReducers<PersistentState>({
     bookmark: bookmarkReducer,
     config: configReducer,
-    relatedViewToggler: relatedViewReducer,
+    relatedViews: relatedViewsReducer,
     log: logReducer,
     shelfPreview: shelfPreviewReducer
   }),

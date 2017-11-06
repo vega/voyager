@@ -1,8 +1,8 @@
 import {Action} from '../actions/index';
-import {DEFAULT_RELATED_VIEW_TOGGLER, RelatedViewToggler} from '../models/relatedViewToggler';
+import {DEFAULT_RELATED_VIEWS, RelatedViews} from '../models/related-views';
 
-export function relatedViewReducer(relatedViewToggler: RelatedViewToggler = DEFAULT_RELATED_VIEW_TOGGLER,
-                                   action: Action): RelatedViewToggler {
+export function relatedViewsReducer(relatedViewToggler: RelatedViews = DEFAULT_RELATED_VIEWS,
+                                    action: Action): RelatedViews {
   const {isHidden} = relatedViewToggler;
   return {
     isHidden: !isHidden
