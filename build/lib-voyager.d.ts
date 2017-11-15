@@ -81,7 +81,7 @@ export declare class Voyager {
      * @memberof Voyager
      */
     private init();
-    private render(data, config, spec?);
+    private render(spec?);
     private renderFromState(state);
 }
 /**
@@ -92,4 +92,4 @@ export declare class Voyager {
  * @param {Object}    config    configuration options
  * @param {Array}     data      data object. Can be a string or an array of objects.
  */
-export declare function CreateVoyager(container: Container, config: Object, data: Data): Voyager;
+export declare function CreateVoyager(container: Container, config: VoyagerConfig, data: Data): Voyager;

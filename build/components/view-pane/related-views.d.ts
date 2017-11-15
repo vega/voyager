@@ -6,12 +6,8 @@ import { ResultAction } from '../../actions/result';
 import { ShelfAction } from '../../actions/shelf';
 import { ShelfPreviewAction } from '../../actions/shelf-preview';
 import { Bookmark } from '../../models/bookmark';
-import { ResultPlot } from '../../models/result';
 import { Result, ResultType } from '../../models/result';
 export interface RelatedViewsProps extends ActionHandler<BookmarkAction | ShelfAction | ShelfPreviewAction | ResultAction> {
-    plotsIndex: {
-        [k in ResultType]: ResultPlot[];
-    };
     results: {
         [k in ResultType]: Result;
     };

@@ -1,8 +1,10 @@
 /// <reference types="react" />
 import * as React from 'react';
-import { Data } from 'vega-lite/build/src/data';
+import { VoyagerConfig } from '../../models/config';
+import { Dataset } from '../../models/dataset';
 import '../app.scss';
 export interface AppRootProps {
-    data: Data;
+    dataset: Dataset;
+    config: VoyagerConfig;
 }
 export declare const AppRoot: React.ComponentClass<{}>;

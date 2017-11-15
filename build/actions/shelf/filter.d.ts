@@ -2,11 +2,15 @@ import { DateTime } from 'vega-lite/build/src/datetime';
 import { OneOfFilter, RangeFilter } from 'vega-lite/build/src/filter';
 import { TimeUnit } from 'vega-lite/build/src/timeunit';
 import { PlainReduxAction, ReduxAction } from '../redux-action';
-export declare type FilterAction = FilterAdd | FilterClear | FilterRemove | FilterModifyExtent | FilterModifyMinBound | FilterModifyMaxBound | FilterModifyOneOf | FilterModifyTimeUnit;
+export declare type FilterAction = FilterAdd | FilterClear | FilterRemove | FilterToggle | FilterModifyExtent | FilterModifyMinBound | FilterModifyMaxBound | FilterModifyOneOf | FilterModifyTimeUnit;
 export declare const FILTER_ADD = "FILTER_ADD";
 export declare type FilterAdd = ReduxAction<typeof FILTER_ADD, {
     filter: RangeFilter | OneOfFilter;
     index?: number;
+}>;
+export declare const FILTER_TOGGLE = "FILTER_TOGGLE";
+export declare type FilterToggle = ReduxAction<typeof FILTER_TOGGLE, {
+    filter: RangeFilter | OneOfFilter;
 }>;
 export declare const FILTER_REMOVE = "FILTER_REMOVE";
 export declare type FilterRemove = ReduxAction<typeof FILTER_REMOVE, {
@@ -38,4 +42,5 @@ export declare const FILTER_MODIFY_TIME_UNIT = "FILTER_MODIFY_TIME_UNIT";
 export declare type FilterModifyTimeUnit = ReduxAction<typeof FILTER_MODIFY_TIME_UNIT, {
     timeUnit: TimeUnit;
     index: number;
+    domain: number[];
 }>;

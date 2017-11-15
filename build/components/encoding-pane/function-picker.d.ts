@@ -8,10 +8,13 @@ export interface FunctionPickerProps {
         [k in 'fn' | 'type']?: ShelfFieldDef[k];
     };
     onFunctionChange: (fn: ShelfFunction | TimeUnit) => void;
-    onWildcardEnable?: () => void;
-    onWildcardDisable?: () => void;
-    onWildcardAdd?: (fn: ShelfFunction) => void;
-    onWildcardRemove?: (fn: ShelfFunction) => void;
+    wildcardHandler?: FunctionPickerWildcardHandler;
+}
+export interface FunctionPickerWildcardHandler {
+    onWildcardEnable: () => void;
+    onWildcardDisable: () => void;
+    onWildcardAdd: (fn: ShelfFunction) => void;
+    onWildcardRemove: (fn: ShelfFunction) => void;
 }
 export declare class FunctionPickerBase extends React.PureComponent<FunctionPickerProps, any> {
     constructor(props: FunctionPickerProps);

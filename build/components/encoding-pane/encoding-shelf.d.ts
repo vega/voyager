@@ -19,4 +19,7 @@ export interface EncodingShelfPropsBase extends ActionHandler<SpecEncodingAction
     fieldDef: ShelfFieldDef;
     schema: Schema;
 }
+export interface EncodingShelfState {
+    customizerIsOpened: boolean;
+}
 export declare const EncodingShelf: () => React.PureComponent<EncodingShelfPropsBase, {}>;

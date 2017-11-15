@@ -1,6 +1,8 @@
+import { InlineData } from 'vega-lite/build/src/data';
 import { State } from '../models';
 import { Bookmark } from '../models/bookmark';
 import { VoyagerConfig } from '../models/config';
+import { CustomWildcardField } from '../models/custom-wildcard-field';
 import { Log } from '../models/log';
 import { ShelfPreview } from '../models/shelf-preview';
 export * from './dataset';
@@ -10,3 +12,5 @@ export declare const selectBookmark: (state: State) => Bookmark;
 export declare const selectConfig: (state: State) => VoyagerConfig;
 export declare const selectShelfPreview: (state: State) => ShelfPreview;
 export declare const selectLog: (state: State) => Log;
+export declare const selectCustomWildcardFields: (state: State) => CustomWildcardField[];
+export declare const selectFilteredData: (state: State, props?: any) => InlineData;

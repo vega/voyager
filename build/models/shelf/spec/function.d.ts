@@ -4,9 +4,6 @@ import { Wildcard } from 'compassql/build/src/wildcard';
 import { AggregateOp } from 'vega-lite/build/src/aggregate';
 import { TimeUnit } from 'vega-lite/build/src/timeunit';
 export declare type ShelfFunction = AggregateOp | 'bin' | TimeUnit | undefined;
-export declare const AGGREGATE_INDEX: {
-    [T: string]: boolean;
-};
 export declare function getSupportedFunction(type: ExpandedType): string[];
 export declare function isShelfFunction(fn: string): fn is ShelfFunction;
 export declare type FieldQueryFunctionMixins = Pick<FieldQuery, 'aggregate' | 'timeUnit' | 'bin' | 'hasFn'>;

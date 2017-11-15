@@ -1,8 +1,8 @@
 /// <reference types="react" />
 import * as React from 'react';
-import { Dataset } from '../../models/dataset';
+import { InlineData } from 'vega-lite/build/src/data';
 export interface HeaderProps {
-    data: Dataset;
+    data: InlineData;
 }
 export declare class HeaderBase extends React.PureComponent<HeaderProps, {}> {
     render(): JSX.Element;

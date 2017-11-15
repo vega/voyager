@@ -32,6 +32,11 @@ export interface ShelfFieldDef {
     legend?: Legend;
     sort?: SortOrder | SortField;
     type?: ExpandedType;
+    /**
+     * Description of a wildcard.
+     * This maps directly to the generic "description" property of an EncodingQuery in CompassQL,
+     * but in Voyager we only use this property to describe a wildcard.
+     */
     description?: string;
 }
 export interface ShelfAnyEncodingDef extends ShelfFieldDef {

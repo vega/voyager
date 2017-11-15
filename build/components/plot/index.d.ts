@@ -1,5 +1,6 @@
 /// <reference types="react" />
 import * as React from 'react';
+import { InlineData } from 'vega-lite/build/src/data';
 import { SortField, SortOrder } from 'vega-lite/build/src/sort';
 import { FacetedCompositeUnitSpec } from 'vega-lite/build/src/spec';
 import { BookmarkAction } from '../../actions/bookmark';
@@ -10,7 +11,10 @@ import { ShelfAction } from '../../actions/shelf';
 import { ShelfPreviewAction } from '../../actions/shelf-preview';
 import { Bookmark } from '../../models/bookmark';
 import { PlotFieldInfo } from '../../models/result';
+import { ShelfFilter } from '../../models/shelf/filter';
 export interface PlotProps extends ActionHandler<ShelfAction | BookmarkAction | ShelfPreviewAction | ResultAction | LogAction> {
+    data: InlineData;
+    filters: ShelfFilter[];
     fieldInfos?: PlotFieldInfo[];
     isPlotListItem?: boolean;
     showBookmarkButton?: boolean;
@@ -34,7 +38,7 @@ export declare class PlotBase extends React.PureComponent<PlotProps, PlotState> 
     componentDidUpdate(prevProps: PlotProps, prevState: PlotState): void;
     render(): JSX.Element;
     protected componentWillUnmount(): void;
-    private fields();
+    private renderFields();
     private clearHoverTimeout();
     private clearPreviewTimeout();
     private onMouseEnter();
@@ -43,11 +47,12 @@ export declare class PlotBase extends React.PureComponent<PlotProps, PlotState> 
     private onSpecify();
     private onPreviewMouseEnter();
     private onPreviewMouseLeave();
-    private sortButton(channel);
-    private specifyButton();
-    private bookmarkButton();
+    private renderSortButton(channel);
+    private renderSpecifyButton();
+    private renderBookmarkButton();
     private handleTextChange(event);
-    private copySpecButton();
+    private readonly specWithFilter;
+    private renderCopySpecButton();
     private copied();
     private isVerticallyOverFlown(element);
     private vegaLiteWrapperRefHandler;

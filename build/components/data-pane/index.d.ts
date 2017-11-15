@@ -6,7 +6,7 @@ export interface DataPanelProps {
     data: Dataset;
     config: VoyagerConfig;
 }
-export declare class DataPanelBase extends React.PureComponent<DataPanelProps, {}> {
+export declare class DataPaneBase extends React.PureComponent<DataPanelProps, {}> {
     render(): JSX.Element;
 }
 export declare const DataPane: React.ComponentClass<{}>;

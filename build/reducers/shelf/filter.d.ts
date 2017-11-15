@@ -1,4 +1,3 @@
-import { Schema } from 'compassql/build/src/schema';
+import { OneOfFilter, RangeFilter } from 'vega-lite/build/src/filter';
 import { Action } from '../../actions/index';
-import { ShelfUnitSpec } from '../../models/shelf/spec';
-export declare function filterReducer(shelfSpec: Readonly<ShelfUnitSpec>, action: Action, schema: Schema): ShelfUnitSpec;
+export declare function filterReducer(filters: Readonly<Array<RangeFilter | OneOfFilter>>, action: Action): Array<RangeFilter | OneOfFilter>;

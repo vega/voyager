@@ -14,6 +14,7 @@ export declare enum FieldParentType {
     ENCODING_SHELF = 0,
     FIELD_LIST = 1,
 }
+export declare const SPINNER_COLOR = "#4C78A8";
 export declare const DEFAULT_DATASETS: ({
     url: string;
     name: string;

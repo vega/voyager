@@ -2,6 +2,7 @@ import { FieldSchema, TableSchema } from 'compassql/build/src/schema';
 import { StateWithHistory } from 'redux-undo';
 import { Bookmark } from './bookmark';
 import { VoyagerConfig } from './config';
+import { CustomWildcardField } from './custom-wildcard-field';
 import { Dataset, DatasetWithoutSchema } from './dataset';
 import { Log } from './log';
 import { ResultIndex } from './result';
@@ -22,6 +23,7 @@ export interface PersistentState {
     shelfPreview: ShelfPreview;
 }
 export interface UndoableStateBaseWithoutDataset {
+    customWildcardFields: CustomWildcardField[];
     shelf: Shelf;
     result: ResultIndex;
 }

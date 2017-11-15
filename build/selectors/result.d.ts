@@ -4,7 +4,6 @@ import { MarkDef } from 'vega-lite/build/src/mark';
 import { GenericUnitSpec } from 'vega-lite/build/src/spec';
 import { Selector } from 'reselect/src/reselect';
 import { State } from '../models/index';
-import { ResultPlot } from '../models/result';
 import { Result, ResultType } from '../models/result';
 export declare const selectResult: {
     [k in ResultType]?: Selector<State, Result>;
@@ -15,6 +14,3 @@ export declare const selectResultLimit: {
 export declare const selectMainSpec: Selector<State, GenericUnitSpec<EncodingWithFacet<string | {
     repeat: "row" | "column";
 }>, "box-plot" | "error-bar" | BoxPlotDef | "area" | "bar" | "line" | "point" | "text" | "tick" | "rect" | "rule" | "circle" | "square" | MarkDef>>;
-export declare const selectPlotList: {
-    [k in ResultType]?: Selector<State, ResultPlot[]>;
-};

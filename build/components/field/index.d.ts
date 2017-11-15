@@ -4,9 +4,6 @@ import { Schema } from 'compassql/build/src/schema';
 import * as React from 'react';
 import { DragElementWrapper } from 'react-dnd';
 import { OneOfFilter, RangeFilter } from 'vega-lite/build/src/filter';
-import { FilterAction } from '../../actions';
-import { DatasetSchemaChangeFieldType } from '../../actions/dataset';
-import { ShelfAction } from '../../actions/shelf';
 import { FieldParentType } from '../../constants';
 import { ShelfId } from '../../models/shelf';
 import { ShelfFieldDef } from '../../models/shelf';
@@ -30,13 +27,12 @@ export interface FieldPropsBase {
     onDoubleClick?: (fieldDef: ShelfFieldDef) => void;
     /** Remove field event handler.  If not provided, remove button will disappear. */
     onRemove?: () => void;
-    handleAction?: (action: FilterAction | ShelfAction | DatasetSchemaChangeFieldType) => void;
     /**
-     * If filter button is shown, we need to provide filters to check duplicated filters.
-     * If not provided, filter button will disappear.
+     * If filter button is shown, we need to the status whether it is active and an event handler for onToggle
      */
-    filterShow?: {
-        filters: Array<RangeFilter | OneOfFilter>;
+    filter?: {
+        active: boolean;
+        onToggle: (fieldDef: ShelfFieldDef) => void;
     };
     caretShow: boolean;
     schema?: Schema;

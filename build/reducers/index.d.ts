@@ -15,12 +15,7 @@ export declare const ACTIONS_EXCLUDED_FROM_HISTORY: ActionType[];
 export declare const USER_ACTIONS: ActionType[];
 export declare const USER_ACTION_INDEX: Object;
 /**
- * Actions that are to be grouped with actions that precede them.
- *
- * This list is here for documentation purposes
- *
- * DATASET_INLINE_RECEIVE,
- * DATASET_URL_RECEIVE,
+ * Actions that are to be grouped with actions that precede them. (Usually for async actions.)
  */
 export declare const GROUPED_ACTIONS: ActionType[];
 export declare function rootReducer(state: Readonly<State>, action: Action): State;

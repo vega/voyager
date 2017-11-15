@@ -1,7 +1,5 @@
 import { SpecQuery } from 'compassql/build/src/query/spec';
 import { Config } from 'vega-lite/build/src/config';
-import { OneOfFilter, RangeFilter } from 'vega-lite/build/src/filter';
-import { FilterTransform, Transform } from 'vega-lite/build/src/transform';
 import { ShelfAnyEncodingDef, ShelfMark, SpecificEncoding } from './encoding';
 export * from './encoding';
 export * from './function';
@@ -12,7 +10,6 @@ export * from './function';
  * but provide structure that better serves as internal structure of shelf in Voyager.
  */
 export interface ShelfUnitSpec {
-    filters: Array<RangeFilter | OneOfFilter>;
     mark: ShelfMark;
     /**
      * Mapping between specific encoding channels and encoding definitions.
@@ -33,6 +30,4 @@ export interface HasWildcard {
     hasWildcardChannel: boolean;
 }
 export declare function hasWildcards(spec: SpecQuery): HasWildcard;
-export declare function getFilters(transforms: Transform[]): Array<RangeFilter | OneOfFilter>;
-export declare function getTransforms(filters: Array<RangeFilter | OneOfFilter>): FilterTransform[];
 export declare const DEFAULT_SHELF_UNIT_SPEC: Readonly<ShelfUnitSpec>;
