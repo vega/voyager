@@ -1,0 +1,8 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.CUSTOM_WILDCARD_ADD = 'CUSTOM_WILDCARD_ADD';
+exports.CUSTOM_WILDCARD_REMOVE = 'CUSTOM_WILDCARD_REMOVE';
+exports.CUSTOM_WILDCARD_ADD_FIELD = 'CUSTOM_WILDCARD_ADD_FIELD';
+exports.CUSTOM_WILDCARD_REMOVE_FIELD = 'CUSTOM_WILDCARD_REMOVE_FIELD';
+exports.CUSTOM_WILDCARD_MODIFY_DESCRIPTION = 'CUSTOM_WILDCARD_MODIFY_DESCRIPTION';
+//# sourceMappingURL=custom-wildcard-field.js.map
