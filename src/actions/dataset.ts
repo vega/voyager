@@ -60,17 +60,19 @@ export function datasetLoad(name: string, data: Data): DatasetLoad {
         .then(response => response.json())
         .catch(errorCatch)
         .then((values: any) => {
-          return buildSchemaAndDispatchDataReceive({values}, config, dispatch);
+          return buildSchemaAndDispatchDataReceive({values}, config, dispatch, name);
         });
     } else if (isInlineData(data)) {
-      return buildSchemaAndDispatchDataReceive(data, config, dispatch);
+      return buildSchemaAndDispatchDataReceive(data, config, dispatch, name);
     } else {
       throw new Error('dataset load error: dataset type not detected');
     }
   };
 };
 
-function buildSchemaAndDispatchDataReceive(data: InlineData, config: VoyagerConfig, dispatch: Dispatch<Action>) {
+function buildSchemaAndDispatchDataReceive(
+  data: InlineData, config: VoyagerConfig, dispatch: Dispatch<Action>, name: string
+) {
   return fetchCompassQLBuildSchema(data.values, config)
   .catch(errorCatch)
   .then(schema => {
