@@ -18,7 +18,7 @@ describe('reducers/related-views', () => {
   });
 });
 
-describe('reducers/related-views', () => {
+describe(RELATED_VIEWS_HIDE_TOGGLE, () => {
   it('should toggle relatedViewToggler to unhide related-views', () => {
     const expectedRelatedViews: RelatedViews = {
       isHidden: false
