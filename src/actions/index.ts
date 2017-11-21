@@ -3,6 +3,7 @@ import {ConfigAction} from './config';
 import {CustomWildcardAction} from './custom-wildcard-field';
 import {DatasetAction} from './dataset';
 import {LogAction} from './log';
+import {RelatedViewsAction} from './related-views';
 import {ResetAction} from './reset';
 import {ResultAction} from './result';
 import {ShelfAction} from './shelf';
@@ -34,6 +35,7 @@ export type Action = (
   CustomWildcardAction |
   DatasetAction |
   LogAction |
+  RelatedViewsAction |
   ResetAction |
   ResultAction |
   ShelfAction |
@@ -76,6 +78,8 @@ const ACTION_TYPE_INDEX: {[k in ActionType]: 1} = {
   LOG_ERRORS_CLEAR: 1,
   LOG_WARNINGS_ADD: 1,
   LOG_WARNINGS_CLEAR: 1,
+
+  RELATED_VIEWS_HIDE_TOGGLE: 1,
 
   RESULT_RECEIVE: 1,
   RESULT_REQUEST: 1,

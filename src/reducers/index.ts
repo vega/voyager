@@ -55,6 +55,7 @@ import {
 import {ActionType} from '../actions';
 import {CUSTOM_WILDCARD_MODIFY_DESCRIPTION} from '../actions/custom-wildcard-field';
 import {LOG_ERRORS_ADD, LOG_ERRORS_CLEAR, LOG_WARNINGS_ADD, LOG_WARNINGS_CLEAR} from '../actions/log';
+import {RELATED_VIEWS_HIDE_TOGGLE} from '../actions/related-views';
 import {RESET} from '../actions/reset';
 import {RESULT_LIMIT_INCREASE, RESULT_MODIFY_FIELD_PROP, RESULT_MODIFY_NESTED_FIELD_PROP} from '../actions/result';
 import {SHELF_PREVIEW_QUERY} from '../actions/shelf-preview';
@@ -72,6 +73,7 @@ import {configReducer} from './config';
 import {customWildcardFieldReducer} from './custom-wildcard-field';
 import {datasetReducer} from './dataset';
 import {logReducer} from './log';
+import {relatedViewsReducer} from './related-views';
 import {makeResetReducer, ResetIndex} from './reset';
 import {resultIndexReducer} from './result';
 import {shelfReducer} from './shelf';
@@ -86,6 +88,7 @@ const persistentStateToReset: ResetIndex<PersistentState> = {
   bookmark: true,
   config: false,
   log: false,
+  relatedViews: true,
   shelfPreview: true
 };
 
@@ -93,13 +96,13 @@ const persistentReducer = makeResetReducer(
   combineReducers<PersistentState>({
     bookmark: bookmarkReducer,
     config: configReducer,
+    relatedViews: relatedViewsReducer,
     log: logReducer,
     shelfPreview: shelfPreviewReducer
   }),
   persistentStateToReset,
   DEFAULT_PERSISTENT_STATE
 );
-
 
 /**
  * Exclude these actions from the history completely.
@@ -168,6 +171,9 @@ export const USER_ACTIONS: ActionType[] = [
   FILTER_MODIFY_TIME_UNIT,
   FILTER_REMOVE,
   FILTER_TOGGLE,
+
+  // Toggle Related View Actions
+  RELATED_VIEWS_HIDE_TOGGLE,
 
   // Result Actions,
   RESULT_LIMIT_INCREASE,

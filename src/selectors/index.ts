@@ -10,6 +10,7 @@ import {Bookmark} from '../models/bookmark';
 import {VoyagerConfig} from '../models/config';
 import {CustomWildcardField} from '../models/custom-wildcard-field';
 import {Log} from '../models/log';
+import {RelatedViews} from '../models/related-views';
 import {ShelfPreview} from '../models/shelf-preview';
 import {ShelfFilter, toPredicateFunction} from '../models/shelf/filter';
 import {selectData} from './dataset';
@@ -22,6 +23,7 @@ export * from './shelf';
 
 export const selectBookmark = (state: State): Bookmark => state.persistent.bookmark;
 export const selectConfig = (state: State): VoyagerConfig => state.persistent.config;
+export const selectRelatedViews = (state: State): RelatedViews => state.persistent.relatedViews;
 export const selectShelfPreview = (state: State): ShelfPreview => state.persistent.shelfPreview;
 export const selectLog = (state: State): Log => state.persistent.log;
 
