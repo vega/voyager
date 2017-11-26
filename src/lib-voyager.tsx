@@ -16,6 +16,7 @@ import {Data} from 'vega-lite/build/src/data';
 import {FacetedCompositeUnitSpec, isUnitSpec, TopLevel, TopLevelExtendedSpec} from 'vega-lite/build/src/spec';
 import {isString} from 'vega-lite/build/src/util';
 import * as vlSchema from 'vega-lite/build/vega-lite-schema.json';
+import { REDO, UNDO } from './actions/index';
 import {App} from './components/app';
 import {State} from './models';
 import {DEFAULT_VOYAGER_CONFIG, VoyagerConfig} from './models/config';
@@ -68,6 +69,25 @@ export class Voyager {
     this.render();
   }
 
+  /**
+   * Update state to reflect the previous state
+   *
+   * @memberof Voyager
+   */
+  public undo(): void {
+    this.store.dispatch({type: UNDO});
+    this.render();
+  }
+
+  /**
+   * Update state to reflect the future state
+   *
+   * @memberof Voyager
+   */
+  public redo(): void {
+    this.store.dispatch({type: REDO});
+    this.render();
+  }
   /**
    * Update the configuration of the voyager application.
    *
