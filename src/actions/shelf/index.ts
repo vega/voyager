@@ -1,13 +1,15 @@
-import {Query} from 'compassql/build/src/query/query';
-import {ShelfGroupBy} from '../../models';
-import {ReduxAction} from '../redux-action';
-import {FilterAction} from './filter';
-import {SpecAction} from './spec';
+import { Query } from 'compassql/build/src/query/query';
+import { ShelfGroupBy } from '../../models';
+import { ReduxAction } from '../redux-action';
+import { RelatedViewsAction } from '../related-views';
+import { FilterAction } from './filter';
+import { SpecAction } from './spec';
 
 export * from './filter';
 export * from './spec';
 
-export type ShelfAction = FilterAction | SpecAction | ShelfLoadQuery | ShelfAutoAddCountChange | ShelfGroupByChange;
+export type ShelfAction = FilterAction | SpecAction | ShelfLoadQuery | ShelfAutoAddCountChange | ShelfGroupByChange
+  | RelatedViewsAction;
 
 export const SHELF_LOAD_QUERY = 'SHELF_LOAD_QUERY';
 export type ShelfLoadQuery = ReduxAction<typeof SHELF_LOAD_QUERY, {
