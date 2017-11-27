@@ -1,7 +1,7 @@
 import { Query } from 'compassql/build/src/query/query';
 import { ShelfGroupBy } from '../../models';
 import { ReduxAction } from '../redux-action';
-import { RelatedViewsAction } from '../related-views';
+import {RelatedViewsAction} from '../related-views';
 import { FilterAction } from './filter';
 import { SpecAction } from './spec';
 

@@ -9,8 +9,18 @@
   right: 0;
 }
 
-.view-pane-specific, .view-pane-related-views {
+.view-pane-related-views-hide {
+  margin-top: 15px;
+  height: 5%;
+}
+
+.view-pane-related-views, .view-pane-related-views-hide, .view-pane-specific {
   background: rgba(255,255,255,.6);
+}
+
+.view-pane-specific-stretch {
+  background: white;
+  height: 90%;
 }
 
 .view-pane-related-views {
