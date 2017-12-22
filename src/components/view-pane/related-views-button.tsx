@@ -1,8 +1,8 @@
 import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
-import { ActionHandler } from '../../actions/redux-action';
-import { RELATED_VIEWS_HIDE_TOGGLE, RelatedViewsAction } from '../../actions/related-views';
-import { RelatedViews } from '../../models/related-views';
+import {ActionHandler} from '../../actions/redux-action';
+import {RELATED_VIEWS_HIDE_TOGGLE, RelatedViewsAction} from '../../actions/related-views';
+import {RelatedViews} from '../../models/related-views';
 import * as styles from './related-views-button.scss';
 
 

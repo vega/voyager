@@ -29,7 +29,7 @@ import {RelatedViews} from './related-views';
 import {RelatedViewsButton} from './related-views-button';
 import * as styles from './view-pane.scss';
 
-export interface ViewPaneProps extends ActionHandler<ShelfAction | RelatedViewsAction> {
+export interface ViewPaneProps extends ActionHandler<ShelfAction|RelatedViewsAction> {
   isQuerySpecific: boolean;
   spec: FacetedCompositeUnitSpec;
   result: Result;
