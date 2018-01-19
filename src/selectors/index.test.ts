@@ -1,8 +1,9 @@
 
 import {DEFAULT_BOOKMARK} from '../models/bookmark';
 import {DEFAULT_VOYAGER_CONFIG} from '../models/config';
+import {DEFAULT_CUSTOM_WILDCARD_FIELDS} from '../models/custom-wildcard-field';
 import {DEFAULT_DATASET} from '../models/dataset';
-import {DEFAULT_STATE, State} from '../models/index';
+import {DEFAULT_ACTIVE_TAB_ID, DEFAULT_SINGLE_VIEW_TAB_STATE, DEFAULT_STATE, State} from '../models/index';
 import {DEFAULT_LOG} from '../models/log';
 import {DEFAULT_SHELF_PREVIEW} from '../models/shelf-preview';
 import {DEFAULT_SHELF} from '../models/shelf/index';
@@ -47,9 +48,16 @@ describe('selectors/index', () => {
                 values: [{a: 1}, {a: 3}]
               }
             },
-            shelf: {
-              ...DEFAULT_SHELF,
-              filters: [{field: 'a', oneOf: [3]}]
+            customWildcardFields: DEFAULT_CUSTOM_WILDCARD_FIELDS,
+            tabs: {
+              activeTabID: DEFAULT_ACTIVE_TAB_ID,
+              list: [{
+                ...DEFAULT_SINGLE_VIEW_TAB_STATE,
+                shelf: {
+                  ...DEFAULT_SHELF,
+                  filters: [{field: 'a', oneOf: [3]}]
+                }
+              }]
             }
           },
         }

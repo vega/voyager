@@ -12,11 +12,12 @@ import {State} from '../models/index';
 import {ResultPlot} from '../models/result';
 import {Result, RESULT_TYPES, ResultType} from '../models/result';
 import {selectIsQueryEmpty, selectIsQuerySpecific} from './shelf';
+import {selectActiveTab} from './tab';
 
 export const selectResult: {
   [k in ResultType]?: Selector<State, Result>
 } = RESULT_TYPES.reduce((selectors, resultType) => {
-  selectors[resultType] = (state: State) => state.undoable.present.result[resultType];
+  selectors[resultType] = (state: State) => selectActiveTab(state).result[resultType];
   return selectors;
 }, {});
 

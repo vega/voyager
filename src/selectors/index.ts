@@ -20,6 +20,7 @@ import {selectFilters} from './shelf';
 export * from './dataset';
 export * from './result';
 export * from './shelf';
+export * from './tab';
 
 export const selectBookmark = (state: State): Bookmark => state.persistent.bookmark;
 export const selectConfig = (state: State): VoyagerConfig => state.persistent.config;
@@ -27,9 +28,8 @@ export const selectRelatedViews = (state: State): RelatedViews => state.persiste
 export const selectShelfPreview = (state: State): ShelfPreview => state.persistent.shelfPreview;
 export const selectLog = (state: State): Log => state.persistent.log;
 
-export const selectCustomWildcardFields = (state: State): CustomWildcardField[] => {
-  return state.undoable.present.customWildcardFields;
-};
+export const selectCustomWildcardFields = (state: State): CustomWildcardField[] =>
+ state.undoable.present.customWildcardFields;
 
 export const selectFilteredData = createSelector(
   selectData,

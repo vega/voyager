@@ -10,8 +10,9 @@ import {createSelector} from 'reselect';
 import {ShelfFilter} from '../models/shelf/filter';
 import {getDefaultGroupBy, Shelf, ShelfGroupBy, toQuery} from '../models/shelf/index';
 import {hasWildcards, ShelfUnitSpec} from '../models/shelf/spec';
+import {selectActiveTab} from './tab';
 
-export const selectShelf = (state: State): Shelf => state.undoable.present.shelf;
+export const selectShelf = (state: State): Shelf => selectActiveTab(state).shelf;
 
 export const selectShelfGroupBy = createSelector(selectShelf,
   (shelf: Shelf): ShelfGroupBy => shelf.groupBy
