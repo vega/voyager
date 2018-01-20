@@ -1,34 +1,35 @@
 import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
-import { connect } from 'react-redux';
-import { InlineData } from 'vega-lite/build/src/data';
-import { SortField, SortOrder } from 'vega-lite/build/src/sort';
-import { FacetedCompositeUnitSpec } from 'vega-lite/build/src/spec';
-import { ActionHandler, createDispatchHandler } from '../../actions/redux-action';
-import { ShelfAction } from '../../actions/shelf';
-import { SHELF_AUTO_ADD_COUNT_CHANGE, SHELF_GROUP_BY_CHANGE } from '../../actions/shelf/index';
-import { SPEC_FIELD_PROP_CHANGE } from '../../actions/shelf/spec';
-import { State } from '../../models';
-import { Bookmark } from '../../models/bookmark';
-import { VoyagerConfig } from '../../models/config';
-import { RelatedViews as RelatedViewsModel } from '../../models/related-views';
-import { Result } from '../../models/result/index';
-import { ShelfFilter } from '../../models/shelf/filter';
-import { SHELF_GROUP_BYS, ShelfGroupBy } from '../../models/shelf/index';
-import { selectBookmark, selectConfig, selectMainSpec } from '../../selectors';
-import { selectFilteredData, selectRelatedViews } from '../../selectors/index';
-import { selectResult } from '../../selectors/result';
+import {connect} from 'react-redux';
+import {InlineData} from 'vega-lite/build/src/data';
+import {SortField, SortOrder} from 'vega-lite/build/src/sort';
+import {FacetedCompositeUnitSpec} from 'vega-lite/build/src/spec';
+import {Action} from '../../actions/index';
+import {ActionHandler, createDispatchHandler} from '../../actions/redux-action';
+import {ShelfAction} from '../../actions/shelf';
+import {SHELF_AUTO_ADD_COUNT_CHANGE, SHELF_GROUP_BY_CHANGE} from '../../actions/shelf/index';
+import {SPEC_FIELD_PROP_CHANGE} from '../../actions/shelf/spec';
+import {State} from '../../models';
+import {Bookmark} from '../../models/bookmark';
+import {VoyagerConfig} from '../../models/config';
+import {RelatedViews as RelatedViewsModel} from '../../models/related-views';
+import {Result} from '../../models/result/index';
+import {ShelfFilter} from '../../models/shelf/filter';
+import {SHELF_GROUP_BYS, ShelfGroupBy} from '../../models/shelf/index';
+import {selectBookmark, selectConfig, selectMainSpec} from '../../selectors';
+import {selectFilteredData, selectRelatedViews} from '../../selectors/index';
+import {selectResult} from '../../selectors/result';
 import {
   selectDefaultGroupBy, selectFilters, selectIsQuerySpecific,
   selectShelfAutoAddCount, selectShelfGroupBy
 } from '../../selectors/shelf';
-import { Plot } from '../plot';
-import { PlotList } from '../plot-list';
-import { RelatedViews } from './related-views';
-import { RelatedViewsButton } from './related-views-button';
+import {Plot} from '../plot';
+import {PlotList} from '../plot-list';
+import {RelatedViews} from './related-views';
+import {RelatedViewsButton} from './related-views-button';
 import * as styles from './view-pane.scss';
 
-export interface ViewPaneProps extends ActionHandler<ShelfAction> {
+export interface ViewPaneProps extends ActionHandler<Action> {
   isQuerySpecific: boolean;
   spec: FacetedCompositeUnitSpec;
   result: Result;
@@ -70,15 +71,16 @@ class ViewPaneBase extends React.PureComponent<ViewPaneProps, {}> {
     const { isQuerySpecific } = this.props;
     const { manualSpecificationOnly } = this.props.config;
     const relatedViews = !manualSpecificationOnly && (
-      <div className="pane" styleName="view-pane-related-views">
+      <div className="pane" styleName={!this.props.relatedViews.isHidden ?
+      "view-pane-related-views" : "view-pane-related-views-hide"}>
         <RelatedViewsButton
           relatedViews={this.props.relatedViews}
           handleAction={this.props.handleAction}
         />
         <h2>Related Views</h2>
-        {!this.props.relatedViews.isHidden &&
+          {!this.props.relatedViews.isHidden &&
             <RelatedViews />
-        }
+          }
       </div>
     );
 
@@ -86,7 +88,8 @@ class ViewPaneBase extends React.PureComponent<ViewPaneProps, {}> {
     if (isQuerySpecific) {
       return (
         <div styleName="view-pane">
-          <div className="pane" styleName="view-pane-specific">
+          <div className="pane" styleName={this.props.relatedViews.isHidden ?
+            "view-pane-specific-stretch" : "view-pane-specific"}>
             <h2>Specified View</h2>
             {this.renderSpecifiedView()}
           </div>
@@ -99,11 +102,11 @@ class ViewPaneBase extends React.PureComponent<ViewPaneProps, {}> {
   }
 
   private onSort(channel: 'x' | 'y', value: SortOrder | SortField) {
-    const { handleAction } = this.props;
+    const {handleAction} = this.props;
     handleAction({
       type: SPEC_FIELD_PROP_CHANGE,
       payload: {
-        shelfId: { channel },
+        shelfId: {channel},
         prop: 'sort',
         value
       }
@@ -111,7 +114,7 @@ class ViewPaneBase extends React.PureComponent<ViewPaneProps, {}> {
   }
 
   private renderSpecifiedView() {
-    const { bookmark, data, filters, handleAction, spec } = this.props;
+    const {bookmark, data, filters, handleAction, spec} = this.props;
 
     if (spec) {
       return (
@@ -133,7 +136,7 @@ class ViewPaneBase extends React.PureComponent<ViewPaneProps, {}> {
   }
 
   private renderSpecifiedViews() {
-    const { bookmark, handleAction, autoAddCount, groupBy, defaultGroupBy, result } = this.props;
+    const {bookmark, handleAction, autoAddCount, groupBy, defaultGroupBy, result} = this.props;
 
     const options = SHELF_GROUP_BYS.map(value => {
       const label = value === 'auto' ?
@@ -180,18 +183,18 @@ class ViewPaneBase extends React.PureComponent<ViewPaneProps, {}> {
 
   private onAutoAddCountChange(event: any) {
     const autoAddCount = event.target.checked;
-    const { handleAction } = this.props;
+    const {handleAction} = this.props;
     handleAction({
       type: SHELF_AUTO_ADD_COUNT_CHANGE,
-      payload: { autoAddCount }
+      payload: {autoAddCount}
     });
   }
 
   private onGroupByChange(event: any) {
-    const { handleAction } = this.props;
+    const {handleAction} = this.props;
     handleAction({
       type: SHELF_GROUP_BY_CHANGE,
-      payload: { groupBy: event.target.value }
+      payload: {groupBy: event.target.value}
     });
   }
 }

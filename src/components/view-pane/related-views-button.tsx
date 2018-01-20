@@ -1,8 +1,8 @@
 import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
-import { ActionHandler } from '../../actions/redux-action';
-import { RELATED_VIEWS_HIDE_TOGGLE, RelatedViewsAction } from '../../actions/related-views';
-import { RelatedViews } from '../../models/related-views';
+import {ActionHandler} from '../../actions/redux-action';
+import {RELATED_VIEWS_HIDE_TOGGLE, RelatedViewsAction} from '../../actions/related-views';
+import {RelatedViews} from '../../models/related-views';
 import * as styles from './related-views-button.scss';
 
 
@@ -23,7 +23,7 @@ export class RelatedViewsButtonBase extends React.PureComponent<RelatedViewsButt
         <a onClick={this.onHideClick}>
           {this.props.relatedViews.isHidden ? 'Show' : 'Hide'}
           &nbsp;&nbsp;
-          {this.props.relatedViews.isHidden ?
+          {!this.props.relatedViews.isHidden ?
             <i className="fa fa-toggle-down" /> :
             <i className="fa fa-toggle-up" />
           }
