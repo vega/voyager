@@ -19,6 +19,7 @@ export * from './config';
 export * from './dataset';
 export * from './log';
 export * from './redux-action';
+export * from './related-views';
 export * from './reset';
 export * from './result';
 export * from './shelf';

@@ -1,7 +1,9 @@
 // Imports to satisfy --declarations build requirements
 // https://github.com/Microsoft/TypeScript/issues/9944
-// tslint:disable-next-line:no-unused-variable
+// tslint:disable:no-unused-variable
 import {Store} from 'redux';
+import {GenericState, UndoableStateBase} from '../models/index';
+// tslint:enable:no-unused-variable
 
 import {applyMiddleware, compose, createStore, Middleware, StoreEnhancer} from 'redux';
 import {createActionLog} from 'redux-action-log';

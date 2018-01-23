@@ -39,10 +39,12 @@ export interface UndoableStateBase extends UndoableStateBaseWithoutDataset {
 /**
  * Application state (wrapped with redux-undo's StateWithHistory interface).
  */
-export interface State {
+export interface GenericState<U extends UndoableStateBase> {
   persistent: PersistentState;
-  undoable: StateWithHistory<UndoableStateBase>;
+  undoable: StateWithHistory<U>;
 };
+
+export type State = GenericState<UndoableStateBase>;
 
 export const DEFAULT_UNDOABLE_STATE_BASE: UndoableStateBase = {
   customWildcardFields: DEFAULT_CUSTOM_WILDCARD_FIELDS,
