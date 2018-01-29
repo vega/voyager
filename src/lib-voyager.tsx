@@ -20,7 +20,7 @@ import {App} from './components/app';
 import {State} from './models';
 import {DEFAULT_VOYAGER_CONFIG, VoyagerConfig} from './models/config';
 import {fromSerializable, SerializableState, toSerializable} from './models/index';
-import { selectData } from './selectors/index';
+import {selectData} from './selectors/dataset';
 import {selectMainSpec} from './selectors/result';
 import {configureStore} from './store';
 
@@ -160,7 +160,10 @@ export class Voyager {
   public getSpec(includeData: boolean): FacetedCompositeUnitSpec {
     const spec = selectMainSpec(this.store.getState());
     if (includeData) {
-      spec.data = selectData(this.store.getState());
+      return {
+        ...spec,
+        data: selectData(this.store.getState()),
+      };
     }
 
     return spec;

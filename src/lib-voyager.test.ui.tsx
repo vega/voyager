@@ -225,7 +225,7 @@ describe('lib-voyager', () => {
       }, DEFAULT_TIMEOUT_LENGTH);
     });
 
-    it('getSpec returns Vega-Lite spec without inline data', done => {
+    it('getSpec with includeData = false returns Vega Lite spec without data', done => {
       setTimeout(() => {
         try {
           const voyagerInst = CreateVoyager(container, undefined, undefined);
@@ -299,7 +299,7 @@ describe('lib-voyager', () => {
     });
   });
 
-  it('getSpec returns Vega-Lite spec with inline data', done => {
+  it('getSpec with includeData = true returns Vega-Lite spec with data', done => {
     setTimeout(() => {
       try {
         const voyagerInst = CreateVoyager(container, undefined, undefined);
