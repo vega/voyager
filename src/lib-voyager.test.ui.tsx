@@ -224,5 +224,157 @@ describe('lib-voyager', () => {
 
       }, DEFAULT_TIMEOUT_LENGTH);
     });
+
+    it('getSpec with includeData = false returns Vega Lite spec without data', done => {
+      setTimeout(() => {
+        try {
+          const voyagerInst = CreateVoyager(container, undefined, undefined);
+          const spec: Object = {
+            "$schema": "https://vega.github.io/schema/vega-lite/v2.json",
+            "data": {
+              "values": [
+                {"date": "24-Apr-07", "close": "93.24"},
+                {"date": "25-Apr-07", "close": "95.35"},
+                {"date": "26-Apr-07", "close": "98.84"},
+                {"date": "27-Apr-07", "close": "99.92"}
+              ]
+            },
+            "mark": "bar",
+            "encoding": {
+              "x": {
+                "bin": true,
+                "field": "close",
+                "type": "quantitative"
+              },
+              "y": {
+                "aggregate": "count",
+                "field": "*",
+                "type": "quantitative"
+              }
+            }
+          };
+          voyagerInst.setSpec(spec);
+
+          setTimeout(() => {
+            try {
+              const retrievedSpec = voyagerInst.getSpec(false);
+              expect(retrievedSpec).toEqual({
+                data: {
+                  name: 'source'
+                },
+                mark: 'bar',
+                encoding: {
+                  "x": {
+                    "bin": true,
+                    "field": "close",
+                    "type": "quantitative"
+                  },
+                  "y": {
+                    "aggregate": "count",
+                    "field": "*",
+                    "type": "quantitative"
+                  }
+                },
+                config: {
+                  overlay: {
+                    line: true
+                  },
+                  scale: {
+                    useUnaggregatedDomain: true
+                  }
+                }
+              });
+
+              done();
+            } catch (err) {
+              done.fail(err);
+            }
+          }, DEFAULT_TIMEOUT_LENGTH);
+
+        } catch (err) {
+          done.fail(err);
+        }
+
+      }, DEFAULT_TIMEOUT_LENGTH);
+    });
   });
+
+  it('getSpec with includeData = true returns Vega-Lite spec with data', done => {
+    setTimeout(() => {
+      try {
+        const voyagerInst = CreateVoyager(container, undefined, undefined);
+        const spec: Object = {
+          "$schema": "https://vega.github.io/schema/vega-lite/v2.json",
+          "data": {
+            "values": [
+              {"date": "24-Apr-07", "close": "93.24"},
+              {"date": "25-Apr-07", "close": "95.35"},
+              {"date": "26-Apr-07", "close": "98.84"},
+              {"date": "27-Apr-07", "close": "99.92"}
+            ]
+          },
+          "mark": "bar",
+          "encoding": {
+            "x": {
+              "bin": true,
+              "field": "close",
+              "type": "quantitative"
+            },
+            "y": {
+              "aggregate": "count",
+              "field": "*",
+              "type": "quantitative"
+            }
+          }
+        };
+        voyagerInst.setSpec(spec);
+
+        setTimeout(() => {
+          try {
+            const retrievedSpec = voyagerInst.getSpec(true);
+            expect(retrievedSpec).toEqual({
+              data: {
+                "values": [
+                  {"date": "24-Apr-07", "close": "93.24"},
+                  {"date": "25-Apr-07", "close": "95.35"},
+                  {"date": "26-Apr-07", "close": "98.84"},
+                  {"date": "27-Apr-07", "close": "99.92"}
+                ]
+              },
+              mark: 'bar',
+              encoding: {
+                "x": {
+                  "bin": true,
+                  "field": "close",
+                  "type": "quantitative"
+                },
+                "y": {
+                  "aggregate": "count",
+                  "field": "*",
+                  "type": "quantitative"
+                }
+              },
+              config: {
+                overlay: {
+                  line: true
+                },
+                scale: {
+                  useUnaggregatedDomain: true
+                }
+              }
+            });
+
+            done();
+          } catch (err) {
+            done.fail(err);
+          }
+        }, DEFAULT_TIMEOUT_LENGTH);
+
+      } catch (err) {
+        done.fail(err);
+      }
+
+    }, DEFAULT_TIMEOUT_LENGTH);
+  });
+
 });

@@ -20,6 +20,8 @@ import {App} from './components/app';
 import {State} from './models';
 import {DEFAULT_VOYAGER_CONFIG, VoyagerConfig} from './models/config';
 import {fromSerializable, SerializableState, toSerializable} from './models/index';
+import {selectData} from './selectors/dataset';
+import {selectMainSpec} from './selectors/result';
 import {configureStore} from './store';
 
 
@@ -145,6 +147,26 @@ export class Voyager {
    */
   public getApplicationState(): SerializableState {
     return toSerializable(this.store.getState());
+  }
+
+  /**
+   *
+   * Gets Vega-Lite spec of current specified view
+   *
+   * @returns {Readonly<Spec>}
+   *
+   * @memberof Voyager
+   */
+  public getSpec(includeData: boolean): FacetedCompositeUnitSpec {
+    const spec = selectMainSpec(this.store.getState());
+    if (includeData) {
+      return {
+        ...spec,
+        data: selectData(this.store.getState()),
+      };
+    }
+
+    return spec;
   }
 
   /**
