@@ -1,0 +1,16 @@
+import { State } from '../models/index';
+import { Query } from 'compassql/build/src/query/query';
+import { SpecQuery } from 'compassql/build/src/query/spec';
+import { ShelfFilter } from '../models/shelf/filter';
+import { Shelf, ShelfGroupBy } from '../models/shelf/index';
+import { ShelfUnitSpec } from '../models/shelf/spec';
+export declare const selectShelf: (state: State) => Shelf;
+export declare const selectShelfGroupBy: (state: State, props?: any) => ShelfGroupBy;
+export declare const selectShelfSpec: (state: State, props?: any) => ShelfUnitSpec;
+export declare const selectFilters: (state: State, props?: any) => ShelfFilter[];
+export declare const selectShelfAutoAddCount: (state: State, props?: any) => boolean;
+export declare const selectQuery: (state: State, props?: any) => Query;
+export declare const selectQuerySpec: (state: State, props?: any) => SpecQuery;
+export declare const selectDefaultGroupBy: (state: State, props?: any) => "field" | "fieldTransform" | "encoding";
+export declare const selectIsQuerySpecific: (state: State, props?: any) => boolean;
+export declare const selectIsQueryEmpty: (state: State, props?: any) => boolean;

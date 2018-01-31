@@ -1,0 +1,1 @@
+{"version":3,"file":"redux-action.js","sourceRoot":"","sources":["../../src/actions/redux-action.ts"],"names":[],"mappings":";AAAA;;GAEG;;AAWF,CAAC;AAOD,CAAC;AASF;;GAEG;AACH;IACE,MAAM,CAAC,UAAC,QAAqB,IAAuB,OAAA,CAAC;QACnD,YAAY,YAAC,MAAS;YACpB,8DAA8D;YAC9D,QAAQ,CAAC,MAAa,CAAC,CAAC;QAC1B,CAAC;KACF,CAAC,EALkD,CAKlD,CAAC;AACL,CAAC;AAPD,sDAOC"}

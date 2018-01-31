@@ -1,0 +1,12 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.FILTER_ADD = 'FILTER_ADD';
+exports.FILTER_TOGGLE = 'FILTER_TOGGLE';
+exports.FILTER_REMOVE = 'FILTER_REMOVE';
+exports.FILTER_CLEAR = 'FILTER_CLEAR';
+exports.FILTER_MODIFY_EXTENT = 'FILTER_MODIFY_EXTENT';
+exports.FILTER_MODIFY_MIN_BOUND = 'FILTER_MODIFY_MIN_BOUND';
+exports.FILTER_MODIFY_MAX_BOUND = 'FILTER_MODIFY_MAX_BOUND';
+exports.FILTER_MODIFY_ONE_OF = 'FILTER_MODIFY_ONE_OF';
+exports.FILTER_MODIFY_TIME_UNIT = 'FILTER_MODIFY_TIME_UNIT';
+//# sourceMappingURL=filter.js.map
