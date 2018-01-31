@@ -1,5 +1,6 @@
 import 'font-awesome-sass-loader';
 import { Data } from 'vega-lite/build/src/data';
+import { FacetedCompositeUnitSpec } from 'vega-lite/build/src/spec';
 import { VoyagerConfig } from './models/config';
 import { SerializableState } from './models/index';
 export declare type Container = string | HTMLElement;
@@ -62,6 +63,15 @@ export declare class Voyager {
      * @memberof Voyager
      */
     getApplicationState(): SerializableState;
+    /**
+     *
+     * Gets Vega-Lite spec of current specified view
+     *
+     * @returns {Readonly<Spec>}
+     *
+     * @memberof Voyager
+     */
+    getSpec(includeData: boolean): FacetedCompositeUnitSpec;
     /**
      * Subscribe to state changes.
      *

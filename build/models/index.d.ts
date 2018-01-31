@@ -5,6 +5,7 @@ import { VoyagerConfig } from './config';
 import { CustomWildcardField } from './custom-wildcard-field';
 import { Dataset, DatasetWithoutSchema } from './dataset';
 import { Log } from './log';
+import { RelatedViews } from './related-views';
 import { ResultIndex } from './result';
 import { Shelf } from './shelf';
 import { ShelfPreview } from './shelf-preview';
@@ -20,6 +21,7 @@ export interface PersistentState {
     bookmark: Bookmark;
     config: VoyagerConfig;
     log: Log;
+    relatedViews: RelatedViews;
     shelfPreview: ShelfPreview;
 }
 export interface UndoableStateBaseWithoutDataset {
