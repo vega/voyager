@@ -46,7 +46,7 @@ export type Action = (
 export type ActionType = Action['type'];
 
 // Use type to enforce that ACTION_TYPE_INDEX contains all action types.
-const ACTION_TYPE_INDEX: {[k in ActionType]: 1} = {
+export const ACTION_TYPE_INDEX: {[k in ActionType]: 1} = {
   BOOKMARK_ADD_PLOT: 1,
   BOOKMARK_CLEAR_ALL: 1,
   BOOKMARK_MODIFY_NOTE: 1,
@@ -109,3 +109,7 @@ const ACTION_TYPE_INDEX: {[k in ActionType]: 1} = {
 
 /** An array of all possible action types. */
 export const ACTION_TYPES = Object.keys(ACTION_TYPE_INDEX) as ActionType[];
+
+export function isVoyagerAction(action: {type: any}): action is Action {
+  return ACTION_TYPE_INDEX[action.type];
+}
