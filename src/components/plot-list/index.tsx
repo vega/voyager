@@ -12,11 +12,12 @@ import {
 import {ShelfAction} from '../../actions/shelf';
 import {SPINNER_COLOR} from '../../constants';
 import {Bookmark} from '../../models/bookmark';
+import { VoyagerConfig } from '../../models/config';
 import {State} from '../../models/index';
 import {ResultType} from '../../models/result';
 import {Result} from '../../models/result/index';
 import {ShelfFilter} from '../../models/shelf/filter';
-import {selectFilteredData} from '../../selectors/index';
+import {selectConfig, selectFilteredData} from '../../selectors/index';
 import {selectFilters} from '../../selectors/shelf';
 import {Plot} from '../plot';
 import * as styles from './plot-list.scss';
@@ -33,6 +34,8 @@ export interface PlotListConnectProps {
   data: InlineData;
 
   filters: ShelfFilter[];
+
+  config: VoyagerConfig;
 }
 
 export type PlotListProps = PlotListOwnProps & PlotListConnectProps;
@@ -45,7 +48,7 @@ export class PlotListBase extends React.PureComponent<PlotListProps, any> {
   }
 
   public render() {
-    const {handleAction, bookmark, data, filters, result} = this.props;
+    const {handleAction, bookmark, data, filters, result, config} = this.props;
     const {plots, limit, isLoading} = result;
     const plotListItems = plots && plots.slice(0, limit).map((plot, index) => {
       const {spec, fieldInfos} = plot;
@@ -62,6 +65,7 @@ export class PlotListBase extends React.PureComponent<PlotListProps, any> {
           showSpecifyButton={true}
           spec={spec}
           bookmark={bookmark}
+          config={config}
         />
       );
     });
@@ -116,7 +120,8 @@ export const PlotList = connect<PlotListConnectProps, {}, PlotListOwnProps>(
     // take spec from props and read spec.data.name
     return {
       data: selectFilteredData(state),
-      filters: selectFilters(state)
+      filters: selectFilters(state),
+      config: selectConfig(state)
     };
   }
 )(CSSModules(PlotListBase, styles));

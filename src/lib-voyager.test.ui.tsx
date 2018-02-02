@@ -3,10 +3,14 @@
  */
 
 import * as ReactDOM from 'react-dom';
-import {CreateVoyager} from './lib-voyager';
+import {Config} from 'vega-lite/build/src/config';
+import {Data} from 'vega-lite/build/src/data';
+import {createVoyager} from './lib-voyager';
+import {VoyagerConfig} from './models/config';
 import {SerializableState} from './models/index';
 
 const DEFAULT_TIMEOUT_LENGTH = 300;
+
 
 describe('lib-voyager', () => {
   let container: HTMLElement;
@@ -35,7 +39,7 @@ describe('lib-voyager', () => {
 
       setTimeout(() => {
         try {
-          const voyagerInst = CreateVoyager(container, undefined, undefined);
+          const voyagerInst = createVoyager(container);
           const dataPaneHeader = document.querySelector('.load-data-pane__load-data-pane');
           expect(dataPaneHeader.textContent).toContain('Please load a dataset');
 
@@ -69,12 +73,142 @@ describe('lib-voyager', () => {
     });
   });
 
+  describe('CreateVoyager, pass vegalite configuration', () => {
+    it('initializes with empty config', done => {
+      const data: Data = undefined;
+      const config: Config = undefined;
+      const voyagerParams = {data, config};
+      setTimeout(() => {
+        try {
+          createVoyager(container, voyagerParams);
+          const dataPaneHeader = document.querySelector('.load-data-pane__load-data-pane');
+          expect(dataPaneHeader.textContent).toContain('Please load a dataset');
+
+          setTimeout(() => {
+            try {
+              const fieldList = document.querySelectorAll('.field-list__field-list-item');
+              expect(fieldList.length).toEqual(0);
+              done();
+            } catch (err) {
+              done.fail(err);
+            }
+          }, DEFAULT_TIMEOUT_LENGTH);
+        } catch (err) {
+          done.fail(err);
+        }
+      }, 10);
+    });
+    it ('accepts data and no config', done => {
+      const data: any = {
+        "values": [
+          {"fieldA": "A", "fieldB": 28}, {"fieldA": "B", "fieldB": 55}, {"fieldA": "C", "fieldB": 43},
+          {"fieldA": "D", "fieldB": 91}, {"fieldA": "E", "fieldB": 81}, {"fieldA": "F", "fieldB": 53},
+          {"fieldA": "G", "fieldB": 19}, {"fieldA": "H", "fieldB": 87}, {"fieldA": "I", "fieldB": 52}
+        ]
+      };
+      const config: Config = undefined;
+      const voyagerParams = {data, config};
+      setTimeout(() => {
+        try {
+          createVoyager(container, voyagerParams);
+          setTimeout(() => {
+            try {
+              const fieldList = document.querySelectorAll('.field-list__field-list-item');
+              expect(fieldList.length).toEqual(5);
+              done();
+            } catch (err) {
+              done.fail(err);
+            }
+          }, DEFAULT_TIMEOUT_LENGTH);
+        } catch (err) {
+          done.fail(err);
+        }
+      }, 10);
+    });
+
+    it ('accepts data and vegalite config', done => {
+      const data: any = {
+        "values": [
+          {"fieldA": "A", "fieldB": 28}, {"fieldA": "B", "fieldB": 55}, {"fieldA": "C", "fieldB": 43},
+          {"fieldA": "D", "fieldB": 91}, {"fieldA": "E", "fieldB": 81}, {"fieldA": "F", "fieldB": 53},
+          {"fieldA": "G", "fieldB": 19}, {"fieldA": "H", "fieldB": 87}, {"fieldA": "I", "fieldB": 52}
+        ]
+      };
+      const config = {
+        vegaliteConfig: {
+          mark: {
+            color: 'black'
+          }
+        }
+      };
+      const voyagerParams = {data, config};
+      setTimeout(() => {
+        try {
+          const voyagerInstance = createVoyager(container, voyagerParams);
+          setTimeout(() => {
+            try {
+              const state = voyagerInstance.getApplicationState();
+              expect(state.config.vegaliteConfig.mark.color).toBe('black');
+              done();
+            } catch (err) {
+              done.fail(err);
+            }
+          }, DEFAULT_TIMEOUT_LENGTH);
+        } catch (err) {
+          done.fail(err);
+        }
+      }, 10);
+    });
+    it('creates a Voyager instance, update config and update data should retain correct config', done => {
+      let data;
+      const config = {
+        vegaliteConfig: {
+          mark: {
+            color: 'black'
+          }
+        }
+      };
+      const voyagerParams = {data, config};
+      setTimeout(() => {
+        try {
+          const voyagerInstance = createVoyager(container, voyagerParams);
+          let state = voyagerInstance.getApplicationState();
+          expect(state.config.vegaliteConfig.mark.color).toBe('black');
+          data = {
+            "values": [
+              {"fieldA": "A", "fieldB": 28}, {"fieldA": "B", "fieldB": 55}, {"fieldA": "C", "fieldB": 43},
+              {"fieldA": "D", "fieldB": 91}, {"fieldA": "E", "fieldB": 81}, {"fieldA": "F", "fieldB": 53},
+              {"fieldA": "G", "fieldB": 19}, {"fieldA": "H", "fieldB": 87}, {"fieldA": "I", "fieldB": 52}
+            ]
+          };
+          voyagerInstance.updateData(data);
+          state = voyagerInstance.getApplicationState();
+          expect(state.config.vegaliteConfig.mark.color).toBe('black');
+          voyagerInstance.updateConfig(
+            {
+              vegaliteConfig: {
+                mark: {
+                  color: 'blue'
+                }
+              }
+            }
+          );
+          state = voyagerInstance.getApplicationState();
+          expect(state.config.vegaliteConfig.mark.color).toBe('blue');
+          done();
+        } catch (err) {
+          done.fail(err);
+        }
+      }, 10);
+    });
+  });
+
 
   describe('get/setApplicationState', () => {
     it('gets and sets application state', done => {
       setTimeout(() => {
         try {
-          const voyagerInst = CreateVoyager(container, undefined, undefined);
+          const voyagerInst = createVoyager(container);
           const state = voyagerInst.getApplicationState();
 
           expect(state).toHaveProperty('config');
@@ -114,7 +248,7 @@ describe('lib-voyager', () => {
 
       setTimeout(() => {
         try {
-          const voyagerInst = CreateVoyager(container, undefined, undefined);
+          const voyagerInst = createVoyager(container);
 
           const aState = voyagerInst.getApplicationState();
           const originalConfigOption = aState.config.showDataSourceSelector;
@@ -150,7 +284,7 @@ describe('lib-voyager', () => {
     it('accepts valid spec', done => {
       setTimeout(() => {
         try {
-          const voyagerInst = CreateVoyager(container, undefined, undefined);
+          const voyagerInst = createVoyager(container);
 
           const spec: Object = {
             "$schema": "https://vega.github.io/schema/vega-lite/v2.json",
@@ -199,8 +333,8 @@ describe('lib-voyager', () => {
     });
 
     it('error on invalid spec', done => {
-      const config = {};
-      const data: any = undefined;
+      const config: VoyagerConfig = {};
+      const data: Data = undefined;
 
       const spec: Object = {
         "FAIL$schema": "https://vega.github.io/schema/vega-lite/v2.json",
@@ -209,7 +343,10 @@ describe('lib-voyager', () => {
         "encoding": {
         }
       };
-      const voyagerInst = CreateVoyager(container, config, data);
+      const voyagerInst = createVoyager(container, {
+        config,
+        data
+      });
 
       // This should throw an exception;
       setTimeout(() => {

@@ -7,9 +7,10 @@ import {BOOKMARK_CLEAR_ALL, BookmarkAction} from '../../actions/bookmark';
 import {ActionHandler, createDispatchHandler} from '../../actions/redux-action';
 import {State} from '../../models';
 import {Bookmark} from '../../models/bookmark';
+import { VoyagerConfig } from '../../models/config';
 import {ResultPlot} from '../../models/result';
 import {selectData} from '../../selectors/dataset';
-import {selectBookmark} from '../../selectors/index';
+import {selectBookmark, selectConfig} from '../../selectors/index';
 import {Plot} from '../plot';
 import * as styles from './bookmark.scss';
 
@@ -17,6 +18,7 @@ import * as styles from './bookmark.scss';
 export interface BookmarkProps extends ActionHandler<BookmarkAction> {
   bookmark: Bookmark;
   data: InlineData;
+  config: VoyagerConfig;
 }
 
 export class BookmarkBase extends React.PureComponent<BookmarkProps, any> {
@@ -99,7 +101,7 @@ export class BookmarkBase extends React.PureComponent<BookmarkProps, any> {
   }
 
   private renderBookmarks(bookmark: Bookmark) {
-    const {data} = this.props;
+    const {data, config} = this.props;
     const plots: ResultPlot[] = bookmark.list.map(key => bookmark.dict[key].plot);
 
     const bookmarkPlotListItems = plots.map((plot, index) => {
@@ -116,6 +118,7 @@ export class BookmarkBase extends React.PureComponent<BookmarkProps, any> {
           isPlotListItem={true}
           showBookmarkButton={true}
           showSpecifyButton={true}
+          config={config}
           spec={spec}
         />
       );
@@ -139,7 +142,8 @@ export const BookmarkPane = connect(
   (state: State) => {
     return {
       bookmark: selectBookmark(state),
-      data: selectData(state)
+      data: selectData(state),
+      config: selectConfig(state)
     };
   },
   createDispatchHandler<BookmarkAction>()

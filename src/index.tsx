@@ -18,9 +18,9 @@ const data: Data = undefined;
 ReactDOM.render(
     <Provider store={store}>
         <App
-            config={config}
-            data={data}
-            dispatch={store.dispatch}
+          config={config}
+          data={data}
+          dispatch={store.dispatch}
         />
     </Provider>,
     document.getElementById('root')

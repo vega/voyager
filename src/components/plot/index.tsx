@@ -14,6 +14,7 @@ import {ShelfAction, SPEC_LOAD} from '../../actions/shelf';
 import {SHELF_PREVIEW_DISABLE, SHELF_PREVIEW_SPEC, ShelfPreviewAction} from '../../actions/shelf-preview';
 import {PLOT_HOVER_MIN_DURATION} from '../../constants';
 import {Bookmark} from '../../models/bookmark';
+import { VoyagerConfig } from '../../models/config';
 import {PlotFieldInfo, ResultPlot} from '../../models/result';
 import {ShelfFilter, toTransforms} from '../../models/shelf/filter';
 import {Field} from '../field/index';
@@ -40,8 +41,8 @@ export interface PlotProps extends ActionHandler<
   // specified when it's in the modal
   // so we can close the modal when the specify button is clicked.
   closeModal?: () => void;
+  config: VoyagerConfig;
 }
-
 
 export interface PlotState {
   hovered: boolean;
@@ -89,7 +90,7 @@ export class PlotBase extends React.PureComponent<PlotProps, PlotState> {
   }
 
   public render() {
-    const {isPlotListItem, onSort, showBookmarkButton, showSpecifyButton, spec, data} = this.props;
+    const {isPlotListItem, onSort, showBookmarkButton, showSpecifyButton, spec, data, config} = this.props;
 
     let notesDiv;
     const specKey = JSON.stringify(spec);
@@ -137,7 +138,7 @@ export class PlotBase extends React.PureComponent<PlotProps, PlotState> {
           onMouseEnter={this.onMouseEnter}
           onMouseLeave={this.onMouseLeave}
         >
-          <VegaLite spec={spec} logger={this.plotLogger} data={data}/>
+          <VegaLite spec={spec} logger={this.plotLogger} data={data} config={config.vegaliteConfig}/>
         </div>
         {notesDiv}
       </div>
@@ -340,5 +341,6 @@ export class PlotBase extends React.PureComponent<PlotProps, PlotState> {
     this.vegaLiteWrapper = ref;
   }
 }
+
 
 export const Plot = CSSModules(PlotBase, styles);

@@ -26,6 +26,10 @@ import {configureStore} from './store';
 
 
 export type Container = string | HTMLElement;
+export interface VoyagerParams {
+  data?: Data;
+  config?: VoyagerConfig;
+};
 
 /**
  * The Voyager class encapsulates the voyager application and allows for easy
@@ -38,7 +42,8 @@ export class Voyager {
   private data: Data;
   private filename: string;
 
-  constructor(container: Container, config: VoyagerConfig, data: Data) {
+  constructor(container: Container, params: VoyagerParams) {
+    const {config = DEFAULT_VOYAGER_CONFIG, data} = params;
     if (isString(container)) {
       this.container = document.querySelector(container) as HTMLElement;
       // TODO throw error if not found
@@ -50,6 +55,7 @@ export class Voyager {
       ...DEFAULT_VOYAGER_CONFIG,
       ...config
     };
+
     this.data = data;
     this.init();
   }
@@ -242,11 +248,10 @@ export class Voyager {
 /**
  * Create an instance of the voyager application.
  *
- * @param {Container} container css selector or HTMLElement that will be the parent
- *                              element of the application
- * @param {Object}    config    configuration options
- * @param {Array}     data      data object. Can be a string or an array of objects.
+ * @param {Container}       container css selector or HTMLElement that will be the parent
+ *                                    element of the application
+ * @param {VoyagerParams}   params    Voyager params. {data, config}.
  */
-export function CreateVoyager(container: Container, config: VoyagerConfig, data: Data): Voyager {
-  return new Voyager(container, config, data);
+export function createVoyager(container: Container, params: VoyagerParams = {}): Voyager {
+  return new Voyager(container, params);
 }

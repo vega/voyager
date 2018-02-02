@@ -13,6 +13,10 @@ export function makeResetReducer<T extends object>(
       // Need to cast as object as TS somehow doesn't know that T extends object already
       const newState = {...state as object} as T;
       Object.keys(resetIndex).forEach((key: keyof T) => {
+        // This is to not reset any property if resetIndex[property] is false.
+        if (!resetIndex[key]) {
+          return;
+        }
         newState[key] = defaultValue[key];
       });
       return newState;
