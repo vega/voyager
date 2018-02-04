@@ -49,6 +49,68 @@ export class VegaLite extends React.PureComponent<VegaLiteProps, VegaLiteState> 
     );
   }
 
+  public componentDidMount() {
+    if (this.mountTimeout) {
+      clearTimeout(this.mountTimeout);
+    }
+    this.setState({
+      isLoading: true
+    });
+    this.mountTimeout = window.setTimeout(() => {
+      this.updateSpec();
+      this.runView();
+      this.setState({
+        isLoading: false
+      });
+    });
+  }
+
+  public componentWillReceiveProps(nextProps: VegaLiteProps) {
+    if (nextProps.spec !== this.props.spec) {
+      this.setState({
+        isLoading: true
+      });
+      this.size = this.getChartSize();
+    }
+  }
+
+  public componentDidUpdate(prevProps: VegaLiteProps, prevState: VegaLiteState) {
+    if (this.updateTimeout) {
+      clearTimeout(this.updateTimeout);
+    }
+    this.updateTimeout = window.setTimeout(
+      (spec: TopLevelExtendedSpec, data: InlineData) => {
+        if (prevProps.spec !== spec) {
+          const chart = this.refs[CHART_REF] as HTMLElement;
+          chart.style.width = this.size.width + 'px';
+          chart.style.height = this.size.height + 'px';
+          this.updateSpec();
+        } else if (prevProps.data !== data) {
+          this.bindData();
+        }
+        this.runView();
+        this.setState({
+          isLoading: false
+        });
+      },
+      0, this.props.spec, this.props.data
+    );
+  }
+
+  public componentWillUnmount() {
+    if (this.mountTimeout) {
+      clearTimeout(this.mountTimeout);
+    }
+
+    if (this.updateTimeout) {
+      clearTimeout(this.updateTimeout);
+    }
+
+    if (this.view) {
+      this.view.finalize();
+    }
+  }
+
   protected updateSpec() {
     // NOTE: spec used to test warning logger
     // vlSpec = {
@@ -89,67 +151,6 @@ export class VegaLite extends React.PureComponent<VegaLiteProps, VegaLiteState> 
     }
   }
 
-  componentDidMount() {
-    if (this.mountTimeout) {
-      clearTimeout(this.mountTimeout);
-    }
-    this.setState({
-      isLoading: true
-    });
-    this.mountTimeout = window.setTimeout(() => {
-      this.updateSpec();
-      this.runView();
-      this.setState({
-        isLoading: false
-      });
-    });
-  }
-
-  componentWillReceiveProps(nextProps: VegaLiteProps) {
-    if (nextProps.spec !== this.props.spec) {
-      this.setState({
-        isLoading: true
-      });
-      this.size = this.getChartSize();
-    }
-  }
-
-  componentDidUpdate(prevProps: VegaLiteProps, prevState: VegaLiteState) {
-    if (this.updateTimeout) {
-      clearTimeout(this.updateTimeout);
-    }
-    this.updateTimeout = window.setTimeout(
-      (spec: TopLevelExtendedSpec, data: InlineData) => {
-        if (prevProps.spec !== spec) {
-          const chart = this.refs[CHART_REF] as HTMLElement;
-          chart.style.width = this.size.width + 'px';
-          chart.style.height = this.size.height + 'px';
-          this.updateSpec();
-        } else if (prevProps.data !== data) {
-          this.bindData();
-        }
-        this.runView();
-        this.setState({
-          isLoading: false
-        });
-      },
-      0, this.props.spec, this.props.data
-    );
-  }
-
-  componentWillUnmount() {
-    if (this.mountTimeout) {
-      clearTimeout(this.mountTimeout);
-    }
-
-    if (this.updateTimeout) {
-      clearTimeout(this.updateTimeout);
-    }
-
-    if (this.view) {
-      this.view.finalize();
-    }
-  }
 
   private bindData() {
     const {data, spec} = this.props;
