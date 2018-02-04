@@ -89,7 +89,7 @@ export class VegaLite extends React.PureComponent<VegaLiteProps, VegaLiteState> 
     }
   }
 
-  protected componentDidMount() {
+  componentDidMount() {
     if (this.mountTimeout) {
       clearTimeout(this.mountTimeout);
     }
@@ -105,7 +105,7 @@ export class VegaLite extends React.PureComponent<VegaLiteProps, VegaLiteState> 
     });
   }
 
-  protected componentWillReceiveProps(nextProps: VegaLiteProps) {
+  componentWillReceiveProps(nextProps: VegaLiteProps) {
     if (nextProps.spec !== this.props.spec) {
       this.setState({
         isLoading: true
@@ -114,7 +114,7 @@ export class VegaLite extends React.PureComponent<VegaLiteProps, VegaLiteState> 
     }
   }
 
-  protected componentDidUpdate(prevProps: VegaLiteProps, prevState: VegaLiteState) {
+  componentDidUpdate(prevProps: VegaLiteProps, prevState: VegaLiteState) {
     if (this.updateTimeout) {
       clearTimeout(this.updateTimeout);
     }
@@ -137,7 +137,7 @@ export class VegaLite extends React.PureComponent<VegaLiteProps, VegaLiteState> 
     );
   }
 
-  protected componentWillUnmount() {
+  componentWillUnmount() {
     if (this.mountTimeout) {
       clearTimeout(this.mountTimeout);
     }
