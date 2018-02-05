@@ -4,8 +4,11 @@
 
 import * as ReactDOM from 'react-dom';
 import {CreateVoyager} from './lib-voyager';
-import {SerializableState} from './models/index';
-
+import {Bookmark, DEFAULT_BOOKMARK} from './models/bookmark';
+import {
+  DEFAULT_PERSISTENT_STATE, DEFAULT_UNDOABLE_STATE,
+  SerializableState, State, toSerializable
+} from './models/index';
 const DEFAULT_TIMEOUT_LENGTH = 300;
 
 describe('lib-voyager', () => {
@@ -145,6 +148,49 @@ describe('lib-voyager', () => {
 
   });
 
+  describe('getBookmarkedSpecs', () => {
+    it('returns bookmarked vega-lite specs', done => {
+      setTimeout(() => {
+        try {
+          const spec1 = '{"data":{"name":"source"},"mark":"bar","encoding":{"y":{"field":"Name","type":"nominal",'
+            + '"scale":{"rangeStep":12}}, "x":{"aggregate":"count","field":"*","type":"quantitative",'
+            + '"axis":{"orient":"top"}}}, "config":{"overlay":{"line":true},"scale":{"useUnaggregatedDomain":true}}}';
+          const spec2 = '{"data":{"name":"source"},"mark":"bar","encoding":{"y":{"field":"Cylinders","type":"nominal"},'
+            + '"x":{"aggregate":"count","field":"*","type":"quantitative"}},'
+            + '"config":{"overlay":{"line":true},"scale":{"useUnaggregatedDomain":true}}}';
+          const voyagerInst = CreateVoyager(container, undefined, undefined);
+          const customBookmarks: Bookmark = {
+            ...DEFAULT_BOOKMARK,
+            list: [spec1, spec2]
+          };
+
+          const customState: State = {
+            persistent: {
+              ...DEFAULT_PERSISTENT_STATE,
+              bookmark: customBookmarks
+            },
+            undoable: {...DEFAULT_UNDOABLE_STATE}
+          };
+
+          voyagerInst.setApplicationState(toSerializable(customState));
+
+          setTimeout(() => {
+            try {
+              const bookmarkedSpecs: string[] = voyagerInst.getBookmarkedSpecs();
+              expect(bookmarkedSpecs).toEqual([spec1, spec2]);
+              done();
+            } catch (err) {
+              done.fail(err);
+            }
+          }, DEFAULT_TIMEOUT_LENGTH);
+
+        } catch (err) {
+          done.fail(err);
+        }
+
+      }, DEFAULT_TIMEOUT_LENGTH);
+    });
+  });
 
   describe('vega-lite spec', () => {
     it('accepts valid spec', done => {
@@ -376,5 +422,4 @@ describe('lib-voyager', () => {
 
     }, DEFAULT_TIMEOUT_LENGTH);
   });
-
 });

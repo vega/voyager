@@ -10,7 +10,7 @@ import * as draft4Schemas from 'ajv/lib/refs/json-schema-draft-04.json';
 import 'font-awesome-sass-loader'; // TODO should this move to App?
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
+import {Provider} from 'react-redux';
 import {Store} from 'redux';
 import {Data} from 'vega-lite/build/src/data';
 import {FacetedCompositeUnitSpec, isUnitSpec, TopLevel, TopLevelExtendedSpec} from 'vega-lite/build/src/spec';
@@ -21,8 +21,10 @@ import {State} from './models';
 import {DEFAULT_VOYAGER_CONFIG, VoyagerConfig} from './models/config';
 import {fromSerializable, SerializableState, toSerializable} from './models/index';
 import {selectData} from './selectors/dataset';
+import {selectBookmark} from './selectors/index';
 import {selectMainSpec} from './selectors/result';
 import {configureStore} from './store';
+
 
 
 export type Container = string | HTMLElement;
@@ -167,6 +169,18 @@ export class Voyager {
     }
 
     return spec;
+  }
+
+  /**
+   *
+   * Gets the current bookmarked vega-lite specs.
+   *
+   * @returns {string[]}
+   *
+   * @memberof Voyager
+   */
+  public getBookmarkedSpecs(): string[] {
+    return selectBookmark(this.store.getState()).list;
   }
 
   /**
