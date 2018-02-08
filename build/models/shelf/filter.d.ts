@@ -14,7 +14,7 @@ export declare function toTransforms(filters: Array<RangeFilter | OneOfFilter>):
  */
 export declare function toPredicateFunction(filters: ShelfFilter[]): (d: object) => boolean;
 export declare function createDefaultFilter(fieldDef: ShelfFieldDef, domain: any[]): RangeFilter | OneOfFilter;
-export declare function getAllTimeUnits(): ("day" | "month" | "year" | "quarter" | "date" | "hours" | "minutes" | "seconds" | "milliseconds" | "yearmonthdate")[];
+export declare function getAllTimeUnits(): ("year" | "quarter" | "month" | "day" | "date" | "hours" | "minutes" | "seconds" | "milliseconds" | "yearmonthdate")[];
 export declare function getDefaultTimeRange(domain: number[], timeUnit: TimeUnit): number[] | DateTime[];
 export declare function getDefaultList(timeUnit: TimeUnit): string[];
 export declare function convertToDateTimeObject(timeStamp: number): DateTime;

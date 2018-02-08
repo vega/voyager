@@ -73,6 +73,15 @@ export declare class Voyager {
      */
     getSpec(includeData: boolean): FacetedCompositeUnitSpec;
     /**
+     *
+     * Gets the current bookmarked vega-lite specs.
+     *
+     * @returns {string[]}
+     *
+     * @memberof Voyager
+     */
+    getBookmarkedSpecs(): string[];
+    /**
      * Subscribe to state changes.
      *
      * This is useful for taking state snapshots to persist and later restore.

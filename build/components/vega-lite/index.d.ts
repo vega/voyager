@@ -19,11 +19,11 @@ export declare class VegaLite extends React.PureComponent<VegaLiteProps, VegaLit
     private updateTimeout;
     constructor(props: VegaLiteProps);
     render(): JSX.Element;
+    componentDidMount(): void;
+    componentWillReceiveProps(nextProps: VegaLiteProps): void;
+    componentDidUpdate(prevProps: VegaLiteProps, prevState: VegaLiteState): void;
+    componentWillUnmount(): void;
     protected updateSpec(): void;
-    protected componentDidMount(): void;
-    protected componentWillReceiveProps(nextProps: VegaLiteProps): void;
-    protected componentDidUpdate(prevProps: VegaLiteProps, prevState: VegaLiteState): void;
-    protected componentWillUnmount(): void;
     private bindData();
     private runView();
     private getChartSize();
