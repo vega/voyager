@@ -1,0 +1,10 @@
+import { Selector } from 'reselect/src/reselect';
+import { Schema } from 'compassql/build/src/schema';
+import { InlineData } from 'vega-lite/build/src/data';
+import { ShelfFieldDef, State } from '../models';
+import { Dataset } from '../models/dataset';
+export declare const selectData: (state: State) => InlineData;
+export declare const selectDataset: (state: State) => Dataset;
+export declare const selectSchema: (state: State) => Schema;
+export declare const selectPresetWildcardFields: Selector<State, ShelfFieldDef[]>;
+export declare const selectSchemaFieldDefs: Selector<State, ShelfFieldDef[]>;
