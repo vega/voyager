@@ -6,8 +6,7 @@ import * as CSSModules from 'react-css-modules';
 import {connect} from 'react-redux';
 import {OneOfFilter, RangeFilter} from 'vega-lite/build/src/filter';
 import {FilterAction} from '../../actions';
-import {CUSTOM_WILDCARD_ADD_FIELD, CUSTOM_WILDCARD_REMOVE,
-        CustomWildcardAction} from '../../actions/custom-wildcard-field';
+import {CUSTOM_WILDCARD_ADD_FIELD, CustomWildcardAction} from '../../actions/custom-wildcard-field';
 import {DatasetSchemaChangeFieldType} from '../../actions/dataset';
 import {ActionHandler, createDispatchHandler} from '../../actions/redux-action';
 import {SPEC_FIELD_AUTO_ADD, SpecFieldAutoAdd} from '../../actions/shelf';
@@ -140,15 +139,6 @@ class FieldListBase extends React.PureComponent<FieldListProps, {}> {
       }
     }
 
-    function onRemove() {
-      handleAction({
-        type: CUSTOM_WILDCARD_REMOVE,
-        payload: {
-          index
-        }
-      });
-    }
-
     const FieldComponent = isCustomWildcardField ? DroppableField : Field;
 
     const field = (
@@ -163,7 +153,6 @@ class FieldListBase extends React.PureComponent<FieldListProps, {}> {
         onDoubleClick={this.onAdd}
         onAdd={this.onAdd}
         onDrop={isCustomWildcardField ? onDrop : undefined}
-        onRemove={isCustomWildcardField ? onRemove : undefined}
         schema={schema}
       />
     );
