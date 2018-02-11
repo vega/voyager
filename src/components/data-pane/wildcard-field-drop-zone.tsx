@@ -35,7 +35,7 @@ class CustomWildcardFieldDropZoneBase extends React.PureComponent<CustomWildcard
     let styleName, text;
     if (canDrop) {
       styleName = 'drop-zone-can-drop';
-      text = 'Drop to create a custom wildcard field';
+      text = 'Create a new wildcard.';
     } else {
       styleName = 'drop-zone';
       text = '';

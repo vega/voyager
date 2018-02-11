@@ -9,14 +9,16 @@
 .drop-zone-is-over {
   @extend .drop-zone;
   border: 1px dashed #4CAF50;
-  border-radius: 3px;
-  background-color: #d0efb3;
 }
 
 .drop-zone-can-drop {
   @extend .drop-zone;
-  border: 1px dashed #4CAF50;
-  border-radius: 3px;
-  background-color: #C8E6C9;
-  color: black;
+  font-size: 11px;
+  border: 1px dashed #8ebdc7;
+  padding: 0 .5em;
+  background-color: rgba(187,243,255,.9);
+  height: 20px;
+  line-height: 20px;
+  box-sizing: border-box;
+  color: rgb(0, 0, 0);
 }
