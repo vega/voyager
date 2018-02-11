@@ -136,7 +136,7 @@ class FieldBase extends React.PureComponent<FieldProps, FieldState> {
       <span
         styleName={
           isWildcardField ?
-            (isOver ? 'wildcard-field-pill-is-over' :
+            (isOver && canDrop ? 'wildcard-field-pill-is-over' :
               (canDrop ? 'wildcard-field-pill-can-drop' : 'wildcard-field-pill')
             ) :
           isPill ? 'field-pill' : 'field'
@@ -166,7 +166,7 @@ class FieldBase extends React.PureComponent<FieldProps, FieldState> {
       return component;
     } else {
       return (
-        <div ref={this.fieldRefHandler} styleName={(isOver ? 'is-over' : canDrop ? 'can-drop' : null)}>
+        <div ref={this.fieldRefHandler} styleName={((isOver && canDrop) ? 'is-over' : canDrop ? 'can-drop' : null)}>
           <TetherComponent
             attachment="top left"
             targetAttachment="bottom left"
