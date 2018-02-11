@@ -2,6 +2,7 @@ import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
 import {CUSTOM_WILDCARD_MODIFY_DESCRIPTION, CUSTOM_WILDCARD_REMOVE_FIELD,
         CustomWildcardAction} from '../../actions/custom-wildcard-field';
+import {CUSTOM_WILDCARD_REMOVE} from '../../actions/index';
 import {ActionHandler} from '../../actions/redux-action';
 import {CustomWildcardFieldDef} from '../../models/custom-wildcard-field';
 import {Field} from '../field/index';
@@ -16,6 +17,7 @@ export class CustomWildcardFieldEditorBase extends React.PureComponent<CustomWil
   public constructor(props: CustomWildcardFieldEditorProps) {
     super(props);
     this.onRemoveField = this.onRemoveField.bind(this);
+    this.onRemoveWildcard = this.onRemoveWildcard.bind(this);
     this.onDescriptionChange = this.onDescriptionChange.bind(this);
   }
 
@@ -54,6 +56,9 @@ export class CustomWildcardFieldEditorBase extends React.PureComponent<CustomWil
           <div className='wildcard-fields'>
             {fields}
           </div>
+          <a styleName="remove-action" onClick={this.onRemoveWildcard}>
+            <i className="fa fa-times" /> Delete Wildcard
+          </a>
         </div>
       </div>
     );
@@ -65,6 +70,16 @@ export class CustomWildcardFieldEditorBase extends React.PureComponent<CustomWil
       type: CUSTOM_WILDCARD_REMOVE_FIELD,
       payload: {
         field,
+        index
+      }
+    });
+  }
+
+  protected onRemoveWildcard() {
+    const {handleAction, index} = this.props;
+    handleAction({
+      type: CUSTOM_WILDCARD_REMOVE,
+      payload: {
         index
       }
     });
