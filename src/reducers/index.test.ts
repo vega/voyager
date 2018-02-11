@@ -17,7 +17,7 @@ import {DEFAULT_RELATED_VIEWS} from '../models/related-views';
 import {DEFAULT_RESULT, DEFAULT_RESULT_INDEX} from '../models/result';
 import {DEFAULT_SHELF, DEFAULT_SHELF_UNIT_SPEC} from '../models/shelf/index';
 import {selectDataset} from '../selectors/dataset';
-import {selectBookmark, selectCustomWildcardFields, selectRelatedViews, selectTab} from '../selectors/index';
+import {selectBookmark, selectCustomWildcardFieldDefs, selectRelatedViews, selectTab} from '../selectors/index';
 import {selectResult} from '../selectors/result';
 import {selectShelf, selectShelfAutoAddCount} from '../selectors/shelf';
 import {ACTIONS_EXCLUDED_FROM_HISTORY, GROUPED_ACTIONS, rootReducer, USER_ACTIONS} from './index';
@@ -55,7 +55,6 @@ describe('reducers/index', () => {
               schema: null,
               data: null
             },
-            customWildcardFields: [{fields: ['test']}],
             tab: {
               activeTabID: 1,
               list: [
