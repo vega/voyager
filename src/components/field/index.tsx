@@ -125,7 +125,13 @@ class FieldBase extends React.PureComponent<FieldProps, FieldState> {
 
     let component = (
       <span
-        styleName={isWildcardField ? 'wildcard-field-pill' : isPill ? 'field-pill' : 'field'}
+        styleName={
+          isWildcardField ?
+            (isOver ? 'wildcard-field-pill-is-over' :
+              (canDrop ? 'wildcard-field-pill-can-drop' : 'wildcard-field-pill')
+            ) :
+          isPill ? 'field-pill' : 'field'
+        }
         onDoubleClick={this.onDoubleClick}
       >
         {this.renderCaretTypeSpan()}
