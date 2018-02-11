@@ -56,6 +56,9 @@ const customWildcardFieldTarget: DropTargetSpec<CustomWildcardFieldDropZoneProps
       return;
     }
 
+    // Casting to DraggedFieldIdentifier because of bad TS type inference
+    // It does not realize that the object contains the property `fieldDef`
+    // We do the same thing in `encoding-shelf.tsx for `encodingShelfTarget`
     const {fieldDef} = monitor.getItem() as DraggedFieldIdentifier;
     const type = fieldDef.type;
 
@@ -81,6 +84,9 @@ const customWildcardFieldTarget: DropTargetSpec<CustomWildcardFieldDropZoneProps
     });
   },
   canDrop(props, monitor) {
+    // Casting to DraggedFieldIdentifier because of bad TS type inference
+    // It does not realize that the object contains the property `fieldDef`
+    // We do the same thing in `encoding-shelf.tsx for `encodingShelfTarget`
     const {fieldDef} = monitor.getItem() as DraggedFieldIdentifier;
     return fieldDef.field !== '*';
   }
