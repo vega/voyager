@@ -1,5 +1,5 @@
 import {Schema} from 'compassql/build/src/schema';
-import {isWildcard} from 'compassql/build/src/wildcard';
+import {isWildcard, isWildcardDef} from 'compassql/build/src/wildcard';
 import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
 import {
@@ -9,6 +9,7 @@ import {
 import * as TetherComponent from 'react-tether';
 import {OneOfFilter, RangeFilter} from 'vega-lite/build/src/filter';
 import {DraggableType, FieldParentType} from '../../constants';
+import {CustomWildcardFieldDef} from '../../models/custom-wildcard-field';
 import {ShelfId} from '../../models/shelf';
 import {ShelfFieldDef} from '../../models/shelf';
 import {createDefaultFilter} from '../../models/shelf/filter';
@@ -123,6 +124,14 @@ class FieldBase extends React.PureComponent<FieldProps, FieldState> {
       fnName = fn;
     }
 
+    const isCustomWildcardField = isWildcardDef(fieldDef.field);
+    let customWildcardFieldDescription = "";
+
+    if (isCustomWildcardField) {
+      const fields = (fieldDef as CustomWildcardFieldDef).field.enum; // TS isn't the inferring correct type
+      customWildcardFieldDescription = "(" + fields.length + ") " + (description || fields.toString());
+    }
+
     let component = (
       <span
         styleName={
@@ -137,7 +146,11 @@ class FieldBase extends React.PureComponent<FieldProps, FieldState> {
         {this.renderCaretTypeSpan()}
         {this.renderFuncSpan(fnName)}
         <span styleName={isFieldFn ? 'fn-text' : 'text'}>
-          {isWildcard(field) ? description : field !== '*' ? field : ''}
+          {
+            isWildcard(field) ?
+              (isCustomWildcardField ? customWildcardFieldDescription : description) :
+              (field !== '*' ? field : '')
+          }
         </span>
         {this.renderAddFilterSpan()}
         {this.renderAddSpan()}
