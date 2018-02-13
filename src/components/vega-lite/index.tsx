@@ -25,7 +25,7 @@ export interface VegaLiteState {
 const CHART_REF = 'chart';
 
 export class VegaLite extends React.PureComponent<VegaLiteProps, VegaLiteState> {
-  private view: vega.View;
+  protected view: vega.View;
   private size: {width: number, height: number};
 
   private mountTimeout: number;
@@ -151,6 +151,13 @@ export class VegaLite extends React.PureComponent<VegaLiteProps, VegaLiteState> 
     }
   }
 
+  protected runView() {
+    try {
+      this.view.run();
+    } catch (err) {
+      this.props.logger.error(err);
+    }
+  }
 
   private bindData() {
     const {data, spec} = this.props;
@@ -160,14 +167,6 @@ export class VegaLite extends React.PureComponent<VegaLiteProps, VegaLiteState> 
             .remove(() => true) // remove previous data
             .insert(data.values)
       );
-    }
-  }
-
-  private runView() {
-    try {
-      this.view.run();
-    } catch (err) {
-      this.props.logger.error(err);
     }
   }
 
