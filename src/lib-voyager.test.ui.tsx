@@ -381,10 +381,10 @@ describe('lib-voyager', () => {
             expect(retrievedSpec).toEqual({
               data: {
                 "values": [
-                  {"date": "24-Apr-07", "close": "93.24"},
-                  {"date": "25-Apr-07", "close": "95.35"},
-                  {"date": "26-Apr-07", "close": "98.84"},
-                  {"date": "27-Apr-07", "close": "99.92"}
+                  {"_id": expect.any(Number), "date": "24-Apr-07", "close": "93.24"},
+                  {"_id": expect.any(Number), "date": "25-Apr-07", "close": "95.35"},
+                  {"_id": expect.any(Number), "date": "26-Apr-07", "close": "98.84"},
+                  {"_id": expect.any(Number), "date": "27-Apr-07", "close": "99.92"}
                 ]
               },
               mark: 'bar',
