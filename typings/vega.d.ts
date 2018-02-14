@@ -9,6 +9,7 @@ declare module 'vega' {
     public finalize(): void;
     public hover(): View;
     public run(): View;
+    public runAfter(callback: (view: View) => any): void;
     public change(name: string, changeset: any): View;
     public changeset(): any;
     public data(name: string): object[];

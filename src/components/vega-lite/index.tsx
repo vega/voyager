@@ -16,6 +16,8 @@ export interface VegaLiteProps {
   logger: Logger;
 
   data: InlineData;
+
+  viewListener?: (view: vega.View) => any;
 }
 
 export interface VegaLiteState {
@@ -166,6 +168,11 @@ export class VegaLite extends React.PureComponent<VegaLiteProps, VegaLiteState> 
   private runView() {
     try {
       this.view.run();
+      this.view.runAfter((viewAfterRun: vega.View) => {
+        if (this.props.viewListener) {
+          this.props.viewListener(viewAfterRun);
+        }
+      });
     } catch (err) {
       this.props.logger.error(err);
     }
