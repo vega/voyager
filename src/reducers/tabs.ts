@@ -34,7 +34,7 @@ export function multiTabsReducer(tabs: Readonly<Tabs> = DEFAULT_TABS, action: Ac
     case TAB_ADD:
       return {
         ...tabs,
-        activeTabID: list.length, // set the new tab active
+        activeTabID: list.length, // activate the new tab
         list: [...list, DEFAULT_SINGLE_VIEW_TAB_STATE]
       };
 
@@ -42,8 +42,9 @@ export function multiTabsReducer(tabs: Readonly<Tabs> = DEFAULT_TABS, action: Ac
       if (list.length === 1) { // if only one tab, don't remove
         return tabs;
       }
-      // set next tab, or the last tab in the list, active
-      const newActiveTabID = (activeTabID === (list.length - 1)) ? list.length - 2 : activeTabID;
+      const newActiveTabID = activeTabID < list.length - 1 ?
+        activeTabID : // activate next tab by default.
+        activeTabID - 1; // except for last tab in the list, activate previous tab.
       return {
         ...tabs,
         activeTabID: newActiveTabID,
