@@ -7,14 +7,14 @@ import {Dataset, DatasetWithoutSchema, DEFAULT_DATASET} from './dataset';
 import {DEFAULT_LOG, Log} from './log';
 import {DEFAULT_RELATED_VIEWS, RelatedViews} from './related-views';
 import {DEFAULT_SHELF_PREVIEW, ShelfPreview} from './shelf-preview';
-import {DEFAULT_TABS, Tabs} from './tabs';
+import {DEFAULT_TABS, Tabs} from './tab';
 
 export * from './bookmark';
 export * from './dataset';
 export * from './shelf';
 export * from './result';
 export * from './config';
-export * from './tabs';
+export * from './tab';
 
 /**
  * Application state.

@@ -1,6 +1,6 @@
 import {TAB_ADD, TAB_REMOVE, TAB_SWITCH, TITLE_UPDATE} from '../actions/tab';
 import {DEFAULT_SINGLE_VIEW_TAB_STATE, Tabs} from '../models';
-import {tabsReducer, titleReducer} from './tabs';
+import {tabsReducer, titleReducer} from './tab';
 
 describe('reducers/tabs', () => {
   describe('tabsReducer', () => {

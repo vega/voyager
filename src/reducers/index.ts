@@ -81,7 +81,7 @@ import {makeResetReducer, ResetIndex} from './reset';
 import {shelfPreviewReducer} from './shelf-preview';
 import {shelfSpecFieldAutoAddReducer} from './shelf/spec';
 import {stateReducer} from './state';
-import {tabsReducer} from './tabs';
+import {tabsReducer} from './tab';
 
 import {modifyItemInArray} from './util';
 
