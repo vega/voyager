@@ -1,6 +1,7 @@
 // tslint:disable:no-unused-variable
 import {StateWithHistory} from 'redux-undo';
 import {Selector} from 'reselect/src/reselect';
+import {GenericState, UndoableStateBase} from '../models';
 import {ResultPlot} from '../models/result';
 // tslint:enable:no-unused-variable
 

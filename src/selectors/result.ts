@@ -4,6 +4,7 @@ import {BoxPlotDef} from 'vega-lite/build/src/compositemark/boxplot';
 import {EncodingWithFacet} from 'vega-lite/build/src/encoding';
 import {MarkDef} from 'vega-lite/build/src/mark';
 import {FacetedCompositeUnitSpec, GenericUnitSpec, isUnitSpec} from 'vega-lite/build/src/spec';
+import {GenericState, UndoableStateBase} from '../models/index';
 // tslint:enable:no-unused-variable
 
 import {createSelector} from 'reselect';

@@ -1,6 +1,10 @@
 import {createSelector} from 'reselect';
 import {PlotTabState, State, Tab} from '../models';
 
+// tslint:disable:no-unused-variable
+import {GenericState, UndoableStateBase} from '../models';
+// tslint:enable:no-unused-variable
+
 export const selectTab = (state: State): Tab => state.undoable.present.tab;
 
 export const selectActiveTabID = createSelector(

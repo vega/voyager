@@ -1,8 +1,11 @@
 // Imports to satisfy --declarations build requirements
 // https://github.com/Microsoft/TypeScript/issues/9944
 
-// tslint:disable-next-line:no-unused-variable
+// tslint:disable:no-unused-variable
 import {StateWithHistory} from 'redux-undo';
+import {GenericState, UndoableStateBase} from '../models';
+// tslint:enable:no-unused-variable
+
 import {createSelector} from 'reselect';
 import {InlineData} from 'vega-lite/build/src/data';
 import {State} from '../models';
@@ -15,7 +18,6 @@ import {ShelfPreview} from '../models/shelf-preview';
 import {ShelfFilter, toPredicateFunction} from '../models/shelf/filter';
 import {selectData} from './dataset';
 import {selectFilters} from './shelf';
-// tslint:disable-next-line:no-unused-variable
 
 export * from './dataset';
 export * from './result';

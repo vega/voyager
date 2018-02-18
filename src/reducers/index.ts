@@ -7,8 +7,10 @@ import {DEFAULT_STATE, DEFAULT_UNDOABLE_STATE_BASE, PlotTabState} from '../model
 
 import {SET_CONFIG} from '../actions/config';
 
-// tslint:disable-next-line:no-unused-variable
+// tslint:disable:no-unused-variable
 import {Action as BaseReduxAction, combineReducers, Reducer} from 'redux';
+import {GenericState} from '../models';
+// tslint:enable:no-unused-variable
 
 import {
   BOOKMARK_ADD_PLOT,
@@ -96,7 +98,7 @@ const persistentStateToReset: ResetIndex<PersistentState> = {
   shelfPreview: true
 };
 
-const persistentReducer = makeResetReducer(
+export const persistentReducer = makeResetReducer(
   combineReducers<PersistentState>({
     bookmark: bookmarkReducer,
     config: configReducer,
@@ -245,7 +247,7 @@ function groupAction(action: Action, currentState: UndoableStateBase,
 /**
  * Whether to reset a particular property of the undoable state during RESET action
  */
-const undoableStateToReset: ResetIndex<UndoableStateBase> = {
+export const undoableStateToReset: ResetIndex<UndoableStateBase> = {
   customWildcardFields: true,
   dataset: true,
   tab: true
@@ -257,7 +259,7 @@ const combinedUndoableReducer = combineReducers<UndoableStateBase>({
   tab: tabReducer,
 });
 
-const undoableReducerBase = makeResetReducer(
+export const undoableReducerBase = makeResetReducer(
   (state: Readonly<UndoableStateBase> = DEFAULT_UNDOABLE_STATE_BASE, action: Action): UndoableStateBase => {
     switch (action.type) {
       // SPEC_FIELD_AUTO_ADD is a special case that requires schema as a parameter

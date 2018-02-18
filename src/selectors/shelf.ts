@@ -1,7 +1,7 @@
 // tslint:disable:no-unused-variable
 import {StateWithHistory} from 'redux-undo';
 import {OneOfFilter, RangeFilter} from 'vega-lite/build/src/filter';
-import {State} from '../models/index';
+import {GenericState, State, UndoableStateBase} from '../models/index';
 // tslint:enable:no-unused-variable
 
 import {Query} from 'compassql/build/src/query/query';
