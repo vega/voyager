@@ -1,5 +1,15 @@
+import {createSelector} from 'reselect';
 import {PlotTabState, State, Tab} from '../models';
 
 export const selectTab = (state: State): Tab => state.undoable.present.tab;
-export const selectActiveTabID = (state: State): number => state.undoable.present.tab.activeTabID;
-export const selectActiveTab = (state: State): PlotTabState => selectTab(state).list[selectActiveTabID(state)];
+
+export const selectActiveTabID = createSelector(
+  selectTab,
+  (tab: Tab): number => tab.activeTabID
+);
+
+export const selectActiveTab = createSelector(
+  selectTab,
+  selectActiveTabID,
+  (tab: Tab, activeTabID: number): PlotTabState => tab.list[activeTabID]
+);
