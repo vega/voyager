@@ -81,7 +81,7 @@ import {makeResetReducer, ResetIndex} from './reset';
 import {shelfPreviewReducer} from './shelf-preview';
 import {shelfSpecFieldAutoAddReducer} from './shelf/spec';
 import {stateReducer} from './state';
-import {tabsReducer} from './tab';
+import {tabReducer} from './tab';
 
 import {modifyItemInArray} from './util';
 
@@ -248,13 +248,13 @@ function groupAction(action: Action, currentState: UndoableStateBase,
 const undoableStateToReset: ResetIndex<UndoableStateBase> = {
   customWildcardFields: true,
   dataset: true,
-  tabs: true
+  tab: true
 };
 
 const combinedUndoableReducer = combineReducers<UndoableStateBase>({
   customWildcardFields: customWildcardFieldReducer,
   dataset: datasetReducer,
-  tabs: tabsReducer,
+  tab: tabReducer,
 });
 
 const undoableReducerBase = makeResetReducer(
@@ -264,10 +264,10 @@ const undoableReducerBase = makeResetReducer(
       case SPEC_FIELD_AUTO_ADD:
         return {
           ...state,
-          tabs: {
-            ...state.tabs,
-            list: modifyItemInArray(state.tabs.list,
-              state.tabs.activeTabID,
+          tab: {
+            ...state.tab,
+            list: modifyItemInArray(state.tab.list,
+              state.tab.activeTabID,
               (plotTabState: PlotTabState) => {
                 return {
                   ...plotTabState,

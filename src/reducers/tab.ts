@@ -5,7 +5,7 @@ import {Action,
   TAB_SWITCH,
   TAB_TITLE_UPDATE
 } from '../actions';
-import {DEFAULT_PLOT_TAB_STATE, DEFAULT_TAB_TITLE, DEFAULT_TABS, PlotTabState, Tabs} from '../models';
+import {DEFAULT_PLOT_TAB_STATE, DEFAULT_TAB, DEFAULT_TAB_TITLE, PlotTabState, Tab} from '../models';
 import {resultIndexReducer} from './result';
 import {shelfReducer} from './shelf';
 import {modifyItemInArray, removeItemFromArray} from './util';
@@ -25,43 +25,43 @@ export function titleReducer(title: Readonly<string> = DEFAULT_TAB_TITLE, action
   return title;
 }
 
-export function tabsReducer(tabs: Readonly<Tabs> = DEFAULT_TABS, action: Action): Tabs {
-  const {activeTabID, list} = tabs;
+export function tabReducer(tab: Readonly<Tab> = DEFAULT_TAB, action: Action): Tab {
+  const {activeTabID, list} = tab;
 
   switch (action.type) {
     case TAB_ADD:
       return {
-        ...tabs,
+        ...tab,
         activeTabID: list.length, // activate the new tab
         list: [...list, DEFAULT_PLOT_TAB_STATE]
       };
 
     case TAB_REMOVE:
       if (list.length === 1) { // if only one tab, don't remove
-        return tabs;
+        return tab;
       }
       const newActiveTabID = activeTabID < list.length - 1 ?
         activeTabID : // activate next tab by default.
         activeTabID - 1; // except for last tab in the list, activate previous tab.
       return {
-        ...tabs,
+        ...tab,
         activeTabID: newActiveTabID,
         list: removeItemFromArray(list, activeTabID).array
       };
 
     case TAB_SWITCH:
       if (activeTabID === action.payload.tabID) {
-        return tabs;
+        return tab;
       }
       return {
-        ...tabs,
+        ...tab,
         activeTabID: action.payload.tabID
       };
   }
 
   return {
-    ...tabs,
-    list: modifyItemInArray(tabs.list, tabs.activeTabID,
+    ...tab,
+    list: modifyItemInArray(tab.list, tab.activeTabID,
       (plotTabState: PlotTabState) => combinedPlotTabReducer(plotTabState, action))
   };
 }

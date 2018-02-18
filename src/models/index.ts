@@ -7,7 +7,7 @@ import {Dataset, DatasetWithoutSchema, DEFAULT_DATASET} from './dataset';
 import {DEFAULT_LOG, Log} from './log';
 import {DEFAULT_RELATED_VIEWS, RelatedViews} from './related-views';
 import {DEFAULT_SHELF_PREVIEW, ShelfPreview} from './shelf-preview';
-import {DEFAULT_TABS, Tabs} from './tab';
+import {DEFAULT_TAB, Tab} from './tab';
 
 export * from './bookmark';
 export * from './dataset';
@@ -29,7 +29,7 @@ export interface PersistentState {
 
 export interface UndoableStateBaseWithoutDataset {
   customWildcardFields: CustomWildcardField[];
-  tabs: Tabs;
+  tab: Tab;
 }
 
 export interface UndoableStateBase extends UndoableStateBaseWithoutDataset {
@@ -47,7 +47,7 @@ export interface State {
 export const DEFAULT_UNDOABLE_STATE_BASE: UndoableStateBase = {
   customWildcardFields: DEFAULT_CUSTOM_WILDCARD_FIELDS,
   dataset: DEFAULT_DATASET,
-  tabs: DEFAULT_TABS,
+  tab: DEFAULT_TAB,
 };
 
 export const DEFAULT_UNDOABLE_STATE: StateWithHistory<UndoableStateBase> = {

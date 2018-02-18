@@ -83,10 +83,10 @@ describe('lib-voyager', () => {
           expect(state).toHaveProperty('config');
           expect(state).toHaveProperty('dataset');
           expect(state.customWildcardFields).toBeDefined();
-          expect(state.tabs.activeTabID).toBeDefined();
-          expect(state.tabs.list[DEFAULT_ACTIVE_TAB_ID]).toHaveProperty('result');
-          expect(state.tabs.list[DEFAULT_ACTIVE_TAB_ID]).toHaveProperty('shelf');
-          expect(state.tabs.list[DEFAULT_ACTIVE_TAB_ID]).toHaveProperty('title');
+          expect(state.tab.activeTabID).toBeDefined();
+          expect(state.tab.list[DEFAULT_ACTIVE_TAB_ID]).toHaveProperty('result');
+          expect(state.tab.list[DEFAULT_ACTIVE_TAB_ID]).toHaveProperty('shelf');
+          expect(state.tab.list[DEFAULT_ACTIVE_TAB_ID]).toHaveProperty('title');
 
           const originalConfigOption = state.config.showDataSourceSelector;
           state.config.showDataSourceSelector = !state.config.showDataSourceSelector;
@@ -100,10 +100,10 @@ describe('lib-voyager', () => {
               expect(newState).toHaveProperty('config');
               expect(newState).toHaveProperty('dataset');
               expect(state.customWildcardFields).toBeDefined();
-              expect(state.tabs.activeTabID).toBeDefined();
-              expect(newState.tabs.list[DEFAULT_ACTIVE_TAB_ID]).toHaveProperty('result');
-              expect(newState.tabs.list[DEFAULT_ACTIVE_TAB_ID]).toHaveProperty('shelf');
-              expect(newState.tabs.list[DEFAULT_ACTIVE_TAB_ID]).toHaveProperty('title');
+              expect(state.tab.activeTabID).toBeDefined();
+              expect(newState.tab.list[DEFAULT_ACTIVE_TAB_ID]).toHaveProperty('result');
+              expect(newState.tab.list[DEFAULT_ACTIVE_TAB_ID]).toHaveProperty('shelf');
+              expect(newState.tab.list[DEFAULT_ACTIVE_TAB_ID]).toHaveProperty('title');
 
               expect(newState.config.showDataSourceSelector).toEqual(!originalConfigOption);
 
@@ -133,10 +133,10 @@ describe('lib-voyager', () => {
             expect(state.config).toBeDefined();
             expect(state.dataset).toBeDefined();
             expect(state.customWildcardFields).toBeDefined();
-            expect(state.tabs.activeTabID).toBeDefined();
-            expect(state.tabs.list[DEFAULT_ACTIVE_TAB_ID].result).toBeDefined();
-            expect(state.tabs.list[DEFAULT_ACTIVE_TAB_ID].shelf).toBeDefined();
-            expect(state.tabs.list[DEFAULT_ACTIVE_TAB_ID].title).toBeDefined();
+            expect(state.tab.activeTabID).toBeDefined();
+            expect(state.tab.list[DEFAULT_ACTIVE_TAB_ID].result).toBeDefined();
+            expect(state.tab.list[DEFAULT_ACTIVE_TAB_ID].shelf).toBeDefined();
+            expect(state.tab.list[DEFAULT_ACTIVE_TAB_ID].title).toBeDefined();
 
             expect(state.config.showDataSourceSelector).toEqual(!originalConfigOption);
 

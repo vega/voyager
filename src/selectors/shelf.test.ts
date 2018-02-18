@@ -30,7 +30,7 @@ describe('selectors/shelf', () => {
               }),
             },
             customWildcardFields: DEFAULT_CUSTOM_WILDCARD_FIELDS,
-            tabs: {
+            tab: {
               activeTabID: DEFAULT_ACTIVE_TAB_ID,
               list: [{
                 ...DEFAULT_PLOT_TAB_STATE,

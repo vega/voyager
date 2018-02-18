@@ -15,14 +15,14 @@ export const DEFAULT_PLOT_TAB_STATE = {
   result: DEFAULT_RESULT_INDEX
 };
 
-export interface Tabs {
+export interface Tab {
   activeTabID: number;
   list: PlotTabState[];
 }
 
 export const DEFAULT_ACTIVE_TAB_ID = 0;
 
-export const DEFAULT_TABS = {
+export const DEFAULT_TAB = {
   activeTabID: DEFAULT_ACTIVE_TAB_ID,
   list: [DEFAULT_PLOT_TAB_STATE]
 };

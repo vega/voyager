@@ -8,7 +8,7 @@ import {
   DEFAULT_PERSISTENT_STATE,
   DEFAULT_PLOT_TAB_STATE,
   DEFAULT_STATE,
-  DEFAULT_TABS,
+  DEFAULT_TAB,
   DEFAULT_UNDOABLE_STATE,
   DEFAULT_UNDOABLE_STATE_BASE,
   State
@@ -17,7 +17,7 @@ import {DEFAULT_RELATED_VIEWS} from '../models/related-views';
 import {DEFAULT_RESULT, DEFAULT_RESULT_INDEX} from '../models/result';
 import {DEFAULT_SHELF, DEFAULT_SHELF_UNIT_SPEC} from '../models/shelf/index';
 import {selectDataset} from '../selectors/dataset';
-import {selectBookmark, selectCustomWildcardFields, selectRelatedViews, selectTabs} from '../selectors/index';
+import {selectBookmark, selectCustomWildcardFields, selectRelatedViews, selectTab} from '../selectors/index';
 import {selectResult} from '../selectors/result';
 import {selectShelf, selectShelfAutoAddCount} from '../selectors/shelf';
 import {ACTIONS_EXCLUDED_FROM_HISTORY, GROUPED_ACTIONS, rootReducer, USER_ACTIONS} from './index';
@@ -38,7 +38,7 @@ describe('reducers/index', () => {
   });
 
   describe('RESET', () => {
-    it('should reset bookmark, dataset, shelf, result, customWildcardFields, tabs', () => {
+    it('should reset bookmark, dataset, shelf, result, customWildcardFields, tab', () => {
       const oldState: State = {
         ...DEFAULT_STATE,
         persistent: {
@@ -56,7 +56,7 @@ describe('reducers/index', () => {
               data: null
             },
             customWildcardFields: [{fields: ['test']}],
-            tabs: {
+            tab: {
               activeTabID: 1,
               list: [
                 DEFAULT_PLOT_TAB_STATE,
@@ -93,7 +93,7 @@ describe('reducers/index', () => {
       expect(selectShelf(state)).toEqual(DEFAULT_SHELF);
       expect(selectShelfAutoAddCount(state)).toEqual(true);
       expect(selectResult.main(state)).toEqual(DEFAULT_RESULT);
-      expect(selectTabs(state)).toEqual(DEFAULT_TABS);
+      expect(selectTab(state)).toEqual(DEFAULT_TAB);
     });
   });
 });

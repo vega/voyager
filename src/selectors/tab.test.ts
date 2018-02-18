@@ -1,7 +1,7 @@
-import { DEFAULT_PLOT_TAB_STATE, DEFAULT_STATE, DEFAULT_TABS,
+import { DEFAULT_PLOT_TAB_STATE, DEFAULT_STATE, DEFAULT_TAB,
   DEFAULT_UNDOABLE_STATE, DEFAULT_UNDOABLE_STATE_BASE, State} from '../models/index';
 import { selectActiveTab } from './index';
-import {selectActiveTabID, selectTabs} from './tab';
+import {selectActiveTabID, selectTab} from './tab';
 
 describe('selectors/tab', () => {
   const state: State = {
@@ -10,8 +10,8 @@ describe('selectors/tab', () => {
       ...DEFAULT_UNDOABLE_STATE,
       present: {
         ...DEFAULT_UNDOABLE_STATE_BASE,
-        tabs: {
-          ...DEFAULT_TABS,
+        tab: {
+          ...DEFAULT_TAB,
           activeTabID: 1,
           list: [DEFAULT_PLOT_TAB_STATE,
             {
@@ -23,9 +23,9 @@ describe('selectors/tab', () => {
     }
   };
 
-  describe('selectTabs', () => {
-    it('should select tabs from the state', () => {
-      expect(selectTabs(DEFAULT_STATE)).toBe(DEFAULT_TABS);
+  describe('selectTab', () => {
+    it('should select tab state', () => {
+      expect(selectTab(DEFAULT_STATE)).toBe(DEFAULT_TAB);
     });
   });
 
