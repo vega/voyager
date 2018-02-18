@@ -28,8 +28,9 @@ export const selectRelatedViews = (state: State): RelatedViews => state.persiste
 export const selectShelfPreview = (state: State): ShelfPreview => state.persistent.shelfPreview;
 export const selectLog = (state: State): Log => state.persistent.log;
 
-export const selectCustomWildcardFields = (state: State): CustomWildcardField[] =>
- state.undoable.present.customWildcardFields;
+export const selectCustomWildcardFields = (state: State): CustomWildcardField[] => {
+  return state.undoable.present.customWildcardFields;
+};
 
 export const selectFilteredData = createSelector(
   selectData,

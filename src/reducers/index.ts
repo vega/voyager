@@ -209,8 +209,6 @@ export const USER_ACTIONS: ActionType[] = [
   TAB_ADD,
   TAB_SWITCH,
   TAB_REMOVE,
-
-  // Title Action
   TAB_TITLE_UPDATE
 ];
 
@@ -261,26 +259,27 @@ const combinedUndoableReducer = combineReducers<UndoableStateBase>({
 
 const undoableReducerBase = makeResetReducer(
   (state: Readonly<UndoableStateBase> = DEFAULT_UNDOABLE_STATE_BASE, action: Action): UndoableStateBase => {
-    // SPEC_FIELD_AUTO_ADD is a special case that requires schema as a parameter
-    if (action.type === SPEC_FIELD_AUTO_ADD) {
-      return {
-        ...state,
-        tabs: {
-          ...state.tabs,
-          list: modifyItemInArray(state.tabs.list,
-            state.tabs.activeTabID,
-            (plotTabState: PlotTabState) => {
-              return {
-                ...plotTabState,
-                shelf: {
-                  ...plotTabState.shelf,
-                  spec: shelfSpecFieldAutoAddReducer(plotTabState.shelf.spec, action, state.dataset.schema)
-                }
-              };
-            }
-          )
-        }
-      };
+    switch (action.type) {
+      // SPEC_FIELD_AUTO_ADD is a special case that requires schema as a parameter
+      case SPEC_FIELD_AUTO_ADD:
+        return {
+          ...state,
+          tabs: {
+            ...state.tabs,
+            list: modifyItemInArray(state.tabs.list,
+              state.tabs.activeTabID,
+              (plotTabState: PlotTabState) => {
+                return {
+                  ...plotTabState,
+                  shelf: {
+                    ...plotTabState.shelf,
+                    spec: shelfSpecFieldAutoAddReducer(plotTabState.shelf.spec, action, state.dataset.schema)
+                  }
+                };
+              }
+            )
+          }
+        };
     }
 
     return combinedUndoableReducer(state, action);

@@ -16,9 +16,9 @@ export type ResultAction = ResultRequest | ResultReceive | ResultLimitIncrease |
 
 export type ResultModifyAction = ResultModifyFieldProp<any> | ResultModifyNestedFieldProp<any, any>;
 
-export type ResultActionType = ResultAction['type'];
+type ResultActionType = ResultAction['type'];
 
-export const RESULT_ACTION_TYPE_INDEX: {[K in ResultActionType]: 1} = {
+const RESULT_ACTION_TYPE_INDEX: {[K in ResultActionType]: 1} = {
   RESULT_REQUEST: 1,
   RESULT_RECEIVE: 1,
   RESULT_LIMIT_INCREASE: 1,
