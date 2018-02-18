@@ -1,6 +1,6 @@
 import {Schema} from 'compassql/build/src/schema';
 import {DEFAULT_CUSTOM_WILDCARD_FIELDS} from '../models/custom-wildcard-field';
-import {DEFAULT_ACTIVE_TAB_ID, DEFAULT_PERSISTENT_STATE, DEFAULT_SINGLE_VIEW_TAB_STATE,
+import {DEFAULT_ACTIVE_TAB_ID, DEFAULT_PERSISTENT_STATE, DEFAULT_PLOT_TAB_STATE,
   DEFAULT_STATE, DEFAULT_UNDOABLE_STATE_BASE, State} from '../models/index';
 import {DEFAULT_SHELF, toQuery} from '../models/shelf/index';
 import {hasWildcards} from '../models/shelf/spec';
@@ -33,7 +33,7 @@ describe('selectors/shelf', () => {
             tabs: {
               activeTabID: DEFAULT_ACTIVE_TAB_ID,
               list: [{
-                ...DEFAULT_SINGLE_VIEW_TAB_STATE,
+                ...DEFAULT_PLOT_TAB_STATE,
                 shelf: {
                   ...DEFAULT_SHELF,
                   filters

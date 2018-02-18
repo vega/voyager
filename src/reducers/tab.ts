@@ -7,12 +7,12 @@ import {Action,
   TAB_SWITCH,
   TITLE_UPDATE
 } from '../actions';
-import {DEFAULT_SINGLE_VIEW_TAB_STATE, DEFAULT_TAB_TITLE, DEFAULT_TABS, SingleViewTabState, Tabs} from '../models';
+import {DEFAULT_PLOT_TAB_STATE, DEFAULT_TAB_TITLE, DEFAULT_TABS, PlotTabState, Tabs} from '../models';
 import {resultIndexReducer} from './result';
 import {shelfReducer} from './shelf';
 import {modifyItemInArray, removeItemFromArray} from './util';
 
-const combinedSingleViewTabReducer = combineReducers<SingleViewTabState>({
+const combinedPlotTabReducer = combineReducers<PlotTabState>({
   title: titleReducer,
   shelf: shelfReducer,
   result: resultIndexReducer
@@ -35,7 +35,7 @@ export function multiTabsReducer(tabs: Readonly<Tabs> = DEFAULT_TABS, action: Ac
       return {
         ...tabs,
         activeTabID: list.length, // activate the new tab
-        list: [...list, DEFAULT_SINGLE_VIEW_TAB_STATE]
+        list: [...list, DEFAULT_PLOT_TAB_STATE]
       };
 
     case TAB_REMOVE:
@@ -75,7 +75,7 @@ export function tabsReducer(tabs: Readonly<Tabs> = DEFAULT_TABS, action: Action)
     return {
       ...tabs,
       list: modifyItemInArray(tabs.list, tabs.activeTabID,
-        (singleViewTabState: SingleViewTabState) => combinedSingleViewTabReducer(singleViewTabState, action))
+        (plotTabState: PlotTabState) => combinedPlotTabReducer(plotTabState, action))
     };
   }
 

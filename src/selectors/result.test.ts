@@ -6,7 +6,7 @@ import {Schema} from 'compassql/build/src/schema';
 import {Data} from 'vega-lite/build/src/data';
 import {DEFAULT_CUSTOM_WILDCARD_FIELDS} from '../models/custom-wildcard-field';
 import {DEFAULT_DATASET} from '../models/dataset';
-import {DEFAULT_ACTIVE_TAB_ID, DEFAULT_PERSISTENT_STATE, DEFAULT_SINGLE_VIEW_TAB_STATE,
+import {DEFAULT_ACTIVE_TAB_ID, DEFAULT_PERSISTENT_STATE, DEFAULT_PLOT_TAB_STATE,
   DEFAULT_STATE, State} from '../models/index';
 import {fromSpecQueryModelGroup} from '../models/result';
 import {DEFAULT_RESULT, DEFAULT_RESULT_INDEX} from '../models/result';
@@ -58,7 +58,7 @@ const stateSpecific: State = {
       tabs: {
         activeTabID: DEFAULT_ACTIVE_TAB_ID,
         list: [{
-          ...DEFAULT_SINGLE_VIEW_TAB_STATE,
+          ...DEFAULT_PLOT_TAB_STATE,
           shelf: {
             ...DEFAULT_SHELF,
             spec

@@ -1,4 +1,4 @@
-import { DEFAULT_SINGLE_VIEW_TAB_STATE, DEFAULT_STATE, DEFAULT_TABS,
+import { DEFAULT_PLOT_TAB_STATE, DEFAULT_STATE, DEFAULT_TABS,
   DEFAULT_UNDOABLE_STATE, DEFAULT_UNDOABLE_STATE_BASE, State} from '../models/index';
 import { selectActiveTab } from './index';
 import {selectActiveTabID, selectTabs} from './tab';
@@ -13,9 +13,9 @@ describe('selectors/tab', () => {
         tabs: {
           ...DEFAULT_TABS,
           activeTabID: 1,
-          list: [DEFAULT_SINGLE_VIEW_TAB_STATE,
+          list: [DEFAULT_PLOT_TAB_STATE,
             {
-              ...DEFAULT_SINGLE_VIEW_TAB_STATE,
+              ...DEFAULT_PLOT_TAB_STATE,
               title: 'active tab'
             }]
         }
@@ -38,7 +38,7 @@ describe('selectors/tab', () => {
   describe('selectActiveTab', () => {
     it('should select the active tab from the state', () => {
       expect(selectActiveTab(state)).toEqual({
-        ...DEFAULT_SINGLE_VIEW_TAB_STATE,
+        ...DEFAULT_PLOT_TAB_STATE,
         title: 'active tab'
       });
     });

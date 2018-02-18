@@ -3,7 +3,7 @@ import {toSet} from 'vega-util';
 
 import {Action, REDO, UNDO} from '../actions';
 import {HISTORY_LIMIT} from '../constants';
-import {DEFAULT_STATE, DEFAULT_UNDOABLE_STATE_BASE, SingleViewTabState} from '../models';
+import {DEFAULT_STATE, DEFAULT_UNDOABLE_STATE_BASE, PlotTabState} from '../models';
 
 import {SET_CONFIG} from '../actions/config';
 
@@ -269,12 +269,12 @@ const undoableReducerBase = makeResetReducer(
           ...state.tabs,
           list: modifyItemInArray(state.tabs.list,
             state.tabs.activeTabID,
-            (singleViewTabState: SingleViewTabState) => {
+            (plotTabState: PlotTabState) => {
               return {
-                ...singleViewTabState,
+                ...plotTabState,
                 shelf: {
-                  ...singleViewTabState.shelf,
-                  spec: shelfSpecFieldAutoAddReducer(singleViewTabState.shelf.spec, action, state.dataset.schema)
+                  ...plotTabState.shelf,
+                  spec: shelfSpecFieldAutoAddReducer(plotTabState.shelf.spec, action, state.dataset.schema)
                 }
               };
             }

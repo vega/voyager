@@ -7,7 +7,7 @@ import {DEFAULT_DATASET} from '../models/dataset';
 import {
   DEFAULT_ACTIVE_TAB_ID,
   DEFAULT_PERSISTENT_STATE,
-  DEFAULT_SINGLE_VIEW_TAB_STATE,
+  DEFAULT_PLOT_TAB_STATE,
   DEFAULT_STATE,
   DEFAULT_TABS,
   DEFAULT_UNDOABLE_STATE,
@@ -60,7 +60,7 @@ describe('reducers/index', () => {
             tabs: {
               activeTabID: DEFAULT_ACTIVE_TAB_ID,
               list: [{
-                ...DEFAULT_SINGLE_VIEW_TAB_STATE,
+                ...DEFAULT_PLOT_TAB_STATE,
                 shelf: {
                   ...DEFAULT_SHELF,
                   spec: {
