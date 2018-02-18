@@ -1,11 +1,9 @@
 import {combineReducers} from 'redux';
 import {Action,
-  isMultiTabAction,
-  isSingleTabAction,
   TAB_ADD,
   TAB_REMOVE,
   TAB_SWITCH,
-  TITLE_UPDATE
+  TAB_TITLE_UPDATE
 } from '../actions';
 import {DEFAULT_PLOT_TAB_STATE, DEFAULT_TAB_TITLE, DEFAULT_TABS, PlotTabState, Tabs} from '../models';
 import {resultIndexReducer} from './result';
@@ -20,14 +18,14 @@ const combinedPlotTabReducer = combineReducers<PlotTabState>({
 
 export function titleReducer(title: Readonly<string> = DEFAULT_TAB_TITLE, action: Action): string {
   switch (action.type) {
-    case TITLE_UPDATE:
-      return action.payload.newTitle;
+    case TAB_TITLE_UPDATE:
+      return action.payload.title;
   }
 
   return title;
 }
 
-export function multiTabsReducer(tabs: Readonly<Tabs> = DEFAULT_TABS, action: Action): Tabs {
+export function tabsReducer(tabs: Readonly<Tabs> = DEFAULT_TABS, action: Action): Tabs {
   const {activeTabID, list} = tabs;
 
   switch (action.type) {
@@ -59,25 +57,11 @@ export function multiTabsReducer(tabs: Readonly<Tabs> = DEFAULT_TABS, action: Ac
         ...tabs,
         activeTabID: action.payload.tabID
       };
-
-    default:
-      return tabs;
   }
 
-}
-
-export function tabsReducer(tabs: Readonly<Tabs> = DEFAULT_TABS, action: Action): Tabs {
-  if (isMultiTabAction(action)) {
-    return multiTabsReducer(tabs, action);
-  }
-
-  if (isSingleTabAction(action)) {
-    return {
-      ...tabs,
-      list: modifyItemInArray(tabs.list, tabs.activeTabID,
-        (plotTabState: PlotTabState) => combinedPlotTabReducer(plotTabState, action))
-    };
-  }
-
-  return tabs;
+  return {
+    ...tabs,
+    list: modifyItemInArray(tabs.list, tabs.activeTabID,
+      (plotTabState: PlotTabState) => combinedPlotTabReducer(plotTabState, action))
+  };
 }

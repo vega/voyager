@@ -1,4 +1,4 @@
-import {TAB_ADD, TAB_REMOVE, TAB_SWITCH, TITLE_UPDATE} from '../actions/tab';
+import {TAB_ADD, TAB_REMOVE, TAB_SWITCH, TAB_TITLE_UPDATE} from '../actions/tab';
 import {DEFAULT_PLOT_TAB_STATE, Tabs} from '../models';
 import {tabsReducer, titleReducer} from './tab';
 
@@ -81,9 +81,9 @@ describe('reducers/tabs', () => {
   });
 
   describe('titleReducer', () => {
-    describe(TITLE_UPDATE, () => {
+    describe(TAB_TITLE_UPDATE, () => {
       it('should update the title of a tab', () => {
-        const newTitle: string = titleReducer('old title', {type: TITLE_UPDATE, payload: {newTitle: 'new title'}});
+        const newTitle: string = titleReducer('old title', {type: TAB_TITLE_UPDATE, payload: {title: 'new title'}});
         expect(newTitle).toEqual('new title');
       });
     });

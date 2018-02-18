@@ -53,7 +53,7 @@ import {
   TAB_ADD,
   TAB_REMOVE,
   TAB_SWITCH,
-  TITLE_UPDATE
+  TAB_TITLE_UPDATE
 } from '../actions';
 
 import {ActionType} from '../actions';
@@ -211,7 +211,7 @@ export const USER_ACTIONS: ActionType[] = [
   TAB_REMOVE,
 
   // Title Action
-  TITLE_UPDATE
+  TAB_TITLE_UPDATE
 ];
 
 
