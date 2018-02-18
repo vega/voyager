@@ -6,15 +6,15 @@ import {CustomWildcardField, DEFAULT_CUSTOM_WILDCARD_FIELDS} from './custom-wild
 import {Dataset, DatasetWithoutSchema, DEFAULT_DATASET} from './dataset';
 import {DEFAULT_LOG, Log} from './log';
 import {DEFAULT_RELATED_VIEWS, RelatedViews} from './related-views';
-import {DEFAULT_RESULT_INDEX, ResultIndex} from './result';
-import {DEFAULT_SHELF, Shelf} from './shelf';
 import {DEFAULT_SHELF_PREVIEW, ShelfPreview} from './shelf-preview';
+import {DEFAULT_TAB, Tab} from './tab';
 
 export * from './bookmark';
 export * from './dataset';
 export * from './shelf';
 export * from './result';
 export * from './config';
+export * from './tab';
 
 /**
  * Application state.
@@ -29,8 +29,7 @@ export interface PersistentState {
 
 export interface UndoableStateBaseWithoutDataset {
   customWildcardFields: CustomWildcardField[];
-  shelf: Shelf;
-  result: ResultIndex;
+  tab: Tab;
 }
 
 export interface UndoableStateBase extends UndoableStateBaseWithoutDataset {
@@ -48,8 +47,7 @@ export interface State {
 export const DEFAULT_UNDOABLE_STATE_BASE: UndoableStateBase = {
   customWildcardFields: DEFAULT_CUSTOM_WILDCARD_FIELDS,
   dataset: DEFAULT_DATASET,
-  shelf: DEFAULT_SHELF,
-  result: DEFAULT_RESULT_INDEX
+  tab: DEFAULT_TAB,
 };
 
 export const DEFAULT_UNDOABLE_STATE: StateWithHistory<UndoableStateBase> = {
@@ -74,7 +72,6 @@ export const DEFAULT_STATE: State = {
   persistent: DEFAULT_PERSISTENT_STATE,
   undoable: DEFAULT_UNDOABLE_STATE
 };
-
 
 export interface SerializableState extends PersistentState, UndoableStateBaseWithoutDataset {
   dataset: DatasetWithoutSchema;

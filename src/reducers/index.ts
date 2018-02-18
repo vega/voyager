@@ -3,7 +3,7 @@ import {toSet} from 'vega-util';
 
 import {Action, REDO, UNDO} from '../actions';
 import {HISTORY_LIMIT} from '../constants';
-import {DEFAULT_STATE} from '../models';
+import {DEFAULT_STATE, DEFAULT_UNDOABLE_STATE_BASE, PlotTabState} from '../models';
 
 import {SET_CONFIG} from '../actions/config';
 
@@ -49,7 +49,11 @@ import {
   SPEC_FUNCTION_ENABLE_WILDCARD,
   SPEC_FUNCTION_REMOVE_WILDCARD,
   SPEC_LOAD,
-  SPEC_MARK_CHANGE_TYPE
+  SPEC_MARK_CHANGE_TYPE,
+  TAB_ADD,
+  TAB_REMOVE,
+  TAB_SWITCH,
+  TAB_TITLE_UPDATE
 } from '../actions';
 
 import {ActionType} from '../actions';
@@ -63,7 +67,6 @@ import {SHELF_AUTO_ADD_COUNT_CHANGE, SHELF_GROUP_BY_CHANGE} from '../actions/she
 import {SPEC_FIELD_NESTED_PROP_CHANGE, SPEC_FIELD_PROP_CHANGE} from '../actions/shelf/spec';
 import {
   DEFAULT_PERSISTENT_STATE,
-  DEFAULT_UNDOABLE_STATE_BASE,
   PersistentState,
   State,
   UndoableStateBase
@@ -75,11 +78,12 @@ import {datasetReducer} from './dataset';
 import {logReducer} from './log';
 import {relatedViewsReducer} from './related-views';
 import {makeResetReducer, ResetIndex} from './reset';
-import {resultIndexReducer} from './result';
-import {shelfReducer} from './shelf';
 import {shelfPreviewReducer} from './shelf-preview';
 import {shelfSpecFieldAutoAddReducer} from './shelf/spec';
 import {stateReducer} from './state';
+import {tabReducer} from './tab';
+
+import {modifyItemInArray} from './util';
 
 /**
  * Whether to reset a particular property of the persistent state during RESET action
@@ -199,7 +203,13 @@ export const USER_ACTIONS: ActionType[] = [
   SPEC_FUNCTION_DISABLE_WILDCARD,
   SPEC_FUNCTION_ENABLE_WILDCARD,
   SPEC_FUNCTION_REMOVE_WILDCARD,
-  SPEC_LOAD
+  SPEC_LOAD,
+
+  // Tab Actions
+  TAB_ADD,
+  TAB_SWITCH,
+  TAB_REMOVE,
+  TAB_TITLE_UPDATE
 ];
 
 
@@ -238,15 +248,13 @@ function groupAction(action: Action, currentState: UndoableStateBase,
 const undoableStateToReset: ResetIndex<UndoableStateBase> = {
   customWildcardFields: true,
   dataset: true,
-  shelf: true,
-  result: true
+  tab: true
 };
 
 const combinedUndoableReducer = combineReducers<UndoableStateBase>({
   customWildcardFields: customWildcardFieldReducer,
   dataset: datasetReducer,
-  shelf: shelfReducer,
-  result: resultIndexReducer
+  tab: tabReducer,
 });
 
 const undoableReducerBase = makeResetReducer(
@@ -256,9 +264,20 @@ const undoableReducerBase = makeResetReducer(
       case SPEC_FIELD_AUTO_ADD:
         return {
           ...state,
-          shelf: {
-            ...state.shelf,
-            spec: shelfSpecFieldAutoAddReducer(state.shelf.spec, action, state.dataset.schema)
+          tab: {
+            ...state.tab,
+            list: modifyItemInArray(state.tab.list,
+              state.tab.activeTabID,
+              (plotTabState: PlotTabState) => {
+                return {
+                  ...plotTabState,
+                  shelf: {
+                    ...plotTabState.shelf,
+                    spec: shelfSpecFieldAutoAddReducer(plotTabState.shelf.spec, action, state.dataset.schema)
+                  }
+                };
+              }
+            )
           }
         };
     }
@@ -268,7 +287,6 @@ const undoableReducerBase = makeResetReducer(
   undoableStateToReset,
   DEFAULT_UNDOABLE_STATE_BASE
 );
-
 
 const undoableReducer = undoable<UndoableStateBase>(undoableReducerBase, {
   limit: HISTORY_LIMIT,

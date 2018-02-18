@@ -8,15 +8,19 @@ import {FacetedCompositeUnitSpec, GenericUnitSpec, isUnitSpec} from 'vega-lite/b
 
 import {createSelector} from 'reselect';
 import {Selector} from 'reselect/src/reselect';
-import {State} from '../models/index';
+import {PlotTabState, State} from '../models/index';
 import {ResultPlot} from '../models/result';
 import {Result, RESULT_TYPES, ResultType} from '../models/result';
 import {selectIsQueryEmpty, selectIsQuerySpecific} from './shelf';
+import {selectActiveTab} from './tab';
 
 export const selectResult: {
   [k in ResultType]?: Selector<State, Result>
 } = RESULT_TYPES.reduce((selectors, resultType) => {
-  selectors[resultType] = (state: State) => state.undoable.present.result[resultType];
+  selectors[resultType] = createSelector(
+    selectActiveTab,
+    (plotTabState: PlotTabState) => plotTabState.result[resultType]
+  );
   return selectors;
 }, {});
 

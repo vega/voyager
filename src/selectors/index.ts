@@ -20,6 +20,7 @@ import {selectFilters} from './shelf';
 export * from './dataset';
 export * from './result';
 export * from './shelf';
+export * from './tab';
 
 export const selectBookmark = (state: State): Bookmark => state.persistent.bookmark;
 export const selectConfig = (state: State): VoyagerConfig => state.persistent.config;

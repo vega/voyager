@@ -4,8 +4,10 @@ import {ExpandedType} from 'compassql/build/src/query/expandedtype';
 import {SpecQuery} from 'compassql/build/src/query/spec';
 import {Schema} from 'compassql/build/src/schema';
 import {Data} from 'vega-lite/build/src/data';
+import {DEFAULT_CUSTOM_WILDCARD_FIELDS} from '../models/custom-wildcard-field';
 import {DEFAULT_DATASET} from '../models/dataset';
-import {DEFAULT_PERSISTENT_STATE, DEFAULT_STATE, State} from '../models/index';
+import {DEFAULT_ACTIVE_TAB_ID, DEFAULT_PERSISTENT_STATE, DEFAULT_PLOT_TAB_STATE,
+  DEFAULT_STATE, State} from '../models/index';
 import {fromSpecQueryModelGroup} from '../models/result';
 import {DEFAULT_RESULT, DEFAULT_RESULT_INDEX} from '../models/result';
 import {DEFAULT_SHELF} from '../models/shelf/index';
@@ -52,16 +54,23 @@ const stateSpecific: State = {
         ...DEFAULT_DATASET,
         data
       },
-      shelf: {
-        ...DEFAULT_SHELF,
-        spec
-      },
-      result: {
-        ...DEFAULT_RESULT_INDEX,
-        main: {
-          ...DEFAULT_RESULT,
-          plots
-        }
+      customWildcardFields: DEFAULT_CUSTOM_WILDCARD_FIELDS,
+      tab: {
+        activeTabID: DEFAULT_ACTIVE_TAB_ID,
+        list: [{
+          ...DEFAULT_PLOT_TAB_STATE,
+          shelf: {
+            ...DEFAULT_SHELF,
+            spec
+          },
+          result: {
+            ...DEFAULT_RESULT_INDEX,
+            main: {
+              ...DEFAULT_RESULT,
+              plots
+            }
+          }
+        }]
       }
     }
   }

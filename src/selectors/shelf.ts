@@ -7,11 +7,15 @@ import {State} from '../models/index';
 import {Query} from 'compassql/build/src/query/query';
 import {SpecQuery} from 'compassql/build/src/query/spec';
 import {createSelector} from 'reselect';
+import {PlotTabState} from '../models';
 import {ShelfFilter} from '../models/shelf/filter';
 import {getDefaultGroupBy, Shelf, ShelfGroupBy, toQuery} from '../models/shelf/index';
 import {hasWildcards, ShelfUnitSpec} from '../models/shelf/spec';
+import {selectActiveTab} from './tab';
 
-export const selectShelf = (state: State): Shelf => state.undoable.present.shelf;
+export const selectShelf = createSelector(selectActiveTab,
+  (plotTabState: PlotTabState): Shelf => plotTabState.shelf
+);
 
 export const selectShelfGroupBy = createSelector(selectShelf,
   (shelf: Shelf): ShelfGroupBy => shelf.groupBy

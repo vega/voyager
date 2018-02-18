@@ -6,7 +6,9 @@ import {DEFAULT_CUSTOM_WILDCARD_FIELDS} from '../models/custom-wildcard-field';
 import {DEFAULT_DATASET} from '../models/dataset';
 import {
   DEFAULT_PERSISTENT_STATE,
+  DEFAULT_PLOT_TAB_STATE,
   DEFAULT_STATE,
+  DEFAULT_TAB,
   DEFAULT_UNDOABLE_STATE,
   DEFAULT_UNDOABLE_STATE_BASE,
   State
@@ -15,7 +17,7 @@ import {DEFAULT_RELATED_VIEWS} from '../models/related-views';
 import {DEFAULT_RESULT, DEFAULT_RESULT_INDEX} from '../models/result';
 import {DEFAULT_SHELF, DEFAULT_SHELF_UNIT_SPEC} from '../models/shelf/index';
 import {selectDataset} from '../selectors/dataset';
-import {selectBookmark, selectCustomWildcardFields, selectRelatedViews} from '../selectors/index';
+import {selectBookmark, selectCustomWildcardFields, selectRelatedViews, selectTab} from '../selectors/index';
 import {selectResult} from '../selectors/result';
 import {selectShelf, selectShelfAutoAddCount} from '../selectors/shelf';
 import {ACTIONS_EXCLUDED_FROM_HISTORY, GROUPED_ACTIONS, rootReducer, USER_ACTIONS} from './index';
@@ -36,7 +38,7 @@ describe('reducers/index', () => {
   });
 
   describe('RESET', () => {
-    it('should reset bookmark, dataset, shelf, result, customWildcardFields', () => {
+    it('should reset bookmark, dataset, shelf, result, customWildcardFields, tab', () => {
       const oldState: State = {
         ...DEFAULT_STATE,
         persistent: {
@@ -53,21 +55,31 @@ describe('reducers/index', () => {
               schema: null,
               data: null
             },
-            shelf: {
-              ...DEFAULT_SHELF,
-              spec: {
-                mark: 'point',
-                ...DEFAULT_SHELF_UNIT_SPEC
-              },
-            },
-            result: {
-              ...DEFAULT_RESULT_INDEX,
-              main: {
-                isLoading: false,
-                plots: [], // mock
-                query: null,
-                limit: 20
-              }
+            customWildcardFields: [{fields: ['test']}],
+            tab: {
+              activeTabID: 1,
+              list: [
+                DEFAULT_PLOT_TAB_STATE,
+                {
+                  ...DEFAULT_PLOT_TAB_STATE,
+                  shelf: {
+                    ...DEFAULT_SHELF,
+                    spec: {
+                      mark: 'point',
+                      ...DEFAULT_SHELF_UNIT_SPEC
+                    },
+                  },
+                  result: {
+                    ...DEFAULT_RESULT_INDEX,
+                    main: {
+                      isLoading: false,
+                      plots: [], // mock
+                      query: null,
+                      limit: 20
+                    }
+                  }
+                }
+              ]
             }
           }
         }
@@ -81,6 +93,7 @@ describe('reducers/index', () => {
       expect(selectShelf(state)).toEqual(DEFAULT_SHELF);
       expect(selectShelfAutoAddCount(state)).toEqual(true);
       expect(selectResult.main(state)).toEqual(DEFAULT_RESULT);
+      expect(selectTab(state)).toEqual(DEFAULT_TAB);
     });
   });
 });

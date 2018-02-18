@@ -6,7 +6,7 @@ import * as ReactDOM from 'react-dom';
 import {CreateVoyager} from './lib-voyager';
 import {Bookmark, DEFAULT_BOOKMARK} from './models/bookmark';
 import {
-  DEFAULT_PERSISTENT_STATE, DEFAULT_UNDOABLE_STATE,
+  DEFAULT_ACTIVE_TAB_ID, DEFAULT_PERSISTENT_STATE, DEFAULT_UNDOABLE_STATE,
   SerializableState, State, toSerializable
 } from './models/index';
 const DEFAULT_TIMEOUT_LENGTH = 300;
@@ -82,8 +82,11 @@ describe('lib-voyager', () => {
 
           expect(state).toHaveProperty('config');
           expect(state).toHaveProperty('dataset');
-          expect(state).toHaveProperty('result');
-          expect(state).toHaveProperty('shelf');
+          expect(state.customWildcardFields).toBeDefined();
+          expect(state.tab.activeTabID).toBeDefined();
+          expect(state.tab.list[DEFAULT_ACTIVE_TAB_ID]).toHaveProperty('result');
+          expect(state.tab.list[DEFAULT_ACTIVE_TAB_ID]).toHaveProperty('shelf');
+          expect(state.tab.list[DEFAULT_ACTIVE_TAB_ID]).toHaveProperty('title');
 
           const originalConfigOption = state.config.showDataSourceSelector;
           state.config.showDataSourceSelector = !state.config.showDataSourceSelector;
@@ -96,8 +99,11 @@ describe('lib-voyager', () => {
 
               expect(newState).toHaveProperty('config');
               expect(newState).toHaveProperty('dataset');
-              expect(newState).toHaveProperty('result');
-              expect(newState).toHaveProperty('shelf');
+              expect(state.customWildcardFields).toBeDefined();
+              expect(state.tab.activeTabID).toBeDefined();
+              expect(newState.tab.list[DEFAULT_ACTIVE_TAB_ID]).toHaveProperty('result');
+              expect(newState.tab.list[DEFAULT_ACTIVE_TAB_ID]).toHaveProperty('shelf');
+              expect(newState.tab.list[DEFAULT_ACTIVE_TAB_ID]).toHaveProperty('title');
 
               expect(newState.config.showDataSourceSelector).toEqual(!originalConfigOption);
 
@@ -126,8 +132,11 @@ describe('lib-voyager', () => {
           const handleStateChange = (state: SerializableState) => {
             expect(state.config).toBeDefined();
             expect(state.dataset).toBeDefined();
-            expect(state.result).toBeDefined();
-            expect(state.shelf).toBeDefined();
+            expect(state.customWildcardFields).toBeDefined();
+            expect(state.tab.activeTabID).toBeDefined();
+            expect(state.tab.list[DEFAULT_ACTIVE_TAB_ID].result).toBeDefined();
+            expect(state.tab.list[DEFAULT_ACTIVE_TAB_ID].shelf).toBeDefined();
+            expect(state.tab.list[DEFAULT_ACTIVE_TAB_ID].title).toBeDefined();
 
             expect(state.config.showDataSourceSelector).toEqual(!originalConfigOption);
 
