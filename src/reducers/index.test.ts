@@ -38,7 +38,7 @@ describe('reducers/index', () => {
   });
 
   describe('RESET', () => {
-    it('should reset bookmark, dataset, shelf, result, customWildcardFields, tab', () => {
+    it('should reset bookmark, dataset, shelf, result, customWildcardFieldDefs, tab', () => {
       const oldState: State = {
         ...DEFAULT_STATE,
         persistent: {
@@ -55,6 +55,7 @@ describe('reducers/index', () => {
               schema: null,
               data: null
             },
+            customWildcardFieldDefs: DEFAULT_CUSTOM_WILDCARD_FIELDDEFS,
             tab: {
               activeTabID: 1,
               list: [

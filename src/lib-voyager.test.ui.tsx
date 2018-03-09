@@ -82,7 +82,7 @@ describe('lib-voyager', () => {
 
           expect(state).toHaveProperty('config');
           expect(state).toHaveProperty('dataset');
-          expect(state.customWildcardFields).toBeDefined();
+          expect(state.customWildcardFieldDefs).toBeDefined();
           expect(state.tab.activeTabID).toBeDefined();
           expect(state.tab.list[DEFAULT_ACTIVE_TAB_ID]).toHaveProperty('result');
           expect(state.tab.list[DEFAULT_ACTIVE_TAB_ID]).toHaveProperty('shelf');
@@ -99,7 +99,7 @@ describe('lib-voyager', () => {
 
               expect(newState).toHaveProperty('config');
               expect(newState).toHaveProperty('dataset');
-              expect(state.customWildcardFields).toBeDefined();
+              expect(state.customWildcardFieldDefs).toBeDefined();
               expect(state.tab.activeTabID).toBeDefined();
               expect(newState.tab.list[DEFAULT_ACTIVE_TAB_ID]).toHaveProperty('result');
               expect(newState.tab.list[DEFAULT_ACTIVE_TAB_ID]).toHaveProperty('shelf');
@@ -132,7 +132,7 @@ describe('lib-voyager', () => {
           const handleStateChange = (state: SerializableState) => {
             expect(state.config).toBeDefined();
             expect(state.dataset).toBeDefined();
-            expect(state.customWildcardFields).toBeDefined();
+            expect(state.customWildcardFieldDefs).toBeDefined();
             expect(state.tab.activeTabID).toBeDefined();
             expect(state.tab.list[DEFAULT_ACTIVE_TAB_ID].result).toBeDefined();
             expect(state.tab.list[DEFAULT_ACTIVE_TAB_ID].shelf).toBeDefined();

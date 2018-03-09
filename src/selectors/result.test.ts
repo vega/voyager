@@ -4,7 +4,7 @@ import {ExpandedType} from 'compassql/build/src/query/expandedtype';
 import {SpecQuery} from 'compassql/build/src/query/spec';
 import {Schema} from 'compassql/build/src/schema';
 import {Data} from 'vega-lite/build/src/data';
-import {DEFAULT_CUSTOM_WILDCARD_FIELDS} from '../models/custom-wildcard-field';
+import {DEFAULT_CUSTOM_WILDCARD_FIELDDEFS} from '../models/custom-wildcard-field';
 import {DEFAULT_DATASET} from '../models/dataset';
 import {DEFAULT_ACTIVE_TAB_ID, DEFAULT_PERSISTENT_STATE, DEFAULT_PLOT_TAB_STATE,
   DEFAULT_STATE, State} from '../models/index';
@@ -54,7 +54,7 @@ const stateSpecific: State = {
         ...DEFAULT_DATASET,
         data
       },
-      customWildcardFields: DEFAULT_CUSTOM_WILDCARD_FIELDS,
+      customWildcardFieldDefs: DEFAULT_CUSTOM_WILDCARD_FIELDDEFS,
       tab: {
         activeTabID: DEFAULT_ACTIVE_TAB_ID,
         list: [{
