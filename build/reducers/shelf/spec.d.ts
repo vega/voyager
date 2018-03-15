@@ -1,0 +1,10 @@
+import { Schema } from 'compassql/build/src/schema';
+import { FieldDef } from 'vega-lite/build/src/fielddef';
+import { Action } from '../../actions';
+import { SpecFieldAutoAdd } from '../../actions/shelf/spec';
+import { ShelfAnyEncodingDef, ShelfFieldDef, ShelfUnitSpec } from '../../models/shelf';
+export declare function shelfSpecFieldAutoAddReducer(shelfSpec: Readonly<ShelfUnitSpec>, action: SpecFieldAutoAdd, schema: Schema): ShelfUnitSpec;
+export declare function shelfSpecReducer(shelfSpec: Readonly<ShelfUnitSpec>, action: Action): ShelfUnitSpec;
+export declare type AnyFieldDef = ShelfFieldDef | ShelfAnyEncodingDef | FieldDef<any>;
+export declare function modifyFieldProp(fieldDef: Readonly<AnyFieldDef>, prop: string, value: any): Readonly<AnyFieldDef>;
+export declare function modifyNestedFieldProp(fieldDef: Readonly<AnyFieldDef>, prop: string, nestedProp: string, value: any): Readonly<AnyFieldDef>;
