@@ -2,6 +2,7 @@ import { BoxPlotDef } from 'vega-lite/build/src/compositemark/boxplot';
 import { EncodingWithFacet } from 'vega-lite/build/src/encoding';
 import { MarkDef } from 'vega-lite/build/src/mark';
 import { GenericUnitSpec } from 'vega-lite/build/src/spec';
+import { GenericState, UndoableStateBase } from '../models/index';
 import { Selector } from 'reselect/src/reselect';
 import { State } from '../models/index';
 import { Result, ResultType } from '../models/result';
@@ -11,6 +12,6 @@ export declare const selectResult: {
 export declare const selectResultLimit: {
     [k in ResultType]?: Selector<State, number>;
 };
-export declare const selectMainSpec: Selector<State, GenericUnitSpec<EncodingWithFacet<string | {
+export declare const selectMainSpec: Selector<GenericState<UndoableStateBase>, GenericUnitSpec<EncodingWithFacet<string | {
     repeat: "row" | "column";
 }>, "box-plot" | "error-bar" | BoxPlotDef | "area" | "bar" | "line" | "point" | "text" | "tick" | "rect" | "rule" | "circle" | "square" | MarkDef>>;
