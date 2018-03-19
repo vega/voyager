@@ -36,6 +36,9 @@ npm run build
 # add the compiled files, commit and tag!
 git add build/ -f
 
+# add yarn.lock for node_modules consistency
+git add yarn.lock
+
 git commit -m "release $version $gitsha"
 git tag -am "Release v$version." "v$version"
 
