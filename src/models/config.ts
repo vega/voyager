@@ -4,6 +4,7 @@ export interface VoyagerConfig {
   manualSpecificationOnly?: boolean;
   hideHeader?: boolean;
   hideFooter?: boolean;
+  hideRelatedViews?: boolean;
 };
 
 export const DEFAULT_VOYAGER_CONFIG: VoyagerConfig = {
@@ -11,5 +12,6 @@ export const DEFAULT_VOYAGER_CONFIG: VoyagerConfig = {
   serverUrl: null,
   manualSpecificationOnly: false,
   hideHeader: false,
-  hideFooter: false
+  hideFooter: false,
+  hideRelatedViews: false
 };
