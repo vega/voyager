@@ -1,13 +1,17 @@
 import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
-import {ActionHandler} from '../../actions/redux-action';
+import {connect} from 'react-redux';
+import {ActionHandler, createDispatchHandler} from '../../actions/redux-action';
 import {RELATED_VIEWS_HIDE_TOGGLE, RelatedViewsAction} from '../../actions/related-views';
+import {State, VoyagerConfig} from '../../models';
 import {RelatedViews} from '../../models/related-views';
+import {selectConfig, selectRelatedViews} from '../../selectors';
 import * as styles from './related-views-button.scss';
 
 
 export interface RelatedViewsButtonProps extends ActionHandler<RelatedViewsAction> {
   relatedViews: RelatedViews;
+  config: VoyagerConfig;
 }
 
 export class RelatedViewsButtonBase extends React.PureComponent<RelatedViewsButtonProps, {}> {
@@ -18,10 +22,13 @@ export class RelatedViewsButtonBase extends React.PureComponent<RelatedViewsButt
   }
 
   public render() {
+    const {config} = this.props;
     return (
       <div styleName="right">
         <a onClick={this.onHideClick}>
-          {this.props.relatedViews.isHidden ? 'Show' : 'Hide'}
+          {this.props.relatedViews.isHidden === undefined ? config.hideRelatedViews ? 'Show' : 'Hide' :
+            this.props.relatedViews.isHidden ? 'Show' : 'Hide'}
+          {/*{this.props.relatedViews.isHidden ? 'Show' : 'Hide'}*/}
           &nbsp;&nbsp;
           {!this.props.relatedViews.isHidden ?
             <i className="fa fa-toggle-down" /> :
@@ -39,4 +46,13 @@ export class RelatedViewsButtonBase extends React.PureComponent<RelatedViewsButt
   }
 }
 
-export const RelatedViewsButton = (CSSModules(RelatedViewsButtonBase, styles));
+
+export const RelatedViewsButton = connect(
+  (state: State) => {
+    return {
+      config: selectConfig(state),
+      relatedViews: selectRelatedViews(state)
+    };
+  },
+  createDispatchHandler<RelatedViewsAction>()
+)(CSSModules(RelatedViewsButtonBase, styles));
