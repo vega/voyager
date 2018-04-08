@@ -13,5 +13,5 @@ export const DEFAULT_VOYAGER_CONFIG: VoyagerConfig = {
   manualSpecificationOnly: false,
   hideHeader: false,
   hideFooter: false,
-  hideRelatedViews: false
+  hideRelatedViews: true
 };
