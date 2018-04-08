@@ -14,7 +14,7 @@ describe('reducers/related-views', () => {
       {
         type: RELATED_VIEWS_HIDE_TOGGLE,
         payload: {
-          hideRelatedViews: false
+          newIsHidden: true
         }
       }
     )).toEqual(expectedRelatedViews);
@@ -33,7 +33,7 @@ describe(RELATED_VIEWS_HIDE_TOGGLE, () => {
       {
         type: RELATED_VIEWS_HIDE_TOGGLE,
         payload: {
-          hideRelatedViews: true
+          newIsHidden: false
         }
       }
     )).toEqual(expectedRelatedViews);
@@ -54,7 +54,7 @@ describe(RELATED_VIEWS_HIDE_TOGGLE, () => {
         {
           type: RELATED_VIEWS_HIDE_TOGGLE,
           payload: {
-            hideRelatedViews: true
+            newIsHidden: false
           }
         }
       )).toEqual(expectedRelatedViews);
@@ -74,7 +74,7 @@ describe(RELATED_VIEWS_HIDE_TOGGLE, () => {
       {
         type: RELATED_VIEWS_HIDE_TOGGLE,
         payload: {
-          hideRelatedViews: false
+          newIsHidden: true
         }
       }
     )).toEqual(expectedRelatedViews);

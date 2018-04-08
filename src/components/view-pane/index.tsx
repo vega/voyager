@@ -74,7 +74,10 @@ class ViewPaneBase extends React.PureComponent<ViewPaneProps, {}> {
       (relatedViews.isHidden !== undefined && relatedViews.isHidden);
     const relatedViewsElement = !manualSpecificationOnly && (
       <div className="pane" styleName={hideCondition ? "view-pane-related-views-hide" : "view-pane-related-views"}>
-        <RelatedViewsButton/>
+        <RelatedViewsButton
+          hideRelatedViews={hideCondition}
+          handleAction={this.props.handleAction}
+        />
         <h2>Related Views</h2>
         {!hideCondition && <RelatedViews/>}
       </div>
@@ -83,7 +86,7 @@ class ViewPaneBase extends React.PureComponent<ViewPaneProps, {}> {
     if (isQuerySpecific) {
       return (
         <div styleName="view-pane">
-          <div className="pane" styleName={hideCondition ? "view-pane-specific-stretch" : "view-pane-specific"}>
+          <div className="pane" styleName={hideCondition ? 'view-pane-specific-stretch' : 'view-pane-specific'}>
             <h2>Specified View</h2>
             {this.renderSpecifiedView()}
           </div>
