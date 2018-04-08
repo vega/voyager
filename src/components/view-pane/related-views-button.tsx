@@ -22,26 +22,28 @@ export class RelatedViewsButtonBase extends React.PureComponent<RelatedViewsButt
   }
 
   public render() {
-    const {config} = this.props;
+    const {config, relatedViews} = this.props;
     return (
       <div styleName="right">
         <a onClick={this.onHideClick}>
           {this.props.relatedViews.isHidden === undefined ? config.hideRelatedViews ? 'Show' : 'Hide' :
             this.props.relatedViews.isHidden ? 'Show' : 'Hide'}
-          {/*{this.props.relatedViews.isHidden ? 'Show' : 'Hide'}*/}
           &nbsp;&nbsp;
-          {!this.props.relatedViews.isHidden ?
-            <i className="fa fa-toggle-down" /> :
-            <i className="fa fa-toggle-up" />
-          }
+          {relatedViews.isHidden === undefined ? config.hideRelatedViews ? <i className="fa fa-toggle-up"/> :
+            <i className="fa fa-toggle-down"/>
+            : !relatedViews.isHidden ? <i className="fa fa-toggle-down"/> : <i className="fa fa-toggle-up"/>}
         </a>
       </div>
     );
   }
 
   private onHideClick() {
+    const {relatedViews, config} = this.props;
     this.props.handleAction({
-      type: RELATED_VIEWS_HIDE_TOGGLE
+      type: RELATED_VIEWS_HIDE_TOGGLE,
+      payload: {
+        hideRelatedViews: relatedViews.isHidden === undefined ? config.hideRelatedViews : relatedViews.isHidden
+      }
     });
   }
 }
@@ -52,7 +54,7 @@ export const RelatedViewsButton = connect(
     return {
       config: selectConfig(state),
       relatedViews: selectRelatedViews(state)
-    };
+    } as RelatedViewsButtonProps;
   },
   createDispatchHandler<RelatedViewsAction>()
 )(CSSModules(RelatedViewsButtonBase, styles));
