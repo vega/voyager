@@ -70,9 +70,10 @@ class ViewPaneBase extends React.PureComponent<ViewPaneProps, {}> {
   public render() {
     const {isQuerySpecific, handleAction, relatedViews, config} = this.props;
 
-    const hideRelatedViews = relatedViews.isHidden === undefined ? config.hideRelatedViews : relatedViews.isHidden;
+    const hideRelatedViews = relatedViews.isHidden === undefined ? config.relatedViews === 'initiallyHidden' :
+      relatedViews.isHidden;
 
-    const relatedViewsElement = !config.manualSpecificationOnly && (
+    const relatedViewsElement = config.relatedViews !== "alwaysHidden" && (
       <div className="pane" styleName={hideRelatedViews ? "view-pane-related-views-hide" : "view-pane-related-views"}>
         <RelatedViewsButton
           hideRelatedViews={hideRelatedViews}
