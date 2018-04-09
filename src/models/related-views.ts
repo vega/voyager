@@ -1,8 +1,8 @@
 export interface RelatedViews {
-  isHidden: boolean;
+  isCollapsed: boolean;
 };
 
 export const DEFAULT_RELATED_VIEWS: RelatedViews = {
-  isHidden: undefined
+  isCollapsed: undefined
 };
 

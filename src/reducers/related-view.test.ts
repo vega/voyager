@@ -5,16 +5,16 @@ import {relatedViewsReducer} from './related-views';
 describe('reducers/related-views', () => {
   it('should toggle relatedViewsToggler to hide related-views', () => {
     const expectedRelatedViews: RelatedViews = {
-      isHidden: true
+      isCollapsed: true
     };
     expect(relatedViewsReducer(
       {
-        isHidden: false
+        isCollapsed: false
       },
       {
         type: RELATED_VIEWS_HIDE_TOGGLE,
         payload: {
-          newIsHidden: true
+          newIsCollapsed: true
         }
       }
     )).toEqual(expectedRelatedViews);
@@ -24,16 +24,16 @@ describe('reducers/related-views', () => {
 describe(RELATED_VIEWS_HIDE_TOGGLE, () => {
   it('should toggle relatedViewToggler to unhide related-views', () => {
     const expectedRelatedViews: RelatedViews = {
-      isHidden: false
+      isCollapsed: false
     };
     expect(relatedViewsReducer(
       {
-        isHidden: true
+        isCollapsed: true
       },
       {
         type: RELATED_VIEWS_HIDE_TOGGLE,
         payload: {
-          newIsHidden: false
+          newIsCollapsed: false
         }
       }
     )).toEqual(expectedRelatedViews);
@@ -45,16 +45,16 @@ describe(RELATED_VIEWS_HIDE_TOGGLE, () => {
     'when default state value undefined',
     () => {
       const expectedRelatedViews: RelatedViews = {
-        isHidden: false
+        isCollapsed: false
       };
       expect(relatedViewsReducer(
         {
-          isHidden: undefined
+          isCollapsed: undefined
         },
         {
           type: RELATED_VIEWS_HIDE_TOGGLE,
           payload: {
-            newIsHidden: false
+            newIsCollapsed: false
           }
         }
       )).toEqual(expectedRelatedViews);
@@ -65,16 +65,16 @@ describe(RELATED_VIEWS_HIDE_TOGGLE, () => {
   it('should toggle relatedViewToggler to show related-views based on config value set to false when default ' +
     'state value undefined', () => {
     const expectedRelatedViews: RelatedViews = {
-      isHidden: true
+      isCollapsed: true
     };
     expect(relatedViewsReducer(
       {
-        isHidden: undefined
+        isCollapsed: undefined
       },
       {
         type: RELATED_VIEWS_HIDE_TOGGLE,
         payload: {
-          newIsHidden: true
+          newIsCollapsed: true
         }
       }
     )).toEqual(expectedRelatedViews);

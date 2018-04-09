@@ -116,6 +116,10 @@ The voyager _module_ exposes 1 function.
 
 Please see [`src/lib-voyager.tsx`](src/lib-voyager.tsx) to see the exposed public methods.
 
+For information regarding the `config` parameter, please see [`src/models/config.ts`](src/models/config.ts)
+
+The `data` parameter must follow the `inline data format` as seen in the [`vega lite documentation`](https://vega.github.io/vega-lite/docs/data.html#inline)
+
 ## Voyager-server Mode
 
 Computationally expensive portions of the Voyager process can be configured to run on a server.
