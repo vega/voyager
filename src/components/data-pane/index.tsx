@@ -25,7 +25,7 @@ export class DataPaneBase extends React.PureComponent<DataPanelProps, {}> {
         <FieldList/>
       </div>) : null;
 
-    const wildcardFields = relatedViews !== 'alwaysHidden' && fieldCount > 0 && (
+    const wildcardFields = relatedViews !== 'disabled' && fieldCount > 0 && (
       <div styleName="data-pane-section">
         <h3>Wildcard Fields</h3>
         <PresetWildcardFieldList/>

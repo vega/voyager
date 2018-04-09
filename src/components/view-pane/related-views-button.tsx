@@ -6,7 +6,7 @@ import * as styles from './related-views-button.scss';
 
 
 export interface RelatedViewsButtonProps extends ActionHandler<RelatedViewsAction> {
-  hideRelatedViews: boolean;
+  collapseRelatedViews: boolean;
 }
 
 export class RelatedViewsButtonBase extends React.PureComponent<RelatedViewsButtonProps, {}> {
@@ -17,24 +17,24 @@ export class RelatedViewsButtonBase extends React.PureComponent<RelatedViewsButt
   }
 
   public render() {
-    const {hideRelatedViews} = this.props;
+    const {collapseRelatedViews} = this.props;
     return (
       <div styleName="right">
         <a onClick={this.onHideClick}>
-          {hideRelatedViews ? 'Show' : 'Hide'}
+          {collapseRelatedViews ? 'Expand' : 'Collapse'}
           &nbsp;&nbsp;
-          {hideRelatedViews ? <i className='fa fa-toggle-up'/> : <i className='fa fa-toggle-down'/>}
+          {collapseRelatedViews ? <i className='fa fa-toggle-up'/> : <i className='fa fa-toggle-down'/>}
         </a>
       </div>
     );
   }
 
   private onHideClick() {
-    const {hideRelatedViews} = this.props;
+    const {collapseRelatedViews} = this.props;
     this.props.handleAction({
       type: RELATED_VIEWS_HIDE_TOGGLE,
       payload: {
-        newIsHidden: !hideRelatedViews
+        newIsCollapsed: !collapseRelatedViews
       }
     });
   }
