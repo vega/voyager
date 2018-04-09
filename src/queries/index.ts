@@ -51,7 +51,7 @@ export function dispatchQueries(store: Store<State>, query: Query) {
   const isQuerySpecific = selectIsQuerySpecific(state);
   store.dispatch(resultRequest('main', query, null));
 
-  if (state.persistent.config.manualSpecificationOnly || state.persistent.relatedViews.isHidden) {
+  if (state.persistent.config.relatedViews === 'alwaysHidden' || state.persistent.relatedViews.isHidden) {
     return;
   }
   if (isQueryEmpty) {

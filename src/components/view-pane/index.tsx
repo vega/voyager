@@ -68,32 +68,30 @@ class ViewPaneBase extends React.PureComponent<ViewPaneProps, {}> {
   }
 
   public render() {
-    const { isQuerySpecific } = this.props;
-    const { manualSpecificationOnly } = this.props.config;
-    const relatedViews = !manualSpecificationOnly && (
-      <div className="pane" styleName={!this.props.relatedViews.isHidden ?
-      "view-pane-related-views" : "view-pane-related-views-hide"}>
+    const {isQuerySpecific, handleAction, relatedViews, config} = this.props;
+
+    const hideRelatedViews = relatedViews.isHidden === undefined ? config.relatedViews === 'initiallyHidden' :
+      relatedViews.isHidden;
+
+    const relatedViewsElement = config.relatedViews !== "alwaysHidden" && (
+      <div className="pane" styleName={hideRelatedViews ? "view-pane-related-views-hide" : "view-pane-related-views"}>
         <RelatedViewsButton
-          relatedViews={this.props.relatedViews}
-          handleAction={this.props.handleAction}
+          hideRelatedViews={hideRelatedViews}
+          handleAction={handleAction}
         />
         <h2>Related Views</h2>
-          {!this.props.relatedViews.isHidden &&
-            <RelatedViews />
-          }
+        {!hideRelatedViews && <RelatedViews/>}
       </div>
     );
-
 
     if (isQuerySpecific) {
       return (
         <div styleName="view-pane">
-          <div className="pane" styleName={this.props.relatedViews.isHidden ?
-            "view-pane-specific-stretch" : "view-pane-specific"}>
+          <div className="pane" styleName={hideRelatedViews ? 'view-pane-specific-stretch' : 'view-pane-specific'}>
             <h2>Specified View</h2>
             {this.renderSpecifiedView()}
           </div>
-          {relatedViews}
+          {relatedViewsElement}
         </div>
       );
     } else {

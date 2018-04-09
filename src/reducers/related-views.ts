@@ -4,11 +4,11 @@ import { DEFAULT_RELATED_VIEWS, RelatedViews } from '../models/related-views';
 
 export function relatedViewsReducer(
   relatedViewToggler: RelatedViews = DEFAULT_RELATED_VIEWS, action: Action): RelatedViews {
-  const { isHidden } = relatedViewToggler;
   switch (action.type) {
     case RELATED_VIEWS_HIDE_TOGGLE: {
+      const {newIsHidden} = action.payload;
       return {
-        isHidden: !isHidden
+        isHidden: newIsHidden
       };
     }
   }

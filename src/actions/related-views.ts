@@ -1,6 +1,8 @@
-import {PlainReduxAction} from './redux-action';
+import {ReduxAction} from './redux-action';
 
-export type RelatedViewsAction = HideRelatedViews;
+export type RelatedViewsAction = RelatedViewsHideToggle;
 
 export const RELATED_VIEWS_HIDE_TOGGLE = 'RELATED_VIEWS_HIDE_TOGGLE';
-export type HideRelatedViews = PlainReduxAction<typeof RELATED_VIEWS_HIDE_TOGGLE>;
+export type RelatedViewsHideToggle = ReduxAction<typeof RELATED_VIEWS_HIDE_TOGGLE, {
+  newIsHidden: boolean
+}>;

@@ -12,7 +12,10 @@ describe('reducers/related-views', () => {
         isHidden: false
       },
       {
-        type: RELATED_VIEWS_HIDE_TOGGLE
+        type: RELATED_VIEWS_HIDE_TOGGLE,
+        payload: {
+          newIsHidden: true
+        }
       }
     )).toEqual(expectedRelatedViews);
   });
@@ -28,7 +31,51 @@ describe(RELATED_VIEWS_HIDE_TOGGLE, () => {
         isHidden: true
       },
       {
-        type: RELATED_VIEWS_HIDE_TOGGLE
+        type: RELATED_VIEWS_HIDE_TOGGLE,
+        payload: {
+          newIsHidden: false
+        }
+      }
+    )).toEqual(expectedRelatedViews);
+  });
+});
+
+describe(RELATED_VIEWS_HIDE_TOGGLE, () => {
+  it('should toggle relatedViewToggler to hide related-views based on config value set to true ' +
+    'when default state value undefined',
+    () => {
+      const expectedRelatedViews: RelatedViews = {
+        isHidden: false
+      };
+      expect(relatedViewsReducer(
+        {
+          isHidden: undefined
+        },
+        {
+          type: RELATED_VIEWS_HIDE_TOGGLE,
+          payload: {
+            newIsHidden: false
+          }
+        }
+      )).toEqual(expectedRelatedViews);
+    });
+});
+
+describe(RELATED_VIEWS_HIDE_TOGGLE, () => {
+  it('should toggle relatedViewToggler to show related-views based on config value set to false when default ' +
+    'state value undefined', () => {
+    const expectedRelatedViews: RelatedViews = {
+      isHidden: true
+    };
+    expect(relatedViewsReducer(
+      {
+        isHidden: undefined
+      },
+      {
+        type: RELATED_VIEWS_HIDE_TOGGLE,
+        payload: {
+          newIsHidden: true
+        }
       }
     )).toEqual(expectedRelatedViews);
   });
