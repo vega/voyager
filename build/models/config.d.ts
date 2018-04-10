@@ -3,6 +3,6 @@ export interface VoyagerConfig {
     serverUrl?: string | null;
     hideHeader?: boolean;
     hideFooter?: boolean;
-    relatedViews?: 'alwaysHidden' | 'initiallyHidden' | 'initiallyShown';
+    relatedViews?: 'disabled' | 'initiallyCollapsed' | 'initiallyShown';
 }
 export declare const DEFAULT_VOYAGER_CONFIG: VoyagerConfig;
