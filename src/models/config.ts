@@ -3,7 +3,8 @@ export interface VoyagerConfig {
   serverUrl?: string | null;
   hideHeader?: boolean;
   hideFooter?: boolean;
-  relatedViews?: 'disabled' | 'initiallyCollapsed' | 'initiallyShown';
+  relatedViews?: 'initiallyCollapsed' | 'initiallyShown' | 'disabled';
+  wildcards?: 'enabled' | 'disabled';
 };
 
 export const DEFAULT_VOYAGER_CONFIG: VoyagerConfig = {
@@ -11,5 +12,6 @@ export const DEFAULT_VOYAGER_CONFIG: VoyagerConfig = {
   serverUrl: null,
   hideHeader: false,
   hideFooter: false,
-  relatedViews: 'initiallyShown'
+  relatedViews: 'initiallyShown',
+  wildcards: 'enabled'
 };
