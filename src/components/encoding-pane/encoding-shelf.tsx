@@ -152,7 +152,7 @@ class EncodingShelfBase extends React.PureComponent<
 
   protected onRemove() {
     const {id, handleAction} = this.props;
-
+    this.toggleCustomizer();
     handleAction({
       type: SPEC_FIELD_REMOVE,
       payload: id
