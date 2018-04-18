@@ -24,6 +24,18 @@ export declare class Voyager {
      */
     updateData(data: Data): void;
     /**
+     * Update state to reflect the previous state
+     *
+     * @memberof Voyager
+     */
+    undo(): void;
+    /**
+     * Update state to reflect the future state
+     *
+     * @memberof Voyager
+     */
+    redo(): void;
+    /**
      * Update the configuration of the voyager application.
      *
      * @param {VoyagerConfig} config
