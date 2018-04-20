@@ -44,6 +44,9 @@ measureFileSizesBeforeBuild(paths.appBuild).then(previousFileSizes => {
 
   // Copy data folder
   copyDataFolder();
+
+  // Copy scss files from /src to /build
+  copyScss();
 });
 
 // Print out errors
@@ -100,5 +103,19 @@ function build(previousFileSizes) {
 function copyDataFolder() {
   fs.copySync(path.resolve(__dirname, '../node_modules/vega-datasets'), path.resolve(paths.appBuild, 'datasets'), {
     dereference: true,
+  });
+}
+
+// Copy scss files from /src/components/ to /build/components/ for external app to use Voyager components
+function copyScss() {
+  fs.copySync(path.resolve(__dirname, '../src/components'), path.resolve(__dirname, '../build/components'), {
+    dereference: true,
+    filter: (path) => {
+      if (fs.lstatSync(path).isDirectory()) {
+        return true;
+      } else {
+        return path.endsWith('.scss');
+      }
+    }
   });
 }
