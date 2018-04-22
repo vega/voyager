@@ -9,6 +9,7 @@ import {Legend} from 'vega-lite/build/src/legend';
 import {Mark as VLMark} from 'vega-lite/build/src/mark';
 import {Scale} from 'vega-lite/build/src/scale';
 import {SortField, SortOrder} from 'vega-lite/build/src/sort';
+import {StackOffset} from 'vega-lite/build/src/stack';
 import {isBoolean} from 'vega-lite/build/src/util';
 import {fromFieldQueryFunctionMixins, ShelfFunction, toFieldQueryFunctionMixins} from './function';
 
@@ -42,6 +43,7 @@ export interface ShelfFieldDef {
 
   scale?: Scale;
   axis?: Axis;
+  stack?: StackOffset;
   legend?: Legend;
 
   sort?: SortOrder | SortField;
