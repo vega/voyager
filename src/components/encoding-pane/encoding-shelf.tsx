@@ -72,7 +72,8 @@ class EncodingShelfBase extends React.PureComponent<
             attachment="top left"
             targetAttachment="bottom left"
           >
-            {(fieldDef && !isWildcardChannelId(id)) ?
+            {(fieldDef && !isWildcardChannelId(id) && (this.props.id.channel === 'x' ||
+            this.props.id.channel === 'y')) ?
               <span onClick={this.toggleCustomizer.bind(this)}>
                 {channelName}{' '} <i className={'fa fa-caret-down'}/>
               </span> :

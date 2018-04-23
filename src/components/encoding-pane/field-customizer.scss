@@ -1,6 +1,22 @@
-.customizer-container {
+.field-customizer {
   padding: 5px;
   background-color: #eee;
   border: 1px solid #eee;
   border-radius: 3px;
+
+  ul {
+    border-bottom: 1px solid #aaa;
+    margin: 0 0 10px;
+    padding: 0;
+  }
+  li {
+    display: inline-block;
+    border: 1px solid transparent;
+    border-bottom: none;
+    bottom: -1px;
+    position: relative;
+    list-style: none;
+    padding: 6px 12px;
+    cursor: pointer;
+  }
 }
