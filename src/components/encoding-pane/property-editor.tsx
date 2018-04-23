@@ -5,12 +5,8 @@ import {debounce} from 'throttle-debounce';
 import {ActionHandler} from '../../actions';
 import {SPEC_FIELD_NESTED_PROP_CHANGE, SPEC_FIELD_PROP_CHANGE, SpecEncodingAction} from '../../actions/shelf';
 import {ShelfFieldDef, ShelfId} from '../../models/shelf/spec';
+import {getPropertyEditorSchema} from './property-editor-schema';
 import * as styles from './property-editor.scss';
-import {
-  AXIS_ORIENT_SCHEMA, AXIS_ORIENT_UISCHEMA,
-  AXIS_TITLE_SCHEMA, AXIS_TITLE_UISCHEMA,
-  SCALE_TYPE_SCHEMA, SCALE_TYPE_UISCHEMA, STACK_SCHEMA, STACK_UISCHEMA,
-} from './property-editorSchema';
 
 export interface PropertyEditorProps extends ActionHandler<SpecEncodingAction> {
   prop: string;
@@ -19,44 +15,7 @@ export interface PropertyEditorProps extends ActionHandler<SpecEncodingAction> {
   fieldDef: ShelfFieldDef;
 }
 
-export interface PropertyEditorSchema {
-  uiSchema: any;
-  schema: any;
-}
-
 export class PropertyEditorBase extends React.PureComponent<PropertyEditorProps, {}> {
-  private static getPropertyEditorSchema(prop: string, nestedProp: string): PropertyEditorSchema {
-    if (prop === 'scale') {
-      if (nestedProp === 'type') {
-        return {
-          schema: SCALE_TYPE_SCHEMA,
-          uiSchema: SCALE_TYPE_UISCHEMA
-        };
-      }
-    } else if (prop === 'axis') {
-      if (nestedProp === 'orient') {
-        return {
-          schema: AXIS_ORIENT_SCHEMA,
-          uiSchema: AXIS_ORIENT_UISCHEMA
-        };
-      } else if (nestedProp === 'title') {
-        return {
-          schema: AXIS_TITLE_SCHEMA,
-          uiSchema: AXIS_TITLE_UISCHEMA
-        };
-      }
-    } else if (prop === 'stack') {
-      return {
-        schema: STACK_SCHEMA,
-        uiSchema: STACK_UISCHEMA
-      };
-    } else {
-      return {
-        schema: {},
-        uiSchema: {}
-      };
-    }
-  }
 
   constructor(props: PropertyEditorProps) {
     super(props);
@@ -66,9 +25,7 @@ export class PropertyEditorBase extends React.PureComponent<PropertyEditorProps,
 
   public render() {
     const {prop, nestedProp} = this.props;
-    const schemaObj = PropertyEditorBase.getPropertyEditorSchema(prop, nestedProp);
-    const schema = schemaObj.schema;
-    const uiSchema = schemaObj.uiSchema;
+    const {schema, uiSchema} = getPropertyEditorSchema(prop, nestedProp);
     const formData = this.getFormData();
     return (
       <div styleName="property-editor">
@@ -113,10 +70,10 @@ export class PropertyEditorBase extends React.PureComponent<PropertyEditorProps,
   private getFormData() {
     const {fieldDef} = this.props;
     return {
-      'scaleTypeSelect': fieldDef.scale ? fieldDef.scale.type : undefined,
-      'axisTitle': fieldDef.axis ? fieldDef.axis.title : undefined,
-      'orient': fieldDef.axis ? fieldDef.axis.orient : undefined,
-      'stackSelect': fieldDef.stack ? fieldDef.stack : undefined
+      'ScaleType': fieldDef.scale ? fieldDef.scale.type : undefined,
+      'AxisTitle': fieldDef.axis ? fieldDef.axis.title : undefined,
+      'AxisOrient': fieldDef.axis ? fieldDef.axis.orient : undefined,
+      'Stack': fieldDef.stack ? fieldDef.stack : undefined
     };
   }
 }

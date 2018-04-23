@@ -16,7 +16,7 @@ export interface FieldCustomizerProps extends ActionHandler<SpecEncodingAction> 
 
 export interface CustomProp {
   prop: string;
-  nestedProp: string;
+  nestedProp?: string;
 }
 
 const POSITION_FIELD_QUANTITATIVE_INDEX = {
@@ -30,8 +30,7 @@ const POSITION_FIELD_QUANTITATIVE_INDEX = {
       nestedProp: 'title'
     },
     {
-      prop: 'stack',
-      nestedProp: undefined
+      prop: 'stack'
     }
   ],
   'Scale': [
@@ -143,7 +142,9 @@ export class FieldCustomizerBase extends React.PureComponent<FieldCustomizerProp
       switch (fieldDef.type) {
         case ExpandedType.QUANTITATIVE:
           return POSITION_FIELD_QUANTITATIVE_INDEX;
-        case ExpandedType.NOMINAL || ExpandedType.ORDINAL:
+        case ExpandedType.ORDINAL:
+          return POSITION_FIELD_NOMINAL_INDEX;
+        case ExpandedType.NOMINAL:
           return POSITION_FIELD_NOMINAL_INDEX;
         case ExpandedType.TEMPORAL:
           return POSITION_FIELD_TEMPORAL_INDEX;
