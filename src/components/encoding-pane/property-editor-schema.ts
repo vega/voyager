@@ -1,35 +1,81 @@
 import * as vlSchema from 'vega-lite/build/vega-lite-schema.json';
 
-export interface PropertyEditorFormatSchema {
+// NOTE: keys for these interfaces follow the requirement for react-jsonSchema form
+// (https://mozilla-services.github.io/react-jsonschema-form/)
+export interface SchemaFormat {
   type: string;
   title?: string;
-  properties: any;
+  properties: SchemaProperty;
 }
 
+// NOTE: keys for these interfaces follow the requirement for react-jsonSchema form
+// (https://mozilla-services.github.io/react-jsonschema-form/)
+export interface NestedSchemaProperty {
+  type: string;
+  title: string;
+  'enum'?: string[];
+}
+
+export interface SchemaProperty {
+  AxisOrient?: NestedSchemaProperty;
+  AxisTitle?: NestedSchemaProperty;
+  ScaleType?: NestedSchemaProperty;
+  Stack?: NestedSchemaProperty;
+}
+
+// TODO: Rename to camelCase
+export interface UISchema {
+  AxisOrient?: UISchemaContext;
+  AxisTitle?: UISchemaContext;
+  ScaleType?: UISchemaContext;
+  Stack?: UISchemaContext;
+}
+
+// NOTE: keys for these interfaces follow the requirement for react-jsonSchema form
+// (https://mozilla-services.github.io/react-jsonschema-form/)
+export interface UISchemaContext {
+  'ui:autofocus'?: boolean;
+  'ui:widget'?: string;
+  'ui:placeholder'?: string;
+  'ui:emptyValue'?: string;
+}
+
+const DEFAULT_TEXT_UISCHEMA: UISchemaContext = {
+  "ui:autofocus": true,
+  "ui:emptyValue": ""
+};
+
+const DEFAULT_SELECT_UISCHEMA: UISchemaContext = {
+  "ui:widget": "select",
+  "ui:placeholder": "auto",
+  "ui:emptyValue": "auto"
+};
+
 export interface PropertyEditorSchema {
-  uiSchema: any;
-  schema: PropertyEditorFormatSchema;
+  uiSchema: UISchema;
+  schema: SchemaFormat;
 }
 
 export function getPropertyEditorSchema(prop: string, nestedProp: string, propTab: string): PropertyEditorSchema {
   if (prop === 'scale') {
     if (nestedProp === 'type') {
-      return generateSchema(prop, nestedProp, SCALE_TYPE_UISCHEMA, propTab,
+      return generateSchema(prop, nestedProp, DEFAULT_SELECT_UISCHEMA, propTab,
         (vlSchema as any).definitions.ScaleType.enum);
     }
   } else if (prop === 'axis') {
     if (nestedProp === 'orient') {
-      return generateSchema(prop, nestedProp, AXIS_ORIENT_UISCHEMA, propTab,
+      return generateSchema(prop, nestedProp, DEFAULT_SELECT_UISCHEMA, propTab,
         (vlSchema as any).definitions.AxisOrient.enum);
     } else if (nestedProp === 'title') {
-      return generateSchema(prop, nestedProp, AXIS_TITLE_UISCHEMA, propTab);
+      return generateSchema(prop, nestedProp, DEFAULT_TEXT_UISCHEMA, propTab);
     }
   } else if (prop === 'stack') {
-    return generateSchema(prop, nestedProp, STACK_UISCHEMA, propTab, (vlSchema as any).definitions.StackOffset.enum);
+    return generateSchema(prop, nestedProp, DEFAULT_SELECT_UISCHEMA, propTab,
+      (vlSchema as any).definitions.StackOffset.enum);
   } else {
     return {
       schema: undefined,
-      uiSchema: {}
+      uiSchema: undefined
     };
   }
 }
@@ -39,63 +85,38 @@ function capitalizeFirstLetter(s: string): string {
   return s.charAt(0).toUpperCase() + s.slice(1);
 }
 
+// TODO: change naming convention to camelCase
 /*
 *  NOTE: factory method where propertyKey follows naming convention: Capitalized Prop + Capitalized NestedProp
 *  Example: {prop: axis, nestedProp: orient} translates to "AxisOrient"
 */
-function generateSchema(prop: string, nestedProp: string, uiSchema: any, propTab: string,
-                        schemaEnum?: any): PropertyEditorSchema {
+function generateSchema(prop: string, nestedProp: string, uiSchemaContext: UISchemaContext, propTab: string,
+                        schemaEnum?: string[]): PropertyEditorSchema {
   prop = capitalizeFirstLetter(prop);
-  console.log("PROPTAB", propTab);
   nestedProp = nestedProp ? capitalizeFirstLetter(nestedProp) : nestedProp;
   const propertyKey = nestedProp ? prop + nestedProp : prop;
-  const schema: PropertyEditorFormatSchema = {
-    type: "object",
-    properties: {}
-  };
-  const title = nestedProp ? nestedProp : prop;
-  schema.properties[propertyKey] = {
-    "type": "string",
-    "title": propTab !== 'Common' ? nestedProp ? nestedProp : prop : nestedProp ? prop + ' ' + nestedProp : prop
-  };
-  if (schemaEnum) {
-    schema.properties[propertyKey]["enum"] = schemaEnum;
+  let title;
+  if (propTab === 'Common') {
+    title = nestedProp ? prop + ' ' + nestedProp : prop;
+  } else {
+    title = nestedProp || prop;
   }
-  console.log(schema);
-  console.log(uiSchema);
+  const schema: SchemaFormat = {
+    type: "object",
+    properties: {
+      [propertyKey]: {
+        "type": "string",
+        "title": title,
+        ...(schemaEnum ? {enum: schemaEnum} : {})
+      }
+    }
+  };
+  const uiSchema: UISchema = {
+    [propertyKey]: uiSchemaContext
+  };
   return {
     schema: schema,
     uiSchema: uiSchema
   };
 }
 
-// NOTE: Each Nested Property requires its own UISCHEMA object
-
-// Reuse for any UISCHEMA with Select element
-const SELECT_UISCHEMA = {
-  "ui:widget": "select",
-  "ui:placeholder": "auto",
-  "ui:emptyValue": "auto"
-};
-
-// Reuse for any element with Input Text element
-const TEXT_UISCHEMA = {
-  "ui:autofocus": true,
-  "ui:emptyValue": ""
-};
-
-const AXIS_TITLE_UISCHEMA = {
-  "AxisTitle": TEXT_UISCHEMA
-};
-
-const AXIS_ORIENT_UISCHEMA = {
-  "AxisOrient": SELECT_UISCHEMA
-};
-
-const SCALE_TYPE_UISCHEMA = {
-  "ScaleType": SELECT_UISCHEMA
-};
-
-const STACK_UISCHEMA = {
-  "Stack": SELECT_UISCHEMA
-};
