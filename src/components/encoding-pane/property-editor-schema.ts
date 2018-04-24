@@ -2,7 +2,7 @@ import * as vlSchema from 'vega-lite/build/vega-lite-schema.json';
 
 export interface PropertyEditorFormatSchema {
   type: string;
-  title: string;
+  title?: string;
   properties: any;
 }
 
@@ -11,20 +11,21 @@ export interface PropertyEditorSchema {
   schema: PropertyEditorFormatSchema;
 }
 
-export function getPropertyEditorSchema(prop: string, nestedProp: string): PropertyEditorSchema {
+export function getPropertyEditorSchema(prop: string, nestedProp: string, propTab: string): PropertyEditorSchema {
   if (prop === 'scale') {
     if (nestedProp === 'type') {
-      return generateSchema(prop, nestedProp, SCALE_TYPE_UISCHEMA,
+      return generateSchema(prop, nestedProp, SCALE_TYPE_UISCHEMA, propTab,
         (vlSchema as any).definitions.ScaleType.enum);
     }
   } else if (prop === 'axis') {
     if (nestedProp === 'orient') {
-      return generateSchema(prop, nestedProp, AXIS_ORIENT_UISCHEMA, (vlSchema as any).definitions.AxisOrient.enum);
+      return generateSchema(prop, nestedProp, AXIS_ORIENT_UISCHEMA, propTab,
+        (vlSchema as any).definitions.AxisOrient.enum);
     } else if (nestedProp === 'title') {
-      return generateSchema(prop, nestedProp, AXIS_TITLE_UISCHEMA);
+      return generateSchema(prop, nestedProp, AXIS_TITLE_UISCHEMA, propTab);
     }
   } else if (prop === 'stack') {
-    return generateSchema(prop, nestedProp, STACK_UISCHEMA, (vlSchema as any).definitions.StackOffset.enum);
+    return generateSchema(prop, nestedProp, STACK_UISCHEMA, propTab, (vlSchema as any).definitions.StackOffset.enum);
   } else {
     return {
       schema: undefined,
@@ -42,22 +43,26 @@ function capitalizeFirstLetter(s: string): string {
 *  NOTE: factory method where propertyKey follows naming convention: Capitalized Prop + Capitalized NestedProp
 *  Example: {prop: axis, nestedProp: orient} translates to "AxisOrient"
 */
-function generateSchema(prop: string, nestedProp: string, uiSchema: any, schemaEnum?: any): PropertyEditorSchema {
+function generateSchema(prop: string, nestedProp: string, uiSchema: any, propTab: string,
+                        schemaEnum?: any): PropertyEditorSchema {
   prop = capitalizeFirstLetter(prop);
+  console.log("PROPTAB", propTab);
   nestedProp = nestedProp ? capitalizeFirstLetter(nestedProp) : nestedProp;
   const propertyKey = nestedProp ? prop + nestedProp : prop;
   const schema: PropertyEditorFormatSchema = {
-    title: prop,
     type: "object",
     properties: {}
   };
+  const title = nestedProp ? nestedProp : prop;
   schema.properties[propertyKey] = {
     "type": "string",
-    "title": nestedProp ? nestedProp : prop
+    "title": propTab !== 'Common' ? nestedProp ? nestedProp : prop : nestedProp ? prop + ' ' + nestedProp : prop
   };
   if (schemaEnum) {
     schema.properties[propertyKey]["enum"] = schemaEnum;
   }
+  console.log(schema);
+  console.log(uiSchema);
   return {
     schema: schema,
     uiSchema: uiSchema

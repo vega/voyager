@@ -123,6 +123,7 @@ export class FieldCustomizerBase extends React.PureComponent<FieldCustomizerProp
                             shelfId={shelfId}
                             fieldDef={fieldDef}
                             handleAction={handleAction}
+                            propTab={encodingType}
                           />
                         );
                       })

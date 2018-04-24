@@ -11,6 +11,7 @@ import * as styles from './property-editor.scss';
 export interface PropertyEditorProps extends ActionHandler<SpecEncodingAction> {
   prop: string;
   nestedProp: string;
+  propTab: string;
   shelfId: ShelfId;
   fieldDef: ShelfFieldDef;
 }
@@ -24,8 +25,8 @@ export class PropertyEditorBase extends React.PureComponent<PropertyEditorProps,
   }
 
   public render() {
-    const {prop, nestedProp} = this.props;
-    const {schema, uiSchema} = getPropertyEditorSchema(prop, nestedProp);
+    const {prop, nestedProp, propTab} = this.props;
+    const {schema, uiSchema} = getPropertyEditorSchema(prop, nestedProp, propTab);
     const formData = this.getFormData();
     return (
       <div styleName="property-editor">
