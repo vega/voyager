@@ -1,5 +1,6 @@
 /// <reference types="react" />
 import * as React from 'react';
+import * as vega from 'vega';
 import { InlineData } from 'vega-lite/build/src/data';
 import { TopLevelExtendedSpec } from 'vega-lite/build/src/spec';
 import { Logger } from '../util/util.logger';
@@ -8,6 +9,7 @@ export interface VegaLiteProps {
     renderer?: 'svg' | 'canvas';
     logger: Logger;
     data: InlineData;
+    viewRunAfter?: (view: vega.View) => any;
 }
 export interface VegaLiteState {
     isLoading: boolean;
