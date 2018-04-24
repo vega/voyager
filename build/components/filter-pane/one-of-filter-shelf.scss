@@ -1,0 +1,40 @@
+$margin: 4px;
+$radius: 3px;
+
+.select-all, .clear-all {
+  color: #4B0082;
+  cursor: pointer;
+  font-size: 11px;
+  margin: $margin;
+}
+
+.select-all:hover, .clear-all:hover {
+  color: #2980b9;
+}
+
+.keep-only {
+  color: transparent;
+  cursor: pointer;
+  flex-grow: 1;
+  text-align: right;
+}
+
+.keep-only:hover {
+  color: gray;
+}
+
+.option-row {
+  margin: $margin;
+  display: flex;
+  justify-content: space-between;
+}
+
+.search {
+  margin-right: 1px;
+}
+
+.below-header {
+  display: flex;
+  justify-content: space-between;
+  margin: 2px;
+}

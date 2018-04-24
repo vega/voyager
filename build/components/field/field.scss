@@ -1,0 +1,243 @@
+$any-color: #bbb;
+$any-hover-color: #666;
+
+.field {
+  display: flex;
+  vertical-align: middle;
+  border-radius: 3px;
+  line-height: 18px;
+  box-sizing: border-box;
+  height: 20px;
+  padding: 1px 3px;
+  font-size: 11px;
+  border: 1px solid transparent;
+  user-select: none;
+  overflow: hidden;
+}
+
+.func {
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 11px;
+  margin-right: 2px;
+  flex-shrink: 0;
+}
+
+.field-pill {
+  @extend .field;
+  background-color: hsla(0,0%,93%,0.8);
+  font-weight: 500;
+  width: 100%;
+}
+
+
+.wildcard-field-pill {
+  @extend .field;
+  background-color:rgba(216, 250, 251, 0.8);
+  font-weight: 500;
+  width: 100%;
+}
+
+.caret-type {
+  flex-shrink: 0;
+}
+
+.type {
+  font-size: 0.8rem;
+  margin-right: 3px;
+  margin-right: 6px;
+  flex-shrink: 0;
+}
+
+.text {
+  flex-grow: 1;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.fn-text {
+  @extend .text;
+  flex-grow: 1;
+
+  &::before {
+    content: "(";
+  }
+  &::after {
+    content: ")";
+  }
+}
+
+.filter-button-unadded {
+  color: #7f7f7f;
+}
+
+// .field-info {
+
+
+
+//   .field-info-text {
+//     display: flex;
+//     flex-grow: 1;
+//     overflow: hidden;
+//   }
+
+//   .field-func, .field-count {
+//     flex-shrink: 0;
+//     margin-right: 2px;
+//   }
+
+//   .field-func {
+//     text-overflow: ellipsis;
+//     max-width: 75px;
+//     overflow: hidden;
+//   }
+// }
+
+// .field-func, .field-count{
+//   text-transform: uppercase;
+//   font-weight: bold;
+
+//   font-size: 11px;
+//   &.any {
+//     color: $any-color;
+//   }
+// }
+
+// .field-info .field-name {
+//   display: inline-block;
+//   overflow: hidden;
+//   text-overflow: ellipsis;
+
+//   &.hasfunc {
+//     &::before {
+//       content:"("
+//     }
+//     &::after {
+//       content:")"
+//     }
+//     &.any::before, &.any::after {
+//       color: $any-color;
+//     }
+//   }
+// }
+
+// .field-info {
+//   .fa.fa-caret-down, .fa.fa-times, .fa.fa-filter, .fa.fa-plus {
+//     flex-shrink:0;
+//     // visibility: hidden;
+//     border-radius: 3px;
+//     margin-top: 1px;
+//   }
+//   .fa.fa-caret-down {
+//     padding: 2px 3px 1px;
+//   }
+//   .fa.fa-times, .fa.fa-filter, .fa.fa-plus {
+//     padding: 1px 2px;
+//   }
+
+//   .filter, .add {
+//     margin-left: 2px;
+//   }
+
+//   .type-caret .fa-caret-down {
+//     visibility:hidden;
+//   }
+
+//   .type-caret.active {
+//     color: black;
+//     cursor: pointer;
+//     .fa-caret-down {
+//       visibility: visible;
+//     }
+//   }
+
+//   .type-caret.active:hover .fa.fa-caret-down, .fa.fa-times:hover,
+//   .fa.fa-filter:hover, .fa.fa-plus:hover,
+//   &:hover .type-caret.active:hover .fa.fa-caret-down,
+//   &.highlighted .type-caret.active:hover .fa.fa-caret-down {
+//     color: white;
+//     background-color: #999;
+//   }
+
+//   .type-caret.drop-enabled .fa.fa-caret-down {
+//     background-color: #bbb;
+//     color: black;
+//   }
+// }
+
+// .field-info.unselected {
+//   border: 1px dashed hsla(0,0%,0%,0.15);
+//   background-color: #fafafa;
+// }
+
+// .field-info.selected {
+//   border: 1px solid hsla(0,0%,0%,0.15);
+//   background-color: hsla(0,0%,93%,0.8);
+//   font-weight: 500;
+// }
+
+// .field-info, .field-info.selected, .field-info.unselected, .field-info.pill {
+//   &.any {
+//     background-color: rgb(216,250,251);
+//     opacity: 0.8;
+//   }
+//   &.enumerated-field {
+//     background-color: rgba(216,250,251,0.7);
+//     opacity: 0.8;
+//   }
+
+//   &.enumerated-channel {
+//     border: 1px dashed hsla(185,80%,29%,0.35);
+//     opacity: 0.8;
+//   }
+// }
+
+
+// .field-info.list-item { // TODO: remove as it's not used on Voyager2
+//   margin-bottom: 4px;
+// }
+
+// .field-info.highlighted,
+// .field-info.highlighted.any,
+// .field-info.highlighted.enumerated-field,
+// .field-info.highlighted.enumerated-channel,
+// .field-list-item:hover .field-info {
+//   border-style: solid;
+//   background-color: #c6e5ff;
+//   font-weight: 500;
+
+//   .field-func, .field-count{
+//     &.any {
+//       color: $any-hover-color;
+//     }
+//   }
+
+//   .field-info .field-name.hasfunc {
+//     &.any::before, &.any::after {
+//       color: $any-hover-color;
+//     }
+//   }
+// }
+
+// .field-info.ui-draggable-dragging {
+//   min-width: 150px;
+//   width: auto;
+//   box-shadow: 2px 2px 1px rgba(0,0,0,0.2);
+
+//   .info {
+//     display: none;
+//   }
+// }
+
+// .tooltip-content {
+//   max-width: 300px;
+//   strong {
+//     width: 75px;
+//     display: inline-block;
+//     text-align: right;
+//     margin-right: 5px;
+//   }
+// }
+
+

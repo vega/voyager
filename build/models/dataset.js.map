@@ -1,0 +1,1 @@
+{"version":3,"file":"dataset.js","sourceRoot":"","sources":["../../src/models/dataset.ts"],"names":[],"mappings":";;AAAA,qDAAkD;AAElD,qDAA+D;AAA1C,0BAAA,MAAM,CAAA;AAcd,QAAA,eAAe,GAAY;IACtC,SAAS,EAAE,KAAK;IAChB,IAAI,EAAE,OAAO;IACb,MAAM,EAAE,IAAI,eAAM,CAAC,EAAC,MAAM,EAAE,EAAE,EAAC,CAAC;IAChC,IAAI,EAAE,IAAI;CACX,CAAC"}

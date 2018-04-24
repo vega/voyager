@@ -1,0 +1,19 @@
+.property-editor {
+  :global .form-group {
+    font-size: 11px;
+
+    label {
+      font-size: 12px;
+      font-weight: bold;
+      margin: 5px;
+    }
+
+    div {
+      display: inline-block;
+    }
+
+    select:focus {
+      outline: none
+    }
+  }
+}

@@ -1,0 +1,23 @@
+.plot-list {
+  display: flex;
+  align-items: stretch;
+  align-content: flex-start;
+  flex-wrap: wrap;
+}
+
+.plot-list-loading {
+  min-height: 290px;
+  margin: auto;
+  display: flex;
+}
+
+.load-more {
+  display: block;
+  background: #e2e9f3;
+  height: 60px;
+  line-height: 60px;
+  vertical-align: middle;
+  text-align: center;
+  font-size: 1.2em;
+  margin-bottom: 20px;
+}

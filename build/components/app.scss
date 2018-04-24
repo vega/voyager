@@ -1,0 +1,218 @@
+@import 'normalize/import-now';
+
+/* prevent element from being selected http://stackoverflow.com/questions/826782 */
+:global .noselect {
+  user-select: none;
+  cursor: default;
+}
+
+:global .voyager {
+  font-size: 12px;
+  margin: 0;
+  padding: 0;
+  background-color: #E2E9F3;
+  height: inherit;
+
+  display: flex;
+  flex-direction: column;
+
+  // We need to override the position: absolute in the split pane component
+  // See https://github.com/tomkp/react-split-pane/issues/23
+  .SplitPane {
+    position: relative !important;
+  }
+
+  .right {
+    float: right;
+  }
+
+  .hidden {
+    visibility: hidden;
+  }
+
+  h1 {
+    @extend .noselect;
+    font-size: 24px;
+    line-height:36px;
+    font-weight: 700;
+    margin: 0;
+  }
+
+  h2 {
+    @extend .noselect;
+    font-size: 16px;
+    line-height: 20px;
+    font-weight: 700;
+    margin: 0 0 10px;
+    color: #38425d;
+  }
+
+  h3 {
+    @extend .noselect;
+    font-size: 14px;
+    font-weight: 700;
+    margin: 0 0 6px;
+    color: #38425d;
+  }
+
+  h4 {
+    font-size: 12px;
+    margin: 0 0 6px;
+  }
+
+  .modal-header {
+    background-color: #f1f4f9;
+    flex-shrink: 0;
+    margin: 3px 3px 0 0;
+    padding: 8px;
+    margin-top: 0;
+    margin-right: 0;
+  }
+
+  .pane {
+    padding: 8px;
+  }
+
+  .persist-scroll{
+    /*
+      Prevent scroll bars from being hidden for OS X.
+      http://stackoverflow.com/questions/7855590/how-can-i-prevent-scroll-bars-from-being-hidden-for-os-x-trackpad-users-in-webkit
+    */
+    &::-webkit-scrollbar {
+      -webkit-appearance: none;
+    }
+
+    &::-webkit-scrollbar:vertical {
+      width: 11px;
+    }
+
+    &::-webkit-scrollbar:horizontal {
+      height: 11px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      border-radius: 8px;
+      border: 2px solid white; /* should match background, can't be transparent */
+      background-color: rgba(0, 0, 0, .5);
+    }
+
+    &::-webkit-scrollbar-track {
+      background-color: transparent;
+      border-radius: 8px;
+    }
+  }
+
+  div, span {
+    user-select: none;
+  }
+
+  // FontAwesome icon buttons
+  .fa {
+    &.fa-times, &.fa-search, &.fa-pencil, &.fa-caret-down, &.fa-times , &.fa-plus, &.fa-filter {
+      padding: 2px 3px 1px;
+      border-radius: 3px;
+
+      &:hover {
+        color: #fff;
+        background-color: #999;
+      }
+    }
+  }
+
+  .react-spinners--clip {
+    margin: auto;
+  }
+
+  .chart > canvas, .chart > svg {
+    margin: auto; // center the plot
+    display: block;
+  }
+
+  .chart {
+    margin: auto;
+  }
+
+  // split-pane css
+  .Resizer {
+    opacity: .2;
+    z-index: 1;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    -moz-background-clip: padding;
+    -webkit-background-clip: padding;
+    background-clip: padding-box;
+}
+
+ .Resizer:hover {
+    -webkit-transition: all 2s ease;
+    transition: all 2s ease;
+}
+
+ .Resizer.horizontal {
+    height: 11px;
+    margin: -5px 0;
+    border-top: 5px solid rgba(255, 255, 255, 0);
+    border-bottom: 5px solid rgba(255, 255, 255, 0);
+    cursor: row-resize;
+    width: 100%;
+}
+
+.Resizer.horizontal:hover {
+    border-top: 5px solid rgba(0, 0, 0, 0);
+    border-bottom: 5px solid rgba(0, 0, 0, 0);
+}
+
+.Resizer.vertical {
+    width: 11px;
+    margin: 0 -5px;
+    border-left: 5px solid rgba(255, 255, 255, 0);
+    border-right: 5px solid rgba(255, 255, 255, 0);
+    cursor: col-resize;
+}
+
+.Resizer.vertical:hover {
+    overflow-y:hidden;
+    border-left: 5px solid rgba(0, 0, 0, 0);
+    border-right: 5px solid rgba(0, 0, 0, 0);
+}
+.Resizer.disabled {
+  cursor: not-allowed;
+}
+
+.Resizer.disabled:hover {
+  border-color: transparent;
+}
+
+:global .vg-tooltip {
+    visibility: hidden;
+    padding: 6px;
+    border-radius: 3px;
+    position: fixed;
+    z-index: 2000;
+    font-family: sans-serif;
+    font-size: 11px;
+
+    /* The default look of the tooltip is the same as .light-theme
+    but it can be overwritten by .dark-theme */
+    background-color: rgba(255, 255, 255, 0.9);
+    border: 1px solid #d9d9d9;
+    color: black;
+  }
+
+  :global .key {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #808080;
+    max-width: 150px;
+    text-align: right;
+    padding-right: 1px;
+  }
+
+  :global .value {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 200px;
+    text-align: left;
+  }
+}

@@ -1,0 +1,16 @@
+@import './plot.scss';
+
+.bookmark-alert {
+  color: #fff;
+  background-color: #38425d;
+  padding: 8px;
+  font-size: 14px;
+  line-height: 18px;
+  min-width: 150px;
+  border-radius: 3px;
+}
+
+.bookmark-command-selected {
+  @extend .command;
+  color: #0c96d0;
+}
