@@ -1,4 +1,9 @@
+import {ExpandedType} from 'compassql/build/src/query/expandedtype';
+import {Channel} from 'vega-lite/build/src/channel';
 import * as vlSchema from 'vega-lite/build/vega-lite-schema.json';
+import {ShelfFieldDef} from '../../../build/models/shelf/spec/encoding';
+import {ShelfId} from '../../models/shelf/spec';
+import {CustomProp} from '../../../build/components/encoding-pane/field-customizer';
 
 // NOTE: keys for these interfaces follow the requirement for react-jsonSchema form
 // (https://mozilla-services.github.io/react-jsonschema-form/)
@@ -17,18 +22,18 @@ export interface NestedSchemaProperty {
 }
 
 export interface SchemaProperty {
-  AxisOrient?: NestedSchemaProperty;
-  AxisTitle?: NestedSchemaProperty;
-  ScaleType?: NestedSchemaProperty;
-  Stack?: NestedSchemaProperty;
+  asix_orient?: NestedSchemaProperty;
+  axis_title?: NestedSchemaProperty;
+  scale_type?: NestedSchemaProperty;
+  stack?: NestedSchemaProperty;
 }
 
 // TODO: Rename to camelCase
 export interface UISchema {
-  AxisOrient?: UISchemaContext;
-  AxisTitle?: UISchemaContext;
-  ScaleType?: UISchemaContext;
-  Stack?: UISchemaContext;
+  asix_orient?: UISchemaContext;
+  axis_title?: UISchemaContext;
+  scale_type?: UISchemaContext;
+  stack?: UISchemaContext;
 }
 
 // NOTE: keys for these interfaces follow the requirement for react-jsonSchema form
@@ -41,16 +46,85 @@ export interface UISchemaContext {
 }
 
 const DEFAULT_TEXT_UISCHEMA: UISchemaContext = {
-  "ui:autofocus": true,
-  "ui:emptyValue": ""
+  'ui:autofocus': true,
+  'ui:emptyValue': ''
 };
 
 const DEFAULT_SELECT_UISCHEMA: UISchemaContext = {
-  "ui:widget": "select",
-  "ui:placeholder": "auto",
-  "ui:emptyValue": "auto"
+  'ui:widget': 'select',
+  'ui:placeholder': 'auto',
+  'ui:emptyValue': 'auto'
 };
 
+const POSITION_FIELD_QUANTITATIVE_INDEX = {
+  'Common': [
+    {
+      prop: 'scale',
+      nestedProp: 'type'
+    },
+    {
+      prop: 'axis',
+      nestedProp: 'title'
+    },
+    {
+      prop: 'stack'
+    }
+  ],
+  'Scale': [
+    {
+      prop: 'scale',
+      nestedProp: 'type'
+    }
+  ],
+  'Axis': [
+    {
+      prop: 'axis',
+      nestedProp: 'orient'
+    },
+    {
+      prop: 'axis',
+      nestedProp: 'title'
+    }
+  ]
+};
+
+const POSITION_FIELD_NOMINAL_INDEX = {
+  'Scale': [
+    {
+      prop: 'scale',
+      nestedProp: 'type'
+    }
+  ],
+  'Axis': [
+    {
+      prop: 'axis',
+      nestedProp: 'orient'
+    },
+    {
+      prop: 'axis',
+      nestedProp: 'title'
+    }
+  ]
+};
+
+const POSITION_FIELD_TEMPORAL_INDEX = {
+  'Scale': [
+    {
+      prop: 'scale',
+      nestedProp: 'type'
+    }
+  ],
+  'Axis': [
+    {
+      prop: 'axis',
+      nestedProp: 'orient'
+    },
+    {
+      prop: 'axis',
+      nestedProp: 'title'
+    }
+  ]
+};
 export interface PropertyEditorSchema {
   uiSchema: UISchema;
   schema: SchemaFormat;
@@ -81,8 +155,10 @@ export function getPropertyEditorSchema(prop: string, nestedProp: string, propTa
 }
 
 // Capitalize first letter for aesthetic purposes in form
-function capitalizeFirstLetter(s: string): string {
-  return s.charAt(0).toUpperCase() + s.slice(1);
+function toTitleCase(str: string) {
+  return str.replace(/\w\S*/g, txt => {
+    return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+  });
 }
 
 // TODO: change naming convention to camelCase
@@ -92,9 +168,9 @@ function capitalizeFirstLetter(s: string): string {
 */
 function generateSchema(prop: string, nestedProp: string, uiSchemaContext: UISchemaContext, propTab: string,
                         schemaEnum?: string[]): PropertyEditorSchema {
-  prop = capitalizeFirstLetter(prop);
-  nestedProp = nestedProp ? capitalizeFirstLetter(nestedProp) : nestedProp;
-  const propertyKey = nestedProp ? prop + nestedProp : prop;
+  // prop = capitalizeFirstLetter(prop);
+  // nestedProp = nestedProp ? capitalizeFirstLetter(nestedProp) : nestedProp;
+  const propertyKey = nestedProp ? prop + '_' + nestedProp : prop;
   let title;
   if (propTab === 'Common') {
     title = nestedProp ? prop + ' ' + nestedProp : prop;
@@ -106,7 +182,7 @@ function generateSchema(prop: string, nestedProp: string, uiSchemaContext: UISch
     properties: {
       [propertyKey]: {
         "type": "string",
-        "title": title,
+        "title": toTitleCase(title),
         ...(schemaEnum ? {enum: schemaEnum} : {})
       }
     }
@@ -118,5 +194,20 @@ function generateSchema(prop: string, nestedProp: string, uiSchemaContext: UISch
     schema: schema,
     uiSchema: uiSchema
   };
+}
+
+export function getFieldPropertyGroupIndex(shelfId: ShelfId, fieldDef: ShelfFieldDef) {
+  if (shelfId.channel === Channel.X || shelfId.channel === Channel.Y) {
+    switch (fieldDef.type) {
+      case ExpandedType.QUANTITATIVE:
+        return POSITION_FIELD_QUANTITATIVE_INDEX;
+      case ExpandedType.ORDINAL:
+        return POSITION_FIELD_NOMINAL_INDEX;
+      case ExpandedType.NOMINAL:
+        return POSITION_FIELD_NOMINAL_INDEX;
+      case ExpandedType.TEMPORAL:
+        return POSITION_FIELD_TEMPORAL_INDEX;
+    }
+  }
 }
 

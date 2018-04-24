@@ -71,10 +71,10 @@ export class PropertyEditorBase extends React.PureComponent<PropertyEditorProps,
   private getFormData() {
     const {fieldDef} = this.props;
     return {
-      'ScaleType': fieldDef.scale ? fieldDef.scale.type : undefined,
-      'AxisTitle': fieldDef.axis ? fieldDef.axis.title : undefined,
-      'AxisOrient': fieldDef.axis ? fieldDef.axis.orient : undefined,
-      'Stack': fieldDef.stack ? fieldDef.stack : undefined
+      'scale_type': fieldDef.scale ? fieldDef.scale.type : undefined,
+      'axis_title': fieldDef.axis ? fieldDef.axis.title : undefined,
+      'axis_orient': fieldDef.axis ? fieldDef.axis.orient : undefined,
+      'stack': fieldDef.stack ? fieldDef.stack : undefined
     };
   }
 }
