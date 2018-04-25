@@ -1,56 +1,53 @@
 import {ExpandedType} from 'compassql/build/src/query/expandedtype';
 import {Channel} from 'vega-lite/build/src/channel';
 import * as vlSchema from 'vega-lite/build/vega-lite-schema.json';
-import {ShelfFieldDef} from '../../../build/models/shelf/spec/encoding';
-import {ShelfId} from '../../models/shelf/spec';
-import {CustomProp} from '../../../build/components/encoding-pane/field-customizer';
+import {ShelfFieldDef, ShelfId} from '../../models/shelf/spec';
 
-// NOTE: keys for these interfaces follow the requirement for react-jsonSchema form
-// (https://mozilla-services.github.io/react-jsonschema-form/)
-export interface SchemaFormat {
-  type: string;
+export interface SchemaProperties {
+  [key: string]: SchemaProperty;
+}
+
+export interface ObjectSchema {
+  type: 'object';
   title?: string;
-  properties: SchemaProperty;
+  properties: SchemaProperties;
 }
-
-// NOTE: keys for these interfaces follow the requirement for react-jsonSchema form
-// (https://mozilla-services.github.io/react-jsonschema-form/)
-export interface NestedSchemaProperty {
-  type: string;
+export interface StringSchema {
+  type: 'string';
   title: string;
-  'enum'?: string[];
+  enum?: string[];
 }
 
-export interface SchemaProperty {
-  asix_orient?: NestedSchemaProperty;
-  axis_title?: NestedSchemaProperty;
-  scale_type?: NestedSchemaProperty;
-  stack?: NestedSchemaProperty;
+export function isStringSchema(schema: SchemaProperty): schema is StringSchema {
+  return schema.type === 'string';
 }
 
-// TODO: Rename to camelCase
+export type SchemaProperty = ObjectSchema | StringSchema;
+
 export interface UISchema {
-  asix_orient?: UISchemaContext;
-  axis_title?: UISchemaContext;
-  scale_type?: UISchemaContext;
-  stack?: UISchemaContext;
+  [key: string]: UISchemaItem;
 }
 
 // NOTE: keys for these interfaces follow the requirement for react-jsonSchema form
 // (https://mozilla-services.github.io/react-jsonschema-form/)
-export interface UISchemaContext {
+export interface UISchemaItem {
   'ui:autofocus'?: boolean;
   'ui:widget'?: string;
   'ui:placeholder'?: string;
   'ui:emptyValue'?: string;
 }
 
-const DEFAULT_TEXT_UISCHEMA: UISchemaContext = {
+export interface PropertyEditorSchema {
+  uiSchema: UISchema;
+  schema: ObjectSchema;
+}
+
+const DEFAULT_TEXT_UISCHEMA: UISchemaItem = {
   'ui:autofocus': true,
   'ui:emptyValue': ''
 };
 
-const DEFAULT_SELECT_UISCHEMA: UISchemaContext = {
+const DEFAULT_SELECT_UISCHEMA: UISchemaItem = {
   'ui:widget': 'select',
   'ui:placeholder': 'auto',
   'ui:emptyValue': 'auto'
@@ -70,89 +67,19 @@ const POSITION_FIELD_QUANTITATIVE_INDEX = {
       prop: 'stack'
     }
   ],
-  'Scale': [
-    {
-      prop: 'scale',
-      nestedProp: 'type'
-    }
-  ],
-  'Axis': [
-    {
-      prop: 'axis',
-      nestedProp: 'orient'
-    },
-    {
-      prop: 'axis',
-      nestedProp: 'title'
-    }
-  ]
+  'Scale': ['type'].map(p => ({prop: 'scale', nestedProp: p})),
+  'Axis': ['orient', 'title'].map(p => ({prop: 'axis', nestedProp: p}))
 };
 
 const POSITION_FIELD_NOMINAL_INDEX = {
-  'Scale': [
-    {
-      prop: 'scale',
-      nestedProp: 'type'
-    }
-  ],
-  'Axis': [
-    {
-      prop: 'axis',
-      nestedProp: 'orient'
-    },
-    {
-      prop: 'axis',
-      nestedProp: 'title'
-    }
-  ]
+  'Scale': ['type'].map(p => ({prop: 'scale', nestedProp: p})),
+  'Axis': ['orient', 'title'].map(p => ({prop: 'axis', nestedProp: p}))
 };
 
 const POSITION_FIELD_TEMPORAL_INDEX = {
-  'Scale': [
-    {
-      prop: 'scale',
-      nestedProp: 'type'
-    }
-  ],
-  'Axis': [
-    {
-      prop: 'axis',
-      nestedProp: 'orient'
-    },
-    {
-      prop: 'axis',
-      nestedProp: 'title'
-    }
-  ]
+  'Scale': ['type'].map(p => ({prop: 'scale', nestedProp: p})),
+  'Axis': ['orient', 'title'].map(p => ({prop: 'axis', nestedProp: p}))
 };
-export interface PropertyEditorSchema {
-  uiSchema: UISchema;
-  schema: SchemaFormat;
-}
-
-export function getPropertyEditorSchema(prop: string, nestedProp: string, propTab: string): PropertyEditorSchema {
-  if (prop === 'scale') {
-    if (nestedProp === 'type') {
-      return generateSchema(prop, nestedProp, DEFAULT_SELECT_UISCHEMA, propTab,
-        (vlSchema as any).definitions.ScaleType.enum);
-    }
-  } else if (prop === 'axis') {
-    if (nestedProp === 'orient') {
-      return generateSchema(prop, nestedProp, DEFAULT_SELECT_UISCHEMA, propTab,
-        (vlSchema as any).definitions.AxisOrient.enum);
-    } else if (nestedProp === 'title') {
-      return generateSchema(prop, nestedProp, DEFAULT_TEXT_UISCHEMA, propTab);
-    }
-  } else if (prop === 'stack') {
-    return generateSchema(prop, nestedProp, DEFAULT_SELECT_UISCHEMA, propTab,
-      (vlSchema as any).definitions.StackOffset.enum);
-  } else {
-    return {
-      schema: undefined,
-      uiSchema: undefined
-    };
-  }
-}
 
 // Capitalize first letter for aesthetic purposes in form
 function toTitleCase(str: string) {
@@ -161,35 +88,76 @@ function toTitleCase(str: string) {
   });
 }
 
-// TODO: change naming convention to camelCase
-/*
-*  NOTE: factory method where propertyKey follows naming convention: Capitalized Prop + Capitalized NestedProp
-*  Example: {prop: axis, nestedProp: orient} translates to "AxisOrient"
-*/
-function generateSchema(prop: string, nestedProp: string, uiSchemaContext: UISchemaContext, propTab: string,
-                        schemaEnum?: string[]): PropertyEditorSchema {
-  // prop = capitalizeFirstLetter(prop);
-  // nestedProp = nestedProp ? capitalizeFirstLetter(nestedProp) : nestedProp;
-  const propertyKey = nestedProp ? prop + '_' + nestedProp : prop;
+function generateTitle(prop: string, nestedProp: string, propTab: string): string {
   let title;
   if (propTab === 'Common') {
     title = nestedProp ? prop + ' ' + nestedProp : prop;
   } else {
     title = nestedProp || prop;
   }
-  const schema: SchemaFormat = {
-    type: "object",
+
+  return toTitleCase(title);
+}
+
+export function getPropertyEditorSchema(prop: string, nestedProp: string, propTab: string): PropertyEditorSchema {
+  const title = generateTitle(prop, nestedProp, propTab);
+  const baseSchemaProp = {
+    title: title
+  };
+  if (prop === 'scale') {
+    if (nestedProp === 'type') {
+      const schemaProperty: StringSchema = {
+        ...baseSchemaProp as StringSchema,
+        enum: (vlSchema as any).definitions.ScaleType.enum,
+        type: 'string'
+      };
+      return generateSchema(prop, nestedProp, DEFAULT_SELECT_UISCHEMA, propTab, schemaProperty);
+    }
+  } else if (prop === 'axis') {
+    if (nestedProp === 'orient') {
+      const schemaProperty: StringSchema = {
+        ...baseSchemaProp as StringSchema,
+        enum: (vlSchema as any).definitions.AxisOrient.enum,
+        type: 'string'
+      };
+      return generateSchema(prop, nestedProp, DEFAULT_SELECT_UISCHEMA, propTab, schemaProperty);
+    } else if (nestedProp === 'title') {
+      const schemaProperty: StringSchema = {
+        ...baseSchemaProp as StringSchema,
+        type: 'string'
+      };
+      return generateSchema(prop, nestedProp, DEFAULT_TEXT_UISCHEMA, propTab, schemaProperty);
+    }
+  } else if (prop === 'stack') {
+    const schemaProperty: StringSchema = {
+      ...baseSchemaProp as StringSchema,
+      enum: (vlSchema as any).definitions.StackOffset.enum,
+      type: 'string'
+    };
+    return generateSchema(prop, nestedProp, DEFAULT_SELECT_UISCHEMA, propTab, schemaProperty);
+  } else {
+    throw new Error('Property combination not recognized');
+  }
+}
+
+
+/*
+*  NOTE: factory method where propertyKey follows naming convention: prop_nestedProp
+*  Example: {prop: axis, nestedProp: orient} translates to "axis_orient"
+*/
+function generateSchema(prop: string, nestedProp: string, uiSchemaItem: UISchemaItem, propTab: string,
+                        schemaProp: SchemaProperty): PropertyEditorSchema {
+  const propertyKey = nestedProp ? prop + '_' + nestedProp : prop;
+  const schema: ObjectSchema = {
+    type: 'object',
     properties: {
-      [propertyKey]: {
-        "type": "string",
-        "title": toTitleCase(title),
-        ...(schemaEnum ? {enum: schemaEnum} : {})
-      }
+      [propertyKey]: schemaProp
     }
   };
   const uiSchema: UISchema = {
-    [propertyKey]: uiSchemaContext
+    [propertyKey]: uiSchemaItem
   };
+
   return {
     schema: schema,
     uiSchema: uiSchema
@@ -211,3 +179,17 @@ export function getFieldPropertyGroupIndex(shelfId: ShelfId, fieldDef: ShelfFiel
   }
 }
 
+export function generateFormData(shelfId: ShelfId, fieldDef: ShelfFieldDef) {
+  const index = getFieldPropertyGroupIndex(shelfId, fieldDef);
+  const formData = {};
+  for (const key of Object.keys(index)) {
+    for (const customProp of index[key]) {
+      const prop = customProp.prop;
+      const nestedProp = customProp.nestedProp;
+      const propertyKey = nestedProp ? prop + '_' + nestedProp : prop;
+      formData[propertyKey] = fieldDef[prop] ? nestedProp ? fieldDef[prop][nestedProp] : fieldDef[prop] : undefined;
+    }
+  }
+
+  return formData;
+}

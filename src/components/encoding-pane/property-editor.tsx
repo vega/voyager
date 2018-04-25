@@ -5,7 +5,7 @@ import {debounce} from 'throttle-debounce';
 import {ActionHandler} from '../../actions';
 import {SPEC_FIELD_NESTED_PROP_CHANGE, SPEC_FIELD_PROP_CHANGE, SpecEncodingAction} from '../../actions/shelf';
 import {ShelfFieldDef, ShelfId} from '../../models/shelf/spec';
-import {getPropertyEditorSchema} from './property-editor-schema';
+import {generateFormData, getPropertyEditorSchema} from './property-editor-schema';
 import * as styles from './property-editor.scss';
 
 export interface PropertyEditorProps extends ActionHandler<SpecEncodingAction> {
@@ -25,9 +25,9 @@ export class PropertyEditorBase extends React.PureComponent<PropertyEditorProps,
   }
 
   public render() {
-    const {prop, nestedProp, propTab} = this.props;
+    const {prop, nestedProp, propTab, shelfId, fieldDef} = this.props;
     const {schema, uiSchema} = getPropertyEditorSchema(prop, nestedProp, propTab);
-    const formData = this.getFormData();
+    const formData = generateFormData(shelfId, fieldDef);
     return (
       <div styleName="property-editor">
         <Form
@@ -66,16 +66,6 @@ export class PropertyEditorBase extends React.PureComponent<PropertyEditorProps,
         }
       });
     }
-  }
-
-  private getFormData() {
-    const {fieldDef} = this.props;
-    return {
-      'scale_type': fieldDef.scale ? fieldDef.scale.type : undefined,
-      'axis_title': fieldDef.axis ? fieldDef.axis.title : undefined,
-      'axis_orient': fieldDef.axis ? fieldDef.axis.orient : undefined,
-      'stack': fieldDef.stack ? fieldDef.stack : undefined
-    };
   }
 }
 

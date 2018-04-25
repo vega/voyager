@@ -18,7 +18,6 @@ export interface CustomProp {
   nestedProp?: string;
 }
 
-
 export class FieldCustomizerBase extends React.PureComponent<FieldCustomizerProps, {}> {
   public render() {
     const {shelfId, handleAction, fieldDef} = this.props;
