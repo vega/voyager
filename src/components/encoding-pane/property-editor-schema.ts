@@ -101,13 +101,10 @@ function generateTitle(prop: string, nestedProp: string, propTab: string): strin
 
 export function getPropertyEditorSchema(prop: string, nestedProp: string, propTab: string): PropertyEditorSchema {
   const title = generateTitle(prop, nestedProp, propTab);
-  const baseSchemaProp = {
-    title: title
-  };
   if (prop === 'scale') {
     if (nestedProp === 'type') {
       const schemaProperty: StringSchema = {
-        ...baseSchemaProp as StringSchema,
+        title: title,
         enum: (vlSchema as any).definitions.ScaleType.enum,
         type: 'string'
       };
@@ -116,21 +113,21 @@ export function getPropertyEditorSchema(prop: string, nestedProp: string, propTa
   } else if (prop === 'axis') {
     if (nestedProp === 'orient') {
       const schemaProperty: StringSchema = {
-        ...baseSchemaProp as StringSchema,
+        title: title,
         enum: (vlSchema as any).definitions.AxisOrient.enum,
         type: 'string'
       };
       return generateSchema(prop, nestedProp, DEFAULT_SELECT_UISCHEMA, propTab, schemaProperty);
     } else if (nestedProp === 'title') {
       const schemaProperty: StringSchema = {
-        ...baseSchemaProp as StringSchema,
+        title: title,
         type: 'string'
       };
       return generateSchema(prop, nestedProp, DEFAULT_TEXT_UISCHEMA, propTab, schemaProperty);
     }
   } else if (prop === 'stack') {
     const schemaProperty: StringSchema = {
-      ...baseSchemaProp as StringSchema,
+      title: title,
       enum: (vlSchema as any).definitions.StackOffset.enum,
       type: 'string'
     };
@@ -158,10 +155,7 @@ function generateSchema(prop: string, nestedProp: string, uiSchemaItem: UISchema
     [propertyKey]: uiSchemaItem
   };
 
-  return {
-    schema: schema,
-    uiSchema: uiSchema
-  };
+  return {schema, uiSchema};
 }
 
 export function getFieldPropertyGroupIndex(shelfId: ShelfId, fieldDef: ShelfFieldDef) {

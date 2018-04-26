@@ -46,7 +46,7 @@ export class FieldCustomizerBase extends React.PureComponent<FieldCustomizerProp
                         const {prop, nestedProp} = customizableProp;
                         return (
                           <PropertyEditor
-                            key={JSON.stringify({prop, nestedProp})}
+                            key={prop + '_' + nestedProp}
                             prop={prop}
                             nestedProp={nestedProp}
                             shelfId={shelfId}
