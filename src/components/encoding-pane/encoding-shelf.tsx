@@ -46,6 +46,8 @@ export interface EncodingShelfState {
 class EncodingShelfBase extends React.PureComponent<
   EncodingShelfProps, EncodingShelfState
 > implements FunctionPickerWildcardHandler {
+  private fieldCustomizer: HTMLElement;
+  private encodingShelf: HTMLElement;
 
   constructor(props: EncodingShelfProps) {
     super(props);
@@ -57,6 +59,18 @@ class EncodingShelfBase extends React.PureComponent<
     this.onWildcardRemove = this.onWildcardRemove.bind(this);
     this.onWildcardDisable = this.onWildcardDisable.bind(this);
     this.onWildcardEnable = this.onWildcardEnable.bind(this);
+    this.toggleCustomizer = this.toggleCustomizer.bind(this);
+  }
+
+  public componentWillUpdate(nextProps: EncodingShelfProps, nextState: EncodingShelfState) {
+    if (!nextState) {
+      return;
+    }
+    if (nextState.customizerIsOpened) {
+      document.addEventListener('click', this.handleClickOutside.bind(this), true);
+    } else if (this.state.customizerIsOpened) {
+      document.removeEventListener('click', this.handleClickOutside.bind(this), true);
+    }
   }
 
   public render() {
@@ -72,8 +86,8 @@ class EncodingShelfBase extends React.PureComponent<
             attachment="top left"
             targetAttachment="bottom left"
           >
-            {(fieldDef && !isWildcardChannelId(id)) ?
-              <span onClick={this.toggleCustomizer.bind(this)}>
+            {(fieldDef && !isWildcardChannelId(id) && (id.channel === 'x' || id.channel === 'y')) ?
+              <span onClick={this.toggleCustomizer} ref={this.fieldHandler}>
                 {channelName}{' '} <i className={'fa fa-caret-down'}/>
               </span> :
               <span>
@@ -82,11 +96,13 @@ class EncodingShelfBase extends React.PureComponent<
             }
 
             {this.state.customizerIsOpened &&
+            <div ref={this.popupRefHandler}>
               <FieldCustomizer
                 shelfId={id}
                 fieldDef={fieldDef}
                 handleAction={handleAction}
               />
+            </div>
             }
           </TetherComponent>
         </div>
@@ -194,8 +210,29 @@ class EncodingShelfBase extends React.PureComponent<
     );
   }
 
+  private popupRefHandler = (ref: any) => {
+    this.fieldCustomizer = ref;
+  }
+
+  private fieldHandler = (ref: any) => {
+    this.encodingShelf = ref;
+  }
+
+  private handleClickOutside(e: any) {
+    if (this.fieldCustomizer && (this.fieldCustomizer.contains(e.target) || this.encodingShelf.contains(e.target))) {
+      return;
+    }
+    this.closePopup();
+  }
+
+  private closePopup() {
+    this.setState({
+      customizerIsOpened: false
+    });
+  }
+
   private toggleCustomizer() {
-    this.setState ({
+    this.setState({
       customizerIsOpened: !this.state.customizerIsOpened
     });
   }

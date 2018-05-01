@@ -214,7 +214,6 @@ function addEncoding(shelf: Readonly<ShelfUnitSpec>, shelfId: ShelfId, fieldDef:
 type ShelfFieldDefModifier<T extends ShelfFieldDef> = (fieldDef: Readonly<T>) => T;
 
 function modifyEncoding(shelf: Readonly<ShelfUnitSpec>, shelfId: ShelfId, modifier: ShelfFieldDefModifier<any>) {
-
   if (isWildcardChannelId(shelfId)) {
     return {
       ...shelf,
