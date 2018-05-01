@@ -58,7 +58,6 @@ export interface ShelfFieldDef {
   description?: string;
 }
 
-
 export interface ShelfAnyEncodingDef extends ShelfFieldDef {
   channel: SHORT_WILDCARD;
 }
