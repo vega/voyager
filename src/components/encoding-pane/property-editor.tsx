@@ -6,7 +6,7 @@ import {debounce} from 'throttle-debounce';
 import {ActionHandler} from '../../actions';
 import {SPEC_FIELD_NESTED_PROP_CHANGE, SPEC_FIELD_PROP_CHANGE, SpecEncodingAction} from '../../actions/shelf';
 import {ShelfFieldDef, ShelfId} from '../../models/shelf/spec';
-import {generateFormData, generatePropertyEditorSchema, isSequential} from './property-editor-schema';
+import {generateFormData, generatePropertyEditorSchema, isContinuous} from './property-editor-schema';
 import * as styles from './property-editor.scss';
 
 export interface PropertyEditorProps extends ActionHandler<SpecEncodingAction> {
@@ -75,14 +75,14 @@ export class PropertyEditorBase extends React.PureComponent<PropertyEditorProps,
     if (prop === 'scale') {
       if (nestedProp === 'range') {
         const range = result.split(reg);
-        if (isSequential(fieldDef) && range.length !== 2) {
-          throw new Error('Invalid format for range. Must be of type [min, max]');
+        if (isContinuous(fieldDef) && range.length !== 2) {
+          throw new Error('Invalid format for range. Must follow format: min, max');
         }
         return result === '' ? '?' : range;
       } else if (nestedProp === 'domain') {
         const domain = result.split(reg);
         if (fieldDef.type === ExpandedType.QUANTITATIVE && domain.length !== 2) {
-          throw new Error('Invalid format for domain. Must be of type [min, max]');
+          throw new Error('Invalid format for domain. Must follow format: min, max');
         } else if (fieldDef.type === ExpandedType.TEMPORAL) {
           // TODO: Not supported yet
           throw new Error('Voyager does not currently support temporal domain values');

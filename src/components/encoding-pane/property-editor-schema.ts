@@ -64,12 +64,12 @@ const DEFAULT_TEXT_UISCHEMA: UISchemaItem = {
 
 const DEFAULT_DISCRETE_SCALE_ARRAY_UISCHEMA: UISchemaItem = {
   ...DEFAULT_TEXT_UISCHEMA,
-  'ui:placeholder': 'a, b, c...'
+  'ui:placeholder': 'a, b, c, ...'
 };
 
 const DEFAULT_CONTINUOUS_SCALE_ARRAY_UISCHEMA: UISchemaItem = {
   ...DEFAULT_TEXT_UISCHEMA,
-  'ui:placeholder': 'Min, Max'
+  'ui:placeholder': 'Min Num, Max Num'
 };
 
 const DEFAULT_SELECT_UISCHEMA: UISchemaItem = {
@@ -110,12 +110,32 @@ const POSITION_FIELD_TEMPORAL_INDEX = {
 };
 
 const COLOR_CHANNEL_FIELD_INDEX = {
+  'Common': [
+    {
+      prop: 'legend',
+      nestedProp: 'title'
+    },
+    {
+      prop: 'scale',
+      nestedProp: 'scheme'
+    }
+  ],
   'Legend': ['orient', 'title', 'type'].map(p => ({prop: 'legend', nestedProp: p})),
   'Scale': ['domain', 'scheme', 'type'].map(p => ({prop: 'scale', nestedProp: p}))
 };
 
 const SIZE_CHANNEL_FIELD_INDEX = {
-  'Legend': ['orient', 'title', 'type'].map(p => ({prop: 'legend', nestedProp: p})),
+  'Common': [
+    {
+      prop: 'legend',
+      nestedProp: 'title'
+    },
+    {
+      prop: 'scale',
+      nestedProp: 'type'
+    }
+  ],
+  'Legend': ['orient', 'title'].map(p => ({prop: 'legend', nestedProp: p})),
   'Scale': ['domain', 'range', 'type'].map(p => ({prop: 'scale', nestedProp: p}))
 };
 
@@ -127,18 +147,11 @@ const SHAPE_CHANNEL_FIELD_INDEX = {
 // ------------------------------------------------------------------------------
 // Color Scheme Constants
 // ------------------------------------------------------------------------------
-// TODO: Add all of the color schemes
-export const COLOR_SCHEMES = ['blues', 'greens', 'greys', 'purples', 'reds', 'oranges', 'viridis', 'inferno', 'magma',
-  'plasma', 'bluegreen', 'bluepurple', 'greenblue', 'orangered', 'blueorange', 'accent', 'category10', 'category20',
-  'category20b', 'category20c', 'dark2', 'paired', 'pastel1', 'pastel1', 'set1', 'set2', 'set3', 'tableau10',
-  'tableau20'];
-
 export const CATEGORICAL_COLOR_SCHEMES = ['accent', 'category10', 'category20', 'category20b', 'category20c', 'dark2',
   'paired', 'pastel1', 'pastel1', 'set1', 'set2', 'set3', 'tableau10', 'tableau20'];
 
 export const SEQUENTIAL_COLOR_SCHEMES = ['blues', 'greens', 'greys', 'purples', 'reds', 'oranges', 'viridis', 'inferno',
   'magma', 'plasma', 'bluegreen', 'bluepurple', 'greenblue', 'orangered', 'blueorange'];
-
 
 // ------------------------------------------------------------------------------
 // Generator/Factory Methods
@@ -148,16 +161,23 @@ export function generatePropertyEditorSchema(prop: string, nestedProp: string, p
   const title = generateTitle(prop, nestedProp, propTab);
   if (prop === 'scale') {
     if (nestedProp === 'type') {
+      let scaleTypes: string[] = [];
+      if (isContinuous(fieldDef)) {
+        scaleTypes = fieldDef.type === ExpandedType.ORDINAL ? ["log", "time", "utc", "sequential"] :
+          ["linear", "pow", "sqrt", "log", "time", "utc", "sequential"];
+      } else {
+        scaleTypes = ["ordinal", "point", "band"];
+      }
       const schemaProperty: StringSchema = {
         title: title,
-        enum: filterEnumElements(fieldDef, prop, nestedProp, (vlSchema as any).definitions.ScaleType.enum),
+        enum: scaleTypes,
         type: 'string'
       };
       return generateSchema(prop, nestedProp, DEFAULT_SELECT_UISCHEMA, propTab, schemaProperty);
     } else if (nestedProp === 'scheme') {
       const schemaProperty: StringSchema = {
         title: title,
-        enum: filterEnumElements(fieldDef, prop, nestedProp, COLOR_SCHEMES),
+        enum: isContinuous(fieldDef) ? SEQUENTIAL_COLOR_SCHEMES : CATEGORICAL_COLOR_SCHEMES,
         type: 'string'
       };
       return generateSchema(prop, nestedProp, DEFAULT_SELECT_UISCHEMA, propTab, schemaProperty);
@@ -280,7 +300,7 @@ export function generateFormData(shelfId: ShelfId, fieldDef: ShelfFieldDef) {
       const nestedProp = customProp.nestedProp;
       const propertyKey = nestedProp ? prop + '_' + nestedProp : prop;
       const fData = fieldDef[prop] ? nestedProp ? fieldDef[prop][nestedProp] : fieldDef[prop] : undefined;
-      // handle empty input for text input
+      // Display empty string when '?' is passed in to retrieve auto generated visualization
       formData[propertyKey] = fData === '?' ? '' : fData;
     }
   }
@@ -288,33 +308,15 @@ export function generateFormData(shelfId: ShelfId, fieldDef: ShelfFieldDef) {
   return formData;
 }
 
-function filterEnumElements(fieldDef: ShelfFieldDef, prop: string, nestedProp: string, possibleVals: string[]) {
-  if (prop === 'scale') {
-    if (nestedProp === 'type') {
-      if (isSequential(fieldDef)) {
-        return ["linear", "pow", "sqrt", "log", "time", "utc", "sequential"];
-      }
-      return ["ordinal", "point", "band"];
-    } else if (nestedProp === 'scheme') {
-      if (isSequential(fieldDef)) {
-        return SEQUENTIAL_COLOR_SCHEMES;
-      }
-      return CATEGORICAL_COLOR_SCHEMES;
-    }
-  }
-
-  return possibleVals;
-}
-
 // ------------------------------------------------------------------------------
 // General-Purpose Helper Methods
 // ------------------------------------------------------------------------------
-export function isSequential(fieldDef: ShelfFieldDef) {
+export function isContinuous(fieldDef: ShelfFieldDef) {
   return contains([ExpandedType.ORDINAL, ExpandedType.TEMPORAL, ExpandedType.QUANTITATIVE], fieldDef.type);
 }
 
 export function isDiscrete(fieldDef: ShelfFieldDef) {
-  return !isSequential(fieldDef);
+  return !isContinuous(fieldDef);
 }
 
 // Capitalize first letter for aesthetic purposes in form
