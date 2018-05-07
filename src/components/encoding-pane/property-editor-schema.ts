@@ -93,15 +93,30 @@ const POSITION_FIELD_QUANTITATIVE_INDEX = {
       nestedProp: 'title'
     },
     {
+      prop: 'axis',
+      nestedProp: 'orient'
+    },
+    {
       prop: 'stack'
     }
   ],
-  'Axis': ['orient', 'title'].map(p => ({prop: 'axis', nestedProp: p})),
 };
 
 const POSITION_FIELD_NOMINAL_INDEX = {
-  'Scale': ['type'].map(p => ({prop: 'scale', nestedProp: p})),
-  'Axis': ['orient', 'title'].map(p => ({prop: 'axis', nestedProp: p}))
+  'Common': [
+    {
+      prop: 'scale',
+      nestedProp: 'type'
+    },
+    {
+      prop: 'axis',
+      nestedProp: 'orient'
+    },
+    {
+      prop: 'axis',
+      nestedProp: 'title'
+    }
+  ]
 };
 
 const POSITION_FIELD_TEMPORAL_INDEX = {
@@ -140,8 +155,24 @@ const SIZE_CHANNEL_FIELD_INDEX = {
 };
 
 const SHAPE_CHANNEL_FIELD_INDEX = {
-  'Legend': ['orient', 'title'].map(p => ({prop: 'legend', nestedProp: p})),
-  'Scale': ['domain', 'range'].map(p => ({prop: 'scale', nestedProp: p}))
+  'Common': [
+    {
+      prop: 'legend',
+      nestedProp: 'orient'
+    },
+    {
+      prop: 'legend',
+      nestedProp: 'title'
+    },
+    {
+      prop: 'scale',
+      nestedProp: 'domain'
+    },
+    {
+      prop: 'scale',
+      nestedProp: 'range'
+    }
+  ]
 };
 
 // ------------------------------------------------------------------------------
@@ -157,16 +188,36 @@ export const SEQUENTIAL_COLOR_SCHEMES = ['blues', 'greens', 'greys', 'purples', 
 // Generator/Factory Methods
 // ------------------------------------------------------------------------------
 export function generatePropertyEditorSchema(prop: string, nestedProp: string, propTab: string,
-                                             fieldDef: ShelfFieldDef): PropertyEditorSchema {
+                                             fieldDef: ShelfFieldDef, shelfId: ShelfId): PropertyEditorSchema {
   const title = generateTitle(prop, nestedProp, propTab);
   if (prop === 'scale') {
     if (nestedProp === 'type') {
       let scaleTypes: string[] = [];
-      if (isContinuous(fieldDef)) {
-        scaleTypes = fieldDef.type === ExpandedType.ORDINAL ? ["log", "time", "utc", "sequential"] :
-          ["linear", "pow", "sqrt", "log", "time", "utc", "sequential"];
-      } else {
-        scaleTypes = ["ordinal", "point", "band"];
+      // Filtering based on channel type & fieldDef type
+      if (contains([Channel.X, Channel.Y], shelfId.channel)) {
+        if (fieldDef.type === ExpandedType.QUANTITATIVE) {
+          scaleTypes = ["linear", "bin-linear", "log", "pow", "sqrt"];
+        } else if (fieldDef.type === ExpandedType.TEMPORAL) {
+          scaleTypes = ["bin-linear", "time", "utc", "ordinal", "bin-ordinal", "point", "band"];
+        } else if (fieldDef.type === ExpandedType.NOMINAL || fieldDef.type === ExpandedType.ORDINAL) {
+          scaleTypes = ["point", "band"];
+        }
+      } else if (shelfId.channel === Channel.COLOR) {
+        if (fieldDef.type === ExpandedType.QUANTITATIVE) {
+          scaleTypes = ["linear", "pow", "sqrt", "log", "sequential"];
+        } else if (fieldDef.type === ExpandedType.NOMINAL || fieldDef.type === ExpandedType.ORDINAL) {
+          scaleTypes = ["ordinal", "point"];
+        } else if (fieldDef.type === ExpandedType.TEMPORAL) {
+          scaleTypes = ["time", "utc", "sequential"];
+        }
+      } else if (shelfId.channel === Channel.SIZE) {
+        if (fieldDef.type === ExpandedType.QUANTITATIVE) {
+          scaleTypes = ["linear", "pow", "sqrt", "log"];
+        } else if (fieldDef.type === ExpandedType.NOMINAL || fieldDef.type === ExpandedType.ORDINAL) {
+          scaleTypes = ["point", "band"];
+        } else if (fieldDef.type === ExpandedType.TEMPORAL) {
+          scaleTypes = ["bin-linear", "time", "utc", "ordinal", "bin-ordinal", "point", "band"];
+        }
       }
       const schemaProperty: StringSchema = {
         title: title,

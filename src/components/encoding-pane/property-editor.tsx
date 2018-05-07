@@ -27,7 +27,7 @@ export class PropertyEditorBase extends React.PureComponent<PropertyEditorProps,
 
   public render() {
     const {prop, nestedProp, propTab, shelfId, fieldDef} = this.props;
-    const {schema, uiSchema} = generatePropertyEditorSchema(prop, nestedProp, propTab, fieldDef);
+    const {schema, uiSchema} = generatePropertyEditorSchema(prop, nestedProp, propTab, fieldDef, shelfId);
     const formData = generateFormData(shelfId, fieldDef);
     return (
       <div styleName="property-editor">
@@ -87,6 +87,7 @@ export class PropertyEditorBase extends React.PureComponent<PropertyEditorProps,
           // TODO: Not supported yet
           throw new Error('Voyager does not currently support temporal domain values');
         }
+        // if form data is empty, default to auto suggested view, which is ? in compass
         return result === '' ? '?' : domain;
       }
     }
