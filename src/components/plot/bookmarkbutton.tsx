@@ -68,10 +68,10 @@ export class BookmarkButtonBase extends React.PureComponent<BookmarkProps, Bookm
             <small>Your notes will be lost.</small>
             <div>
               <a onClick={this.onBookmarkRemove}>
-                <i className="fa fa-trash-o">&nbsp;&nbsp;remove it&nbsp;&nbsp;</i>
+                <i className="fa fa-trash-o">&nbsp;&nbsp;Remove it&nbsp;&nbsp;</i>
               </a>
               <a onClick={this.onKeepBookmark}>
-                <i className="fa fa-bookmark">&nbsp;&nbsp;keep it&nbsp;&nbsp;</i>
+                <i className="fa fa-bookmark">&nbsp;&nbsp;Keep it&nbsp;&nbsp;</i>
               </a>
             </div>
           </div>
