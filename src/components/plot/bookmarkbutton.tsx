@@ -19,6 +19,8 @@ export interface BookmarkButtonState {
 }
 
 export class BookmarkButtonBase extends React.PureComponent<BookmarkProps, BookmarkButtonState> {
+  private bookmarkDialog: HTMLElement;
+  private bookmarkPopup: HTMLElement;
   constructor(props: BookmarkProps) {
     super(props);
 
@@ -32,13 +34,25 @@ export class BookmarkButtonBase extends React.PureComponent<BookmarkProps, Bookm
     this.onKeepBookmark = this.onKeepBookmark.bind(this);
   }
 
+  public componentWillUpdate(nextProps: BookmarkProps, nextState: BookmarkButtonState) {
+    if (!nextState) {
+      return;
+    }
+
+    if (nextState.openDialog) {
+      document.addEventListener('click', this.handleClickOutside.bind(this), true);
+    } else if (this.state.openDialog) {
+      document.removeEventListener('click', this.handleClickOutside.bind(this), true);
+    }
+  }
+
   public render() {
     const styleName = (this.isBookmarked()) ? 'bookmark-command-selected' : 'command';
 
     return (
       <TetherComponent
-          attachment="top right"
-          targetAttachment="bottom left"
+        attachment="top right"
+        targetAttachment="bottom left"
       >
         <i
           title='Bookmark'
@@ -49,8 +63,8 @@ export class BookmarkButtonBase extends React.PureComponent<BookmarkProps, Bookm
 
         {
           this.state.openDialog &&
-          <div styleName='bookmark-alert'>
-            <div>Remove bookmark?</div>
+          <div styleName='bookmark-alert' ref={this.alertHandler}>
+            <div ref={this.bookmarkHandler}>Remove bookmark?</div>
             <small>Your notes will be lost.</small>
             <div>
               <a onClick={this.onBookmarkRemove}>
@@ -99,6 +113,24 @@ export class BookmarkButtonBase extends React.PureComponent<BookmarkProps, Bookm
       payload: {
         plot: this.props.plot
       }
+    });
+  }
+
+  private bookmarkHandler = (ref: any) => {
+    this.bookmarkPopup = ref;
+  }
+
+  private alertHandler = (ref: any) => {
+    this.bookmarkDialog = ref;
+  }
+
+  private handleClickOutside(e: any) {
+    if (this.bookmarkPopup && this.bookmarkDialog && (this.bookmarkDialog.contains(e.target) ||
+      this.bookmarkPopup.contains(e.target))) {
+      return;
+    }
+    this.setState({
+      openDialog: false
     });
   }
 }
