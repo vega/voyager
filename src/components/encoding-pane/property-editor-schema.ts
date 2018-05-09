@@ -69,7 +69,7 @@ const DEFAULT_DISCRETE_SCALE_ARRAY_UISCHEMA: UISchemaItem = {
 
 const DEFAULT_CONTINUOUS_SCALE_ARRAY_UISCHEMA: UISchemaItem = {
   ...DEFAULT_TEXT_UISCHEMA,
-  'ui:placeholder': 'Min Num, Max Num'
+  'ui:placeholder': 'Min Number, Max Number'
 };
 
 const DEFAULT_SELECT_UISCHEMA: UISchemaItem = {
@@ -190,52 +190,29 @@ export const SEQUENTIAL_COLOR_SCHEMES = ['blues', 'greens', 'greys', 'purples', 
 export function generatePropertyEditorSchema(prop: string, nestedProp: string, propTab: string,
                                              fieldDef: ShelfFieldDef, shelfId: ShelfId): PropertyEditorSchema {
   const title = generateTitle(prop, nestedProp, propTab);
+  const baseUiSchema: SchemaProperty = {
+    title: title,
+    type: 'string'
+  };
+
   if (prop === 'scale') {
     if (nestedProp === 'type') {
-      let scaleTypes: string[] = [];
       // Filtering based on channel type & fieldDef type
-      if (contains([Channel.X, Channel.Y], shelfId.channel)) {
-        if (fieldDef.type === ExpandedType.QUANTITATIVE) {
-          scaleTypes = ["linear", "bin-linear", "log", "pow", "sqrt"];
-        } else if (fieldDef.type === ExpandedType.TEMPORAL) {
-          scaleTypes = ["bin-linear", "time", "utc", "ordinal", "bin-ordinal", "point", "band"];
-        } else if (fieldDef.type === ExpandedType.NOMINAL || fieldDef.type === ExpandedType.ORDINAL) {
-          scaleTypes = ["point", "band"];
-        }
-      } else if (shelfId.channel === Channel.COLOR) {
-        if (fieldDef.type === ExpandedType.QUANTITATIVE) {
-          scaleTypes = ["linear", "pow", "sqrt", "log", "sequential"];
-        } else if (fieldDef.type === ExpandedType.NOMINAL || fieldDef.type === ExpandedType.ORDINAL) {
-          scaleTypes = ["ordinal", "point"];
-        } else if (fieldDef.type === ExpandedType.TEMPORAL) {
-          scaleTypes = ["time", "utc", "sequential"];
-        }
-      } else if (shelfId.channel === Channel.SIZE) {
-        if (fieldDef.type === ExpandedType.QUANTITATIVE) {
-          scaleTypes = ["linear", "pow", "sqrt", "log"];
-        } else if (fieldDef.type === ExpandedType.NOMINAL || fieldDef.type === ExpandedType.ORDINAL) {
-          scaleTypes = ["point", "band"];
-        } else if (fieldDef.type === ExpandedType.TEMPORAL) {
-          scaleTypes = ["bin-linear", "time", "utc", "ordinal", "bin-ordinal", "point", "band"];
-        }
-      }
+      const scaleTypes: string[] = getSupportedScaleTypes(shelfId, fieldDef);
       const schemaProperty: StringSchema = {
-        title: title,
+        ...baseUiSchema,
         enum: scaleTypes,
-        type: 'string'
       };
       return generateSchema(prop, nestedProp, DEFAULT_SELECT_UISCHEMA, propTab, schemaProperty);
     } else if (nestedProp === 'scheme') {
       const schemaProperty: StringSchema = {
-        title: title,
+        ...baseUiSchema,
         enum: isContinuous(fieldDef) ? SEQUENTIAL_COLOR_SCHEMES : CATEGORICAL_COLOR_SCHEMES,
-        type: 'string'
       };
       return generateSchema(prop, nestedProp, DEFAULT_SELECT_UISCHEMA, propTab, schemaProperty);
     } else if (nestedProp === 'range' || nestedProp === 'domain') {
       const schemaProperty: StringSchema = {
-        title: title,
-        type: 'string'
+        ...baseUiSchema
       };
       return generateSchema(prop, nestedProp, isDiscrete(fieldDef) ?
         DEFAULT_DISCRETE_SCALE_ARRAY_UISCHEMA : DEFAULT_CONTINUOUS_SCALE_ARRAY_UISCHEMA, propTab, schemaProperty);
@@ -243,62 +220,87 @@ export function generatePropertyEditorSchema(prop: string, nestedProp: string, p
   } else if (prop === 'axis') {
     if (nestedProp === 'orient') {
       const schemaProperty: StringSchema = {
-        title: title,
+        ...baseUiSchema,
         enum: (vlSchema as any).definitions.AxisOrient.enum,
-        type: 'string'
       };
       return generateSchema(prop, nestedProp, DEFAULT_SELECT_UISCHEMA, propTab, schemaProperty);
     } else if (nestedProp === 'title') {
       const schemaProperty: StringSchema = {
-        title: title,
-        type: 'string'
+        ...baseUiSchema
       };
       return generateSchema(prop, nestedProp, DEFAULT_TEXT_UISCHEMA, propTab, schemaProperty);
     }
   } else if (prop === 'stack') {
     const schemaProperty: StringSchema = {
-      title: title,
+      ...baseUiSchema,
       enum: (vlSchema as any).definitions.StackOffset.enum,
-      type: 'string'
     };
     return generateSchema(prop, nestedProp, DEFAULT_SELECT_UISCHEMA, propTab, schemaProperty);
   } else if (prop === 'size') {
     const schemaProperty: StringSchema = {
-      title: title,
-      type: 'string'
+      ...baseUiSchema
     };
     return generateSchema(prop, nestedProp, DEFAULT_TEXT_UISCHEMA, propTab, schemaProperty);
   } else if (prop === 'legend') {
     if (nestedProp === 'orient') {
       const schemaProperty: StringSchema = {
-        title: title,
-        type: 'string',
+        ...baseUiSchema,
         enum: (vlSchema as any).definitions.LegendOrient.enum
       };
       return generateSchema(prop, nestedProp, DEFAULT_SELECT_UISCHEMA, propTab, schemaProperty);
     } else if (nestedProp === 'title') {
       const schemaProperty: StringSchema = {
-        title: title,
-        type: 'string'
+        ...baseUiSchema
       };
       return generateSchema(prop, nestedProp, DEFAULT_TEXT_UISCHEMA, propTab, schemaProperty);
     } else if (nestedProp === 'type') {
       const schemaProperty: StringSchema = {
-        title: title,
-        type: 'string',
+        ...baseUiSchema,
         enum: (vlSchema as any).definitions.Legend.properties.type.enum,
       };
       return generateSchema(prop, nestedProp, DEFAULT_SELECT_UISCHEMA, propTab, schemaProperty);
     }
   } else if (prop === 'format') {
     const schemaProperty: StringSchema = {
-      title: title,
-      type: 'string'
+      ...baseUiSchema
     };
     return generateSchema(prop, nestedProp, DEFAULT_TEXT_UISCHEMA, propTab, schemaProperty);
   } else {
     throw new Error('Property combination not recognized');
   }
+}
+
+
+// TODO: Eventually refactor to Vega-Lite
+function getSupportedScaleTypes(shelfId: ShelfId, fieldDef: ShelfFieldDef): string[] {
+  let scaleTypes: string[] = [];
+  if (contains([Channel.X, Channel.Y], shelfId.channel)) {
+    if (fieldDef.type === ExpandedType.QUANTITATIVE) {
+      scaleTypes = ["linear", "log", "pow", "sqrt"];
+    } else if (fieldDef.type === ExpandedType.TEMPORAL) {
+      scaleTypes = ["bin-linear", "time", "utc", "ordinal", "bin-ordinal", "point", "band"];
+    } else if (fieldDef.type === ExpandedType.NOMINAL || fieldDef.type === ExpandedType.ORDINAL) {
+      scaleTypes = ["point", "band"];
+    }
+  } else if (shelfId.channel === Channel.COLOR) {
+    if (fieldDef.type === ExpandedType.QUANTITATIVE) {
+      scaleTypes = ["linear", "pow", "sqrt", "log", "sequential"];
+    } else if (fieldDef.type === ExpandedType.NOMINAL || fieldDef.type === ExpandedType.ORDINAL) {
+      scaleTypes = ["ordinal", "point"];
+    } else if (fieldDef.type === ExpandedType.TEMPORAL) {
+      scaleTypes = ["time", "utc", "sequential"];
+    }
+  } else if (shelfId.channel === Channel.SIZE) {
+    if (fieldDef.type === ExpandedType.QUANTITATIVE) {
+      scaleTypes = ["linear", "pow", "sqrt", "log"];
+    } else if (fieldDef.type === ExpandedType.NOMINAL || fieldDef.type === ExpandedType.ORDINAL) {
+      scaleTypes = ["point", "band"];
+    } else if (fieldDef.type === ExpandedType.TEMPORAL) {
+      scaleTypes = ["bin-linear", "time", "utc", "ordinal", "bin-ordinal", "point", "band"];
+    }
+  }
+
+  return scaleTypes;
 }
 
 /*
@@ -351,7 +353,8 @@ export function generateFormData(shelfId: ShelfId, fieldDef: ShelfFieldDef) {
       const nestedProp = customProp.nestedProp;
       const propertyKey = nestedProp ? prop + '_' + nestedProp : prop;
       const fData = fieldDef[prop] ? nestedProp ? fieldDef[prop][nestedProp] : fieldDef[prop] : undefined;
-      // Display empty string when '?' is passed in to retrieve auto generated visualization
+      // Display empty string when '?' is passed in to retrieve default value
+      // '?' is passed when formData is empty to avoid passing in empty string as a property/nestedProp value
       formData[propertyKey] = fData === '?' ? '' : fData;
     }
   }
