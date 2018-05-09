@@ -64,7 +64,7 @@ export class BookmarkButtonBase extends React.PureComponent<BookmarkProps, Bookm
         {
           this.state.openDialog &&
           <div styleName='bookmark-alert' ref={this.alertHandler}>
-            <div ref={this.bookmarkHandler}>Remove bookmark?</div>
+            <div ref={this.bookmarkHandler}>Remove Bookmark?</div>
             <small>Your notes will be lost.</small>
             <div>
               <a onClick={this.onBookmarkRemove}>
