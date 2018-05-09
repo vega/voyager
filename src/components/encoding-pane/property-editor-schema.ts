@@ -190,7 +190,7 @@ export const SEQUENTIAL_COLOR_SCHEMES = ['blues', 'greens', 'greys', 'purples', 
 export function generatePropertyEditorSchema(prop: string, nestedProp: string, propTab: string,
                                              fieldDef: ShelfFieldDef, shelfId: ShelfId): PropertyEditorSchema {
   const title = generateTitle(prop, nestedProp, propTab);
-  const baseUiSchema: SchemaProperty = {
+  const baseUISchema: SchemaProperty = {
     title: title,
     type: 'string'
   };
@@ -199,72 +199,57 @@ export function generatePropertyEditorSchema(prop: string, nestedProp: string, p
     if (nestedProp === 'type') {
       // Filtering based on channel type & fieldDef type
       const scaleTypes: string[] = getSupportedScaleTypes(shelfId, fieldDef);
-      const schemaProperty: StringSchema = {
-        ...baseUiSchema,
+      const propertySchema: StringSchema = {
+        ...baseUISchema,
         enum: scaleTypes,
       };
-      return generateSchema(prop, nestedProp, DEFAULT_SELECT_UISCHEMA, propTab, schemaProperty);
+      return generateSchema(prop, nestedProp, DEFAULT_SELECT_UISCHEMA, propTab, propertySchema);
     } else if (nestedProp === 'scheme') {
-      const schemaProperty: StringSchema = {
-        ...baseUiSchema,
+      const propertySchema: StringSchema = {
+        ...baseUISchema,
         enum: isContinuous(fieldDef) ? SEQUENTIAL_COLOR_SCHEMES : CATEGORICAL_COLOR_SCHEMES,
       };
-      return generateSchema(prop, nestedProp, DEFAULT_SELECT_UISCHEMA, propTab, schemaProperty);
+      return generateSchema(prop, nestedProp, DEFAULT_SELECT_UISCHEMA, propTab, propertySchema);
     } else if (nestedProp === 'range' || nestedProp === 'domain') {
-      const schemaProperty: StringSchema = {
-        ...baseUiSchema
-      };
       return generateSchema(prop, nestedProp, isDiscrete(fieldDef) ?
-        DEFAULT_DISCRETE_SCALE_ARRAY_UISCHEMA : DEFAULT_CONTINUOUS_SCALE_ARRAY_UISCHEMA, propTab, schemaProperty);
+        DEFAULT_DISCRETE_SCALE_ARRAY_UISCHEMA : DEFAULT_CONTINUOUS_SCALE_ARRAY_UISCHEMA, propTab, baseUISchema);
     }
   } else if (prop === 'axis') {
     if (nestedProp === 'orient') {
-      const schemaProperty: StringSchema = {
-        ...baseUiSchema,
+      const propertySchema: StringSchema = {
+        ...baseUISchema,
         enum: (vlSchema as any).definitions.AxisOrient.enum,
       };
-      return generateSchema(prop, nestedProp, DEFAULT_SELECT_UISCHEMA, propTab, schemaProperty);
+      return generateSchema(prop, nestedProp, DEFAULT_SELECT_UISCHEMA, propTab, propertySchema);
     } else if (nestedProp === 'title') {
-      const schemaProperty: StringSchema = {
-        ...baseUiSchema
-      };
-      return generateSchema(prop, nestedProp, DEFAULT_TEXT_UISCHEMA, propTab, schemaProperty);
+      return generateSchema(prop, nestedProp, DEFAULT_TEXT_UISCHEMA, propTab, baseUISchema);
     }
   } else if (prop === 'stack') {
-    const schemaProperty: StringSchema = {
-      ...baseUiSchema,
+    const propertySchema: StringSchema = {
+      ...baseUISchema,
       enum: (vlSchema as any).definitions.StackOffset.enum,
     };
-    return generateSchema(prop, nestedProp, DEFAULT_SELECT_UISCHEMA, propTab, schemaProperty);
+    return generateSchema(prop, nestedProp, DEFAULT_SELECT_UISCHEMA, propTab, propertySchema);
   } else if (prop === 'size') {
-    const schemaProperty: StringSchema = {
-      ...baseUiSchema
-    };
-    return generateSchema(prop, nestedProp, DEFAULT_TEXT_UISCHEMA, propTab, schemaProperty);
+    return generateSchema(prop, nestedProp, DEFAULT_TEXT_UISCHEMA, propTab, baseUISchema);
   } else if (prop === 'legend') {
     if (nestedProp === 'orient') {
-      const schemaProperty: StringSchema = {
-        ...baseUiSchema,
+      const propertySchema: StringSchema = {
+        ...baseUISchema,
         enum: (vlSchema as any).definitions.LegendOrient.enum
       };
-      return generateSchema(prop, nestedProp, DEFAULT_SELECT_UISCHEMA, propTab, schemaProperty);
+      return generateSchema(prop, nestedProp, DEFAULT_SELECT_UISCHEMA, propTab, propertySchema);
     } else if (nestedProp === 'title') {
-      const schemaProperty: StringSchema = {
-        ...baseUiSchema
-      };
-      return generateSchema(prop, nestedProp, DEFAULT_TEXT_UISCHEMA, propTab, schemaProperty);
+      return generateSchema(prop, nestedProp, DEFAULT_TEXT_UISCHEMA, propTab, baseUISchema);
     } else if (nestedProp === 'type') {
-      const schemaProperty: StringSchema = {
-        ...baseUiSchema,
+      const propertySchema: StringSchema = {
+        ...baseUISchema,
         enum: (vlSchema as any).definitions.Legend.properties.type.enum,
       };
-      return generateSchema(prop, nestedProp, DEFAULT_SELECT_UISCHEMA, propTab, schemaProperty);
+      return generateSchema(prop, nestedProp, DEFAULT_SELECT_UISCHEMA, propTab, propertySchema);
     }
   } else if (prop === 'format') {
-    const schemaProperty: StringSchema = {
-      ...baseUiSchema
-    };
-    return generateSchema(prop, nestedProp, DEFAULT_TEXT_UISCHEMA, propTab, schemaProperty);
+    return generateSchema(prop, nestedProp, DEFAULT_TEXT_UISCHEMA, propTab, baseUISchema);
   } else {
     throw new Error('Property combination not recognized');
   }
@@ -273,34 +258,35 @@ export function generatePropertyEditorSchema(prop: string, nestedProp: string, p
 
 // TODO: Eventually refactor to Vega-Lite
 function getSupportedScaleTypes(shelfId: ShelfId, fieldDef: ShelfFieldDef): string[] {
-  let scaleTypes: string[] = [];
-  if (contains([Channel.X, Channel.Y], shelfId.channel)) {
-    if (fieldDef.type === ExpandedType.QUANTITATIVE) {
-      scaleTypes = ["linear", "log", "pow", "sqrt"];
-    } else if (fieldDef.type === ExpandedType.TEMPORAL) {
-      scaleTypes = ["bin-linear", "time", "utc", "ordinal", "bin-ordinal", "point", "band"];
-    } else if (fieldDef.type === ExpandedType.NOMINAL || fieldDef.type === ExpandedType.ORDINAL) {
-      scaleTypes = ["point", "band"];
-    }
-  } else if (shelfId.channel === Channel.COLOR) {
-    if (fieldDef.type === ExpandedType.QUANTITATIVE) {
-      scaleTypes = ["linear", "pow", "sqrt", "log", "sequential"];
-    } else if (fieldDef.type === ExpandedType.NOMINAL || fieldDef.type === ExpandedType.ORDINAL) {
-      scaleTypes = ["ordinal", "point"];
-    } else if (fieldDef.type === ExpandedType.TEMPORAL) {
-      scaleTypes = ["time", "utc", "sequential"];
-    }
-  } else if (shelfId.channel === Channel.SIZE) {
-    if (fieldDef.type === ExpandedType.QUANTITATIVE) {
-      scaleTypes = ["linear", "pow", "sqrt", "log"];
-    } else if (fieldDef.type === ExpandedType.NOMINAL || fieldDef.type === ExpandedType.ORDINAL) {
-      scaleTypes = ["point", "band"];
-    } else if (fieldDef.type === ExpandedType.TEMPORAL) {
-      scaleTypes = ["bin-linear", "time", "utc", "ordinal", "bin-ordinal", "point", "band"];
-    }
+  switch (fieldDef.type) {
+    case ExpandedType.QUANTITATIVE:
+      if (contains([Channel.X, Channel.Y], shelfId.channel)) {
+        return ["linear", "log", "pow", "sqrt"];
+      } else if (shelfId.channel === Channel.COLOR) {
+        return ["linear", "pow", "sqrt", "log", "sequential"];
+      } else if (shelfId.channel === Channel.SIZE) {
+        return ["linear", "pow", "sqrt", "log"];
+      }
+    case ExpandedType.ORDINAL:
+    case ExpandedType.NOMINAL:
+      if (contains([Channel.X, Channel.Y], shelfId.channel)) {
+        return ["point", "band"];
+      } else if (shelfId.channel === Channel.COLOR) {
+        return ["ordinal"];
+      } else if (shelfId.channel === Channel.SIZE) {
+        return ["point", "band"];
+      }
+    case ExpandedType.TEMPORAL:
+      if (contains([Channel.X, Channel.Y], shelfId.channel)) {
+        return ["time", "utc"];
+      } else if (shelfId.channel === Channel.COLOR) {
+        return ["time", "utc", "sequential"];
+      } else if (shelfId.channel === Channel.SIZE) {
+        return ["time", "utc"];
+      }
+    default:
+      return [];
   }
-
-  return scaleTypes;
 }
 
 /*

@@ -76,22 +76,22 @@ export class PropertyEditorBase extends React.PureComponent<PropertyEditorProps,
       if (nestedProp === 'range') {
         const range = result.split(reg);
         if (isContinuous(fieldDef) && range.length !== 2) {
-          throw new Error('Invalid format for range. Must follow format: min, max');
+          throw new Error('Invalid format for range. Must follow format: Min Number, Max Number');
         }
         return result === '' ? '?' : range;
       } else if (nestedProp === 'domain') {
         const domain = result.split(reg);
         if (fieldDef.type === ExpandedType.QUANTITATIVE && domain.length !== 2) {
-          throw new Error('Invalid format for domain. Must follow format: min, max');
+          throw new Error('Invalid format for domain. Must follow format: Min Number, Max Number');
         } else if (fieldDef.type === ExpandedType.TEMPORAL) {
           // TODO: Not supported yet
           throw new Error('Voyager does not currently support temporal domain values');
         }
-        // if form data is empty, default to auto suggested view, which is ? in compass
         return result === '' ? '?' : domain;
       }
     }
 
+    // if form data is empty, default to auto suggested view, which is ? in compass
     return result === '' ? '?' : result;
   }
 
