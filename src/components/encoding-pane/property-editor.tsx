@@ -72,13 +72,16 @@ export class PropertyEditorBase extends React.PureComponent<PropertyEditorProps,
   private parseFormDataResult(result: string) {
     const {fieldDef, prop, nestedProp} = this.props;
     const reg = /\s*,\s*/; // regex for parsing comma delimited strings
+    if (result === '') {
+      return undefined;
+    }
     if (prop === 'scale') {
       if (nestedProp === 'range') {
         const range = result.split(reg);
         if (isContinuous(fieldDef) && range.length !== 2) {
           throw new Error('Invalid format for range. Must follow format: Min Number, Max Number');
         }
-        return result === '' ? '?' : range;
+        return result === '' ? undefined : range;
       } else if (nestedProp === 'domain') {
         const domain = result.split(reg);
         if (fieldDef.type === ExpandedType.QUANTITATIVE && domain.length !== 2) {
@@ -87,12 +90,12 @@ export class PropertyEditorBase extends React.PureComponent<PropertyEditorProps,
           // TODO: Not supported yet
           throw new Error('Voyager does not currently support temporal domain values');
         }
-        return result === '' ? '?' : domain;
+        return result === '' ? undefined : domain;
       }
     }
 
     // if form data is empty, default to auto suggested view, which is ? in compass
-    return result === '' ? '?' : result;
+    return result === '' ? undefined : result;
   }
 
 }

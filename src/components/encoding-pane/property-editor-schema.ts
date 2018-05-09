@@ -341,7 +341,7 @@ export function generateFormData(shelfId: ShelfId, fieldDef: ShelfFieldDef) {
       const fData = fieldDef[prop] ? nestedProp ? fieldDef[prop][nestedProp] : fieldDef[prop] : undefined;
       // Display empty string when '?' is passed in to retrieve default value
       // '?' is passed when formData is empty to avoid passing in empty string as a property/nestedProp value
-      formData[propertyKey] = fData === '?' ? '' : fData;
+      formData[propertyKey] = fData === undefined ? '' : fData;
     }
   }
 
