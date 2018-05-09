@@ -64,14 +64,14 @@ export class BookmarkButtonBase extends React.PureComponent<BookmarkProps, Bookm
         {
           this.state.openDialog &&
           <div styleName='bookmark-alert' ref={this.alertHandler}>
-            <div ref={this.bookmarkHandler}>Remove bookmark?</div>
+            <div ref={this.bookmarkHandler}>Remove Bookmark?</div>
             <small>Your notes will be lost.</small>
             <div>
               <a onClick={this.onBookmarkRemove}>
-                <i className="fa fa-trash-o">&nbsp;&nbsp;remove it&nbsp;&nbsp;</i>
+                <span styleName='fa-span'><i className="fa fa-trash-o"/>&nbsp;Remove it&nbsp;&nbsp;</span>
               </a>
               <a onClick={this.onKeepBookmark}>
-                <i className="fa fa-bookmark">&nbsp;&nbsp;keep it&nbsp;&nbsp;</i>
+                <span styleName='fa-span'><i className="fa fa-bookmark"/>&nbsp;Keep it&nbsp;&nbsp;</span>
               </a>
             </div>
           </div>
