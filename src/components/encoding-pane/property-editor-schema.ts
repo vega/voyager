@@ -82,25 +82,9 @@ const DEFAULT_SELECT_UISCHEMA: UISchemaItem = {
 // Channel-Field Indexes for custom encoding
 // Key is Tab name, value is list of fieldDef properties
 // ------------------------------------------------------------------------------
-const POSITION_FIELD_QUANTITATIVE_INDEX = {
-  'Common': [
-    {
-      prop: 'scale',
-      nestedProp: 'type'
-    },
-    {
-      prop: 'axis',
-      nestedProp: 'title'
-    },
-    {
-      prop: 'axis',
-      nestedProp: 'orient'
-    },
-    {
-      prop: 'stack'
-    }
-  ],
-};
+
+const AXIS_ORIENT_TITLE = ['title', 'orient'].map(p => ({prop: 'axis', nestedProp: p}));
+const LEGEND_ORIENT_TITLE = ['orient', 'title'].map(p => ({prop: 'legend', nestedProp: p}));
 
 const POSITION_FIELD_NOMINAL_INDEX = {
   'Common': [
@@ -108,71 +92,34 @@ const POSITION_FIELD_NOMINAL_INDEX = {
       prop: 'scale',
       nestedProp: 'type'
     },
-    {
-      prop: 'axis',
-      nestedProp: 'orient'
-    },
-    {
-      prop: 'axis',
-      nestedProp: 'title'
-    }
+    ...AXIS_ORIENT_TITLE
   ]
 };
 
-const POSITION_FIELD_TEMPORAL_INDEX = {
-  'Scale': ['type'].map(p => ({prop: 'scale', nestedProp: p})),
-  'Axis': ['orient', 'title'].map(p => ({prop: 'axis', nestedProp: p}))
+// TODO: this should differ in the future
+const POSITION_FIELD_TEMPORAL_INDEX = POSITION_FIELD_NOMINAL_INDEX;
+
+const POSITION_FIELD_QUANTITATIVE_INDEX = {
+  'Common': [
+    ...POSITION_FIELD_NOMINAL_INDEX['Common'],
+    {prop: 'stack'}
+  ]
 };
 
 const COLOR_CHANNEL_FIELD_INDEX = {
-  'Common': [
-    {
-      prop: 'legend',
-      nestedProp: 'title'
-    },
-    {
-      prop: 'scale',
-      nestedProp: 'scheme'
-    }
-  ],
   'Legend': ['orient', 'title', 'type'].map(p => ({prop: 'legend', nestedProp: p})),
-  'Scale': ['domain', 'scheme', 'type'].map(p => ({prop: 'scale', nestedProp: p}))
+  'Scale': ['type', 'domain', 'scheme'].map(p => ({prop: 'scale', nestedProp: p}))
 };
 
 const SIZE_CHANNEL_FIELD_INDEX = {
-  'Common': [
-    {
-      prop: 'legend',
-      nestedProp: 'title'
-    },
-    {
-      prop: 'scale',
-      nestedProp: 'type'
-    }
-  ],
   'Legend': ['orient', 'title'].map(p => ({prop: 'legend', nestedProp: p})),
-  'Scale': ['domain', 'range', 'type'].map(p => ({prop: 'scale', nestedProp: p}))
+  'Scale': ['type', 'domain', 'range'].map(p => ({prop: 'scale', nestedProp: p}))
 };
 
 const SHAPE_CHANNEL_FIELD_INDEX = {
-  'Common': [
-    {
-      prop: 'legend',
-      nestedProp: 'orient'
-    },
-    {
-      prop: 'legend',
-      nestedProp: 'title'
-    },
-    {
-      prop: 'scale',
-      nestedProp: 'domain'
-    },
-    {
-      prop: 'scale',
-      nestedProp: 'range'
-    }
-  ]
+  'Legend': LEGEND_ORIENT_TITLE,
+  // No need to adjust scale type for shape
+  'Scale': ['domain', 'range'].map(p => ({prop: 'scale', nestedProp: p}))
 };
 
 // ------------------------------------------------------------------------------
