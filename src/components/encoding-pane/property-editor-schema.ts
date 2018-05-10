@@ -142,6 +142,8 @@ export function generatePropertyEditorSchema(prop: string, nestedProp: string, p
     type: 'string'
   };
 
+  const {channel} = shelfId;
+
   if (prop === 'scale') {
     if (nestedProp === 'type') {
       // Filtering based on channel type & fieldDef type
@@ -165,7 +167,7 @@ export function generatePropertyEditorSchema(prop: string, nestedProp: string, p
     if (nestedProp === 'orient') {
       const propertySchema: StringSchema = {
         ...baseUISchema,
-        enum: (vlSchema as any).definitions.AxisOrient.enum,
+        enum: channel === 'y' ? ['left', 'right'] : ['top', 'bottom']
       };
       return generateSchema(prop, nestedProp, DEFAULT_SELECT_UISCHEMA, propTab, propertySchema);
     } else if (nestedProp === 'title') {
