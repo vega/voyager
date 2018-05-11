@@ -86,7 +86,7 @@ class EncodingShelfBase extends React.PureComponent<
             attachment="top left"
             targetAttachment="bottom left"
           >
-            {(fieldDef && !isWildcardChannelId(id) && (id.channel === 'x' || id.channel === 'y')) ?
+            {(fieldDef && !isWildcardChannelId(id)) ?
               <span onClick={this.toggleCustomizer} ref={this.fieldHandler}>
                 {channelName}{' '} <i className={'fa fa-caret-down'}/>
               </span> :
@@ -168,7 +168,7 @@ class EncodingShelfBase extends React.PureComponent<
 
   protected onRemove() {
     const {id, handleAction} = this.props;
-    this.toggleCustomizer();
+    this.closePopup();
     handleAction({
       type: SPEC_FIELD_REMOVE,
       payload: id
@@ -219,7 +219,8 @@ class EncodingShelfBase extends React.PureComponent<
   }
 
   private handleClickOutside(e: any) {
-    if (this.fieldCustomizer && (this.fieldCustomizer.contains(e.target) || this.encodingShelf.contains(e.target))) {
+    if (this.fieldCustomizer && this.encodingShelf && (this.fieldCustomizer.contains(e.target) ||
+      this.encodingShelf.contains(e.target))) {
       return;
     }
     this.closePopup();

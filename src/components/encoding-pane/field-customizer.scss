@@ -2,7 +2,7 @@
   background-color: #eee;
   border-bottom: 5px solid #eee;
   border-radius: 3px;
-  width: 225px;
+  width: 250px;
 
   fieldset {
     border: 0;
@@ -19,7 +19,7 @@
     font-size: 11px !important; // cannot access react-form's css attributes, so have to use important
     padding-right: 10px;
     text-align: left;
-    width: 60px;
+    width: 75px;
   }
 
   ul {
