@@ -148,13 +148,13 @@ export function generatePropertyEditorSchema(prop: string, nestedProp: string, p
     if (nestedProp === 'type') {
       // Filtering based on channel type & fieldDef type
       const scaleTypes: string[] = getSupportedScaleTypes(shelfId, fieldDef);
-      const propertySchema: StringSchema = {
+      const propertySchema = {
         ...baseUISchema,
         enum: scaleTypes,
       };
       return generateSchema(prop, nestedProp, DEFAULT_SELECT_UISCHEMA, propTab, propertySchema);
     } else if (nestedProp === 'scheme') {
-      const propertySchema: StringSchema = {
+      const propertySchema = {
         ...baseUISchema,
         enum: isContinuous(fieldDef) ? SEQUENTIAL_COLOR_SCHEMES : CATEGORICAL_COLOR_SCHEMES,
       };
@@ -165,7 +165,7 @@ export function generatePropertyEditorSchema(prop: string, nestedProp: string, p
     }
   } else if (prop === 'axis') {
     if (nestedProp === 'orient') {
-      const propertySchema: StringSchema = {
+      const propertySchema = {
         ...baseUISchema,
         enum: channel === 'y' ? ['left', 'right'] : ['top', 'bottom']
       };
@@ -174,7 +174,7 @@ export function generatePropertyEditorSchema(prop: string, nestedProp: string, p
       return generateSchema(prop, nestedProp, DEFAULT_TEXT_UISCHEMA, propTab, baseUISchema);
     }
   } else if (prop === 'stack') {
-    const propertySchema: StringSchema = {
+    const propertySchema = {
       ...baseUISchema,
       enum: (vlSchema as any).definitions.StackOffset.enum,
     };
@@ -183,7 +183,7 @@ export function generatePropertyEditorSchema(prop: string, nestedProp: string, p
     return generateSchema(prop, nestedProp, DEFAULT_TEXT_UISCHEMA, propTab, baseUISchema);
   } else if (prop === 'legend') {
     if (nestedProp === 'orient') {
-      const propertySchema: StringSchema = {
+      const propertySchema = {
         ...baseUISchema,
         enum: (vlSchema as any).definitions.LegendOrient.enum
       };
@@ -191,7 +191,7 @@ export function generatePropertyEditorSchema(prop: string, nestedProp: string, p
     } else if (nestedProp === 'title') {
       return generateSchema(prop, nestedProp, DEFAULT_TEXT_UISCHEMA, propTab, baseUISchema);
     } else if (nestedProp === 'type') {
-      const propertySchema: StringSchema = {
+      const propertySchema = {
         ...baseUISchema,
         enum: (vlSchema as any).definitions.Legend.properties.type.enum,
       };
