@@ -22,46 +22,48 @@ export class FieldCustomizerBase extends React.PureComponent<FieldCustomizerProp
   public render() {
     const {shelfId, handleAction, fieldDef} = this.props;
     const propertyGroupIndex = getFieldPropertyGroupIndex(shelfId, fieldDef);
-    const keys = Object.keys(propertyGroupIndex);
+    const keys = propertyGroupIndex ? Object.keys(propertyGroupIndex) : undefined;
     return (
       <div styleName='field-customizer'>
-        <Tabs>
-          <TabList>
-            {
-              keys.map((encodingType, i) => {
-                return (
-                  <Tab key={i}>{encodingType}</Tab>
-                );
-              })
-            }
-          </TabList>
-          <div>
-            {
-              keys.map((encodingType, i) => {
-                const customProps: CustomProp[] = propertyGroupIndex[encodingType];
-                return (
-                  <TabPanel key={encodingType + i}>
-                    {
-                      customProps.map(customizableProp => {
-                        const {prop, nestedProp} = customizableProp;
-                        return (
-                          <PropertyEditor
-                            key={prop + '_' + nestedProp}
-                            prop={prop}
-                            nestedProp={nestedProp}
-                            shelfId={shelfId}
-                            fieldDef={fieldDef}
-                            handleAction={handleAction}
-                            propTab={encodingType}
-                          />
-                        );
-                      })
-                    }
-                  </TabPanel>
-                );
-              })}
-          </div>
-        </Tabs>
+        {keys && (
+          <Tabs>
+            <TabList>
+              {
+                keys.map((encodingType, i) => {
+                  return (
+                    <Tab key={'tab' + i}>{encodingType}</Tab>
+                  );
+                })
+              }
+            </TabList>
+            <div>
+              {
+                keys.map((encodingType, i) => {
+                  const customProps: CustomProp[] = propertyGroupIndex[encodingType];
+                  return (
+                    <TabPanel key={'tabPanel' + encodingType + i}>
+                      {
+                        customProps.map(customizableProp => {
+                          const {prop, nestedProp} = customizableProp;
+                          return (
+                            <PropertyEditor
+                              key={prop + '_' + nestedProp + i}
+                              prop={prop}
+                              nestedProp={nestedProp}
+                              shelfId={shelfId}
+                              fieldDef={fieldDef}
+                              handleAction={handleAction}
+                              propTab={encodingType}
+                            />
+                          );
+                        })
+                      }
+                    </TabPanel>
+                  );
+                })}
+            </div>
+          </Tabs>
+        )}
       </div>
     );
   }
