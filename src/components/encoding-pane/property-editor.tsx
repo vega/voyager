@@ -3,9 +3,10 @@ import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
 import Form from 'react-jsonschema-form';
 import {debounce} from 'throttle-debounce';
+import {Channel} from 'vega-lite/build/src/channel';
 import {ActionHandler} from '../../actions';
 import {SPEC_FIELD_NESTED_PROP_CHANGE, SPEC_FIELD_PROP_CHANGE, SpecEncodingAction} from '../../actions/shelf';
-import {ShelfFieldDef, ShelfId} from '../../models/shelf/spec';
+import {isWildcardChannelId, ShelfFieldDef, ShelfId} from '../../models/shelf/spec';
 import {generateFormData, generatePropertyEditorSchema, isContinuous} from './property-editor-schema';
 import * as styles from './property-editor.scss';
 
@@ -27,21 +28,24 @@ export class PropertyEditorBase extends React.PureComponent<PropertyEditorProps,
 
   public render() {
     const {prop, nestedProp, propTab, shelfId, fieldDef} = this.props;
-    const {schema, uiSchema} = generatePropertyEditorSchema(prop, nestedProp, propTab, fieldDef, shelfId);
-    const formData = generateFormData(shelfId, fieldDef);
-    return (
-      <div styleName="property-editor">
-        <Form
-          schema={schema}
-          uiSchema={uiSchema}
-          formData={formData}
-          onChange={this.changeFieldProperty}
-        >
-          <button type="submit" style={{display: 'none'}}>Submit</button>
-          {/* hide required submit button */}
-        </Form>
-      </div>
-    );
+    if (!isWildcardChannelId(shelfId)) {
+      const {schema, uiSchema} = generatePropertyEditorSchema(prop, nestedProp, propTab, fieldDef,
+        shelfId.channel as Channel);
+      const formData = generateFormData(shelfId, fieldDef);
+      return (
+        <div styleName="property-editor">
+          <Form
+            schema={schema}
+            uiSchema={uiSchema}
+            formData={formData}
+            onChange={this.changeFieldProperty}
+          >
+            <button type="submit" style={{display: 'none'}}>Submit</button>
+            {/* hide required submit button */}
+          </Form>
+        </div>
+      );
+    }
   }
 
   protected changeFieldProperty(result: any) {

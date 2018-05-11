@@ -1,5 +1,8 @@
 import {ExpandedType} from 'compassql/build/src/query/expandedtype';
+import {Axis} from 'vega-lite/build/src/axis';
 import {Channel} from 'vega-lite/build/src/channel';
+import {Legend} from 'vega-lite/build/src/legend';
+import {Scale} from 'vega-lite/build/src/scale';
 import {contains} from 'vega-lite/build/src/util';
 import * as vlSchema from 'vega-lite/build/vega-lite-schema.json';
 import {ShelfFieldDef, ShelfId} from '../../models/shelf/spec';
@@ -25,7 +28,7 @@ export interface StringSchema {
 }
 
 export interface IntegerSchema {
-  type: 'integer';
+  type: 'number';
   title: string;
   minimum: number;
   maximum: number;
@@ -56,29 +59,6 @@ export interface PropertyEditorSchema {
 }
 
 // ------------------------------------------------------------------------------
-// Default UISchema objects for react-jsonschema-form
-// ------------------------------------------------------------------------------
-const DEFAULT_TEXT_UISCHEMA: UISchemaItem = {
-  'ui:emptyValue': ''
-};
-
-const DEFAULT_DISCRETE_SCALE_ARRAY_UISCHEMA: UISchemaItem = {
-  ...DEFAULT_TEXT_UISCHEMA,
-  'ui:placeholder': 'a, b, c, ...'
-};
-
-const DEFAULT_CONTINUOUS_SCALE_ARRAY_UISCHEMA: UISchemaItem = {
-  ...DEFAULT_TEXT_UISCHEMA,
-  'ui:placeholder': 'Min Number, Max Number'
-};
-
-const DEFAULT_SELECT_UISCHEMA: UISchemaItem = {
-  'ui:widget': 'select',
-  'ui:placeholder': 'auto',
-  'ui:emptyValue': 'auto'
-};
-
-// ------------------------------------------------------------------------------
 // Channel-Field Indexes for custom encoding
 // Key is Tab name, value is list of fieldDef properties
 // ------------------------------------------------------------------------------
@@ -96,7 +76,6 @@ const POSITION_FIELD_NOMINAL_INDEX = {
   ]
 };
 
-// TODO: this should differ in the future
 const POSITION_FIELD_TEMPORAL_INDEX = POSITION_FIELD_NOMINAL_INDEX;
 
 const POSITION_FIELD_QUANTITATIVE_INDEX = {
@@ -118,7 +97,6 @@ const SIZE_CHANNEL_FIELD_INDEX = {
 
 const SHAPE_CHANNEL_FIELD_INDEX = {
   'Legend': LEGEND_ORIENT_TITLE,
-  // No need to adjust scale type for shape
   'Scale': ['domain', 'range'].map(p => ({prop: 'scale', nestedProp: p}))
 };
 
@@ -135,124 +113,161 @@ export const SEQUENTIAL_COLOR_SCHEMES = ['blues', 'greens', 'greys', 'purples', 
 // Generator/Factory Methods
 // ------------------------------------------------------------------------------
 export function generatePropertyEditorSchema(prop: string, nestedProp: string, propTab: string,
-                                             fieldDef: ShelfFieldDef, shelfId: ShelfId): PropertyEditorSchema {
+                                             fieldDef: ShelfFieldDef, channel: Channel): PropertyEditorSchema {
   const title = generateTitle(prop, nestedProp, propTab);
-  const baseUISchema: SchemaProperty = {
-    title: title,
-    type: 'string'
-  };
+  const propertyKey = nestedProp ? prop + '_' + nestedProp : prop;
+  switch (prop) {
+    case 'scale':
+      const scaleTypes: string[] = getSupportedScaleTypes(channel, fieldDef);
+      return generateScaleEditorSchema(nestedProp as keyof Scale, scaleTypes, fieldDef, title, propertyKey);
 
-  const {channel} = shelfId;
+    case 'axis':
+      return generateAxisEditorSchema(nestedProp as keyof Axis, channel, title, propertyKey);
 
-  if (prop === 'scale') {
-    if (nestedProp === 'type') {
-      // Filtering based on channel type & fieldDef type
-      const scaleTypes: string[] = getSupportedScaleTypes(shelfId, fieldDef);
-      const propertySchema = {
-        ...baseUISchema,
-        enum: scaleTypes,
-      };
-      return generateSchema(prop, nestedProp, DEFAULT_SELECT_UISCHEMA, propTab, propertySchema);
-    } else if (nestedProp === 'scheme') {
-      const propertySchema = {
-        ...baseUISchema,
-        enum: isContinuous(fieldDef) ? SEQUENTIAL_COLOR_SCHEMES : CATEGORICAL_COLOR_SCHEMES,
-      };
-      return generateSchema(prop, nestedProp, DEFAULT_SELECT_UISCHEMA, propTab, propertySchema);
-    } else if (nestedProp === 'range' || nestedProp === 'domain') {
-      return generateSchema(prop, nestedProp, isDiscrete(fieldDef) ?
-        DEFAULT_DISCRETE_SCALE_ARRAY_UISCHEMA : DEFAULT_CONTINUOUS_SCALE_ARRAY_UISCHEMA, propTab, baseUISchema);
-    }
-  } else if (prop === 'axis') {
-    if (nestedProp === 'orient') {
-      const propertySchema = {
-        ...baseUISchema,
-        enum: channel === 'y' ? ['left', 'right'] : ['top', 'bottom']
-      };
-      return generateSchema(prop, nestedProp, DEFAULT_SELECT_UISCHEMA, propTab, propertySchema);
-    } else if (nestedProp === 'title') {
-      return generateSchema(prop, nestedProp, DEFAULT_TEXT_UISCHEMA, propTab, baseUISchema);
-    }
-  } else if (prop === 'stack') {
-    const propertySchema = {
-      ...baseUISchema,
-      enum: (vlSchema as any).definitions.StackOffset.enum,
-    };
-    return generateSchema(prop, nestedProp, DEFAULT_SELECT_UISCHEMA, propTab, propertySchema);
-  } else if (prop === 'size') {
-    return generateSchema(prop, nestedProp, DEFAULT_TEXT_UISCHEMA, propTab, baseUISchema);
-  } else if (prop === 'legend') {
-    if (nestedProp === 'orient') {
-      const propertySchema = {
-        ...baseUISchema,
-        enum: (vlSchema as any).definitions.LegendOrient.enum
-      };
-      return generateSchema(prop, nestedProp, DEFAULT_SELECT_UISCHEMA, propTab, propertySchema);
-    } else if (nestedProp === 'title') {
-      return generateSchema(prop, nestedProp, DEFAULT_TEXT_UISCHEMA, propTab, baseUISchema);
-    } else if (nestedProp === 'type') {
-      const propertySchema = {
-        ...baseUISchema,
-        enum: (vlSchema as any).definitions.Legend.properties.type.enum,
-      };
-      return generateSchema(prop, nestedProp, DEFAULT_SELECT_UISCHEMA, propTab, propertySchema);
-    }
-  } else if (prop === 'format') {
-    return generateSchema(prop, nestedProp, DEFAULT_TEXT_UISCHEMA, propTab, baseUISchema);
-  } else {
-    throw new Error('Property combination not recognized');
+    case 'stack':
+      return generateSelectSchema('stack', (vlSchema as any).definitions.StackOffset.enum, title);
+
+    case 'legend':
+      return generateLegendEditorSchema(nestedProp as keyof Legend, title, propertyKey);
+
+    case 'format':
+      return generateTextBoxSchema('format', '', title, 'string');
+
+    default:
+      throw new Error('Property combination not recognized');
   }
 }
 
+function generateLegendEditorSchema(legendProp: keyof Legend, title: string, propertyKey: string) {
+  switch (legendProp) {
+    case 'orient':
+      return generateSelectSchema(propertyKey, (vlSchema as any).definitions.LegendOrient.enum, title);
+
+    case 'title':
+      return generateTextBoxSchema(propertyKey, '', title, 'string');
+
+    case 'type':
+      return generateSelectSchema(propertyKey, (vlSchema as any).definitions.Legend.properties.type.enum, title);
+
+    default:
+      throw new Error('Property combination not recognized');
+  }
+}
+
+function generateAxisEditorSchema(axisProp: keyof Axis, channel: Channel, title: string, propertyKey: string) {
+  switch (axisProp) {
+    case 'orient':
+      return generateSelectSchema(propertyKey, channel === 'y' ? ['left', 'right'] : ['top', 'bottom'], title);
+
+    case 'title':
+      return generateTextBoxSchema(propertyKey, '', title, 'string');
+
+    default:
+      throw new Error('Property combination not recognized');
+  }
+}
+
+function generateScaleEditorSchema(scaleProp: keyof Scale, scaleTypes: string[], fieldDef: ShelfFieldDef,
+                                   title: string, propertyKey: string) {
+  switch (scaleProp) {
+    case 'type':
+      return generateSelectSchema(propertyKey, scaleTypes, title);
+
+    case 'scheme':
+      return generateSelectSchema(propertyKey, isContinuous(fieldDef) ? SEQUENTIAL_COLOR_SCHEMES :
+        CATEGORICAL_COLOR_SCHEMES, title);
+
+    case 'range':
+    case 'domain':
+      return generateTextBoxSchema(propertyKey, isDiscrete(fieldDef) ?
+        'a, b, c, ...' : 'Min Number, Max Number', title, 'string');
+
+    default:
+      throw new Error('Provided property is not supported');
+  }
+}
 
 // TODO: Eventually refactor to Vega-Lite
-function getSupportedScaleTypes(shelfId: ShelfId, fieldDef: ShelfFieldDef): string[] {
+function getSupportedScaleTypes(channel: Channel, fieldDef: ShelfFieldDef): string[] {
   switch (fieldDef.type) {
     case ExpandedType.QUANTITATIVE:
-      if (contains([Channel.X, Channel.Y], shelfId.channel)) {
+      if (contains([Channel.X, Channel.Y], channel)) {
         return ["linear", "log", "pow", "sqrt"];
-      } else if (shelfId.channel === Channel.COLOR) {
+      } else if (channel === Channel.COLOR) {
         return ["linear", "pow", "sqrt", "log", "sequential"];
-      } else if (shelfId.channel === Channel.SIZE) {
+      } else if (channel === Channel.SIZE) {
         return ["linear", "pow", "sqrt", "log"];
+      } else {
+        return [];
       }
+
     case ExpandedType.ORDINAL:
     case ExpandedType.NOMINAL:
-      if (contains([Channel.X, Channel.Y], shelfId.channel)) {
+      if (contains([Channel.X, Channel.Y], channel)) {
         return ["point", "band"];
-      } else if (shelfId.channel === Channel.COLOR) {
+      } else if (channel === Channel.COLOR) {
         return ["ordinal"];
-      } else if (shelfId.channel === Channel.SIZE) {
+      } else if (channel === Channel.SIZE) {
         return ["point", "band"];
+      } else {
+        return [];
       }
+
     case ExpandedType.TEMPORAL:
-      if (contains([Channel.X, Channel.Y], shelfId.channel)) {
+      if (contains([Channel.X, Channel.Y], channel)) {
         return ["time", "utc"];
-      } else if (shelfId.channel === Channel.COLOR) {
+      } else if (channel === Channel.COLOR) {
         return ["time", "utc", "sequential"];
-      } else if (shelfId.channel === Channel.SIZE) {
+      } else if (channel === Channel.SIZE) {
         return ["time", "utc"];
+      } else {
+        return [];
       }
+
     default:
       return [];
   }
 }
 
-/*
-*  NOTE: factory method where propertyKey follows naming convention: prop_nestedProp
-*  Example: {prop: axis, nestedProp: orient} translates to "axis_orient"
-*/
-function generateSchema(prop: string, nestedProp: string, uiSchemaItem: UISchemaItem, propTab: string,
-                        schemaProp: SchemaProperty): PropertyEditorSchema {
-  const propertyKey = nestedProp ? prop + '_' + nestedProp : prop;
+function generateSelectSchema(propertyKey: string, enumVals: string[], title: string) {
   const schema: ObjectSchema = {
     type: 'object',
     properties: {
-      [propertyKey]: schemaProp
+      [propertyKey]: {
+        type: 'string',
+        title: title,
+        enum: enumVals
+      }
+    }
+  };
+
+  const uiSchema: UISchema = {
+    [propertyKey]: {
+      'ui:widget': 'select',
+      'ui:placeholder': 'auto',
+      'ui:emptyValue': 'auto'
+    }
+  };
+
+  return {schema, uiSchema};
+}
+
+function generateTextBoxSchema(propKey: string, placeHolderText: string, title: string,
+                               primitiveType: 'string' | 'number') {
+  const schema: ObjectSchema = {
+    type: 'object',
+    properties: {
+      [propKey]: {
+        title: title,
+        type: primitiveType
+      } as SchemaProperty
     }
   };
   const uiSchema: UISchema = {
-    [propertyKey]: uiSchemaItem
+    [propKey]: {
+      'ui:emptyValue': '',
+      'ui:placeholder': placeHolderText
+    }
   };
 
   return {schema, uiSchema};
@@ -263,12 +278,16 @@ export function getFieldPropertyGroupIndex(shelfId: ShelfId, fieldDef: ShelfFiel
     switch (fieldDef.type) {
       case ExpandedType.QUANTITATIVE:
         return POSITION_FIELD_QUANTITATIVE_INDEX;
+
       case ExpandedType.ORDINAL:
         return POSITION_FIELD_NOMINAL_INDEX;
+
       case ExpandedType.NOMINAL:
         return POSITION_FIELD_NOMINAL_INDEX;
+
       case ExpandedType.TEMPORAL:
         return POSITION_FIELD_TEMPORAL_INDEX;
+
     }
   } else if (shelfId.channel === Channel.COLOR) {
     return COLOR_CHANNEL_FIELD_INDEX;
@@ -281,20 +300,20 @@ export function getFieldPropertyGroupIndex(shelfId: ShelfId, fieldDef: ShelfFiel
 
 export function generateFormData(shelfId: ShelfId, fieldDef: ShelfFieldDef) {
   const index = getFieldPropertyGroupIndex(shelfId, fieldDef);
-  const formData = {};
+  const formDataIndex = {};
   for (const key of Object.keys(index)) {
     for (const customProp of index[key]) {
       const prop = customProp.prop;
       const nestedProp = customProp.nestedProp;
       const propertyKey = nestedProp ? prop + '_' + nestedProp : prop;
-      const fData = fieldDef[prop] ? nestedProp ? fieldDef[prop][nestedProp] : fieldDef[prop] : undefined;
+      const formData = fieldDef[prop] ? nestedProp ? fieldDef[prop][nestedProp] : fieldDef[prop] : undefined;
       // Display empty string when '?' is passed in to retrieve default value
       // '?' is passed when formData is empty to avoid passing in empty string as a property/nestedProp value
-      formData[propertyKey] = fData === undefined ? '' : fData;
+      formDataIndex[propertyKey] = formData === undefined ? '' : formData;
     }
   }
 
-  return formData;
+  return formDataIndex;
 }
 
 // ------------------------------------------------------------------------------
