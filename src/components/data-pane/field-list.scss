@@ -6,3 +6,8 @@
 .field-list-item {
   margin-bottom: 4px;
 }
+
+.field-list-no-wildcards {
+  max-height: calc(75vh);
+  overflow-y: auto;
+}

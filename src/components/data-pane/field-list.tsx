@@ -12,17 +12,20 @@ import {ActionHandler, createDispatchHandler} from '../../actions/redux-action';
 import {SPEC_FIELD_AUTO_ADD, SpecFieldAutoAdd} from '../../actions/shelf';
 import {FILTER_TOGGLE} from '../../actions/shelf/filter';
 import {FieldParentType} from '../../constants';
+import {VoyagerConfig} from '../../models/config';
 import {State} from '../../models/index';
 import {ShelfFieldDef} from '../../models/shelf';
 import {createDefaultFilter, filterHasField} from '../../models/shelf/filter';
-import {selectPresetWildcardFields, selectSchema, selectSchemaFieldDefs} from '../../selectors';
+import {selectConfig, selectPresetWildcardFields, selectSchema, selectSchemaFieldDefs} from '../../selectors';
 import {selectFilters} from '../../selectors/shelf';
 import {Field} from '../field';
 import * as styles from './field-list.scss';
 import {TypeChanger} from './type-changer';
 
 
+
 export interface FieldListProps extends ActionHandler<SpecFieldAutoAdd | DatasetSchemaChangeFieldType | FilterAction> {
+  config: VoyagerConfig;
   fieldDefs: ShelfFieldDef[];
   schema: Schema;
   filters: Array<RangeFilter | OneOfFilter>;
@@ -39,7 +42,7 @@ class FieldListBase extends React.PureComponent<FieldListProps, {}> {
   }
 
   public render() {
-    const {fieldDefs, schema} = this.props;
+    const {config, fieldDefs, schema} = this.props;
     const fieldItems = fieldDefs.map(fieldDef => {
       let primitiveType;
       if (!isWildcard(fieldDef.field)) {
@@ -48,13 +51,14 @@ class FieldListBase extends React.PureComponent<FieldListProps, {}> {
       const hideTypeChanger = this.getValidTypes(primitiveType).length < 2;
       const key = isWildcard(fieldDef.field) ? stringify(fieldDef) : fieldDef.field;
       return (
-        <div key={key} styleName="field-list-item">
+        <div key={key} styleName='field-list-item'>
           {this.renderComponent(fieldDef, hideTypeChanger, primitiveType)}
         </div>
       );
     });
+
     return (
-      <div styleName='field-list'>
+      <div styleName={(config.wildcards === 'disabled') ? 'field-list-no-wildcards' : 'field-list'}>
         {fieldItems}
       </div>
     );
@@ -160,7 +164,8 @@ export const FieldList = connect(
         {fn: 'count', field: '*', type: 'quantitative'}
       ]),
       schema: selectSchema(state),
-      filters: selectFilters(state)
+      filters: selectFilters(state),
+      config: selectConfig(state)
     };
   },
   createDispatchHandler<SpecFieldAutoAdd>()
@@ -170,7 +175,8 @@ export const PresetWildcardFieldList = connect(
   (state: State) => {
     return {
       fieldDefs: selectPresetWildcardFields(state),
-      schema: selectSchema(state)
+      schema: selectSchema(state),
+      config: selectConfig(state)
     };
   },
   createDispatchHandler<SpecFieldAutoAdd>()
