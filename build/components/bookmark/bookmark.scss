@@ -1,0 +1,35 @@
+.modal {
+  display: flex;
+  margin: 50px auto;
+  width: calc( 100% - 100px);
+  padding: 6px;
+  background-color: #E2E9F3;
+  border: 1px solid #aaa;
+  border-radius: 3px;
+  box-sizing: border-box;
+  display: flex;
+  box-orient: vertical;
+  box-direction: normal;
+  flex-direction: column;
+  box-align: stretch;
+  align-items: stretch;
+  max-width: 800px;
+  max-height: calc(100% - 100px);
+  overflow: scroll;
+}
+
+.vis-list-empty, {
+  height: 60px;
+  line-height: 60px;
+  vertical-align: middle;
+  text-align: center;
+  font-size: 1.2em;
+}
+
+a:hover {
+  cursor: pointer;
+}
+
+.bookmark-list-util {
+  margin-right: 10px;
+}

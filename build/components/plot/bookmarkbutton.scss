@@ -1,0 +1,24 @@
+@import './plot.scss';
+
+.bookmark-alert {
+  color: #fff;
+  background-color: #38425d;
+  padding: 8px;
+  font-size: 14px;
+  line-height: 18px;
+  min-width: 150px;
+  border-radius: 3px;
+  font-family: sans-serif;
+}
+
+.bookmark-command-selected {
+  @extend .command;
+  color: #0c96d0;
+}
+
+.fa-span {
+  font-size: 12px;
+}
+.fa-span:hover {
+  font-weight: bold;
+}

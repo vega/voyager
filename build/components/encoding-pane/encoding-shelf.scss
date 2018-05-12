@@ -1,0 +1,104 @@
+@import './placeholder.scss';
+
+$pill-radius: 3px;
+$pill-height: 22px;
+
+.encoding-shelf {
+  background-color: hsla(224,25%,29%,0.2);
+  border: 1px solid #ddd;
+  border-radius: $pill-radius;
+  display: flex;
+  font-size: 11px;
+  margin-bottom: 4px;
+
+  width: 100%;
+  height: 22px;
+}
+
+
+.field-wrapper {
+  flex-grow: 1;
+  box-sizing: border-box;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  width: 168px;
+  height: $pill-height;
+}
+
+.wildcard-shelf {
+  @extend .encoding-shelf;
+  background-color: hsla(185,80%,29%,0.4);
+}
+
+.shelf-label {
+  user-select: none;
+  display: block;
+  width: 52px;
+  margin: 0 0.2rem;
+  // text-align: right;
+  line-height: $pill-height;
+  // cursor: pointer;
+  flex-shrink: 0;
+
+  :global .fa {
+    margin-top: 4px;
+    opacity: 0.5;
+  }
+//     &.expanded .fa, &:hover .fa {
+//       opacity: 1;
+//     }
+}
+
+.overlay-screen {
+  z-index: 1;
+
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+// TODO: bring some of these back
+
+// .shelf.disabled {
+//   opacity: 0.5;
+// }
+
+// /** Don't disable shelf in preview mode */
+// .preview .shelf.disabled {
+//   opacity: 1;
+// }
+
+// .shelf{
+
+// }
+// .shelf-functions {
+//   max-width: 280px;
+// }
+
+// .shelf-properties, .shelf-functions{
+//   line-height: 20px;
+
+//   label {
+//     display: inline-block;
+
+//     &.prop-label {
+//       width: 110px;
+//       text-align: right;
+//       margin-right: 3px;
+//       .name {
+//         text-overflow: ellipsis;
+//         width: 90px;
+//         overflow: hidden;
+//         display: inline-block;
+//         vertical-align: middle;
+//       }
+//     }
+
+//     &.func-label, &.type-label {
+//       min-width: 75px;
+//       margin-right: 5px;
+//     }
+//   }
+// }

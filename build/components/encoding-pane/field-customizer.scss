@@ -1,0 +1,43 @@
+.field-customizer {
+  background-color: #eee;
+  border-bottom: 5px solid #eee;
+  border-radius: 3px;
+  width: 250px;
+
+  fieldset {
+    border: 0;
+    padding-bottom: 10px;
+    padding-top: 10px;
+  }
+
+  form {
+    height: 1.8em;
+  }
+
+  label {
+    display: inline-block;
+    font-size: 11px !important; // cannot access react-form's css attributes, so have to use important
+    padding-right: 10px;
+    text-align: left;
+    width: 75px;
+  }
+
+  ul {
+    border-bottom: 1px solid #aaa;
+    margin: 0 0;
+    padding: 2px;
+    height: 18px;
+  }
+
+  li {
+    display: inline-block;
+    border: 1px solid transparent;
+    border-bottom: none;
+    bottom: -1px;
+    position: relative;
+    list-style: none;
+    padding: 2px 10px;
+    cursor: pointer;
+    font-size: 12px;
+  }
+}
