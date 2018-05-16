@@ -38,8 +38,31 @@ $any-hover-color: #666;
   width: 100%;
 }
 
+.wildcard-field-pill-is-over {
+  @extend .field;
+  background-color: #d0efb3;
+}
+
+.wildcard-field-pill-can-drop {
+  @extend .field;
+  background-color: #C8E6C9;
+  color: #212121;
+}
+
 .caret-type {
   flex-shrink: 0;
+}
+
+.can-drop {
+  border: 1px dashed #4CAF50;
+  border-radius: 3px;
+  background-color: #C8E6C9;
+}
+
+.is-over {
+  border: 1px dashed #4CAF50;
+  border-radius: 3px;
+  background-color: #d0efb3;
 }
 
 .type {

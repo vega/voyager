@@ -1,7 +1,7 @@
 
 import {DEFAULT_BOOKMARK} from '../models/bookmark';
 import {DEFAULT_VOYAGER_CONFIG} from '../models/config';
-import {DEFAULT_CUSTOM_WILDCARD_FIELDS} from '../models/custom-wildcard-field';
+import {DEFAULT_CUSTOM_WILDCARD_FIELDDEFS as DEFAULT_CUSTOM_WILDCARD_FIELDS} from '../models/custom-wildcard-field';
 import {DEFAULT_DATASET} from '../models/dataset';
 import {DEFAULT_ACTIVE_TAB_ID, DEFAULT_PLOT_TAB_STATE, DEFAULT_STATE, State} from '../models/index';
 import {DEFAULT_LOG} from '../models/log';
@@ -48,7 +48,7 @@ describe('selectors/index', () => {
                 values: [{a: 1}, {a: 3}]
               }
             },
-            customWildcardFields: DEFAULT_CUSTOM_WILDCARD_FIELDS,
+            customWildcardFieldDefs: DEFAULT_CUSTOM_WILDCARD_FIELDS,
             tab: {
               activeTabID: DEFAULT_ACTIVE_TAB_ID,
               list: [{

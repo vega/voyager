@@ -1,11 +1,15 @@
 import {Schema} from 'compassql/build/src/schema';
-import {isWildcard} from 'compassql/build/src/wildcard';
+import {isWildcard, isWildcardDef} from 'compassql/build/src/wildcard';
 import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
-import {DragElementWrapper, DragSource, DragSourceCollector, DragSourceSpec} from 'react-dnd';
+import {
+  ConnectDropTarget, DragElementWrapper, DragSource, DragSourceCollector, DragSourceSpec,
+  DropTarget, DropTargetCollector, DropTargetSpec
+} from 'react-dnd';
 import * as TetherComponent from 'react-tether';
 import {OneOfFilter, RangeFilter} from 'vega-lite/build/src/filter';
 import {DraggableType, FieldParentType} from '../../constants';
+import {CustomWildcardFieldDef} from '../../models/custom-wildcard-field';
 import {ShelfId} from '../../models/shelf';
 import {ShelfFieldDef} from '../../models/shelf';
 import {createDefaultFilter} from '../../models/shelf/filter';
@@ -21,6 +25,13 @@ export interface FieldDragSourceProps {
 
   // You can ask the monitor about the current drag state:
   isDragging?: boolean;
+}
+
+export interface FieldDropTargetProps {
+  connectDropTarget?: ConnectDropTarget;
+  isOver?: boolean;
+  item?: Object;
+  canDrop?: boolean;
 }
 
 export interface FieldPropsBase {
@@ -41,8 +52,11 @@ export interface FieldPropsBase {
 
   onDoubleClick?: (fieldDef: ShelfFieldDef) => void;
 
+  onDrop?: (fielddef: ShelfFieldDef) => void;
+
   /** Remove field event handler.  If not provided, remove button will disappear. */
   onRemove?: () => void;
+
 
   /**
    * If filter button is shown, we need to the status whether it is active and an event handler for onToggle
@@ -60,7 +74,7 @@ export interface FieldPropsBase {
   popupComponent?: JSX.Element;
 };
 
-export interface FieldProps extends FieldDragSourceProps, FieldPropsBase {};
+export interface FieldProps extends FieldDragSourceProps, FieldDropTargetProps, FieldPropsBase {};
 
 export interface FieldState {
   popupIsOpened: boolean;
@@ -94,8 +108,9 @@ class FieldBase extends React.PureComponent<FieldProps, FieldState> {
     }
   }
 
+
   public render(): JSX.Element {
-    const {connectDragSource, fieldDef, isPill, popupComponent} = this.props;
+    const {canDrop, connectDragSource, connectDropTarget, fieldDef, isOver, isPill, popupComponent} = this.props;
     const {fn, field, description} = fieldDef;
     const isWildcardField = isWildcard(field) || this.props.isEnumeratedWildcardField;
 
@@ -109,32 +124,54 @@ class FieldBase extends React.PureComponent<FieldProps, FieldState> {
       fnName = fn;
     }
 
-    const component = (
+    const isCustomWildcardField = isWildcardDef(fieldDef.field);
+    let customWildcardFieldDescription = "";
+
+    if (isCustomWildcardField) {
+      const fields = (fieldDef as CustomWildcardFieldDef).field.enum; // TS isn't the inferring correct type
+      customWildcardFieldDescription = "(" + fields.length + ") " + (description || fields.toString());
+    }
+
+    let component = (
       <span
-        styleName={isWildcardField ? 'wildcard-field-pill' : isPill ? 'field-pill' : 'field'}
+        styleName={
+          isWildcardField ?
+            (isOver && canDrop ? 'wildcard-field-pill-is-over' :
+              (canDrop ? 'wildcard-field-pill-can-drop' : 'wildcard-field-pill')
+            ) :
+          isPill ? 'field-pill' : 'field'
+        }
         onDoubleClick={this.onDoubleClick}
       >
         {this.renderCaretTypeSpan()}
         {this.renderFuncSpan(fnName)}
         <span styleName={isFieldFn ? 'fn-text' : 'text'}>
-          {isWildcard(field) ? description : field !== '*' ? field : ''}
+          {
+            isWildcard(field) ?
+              (isCustomWildcardField ? customWildcardFieldDescription : description) :
+              (field !== '*' ? field : '')
+          }
         </span>
         {this.renderAddFilterSpan()}
         {this.renderAddSpan()}
         {this.renderRemoveSpan()}
       </span>
     );
+
+    component = connectDragSource ? connectDragSource(component) : component;
+    component = connectDropTarget ? connectDropTarget(component) : component;
+
     // Wrap with connect dragSource if it is injected
     if (!popupComponent) {
-      return connectDragSource ? connectDragSource(component) : component;
+      return component;
     } else {
       return (
-        <div ref={this.fieldRefHandler} >
+        <div ref={this.fieldRefHandler} styleName={((isOver && canDrop) ? 'is-over' : canDrop ? 'can-drop' : null)}>
           <TetherComponent
             attachment="top left"
             targetAttachment="bottom left"
           >
-            {connectDragSource ? connectDragSource(component) : component}
+            {component}
             <div ref={this.popupRefHandler}>
               {this.state.popupIsOpened && popupComponent}
             </div>
@@ -307,3 +344,32 @@ export const Field: () => React.PureComponent<FieldPropsBase, {}> =
   DragSource(DraggableType.FIELD, fieldSource, collect)(
     CSSModules(FieldBase, styles)
   ) as any;
+
+
+const customWildcardFieldTarget: DropTargetSpec<FieldProps> = {
+  drop(props, monitor) {
+    if (monitor.didDrop()) {
+      return;
+    }
+    const {fieldDef} = monitor.getItem() as DraggedFieldIdentifier;
+    const {onDrop} = props;
+
+    onDrop(fieldDef);
+  },
+  canDrop(props, monitor) {
+    const {fieldDef} = monitor.getItem() as DraggedFieldIdentifier;
+    return fieldDef.type === props.fieldDef.type;
+  }
+};
+
+const dropCollect: DropTargetCollector = (connect, monitor): FieldDropTargetProps => {
+  return {
+    connectDropTarget: connect.dropTarget(),
+    isOver: monitor.isOver(),
+    item: monitor.getItem(),
+    canDrop: monitor.canDrop()
+  };
+};
+
+export const DroppableField: () => React.PureComponent<FieldPropsBase, {}> =
+  DropTarget(DraggableType.FIELD, customWildcardFieldTarget, dropCollect)(Field as any) as any;
