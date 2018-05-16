@@ -109,11 +109,15 @@ export class RangeFilterShelfBase extends React.PureComponent<RangeFilterShelfPr
   }
 
   protected filterModifyMaxBound(e: any) {
+    const {domain} = this.props;
     let maxBound;
     if (e.hasOwnProperty('target')) {
       maxBound = Number(e.target.value);
     } else {
       maxBound = e;
+    }
+    if (maxBound > domain[1]) {
+      return;
     }
     const {handleAction, index} = this.props;
     if (this.props.renderDateTimePicker) {
@@ -134,11 +138,15 @@ export class RangeFilterShelfBase extends React.PureComponent<RangeFilterShelfPr
   }
 
   protected filterModifyMinBound(e: any) {
+    const {domain} = this.props;
     let minBound;
     if (e.hasOwnProperty('target')) {
       minBound = Number(e.target.value);
     } else {
       minBound = e;
+    }
+    if (minBound < domain[0]) {
+      return;
     }
     const {handleAction, index, renderDateTimePicker} = this.props;
     if (renderDateTimePicker) {
