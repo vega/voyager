@@ -19,7 +19,7 @@ import {DraggedFieldIdentifier, Field} from '../field/index';
 import * as styles from './encoding-shelf.scss';
 import {FieldCustomizer} from './field-customizer';
 import {FunctionPicker, FunctionPickerWildcardHandler} from './function-picker';
-import { CUSTOMIZABLE_ENCODING_CHANNELS } from './property-editor-schema';
+import {CUSTOMIZABLE_ENCODING_CHANNELS} from './property-editor-schema';
 
 /**
  * Props for react-dnd of EncodingShelf
