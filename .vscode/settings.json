@@ -17,5 +17,6 @@
   "files.trimTrailingWhitespace": true,
   "tslint.autoFixOnSave": true,
   "tsimporter.spaceBetweenBraces": false,
-  "tsimporter.filesToExclude": ["build/**", "lib-test/**"]
+  "tsimporter.filesToExclude": ["build/**", "lib-test/**"],
+  "typescript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces": false
 }
