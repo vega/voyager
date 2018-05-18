@@ -58,6 +58,9 @@ export interface PropertyEditorSchema {
   schema: ObjectSchema;
 }
 
+// Currently supported customizble encoding channels that display caret in customizer UI
+export const CUSTOMIZABLE_ENCODING_CHANNELS = [Channel.X, Channel.Y, Channel.COLOR, Channel.SIZE, Channel.SHAPE];
+
 // ------------------------------------------------------------------------------
 // Channel-Field Indexes for custom encoding
 // Key is Tab name, value is list of fieldDef properties
