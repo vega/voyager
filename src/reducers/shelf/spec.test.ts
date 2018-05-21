@@ -1,7 +1,7 @@
 import {Schema} from 'compassql/build/src/schema';
 import {
   SPEC_CLEAR, SPEC_FIELD_ADD, SPEC_FIELD_AUTO_ADD, SPEC_FIELD_MOVE,
-  SPEC_FIELD_REMOVE, SPEC_FUNCTION_CHANGE, SPEC_MARK_CHANGE_TYPE
+  SPEC_FIELD_REMOVE, SPEC_FUNCTION_CHANGE, SPEC_MARK_CHANGE_TYPE, SPEC_VALUE_CHANGE
 } from '../../actions/shelf';
 import {
   SPEC_FIELD_NESTED_PROP_CHANGE,
@@ -741,6 +741,28 @@ describe('reducers/shelf/spec', () => {
         ...DEFAULT_SHELF_UNIT_SPEC,
         encoding: {
           x: {field: 'a', fn: {enum: ['mean', 'median', 'sum']}, type: 'quantitative'}
+        }
+      });
+    });
+  });
+
+  describe(SPEC_VALUE_CHANGE, () => {
+    it('should change the constant value for a channel', () => {
+      const shelfSpec = shelfSpecReducer(
+        DEFAULT_SHELF_UNIT_SPEC,
+        {
+          type: SPEC_VALUE_CHANGE,
+          payload: {
+            shelfId: {channel: 'color'},
+            valueDef: {value: 'blue'}
+          }
+        }
+      );
+
+      expect(shelfSpec).toEqual({
+        ...DEFAULT_SHELF_UNIT_SPEC,
+        encoding: {
+          color: {value: 'blue'}
         }
       });
     });

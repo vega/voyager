@@ -117,6 +117,7 @@ class EncodingPanelBase extends React.PureComponent<EncodingPanelProps, {}> {
         fieldDef={encoding[channel]}
         schema={schema}
         handleAction={handleAction}
+        valueDef={encoding[channel]}
       />
     );
   }
@@ -146,6 +147,7 @@ class EncodingPanelBase extends React.PureComponent<EncodingPanelProps, {}> {
         schema={schema}
         fieldDef={anyEncodings[index]}
         handleAction={handleAction}
+        valueDef={undefined} // don't support constant value for wildcard shelf
       />
     );
   }
