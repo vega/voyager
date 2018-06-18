@@ -73,7 +73,9 @@ export const CUSTOMIZABLE_ENCODING_CHANNELS = [Channel.X, Channel.Y, Channel.COL
 // Key is Tab name, value is list of fieldDef properties
 // ------------------------------------------------------------------------------
 
-const AXIS_ORIENT_TITLE = ['title', 'orient', 'grid', 'domain', 'format', 'labels', 'ticks'].map(p =>
+const AXIS_ORIENT_TITLE = ['title', 'orient'].map(p =>
+  ({prop: 'axis', nestedProp: p}));
+const AXIS_ADVANCED_PROPS = ['title', 'orient', 'grid', 'domain', 'labels', 'ticks', 'labelAngle'].map(p =>
   ({prop: 'axis', nestedProp: p}));
 const LEGEND_ORIENT_TITLE = ['orient', 'title'].map(p => ({prop: 'legend', nestedProp: p}));
 
@@ -84,6 +86,9 @@ const POSITION_FIELD_NOMINAL_INDEX = {
       nestedProp: 'type'
     },
     ...AXIS_ORIENT_TITLE
+  ],
+  'Axis': [
+    ...AXIS_ADVANCED_PROPS
   ]
 };
 
@@ -93,6 +98,10 @@ const POSITION_FIELD_QUANTITATIVE_INDEX = {
   'Common': [
     ...POSITION_FIELD_NOMINAL_INDEX.Common,
     {prop: 'stack'}
+  ],
+  'Axis': [
+    ...AXIS_ADVANCED_PROPS,
+    {prop: 'axis', nestedProp: 'format'}
   ]
 };
 
@@ -142,7 +151,7 @@ export function generatePropertyEditorSchema(prop: string, nestedProp: string, p
       return generateLegendEditorSchema(nestedProp as keyof Legend, title, propertyKey);
 
     case 'format':
-      return generateTextBoxSchema('format', '', title, 'string');
+      return generateTextBoxSchema('format', 'D3 format pattern', title, 'string');
 
     default:
       throw new Error('Property combination not recognized');
@@ -177,6 +186,9 @@ function generateAxisEditorSchema(axisProp: keyof Axis, channel: Channel, title:
 
     case 'format':
       return generateTextBoxSchema('format', '', title, 'string');
+
+    case 'labelAngle':
+      return generateTextBoxSchema(propertyKey, '', title, 'number');
 
     case 'grid':
     case 'domain':
