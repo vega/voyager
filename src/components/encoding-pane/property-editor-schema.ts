@@ -73,7 +73,8 @@ export const CUSTOMIZABLE_ENCODING_CHANNELS = [Channel.X, Channel.Y, Channel.COL
 // Key is Tab name, value is list of fieldDef properties
 // ------------------------------------------------------------------------------
 
-const AXIS_ORIENT_TITLE = ['title', 'orient', 'grid', 'domain'].map(p => ({prop: 'axis', nestedProp: p}));
+const AXIS_ORIENT_TITLE = ['title', 'orient', 'grid', 'domain', 'format', 'labels', 'ticks'].map(p =>
+  ({prop: 'axis', nestedProp: p}));
 const LEGEND_ORIENT_TITLE = ['orient', 'title'].map(p => ({prop: 'legend', nestedProp: p}));
 
 const POSITION_FIELD_NOMINAL_INDEX = {
@@ -174,8 +175,13 @@ function generateAxisEditorSchema(axisProp: keyof Axis, channel: Channel, title:
     case 'title':
       return generateTextBoxSchema(propertyKey, '', title, 'string');
 
+    case 'format':
+      return generateTextBoxSchema('format', '', title, 'string');
+
     case 'grid':
     case 'domain':
+    case 'labels':
+    case 'ticks':
       return generateSelectSchema(propertyKey, undefined, title, 'boolean');
 
     default:
