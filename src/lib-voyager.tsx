@@ -199,8 +199,16 @@ export class Voyager {
    *
    * @memberof Voyager
    */
-  public getBookmarkedSpecs(): string[] {
-    return selectBookmark(this.store.getState()).list;
+  public getBookmarkedSpecs(includeData: boolean): string[] {
+    const bookmarks = selectBookmark(this.store.getState()).list;
+    if (includeData) {
+      return {
+        ...bookmarks,
+        data: selectData(this.store.getState())
+      };
+    }
+
+    return bookmarks;
   }
 
   /**
