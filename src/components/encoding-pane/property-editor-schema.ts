@@ -280,6 +280,11 @@ export function getFieldPropertyGroupIndex(shelfId: ShelfId, fieldDef: ShelfFiel
   if (fieldDef && (shelfId.channel === Channel.X || shelfId.channel === Channel.Y)) {
     switch (fieldDef.type) {
       case ExpandedType.QUANTITATIVE:
+        if (!isContinuous(fieldDef)) {
+          return POSITION_FIELD_QUANTITATIVE_INDEX.Common.filter(t => {
+            return t.prop !== "stack";
+          });
+        }
         return POSITION_FIELD_QUANTITATIVE_INDEX;
 
       case ExpandedType.ORDINAL:
