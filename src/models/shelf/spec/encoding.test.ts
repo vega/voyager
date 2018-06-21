@@ -4,7 +4,7 @@ import {
   fromEncodingQueries,
   fromEncodingQuery,
   fromFieldQueryNestedProp,
-  fromValueQuery, ShelfFieldDef, toEncodingQuery
+  fromValueQuery, isShelfFieldDef, isShelfValueDef, ShelfFieldDef, ShelfValueDef, toEncodingQuery, toValueQuery
 } from './encoding';
 
 describe('models/shelf', () => {
@@ -60,6 +60,19 @@ describe('models/shelf', () => {
     });
   });
 
+  describe('toValueQuery', () => {
+    it('should return a valid ValueQuery', () => {
+      const valueDef: ValueDef = {
+        value: 'blue'
+      };
+      const res = toValueQuery(valueDef, 'color');
+      expect(res).toEqual({
+        channel: 'color',
+        value: 'blue'
+      });
+    });
+  });
+
   describe('fromValueQuery', () => {
     it('throws error for wildcard value', () => {
       const fieldQuery: ValueQuery = {
@@ -68,6 +81,49 @@ describe('models/shelf', () => {
         description: ''
       };
       expect(() => fromValueQuery(fieldQuery)).toThrowError('Voyager does not support wildcard value');
+    });
+
+    it('should return valueDef', () => {
+      const fieldQuery: ValueQuery = {
+        description: '',
+        channel: 'color',
+        value: 'blue'
+      };
+      expect(fromValueQuery(fieldQuery)).toEqual({
+        value: 'blue'
+      });
+    });
+  });
+
+  describe('isShelfFieldDef', () => {
+    it('should return true given ShelfFieldDef', () => {
+      const fieldDef: ShelfFieldDef = {
+        field: '?'
+      };
+      expect(isShelfFieldDef(fieldDef)).toEqual(true);
+    });
+
+    it('should return false given ShelfValueDef', () => {
+      const valueDef: ShelfValueDef = {
+        value: 'blue'
+      };
+      expect(isShelfFieldDef(valueDef)).toEqual(false);
+    });
+  });
+
+  describe('isShelfValueDef', () => {
+    it('should return true given ShelfValueDef', () => {
+      const valueDef: ShelfValueDef = {
+        value: 'blue'
+      };
+      expect(isShelfValueDef(valueDef)).toEqual(true);
+    });
+
+    it('should return false given ShelfFieldDef', () => {
+      const fieldDef: ShelfFieldDef = {
+        field: '?'
+      };
+      expect(isShelfValueDef(fieldDef)).toEqual(false);
     });
   });
 
