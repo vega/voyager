@@ -14,6 +14,7 @@ import {
 import {DraggableType, FieldParentType} from '../../constants';
 import {ShelfFieldDef, ShelfId} from '../../models';
 import {ShelfFunction} from '../../models/shelf';
+import {ShelfValueDef} from '../../models/shelf/spec';
 import {isWildcardChannelId} from '../../models/shelf/spec/encoding';
 import {DraggedFieldIdentifier, Field} from '../field/index';
 import * as styles from './encoding-shelf.scss';
@@ -36,6 +37,8 @@ export interface EncodingShelfPropsBase extends ActionHandler<SpecEncodingAction
   id: ShelfId;
 
   fieldDef: ShelfFieldDef;
+
+  valueDef: ShelfValueDef;
 
   schema: Schema;
 }

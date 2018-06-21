@@ -6,7 +6,7 @@ import {FieldDef} from 'vega-lite/build/src/fielddef';
 import {Action} from '../../actions';
 import {
   SPEC_CLEAR, SPEC_FIELD_ADD, SPEC_FIELD_MOVE,
-  SPEC_FIELD_REMOVE, SPEC_FUNCTION_CHANGE, SPEC_FUNCTION_ENABLE_WILDCARD, SPEC_MARK_CHANGE_TYPE
+  SPEC_FIELD_REMOVE, SPEC_FUNCTION_CHANGE, SPEC_FUNCTION_ENABLE_WILDCARD, SPEC_MARK_CHANGE_TYPE, SPEC_VALUE_CHANGE
 } from '../../actions/shelf';
 import {SPEC_FUNCTION_ADD_WILDCARD, SPEC_FUNCTION_DISABLE_WILDCARD,
         SPEC_FUNCTION_REMOVE_WILDCARD} from '../../actions/shelf';
@@ -169,6 +169,22 @@ export function shelfSpecReducer(
           throw Error('fn must be a wildcard to remove a wildcard');
         }
       });
+    }
+
+    case SPEC_VALUE_CHANGE: {
+      const {shelfId, valueDef} = action.payload;
+
+      if (isWildcardChannelId(shelfId)) {
+        throw Error('constant value cannot be assigned to a wildcard channel');
+      } else {
+        return {
+          ...shelfSpec,
+          encoding: {
+            ...shelfSpec.encoding,
+            [shelfId.channel as any]: {value: valueDef.value}
+          }
+        };
+      }
     }
   }
   return shelfSpec;
