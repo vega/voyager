@@ -13,6 +13,7 @@ import {
   SpecFieldNestedPropChange
 } from '../../actions/shelf/spec';
 import {DEFAULT_SHELF_UNIT_SPEC} from '../../models';
+import {ShelfId} from '../../models/shelf/spec';
 import {shelfSpecFieldAutoAddReducer, shelfSpecReducer} from './spec';
 
 const SHORT_WILDCARD = '?';
@@ -184,7 +185,7 @@ describe('reducers/shelf/spec', () => {
           type: SPEC_FIELD_MOVE,
           payload: {
             from: {channel: 'x'},
-            to: {channel: 'y' }
+            to: {channel: 'y'}
           }
         },
       );
@@ -209,7 +210,7 @@ describe('reducers/shelf/spec', () => {
           type: SPEC_FIELD_MOVE,
           payload: {
             from: {channel: 'x'},
-            to: {channel: 'y' }
+            to: {channel: 'y'}
           }
         },
       );
@@ -694,7 +695,7 @@ describe('reducers/shelf/spec', () => {
       });
     });
 
-    it('shoud correctly change undefined to wildcard', () => {
+    it('should correctly change undefined to wildcard', () => {
       const shelfSpec = shelfSpecReducer(
         {
           ...DEFAULT_SHELF_UNIT_SPEC,
@@ -766,11 +767,27 @@ describe('reducers/shelf/spec', () => {
         }
       });
     });
+
+    it('should throw error if value supplied for wildcard channel', () => {
+      const shelfId: ShelfId = {
+        channel: SHORT_WILDCARD,
+        index: 0
+      };
+
+      expect(() => shelfSpecReducer(DEFAULT_SHELF_UNIT_SPEC,
+        {
+          type: SPEC_VALUE_CHANGE,
+          payload: {
+            shelfId: shelfId,
+            valueDef: {value: 'blue'}
+          }
+        })).toThrowError('constant value cannot be assigned to a wildcard channel');
+    });
   });
 
   describe('shelfSpecFieldAutoAddReducer / ' + SPEC_FIELD_AUTO_ADD, () => {
     it('should query for new spec with CompassQL if there is no wildcard channel in the shelf ' +
-        'and the field is not a wildcard.', () => {
+      'and the field is not a wildcard.', () => {
       const shelfSpec = shelfSpecFieldAutoAddReducer(
         DEFAULT_SHELF_UNIT_SPEC,
         {

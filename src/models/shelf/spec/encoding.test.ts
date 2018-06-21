@@ -1,5 +1,11 @@
-import {FieldQuery, ScaleQuery} from 'compassql/build/src/query/encoding';
-import {fromEncodingQueries, fromFieldQueryNestedProp} from './encoding';
+import {AutoCountQuery, FieldQuery, ScaleQuery, ValueQuery} from 'compassql/build/src/query/encoding';
+import {ValueDef} from 'vega-lite/build/src/fielddef';
+import {
+  fromEncodingQueries,
+  fromEncodingQuery,
+  fromFieldQueryNestedProp,
+  fromValueQuery, ShelfFieldDef, toEncodingQuery
+} from './encoding';
 
 describe('models/shelf', () => {
   describe('fromEncodingQueries', () => {
@@ -15,6 +21,53 @@ describe('models/shelf', () => {
           {channel: '?', field: 'a', type: 'quantitative', scale: {type: 'log'}}
         ]
       });
+    });
+  });
+
+  describe('fromEncodingQuery', () => {
+    it('throws error for autocount query', () => {
+      const autoCountQuery: AutoCountQuery = {
+        channel: 'x',
+        description: '',
+        autoCount: true,
+        type: 'quantitative'
+      };
+      expect(() => fromEncodingQuery(autoCountQuery)).toThrowError('AutoCount Query not yet supported');
+    });
+  });
+
+  describe('toEncodingQuery', () => {
+    it('should return fieldQuery', () => {
+      const encDef: ShelfFieldDef = {
+        field: '?'
+      };
+      const res = toEncodingQuery(encDef, 'x');
+      expect(res).toEqual({
+        channel: 'x',
+        field: '?'
+      });
+    });
+
+    it('should return valueQuery', () => {
+      const valueDef: ValueDef = {
+        value: 'blue'
+      };
+      const res = toEncodingQuery(valueDef, 'color');
+      expect(res).toEqual({
+        channel: 'color',
+        value: 'blue'
+      });
+    });
+  });
+
+  describe('fromValueQuery', () => {
+    it('throws error for wildcard value', () => {
+      const fieldQuery: ValueQuery = {
+        value: '?',
+        channel: '?',
+        description: ''
+      };
+      expect(() => fromValueQuery(fieldQuery)).toThrowError('Voyager does not support wildcard value');
     });
   });
 
