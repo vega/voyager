@@ -4,7 +4,7 @@ import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
 import {connect} from 'react-redux';
 import {Channel} from 'vega-lite/build/src/channel';
-import {OneOfFilter, RangeFilter} from 'vega-lite/build/src/filter';
+import{FieldOneOfPredicate, FieldRangePredicate} from 'vega-lite/build/src/predicate';
 import {FilterAction} from '../../actions';
 import {ActionHandler} from '../../actions/index';
 import {createDispatchHandler} from '../../actions/redux-action';
@@ -27,7 +27,7 @@ interface EncodingPanelProps extends ActionHandler<ShelfAction | ResultAsyncActi
 
   specPreview: ShelfUnitSpec;
 
-  filters: Array<RangeFilter | OneOfFilter>;
+  filters: Array<FieldRangePredicate | FieldOneOfPredicate>;
 
   schema: Schema;
 

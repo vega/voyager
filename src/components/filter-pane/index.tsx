@@ -5,7 +5,12 @@ import {isWildcard} from 'compassql/build/src/wildcard';
 import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
 import {ConnectDropTarget, DropTarget, DropTargetCollector, DropTargetSpec} from 'react-dnd';
-import {isOneOfFilter, isRangeFilter, OneOfFilter, RangeFilter} from 'vega-lite/build/src/filter';
+import {
+  FieldOneOfPredicate,
+  FieldRangePredicate,
+  isFieldOneOfPredicate,
+  isFieldRangePredicate
+} from 'vega-lite/build/src/predicate';
 import {TimeUnit} from 'vega-lite/build/src/timeunit';
 import {FILTER_ADD, FILTER_MODIFY_TIME_UNIT,
   FILTER_REMOVE, FilterAction} from '../../actions';
@@ -34,7 +39,7 @@ export interface FilterPaneDropTargetProps {
 }
 
 export interface FilterPanePropsBase extends ActionHandler<FilterAction> {
-  filters: Array<RangeFilter | OneOfFilter>;
+  filters: Array<FieldRangePredicate | FieldOneOfPredicate>;
   schema: Schema;
 }
 
@@ -86,7 +91,7 @@ class FilterPaneBase extends React.PureComponent<FilterPaneProps, {}> {
     });
   }
 
-  private renderFilterShelf(filter: RangeFilter | OneOfFilter, index: number) {
+  private renderFilterShelf(filter: FieldRangePredicate | FieldOneOfPredicate, index: number) {
     const {handleAction, schema} = this.props;
     let domain = schema.domain({field: filter.field});
     const {field, timeUnit} = filter;
@@ -109,7 +114,7 @@ class FilterPaneBase extends React.PureComponent<FilterPaneProps, {}> {
         onFunctionChange={onFunctionChange}
       /> ;
     let filterComponent;
-    if (isRangeFilter(filter)) {
+    if (isFieldRangePredicate(filter)) {
       if (fieldDef.type === ExpandedType.TEMPORAL) {
         domain = getDefaultTimeRange(domain, timeUnit);
       }
@@ -122,7 +127,7 @@ class FilterPaneBase extends React.PureComponent<FilterPaneProps, {}> {
           handleAction={handleAction}
         />
       );
-    } else if (isOneOfFilter(filter)) {
+    } else if (isFieldOneOfPredicate(filter)) {
       if (timeUnit) {
         domain = getDefaultList(timeUnit);
       }

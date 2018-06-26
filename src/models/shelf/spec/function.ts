@@ -2,9 +2,10 @@ import {DEFAULT_QUERY_CONFIG} from 'compassql/build/src/config';
 import {FieldQuery} from 'compassql/build/src/query/encoding';
 import {ExpandedType} from 'compassql/build/src/query/expandedtype';
 import {isShortWildcard, isWildcard, Wildcard} from 'compassql/build/src/wildcard';
-import {AggregateOp, isAggregateOp} from 'vega-lite/build/src/aggregate';
+import {isAggregateOp} from 'vega-lite/build/src/aggregate';
 import {isTimeUnit, TimeUnit} from 'vega-lite/build/src/timeunit';
 import {contains} from 'vega-lite/build/src/util';
+import {AggregateOp} from 'vega-typings';
 
 export type ShelfFunction = AggregateOp | 'bin' | TimeUnit | undefined;
 

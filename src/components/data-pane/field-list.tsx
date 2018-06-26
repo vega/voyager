@@ -5,7 +5,7 @@ import * as stringify from 'json-stable-stringify';
 import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
 import {connect} from 'react-redux';
-import {OneOfFilter, RangeFilter} from 'vega-lite/build/src/filter';
+import {FieldOneOfPredicate, FieldRangePredicate} from 'vega-lite/build/src/predicate';
 import {FilterAction} from '../../actions';
 import {DatasetSchemaChangeFieldType} from '../../actions/dataset';
 import {ActionHandler, createDispatchHandler} from '../../actions/redux-action';
@@ -28,7 +28,7 @@ export interface FieldListProps extends ActionHandler<SpecFieldAutoAdd | Dataset
   config: VoyagerConfig;
   fieldDefs: ShelfFieldDef[];
   schema: Schema;
-  filters: Array<RangeFilter | OneOfFilter>;
+  filters: Array<FieldRangePredicate | FieldOneOfPredicate>;
 }
 
 class FieldListBase extends React.PureComponent<FieldListProps, {}> {

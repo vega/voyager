@@ -13,9 +13,9 @@ import * as ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
 import {Store} from 'redux';
 import {Data} from 'vega-lite/build/src/data';
-import {FacetedCompositeUnitSpec, isUnitSpec, TopLevel, TopLevelExtendedSpec} from 'vega-lite/build/src/spec';
-import {isString} from 'vega-lite/build/src/util';
+import {ExtendedLayerSpec, FacetedCompositeUnitSpec, isUnitSpec, TopLevel} from 'vega-lite/build/src/spec';
 import * as vlSchema from 'vega-lite/build/vega-lite-schema.json';
+import {isString} from 'vega-util';
 import { REDO, UNDO } from './actions/index';
 import {App} from './components/app';
 import {State} from './models';
@@ -128,7 +128,7 @@ export class Voyager {
     }
 
     // If it is validated, it is a TopLevelExtendedSpec
-    if (!isUnitSpec(spec as TopLevelExtendedSpec)) {
+    if (!isUnitSpec(spec as ExtendedLayerSpec)) {
       throw new Error("Voyager does not support layered or multi-view vega-lite specs");
     }
 

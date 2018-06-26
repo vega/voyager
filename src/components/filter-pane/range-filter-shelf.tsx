@@ -5,7 +5,7 @@ import * as CSSModules from 'react-css-modules';
 import * as DateTimePicker from 'react-datetime';
 import * as TetherComponent from 'react-tether';
 import {DateTime} from 'vega-lite/build/src/datetime';
-import {RangeFilter} from 'vega-lite/build/src/filter';
+import {FieldRangePredicate} from 'vega-lite/build/src/predicate';
 import {TimeUnit} from 'vega-lite/build/src/timeunit';
 import {FILTER_MODIFY_EXTENT, FILTER_MODIFY_MAX_BOUND, FILTER_MODIFY_MIN_BOUND,
   FilterAction} from '../../actions';
@@ -16,7 +16,7 @@ import * as styles from './range-filter-shelf.scss';
 export interface RangeFilterShelfProps extends ActionHandler<FilterAction> {
   domain: number[] | DateTime[];
   index: number;
-  filter: RangeFilter;
+  filter: FieldRangePredicate;
   renderDateTimePicker: boolean;
 }
 

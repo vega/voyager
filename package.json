@@ -76,8 +76,10 @@
     "vega": "3.0.0-rc2",
     "vega-datasets": "^1.8.0",
     "vega-expression": "^2.3.1",
-    "vega-lite": "2.0.0-rc1",
-    "vega-tooltip": "^0.4.2"
+    "vega-lite": "2.4.0",
+    "vega-typings": "^0.2.15",
+    "vega-tooltip": "^0.4.2",
+    "vega-util": "1.7.0"
   },
   "devDependencies": {
     "@types/classnames": "^0.0.32",
@@ -134,7 +136,8 @@
     "webpack": "^2.5.1",
     "webpack-dev-server": "^2.4.5",
     "webpack-manifest-plugin": "^1.1.0",
-    "webpack-notifier": "^1.5.0"
+    "webpack-notifier": "^1.5.0",
+    "vega-util": "1.7.0"
   },
   "jest": {
     "transform": {

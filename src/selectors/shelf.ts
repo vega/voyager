@@ -1,6 +1,6 @@
 // tslint:disable:no-unused-variable
 import {StateWithHistory} from 'redux-undo';
-import {OneOfFilter, RangeFilter} from 'vega-lite/build/src/filter';
+import {FieldOneOfPredicate, FieldRangePredicate} from 'vega-lite/build/src/predicate';
 import {GenericState, State, UndoableStateBase} from '../models/index';
 // tslint:enable:no-unused-variable
 

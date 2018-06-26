@@ -4,7 +4,7 @@ import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
 import {DragElementWrapper, DragSource, DragSourceCollector, DragSourceSpec} from 'react-dnd';
 import * as TetherComponent from 'react-tether';
-import {OneOfFilter, RangeFilter} from 'vega-lite/build/src/filter';
+import {FieldOneOfPredicate, FieldRangePredicate} from 'vega-lite/build/src/predicate';
 import {DraggableType, FieldParentType} from '../../constants';
 import {ShelfId} from '../../models/shelf';
 import {ShelfFieldDef} from '../../models/shelf';
@@ -268,7 +268,7 @@ export type FieldParentId = {
 export interface DraggedFieldIdentifier {
   fieldDef: ShelfFieldDef;
   parentId: FieldParentId;
-  filter: RangeFilter | OneOfFilter;
+  filter: FieldRangePredicate | FieldOneOfPredicate;
 }
 
 const fieldSource: DragSourceSpec<FieldProps> = {

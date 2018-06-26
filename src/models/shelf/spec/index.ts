@@ -1,8 +1,8 @@
 import {EncodingQuery, isAutoCountQuery, isValueQuery} from 'compassql/build/src/query/encoding';
 import {SpecQuery} from 'compassql/build/src/query/spec';
 import {isWildcard, isWildcardDef, SHORT_WILDCARD} from 'compassql/build/src/wildcard';
+import {Config} from 'vega-lite';
 import {Channel} from 'vega-lite/build/src/channel';
-import {Config} from 'vega-lite/build/src/config';
 import {
   fromEncodingQueries,
   ShelfAnyEncodingDef,
@@ -38,13 +38,28 @@ export interface ShelfUnitSpec {
 }
 
 export function toSpecQuery(spec: ShelfUnitSpec): SpecQuery {
-  return {
-    mark: spec.mark,
-    encodings: specificEncodingsToEncodingQueries(spec.encoding).concat(
-      spec.anyEncodings.map(fieldDef => toEncodingQuery(fieldDef, '?'))
-    ),
-    config: spec.config
+  const config: Config = spec.config;
+  const encodings: EncodingQuery[] = specificEncodingsToEncodingQueries(spec.encoding).concat(spec.anyEncodings.map(
+    fd => toEncodingQuery(fd, '?'))) ;
+  const mark: ShelfMark = spec.mark;
+
+  const specQuery: SpecQuery = {
+    config: config,
+    encodings: encodings,
+    mark: mark
   };
+  return {
+    mark,
+    encodings,
+    config
+  };
+  // return {
+  //   mark: spec.mark,
+  //   encodings: specificEncodingsToEncodingQueries(spec.encoding).concat(
+  //     spec.anyEncodings.map(fieldDef => toEncodingQuery(fieldDef, '?'))
+  //   ),
+  //   config: spec.config
+  // };
 }
 
 export function fromSpecQuery(spec: SpecQuery, oldConfig?: Config): ShelfUnitSpec {

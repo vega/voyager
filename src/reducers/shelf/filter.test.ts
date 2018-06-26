@@ -1,5 +1,5 @@
 
-import {OneOfFilter, RangeFilter} from 'vega-lite/build/src/filter';
+import {FieldOneOfPredicate, FieldRangePredicate} from 'vega-lite/build/src/predicate';
 import {TimeUnit} from 'vega-lite/build/src/timeunit';
 import {
   FILTER_ADD, FILTER_CLEAR, FILTER_MODIFY_EXTENT, FILTER_MODIFY_MAX_BOUND,
@@ -12,14 +12,14 @@ import {filterReducer} from './filter';
 const range = [1437978615, 1501137015];
 // 1437978615: Sat Jan 17 1970 07:26:18 GMT-0800 (PST);
 // 1501137015: Sun Jan 18 1970 00:58:57 GMT-0800 (PST)
-const rangeFilter: RangeFilter = {field: 'q1', range};
-const oneOfFilter: OneOfFilter = {field: 'q2', oneOf: ['a', 'c']};
-const simpleFilters: Array<OneOfFilter | RangeFilter> = [rangeFilter, oneOfFilter];
+const rangeFilter: FieldRangePredicate = {field: 'q1', range};
+const oneOfFilter: FieldOneOfPredicate = {field: 'q2', oneOf: ['a', 'c']};
+const simpleFilters: Array<FieldOneOfPredicate | FieldRangePredicate> = [rangeFilter, oneOfFilter];
 
 describe('reducers/shelf/filter', () => {
   describe(FILTER_ADD, () => {
     it('should return a filter array containing one range filter', () => {
-      const noFilters: Array<OneOfFilter | RangeFilter> = [];
+      const noFilters: Array<FieldOneOfPredicate | FieldRangePredicate> = [];
       const filters = filterReducer(noFilters,
         {
           type: FILTER_ADD,
@@ -34,7 +34,7 @@ describe('reducers/shelf/filter', () => {
 
   describe(FILTER_ADD, () => {
     it('should add the given filter at the end of the array', () => {
-      const rangeFilter2: RangeFilter = {field: 'q3', range};
+      const rangeFilter2: FieldRangePredicate = {field: 'q3', range};
       const filters = filterReducer(simpleFilters, {
         type: FILTER_ADD,
         payload: {
