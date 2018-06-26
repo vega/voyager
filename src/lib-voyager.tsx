@@ -25,6 +25,7 @@ import {selectData} from './selectors/dataset';
 import {selectBookmark} from './selectors/index';
 import {selectMainSpec} from './selectors/result';
 import {configureStore} from './store';
+import {TopLevelSpec} from 'vega-lite';
 
 
 
@@ -128,7 +129,7 @@ export class Voyager {
     }
 
     // If it is validated, it is a TopLevelExtendedSpec
-    if (!isUnitSpec(spec as ExtendedLayerSpec)) {
+    if (!isUnitSpec(spec as TopLevelSpec)) {
       throw new Error("Voyager does not support layered or multi-view vega-lite specs");
     }
 

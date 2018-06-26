@@ -100,7 +100,7 @@ class ViewPaneBase extends React.PureComponent<ViewPaneProps, {}> {
     }
   }
 
-  private onSort(channel: 'x' | 'y', value: SortOrder | SortField) {
+  private onSort(channel: 'x' | 'y', value: SortOrder | SortField<string>) {
     const {handleAction} = this.props;
     handleAction({
       type: SPEC_FIELD_PROP_CHANGE,
