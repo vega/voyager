@@ -6,7 +6,7 @@ import {Query} from 'compassql/build/src/query/query';
 import {recommend} from 'compassql/build/src/recommend';
 import {build as buildSchema, Schema} from 'compassql/build/src/schema';
 import 'isomorphic-fetch';
-import {Data, InlineData} from 'vega-lite/build/src/data';
+import {Data, InlineData, InlineDataset} from 'vega-lite/build/src/data';
 import {VoyagerConfig} from '../models/config';
 import {fromSpecQueryModelGroup, ResultPlotWithKey} from '../models/result';
 
@@ -53,7 +53,7 @@ export function fetchCompassQLRecommend(query: Query, schema: Schema, data: Inli
 /**
  * Submit schema building request from CompassQL
  */
-export function fetchCompassQLBuildSchema(data: Array<object>, config?: VoyagerConfig):
+export function fetchCompassQLBuildSchema(data: Object[], config?: VoyagerConfig):
   Promise<Schema> {
 
   if (config && config.serverUrl) {

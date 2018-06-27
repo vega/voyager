@@ -32,7 +32,7 @@ export interface PlotProps extends ActionHandler<
   showBookmarkButton?: boolean;
   showSpecifyButton?: boolean;
 
-  onSort?: (channel: 'x' | 'y', sort: SortField<string> | SortOrder) => void;
+  onSort?: (channel: 'x' | 'y', sort: SortField | SortOrder) => void;
 
   spec: FacetedCompositeUnitSpec;
   bookmark?: Bookmark;

@@ -12,6 +12,7 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
 import {Store} from 'redux';
+import {TopLevelSpec} from 'vega-lite';
 import {Data} from 'vega-lite/build/src/data';
 import {ExtendedLayerSpec, FacetedCompositeUnitSpec, isUnitSpec, TopLevel} from 'vega-lite/build/src/spec';
 import * as vlSchema from 'vega-lite/build/vega-lite-schema.json';
@@ -25,7 +26,6 @@ import {selectData} from './selectors/dataset';
 import {selectBookmark} from './selectors/index';
 import {selectMainSpec} from './selectors/result';
 import {configureStore} from './store';
-import {TopLevelSpec} from 'vega-lite';
 
 
 
