@@ -76,8 +76,8 @@
     "@types/react" "*"
 
 "@types/react-hot-loader@^3.0.3":
-  version "3.0.3"
-  resolved "https://registry.yarnpkg.com/@types/react-hot-loader/-/react-hot-loader-3.0.3.tgz#ee02b1999c22713418e198cc3eb090b7e76ce592"
+  version "3.0.6"
+  resolved "https://registry.yarnpkg.com/@types/react-hot-loader/-/react-hot-loader-3.0.6.tgz#23b1875a327c32cbab705fbf660d8f207ede4d69"
   dependencies:
     "@types/react" "*"
 
@@ -1057,7 +1057,7 @@ commander@2, commander@2.9.0, commander@2.9.x, commander@^2.9.0, commander@~2.9.
   dependencies:
     graceful-readlink ">= 1.0.0"
 
-compassql@0.20.1:
+compassql@^0.20.1:
   version "0.20.1"
   resolved "https://registry.yarnpkg.com/compassql/-/compassql-0.20.1.tgz#1621a82edea75e0f11bd39380cac15169195797e"
   dependencies:

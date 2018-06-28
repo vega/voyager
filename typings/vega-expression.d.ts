@@ -1,5 +1,5 @@
 declare module 'vega-expression' {
-  export function parse(expr: string): any
+  export function parse(expr: string): any;
 
   export interface CodegenOption {
     constants?: object;

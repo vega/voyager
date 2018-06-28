@@ -1,5 +1,4 @@
 declare module 'vega' {
-  export * from 'vega-typings';
   export const version: string;
   export function parse(spec: any): any;
   export class View {
