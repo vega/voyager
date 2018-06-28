@@ -12,6 +12,13 @@ describe('reducers/shelf/spec-preview', () => {
             encoding: {
               x: {field: 'b', type: 'nominal'},
               y: {aggregate: 'count', field: '*', type: 'quantitative'}
+            },
+            data: {
+              format: {
+                parse: 'auto',
+                type: 'json'
+              },
+              name: 'testName'
             }
           }
         }

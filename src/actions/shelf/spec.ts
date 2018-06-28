@@ -1,5 +1,5 @@
 
-import {FacetedCompositeUnitSpec} from 'vega-lite/build/src/spec';
+import {TopLevelFacetedUnitSpec} from 'vega-lite/build/src/spec';
 import {ShelfFieldDef, ShelfFunction, ShelfId, ShelfMark} from '../../models';
 import {ShelfValueDef} from '../../models/shelf/spec';
 import {Action} from '../index';
@@ -113,7 +113,7 @@ export type SpecValueChange = ReduxAction<typeof SPEC_VALUE_CHANGE, {
 
 export const SPEC_LOAD = 'SPEC_LOAD';
 export type SpecLoad = ReduxAction<typeof SPEC_LOAD, {
-  spec: FacetedCompositeUnitSpec,
+  spec: TopLevelFacetedUnitSpec,
   keepWildcardMark: boolean
 }>;
 

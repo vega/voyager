@@ -1,11 +1,10 @@
 import {
-  getTopSpecQueryItem,
-  isSpecQueryGroup,
   SpecQueryModel,
   SpecQueryModelGroup,
 } from 'compassql/build/src/model';
 import {FieldQuery, isFieldQuery} from 'compassql/build/src/query/encoding';
 import {ExtendedGroupBy} from 'compassql/build/src/query/groupby';
+import {getTopResultTreeItem, isResultTree} from 'compassql/build/src/result';
 import {toMap} from 'compassql/build/src/util';
 import {NamedData} from 'vega-lite/build/src/data';
 import {TopLevelFacetedUnitSpec} from 'vega-lite/build/src/spec';
@@ -32,11 +31,11 @@ export function fromSpecQueryModelGroup(
   data: NamedData
 ): ResultPlotWithKey[] {
   return modelGroup.items.map(item => {
-    if (isSpecQueryGroup<SpecQueryModel>(item)) {
+    if (isResultTree<SpecQueryModel>(item)) {
       const childModelGroup = item as SpecQueryModelGroup;
-      return plotWithKey(data, getTopSpecQueryItem(childModelGroup), modelGroup.groupBy);
+      return plotWithKey(data, getTopResultTreeItem(childModelGroup), modelGroup.groupBy);
     }
-    return plotWithKey(data, item, modelGroup.groupBy);
+    return plotWithKey(data, item as SpecQueryModel, modelGroup.groupBy);
   });
 }
 

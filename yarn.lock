@@ -1057,13 +1057,14 @@ commander@2, commander@2.9.0, commander@2.9.x, commander@^2.9.0, commander@~2.9.
   dependencies:
     graceful-readlink ">= 1.0.0"
 
-compassql@0.19.18:
-  version "0.19.18"
-  resolved "https://registry.yarnpkg.com/compassql/-/compassql-0.19.18.tgz#69b6009b6a5bb93ef03b21415d62af867b9e4804"
+compassql@0.20.1:
+  version "0.20.1"
+  resolved "https://registry.yarnpkg.com/compassql/-/compassql-0.20.1.tgz#1621a82edea75e0f11bd39380cac15169195797e"
   dependencies:
     datalib "~1.7.0"
     typescript-json-schema "^0.9.0"
-    vega-lite "2.0.0-rc1"
+    vega-lite "2.4.0"
+    vega-typings "^0.2.15"
 
 component-classes@^1.2.5:
   version "1.2.6"
@@ -6513,16 +6514,6 @@ vega-hierarchy@^2.1:
     vega-dataflow "^3.1"
     vega-util "1"
 
-vega-lite@2.0.0-rc1, vega-lite@^2.0.0-beta.3:
-  version "2.0.0-rc1"
-  resolved "https://registry.yarnpkg.com/vega-lite/-/vega-lite-2.0.0-rc1.tgz#d3251ba9426d24b2a7b1cd59b1880302628700e6"
-  dependencies:
-    json-stable-stringify "^1.0.1"
-    tslib "^1.7.1"
-    vega-event-selector "^2.0.0"
-    vega-util "^1.5.0"
-    yargs "^8.0.2"
-
 vega-lite@2.4.0:
   version "2.4.0"
   resolved "https://registry.yarnpkg.com/vega-lite/-/vega-lite-2.4.0.tgz#e2bd0eabf5288c470a698377a10d4118f4f610e1"
@@ -6534,6 +6525,16 @@ vega-lite@2.4.0:
     vega-typings "^0.2.15"
     vega-util "^1.7.0"
     yargs "^11.0.0"
+
+vega-lite@^2.0.0-beta.3:
+  version "2.0.0-rc1"
+  resolved "https://registry.yarnpkg.com/vega-lite/-/vega-lite-2.0.0-rc1.tgz#d3251ba9426d24b2a7b1cd59b1880302628700e6"
+  dependencies:
+    json-stable-stringify "^1.0.1"
+    tslib "^1.7.1"
+    vega-event-selector "^2.0.0"
+    vega-util "^1.5.0"
+    yargs "^8.0.2"
 
 vega-loader@2:
   version "2.0.1"
