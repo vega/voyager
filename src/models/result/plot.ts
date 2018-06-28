@@ -8,7 +8,7 @@ import {FieldQuery, isFieldQuery} from 'compassql/build/src/query/encoding';
 import {ExtendedGroupBy} from 'compassql/build/src/query/groupby';
 import {toMap} from 'compassql/build/src/util';
 import {NamedData} from 'vega-lite/build/src/data';
-import {FacetedCompositeUnitSpec} from 'vega-lite/build/src/spec';
+import {TopLevelFacetedUnitSpec} from 'vega-lite/build/src/spec';
 import {fromFieldQuery, ShelfFieldDef} from '../shelf';
 
 export interface PlotFieldInfo {
@@ -19,7 +19,7 @@ export interface PlotFieldInfo {
 export interface ResultPlot {
   fieldInfos: PlotFieldInfo[];
 
-  spec: FacetedCompositeUnitSpec;
+  spec: TopLevelFacetedUnitSpec;
 }
 
 export interface ResultPlotWithKey {
@@ -57,9 +57,10 @@ function plotWithKey(
       };
     });
 
-  const spec = {
+  // FIXME: Hack to convert FacetedUnitSpec to ToplevelFactedUnitSpec
+  const spec: TopLevelFacetedUnitSpec = {
     data,
-    ...specQ.toSpec()
+    ...specQ.toSpec() as TopLevelFacetedUnitSpec
   };
 
   const groupByKey = specQ.toShorthand(groupBy);

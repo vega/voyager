@@ -43,11 +43,6 @@ export function toSpecQuery(spec: ShelfUnitSpec): SpecQuery {
     fd => toEncodingQuery(fd, '?'))) ;
   const mark: ShelfMark = spec.mark;
 
-  const specQuery: SpecQuery = {
-    config: config,
-    encodings: encodings,
-    mark: mark
-  };
   return {
     mark,
     encodings,

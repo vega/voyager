@@ -50,7 +50,6 @@ export interface ShelfFieldDef {
   legend?: Legend;
 
   sort?: SortOrder | SortField<string>;
-
   type?: ExpandedType;
 
   /**
