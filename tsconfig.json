@@ -18,6 +18,8 @@
     "./src/**/*"
   ],
   "exclude": [
+    "./node_modules/compassql/typings/json.d.ts",
+    "./node_modules/vega-lite/typings/json.d.ts",
     "./node_modules/vega-lite/typings/vega.d.ts"
   ]
 }
