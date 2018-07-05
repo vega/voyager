@@ -48,13 +48,6 @@ export function toSpecQuery(spec: ShelfUnitSpec): SpecQuery {
     encodings,
     config
   };
-  // return {
-  //   mark: spec.mark,
-  //   encodings: specificEncodingsToEncodingQueries(spec.encoding).concat(
-  //     spec.anyEncodings.map(fieldDef => toEncodingQuery(fieldDef, '?'))
-  //   ),
-  //   config: spec.config
-  // };
 }
 
 export function fromSpecQuery(spec: SpecQuery, oldConfig?: Config): ShelfUnitSpec {

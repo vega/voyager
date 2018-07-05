@@ -8,9 +8,7 @@ import {Schema} from 'compassql/build/src/schema';
 import {fromSpecQueryModelGroup} from './plot';
 
 import {DEFAULT_QUERY_CONFIG} from 'compassql/build/src/config';
-import {SHORT_WILDCARD} from 'compassql/build/src/wildcard';
-import {Property} from 'compassql/build/src/property';
-import AUTOCOUNT = Property.AUTOCOUNT;
+
 import {ExpandedType} from 'compassql/build/src/query/expandedtype';
 import QUANTITATIVE = ExpandedType.QUANTITATIVE;
 
