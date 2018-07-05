@@ -1,5 +1,5 @@
-import {getTopSpecQueryItem} from 'compassql/build/src/model';
 import {recommend} from 'compassql/build/src/recommend';
+import {getTopResultTreeItem} from 'compassql/build/src/result';
 import {Schema} from 'compassql/build/src/schema';
 import {isWildcard, SHORT_WILDCARD} from 'compassql/build/src/wildcard';
 import {FieldDef} from 'vega-lite/build/src/fielddef';
@@ -8,8 +8,10 @@ import {
   SPEC_CLEAR, SPEC_FIELD_ADD, SPEC_FIELD_MOVE,
   SPEC_FIELD_REMOVE, SPEC_FUNCTION_CHANGE, SPEC_FUNCTION_ENABLE_WILDCARD, SPEC_MARK_CHANGE_TYPE, SPEC_VALUE_CHANGE
 } from '../../actions/shelf';
-import {SPEC_FUNCTION_ADD_WILDCARD, SPEC_FUNCTION_DISABLE_WILDCARD,
-        SPEC_FUNCTION_REMOVE_WILDCARD} from '../../actions/shelf';
+import {
+  SPEC_FUNCTION_ADD_WILDCARD, SPEC_FUNCTION_DISABLE_WILDCARD,
+  SPEC_FUNCTION_REMOVE_WILDCARD
+} from '../../actions/shelf';
 import {SPEC_FIELD_NESTED_PROP_CHANGE, SPEC_FIELD_PROP_CHANGE, SpecFieldAutoAdd} from '../../actions/shelf/spec';
 import {isWildcardChannelId} from '../../models';
 import {ShelfAnyEncodingDef, ShelfFieldDef, ShelfId, ShelfUnitSpec} from '../../models/shelf';
@@ -39,7 +41,7 @@ export function shelfSpecFieldAutoAddReducer(
     // Otherwise, query for the best encoding if there is no wildcard channel
     const query = autoAddFieldQuery(shelfSpec, fieldDef);
     const rec = recommend(query, schema);
-    const topSpecQuery = getTopSpecQueryItem(rec.result).specQuery;
+    const topSpecQuery = getTopResultTreeItem(rec.result).specQuery;
 
     return {
       ...fromSpecQuery(topSpecQuery, shelfSpec.config),
@@ -248,7 +250,7 @@ function modifyEncoding(shelf: Readonly<ShelfUnitSpec>, shelfId: ShelfId, modifi
 
 
 function removeEncoding(shelf: Readonly<ShelfUnitSpec>, shelfId: ShelfId):
-  {fieldDef: ShelfFieldDef, shelf: Readonly<ShelfUnitSpec>} {
+  { fieldDef: ShelfFieldDef, shelf: Readonly<ShelfUnitSpec> } {
 
   if (isWildcardChannelId(shelfId)) {
     const index = shelfId.index;
@@ -310,7 +312,7 @@ export function modifyNestedFieldProp(
   const {[nestedProp]: _oldValue, ...parentWithoutNestedProp} = oldParent || {};
   const parent = {
     ...parentWithoutNestedProp,
-    ...(value !== undefined ? {[nestedProp] : value} : {})
+    ...(value !== undefined ? {[nestedProp]: value} : {})
   };
   return {
     ...fieldDefWithoutProp,

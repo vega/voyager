@@ -2,14 +2,14 @@ import * as React from 'react';
 import {ClipLoader} from 'react-spinners';
 import * as vega from 'vega';
 import * as vl from 'vega-lite';
+import {TopLevelSpec} from 'vega-lite';
 import {InlineData, isNamedData} from 'vega-lite/build/src/data';
-import {TopLevelExtendedSpec} from 'vega-lite/build/src/spec';
 import * as vegaTooltip from 'vega-tooltip';
 import {SPINNER_COLOR} from '../../constants';
 import {Logger} from '../util/util.logger';
 
 export interface VegaLiteProps {
-  spec: TopLevelExtendedSpec;
+  spec: TopLevelSpec;
 
   renderer?: 'svg' | 'canvas';
 
@@ -81,7 +81,7 @@ export class VegaLite extends React.PureComponent<VegaLiteProps, VegaLiteState> 
       clearTimeout(this.updateTimeout);
     }
     this.updateTimeout = window.setTimeout(
-      (spec: TopLevelExtendedSpec, data: InlineData) => {
+      (spec: TopLevelSpec, data: InlineData) => {
         if (prevProps.spec !== spec) {
           const chart = this.refs[CHART_REF] as HTMLElement;
           chart.style.width = this.size.width + 'px';

@@ -3,13 +3,17 @@ import {isWildcard} from 'compassql/build/src/wildcard';
 import * as vegaExpression from 'vega-expression';
 import {DateTime} from 'vega-lite/build/src/datetime';
 import {
-  fieldFilterExpression, isOneOfFilter, isRangeFilter, OneOfFilter, RangeFilter
-} from 'vega-lite/build/src/filter';
+  fieldFilterExpression,
+  FieldOneOfPredicate,
+  FieldRangePredicate,
+  isFieldOneOfPredicate,
+  isFieldRangePredicate
+} from 'vega-lite/build/src/predicate';
 import {convert, isTimeUnit, TimeUnit} from 'vega-lite/build/src/timeunit';
 import {isFilter, Transform} from 'vega-lite/build/src/transform';
 import {ShelfFieldDef} from './spec';
 
-export type ShelfFilter = RangeFilter | OneOfFilter;
+export type ShelfFilter = FieldRangePredicate | FieldOneOfPredicate;
 
 export function fromTransforms(transforms: Transform[]): ShelfFilter[] {
   if (!transforms) {
@@ -18,7 +22,7 @@ export function fromTransforms(transforms: Transform[]): ShelfFilter[] {
     return transforms.map(transform => {
       if (!isFilter(transform)) {
         throw new Error('Voyager does not support transforms other than FilterTransform');
-      } else if (!isRangeFilter(transform.filter) && !isOneOfFilter(transform.filter)) {
+      } else if (!isFieldRangePredicate(transform.filter) && !isFieldOneOfPredicate(transform.filter)) {
         throw new Error('Voyager does not support filters other than RangeFilter and OneOfFilter');
       }
       return transform.filter;
@@ -26,7 +30,7 @@ export function fromTransforms(transforms: Transform[]): ShelfFilter[] {
   }
 }
 
-export function toTransforms(filters: Array<RangeFilter|OneOfFilter>) {
+export function toTransforms(filters: Array<FieldRangePredicate|FieldOneOfPredicate>) {
   return filters.map(filter => ({filter}));
 }
 
@@ -50,7 +54,7 @@ export function toPredicateFunction(filters: ShelfFilter[]) {
   return new Function('datum', `return ${value.code};`) as (d: object) => boolean;
 }
 
-export function createDefaultFilter(fieldDef: ShelfFieldDef, domain: any[]): RangeFilter | OneOfFilter {
+export function createDefaultFilter(fieldDef: ShelfFieldDef, domain: any[]): FieldRangePredicate | FieldOneOfPredicate {
   const {field, type, fn} = fieldDef;
   if (isWildcard(field)) {
     return;
@@ -156,7 +160,7 @@ export function convertToTimestamp(dateTime: DateTime): number {
   return Number(date);
 }
 
-export function filterIndexOf(filters: Array<RangeFilter | OneOfFilter>, field: string) {
+export function filterIndexOf(filters: Array<FieldRangePredicate | FieldOneOfPredicate>, field: string) {
   for (let i = 0; i < filters.length; i++) {
     const filter = filters[i];
     if (filter.field === field) {
@@ -166,6 +170,6 @@ export function filterIndexOf(filters: Array<RangeFilter | OneOfFilter>, field: 
   return -1;
 }
 
-export function filterHasField(filters: Array<RangeFilter | OneOfFilter>, field: string) {
+export function filterHasField(filters: Array<FieldRangePredicate | FieldOneOfPredicate>, field: string) {
   return filterIndexOf(filters, field) >= 0;
 }

@@ -3,7 +3,7 @@ import {FieldQuery} from 'compassql/build/src/query/encoding';
 import {ExpandedType} from 'compassql/build/src/query/expandedtype';
 import {isWildcard, SHORT_WILDCARD, Wildcard, WildcardProperty} from 'compassql/build/src/wildcard';
 import {Axis} from 'vega-lite/build/src/axis';
-import {Channel, NonspatialScaleChannel, SpatialScaleChannel} from 'vega-lite/build/src/channel';
+import {Channel, NonPositionScaleChannel, PositionScaleChannel} from 'vega-lite/build/src/channel';
 import {ValueDef} from 'vega-lite/build/src/fielddef';
 import {Legend} from 'vega-lite/build/src/legend';
 import {Mark as VLMark} from 'vega-lite/build/src/mark';
@@ -49,8 +49,7 @@ export interface ShelfFieldDef {
   stack?: StackOffset;
   legend?: Legend;
 
-  sort?: SortOrder | SortField;
-
+  sort?: SortOrder | SortField<string>;
   type?: ExpandedType;
 
   /**
@@ -66,12 +65,11 @@ export interface ShelfAnyEncodingDef extends ShelfFieldDef {
 }
 
 export type SpecificEncoding = {
-  [P in SpatialScaleChannel]?: ShelfFieldDef;
+  [P in PositionScaleChannel]?: ShelfFieldDef;
 } & {
-  [P in NonspatialScaleChannel]?: ShelfEncodingDef
+  [P in NonPositionScaleChannel]?: ShelfEncodingDef
 } & {
-  text?: ShelfEncodingDef,
-  detail?: ShelfFieldDef,
+  text?: ShelfEncodingDef, detail?: ShelfFieldDef,
   order?: ShelfFieldDef,
   row?: ShelfFieldDef,
   column?: ShelfFieldDef

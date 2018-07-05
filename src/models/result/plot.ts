@@ -1,14 +1,13 @@
 import {
-  getTopSpecQueryItem,
-  isSpecQueryGroup,
   SpecQueryModel,
   SpecQueryModelGroup,
 } from 'compassql/build/src/model';
 import {FieldQuery, isFieldQuery} from 'compassql/build/src/query/encoding';
 import {ExtendedGroupBy} from 'compassql/build/src/query/groupby';
+import {getTopResultTreeItem, isResultTree} from 'compassql/build/src/result';
 import {toMap} from 'compassql/build/src/util';
 import {NamedData} from 'vega-lite/build/src/data';
-import {FacetedCompositeUnitSpec} from 'vega-lite/build/src/spec';
+import {TopLevelFacetedUnitSpec} from 'vega-lite/build/src/spec';
 import {fromFieldQuery, ShelfFieldDef} from '../shelf';
 
 export interface PlotFieldInfo {
@@ -19,7 +18,7 @@ export interface PlotFieldInfo {
 export interface ResultPlot {
   fieldInfos: PlotFieldInfo[];
 
-  spec: FacetedCompositeUnitSpec;
+  spec: TopLevelFacetedUnitSpec;
 }
 
 export interface ResultPlotWithKey {
@@ -32,11 +31,10 @@ export function fromSpecQueryModelGroup(
   data: NamedData
 ): ResultPlotWithKey[] {
   return modelGroup.items.map(item => {
-    if (isSpecQueryGroup<SpecQueryModel>(item)) {
-      const childModelGroup = item as SpecQueryModelGroup;
-      return plotWithKey(data, getTopSpecQueryItem(childModelGroup), modelGroup.groupBy);
+    if (isResultTree<SpecQueryModel>(item)) {
+      return plotWithKey(data, getTopResultTreeItem(item), modelGroup.groupBy);
     }
-    return plotWithKey(data, item, modelGroup.groupBy);
+    return plotWithKey(data, item as SpecQueryModel, modelGroup.groupBy);
   });
 }
 
@@ -57,9 +55,10 @@ function plotWithKey(
       };
     });
 
-  const spec = {
+  // FIXME: Hack to convert FacetedUnitSpec to ToplevelFactedUnitSpec
+  const spec: TopLevelFacetedUnitSpec = {
     data,
-    ...specQ.toSpec()
+    ...specQ.toSpec() as TopLevelFacetedUnitSpec
   };
 
   const groupByKey = specQ.toShorthand(groupBy);

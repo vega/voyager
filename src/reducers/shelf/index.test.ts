@@ -103,6 +103,13 @@ describe('reducers/shelf', () => {
           encoding: {
             x: {field: 'b', type: 'nominal'},
             y: {aggregate: 'count', field: '*', type: 'quantitative'}
+          },
+          data: {
+            format: {
+              parse: 'auto',
+              type: 'json'
+            },
+            name: 'testName'
           }
         },
         keepWildcardMark: true
@@ -162,7 +169,14 @@ describe('reducers/shelf', () => {
           payload: {
             spec: {
               mark: 'bar',
-              encoding: {}
+              encoding: {},
+              data: {
+                format: {
+                  parse: 'auto',
+                  type: 'json'
+                },
+                name: 'testName'
+              }
             },
             keepWildcardMark: true
           }
@@ -187,7 +201,14 @@ describe('reducers/shelf', () => {
             spec: {
               mark: 'bar',
               transform: [{filter}],
-              encoding: {}
+              encoding: {},
+              data: {
+                format: {
+                  parse: 'auto',
+                  type: 'json'
+                },
+                name: 'testName'
+              }
             },
             keepWildcardMark: true
           }
@@ -206,7 +227,14 @@ describe('reducers/shelf', () => {
             spec: {
               mark: 'bar',
               transform: [{filter}],
-              encoding: {}
+              encoding: {},
+              data: {
+                format: {
+                  parse: 'auto',
+                  type: 'json'
+                },
+                name: 'testName'
+              }
             },
             keepWildcardMark: true
           }

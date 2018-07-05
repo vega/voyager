@@ -1,5 +1,4 @@
 // tslint:disable:no-unused-variable
-import {getTopSpecQueryItem, SpecQueryGroup} from 'compassql/build/src/model';
 import {BoxPlotDef} from 'vega-lite/build/src/compositemark/boxplot';
 import {EncodingWithFacet} from 'vega-lite/build/src/encoding';
 import {MarkDef} from 'vega-lite/build/src/mark';

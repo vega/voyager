@@ -1,4 +1,4 @@
-
+import {isArray} from 'vega-util';
 import {DEFAULT_BOOKMARK} from '../models/bookmark';
 import {DEFAULT_VOYAGER_CONFIG} from '../models/config';
 import {DEFAULT_CUSTOM_WILDCARD_FIELDS} from '../models/custom-wildcard-field';
@@ -63,7 +63,9 @@ describe('selectors/index', () => {
         }
       };
       const filteredData = selectFilteredData(state);
-      expect(filteredData.values.length).toEqual(1);
+      if (isArray(filteredData.values)) {
+        expect(filteredData.values.length).toEqual(1);
+      }
       expect(filteredData.values[0].a).toEqual(3);
     });
   });

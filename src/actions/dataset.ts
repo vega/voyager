@@ -5,6 +5,7 @@ import {Dispatch} from 'redux';
 import {ThunkAction} from 'redux-thunk';
 import {ActionCreators} from 'redux-undo';
 import {Data, InlineData, isInlineData, isUrlData} from 'vega-lite/build/src/data';
+import {isArray} from 'vega-util';
 import {fetchCompassQLBuildSchema} from '../api/api';
 import {VoyagerConfig} from '../models/config';
 import {State} from '../models/index';
@@ -73,6 +74,9 @@ export function datasetLoad(name: string, data: Data): DatasetLoad {
 function buildSchemaAndDispatchDataReceive(
   data: InlineData, config: VoyagerConfig, dispatch: Dispatch<Action>, name: string
 ) {
+  if (!isArray(data.values)) {
+    throw new Error('Voyager only supports array values');
+  }
   return fetchCompassQLBuildSchema(data.values, config)
   .catch(errorCatch)
   .then(schema => {

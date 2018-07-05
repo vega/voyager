@@ -81,6 +81,7 @@ describe('reducers/result', () => {
     });
   });
 
+  // FIXME: What to put for required Data?
   describe(RESULT_MODIFY_FIELD_PROP, () => {
     const plots: ResultPlot[] = [{
       fieldInfos: null,
@@ -88,6 +89,13 @@ describe('reducers/result', () => {
         mark: 'point',
         encoding: {
           x: {field: 'a', type: 'quantitative'}
+        },
+        data: {
+          format: {
+            parse: 'auto',
+            type: 'json'
+          },
+          name: 'testName'
         }
       }
     }];
@@ -114,6 +122,13 @@ describe('reducers/result', () => {
         mark: 'point',
         encoding: {
           x: {field: 'a', type: 'quantitative'}
+        },
+        data: {
+          format: {
+            parse: 'auto',
+            type: 'json'
+          },
+          name: 'testName'
         }
       }
     }];

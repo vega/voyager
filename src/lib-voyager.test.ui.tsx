@@ -331,8 +331,8 @@ describe('lib-voyager', () => {
                   }
                 },
                 config: {
-                  overlay: {
-                    line: true
+                  line: {
+                    point: true
                   },
                   scale: {
                     useUnaggregatedDomain: true
@@ -410,8 +410,8 @@ describe('lib-voyager', () => {
                 }
               },
               config: {
-                overlay: {
-                  line: true
+                line: {
+                  point: true
                 },
                 scale: {
                   useUnaggregatedDomain: true

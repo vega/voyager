@@ -8,6 +8,7 @@ import {GenericState, UndoableStateBase} from '../models';
 
 import {createSelector} from 'reselect';
 import {InlineData} from 'vega-lite/build/src/data';
+import {isArray} from 'vega-util';
 import {State} from '../models';
 import {Bookmark} from '../models/bookmark';
 import {VoyagerConfig} from '../models/config';
@@ -42,7 +43,12 @@ export const selectFilteredData = createSelector(
       return data;
     }
     const filter = toPredicateFunction(filters);
-    const values = data.values.filter(filter);
+    if (!isArray(data.values)) {
+      throw new Error('Voyager only supports array values');
+    }
+    // FIXME: No signatures error
+    const dataVals = data.values as any;
+    const values = dataVals.filter(filter);
     return {values};
   }
 );

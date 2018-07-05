@@ -1,6 +1,6 @@
+import {isArray} from 'util';
 import {EncodingWithFacet} from 'vega-lite/build/src/encoding';
 import {FieldDef, isFieldDef} from 'vega-lite/build/src/fielddef';
-import {isArray} from 'vega-lite/build/src/util';
 import {
   Action,
   RESULT_RECEIVE,
@@ -61,7 +61,7 @@ function resultReducer(state: Readonly<Result> = DEFAULT_RESULT, action: ResultA
       const {index} = action.payload;
       return {
         ...state,
-        plots: modifyItemInArray(state.plots, index, (p: ResultPlot) => {
+        plots: modifyItemInArray<ResultPlot>(state.plots, index, (p: ResultPlot) => {
           return {
             ...p,
             spec: {

@@ -1,5 +1,5 @@
 import {Query} from 'compassql/build/src/query/query';
-import {isString} from 'vega-lite/build/src/util';
+import {isString} from 'vega-util';
 import {ShelfFilter} from './filter';
 import {ShelfFieldDef, toFieldQuery} from './spec';
 import {DEFAULT_SHELF_UNIT_SPEC, hasWildcards, ShelfUnitSpec, toSpecQuery} from './spec';

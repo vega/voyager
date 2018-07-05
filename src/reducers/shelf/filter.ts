@@ -1,5 +1,5 @@
 
-import {OneOfFilter, RangeFilter} from 'vega-lite/build/src/filter';
+import {FieldOneOfPredicate, FieldRangePredicate} from 'vega-lite/build/src/predicate';
 import {TimeUnit} from 'vega-lite/build/src/timeunit';
 import {
   FILTER_ADD, FILTER_CLEAR, FILTER_MODIFY_EXTENT, FILTER_MODIFY_MAX_BOUND, FILTER_MODIFY_MIN_BOUND,
@@ -11,9 +11,9 @@ import {insertItemToArray, modifyItemInArray, removeItemFromArray} from '../util
 
 
 export function filterReducer(
-  filters: Readonly<Array<RangeFilter | OneOfFilter>> = [],
+  filters: Readonly<Array<FieldRangePredicate | FieldOneOfPredicate>> = [],
   action: Action
-): Array<RangeFilter | OneOfFilter> {
+): Array<FieldRangePredicate | FieldOneOfPredicate> {
   switch (action.type) {
     case FILTER_ADD: {
       const {filter} = action.payload;
@@ -46,7 +46,7 @@ export function filterReducer(
 
     case FILTER_MODIFY_EXTENT: {
       const {index, range} = action.payload;
-      const modifyExtent = (filter: RangeFilter) => {
+      const modifyExtent = (filter: FieldRangePredicate) => {
         return {
           ...filter,
           range
@@ -57,7 +57,7 @@ export function filterReducer(
 
     case FILTER_MODIFY_MAX_BOUND: {
       const {index, maxBound} = action.payload;
-      const modifyMaxBound = (filter: RangeFilter) => {
+      const modifyMaxBound = (filter: FieldRangePredicate) => {
         return {
           ...filter,
           range: [filter.range[0], maxBound]
@@ -68,7 +68,7 @@ export function filterReducer(
 
     case FILTER_MODIFY_MIN_BOUND: {
       const {index, minBound} = action.payload;
-      const modifyMinBound = (filter: RangeFilter) => {
+      const modifyMinBound = (filter: FieldRangePredicate) => {
         return {
           ...filter,
           range: [minBound, filter.range[1]]
@@ -79,7 +79,7 @@ export function filterReducer(
 
     case FILTER_MODIFY_ONE_OF: {
       const {index, oneOf} = action.payload;
-      const modifyOneOf = (filter: OneOfFilter) => {
+      const modifyOneOf = (filter: FieldOneOfPredicate) => {
         return {
           ...filter,
           oneOf: oneOf
@@ -101,7 +101,7 @@ export function filterReducer(
 
 function getModifyTimeUnitFunction(timeUnit: TimeUnit, domain: number[]) {
   if (timeUnit === TimeUnit.MONTH || timeUnit === TimeUnit.DAY) {
-    return (filter: ShelfFilter): OneOfFilter => {
+    return (filter: ShelfFilter): FieldOneOfPredicate => {
       return {
         field: filter.field,
         timeUnit,
@@ -109,7 +109,7 @@ function getModifyTimeUnitFunction(timeUnit: TimeUnit, domain: number[]) {
       };
     };
   } else {
-    return (filter: ShelfFilter): RangeFilter => {
+    return (filter: ShelfFilter): FieldRangePredicate => {
       return {
         field: filter.field,
         ...timeUnit ? {timeUnit} : {},

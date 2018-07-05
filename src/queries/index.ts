@@ -5,9 +5,10 @@
 import {getGroupByKey} from 'compassql/build/src/nest';
 import {Query} from 'compassql/build/src/query/query';
 import {isAggregate, SpecQuery} from 'compassql/build/src/query/spec';
+import {contains} from 'compassql/build/src/util';
 import {Store} from 'redux';
-import {NONSPATIAL_SCALE_CHANNELS} from 'vega-lite/build/src/channel';
-import {contains, isString} from 'vega-lite/build/src/util';
+import {isString} from 'util';
+import {NONPOSITION_SCALE_CHANNELS} from 'vega-lite/build/src/channel';
 import {resultRequest} from '../actions/result';
 import {State} from '../models/index';
 import {ResultType} from '../models/result';
@@ -89,7 +90,7 @@ function getFeaturesForRelatedViewRules(spec: SpecQuery) {
       hasOpenPosition = true;
     } else if (encQ.channel === 'row' || encQ.channel === 'column') {
       hasOpenFacet = true;
-    } else if (contains(NONSPATIAL_SCALE_CHANNELS, encQ.channel)) {
+    } else if (contains(NONPOSITION_SCALE_CHANNELS, encQ.channel)) {
       hasStyleChannel = true;
     }
   });
