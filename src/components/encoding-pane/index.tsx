@@ -4,7 +4,7 @@ import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
 import {connect} from 'react-redux';
 import {Channel} from 'vega-lite/build/src/channel';
-import{FieldOneOfPredicate, FieldRangePredicate} from 'vega-lite/build/src/predicate';
+import {FieldOneOfPredicate, FieldRangePredicate} from 'vega-lite/build/src/predicate';
 import {FilterAction} from '../../actions';
 import {ActionHandler} from '../../actions/index';
 import {createDispatchHandler} from '../../actions/redux-action';

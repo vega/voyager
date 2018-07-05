@@ -3,7 +3,7 @@ import * as CSSModules from 'react-css-modules';
 import {connect} from 'react-redux';
 import {InlineData} from 'vega-lite/build/src/data';
 import {SortField, SortOrder} from 'vega-lite/build/src/sort';
-import {FacetedCompositeUnitSpec, TopLevelFacetedUnitSpec} from 'vega-lite/build/src/spec';
+import {TopLevelFacetedUnitSpec} from 'vega-lite/build/src/spec';
 import {Action} from '../../actions/index';
 import {ActionHandler, createDispatchHandler} from '../../actions/redux-action';
 import {ShelfAction} from '../../actions/shelf';
