@@ -1,1 +1,1 @@
-import {isObject, toSet} from 'vega-util';
+export * from 'vega-util'

@@ -48,7 +48,7 @@ export const selectFilteredData = createSelector(
     }
     // FIXME: No signatures error
     const dataVals = data.values as any;
-    const values = dataVals.filtr(filter);
+    const values = dataVals.filter(filter);
     return {values};
   }
 );

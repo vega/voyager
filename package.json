@@ -39,7 +39,7 @@
   },
   "dependencies": {
     "ajv": "^5.2.2",
-    "compassql": "0.20.1",
+    "compassql": "0.20.2",
     "font-awesome": "^4.7.0",
     "font-awesome-sass-loader": "^1.0.3",
     "isomorphic-fetch": "^2.2.1",
@@ -133,11 +133,11 @@
     "tslint-react": "^2.3.0",
     "typescript": "^2.3.4",
     "url-loader": "^0.5.8",
+    "vega-util": "1.7.0",
     "webpack": "^2.5.1",
-    "webpack-dev-server": "^2.4.5",
+    "webpack-dev-server": "^2.11.2",
     "webpack-manifest-plugin": "^1.1.0",
-    "webpack-notifier": "^1.5.0",
-    "vega-util": "1.7.0"
+    "webpack-notifier": "^1.5.0"
   },
   "jest": {
     "transform": {

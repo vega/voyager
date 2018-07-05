@@ -8,6 +8,11 @@ import {Schema} from 'compassql/build/src/schema';
 import {fromSpecQueryModelGroup} from './plot';
 
 import {DEFAULT_QUERY_CONFIG} from 'compassql/build/src/config';
+import {SHORT_WILDCARD} from 'compassql/build/src/wildcard';
+import {Property} from 'compassql/build/src/property';
+import AUTOCOUNT = Property.AUTOCOUNT;
+import {ExpandedType} from 'compassql/build/src/query/expandedtype';
+import QUANTITATIVE = ExpandedType.QUANTITATIVE;
 
 
 describe('models/plot', () => {
@@ -28,7 +33,7 @@ describe('models/plot', () => {
   }
 
   describe('convertToPlotListWithKey', () => {
-    it('converts SpecQueryGroup<SpecQueryModel> to ResultPlotWithKey[]', () => {
+    it('converts SpecQueryGroup to ResultPlotWithKey[]', () => {
       const group = buildSpecQueryModelGroup([
         {
           mark: Mark.BAR,
@@ -44,11 +49,10 @@ describe('models/plot', () => {
         {
           data: {name: 'a'},
           mark: 'bar',
-          encoding: { x: {} },
-          config:
-          {
-            overlay: { line: true },
-            scale: { useUnaggregatedDomain: true }
+          encoding: {x: {aggregate: 'count', field: '*', type: QUANTITATIVE}},
+          config: {
+            line: {point: true},
+            scale: {useUnaggregatedDomain: true}
           }
         });
     });

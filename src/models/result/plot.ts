@@ -32,8 +32,7 @@ export function fromSpecQueryModelGroup(
 ): ResultPlotWithKey[] {
   return modelGroup.items.map(item => {
     if (isResultTree<SpecQueryModel>(item)) {
-      const childModelGroup = item as SpecQueryModelGroup;
-      return plotWithKey(data, getTopResultTreeItem(childModelGroup), modelGroup.groupBy);
+      return plotWithKey(data, getTopResultTreeItem(item), modelGroup.groupBy);
     }
     return plotWithKey(data, item as SpecQueryModel, modelGroup.groupBy);
   });
