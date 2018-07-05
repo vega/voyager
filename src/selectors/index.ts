@@ -7,8 +7,8 @@ import {GenericState, UndoableStateBase} from '../models';
 // tslint:enable:no-unused-variable
 
 import {createSelector} from 'reselect';
-import {isArray} from 'util';
 import {InlineData} from 'vega-lite/build/src/data';
+import {isArray} from 'vega-util';
 import {State} from '../models';
 import {Bookmark} from '../models/bookmark';
 import {VoyagerConfig} from '../models/config';
