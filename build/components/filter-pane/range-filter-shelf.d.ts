@@ -1,13 +1,13 @@
 /// <reference types="react" />
 import * as React from 'react';
 import { DateTime } from 'vega-lite/build/src/datetime';
-import { RangeFilter } from 'vega-lite/build/src/filter';
+import { FieldRangePredicate } from 'vega-lite/build/src/predicate';
 import { FilterAction } from '../../actions';
 import { ActionHandler } from '../../actions/redux-action';
 export interface RangeFilterShelfProps extends ActionHandler<FilterAction> {
     domain: number[] | DateTime[];
     index: number;
-    filter: RangeFilter;
+    filter: FieldRangePredicate;
     renderDateTimePicker: boolean;
 }
 export interface RangeFilterShelfState {

@@ -1,5 +1,5 @@
 import { SpecQuery } from 'compassql/build/src/query/spec';
-import { Config } from 'vega-lite/build/src/config';
+import { Config } from 'vega-lite';
 import { ShelfAnyEncodingDef, ShelfMark, SpecificEncoding } from './encoding';
 export * from './encoding';
 export * from './function';

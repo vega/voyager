@@ -1,11 +1,11 @@
 /// <reference types="react" />
 import * as React from 'react';
 import * as vega from 'vega';
+import { TopLevelSpec } from 'vega-lite';
 import { InlineData } from 'vega-lite/build/src/data';
-import { TopLevelExtendedSpec } from 'vega-lite/build/src/spec';
 import { Logger } from '../util/util.logger';
 export interface VegaLiteProps {
-    spec: TopLevelExtendedSpec;
+    spec: TopLevelSpec;
     renderer?: 'svg' | 'canvas';
     logger: Logger;
     data: InlineData;

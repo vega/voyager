@@ -14,4 +14,4 @@ export declare const selectResultLimit: {
 };
 export declare const selectMainSpec: Selector<GenericState<UndoableStateBase>, GenericUnitSpec<EncodingWithFacet<string | {
     repeat: "row" | "column";
-}>, "box-plot" | "error-bar" | BoxPlotDef | "area" | "bar" | "line" | "point" | "text" | "tick" | "rect" | "rule" | "circle" | "square" | MarkDef>>;
+}>, "box-plot" | "error-bar" | BoxPlotDef | "area" | "bar" | "line" | "trail" | "point" | "text" | "tick" | "rect" | "rule" | "circle" | "square" | "geoshape" | MarkDef>>;

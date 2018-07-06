@@ -3,7 +3,7 @@
 import { Schema } from 'compassql/build/src/schema';
 import * as React from 'react';
 import { DragElementWrapper } from 'react-dnd';
-import { OneOfFilter, RangeFilter } from 'vega-lite/build/src/filter';
+import { FieldOneOfPredicate, FieldRangePredicate } from 'vega-lite/build/src/predicate';
 import { FieldParentType } from '../../constants';
 import { ShelfId } from '../../models/shelf';
 import { ShelfFieldDef } from '../../models/shelf';
@@ -56,6 +56,6 @@ export declare type FieldParentId = {
 export interface DraggedFieldIdentifier {
     fieldDef: ShelfFieldDef;
     parentId: FieldParentId;
-    filter: RangeFilter | OneOfFilter;
+    filter: FieldRangePredicate | FieldOneOfPredicate;
 }
 export declare const Field: () => React.PureComponent<FieldPropsBase, {}>;

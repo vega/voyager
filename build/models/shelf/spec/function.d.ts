@@ -1,8 +1,8 @@
 import { FieldQuery } from 'compassql/build/src/query/encoding';
 import { ExpandedType } from 'compassql/build/src/query/expandedtype';
 import { Wildcard } from 'compassql/build/src/wildcard';
-import { AggregateOp } from 'vega-lite/build/src/aggregate';
 import { TimeUnit } from 'vega-lite/build/src/timeunit';
+import { AggregateOp } from 'vega-typings';
 export declare type ShelfFunction = AggregateOp | 'bin' | TimeUnit | undefined;
 export declare function getSupportedFunction(type: ExpandedType): string[];
 export declare function isShelfFunction(fn: string): fn is ShelfFunction;

@@ -15,4 +15,4 @@ export declare function fetchCompassQLRecommend(query: Query, schema: Schema, da
 /**
  * Submit schema building request from CompassQL
  */
-export declare function fetchCompassQLBuildSchema(data: Array<object>, config?: VoyagerConfig): Promise<Schema>;
+export declare function fetchCompassQLBuildSchema(data: Object[], config?: VoyagerConfig): Promise<Schema>;

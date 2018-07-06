@@ -6,6 +6,7 @@ import { ConnectDropTarget } from 'react-dnd';
 import { ActionHandler } from '../../actions/index';
 import { SpecEncodingAction } from '../../actions/shelf';
 import { ShelfFieldDef, ShelfId } from '../../models';
+import { ShelfValueDef } from '../../models/shelf/spec';
 /**
  * Props for react-dnd of EncodingShelf
  */
@@ -17,6 +18,7 @@ export interface EncodingShelfDropTargetProps {
 export interface EncodingShelfPropsBase extends ActionHandler<SpecEncodingAction> {
     id: ShelfId;
     fieldDef: ShelfFieldDef;
+    valueDef: ShelfValueDef;
     schema: Schema;
 }
 export interface EncodingShelfState {

@@ -2,7 +2,7 @@
 import * as React from 'react';
 import { InlineData } from 'vega-lite/build/src/data';
 import { SortField, SortOrder } from 'vega-lite/build/src/sort';
-import { FacetedCompositeUnitSpec } from 'vega-lite/build/src/spec';
+import { TopLevelFacetedUnitSpec } from 'vega-lite/build/src/spec';
 import { BookmarkAction } from '../../actions/bookmark';
 import { LogAction } from '../../actions/log';
 import { ActionHandler } from '../../actions/redux-action';
@@ -19,8 +19,8 @@ export interface PlotProps extends ActionHandler<ShelfAction | BookmarkAction | 
     isPlotListItem?: boolean;
     showBookmarkButton?: boolean;
     showSpecifyButton?: boolean;
-    onSort?: (channel: 'x' | 'y', sort: SortField | SortOrder) => void;
-    spec: FacetedCompositeUnitSpec;
+    onSort?: (channel: 'x' | 'y', sort: SortField<string> | SortOrder) => void;
+    spec: TopLevelFacetedUnitSpec;
     bookmark?: Bookmark;
     closeModal?: () => void;
 }

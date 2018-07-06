@@ -1,11 +1,11 @@
 /// <reference types="react" />
 import * as React from 'react';
 import { DateTime } from 'vega-lite/build/src/datetime';
-import { OneOfFilter } from 'vega-lite/build/src/filter';
+import { FieldOneOfPredicate } from 'vega-lite/build/src/predicate';
 import { FilterAction } from '../../actions';
 export interface OneOfFilterShelfProps {
     domain: string[] | number[] | boolean[] | DateTime[];
-    filter: OneOfFilter;
+    filter: FieldOneOfPredicate;
     index: number;
     handleAction: (action: FilterAction) => void;
 }

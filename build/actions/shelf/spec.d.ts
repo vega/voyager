@@ -1,9 +1,10 @@
-import { FacetedCompositeUnitSpec } from 'vega-lite/build/src/spec';
+import { TopLevelFacetedUnitSpec } from 'vega-lite/build/src/spec';
 import { ShelfFieldDef, ShelfFunction, ShelfId, ShelfMark } from '../../models';
+import { ShelfValueDef } from '../../models/shelf/spec';
 import { Action } from '../index';
 import { PlainReduxAction, ReduxAction } from '../redux-action';
 export declare type SpecAction = SpecClear | SpecMarkChangeType | SpecEncodingAction;
-export declare type SpecEncodingAction = SpecFieldAdd | SpecFieldAutoAdd | SpecFieldRemove | SpecFieldMove | SpecFieldPropChange<any> | SpecFieldNestedPropChange<any, any> | SpecFunctionChange | SpecFunctionAddWildcard | SpecFunctionRemoveWildcard | SpecFunctionDisableWildcard | SpecFunctionEnableWildcard | SpecLoad;
+export declare type SpecEncodingAction = SpecFieldAdd | SpecFieldAutoAdd | SpecFieldRemove | SpecFieldMove | SpecFieldPropChange<any> | SpecFieldNestedPropChange<any, any> | SpecFunctionChange | SpecFunctionAddWildcard | SpecFunctionRemoveWildcard | SpecFunctionDisableWildcard | SpecFunctionEnableWildcard | SpecLoad | SpecValueChange;
 export declare const SPEC_CLEAR = "SPEC_CLEAR";
 export declare type SpecClear = PlainReduxAction<typeof SPEC_CLEAR>;
 export declare const SPEC_MARK_CHANGE_TYPE = "SPEC_MARK_CHANGE_TYPE";
@@ -70,9 +71,14 @@ export declare type SpecFunctionRemoveWildcard = ReduxAction<typeof SPEC_FUNCTIO
     shelfId: ShelfId;
     fn: ShelfFunction;
 }>;
+export declare const SPEC_VALUE_CHANGE = "SPEC_VALUE_CHANGE";
+export declare type SpecValueChange = ReduxAction<typeof SPEC_VALUE_CHANGE, {
+    shelfId: ShelfId;
+    valueDef: ShelfValueDef;
+}>;
 export declare const SPEC_LOAD = "SPEC_LOAD";
 export declare type SpecLoad = ReduxAction<typeof SPEC_LOAD, {
-    spec: FacetedCompositeUnitSpec;
+    spec: TopLevelFacetedUnitSpec;
     keepWildcardMark: boolean;
 }>;
 export declare const SPEC_ACTION_TYPE_INDEX: {

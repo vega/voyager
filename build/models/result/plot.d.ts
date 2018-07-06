@@ -1,6 +1,6 @@
 import { SpecQueryModelGroup } from 'compassql/build/src/model';
 import { NamedData } from 'vega-lite/build/src/data';
-import { FacetedCompositeUnitSpec } from 'vega-lite/build/src/spec';
+import { TopLevelFacetedUnitSpec } from 'vega-lite/build/src/spec';
 import { ShelfFieldDef } from '../shelf';
 export interface PlotFieldInfo {
     fieldDef: ShelfFieldDef;
@@ -8,7 +8,7 @@ export interface PlotFieldInfo {
 }
 export interface ResultPlot {
     fieldInfos: PlotFieldInfo[];
-    spec: FacetedCompositeUnitSpec;
+    spec: TopLevelFacetedUnitSpec;
 }
 export interface ResultPlotWithKey {
     plot: ResultPlot;

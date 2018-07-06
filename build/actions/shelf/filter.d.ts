@@ -1,16 +1,16 @@
 import { DateTime } from 'vega-lite/build/src/datetime';
-import { OneOfFilter, RangeFilter } from 'vega-lite/build/src/filter';
+import { FieldOneOfPredicate, FieldRangePredicate } from 'vega-lite/build/src/predicate';
 import { TimeUnit } from 'vega-lite/build/src/timeunit';
 import { PlainReduxAction, ReduxAction } from '../redux-action';
 export declare type FilterAction = FilterAdd | FilterClear | FilterRemove | FilterToggle | FilterModifyExtent | FilterModifyMinBound | FilterModifyMaxBound | FilterModifyOneOf | FilterModifyTimeUnit;
 export declare const FILTER_ADD = "FILTER_ADD";
 export declare type FilterAdd = ReduxAction<typeof FILTER_ADD, {
-    filter: RangeFilter | OneOfFilter;
+    filter: FieldRangePredicate | FieldOneOfPredicate;
     index?: number;
 }>;
 export declare const FILTER_TOGGLE = "FILTER_TOGGLE";
 export declare type FilterToggle = ReduxAction<typeof FILTER_TOGGLE, {
-    filter: RangeFilter | OneOfFilter;
+    filter: FieldRangePredicate | FieldOneOfPredicate;
 }>;
 export declare const FILTER_REMOVE = "FILTER_REMOVE";
 export declare type FilterRemove = ReduxAction<typeof FILTER_REMOVE, {

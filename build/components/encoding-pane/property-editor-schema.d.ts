@@ -35,10 +35,13 @@ export interface PropertyEditorSchema {
     uiSchema: UISchema;
     schema: ObjectSchema;
 }
+export declare const CUSTOMIZABLE_ENCODING_CHANNELS: ("x" | "y" | "shape" | "color" | "size")[];
 export declare const CATEGORICAL_COLOR_SCHEMES: string[];
 export declare const SEQUENTIAL_COLOR_SCHEMES: string[];
 export declare function generatePropertyEditorSchema(prop: string, nestedProp: string, propTab: string, fieldDef: ShelfFieldDef, channel: Channel): PropertyEditorSchema;
 export declare function getFieldPropertyGroupIndex(shelfId: ShelfId, fieldDef: ShelfFieldDef): {
+    prop: string;
+}[] | {
     'Common': {
         prop: string;
     }[];

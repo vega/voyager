@@ -3,7 +3,7 @@
 import { Schema } from 'compassql/build/src/schema';
 import * as React from 'react';
 import { ConnectDropTarget } from 'react-dnd';
-import { OneOfFilter, RangeFilter } from 'vega-lite/build/src/filter';
+import { FieldOneOfPredicate, FieldRangePredicate } from 'vega-lite/build/src/predicate';
 import { FilterAction } from '../../actions';
 import { ActionHandler } from '../../actions/redux-action';
 /**
@@ -16,7 +16,7 @@ export interface FilterPaneDropTargetProps {
     canDrop: boolean;
 }
 export interface FilterPanePropsBase extends ActionHandler<FilterAction> {
-    filters: Array<RangeFilter | OneOfFilter>;
+    filters: Array<FieldRangePredicate | FieldOneOfPredicate>;
     schema: Schema;
 }
 export declare const FilterPane: () => React.PureComponent<FilterPanePropsBase, {}>;
