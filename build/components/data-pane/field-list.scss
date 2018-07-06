@@ -1,0 +1,17 @@
+.field-list {
+  max-height: calc(50vh);
+  overflow-y: auto;
+}
+
+.field-list-item {
+  margin-bottom: 4px;
+}
+
+/*
+Subtract 159px for the size of header and other objects in the field-pane
+Subtract 8px for padding between the footer and the download logs
+*/
+.field-list-no-wildcards {
+  max-height: calc(100vh - 167px);
+  overflow-y: auto;
+}

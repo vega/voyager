@@ -1,0 +1,34 @@
+.popup-menu {
+  padding: 5px;
+  background-color: #eee;
+  border: 1px solid #eee;
+  border-radius: 3px;
+}
+
+.function-chooser {
+  @extend .popup-menu;
+  width: 265px;
+
+  // Tether append our popup element to body thus it's not under .voyager as in our other global style.
+  // TODO: change tether's output location from body
+  h4 {
+    font-size: 12px;
+    margin: 0 0 6px;
+  }
+}
+
+label.func-label {
+  display: inline-block;
+  width: 130px; // set width to roughly half of .shelf-functions to create double columns
+
+  font-weight: normal;
+  // TODO: extract these two to somewhere common?
+  text-transform: uppercase;
+  font-size: 11px;
+}
+
+.wildcard-button {
+  float: right;
+  font-size: 12px;
+}
+

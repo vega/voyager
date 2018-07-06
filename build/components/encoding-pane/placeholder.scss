@@ -1,0 +1,35 @@
+$pill-radius: 3px;
+$pill-height: 22px;
+$text-color: #212121;
+
+.placeholder {
+  display: block;
+  width: 100%;
+  padding: 0 0.5em;
+  border: 1px solid hsla(0,0%,30%,0.1);
+  background-color: white;
+  line-height: $pill-height - 2;
+  border-radius: $pill-radius;
+  text-overflow: ellipsis;
+  font-weight: normal;
+  color: #ccc;
+}
+
+.placeholder-over {
+  @extend .placeholder;
+  border: 1px dashed #4CAF50;
+  background-color: #d0efb3;
+  color: $text-color;
+}
+
+.placeholder-active {
+  @extend .placeholder-over;
+  background-color: #C8E6C9;
+}
+
+
+.placeholder-disabled {
+  @extend .placeholder;
+  background-color: #e0e0e0;
+  color: grey;
+ }

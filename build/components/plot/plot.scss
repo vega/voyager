@@ -1,0 +1,71 @@
+.plot-group {
+  background-color: white;
+  overflow: hidden;
+  text-align: center;
+  padding: 8px;
+  max-height: 600px;
+  display: flex;
+  flex-direction: column;
+}
+
+.plot-list-item-group {
+  @extend .plot-group;
+  margin: 4px 4px 0 0;
+  flex-grow: 1;
+  max-height: 290px;
+}
+
+.plot {
+  overflow: hidden;
+  padding-right: 11px;
+}
+
+.plot-scroll {
+  overflow: auto;
+  padding-right: 0px;
+}
+
+.plot-info {
+  text-align: left;
+  margin-bottom: 6px;
+}
+
+.plot-field-info {
+  display: inline-block;
+  margin-right: 4px;
+}
+
+.command-toolbox {
+  float: right;
+}
+
+.command {
+  cursor: pointer;
+  margin-left: 10px;
+  color: #aaa;
+}
+
+.sort-x-command {
+  @extend .command;
+  transform: rotateZ(270deg);
+}
+
+.command:hover {
+  color: #72c1d5;
+}
+
+.specify-command {
+  @extend .command;
+  transform: scaleX(-1);
+}
+
+.copied {
+  font-size: 12px;
+}
+
+.note {
+  min-height: 60px;
+  resize: none;
+  border-color: #d3d3d3;
+  width: 100%;
+}

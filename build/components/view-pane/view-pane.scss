@@ -1,0 +1,36 @@
+.view-pane {
+  overflow: scroll;
+
+  // Absolute positon relative to Pane wrapper from `react-split-pane`
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.view-pane-related-views-collapse {
+  margin-top: 15px;
+  height: 5%;
+}
+
+.view-pane-related-views, .view-pane-related-views-collapse, .view-pane-specific, .view-pane-specific-stretch {
+  background: rgba(255,255,255,.6);
+}
+
+.view-pane-specific-stretch {
+  height: 90%;
+}
+
+.view-pane-related-views {
+  margin-top: 20px;
+}
+
+.view-pane-gallery {
+  @extend .view-pane;
+  background: #C6E5E7;
+}
+
+.gallery-command {
+  margin-left: 10px;
+}

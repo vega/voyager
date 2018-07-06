@@ -1,0 +1,24 @@
+.type-changer {
+  background-color: #eee;
+  padding: 10px;
+  border: 1px solid #eee;
+  border-radius: 3px;
+  margin-left: 10px;
+  
+  h4 {
+    font-size: 12px;
+    margin: 0 0 6px;
+  }
+
+  label {
+    font-size: 11px;
+  }
+}
+
+.type {
+  margin: 3px;
+}
+
+#type-changer-pop-up {
+  pointer-events: none
+}

@@ -1,0 +1,18 @@
+@import '../encoding-pane/placeholder.scss';
+
+$radius: 3px;
+
+.filter-shelf {
+  background-color: white;
+  border-radius: $radius;
+  border: 1px solid #ddd;
+  margin-bottom: 4px;
+  max-height: 150px;
+  overflow: scroll;
+}
+
+.filter-pane {
+  max-height: calc(40vh);
+  overflow-y: auto;
+  overflow-x: hidden;
+}

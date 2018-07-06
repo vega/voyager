@@ -1,0 +1,27 @@
+.controls {
+  display: inline-block;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.controls div {
+  display: inline-block;
+}
+
+.controls button { 
+  font-size: 14px;
+  margin-left: 10px;
+  margin-right: 50px;
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+}
+
+.controls button:focus {
+  outline: none;
+}
+
+.controls button:disabled {
+  color: #ccc;
+  cursor: not-allowed;
+}
