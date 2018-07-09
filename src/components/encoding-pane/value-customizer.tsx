@@ -1,8 +1,9 @@
+import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
-import {ActionHandler, SpecEncodingAction} from "../../actions";
-import {ShelfId, ShelfValueDef} from "../../models";
-import React = require("../../../node_modules/@types/react");
 import Form from 'react-jsonschema-form';
+import {ActionHandler, SPEC_VALUE_CHANGE, SpecEncodingAction} from "../../actions";
+import {ShelfId, ShelfValueDef} from "../../models";
+import {generateColorPickerSchema} from './property-editor-schema';
 import * as styles from './value-customizer.scss';
 
 export interface ValueCustomizerProps extends ActionHandler<SpecEncodingAction> {
@@ -11,16 +12,41 @@ export interface ValueCustomizerProps extends ActionHandler<SpecEncodingAction> 
 }
 
 export class ValueCustomizerBase extends React.PureComponent<ValueCustomizerProps, {}> {
+
+  constructor(props: ValueCustomizerProps) {
+    super(props);
+    this.changeValue = this.changeValue.bind(this);
+    // this.changeValue = debounce(500, this.changeValue);
+  }
   public render() {
-    // TODO: Figure out the UI of what value-customizer will look like
+    const {shelfId} = this.props;
+    const {schema, uiSchema} = generateColorPickerSchema(shelfId.channel.toString(), 'Color');
     return (
       <Form
-        schema={{}}
-        uiSchema={{}}
-        formData={{}}
-        // onChange=
-      />
+        schema={schema}
+        uiSchema={uiSchema}
+        // formData={}
+        onChange={this.changeValue}
+      >
+      <button type="submit" style={{display: 'none'}}>Submit</button>
+      </Form>
     );
+  }
+
+  protected changeValue(result: any) {
+    const value = result.formData[Object.keys(result.formData)[0]].toString();
+    const {shelfId, handleAction} = this.props;
+    const valueDef: ShelfValueDef = {
+      value
+    };
+
+    handleAction({
+      type: SPEC_VALUE_CHANGE,
+      payload: {
+        shelfId,
+        valueDef
+      }
+    });
   }
 }
 

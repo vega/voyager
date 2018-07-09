@@ -232,6 +232,28 @@ function getSupportedScaleTypes(channel: Channel, fieldDef: ShelfFieldDef): stri
   }
 }
 
+// TODO: Refactor
+export function generateColorPickerSchema(propertyKey: string, title: string) {
+  const schema: ObjectSchema = {
+    type: 'object',
+    properties: {
+      [propertyKey]: {
+        type: 'string',
+        title: title,
+        default: '#151ce6'
+      }
+    }
+  };
+
+  const uiSchema: UISchema = {
+    [propertyKey]: {
+      'ui:widget': 'color'
+    }
+  };
+
+  return {schema, uiSchema};
+}
+
 function generateSelectSchema(propertyKey: string, enumVals: string[], title: string) {
   const schema: ObjectSchema = {
     type: 'object',

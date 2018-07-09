@@ -21,6 +21,7 @@ import * as styles from './encoding-shelf.scss';
 import {FieldCustomizer} from './field-customizer';
 import {FunctionPicker, FunctionPickerWildcardHandler} from './function-picker';
 import {CUSTOMIZABLE_ENCODING_CHANNELS} from './property-editor-schema';
+import {ValueCustomizer} from './value-customizer';
 
 /**
  * Props for react-dnd of EncodingShelf
@@ -50,7 +51,7 @@ export interface EncodingShelfState {
 }
 class EncodingShelfBase extends React.PureComponent<
   EncodingShelfProps, EncodingShelfState
-> implements FunctionPickerWildcardHandler {
+  > implements FunctionPickerWildcardHandler {
   private fieldCustomizer: HTMLElement;
   private encodingShelf: HTMLElement;
 
@@ -79,7 +80,7 @@ class EncodingShelfBase extends React.PureComponent<
   }
 
   public render() {
-    const {id, connectDropTarget, fieldDef, handleAction} = this.props;
+    const {id, connectDropTarget, fieldDef, valueDef, handleAction} = this.props;
 
     const isWildcardShelf = isWildcard(id.channel);
     const channelName = isWildcardShelf ? 'any' : id.channel;
@@ -91,9 +92,9 @@ class EncodingShelfBase extends React.PureComponent<
             attachment="top left"
             targetAttachment="bottom left"
           >
-            {(fieldDef && !isWildcardChannelId(id) && contains(CUSTOMIZABLE_ENCODING_CHANNELS, id.channel)) ?
+            {(!isWildcardChannelId(id) && contains(CUSTOMIZABLE_ENCODING_CHANNELS, id.channel)) ?
               <span onClick={this.toggleCustomizer} ref={this.fieldHandler}>
-                {channelName}{' '} <i className={'fa fa-caret-down'}/>
+                {channelName}{' '} <i className={'fa fa-caret-down'} />
               </span> :
               <span>
                 {channelName}
@@ -101,13 +102,20 @@ class EncodingShelfBase extends React.PureComponent<
             }
 
             {this.state.customizerIsOpened &&
-            <div ref={this.popupRefHandler}>
-              <FieldCustomizer
-                shelfId={id}
-                fieldDef={fieldDef}
-                handleAction={handleAction}
-              />
-            </div>
+              <div ref={this.popupRefHandler}>
+                {fieldDef ?
+                  <FieldCustomizer
+                    shelfId={id}
+                    fieldDef={fieldDef}
+                    handleAction={handleAction}
+                  /> :
+                  <ValueCustomizer
+                    shelfId={id}
+                    valueDef={valueDef}
+                    handleAction={handleAction}
+                  />
+                }
+              </div>
             }
           </TetherComponent>
         </div>
