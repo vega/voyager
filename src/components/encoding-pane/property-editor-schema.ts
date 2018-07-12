@@ -328,7 +328,7 @@ export function getFieldPropertyGroupIndex(shelfId: ShelfId, fieldDef: ShelfFiel
   }
 }
 
-export function generateFormData(shelfId: ShelfId, fieldDef: ShelfFieldDef) {
+export function generateFieldDefFormData(shelfId: ShelfId, fieldDef: ShelfFieldDef) {
   const index = getFieldPropertyGroupIndex(shelfId, fieldDef);
   const formDataIndex = {};
   for (const key of Object.keys(index)) {

@@ -5,6 +5,7 @@ import {ActionHandler, SPEC_VALUE_CHANGE, SpecEncodingAction} from "../../action
 import {ShelfId, ShelfValueDef} from "../../models";
 import {generateColorPickerSchema} from './property-editor-schema';
 import * as styles from './value-customizer.scss';
+import {generateValueDefFormData} from './value-editor-schema';
 
 export interface ValueCustomizerProps extends ActionHandler<SpecEncodingAction> {
   shelfId: ShelfId;
@@ -19,14 +20,15 @@ export class ValueCustomizerBase extends React.PureComponent<ValueCustomizerProp
     // this.changeValue = debounce(500, this.changeValue);
   }
   public render() {
-    const {shelfId} = this.props;
+    const {shelfId, valueDef} = this.props;
     // TODO: refactor to generic function to generate schema & uischema
+    const formData = generateValueDefFormData(shelfId, valueDef);
     const {schema, uiSchema} = generateColorPickerSchema(shelfId.channel.toString(), 'Color');
     return (
       <Form
         schema={schema}
         uiSchema={uiSchema}
-        // formData={}
+        formData={formData}
         onChange={this.changeValue}
       >
       <button type="submit" style={{display: 'none'}}>Submit</button>
