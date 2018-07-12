@@ -5,6 +5,7 @@ import * as CSSModules from 'react-css-modules';
 import {ConnectDropTarget, DropTarget, DropTargetCollector, DropTargetSpec} from 'react-dnd';
 import * as TetherComponent from 'react-tether';
 import {contains} from 'vega-lite/build/src/util';
+import {isValueDef} from '../../../node_modules/vega-lite/build/src/fielddef';
 import {ActionHandler} from '../../actions/index';
 import {
   SPEC_FIELD_ADD, SPEC_FIELD_MOVE, SPEC_FIELD_REMOVE, SPEC_FUNCTION_ADD_WILDCARD,
@@ -103,15 +104,15 @@ class EncodingShelfBase extends React.PureComponent<
 
             {this.state.customizerIsOpened &&
               <div ref={this.popupRefHandler}>
-                {fieldDef ?
-                  <FieldCustomizer
-                    shelfId={id}
-                    fieldDef={fieldDef}
-                    handleAction={handleAction}
-                  /> :
+                { (!fieldDef && !valueDef) || isValueDef(valueDef) ?
                   <ValueCustomizer
                     shelfId={id}
                     valueDef={valueDef}
+                    handleAction={handleAction}
+                  /> :
+                  <FieldCustomizer
+                    shelfId={id}
+                    fieldDef={fieldDef}
                     handleAction={handleAction}
                   />
                 }
