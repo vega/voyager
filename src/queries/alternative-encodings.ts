@@ -1,6 +1,7 @@
 
 import {Query} from 'compassql/build/src/query/query';
 import {isWildcard, SHORT_WILDCARD} from 'compassql/build/src/wildcard';
+import {isValueQuery} from '../../node_modules/compassql/build/src/query/encoding';
 import {QueryCreator} from './base';
 import {makeWildcard} from './common';
 
@@ -16,7 +17,7 @@ export const alternativeEncodings: QueryCreator = {
         ...query.spec,
         mark: makeWildcard(mark),
         encodings: encodings.map(encQ => {
-          if (isWildcard(encQ.channel)) {
+          if (isWildcard(encQ.channel) || isValueQuery(encQ)) {
             return encQ;
           }
           return {

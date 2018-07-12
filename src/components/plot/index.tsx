@@ -24,7 +24,7 @@ import * as styles from './plot.scss';
 
 export interface PlotProps extends ActionHandler<
   ShelfAction | BookmarkAction | ShelfPreviewAction | ResultAction | LogAction
-> {
+  > {
   data: InlineData;
   filters: ShelfFilter[];
   fieldInfos?: PlotFieldInfo[];
@@ -137,7 +137,7 @@ export class PlotBase extends React.PureComponent<PlotProps, PlotState> {
           onMouseEnter={this.onMouseEnter}
           onMouseLeave={this.onMouseLeave}
         >
-          <VegaLite spec={spec} logger={this.plotLogger} data={data}/>
+          <VegaLite spec={spec} logger={this.plotLogger} data={data} />
         </div>
         {notesDiv}
       </div>
@@ -249,14 +249,16 @@ export class PlotBase extends React.PureComponent<PlotProps, PlotState> {
 
   private renderSortButton(channel: 'x' | 'y') {
     const {spec} = this.props;
-    const channelDef = spec.encoding[channel];
-    if (isFieldDef(channelDef) && isDiscrete(channelDef)) {
-      return <i
-        title='Sort'
-        className="fa fa-sort-alpha-asc"
-        styleName={channel === 'x' ? 'sort-x-command' : 'command'}
-        onClick={this.onSort.bind(this, channel)}
-      />;
+    if (spec.encoding) {
+      const channelDef = spec.encoding[channel];
+      if (isFieldDef(channelDef) && isDiscrete(channelDef)) {
+        return <i
+          title='Sort'
+          className="fa fa-sort-alpha-asc"
+          styleName={channel === 'x' ? 'sort-x-command' : 'command'}
+          onClick={this.onSort.bind(this, channel)}
+        />;
+      }
     }
     return undefined;
   }

@@ -20,6 +20,7 @@ export class ValueCustomizerBase extends React.PureComponent<ValueCustomizerProp
   }
   public render() {
     const {shelfId} = this.props;
+    // TODO: refactor to generic function to generate schema & uischema
     const {schema, uiSchema} = generateColorPickerSchema(shelfId.channel.toString(), 'Color');
     return (
       <Form
@@ -36,9 +37,7 @@ export class ValueCustomizerBase extends React.PureComponent<ValueCustomizerProp
   protected changeValue(result: any) {
     const value = result.formData[Object.keys(result.formData)[0]].toString();
     const {shelfId, handleAction} = this.props;
-    const valueDef: ShelfValueDef = {
-      value
-    };
+    const valueDef: ShelfValueDef = {value};
 
     handleAction({
       type: SPEC_VALUE_CHANGE,
