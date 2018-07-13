@@ -7,7 +7,7 @@ import {GenericState, State, UndoableStateBase} from '../models/index';
 import {Query} from 'compassql/build/src/query/query';
 import {SpecQuery} from 'compassql/build/src/query/spec';
 import {createSelector} from 'reselect';
-import {isFieldQuery} from '../../node_modules/compassql/build/src/query/encoding';
+import {isAutoCountQuery, isFieldQuery} from '../../node_modules/compassql/build/src/query/encoding';
 import {PlotTabState} from '../models';
 import {ShelfFilter} from '../models/shelf/filter';
 import {getDefaultGroupBy, Shelf, ShelfGroupBy, toQuery} from '../models/shelf/index';
@@ -65,6 +65,6 @@ export const selectIsQuerySpecific = createSelector(
 export const selectIsQueryEmpty = createSelector(
   selectQuerySpec,
   (spec: SpecQuery) => {
-    return spec.encodings.filter(encQ => isFieldQuery(encQ)).length === 0;
+    return spec.encodings.filter(encQ => isFieldQuery(encQ) || isAutoCountQuery(encQ)).length === 0;
   }
 );

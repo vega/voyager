@@ -59,7 +59,8 @@ export interface PropertyEditorSchema {
 }
 
 // Currently supported customizble encoding channels that display caret in customizer UI
-export const CUSTOMIZABLE_ENCODING_CHANNELS = [Channel.X, Channel.Y, Channel.COLOR, Channel.SIZE, Channel.SHAPE];
+export const CUSTOMIZABLE_ENCODING_CHANNELS = [Channel.X, Channel.Y, Channel.COLOR, Channel.SIZE, Channel.SHAPE,
+  Channel.TEXT];
 
 // ------------------------------------------------------------------------------
 // Channel-Field Indexes for custom encoding
@@ -254,7 +255,7 @@ export function generateColorPickerSchema(propertyKey: string, title: string) {
   return {schema, uiSchema};
 }
 
-function generateSelectSchema(propertyKey: string, enumVals: string[], title: string) {
+export function generateSelectSchema(propertyKey: string, enumVals: string[], title: string) {
   const schema: ObjectSchema = {
     type: 'object',
     properties: {
@@ -277,8 +278,8 @@ function generateSelectSchema(propertyKey: string, enumVals: string[], title: st
   return {schema, uiSchema};
 }
 
-function generateTextBoxSchema(propKey: string, placeHolderText: string, title: string,
-                               primitiveType: 'string' | 'number') {
+export function generateTextBoxSchema(propKey: string, placeHolderText: string, title: string,
+                                      primitiveType: 'string' | 'number') {
   const schema: ObjectSchema = {
     type: 'object',
     properties: {
@@ -292,6 +293,25 @@ function generateTextBoxSchema(propKey: string, placeHolderText: string, title: 
     [propKey]: {
       'ui:emptyValue': '',
       'ui:placeholder': placeHolderText
+    }
+  };
+
+  return {schema, uiSchema};
+}
+
+export function generateSliderSchema(propKey: string, min: number, max: number) {
+  const schema: ObjectSchema = {
+    type: 'object',
+    properties: {
+      [propKey]: {
+        title: 'integer range',
+        type: 'number'
+      } as SchemaProperty
+    }
+  };
+  const uiSchema: UISchema = {
+    [propKey]: {
+      "ui:widget": "range"
     }
   };
 

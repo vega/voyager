@@ -2,7 +2,11 @@
   background-color: #eee;
   border-bottom: 5px solid #eee;
   border-radius: 3px;
-  width: 250px;
+  width: 190px;
+
+  select {
+    font-size: 10px;
+  }
 
   fieldset {
     border: 0;
@@ -11,7 +15,15 @@
   }
 
   form {
-    height: 1.8em;
+    height: 3.1em;
+  }
+
+  select option{
+    font-size: 10px;
+  }
+
+  option {
+    font-size: 11px;
   }
 
   label {

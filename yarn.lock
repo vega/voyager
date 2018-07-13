@@ -1239,9 +1239,9 @@ commander@2, commander@2.9.0, commander@2.9.x, commander@^2.9.0, commander@~2.9.
   dependencies:
     graceful-readlink ">= 1.0.0"
 
-compassql@0.20.2:
-  version "0.20.2"
-  resolved "https://registry.yarnpkg.com/compassql/-/compassql-0.20.2.tgz#1d524eaf662f115b3f719a1ed95348824188403b"
+compassql@0.20.3:
+  version "0.20.3"
+  resolved "https://registry.yarnpkg.com/compassql/-/compassql-0.20.3.tgz#71497134e4a58ac3f1515f18770d86e22bc8d004"
   dependencies:
     datalib "~1.7.0"
     typescript-json-schema "^0.9.0"

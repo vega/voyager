@@ -1,11 +1,12 @@
 import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
 import Form from 'react-jsonschema-form';
+import {debounce} from 'throttle-debounce';
+import {Channel} from '../../../node_modules/vega-lite/build/src/channel';
 import {ActionHandler, SPEC_VALUE_CHANGE, SpecEncodingAction} from "../../actions";
 import {ShelfId, ShelfValueDef} from "../../models";
-import {generateColorPickerSchema} from './property-editor-schema';
 import * as styles from './value-customizer.scss';
-import {generateValueDefFormData} from './value-editor-schema';
+import {generateValueDefFormData, generateValueEditorSchema} from './value-editor-schema';
 
 export interface ValueCustomizerProps extends ActionHandler<SpecEncodingAction> {
   shelfId: ShelfId;
@@ -17,22 +18,24 @@ export class ValueCustomizerBase extends React.PureComponent<ValueCustomizerProp
   constructor(props: ValueCustomizerProps) {
     super(props);
     this.changeValue = this.changeValue.bind(this);
-    // this.changeValue = debounce(500, this.changeValue);
+    this.changeValue = debounce(500, this.changeValue);
   }
   public render() {
     const {shelfId, valueDef} = this.props;
     // TODO: refactor to generic function to generate schema & uischema
     const formData = generateValueDefFormData(shelfId, valueDef);
-    const {schema, uiSchema} = generateColorPickerSchema(shelfId.channel.toString(), 'Color');
+    const {schema, uiSchema} = generateValueEditorSchema(shelfId.channel as Channel);
     return (
-      <Form
-        schema={schema}
-        uiSchema={uiSchema}
-        formData={formData}
-        onChange={this.changeValue}
-      >
-      <button type="submit" style={{display: 'none'}}>Submit</button>
-      </Form>
+      <div styleName="value-customizer">
+        <Form
+          schema={schema}
+          uiSchema={uiSchema}
+          formData={formData}
+          onChange={this.changeValue}
+        >
+          <button type="submit" style={{display: 'none'}}>Submit</button>
+        </Form>
+      </div>
     );
   }
 
