@@ -1,8 +1,9 @@
 import {Channel} from "vega-lite/build/src/channel";
-import * as vlSchema from 'vega-lite/build/vega-lite-schema.json';
 import {ShelfId, ShelfValueDef} from "../../models";
 import {generateColorPickerSchema, generateSelectSchema,
   generateSliderSchema, generateTextBoxSchema} from "./property-editor-schema";
+
+const SHAPE_VALUES = ['circle', 'square', 'cross', 'diamond', 'triangle-up', 'triangle-down', ];
 
 export function generateValueDefFormData(shelfId: ShelfId, valueDef: ShelfValueDef) {
   return {[shelfId.channel.toString()]: valueDef ? valueDef.value : undefined};
@@ -13,7 +14,7 @@ export function generateValueEditorSchema(channel: Channel): any {
     case 'color':
       return generateColorPickerSchema(channel, undefined);
     case 'shape':
-      return generateSelectSchema(channel, (vlSchema as any).definitions.Mark.enum, undefined);
+      return generateSelectSchema(channel, SHAPE_VALUES, undefined);
     case 'text':
       return generateTextBoxSchema(channel, 'Some Text...', undefined, 'string');
     case 'size':

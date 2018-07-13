@@ -120,7 +120,8 @@ class EncodingShelfBase extends React.PureComponent<
             }
           </TetherComponent>
         </div>
-        {fieldDef ? this.renderField() : this.renderFieldPlaceholder()}
+        {valueDef && valueDef.value ? this.renderFieldPlaceholder() : fieldDef ? this.renderField() :
+          this.renderFieldPlaceholder()}
       </div>
     );
   }
