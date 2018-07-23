@@ -23,7 +23,7 @@ export class ValueCustomizerBase extends React.PureComponent<ValueCustomizerProp
   public render() {
     const {shelfId, valueDef} = this.props;
     // TODO: refactor to generic function to generate schema & uischema
-    const formData = generateValueDefFormData(shelfId, valueDef);
+    const formData = generateValueDefFormData(shelfId, valueDef) || {};
     const {schema, uiSchema} = generateValueEditorSchema(shelfId.channel as Channel);
     return (
       <div styleName="value-customizer">

@@ -233,7 +233,6 @@ function getSupportedScaleTypes(channel: Channel, fieldDef: ShelfFieldDef): stri
   }
 }
 
-// TODO: Refactor
 export function generateColorPickerSchema(propertyKey: string, title: string) {
   const schema: ObjectSchema = {
     type: 'object',
@@ -304,7 +303,7 @@ export function generateSliderSchema(propKey: string, min: number, max: number) 
     type: 'object',
     properties: {
       [propKey]: {
-        title: 'integer range',
+        title: propKey,
         type: 'number'
       } as SchemaProperty
     }

@@ -19,7 +19,6 @@ export function fetchCompassQLRecommend(query: Query, schema: Schema, data: Inli
   Promise<ResultPlotWithKey[]> {
 
   if (config && config.serverUrl) {
-    console.log("FUKC YALL");
     const endpoint = "recommend";
 
     return fetch(`${config.serverUrl}/${endpoint}` , {
