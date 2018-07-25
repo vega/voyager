@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
 import Form from 'react-jsonschema-form';
 import {debounce} from 'throttle-debounce';
-import {Channel} from '../../../node_modules/vega-lite/build/src/channel';
+import {Channel} from 'vega-lite/build/src/channel';
 import {ActionHandler, SPEC_VALUE_CHANGE, SpecEncodingAction} from "../../actions";
 import {ShelfId, ShelfValueDef} from "../../models";
 import * as styles from './value-customizer.scss';
@@ -39,7 +39,7 @@ export class ValueCustomizerBase extends React.PureComponent<ValueCustomizerProp
   }
 
   protected changeValue(result: any) {
-    const value = result.formData[Object.keys(result.formData)[0]].toString();
+    const value = result.formData[Object.keys(result.formData)[0]];
     const {shelfId, handleAction} = this.props;
     const valueDef: ShelfValueDef = {value};
 

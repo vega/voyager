@@ -1,7 +1,7 @@
 
+import {isValueQuery} from 'compassql/build/src/query/encoding';
 import {Query} from 'compassql/build/src/query/query';
 import {isWildcard, SHORT_WILDCARD} from 'compassql/build/src/wildcard';
-import {isValueQuery} from '../../node_modules/compassql/build/src/query/encoding';
 import {QueryCreator} from './base';
 import {makeWildcard} from './common';
 

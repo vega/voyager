@@ -62,6 +62,8 @@ export interface PropertyEditorSchema {
 export const CUSTOMIZABLE_ENCODING_CHANNELS = [Channel.X, Channel.Y, Channel.COLOR, Channel.SIZE, Channel.SHAPE,
   Channel.TEXT];
 
+export const CUSTOMIZABLE_VALUE_ENCODING_CHANNELS = [Channel.COLOR, Channel.SIZE, Channel.SHAPE, Channel.TEXT];
+
 // ------------------------------------------------------------------------------
 // Channel-Field Indexes for custom encoding
 // Key is Tab name, value is list of fieldDef properties

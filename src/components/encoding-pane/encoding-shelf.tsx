@@ -5,7 +5,6 @@ import * as CSSModules from 'react-css-modules';
 import {ConnectDropTarget, DropTarget, DropTargetCollector, DropTargetSpec} from 'react-dnd';
 import * as TetherComponent from 'react-tether';
 import {contains} from 'vega-lite/build/src/util';
-import {isValueDef} from '../../../node_modules/vega-lite/build/src/fielddef';
 import {ActionHandler} from '../../actions/index';
 import {
   SPEC_FIELD_ADD, SPEC_FIELD_MOVE, SPEC_FIELD_REMOVE, SPEC_FUNCTION_ADD_WILDCARD,
@@ -21,7 +20,7 @@ import {DraggedFieldIdentifier, Field} from '../field/index';
 import * as styles from './encoding-shelf.scss';
 import {FieldCustomizer} from './field-customizer';
 import {FunctionPicker, FunctionPickerWildcardHandler} from './function-picker';
-import {CUSTOMIZABLE_ENCODING_CHANNELS} from './property-editor-schema';
+import {CUSTOMIZABLE_ENCODING_CHANNELS, CUSTOMIZABLE_VALUE_ENCODING_CHANNELS} from './property-editor-schema';
 import {ValueCustomizer} from './value-customizer';
 
 /**
@@ -93,7 +92,8 @@ class EncodingShelfBase extends React.PureComponent<
             attachment="top left"
             targetAttachment="bottom left"
           >
-            {(!isWildcardChannelId(id) && contains(CUSTOMIZABLE_ENCODING_CHANNELS, id.channel)) ?
+            {(!isWildcardChannelId(id) && (!fieldDef && contains(CUSTOMIZABLE_VALUE_ENCODING_CHANNELS, id.channel) ||
+            fieldDef && contains(CUSTOMIZABLE_ENCODING_CHANNELS, id.channel))) ?
               <span onClick={this.toggleCustomizer} ref={this.fieldHandler}>
                 {channelName}{' '} <i className={'fa fa-caret-down'} />
               </span> :
@@ -104,7 +104,7 @@ class EncodingShelfBase extends React.PureComponent<
 
             {this.state.customizerIsOpened &&
               <div ref={this.popupRefHandler}>
-                { (!fieldDef && !valueDef) || isValueDef(valueDef) ?
+                { !fieldDef ?
                   <ValueCustomizer
                     shelfId={id}
                     valueDef={valueDef}

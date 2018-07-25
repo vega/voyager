@@ -12,7 +12,7 @@ import {ResultAsyncAction} from '../../actions/result';
 import {ShelfAction, SPEC_CLEAR} from '../../actions/shelf';
 import {ShelfUnitSpec, State} from '../../models';
 import {VoyagerConfig} from '../../models/config';
-import {ShelfFieldDef} from '../../models/shelf';
+import {isShelfFieldDef, isShelfValueDef, ShelfFieldDef} from '../../models/shelf';
 import {selectConfig, selectDataset, selectShelfPreview} from '../../selectors';
 import {selectSchemaFieldDefs} from '../../selectors/index';
 import {selectFilters, selectShelfSpec} from '../../selectors/shelf';
@@ -110,14 +110,15 @@ class EncodingPanelBase extends React.PureComponent<EncodingPanelProps, {}> {
 
     const {handleAction, spec, specPreview, schema} = this.props;
     const {encoding} = specPreview || spec;
+    const encodingChannel = encoding[channel];
     return (
       <EncodingShelf
         key={channel}
         id={{channel}}
-        fieldDef={encoding[channel]}
+        fieldDef={isShelfFieldDef(encodingChannel) ? encodingChannel : undefined}
         schema={schema}
         handleAction={handleAction}
-        valueDef={encoding[channel]}
+        valueDef={isShelfValueDef(encodingChannel) ? encodingChannel : undefined}
       />
     );
   }
