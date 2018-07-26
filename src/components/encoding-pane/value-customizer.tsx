@@ -32,14 +32,20 @@ export class ValueCustomizerBase extends React.PureComponent<ValueCustomizerProp
           formData={formData}
           onChange={this.changeValue}
         >
+          <button type="reset" onClick={this.changeValue}>Reset</button>
           <button type="submit" style={{display: 'none'}}>Submit</button>
         </Form>
       </div>
     );
   }
 
+  protected resetValue() {
+    // read default values of mark from VL
+    // Then call SPEC_VALUE_CHANGE with the corresponding valueDef
+  }
+
   protected changeValue(result: any) {
-    const value = result.formData[Object.keys(result.formData)[0]];
+    const value = result.formData ? result.formData[Object.keys(result.formData)[0]] : undefined;
     const {shelfId, handleAction} = this.props;
     const valueDef: ShelfValueDef = {value};
 

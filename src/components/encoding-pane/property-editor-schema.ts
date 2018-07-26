@@ -300,12 +300,12 @@ export function generateTextBoxSchema(propKey: string, placeHolderText: string, 
   return {schema, uiSchema};
 }
 
-export function generateSliderSchema(propKey: string, min: number, max: number) {
+export function generateSliderSchema(propKey: string, min: number, max: number, title: string) {
   const schema: ObjectSchema = {
     type: 'object',
     properties: {
       [propKey]: {
-        title: propKey,
+        title: title,
         type: 'number'
       } as SchemaProperty
     }

@@ -12,13 +12,13 @@ export function generateValueDefFormData(shelfId: ShelfId, valueDef: ShelfValueD
 export function generateValueEditorSchema(channel: Channel): any {
   switch (channel) {
     case 'color':
-      return generateColorPickerSchema(channel, undefined);
+      return generateColorPickerSchema(channel, 'Color Value');
     case 'shape':
-      return generateSelectSchema(channel, SHAPE_VALUES, undefined);
+      return generateSelectSchema(channel, SHAPE_VALUES, 'Shape Value');
     case 'text':
       return generateTextBoxSchema(channel, 'Some Text...', undefined, 'string');
     case 'size':
-      return generateSliderSchema(channel, 1, 100);
+      return generateSliderSchema(channel, 1, 100, 'Size Value');
     default:
       return {};
   }

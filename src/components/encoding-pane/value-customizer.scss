@@ -2,7 +2,7 @@
   background-color: #eee;
   border-bottom: 5px solid #eee;
   border-radius: 3px;
-  width: 190px;
+  width: 250px;
 
   select {
     font-size: 10px;
@@ -27,29 +27,15 @@
   }
 
   label {
-    display: inline-block;
+    float: left;
     font-size: 11px !important; // cannot access react-form's css attributes, so have to use important
     padding-right: 10px;
     text-align: left;
     width: 75px;
+    font-weight: bold;
   }
 
-  ul {
-    border-bottom: 1px solid #aaa;
-    margin: 0 0;
-    padding: 2px;
-    height: 18px;
-  }
-
-  li {
-    display: inline-block;
-    border: 1px solid transparent;
-    border-bottom: none;
-    bottom: -1px;
-    position: relative;
-    list-style: none;
-    padding: 2px 10px;
-    cursor: pointer;
-    font-size: 12px;
+  input {
+    float: left;
   }
 }
