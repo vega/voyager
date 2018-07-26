@@ -110,6 +110,7 @@ class EncodingPanelBase extends React.PureComponent<EncodingPanelProps, {}> {
 
     const {handleAction, spec, specPreview, schema} = this.props;
     const {encoding} = specPreview || spec;
+    const {mark} = specPreview || spec;
     const encodingChannel = encoding[channel];
     return (
       <EncodingShelf
@@ -119,6 +120,7 @@ class EncodingPanelBase extends React.PureComponent<EncodingPanelProps, {}> {
         schema={schema}
         handleAction={handleAction}
         valueDef={isShelfValueDef(encodingChannel) ? encodingChannel : undefined}
+        mark={mark}
       />
     );
   }
@@ -135,7 +137,7 @@ class EncodingPanelBase extends React.PureComponent<EncodingPanelProps, {}> {
   private wildcardShelf(index: number) {
     const {handleAction, spec, specPreview, schema} = this.props;
     const {anyEncodings} = specPreview || spec;
-
+    const {mark} = specPreview || spec;
     const id = {
       channel: SHORT_WILDCARD,
       index
@@ -149,6 +151,7 @@ class EncodingPanelBase extends React.PureComponent<EncodingPanelProps, {}> {
         fieldDef={anyEncodings[index]}
         handleAction={handleAction}
         valueDef={undefined} // don't support constant value for wildcard shelf
+        mark = {mark}
       />
     );
   }

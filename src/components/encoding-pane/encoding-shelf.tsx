@@ -4,6 +4,8 @@ import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
 import {ConnectDropTarget, DropTarget, DropTargetCollector, DropTargetSpec} from 'react-dnd';
 import * as TetherComponent from 'react-tether';
+import {SHAPE} from 'vega-lite/build/src/channel';
+import {POINT, TEXT} from 'vega-lite/build/src/mark';
 import {contains} from 'vega-lite/build/src/util';
 import {ActionHandler} from '../../actions/index';
 import {
@@ -15,7 +17,7 @@ import {DraggableType, FieldParentType} from '../../constants';
 import {ShelfFieldDef, ShelfId} from '../../models';
 import {ShelfFunction} from '../../models/shelf';
 import {ShelfValueDef} from '../../models/shelf/spec';
-import {isWildcardChannelId} from '../../models/shelf/spec/encoding';
+import {ShelfMark} from '../../models/shelf/spec/encoding';
 import {DraggedFieldIdentifier, Field} from '../field/index';
 import * as styles from './encoding-shelf.scss';
 import {FieldCustomizer} from './field-customizer';
@@ -42,6 +44,8 @@ export interface EncodingShelfPropsBase extends ActionHandler<SpecEncodingAction
   valueDef: ShelfValueDef;
 
   schema: Schema;
+
+  mark: ShelfMark;
 }
 
 interface EncodingShelfProps extends EncodingShelfPropsBase, EncodingShelfDropTargetProps {};
@@ -83,8 +87,6 @@ class EncodingShelfBase extends React.PureComponent<
     const {id, connectDropTarget, fieldDef, valueDef, handleAction} = this.props;
 
     const isWildcardShelf = isWildcard(id.channel);
-    const channelName = isWildcardShelf ? 'any' : id.channel;
-
     return connectDropTarget(
       <div styleName={isWildcardShelf ? 'wildcard-shelf' : 'encoding-shelf'}>
         <div styleName="shelf-label">
@@ -92,19 +94,10 @@ class EncodingShelfBase extends React.PureComponent<
             attachment="top left"
             targetAttachment="bottom left"
           >
-            {(!isWildcardChannelId(id) && (!fieldDef && contains(CUSTOMIZABLE_VALUE_ENCODING_CHANNELS, id.channel) ||
-            fieldDef && contains(CUSTOMIZABLE_ENCODING_CHANNELS, id.channel))) ?
-              <span onClick={this.toggleCustomizer} ref={this.fieldHandler}>
-                {channelName}{' '} <i className={'fa fa-caret-down'} />
-              </span> :
-              <span>
-                {channelName}
-              </span>
-            }
-
+            {this.renderDropdownCaret()}
             {this.state.customizerIsOpened &&
               <div ref={this.popupRefHandler}>
-                { !fieldDef ?
+                {!fieldDef ?
                   <ValueCustomizer
                     shelfId={id}
                     valueDef={valueDef}
@@ -189,6 +182,29 @@ class EncodingShelfBase extends React.PureComponent<
       payload: id
     });
   }
+
+  private renderDropdownCaret() {
+    const {id, mark, fieldDef} = this.props;
+    const isWildcardShelf = isWildcard(id.channel);
+    const channelName = isWildcardShelf ? 'any' : id.channel;
+
+    if (isWildcard(id) || (!fieldDef && !contains(CUSTOMIZABLE_VALUE_ENCODING_CHANNELS, id.channel)) || (!fieldDef &&
+      !contains(CUSTOMIZABLE_ENCODING_CHANNELS, id.channel)) || (id.channel === SHAPE && mark !== POINT) ||
+      (id.channel === TEXT && mark !== TEXT)) {
+      return (
+        <span>
+          {channelName}
+        </span>
+      );
+    } else {
+      return (
+        <span onClick={this.toggleCustomizer} ref={this.fieldHandler}>
+          {channelName}{' '} <i className={'fa fa-caret-down'} />
+        </span>
+      );
+    }
+  }
+
 
   private renderField() {
     const {id, fieldDef, schema} = this.props;
