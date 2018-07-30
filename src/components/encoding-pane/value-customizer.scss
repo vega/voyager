@@ -2,7 +2,15 @@
   background-color: #eee;
   border-bottom: 5px solid #eee;
   border-radius: 3px;
-  width: 250px;
+  // width: 300px;
+
+  div {
+    display: inline-block;
+  }
+
+  select:focus {
+    outline: none
+  }
 
   select {
     font-size: 10px;
@@ -15,10 +23,10 @@
   }
 
   form {
-    height: 3.1em;
+    height: 2.8em;
   }
 
-  select option{
+  select option {
     font-size: 10px;
   }
 
@@ -27,7 +35,7 @@
   }
 
   label {
-    float: left;
+    // margin: 5px;
     font-size: 11px !important; // cannot access react-form's css attributes, so have to use important
     padding-right: 10px;
     text-align: left;
@@ -35,7 +43,4 @@
     font-weight: bold;
   }
 
-  input {
-    float: left;
-  }
 }

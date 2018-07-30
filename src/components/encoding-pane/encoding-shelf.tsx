@@ -84,7 +84,7 @@ class EncodingShelfBase extends React.PureComponent<
   }
 
   public render() {
-    const {id, connectDropTarget, fieldDef, valueDef, handleAction} = this.props;
+    const {id, connectDropTarget, fieldDef, valueDef, handleAction, mark} = this.props;
 
     const isWildcardShelf = isWildcard(id.channel);
     return connectDropTarget(
@@ -102,6 +102,7 @@ class EncodingShelfBase extends React.PureComponent<
                     shelfId={id}
                     valueDef={valueDef}
                     handleAction={handleAction}
+                    mark={mark}
                   /> :
                   <FieldCustomizer
                     shelfId={id}

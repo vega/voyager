@@ -242,7 +242,7 @@ export function generateColorPickerSchema(propertyKey: string, title: string) {
       [propertyKey]: {
         type: 'string',
         title: title,
-        default: '#151ce6'
+        default: '#4c78a8'
       }
     }
   };
