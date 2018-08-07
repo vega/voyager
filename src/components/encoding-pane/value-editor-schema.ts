@@ -1,5 +1,5 @@
 import {Channel, COLOR, SHAPE, SIZE, TEXT} from "vega-lite/build/src/channel";
-import {CIRCLE, POINT, RECT, SQUARE} from "vega-lite/build/src/mark";
+import {BAR, CIRCLE, POINT, RECT, SQUARE, TICK} from "vega-lite/build/src/mark";
 import {ShelfId, ShelfMark, ShelfValueDef} from "../../models";
 import {
   generateColorPickerSchema, generateSelectSchema,
@@ -10,17 +10,23 @@ const SHAPE_VALUES = ['circle', 'square', 'cross', 'diamond', 'triangle-up', 'tr
 const defaultSymbolSize = 30;
 const defaultColor = '#4c78a8';
 const defaultTextFontSize = 11;
+const defaultBarSize = 20; // find config for this
+const defaultTickSize = 18;
 
+// TODO: Verify/Find the correct default values for each mark
 const MARK_DEFAULT_INDEX = {
   [SIZE]: {
     [POINT]: defaultSymbolSize,
     [CIRCLE]: defaultSymbolSize,
     [SQUARE]: defaultSymbolSize,
     [RECT]: defaultSymbolSize,
-    [TEXT]: defaultTextFontSize
+    [TEXT]: defaultTextFontSize,
+    [BAR]: defaultBarSize
   },
   [SHAPE]: CIRCLE,
   [COLOR]: defaultColor,
+  [TEXT]: '',
+  [TICK]: defaultTickSize
 };
 
 export function getDefaultsForChannel(channel: Channel, mark: ShelfMark) {
@@ -38,7 +44,7 @@ export function generateValueEditorSchema(channel: Channel): any {
     case 'shape':
       return generateSelectSchema(channel, SHAPE_VALUES, 'Shape Value');
     case 'text':
-      return generateTextBoxSchema(channel, 'Some Text...', undefined, 'string');
+      return generateTextBoxSchema(channel, 'Some Text...', 'Text Value', 'string');
     case 'size':
       return generateSliderSchema(channel, 1, 100, 'Size Value');
     default:

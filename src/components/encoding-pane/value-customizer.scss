@@ -8,6 +8,16 @@
     display: inline-block;
   }
 
+  a {
+    font-size: 10px;
+    color: blue;
+    margin-bottom: 15px;
+  }
+
+  span {
+    padding: 5px;
+  }
+
   select:focus {
     outline: none
   }
@@ -23,7 +33,7 @@
   }
 
   form {
-    height: 2.8em;
+    height: 3.4em;
   }
 
   select option {

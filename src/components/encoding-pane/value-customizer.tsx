@@ -24,7 +24,7 @@ export class ValueCustomizerBase extends React.PureComponent<ValueCustomizerProp
   }
 
   public render() {
-    const {shelfId, valueDef} = this.props;
+    const {shelfId, valueDef, mark} = this.props;
     const formData = generateValueDefFormData(shelfId, valueDef) || {};
     const {schema, uiSchema} = generateValueEditorSchema(shelfId.channel as Channel);
     return (
@@ -35,7 +35,9 @@ export class ValueCustomizerBase extends React.PureComponent<ValueCustomizerProp
           formData={formData}
           onChange={this.changeValue}
         >
-          <button type="reset" onClick={this.resetValue}>Reset</button>
+          {mark !== '?' &&
+            <a onClick={this.resetValue}>Reset</a>
+          }
           <button type="submit" style={{display: 'none'}}>Submit</button>
         </Form>
       </div>
