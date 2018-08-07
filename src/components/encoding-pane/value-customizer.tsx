@@ -8,7 +8,6 @@ import {ShelfId, ShelfMark, ShelfValueDef} from "../../models";
 import * as styles from './value-customizer.scss';
 import {generateValueDefFormData, generateValueEditorSchema, getDefaultsForChannel} from './value-editor-schema';
 
-const defaultSymbolSize = 30;
 export interface ValueCustomizerProps extends ActionHandler<SpecEncodingAction> {
   shelfId: ShelfId;
   valueDef: ShelfValueDef;
