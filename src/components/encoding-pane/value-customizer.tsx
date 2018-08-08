@@ -3,6 +3,7 @@ import * as CSSModules from 'react-css-modules';
 import Form from 'react-jsonschema-form';
 import {debounce} from 'throttle-debounce';
 import {Channel} from 'vega-lite/build/src/channel';
+import {TopLevelFacetedUnitSpec} from 'vega-lite/build/src/spec';
 import {ActionHandler, SPEC_VALUE_CHANGE, SpecEncodingAction} from "../../actions";
 import {ShelfId, ShelfMark, ShelfValueDef} from "../../models";
 import * as styles from './value-customizer.scss';
@@ -12,6 +13,7 @@ export interface ValueCustomizerProps extends ActionHandler<SpecEncodingAction> 
   shelfId: ShelfId;
   valueDef: ShelfValueDef;
   mark: ShelfMark;
+  mainSpec: TopLevelFacetedUnitSpec;
 }
 
 export class ValueCustomizerBase extends React.PureComponent<ValueCustomizerProps, {}> {
@@ -24,7 +26,7 @@ export class ValueCustomizerBase extends React.PureComponent<ValueCustomizerProp
   }
 
   public render() {
-    const {shelfId, valueDef, mark} = this.props;
+    const {shelfId, valueDef} = this.props;
     const formData = generateValueDefFormData(shelfId, valueDef) || {};
     const {schema, uiSchema} = generateValueEditorSchema(shelfId.channel as Channel);
     return (
@@ -35,9 +37,7 @@ export class ValueCustomizerBase extends React.PureComponent<ValueCustomizerProp
           formData={formData}
           onChange={this.changeValue}
         >
-          {mark !== '?' &&
-            <a onClick={this.resetValue}>Reset</a>
-          }
+          <a onClick={this.resetValue}>Reset</a>
           <button type="submit" style={{display: 'none'}}>Submit</button>
         </Form>
       </div>
@@ -45,10 +45,9 @@ export class ValueCustomizerBase extends React.PureComponent<ValueCustomizerProp
   }
 
   protected resetValue(e: any) {
-    // read default values of mark from VL
-    // Then call SPEC_VALUE_CHANGE with the corresponding valueDef
-    const {shelfId, handleAction, mark} = this.props;
-    const value = getDefaultsForChannel(shelfId.channel as Channel, mark);
+    const {shelfId, handleAction, mark, mainSpec} = this.props;
+    // If mark is set to auto, read from main spec
+    const value = getDefaultsForChannel(shelfId.channel as Channel, mark === '?' ? mainSpec.mark as ShelfMark : mark);
     const valueDef: ShelfValueDef = {value};
 
     handleAction({

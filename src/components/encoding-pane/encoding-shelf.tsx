@@ -6,6 +6,7 @@ import {ConnectDropTarget, DropTarget, DropTargetCollector, DropTargetSpec} from
 import * as TetherComponent from 'react-tether';
 import {SHAPE} from 'vega-lite/build/src/channel';
 import {POINT, TEXT} from 'vega-lite/build/src/mark';
+import {TopLevelFacetedUnitSpec} from 'vega-lite/build/src/spec';
 import {contains} from 'vega-lite/build/src/util';
 import {ActionHandler} from '../../actions/index';
 import {
@@ -46,6 +47,8 @@ export interface EncodingShelfPropsBase extends ActionHandler<SpecEncodingAction
   schema: Schema;
 
   mark: ShelfMark;
+
+  mainSpec: TopLevelFacetedUnitSpec;
 }
 
 interface EncodingShelfProps extends EncodingShelfPropsBase, EncodingShelfDropTargetProps {};
@@ -84,7 +87,7 @@ class EncodingShelfBase extends React.PureComponent<
   }
 
   public render() {
-    const {id, connectDropTarget, fieldDef, valueDef, handleAction, mark} = this.props;
+    const {id, connectDropTarget, fieldDef, mainSpec, valueDef, handleAction, mark} = this.props;
 
     const isWildcardShelf = isWildcard(id.channel);
     return connectDropTarget(
@@ -103,6 +106,7 @@ class EncodingShelfBase extends React.PureComponent<
                     valueDef={valueDef}
                     handleAction={handleAction}
                     mark={mark}
+                    mainSpec={mainSpec}
                   /> :
                   <FieldCustomizer
                     shelfId={id}

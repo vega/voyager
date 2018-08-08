@@ -4,10 +4,10 @@ import {FieldOneOfPredicate, FieldRangePredicate} from 'vega-lite/build/src/pred
 import {GenericState, State, UndoableStateBase} from '../models/index';
 // tslint:enable:no-unused-variable
 
+import {isAutoCountQuery, isFieldQuery} from 'compassql/build/src/query/encoding';
 import {Query} from 'compassql/build/src/query/query';
 import {SpecQuery} from 'compassql/build/src/query/spec';
 import {createSelector} from 'reselect';
-import {isAutoCountQuery, isFieldQuery} from '../../node_modules/compassql/build/src/query/encoding';
 import {PlotTabState} from '../models';
 import {ShelfFilter} from '../models/shelf/filter';
 import {getDefaultGroupBy, Shelf, ShelfGroupBy, toQuery} from '../models/shelf/index';

@@ -5,6 +5,7 @@ import * as CSSModules from 'react-css-modules';
 import {connect} from 'react-redux';
 import {Channel} from 'vega-lite/build/src/channel';
 import {FieldOneOfPredicate, FieldRangePredicate} from 'vega-lite/build/src/predicate';
+import {TopLevelFacetedUnitSpec} from 'vega-lite/build/src/spec';
 import {FilterAction} from '../../actions';
 import {ActionHandler} from '../../actions/index';
 import {createDispatchHandler} from '../../actions/redux-action';
@@ -13,7 +14,7 @@ import {ShelfAction, SPEC_CLEAR} from '../../actions/shelf';
 import {ShelfUnitSpec, State} from '../../models';
 import {VoyagerConfig} from '../../models/config';
 import {isShelfFieldDef, isShelfValueDef, ShelfFieldDef} from '../../models/shelf';
-import {selectConfig, selectDataset, selectShelfPreview} from '../../selectors';
+import {selectConfig, selectDataset, selectMainSpec, selectShelfPreview} from '../../selectors';
 import {selectSchemaFieldDefs} from '../../selectors/index';
 import {selectFilters, selectShelfSpec} from '../../selectors/shelf';
 import {FilterPane} from '../filter-pane';
@@ -34,6 +35,8 @@ interface EncodingPanelProps extends ActionHandler<ShelfAction | ResultAsyncActi
   fieldDefs: ShelfFieldDef[];
 
   config: VoyagerConfig;
+
+  mainSpec: TopLevelFacetedUnitSpec;
 }
 
 class EncodingPanelBase extends React.PureComponent<EncodingPanelProps, {}> {
@@ -108,7 +111,7 @@ class EncodingPanelBase extends React.PureComponent<EncodingPanelProps, {}> {
   private encodingShelf(channel: Channel) {
     // This one can't be wildcard, thus we use VL's Channel, not our ShelfChannel
 
-    const {handleAction, spec, specPreview, schema} = this.props;
+    const {handleAction, mainSpec, spec, specPreview, schema} = this.props;
     const {encoding} = specPreview || spec;
     const {mark} = specPreview || spec;
     const encodingChannel = encoding[channel];
@@ -121,6 +124,7 @@ class EncodingPanelBase extends React.PureComponent<EncodingPanelProps, {}> {
         handleAction={handleAction}
         valueDef={isShelfValueDef(encodingChannel) ? encodingChannel : undefined}
         mark={mark}
+        mainSpec={mainSpec}
       />
     );
   }
@@ -135,7 +139,7 @@ class EncodingPanelBase extends React.PureComponent<EncodingPanelProps, {}> {
   }
 
   private wildcardShelf(index: number) {
-    const {handleAction, spec, specPreview, schema} = this.props;
+    const {handleAction, spec, specPreview, schema, mainSpec} = this.props;
     const {anyEncodings} = specPreview || spec;
     const {mark} = specPreview || spec;
     const id = {
@@ -152,6 +156,7 @@ class EncodingPanelBase extends React.PureComponent<EncodingPanelProps, {}> {
         handleAction={handleAction}
         valueDef={undefined} // don't support constant value for wildcard shelf
         mark = {mark}
+        mainSpec={mainSpec}
       />
     );
   }
@@ -181,7 +186,8 @@ export const EncodingPane = connect(
       schema: selectDataset(state).schema,
       fieldDefs: selectSchemaFieldDefs(state),
       specPreview: selectShelfPreview(state).spec,
-      config: selectConfig(state)
+      config: selectConfig(state),
+      mainSpec: selectMainSpec(state)
     };
   },
   createDispatchHandler<ShelfAction>()
