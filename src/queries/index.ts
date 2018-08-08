@@ -3,13 +3,13 @@
  */
 
 import {getGroupByKey} from 'compassql/build/src/nest';
+import {isAutoCountQuery, isFieldQuery} from 'compassql/build/src/query/encoding';
 import {Query} from 'compassql/build/src/query/query';
 import {isAggregate, SpecQuery} from 'compassql/build/src/query/spec';
 import {contains} from 'compassql/build/src/util';
 import {Store} from 'redux';
 import {isString} from 'util';
 import {NONPOSITION_SCALE_CHANNELS} from 'vega-lite/build/src/channel';
-import {isAutoCountQuery, isFieldQuery} from '../../node_modules/compassql/build/src/query/encoding';
 import {resultRequest} from '../actions/result';
 import {State} from '../models/index';
 import {ResultType} from '../models/result';
