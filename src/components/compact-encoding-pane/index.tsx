@@ -65,9 +65,10 @@ export class CompactEncodingPaneBase extends React.PureComponent<CompactEncoding
   private onFieldChange(channel: Channel, field: string) {
     const {schema} = this.props;
 
-    const type = schema.vlType(field);
-
-    console.log('field change', channel, field, type);
+    let type = schema.vlType(field);
+    if (type === 'key') {
+      type = 'nominal';
+    }
 
     this.props.handleAction({
       type: SPEC_FIELD_ADD,
@@ -82,14 +83,19 @@ export class CompactEncodingPaneBase extends React.PureComponent<CompactEncoding
     });
   }
 
-  private encodingShelf(channel: Channel) {
+  private fieldSelector(channel: Channel) {
     const {spec, schema} = this.props;
     const {encoding} = spec;
 
     const options = schema.fieldNames().map(field => {
+      const typeString = `(${schema
+        .fieldSchema(field)
+        .vlType.charAt(0)
+        .toUpperCase()})`;
+
       return (
         <option key={field} value={field}>
-          {field}
+          {field} {typeString}
         </option>
       );
     });
@@ -101,13 +107,18 @@ export class CompactEncodingPaneBase extends React.PureComponent<CompactEncoding
     };
 
     return (
+      <select value={field} onChange={onChange}>
+        <option value={undefined}>-</option>
+        {options}
+      </select>
+    );
+  }
+
+  private encodingShelf(channel: Channel) {
+    return (
       <div key={channel}>
         <span>{channel}</span>
-
-        <select value={field} onChange={onChange}>
-          <option value={undefined}>-</option>
-          {options}
-        </select>
+        {this.fieldSelector(channel)}
       </div>
     );
   }
