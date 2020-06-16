@@ -156,3 +156,16 @@ This will run Voyager in "server-mode" sending requests to voyager-server, which
 The server url is controlled by the `SERVER` environment variable.
 
 See [voyager-server](https://github.com/vega/voyager-server) for more information on what portions of the functionality the server handles.
+
+## Docker
+Docker image based on [node:9.11.2](https://hub.docker.com/layers/node/library/node/9.11.2/images/sha256-571a95847b472f5a08c2287c3f36cfa4bb88c483fa5866504dc7cc8e3abfb588?context=explore)
+
+Build Docker image
+```
+docker build -t vega/voyager .
+```
+
+Run Docker container
+```
+docker run -p 9000:9000 vega/voyager
+```
