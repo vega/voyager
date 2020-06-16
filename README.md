@@ -165,7 +165,7 @@ Build Docker image
 docker build -t vega/voyager .
 ```
 
-Run Docker container
+Run Docker container. The `-p 9000:9000` parameter is required to publish the container's yarn port to a host port, allowing users to view the datavoyager tool at http://localhost:9000/.
 ```
 docker run -p 9000:9000 vega/voyager
 ```
