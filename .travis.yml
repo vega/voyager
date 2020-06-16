@@ -4,10 +4,10 @@ node_js:
 before_script:
  - export TZ=America/Los_Angeles
 script:
-  - npm run build -- --max-old-space-size=4096
+  - npm run build
   - npm run codecov
-  - npm run test:ui -- --max-old-space-size=4096
-  - npm run lint -- --max-old-space-size=4096
+  - npm run test:ui -- --max-old-space-size=8192
+  - npm run lint
 after_success:
   - bash <(curl -s https://codecov.io/bash)
 cache: yarn
