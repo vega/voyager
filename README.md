@@ -158,7 +158,7 @@ The server url is controlled by the `SERVER` environment variable.
 See [voyager-server](https://github.com/vega/voyager-server) for more information on what portions of the functionality the server handles.
 
 ## Docker
-Docker image based on [node:9.11.2](https://hub.docker.com/layers/node/library/node/9.11.2/images/sha256-571a95847b472f5a08c2287c3f36cfa4bb88c483fa5866504dc7cc8e3abfb588?context=explore)
+Docker image based on [node:6.17.1](https://hub.docker.com/layers/node/library/node/6.17.1/images/sha256-0bb1f1235ffb537f2543de5fa0de7e4e93f522dd9cc6da51da255cffbdd99aa3?context=explore)
 
 Build Docker image
 ```
@@ -170,7 +170,7 @@ Run Docker container. The `-p 9000:9000` parameter is required to publish the co
 docker run -p 9000:9000 vega/voyager
 ```
 
-Alternatively run the Docker container detatched to not receive log information at standard out.
+Alternatively, run the Docker container detatched with `-d` to not receive log information in the console.
 ```
 docker run -d -p 9000:900 vega/voyager
 ```
