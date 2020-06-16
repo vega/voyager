@@ -169,3 +169,8 @@ Run Docker container. The `-p 9000:9000` parameter is required to publish the co
 ```
 docker run -p 9000:9000 vega/voyager
 ```
+
+Alternatively run the Docker container detatched to not receive log information at standard out.
+```
+docker run -d -p 9000:900 vega/voyager
+```

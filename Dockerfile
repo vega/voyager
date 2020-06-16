@@ -1,4 +1,4 @@
-FROM node:9.11.2
+FROM node:6.17.1
 
 COPY . /voyager
 
@@ -8,4 +8,4 @@ WORKDIR /voyager
 
 EXPOSE 9000
 
-CMD ["yarn", "start"]
+CMD ["yarn", "start:headless"]
