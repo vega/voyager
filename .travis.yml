@@ -5,7 +5,7 @@ before_script:
  - export TZ=America/Los_Angeles
 script:
   - npm run build -- --max-old-space-size=4096
-  - npm run codecov -- --max-old-space-size=4096
+  - npm run codecov
   - npm run test:ui -- --max-old-space-size=4096
   - npm run lint -- --max-old-space-size=4096
 after_success:
