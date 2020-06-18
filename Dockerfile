@@ -1,4 +1,4 @@
-FROM node:6.17.1
+FROM node:14.4.0
 
 COPY . /voyager
 

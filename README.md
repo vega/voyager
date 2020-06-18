@@ -158,7 +158,7 @@ The server url is controlled by the `SERVER` environment variable.
 See [voyager-server](https://github.com/vega/voyager-server) for more information on what portions of the functionality the server handles.
 
 ## Docker
-Docker image based on [node:6.17.1](https://hub.docker.com/layers/node/library/node/6.17.1/images/sha256-0bb1f1235ffb537f2543de5fa0de7e4e93f522dd9cc6da51da255cffbdd99aa3?context=explore)
+Docker image based on [node:14.4.0](https://hub.docker.com/layers/node/library/node/14.4.0/images/sha256-13c35ec2a3829f25171a8da49ea83366f7bf901cf0570002cd82769df49872be?context=explore)
 
 Build Docker image
 ```
