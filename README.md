@@ -172,5 +172,5 @@ docker run -p 9000:9000 vega/voyager
 
 Alternatively, run the Docker container detatched with `-d` to not receive log information in the console.
 ```
-docker run -d -p 9000:900 vega/voyager
+docker run -d -p 9000:9000 vega/voyager
 ```
