@@ -137,7 +137,7 @@ export class PlotBase extends React.PureComponent<PlotProps, PlotState> {
           onMouseEnter={this.onMouseEnter}
           onMouseLeave={this.onMouseLeave}
         >
-          <VegaLite spec={spec} logger={this.plotLogger} data={data} specExport={spec => (this.vegaSpec = spec)} />
+          <VegaLite spec={spec} logger={this.plotLogger} data={data} specExport={this.setVegaSpec.bind(this)} />
         </div>
         {notesDiv}
       </div>
@@ -306,6 +306,10 @@ export class PlotBase extends React.PureComponent<PlotProps, PlotState> {
     };
   }
 
+  private setVegaSpec(spec: any) {
+    this.vegaSpec = spec;
+  }
+
   private lagecyCopy(text: string) {
     const textArea = document.createElement('textarea');
     textArea.value = text;
@@ -326,7 +330,9 @@ export class PlotBase extends React.PureComponent<PlotProps, PlotState> {
         this.copied();
         return;
       }
-    } catch (e) {}
+    } catch (e) {
+      // pass
+    }
     const replacer = (/mac os x/i.test(navigator.userAgent) ? '⌘' : 'Ctrl') + '+C';
     const prompt = 'Copy to clipboard: #{key}, Enter'.replace(/#{\s*key\s*}/g, replacer);
     window.prompt(prompt, text);
