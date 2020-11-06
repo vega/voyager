@@ -158,3 +158,21 @@ This will run Voyager in "server-mode" sending requests to voyager-server, which
 The server url is controlled by the `SERVER` environment variable.
 
 See [voyager-server](https://github.com/vega/voyager-server) for more information on what portions of the functionality the server handles.
+
+## Docker
+Docker image based on [node:14.4.0](https://hub.docker.com/layers/node/library/node/14.4.0/images/sha256-13c35ec2a3829f25171a8da49ea83366f7bf901cf0570002cd82769df49872be?context=explore)
+
+Build Docker image
+```
+docker build -t vega/voyager .
+```
+
+Run Docker container. The `-p 9000:9000` parameter is required to publish the container's yarn port to a host port, allowing users to view the datavoyager tool at http://localhost:9000/.
+```
+docker run -p 9000:9000 vega/voyager
+```
+
+Alternatively, run the Docker container detatched with `-d` to not receive log information in the console.
+```
+docker run -d -p 9000:9000 vega/voyager
+```
