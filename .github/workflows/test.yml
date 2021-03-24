@@ -1,0 +1,32 @@
+name: Test
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+jobs:
+  test:
+    name: Test on Node
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: "15"
+
+      - name: Install Node dependencies
+        run: yarn --frozen-lockfile
+
+      - run: yarn lint
+      - run: yarn build
+      - run: yarn test:logic
+      - run: yarn test:ui
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v1

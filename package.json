@@ -34,7 +34,6 @@
     "test:logic": "TZ=America/Los_Angeles jest --maxWorkers=4 --no-cache --coverage",
     "test:ui": "NODE_ENV=test node scripts/jest-ui.js",
     "posttest": "npm run lint",
-    "codecov": "jest --no-cache --coverage --maxWorkers=4 && codecov",
     "deploy": "npm run clean && npm run lint && npm run test && scripts/publish.sh && node scripts/deploy.js"
   },
   "dependencies": {
