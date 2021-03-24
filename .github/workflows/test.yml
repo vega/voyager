@@ -1,0 +1,35 @@
+name: Test
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+jobs:
+  test:
+    name: Test on Node
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      # remove when we update node canvas
+      - run: sudo apt-get install build-essential libcairo2-dev libpango1.0-dev libjpeg-dev libgif-dev librsvg2-dev
+
+      - name: Setup Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: "15"
+
+      - name: Install Node dependencies
+        run: yarn --frozen-lockfile
+
+      - run: yarn lint
+      - run: yarn build
+      - run: yarn test:logic
+      - run: yarn test:ui
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v1
