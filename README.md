@@ -1,5 +1,7 @@
 # Voyager 2
 
+[![Test](https://github.com/vega/voyager/actions/workflows/test.yml/badge.svg)](https://github.com/vega/voyager/actions/workflows/test.yml)
+
 Voyager 2 is a data exploration tool that blends manual and automated chart specification. Voyager 2 combines PoleStar, a traditional chart specification tool inspired by Tableau and Polaris (research project that led to the birth of Tableau), with two partial chart specification interfaces: (1) *wildcards* let users specify multiple charts in parallel,(2) *related views* suggest visualizations relevant to the currently specified chart.  With Voyager 2, we aim to  help analysts engage in both breadth-oriented exploration and depth-oriented question answering.
 
 For a quick overview of Voyager, see our [preview video](https://vimeo.com/199084718), or [a 4-minute demo in our Vega-Lite talk at OpenVisConf](https://youtu.be/9uaHRWj04D4?t=1462), or watch our [research talk at CHI 2017](https://www.youtube.com/watch?v=nrnN0l3rjdk).
