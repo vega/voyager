@@ -181,11 +181,11 @@ export function fromValueQuery(encQ: ValueQuery): ShelfValueDef {
 }
 
 export function isShelfFieldDef(encDef: any): encDef is ShelfFieldDef {
-  return !!encDef.field;
+  return encDef && !!encDef.field;
 }
 
 export function isShelfValueDef(encDef: any): encDef is ShelfValueDef {
-  return !!encDef.value;
+  return encDef && !!encDef.value;
 }
 
 

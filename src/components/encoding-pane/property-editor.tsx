@@ -7,7 +7,7 @@ import {Channel} from 'vega-lite/build/src/channel';
 import {ActionHandler} from '../../actions';
 import {SPEC_FIELD_NESTED_PROP_CHANGE, SPEC_FIELD_PROP_CHANGE, SpecEncodingAction} from '../../actions/shelf';
 import {isWildcardChannelId, ShelfFieldDef, ShelfId} from '../../models/shelf/spec';
-import {generateFormData, generatePropertyEditorSchema, isContinuous} from './property-editor-schema';
+import {generateFieldDefFormData, generatePropertyEditorSchema, isContinuous} from './property-editor-schema';
 import * as styles from './property-editor.scss';
 
 export interface PropertyEditorProps extends ActionHandler<SpecEncodingAction> {
@@ -31,7 +31,7 @@ export class PropertyEditorBase extends React.PureComponent<PropertyEditorProps,
     if (!isWildcardChannelId(shelfId)) {
       const {schema, uiSchema} = generatePropertyEditorSchema(prop, nestedProp, propTab, fieldDef,
         shelfId.channel as Channel);
-      const formData = generateFormData(shelfId, fieldDef);
+      const formData = generateFieldDefFormData(shelfId, fieldDef);
       return (
         <div styleName="property-editor">
           <Form

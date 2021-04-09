@@ -58,4 +58,57 @@ describe('queries/alternative-encodings', () => {
       chooseBy: ['aggregationQuality', 'effectiveness']
     });
   });
+
+  it.only('should correctly produce a query given ValueDef encoding', () => {
+    const query: Query = {
+      spec: {
+        transform: [{
+          filter: {
+            field: 'a',
+            oneOf: ['1, 2']
+          }
+        }],
+        mark: 'point',
+        encodings: [{
+          channel: 'y',
+          field: 'a',
+          type: 'quantitative'
+        }, {
+          channel: 'color',
+          value: '#ffffff'
+        }, {
+          channel: 'x',
+          field: 'c',
+          type: 'temporal'
+        }]
+      }
+    };
+
+    expect(alternativeEncodings.createQuery(query)).toEqual({
+      spec: {
+        transform: [{
+          filter: {
+            field: 'a',
+            oneOf: ['1, 2']
+          }
+        }],
+        mark: SHORT_WILDCARD,
+        encodings: [{
+          channel: SHORT_WILDCARD,
+          field: 'a',
+          type: 'quantitative'
+        }, {
+          channel: 'color',
+          value: '#ffffff'
+        }, {
+          channel: SHORT_WILDCARD,
+          field: 'c',
+          type: 'temporal'
+        }]
+      },
+      groupBy: 'encoding',
+      orderBy: ['fieldOrder', 'aggregationQuality', 'effectiveness'],
+      chooseBy: ['aggregationQuality', 'effectiveness']
+    });
+  });
 });
