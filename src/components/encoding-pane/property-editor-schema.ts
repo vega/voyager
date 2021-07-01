@@ -27,6 +27,13 @@ export interface StringSchema {
   default?: string;
 }
 
+export interface BooleanSchema {
+  type: 'boolean';
+  title: string;
+  enum?: string[];
+  default?: boolean;
+}
+
 export interface IntegerSchema {
   type: 'number';
   title: string;
@@ -39,7 +46,7 @@ export function isStringSchema(schema: SchemaProperty): schema is StringSchema {
   return schema.type === 'string';
 }
 
-export type SchemaProperty = ObjectSchema | StringSchema | IntegerSchema;
+export type SchemaProperty = ObjectSchema | StringSchema | IntegerSchema | BooleanSchema;
 
 export interface UISchema {
   [key: string]: UISchemaItem;
@@ -66,7 +73,10 @@ export const CUSTOMIZABLE_ENCODING_CHANNELS = [Channel.X, Channel.Y, Channel.COL
 // Key is Tab name, value is list of fieldDef properties
 // ------------------------------------------------------------------------------
 
-const AXIS_ORIENT_TITLE = ['title', 'orient'].map(p => ({prop: 'axis', nestedProp: p}));
+const AXIS_ORIENT_TITLE = ['title', 'orient'].map(p =>
+  ({prop: 'axis', nestedProp: p}));
+const AXIS_ADVANCED_PROPS = ['title', 'orient', 'grid', 'domain', 'labels', 'ticks', 'labelAngle'].map(p =>
+  ({prop: 'axis', nestedProp: p}));
 const LEGEND_ORIENT_TITLE = ['orient', 'title'].map(p => ({prop: 'legend', nestedProp: p}));
 
 const POSITION_FIELD_NOMINAL_INDEX = {
@@ -76,6 +86,9 @@ const POSITION_FIELD_NOMINAL_INDEX = {
       nestedProp: 'type'
     },
     ...AXIS_ORIENT_TITLE
+  ],
+  'Axis': [
+    ...AXIS_ADVANCED_PROPS
   ]
 };
 
@@ -85,6 +98,10 @@ const POSITION_FIELD_QUANTITATIVE_INDEX = {
   'Common': [
     ...POSITION_FIELD_NOMINAL_INDEX.Common,
     {prop: 'stack'}
+  ],
+  'Axis': [
+    ...AXIS_ADVANCED_PROPS,
+    {prop: 'axis', nestedProp: 'format'}
   ]
 };
 
@@ -128,13 +145,13 @@ export function generatePropertyEditorSchema(prop: string, nestedProp: string, p
       return generateAxisEditorSchema(nestedProp as keyof Axis, channel, title, propertyKey);
 
     case 'stack':
-      return generateSelectSchema('stack', (vlSchema as any).definitions.StackOffset.enum, title);
+      return generateSelectSchema('stack', (vlSchema as any).definitions.StackOffset.enum, title, 'string');
 
     case 'legend':
       return generateLegendEditorSchema(nestedProp as keyof Legend, title, propertyKey);
 
     case 'format':
-      return generateTextBoxSchema('format', '', title, 'string');
+      return generateTextBoxSchema('format', 'D3 format pattern', title, 'string');
 
     default:
       throw new Error('Property combination not recognized');
@@ -144,13 +161,14 @@ export function generatePropertyEditorSchema(prop: string, nestedProp: string, p
 function generateLegendEditorSchema(legendProp: keyof Legend, title: string, propertyKey: string) {
   switch (legendProp) {
     case 'orient':
-      return generateSelectSchema(propertyKey, (vlSchema as any).definitions.LegendOrient.enum, title);
+      return generateSelectSchema(propertyKey, (vlSchema as any).definitions.LegendOrient.enum, title, 'string');
 
     case 'title':
       return generateTextBoxSchema(propertyKey, '', title, 'string');
 
     case 'type':
-      return generateSelectSchema(propertyKey, (vlSchema as any).definitions.Legend.properties.type.enum, title);
+      return generateSelectSchema(propertyKey, (vlSchema as any).definitions.Legend.properties.type.enum, title,
+        'string');
 
     default:
       throw new Error('Property combination not recognized');
@@ -160,10 +178,23 @@ function generateLegendEditorSchema(legendProp: keyof Legend, title: string, pro
 function generateAxisEditorSchema(axisProp: keyof Axis, channel: Channel, title: string, propertyKey: string) {
   switch (axisProp) {
     case 'orient':
-      return generateSelectSchema(propertyKey, channel === 'y' ? ['left', 'right'] : ['top', 'bottom'], title);
+      return generateSelectSchema(propertyKey, channel === 'y' ? ['left', 'right'] : ['top', 'bottom'], title,
+        'string');
 
     case 'title':
       return generateTextBoxSchema(propertyKey, '', title, 'string');
+
+    case 'format':
+      return generateTextBoxSchema('format', '', title, 'string');
+
+    case 'labelAngle':
+      return generateTextBoxSchema(propertyKey, '', title, 'number');
+
+    case 'grid':
+    case 'domain':
+    case 'labels':
+    case 'ticks':
+      return generateSelectSchema(propertyKey, undefined, title, 'boolean');
 
     default:
       throw new Error('Property combination not recognized');
@@ -174,11 +205,11 @@ function generateScaleEditorSchema(scaleProp: keyof Scale, scaleTypes: string[],
                                    title: string, propertyKey: string) {
   switch (scaleProp) {
     case 'type':
-      return generateSelectSchema(propertyKey, scaleTypes, title);
+      return generateSelectSchema(propertyKey, scaleTypes, title, 'string');
 
     case 'scheme':
       return generateSelectSchema(propertyKey, isContinuous(fieldDef) ? SEQUENTIAL_COLOR_SCHEMES :
-        CATEGORICAL_COLOR_SCHEMES, title);
+        CATEGORICAL_COLOR_SCHEMES, title, 'string');
 
     case 'range':
     case 'domain':
@@ -232,15 +263,16 @@ function getSupportedScaleTypes(channel: Channel, fieldDef: ShelfFieldDef): stri
   }
 }
 
-function generateSelectSchema(propertyKey: string, enumVals: string[], title: string) {
+function generateSelectSchema(propertyKey: string, enumVals: string[] | boolean[], title: string,
+                              primitiveType: 'string' | 'boolean') {
   const schema: ObjectSchema = {
     type: 'object',
     properties: {
       [propertyKey]: {
-        type: 'string',
+        type: primitiveType,
         title: title,
         enum: enumVals
-      }
+      } as SchemaProperty
     }
   };
 
@@ -317,7 +349,7 @@ export function generateFormData(shelfId: ShelfId, fieldDef: ShelfFieldDef) {
       const formData = fieldDef[prop] ? nestedProp ? fieldDef[prop][nestedProp] : fieldDef[prop] : undefined;
       // Display empty string when '?' is passed in to retrieve default value
       // '?' is passed when formData is empty to avoid passing in empty string as a property/nestedProp value
-      formDataIndex[propertyKey] = formData === undefined ? '' : formData;
+      formDataIndex[propertyKey] = formData;
     }
   }
 
