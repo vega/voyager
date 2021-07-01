@@ -76,7 +76,7 @@
     "vega-lite": "2.4.0",
     "vega-tooltip": "^0.4.2",
     "vega-typings": "^0.2.15",
-    "vega-util": "1.7.0"
+    "vega-util": "1.13.1"
   },
   "devDependencies": {
     "@types/classnames": "^2.3.1",
