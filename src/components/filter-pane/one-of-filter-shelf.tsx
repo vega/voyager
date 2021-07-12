@@ -95,13 +95,13 @@ export class OneOfFilterShelfBase extends React.PureComponent<OneOfFilterShelfPr
 
   private onSelectOne(value: string | number | boolean | DateTime) {
     const {index} = this.props;
-    if (typeof value == 'string'){
+    if (typeof value === 'string') {
       this.filterModifyOneOf(index, [value] as string[]);
-    } else if (typeof value == 'number'){
+    } else if (typeof value === 'number') {
       this.filterModifyOneOf(index, [value] as number[]);
-    } else if (typeof value == 'boolean'){
+    } else if (typeof value === 'boolean') {
       this.filterModifyOneOf(index, [value] as boolean[]);
-    } else if (typeof value == 'object'){
+    } else if (typeof value === 'object') {
       this.filterModifyOneOf(index, [value] as DateTime[]);
     }
   }
