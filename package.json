@@ -89,7 +89,7 @@
     "@types/json-stable-stringify": "^1.0.32",
     "@types/node": "^8.0.22",
     "@types/papaparse": "^5.2.5",
-    "@types/react": "^15.0.8",
+    "@types/react": "15.7.2",
     "@types/react-css-modules": "^4.6.2",
     "@types/react-dnd": "^2.0.32",
     "@types/react-dnd-html5-backend": "^2.1.7",
@@ -136,6 +136,9 @@
     "webpack-dev-server": "^2.11.2",
     "webpack-manifest-plugin": "^1.1.0",
     "webpack-notifier": "^1.13.0"
+  },
+  "resolutions": {
+    "@types/react": "15.7.2"
   },
   "jest": {
     "transform": {

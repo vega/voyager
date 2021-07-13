@@ -87,6 +87,7 @@
 "@types/react-dom@^0.14.23":
   version "0.14.23"
   resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-0.14.23.tgz#cecfcfad754b4c2765fe5d29b81b301889ad6c2e"
+  integrity sha1-zs/PrXVLTCdl/l0puBswGImtbC4=
   dependencies:
     "@types/react" "*"
 
@@ -115,9 +116,10 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react@*", "@types/react@>=15", "@types/react@^15.0.8":
-  version "15.0.10"
-  resolved "https://registry.yarnpkg.com/@types/react/-/react-15.0.10.tgz#6b2a8a4d4965e8c0ade3a43192520da1570ea350"
+"@types/react@*", "@types/react@15.7.2", "@types/react@>=15", "@types/react@^15.0.16":
+  version "15.7.2"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-15.7.2.tgz#091f00d1711cb6e75485ec5240a8fff1450d3a90"
+  integrity sha512-IpmqrwLrgUSxrlSriy3Do9mWrA9RU2/hjRB6TWVzVBRJwCdbr5Js31dXXxJHvr5CKBUtYHQMQoxttgqZyHQCgQ==
 
 "@types/redux-logger@^3.0.0":
   version "3.0.0"
