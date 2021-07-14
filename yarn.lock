@@ -68,9 +68,9 @@
     "@types/node" "*"
 
 "@types/react-css-modules@^4.6.2":
-  version "4.6.2"
-  resolved "https://registry.yarnpkg.com/@types/react-css-modules/-/react-css-modules-4.6.2.tgz#ff6451cb848d5e49c074ce9820bb52073e028f82"
-  integrity sha512-jRgAsH//g6BHS/cINR90HE2GJWGZe5tLYilxFMY1zTns4BvQ8DUXMQg5333HVSGoj7bjkDLK/whrgfzdAattHg==
+  version "4.6.4"
+  resolved "https://registry.yarnpkg.com/@types/react-css-modules/-/react-css-modules-4.6.4.tgz#ddff040d6d11e81a9a875f30c359fc934ceeb9ce"
+  integrity sha512-+ceSNlaDcuNR44xyceOrKybdRMDc3kogJw2Hgal3sKPYv3jZPs7NsTThCJd+6ti5cjBNl/UPPYPkf8MevuxCqQ==
 
 "@types/react-dnd-html5-backend@^2.1.7":
   version "2.1.7"
@@ -116,7 +116,7 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react@*", "@types/react@15.7.2", "@types/react@>=15", "@types/react@^15.0.16":
+"@types/react@*", "@types/react@15.7.2", "@types/react@>=15":
   version "15.7.2"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-15.7.2.tgz#091f00d1711cb6e75485ec5240a8fff1450d3a90"
   integrity sha512-IpmqrwLrgUSxrlSriy3Do9mWrA9RU2/hjRB6TWVzVBRJwCdbr5Js31dXXxJHvr5CKBUtYHQMQoxttgqZyHQCgQ==
@@ -3639,11 +3639,7 @@ hoek@2.x.x:
 hoist-non-react-statics@^1.0.3, hoist-non-react-statics@^1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/hoist-non-react-statics/-/hoist-non-react-statics-1.2.0.tgz#aa448cf0986d55cc40773b17174b7dd066cb7cfb"
-
-hoist-non-react-statics@^2.5.5:
-  version "2.5.5"
-  resolved "https://registry.yarnpkg.com/hoist-non-react-statics/-/hoist-non-react-statics-2.5.5.tgz#c5903cf409c0dfd908f388e619d86b9c1174cb47"
-  integrity sha512-rqcy4pJo55FTTLWt+bU8ukscqHeE/e9KWvsOW2b/a3afxQZhwkQdT1rPPCJ0rYXdj4vNcasY8zHTH+jF/qStxw==
+  integrity sha1-qkSM8JhtVcxAdzsXF0t90GbLfPs=
 
 home-or-tmp@^2.0.0:
   version "2.0.0"
@@ -6718,12 +6714,12 @@ react-copy-to-clipboard@^5.0.3:
     copy-to-clipboard "^3"
     prop-types "^15.5.8"
 
-react-css-modules@^4.7.11:
-  version "4.7.11"
-  resolved "https://registry.yarnpkg.com/react-css-modules/-/react-css-modules-4.7.11.tgz#e9bc7ac6e3dd7e71c8e46e9d22c1d0abb2110682"
-  integrity sha512-ke/zMcBKQyq7x4I5CREzeA/cZSg7MW/Kx23L1OICd+PXKNq++fMdAJDeDLFYkDY28TwuAHpwsKxDYEVjpEMkmQ==
+react-css-modules@4.5.0:
+  version "4.5.0"
+  resolved "https://registry.yarnpkg.com/react-css-modules/-/react-css-modules-4.5.0.tgz#51c795f58a94d4ee7ca6aaf2a092a56d5e5a863c"
+  integrity sha1-UceV9YqU1O58pqryoJKlbV5ahjw=
   dependencies:
-    hoist-non-react-statics "^2.5.5"
+    hoist-non-react-statics "^1.2.0"
     lodash "^4.16.6"
     object-unfreeze "^1.1.0"
 

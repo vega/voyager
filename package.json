@@ -47,7 +47,7 @@
     "re-reselect": "^4.0.0",
     "react": "^15.4.2",
     "react-copy-to-clipboard": "^5.0.3",
-    "react-css-modules": "^4.7.11",
+    "react-css-modules": "4.5.0",
     "react-datetime": "^2.8.10",
     "react-dnd": "^2.2.3",
     "react-dnd-html5-backend": "^2.2.3",
