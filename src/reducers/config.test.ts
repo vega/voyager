@@ -10,12 +10,12 @@ describe('reducers/config', () => {
           type: SET_CONFIG,
           payload: {
             config: {
-              showDatasetSelector: true
+              showDataSourceSelector: true
             }
           }
         }
       )).toEqual({
-        showDatasetSelector: true
+        showDataSourceSelector: true
       });
     });
 
@@ -26,12 +26,12 @@ describe('reducers/config', () => {
           type: SET_CONFIG,
           payload: {
             config: {
-              showDatasetSelector: false
+              showDataSourceSelector: false
             }
           }
         }
       )).toEqual({
-        showDatasetSelector: false
+        showDataSourceSelector: false
       });
     });
   });

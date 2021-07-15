@@ -97,7 +97,6 @@ export class PlotBase extends React.PureComponent<PlotProps, PlotState> {
       notesDiv = (
         <textarea
           styleName='note'
-          type='text'
           placeholder={'notes'}
           value={this.props.bookmark.dict[specKey].note}
           onChange={this.handleTextChange}
@@ -144,7 +143,7 @@ export class PlotBase extends React.PureComponent<PlotProps, PlotState> {
     );
   }
 
-  protected componentWillUnmount() {
+  public componentWillUnmount() {
     this.clearHoverTimeout();
   }
 

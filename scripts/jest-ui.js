@@ -18,9 +18,13 @@ config.output.path = path.resolve(__dirname, '../lib-test');
 config.output.filename = '[name].js';
 config.externals = {};
 
+// The following filter on config.plugins is not working for webpack 4 since the
+// webpack.optimize.UglifyJsPlugin has been removed, and instead being replaced by
+// config.optimization.minimize
+
 // UI test build runs with NODE_ENV === 'test' and React expects this to be production if minified
 // Thus do not use UglifyJS for UI test
-config.plugins = config.plugins.filter(plugin => !(plugin instanceof webpack.optimize.UglifyJsPlugin));
+// config.plugins = config.plugins.filter(plugin => !(plugin instanceof webpack.optimize.UglifyJsPlugin));
 
 
 const basedir = path.resolve(__dirname, '../src');

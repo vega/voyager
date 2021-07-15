@@ -139,7 +139,7 @@ export class VegaLite extends React.PureComponent<VegaLiteProps, VegaLiteState> 
     const {logger} = this.props;
     const vlSpec = this.props.spec;
     try {
-      const spec = vl.compile(vlSpec, logger).spec;
+      const spec = vl.compile(vlSpec, {logger}).spec;
       const runtime = vega.parse(spec, vlSpec.config);
       this.view = new vega.View(runtime)
         .logLevel(vega.Warn)
