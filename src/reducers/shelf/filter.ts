@@ -11,7 +11,7 @@ import {insertItemToArray, modifyItemInArray, removeItemFromArray} from '../util
 
 
 export function filterReducer(
-  filters: Readonly<Array<FieldRangePredicate | FieldOneOfPredicate>> = [],
+  filters: ReadonlyArray<FieldRangePredicate | FieldOneOfPredicate> = [],
   action: Action
 ): Array<FieldRangePredicate | FieldOneOfPredicate> {
   switch (action.type) {
@@ -35,7 +35,7 @@ export function filterReducer(
 
     case FILTER_TOGGLE: {
       const {filter} = action.payload;
-      const index = filterIndexOf(filters, filter.field);
+      const index = filterIndexOf(filters.concat(), filter.field);
       if (index === -1) {
         // add filter
         return insertItemToArray(filters, filters.length, filter);
@@ -94,7 +94,7 @@ export function filterReducer(
     }
 
     default: {
-      return filters;
+      return filters.concat();
     }
   }
 }
