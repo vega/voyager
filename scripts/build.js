@@ -42,11 +42,13 @@ measureFileSizesBeforeBuild(paths.appBuild).then(previousFileSizes => {
   // Start the webpack build
   build(previousFileSizes);
 
+  console.log('3');
   // Copy data folder
   copyDataFolder();
-
+  console.log('4');
   // Copy scss files from /src to /build
   copyScss();
+  console.log('5');
 });
 
 // Print out errors
@@ -70,6 +72,7 @@ function build(previousFileSizes) {
     printErrors('Failed to compile.', [err]);
     process.exit(1);
   }
+  console.log('1');
 
   compiler.run((err, stats) => {
     if (err) {
@@ -98,6 +101,7 @@ function build(previousFileSizes) {
     printFileSizesAfterBuild(stats, previousFileSizes);
     console.log();
   });
+  console.log('2');
 }
 
 function copyDataFolder() {
