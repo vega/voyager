@@ -82,11 +82,12 @@
     "@types/classnames": "^2.3.1",
     "@types/d3-selection": "^2.0.0",
     "@types/enzyme": "^2.8.0",
+    "@types/es6-promise": "0.0.32",
     "@types/fetch-mock": "^7.3.3",
     "@types/isomorphic-fetch": "^0.0.35",
     "@types/jest": "^18.1.1",
     "@types/json-stable-stringify": "^1.0.32",
-    "@types/node": "7.0.7",
+    "@types/node": "8.0.0",
     "@types/papaparse": "^5.2.5",
     "@types/react": "15.7.2",
     "@types/react-css-modules": "^4.6.3",
@@ -132,13 +133,14 @@
     "uglifyjs-webpack-plugin": "^2.2.0",
     "url-loader": "4.1.1",
     "webpack": "4.0.0",
-    "webpack-cli": "^4.7.2",
+    "webpack-cli": "3.3.2",
     "webpack-dev-server": "3.11.2",
     "webpack-manifest-plugin": "2.1.0",
     "webpack-notifier": "^1.13.0"
   },
   "resolutions": {
-    "@types/react": "15.7.2"
+    "@types/react": "15.7.2",
+    "@types/node": "8.0.0"
   },
   "jest": {
     "transform": {

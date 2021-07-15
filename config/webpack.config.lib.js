@@ -3,6 +3,7 @@ var path = require('path');
 const webpack = require('webpack');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 var WebpackNotifierPlugin = require('webpack-notifier');
 
 const getClientEnvironment = require('./env');
@@ -137,16 +138,6 @@ module.exports = {
     // Makes some environment variables available to the JS code, for example:
     // if (process.env.NODE_ENV === 'development') { ... }. See `./env.js`.
     new webpack.DefinePlugin(env.stringified),
-
-    new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        warnings: false,
-      },
-      output: {
-        comments: false,
-      },
-      sourceMap: true,
-    }),
     // Watcher doesn't work well if you mistype casing in a path so we use
     // a plugin that prints an error when you attempt to do this.
     // See https://github.com/facebookincubator/create-react-app/issues/240
@@ -165,4 +156,15 @@ module.exports = {
   },
   // webpack v3 to v4 migration
   mode: 'none',
+  optimization: {
+    minimizer: [new UglifyJsPlugin({
+      uglifyOptions: {
+        warnings: false,
+        output: {
+          comments: false,
+        },
+        sourceMap: true,
+      },
+    })],
+  },
 };
