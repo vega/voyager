@@ -82,7 +82,6 @@ module.exports = {
             loader: "css-loader",
             options: {
               sourceMap: true,
-              modules: true,
               importLoaders: 2,
               // TODO: use hash in production
               // localIdentName: "[name]__[local]___[hash:base64:5]"
