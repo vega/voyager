@@ -87,7 +87,9 @@ module.exports = {
               // TODO: use hash in production
               // localIdentName: "[name]__[local]___[hash:base64:5]"
               // Don't use hash in-development, enabling us to edit html directly easily
-              localIdentName: "[name]__[local]"
+              modules: {
+                localIdentName: "[name]__[local]"
+              }
             }
           }, {
             loader: "postcss-loader",
