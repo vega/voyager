@@ -218,7 +218,7 @@
   resolved "https://registry.yarnpkg.com/@types/webpack-env/-/webpack-env-1.16.0.tgz#8c0a9435dfa7b3b1be76562f3070efb3f92637b4"
   integrity sha512-Fx+NpfOO0CpeYX2g9bkvX8O5qh9wrU1sOF4g8sft4Mu7z+qfe387YlyY8w8daDyDsKY5vUxM0yxkAYnbkRbZEw==
 
-"@types/webpack@3.8.21":
+"@types/webpack@^3.8.21":
   version "3.8.21"
   resolved "https://registry.yarnpkg.com/@types/webpack/-/webpack-3.8.21.tgz#36080ad87a0cd26894e7a3b5faa4eb10168578f1"
   integrity sha512-WdNs9MmryI2yimvCnupfFrhvvQZP0UZBETMLsV32Wl4i8mhstd85OGrf3phWlNk4KWaBgBdsAmJbuBzTcf3XGg==
@@ -7549,7 +7549,7 @@ react-copy-to-clipboard@^5.0.3:
     copy-to-clipboard "^3"
     prop-types "^15.5.8"
 
-react-css-modules@4.7.11:
+react-css-modules@^4.7.11:
   version "4.7.11"
   resolved "https://registry.yarnpkg.com/react-css-modules/-/react-css-modules-4.7.11.tgz#e9bc7ac6e3dd7e71c8e46e9d22c1d0abb2110682"
   integrity sha512-ke/zMcBKQyq7x4I5CREzeA/cZSg7MW/Kx23L1OICd+PXKNq++fMdAJDeDLFYkDY28TwuAHpwsKxDYEVjpEMkmQ==
