@@ -154,7 +154,6 @@ module.exports = {
   performance: {
     hints: false,
   },
-  // webpack v3 to v4 migration
   mode: 'none',
   optimization: {
     minimizer: [new UglifyJsPlugin({
