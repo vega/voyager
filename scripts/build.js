@@ -44,7 +44,6 @@ measureFileSizesBeforeBuild(paths.appBuild).then(previousFileSizes => {
 
   // Copy data folder
   copyDataFolder();
-
   // Copy scss files from /src to /build
   copyScss();
 });
@@ -95,7 +94,7 @@ function build(previousFileSizes) {
 
     console.log('File sizes after gzip:');
     console.log();
-    printFileSizesAfterBuild(stats, previousFileSizes);
+    printFileSizesAfterBuild(stats, previousFileSizes, paths.appBuild);
     console.log();
   });
 }

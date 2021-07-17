@@ -9,7 +9,6 @@ import 'isomorphic-fetch';
 import {Data, InlineData} from 'vega-lite/build/src/data';
 import {VoyagerConfig} from '../models/config';
 import {fromSpecQueryModelGroup, ResultPlotWithKey} from '../models/result';
-
 export {Query, Schema, Data};
 
 /**
