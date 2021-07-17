@@ -3,7 +3,7 @@ var path = require('path');
 const webpack = require('webpack');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const TerserPlugin = require("terser-webpack-plugin");
 var WebpackNotifierPlugin = require('webpack-notifier');
 
 const getClientEnvironment = require('./env');
@@ -156,14 +156,16 @@ module.exports = {
   },
   mode: 'none',
   optimization: {
-    minimizer: [new UglifyJsPlugin({
-      uglifyOptions: {
-        warnings: false,
-        output: {
+    minimize: true,
+    minimizer: [new TerserPlugin({
+      terserOptions: {
+        format: {
           comments: false,
         },
-        sourceMap: true,
       },
+      extractComments: false,
+      sourceMap: true,
+      parallel: true,
     })],
   },
 };

@@ -6,7 +6,7 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const TerserPlugin = require("terser-webpack-plugin");
 const InterpolateHtmlPlugin = require('react-dev-utils/InterpolateHtmlPlugin');
 const paths = require('./paths');
 const getClientEnvironment = require('./env');
@@ -229,14 +229,16 @@ module.exports = {
   mode: 'production',
   // Minify the code.
   optimization: {
-    minimizer: [new UglifyJsPlugin({
-      uglifyOptions: {
-        warnings: false,
-        output: {
+    minimize: true,
+    minimizer: [new TerserPlugin({
+      terserOptions: {
+        format: {
           comments: false,
         },
-        sourceMap: true,
       },
+      extractComments: false,
+      sourceMap: true,
+      parallel: true,
     })],
   },
 };
