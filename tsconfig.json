@@ -6,7 +6,6 @@
     "jsx": "react",
     "noImplicitAny": true,
     "suppressImplicitAnyIndexErrors": true,
-    "declaration": true,
     "noErrorTruncation": true,
     "sourceMap": true
   },

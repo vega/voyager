@@ -127,7 +127,7 @@ class FieldListBase extends React.PureComponent<FieldListProps, {}> {
         isPill={true}
         draggable={true}
         filter={filter}
-        parentId={{type: FieldParentType.FIELD_LIST}}
+        parentId={{type: FieldParentType.FIELD_LIST as FieldParentType.FIELD_LIST}}
         caretShow={true}
         popupComponent={popupComponent}
         onDoubleClick={this.onAdd}
