@@ -11,8 +11,7 @@ describe('reducers/dataset', () => {
       expect(datasetReducer(DEFAULT_DATASET, {
         type: DATASET_REQUEST,
         payload: {
-          name: 'cars',
-          url: 'http://cars.com'
+          name: 'cars'
         }
       })).toEqual({
         ...DEFAULT_DATASET,
