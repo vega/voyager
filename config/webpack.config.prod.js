@@ -225,7 +225,6 @@ module.exports = {
     net: 'empty',
     tls: 'empty',
   },
-  // webpack v3 to v4 migration
   mode: 'production',
   // Minify the code.
   optimization: {
