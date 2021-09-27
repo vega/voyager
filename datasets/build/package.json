@@ -1,0 +1,36 @@
+{
+    "name": "vega-datasets",
+    "version": "1.31.1",
+    "description": "Common repository for example datasets used by Vega related projects.",
+    "main": "build/vega-datasets",
+    "module": "build/src/data",
+    "unpkg": "build/vega-datasets.min.js",
+    "jsdelivr": "build/vega-datasets.min.js",
+    "typings": "build/src/data.d.ts",
+    "repository": {
+        "type": "git",
+        "url": "http://github.com/vega/vega-datasets.git"
+    },
+    "author": {
+        "name": "UW Interactive Data Lab",
+        "url": "http://idl.cs.washington.edu"
+    },
+    "devDependencies": {
+        "@rollup/plugin-json": "^4.0.3",
+        "@rollup/plugin-node-resolve": "^8.0.0",
+        "@types/d3-dsv": "^1.0.36",
+        "d3-dsv": "^1.2.0",
+        "datalib": "^1.9.2",
+        "rollup": "^2.11.2",
+        "terser": "^4.7.0",
+        "typescript": "^3.9.3"
+    },
+    "scripts": {
+        "index": "./scripts/make-url-index.sh > src/urls.ts",
+        "prebuild": "npm run index && tsc",
+        "build": "rollup -c",
+        "postbuild": "terser build/vega-datasets.js -cm > build/vega-datasets.min.js",
+        "flights": "node scripts/flights.js",
+        "github": "python scripts/github.py"
+    }
+}
