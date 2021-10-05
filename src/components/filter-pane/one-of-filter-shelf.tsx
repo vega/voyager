@@ -70,7 +70,7 @@ export class OneOfFilterShelfBase extends React.PureComponent<OneOfFilterShelfPr
     );
   }
 
-  protected filterModifyOneOf(index: number, oneOf: string[] | number[] | boolean[] | DateTime[]) {
+  protected filterModifyOneOf(index: number, oneOf: any[]) {
     const {handleAction} = this.props;
     handleAction({
       type: FILTER_MODIFY_ONE_OF,
@@ -95,15 +95,7 @@ export class OneOfFilterShelfBase extends React.PureComponent<OneOfFilterShelfPr
 
   private onSelectOne(value: string | number | boolean | DateTime) {
     const {index} = this.props;
-    if (typeof value === 'string') {
-      this.filterModifyOneOf(index, [value] as string[]);
-    } else if (typeof value === 'number') {
-      this.filterModifyOneOf(index, [value] as number[]);
-    } else if (typeof value === 'boolean') {
-      this.filterModifyOneOf(index, [value] as boolean[]);
-    } else if (typeof value === 'object') {
-      this.filterModifyOneOf(index, [value] as DateTime[]);
-    }
+    this.filterModifyOneOf(index, [value]);
   }
 
   private onSelectAll() {
