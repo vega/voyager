@@ -16,7 +16,7 @@ function modifyFieldsProperty(fields: string[]) {
 }
 
 export function customWildcardFieldReducer(
-  customWildcardFields: ReadonlyArray<CustomWildcardField> = [],
+  customWildcardFields: CustomWildcardField[] = [],
   action: Action
 ): CustomWildcardField[] {
   switch (action.type) {
@@ -53,7 +53,7 @@ export function customWildcardFieldReducer(
         ));
       }
 
-      return customWildcardFields.concat();
+      return customWildcardFields;
     }
 
     case CUSTOM_WILDCARD_REMOVE_FIELD: {
@@ -76,5 +76,5 @@ export function customWildcardFieldReducer(
     }
   }
 
-  return customWildcardFields.concat();
+  return customWildcardFields;
 }
