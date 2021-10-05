@@ -262,11 +262,7 @@ export class DataSelectorBase extends React.PureComponent<DataSelectorProps, Dat
   // https://facebook.github.io/react/docs/forms.html
   private handleTextChange(event: any) {
     const name = event.target.name;
-    if (name === "dataText") {
-      this.setState({dataText: event.target.value});
-    } else {
-      this.setState({dataUrl: event.target.value});
-    }
+    this.setState({[name]: event.target.value});
   }
 }
 

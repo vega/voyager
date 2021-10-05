@@ -32,7 +32,8 @@ export type DatasetAsyncAction = DatasetLoad;
 
 export const DATASET_REQUEST = 'DATASET_REQUEST';
 export type DatasetRequest = ReduxAction<typeof DATASET_REQUEST, {
-  name: string
+  name: string,
+  url: string
 }>;
 
 export const DATASET_RECEIVE = 'DATASET_RECEIVE';
