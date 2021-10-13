@@ -16,9 +16,9 @@ function modifyFieldsProperty(fields: string[]) {
 }
 
 export function customWildcardFieldReducer(
-  customWildcardFields: CustomWildcardField[] = [],
+  customWildcardFields: Readonly<CustomWildcardField[]> = [],
   action: Action
-): CustomWildcardField[] {
+): Readonly<CustomWildcardField[]> {
   switch (action.type) {
     case CUSTOM_WILDCARD_ADD: {
       const {fields, type} = action.payload;

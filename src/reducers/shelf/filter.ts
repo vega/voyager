@@ -35,7 +35,7 @@ export function filterReducer(
 
     case FILTER_TOGGLE: {
       const {filter} = action.payload;
-      const index = filterIndexOf(filters.concat(), filter.field);
+      const index = filterIndexOf(filters, filter.field);
       if (index === -1) {
         // add filter
         return insertItemToArray(filters, filters.length, filter);
