@@ -292,7 +292,7 @@ export type AnyFieldDef = ShelfFieldDef | ShelfAnyEncodingDef | FieldDef<any>;
 
 export function modifyFieldProp(
   fieldDef: Readonly<AnyFieldDef>,
-  prop: string,
+  prop: keyof AnyFieldDef,
   value: any
 ): Readonly<AnyFieldDef> {
   const {[prop]: _oldProp, ...fieldDefWithoutProp} = fieldDef;
@@ -304,7 +304,7 @@ export function modifyFieldProp(
 
 export function modifyNestedFieldProp(
   fieldDef: Readonly<AnyFieldDef>,
-  prop: string,
+  prop: keyof AnyFieldDef,
   nestedProp: string,
   value: any
 ): Readonly<AnyFieldDef> {

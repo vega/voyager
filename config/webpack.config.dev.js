@@ -82,12 +82,13 @@ module.exports = {
             loader: "css-loader",
             options: {
               sourceMap: true,
-              modules: true,
               importLoaders: 2,
               // TODO: use hash in production
               // localIdentName: "[name]__[local]___[hash:base64:5]"
               // Don't use hash in-development, enabling us to edit html directly easily
-              localIdentName: "[name]__[local]"
+              modules: {
+                localIdentName: "[name]__[local]"
+              }
             }
           }, {
             loader: "postcss-loader",
@@ -159,4 +160,5 @@ module.exports = {
   performance: {
     hints: false,
   },
+  mode: 'development',
 };

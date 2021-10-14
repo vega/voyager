@@ -3,6 +3,7 @@ var path = require('path');
 const webpack = require('webpack');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
+const TerserPlugin = require("terser-webpack-plugin");
 var WebpackNotifierPlugin = require('webpack-notifier');
 
 const getClientEnvironment = require('./env');
@@ -64,12 +65,13 @@ module.exports = {
             loader: "css-loader",
             options: {
               sourceMap: true,
-              modules: true,
               importLoaders: 2,
               // TODO: use hash in production
               // localIdentName: "[name]__[local]___[hash:base64:5]"
               // Don't use hash in-development, enabling us to edit html directly easily
-              localIdentName: "[name]__[local]"
+              modules: {
+                localIdentName: "[name]__[local]"
+              }
             }
           }, {
             loader: "postcss-loader",
@@ -136,16 +138,6 @@ module.exports = {
     // Makes some environment variables available to the JS code, for example:
     // if (process.env.NODE_ENV === 'development') { ... }. See `./env.js`.
     new webpack.DefinePlugin(env.stringified),
-
-    new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        warnings: false,
-      },
-      output: {
-        comments: false,
-      },
-      sourceMap: true,
-    }),
     // Watcher doesn't work well if you mistype casing in a path so we use
     // a plugin that prints an error when you attempt to do this.
     // See https://github.com/facebookincubator/create-react-app/issues/240
@@ -161,5 +153,19 @@ module.exports = {
   // cumbersome.
   performance: {
     hints: false,
+  },
+  mode: 'none',
+  optimization: {
+    minimize: true,
+    minimizer: [new TerserPlugin({
+      terserOptions: {
+        format: {
+          comments: false,
+        },
+      },
+      extractComments: false,
+      sourceMap: true,
+      parallel: true,
+    })],
   },
 };

@@ -1,20 +1,37 @@
 {
-  "version": "0.1.0",
+  "version": "2.0.0",
   "command": "npm",
-  "isShellCommand": true,
   "args": [
     "run"
   ],
-  "showOutput": "silent",
   "tasks": [
     {
-      "taskName": "build",
-      "isBuildCommand": true,
-      "problemMatcher": "$tsc"
+      "label": "build",
+      "type": "shell",
+      "command": "npm",
+      "args": [
+        "run",
+        "build"
+      ],
+      "problemMatcher": "$tsc",
+      "group": {
+        "_id": "build",
+        "isDefault": false
+      }
     },
     {
-      "taskName": "test",
-      "isTestCommand": true
+      "label": "test",
+      "type": "shell",
+      "command": "npm",
+      "args": [
+        "run",
+        "test"
+      ],
+      "problemMatcher": [],
+      "group": {
+        "_id": "test",
+        "isDefault": false
+      }
     }
   ]
 }

@@ -11,7 +11,7 @@ import {insertItemToArray, modifyItemInArray, removeItemFromArray} from '../util
 
 
 export function filterReducer(
-  filters: Readonly<Array<FieldRangePredicate | FieldOneOfPredicate>> = [],
+  filters: Array<FieldRangePredicate | FieldOneOfPredicate> = [],
   action: Action
 ): Array<FieldRangePredicate | FieldOneOfPredicate> {
   switch (action.type) {

@@ -200,7 +200,7 @@ class EncodingShelfBase extends React.PureComponent<
           schema={schema}
           popupComponent={functionPicker}
           onRemove={this.onRemove.bind(this)}
-          parentId={{type: FieldParentType.ENCODING_SHELF, id: id}}
+          parentId={{type: FieldParentType.ENCODING_SHELF as FieldParentType.ENCODING_SHELF, id: id}}
         />
       </div>
     );

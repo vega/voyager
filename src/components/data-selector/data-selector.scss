@@ -3,9 +3,11 @@
 }
 
 .modal {
+  font-size: 12px;
   display: flex;
   margin: 50px auto;
   width: calc( 100% - 100px);
+  height: inherit;
   padding: 6px;
   background-color: #E2E9F3;
   border: 1px solid #aaa;
