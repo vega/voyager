@@ -1,6 +1,6 @@
 import {ExpandedType} from 'compassql/build/src/query/expandedtype';
 import {Axis} from 'vega-lite/build/src/axis';
-import {Channel} from 'vega-lite/build/src/channel';
+import {X, Y, COLOR, SIZE, SHAPE, Channel} from 'vega-lite/build/src/channel';
 import {Legend} from 'vega-lite/build/src/legend';
 import {Scale} from 'vega-lite/build/src/scale';
 import {contains} from 'vega-lite/build/src/util';
@@ -59,7 +59,7 @@ export interface PropertyEditorSchema {
 }
 
 // Currently supported customizble encoding channels that display caret in customizer UI
-export const CUSTOMIZABLE_ENCODING_CHANNELS = [Channel.X, Channel.Y, Channel.COLOR, Channel.SIZE, Channel.SHAPE];
+export const CUSTOMIZABLE_ENCODING_CHANNELS = [X, Y, COLOR, SIZE, SHAPE];
 
 // ------------------------------------------------------------------------------
 // Channel-Field Indexes for custom encoding
@@ -194,11 +194,11 @@ function generateScaleEditorSchema(scaleProp: keyof Scale, scaleTypes: string[],
 function getSupportedScaleTypes(channel: Channel, fieldDef: ShelfFieldDef): string[] {
   switch (fieldDef.type) {
     case ExpandedType.QUANTITATIVE:
-      if (contains([Channel.X, Channel.Y], channel)) {
+      if (contains([X, Y], channel)) {
         return ["linear", "log", "pow", "sqrt"];
-      } else if (channel === Channel.COLOR) {
+      } else if (channel === COLOR) {
         return ["linear", "pow", "sqrt", "log", "sequential"];
-      } else if (channel === Channel.SIZE) {
+      } else if (channel === SIZE) {
         return ["linear", "pow", "sqrt", "log"];
       } else {
         return [];
@@ -206,22 +206,22 @@ function getSupportedScaleTypes(channel: Channel, fieldDef: ShelfFieldDef): stri
 
     case ExpandedType.ORDINAL:
     case ExpandedType.NOMINAL:
-      if (contains([Channel.X, Channel.Y], channel)) {
+      if (contains([X, Y], channel)) {
         return ["point", "band"];
-      } else if (channel === Channel.COLOR) {
+      } else if (channel === COLOR) {
         return ["ordinal"];
-      } else if (channel === Channel.SIZE) {
+      } else if (channel === SIZE) {
         return ["point", "band"];
       } else {
         return [];
       }
 
     case ExpandedType.TEMPORAL:
-      if (contains([Channel.X, Channel.Y], channel)) {
+      if (contains([X, Y], channel)) {
         return ["time", "utc"];
-      } else if (channel === Channel.COLOR) {
+      } else if (channel === COLOR) {
         return ["time", "utc", "sequential"];
-      } else if (channel === Channel.SIZE) {
+      } else if (channel === SIZE) {
         return ["time", "utc"];
       } else {
         return [];
@@ -277,7 +277,7 @@ function generateTextBoxSchema(propKey: string, placeHolderText: string, title: 
 }
 
 export function getFieldPropertyGroupIndex(shelfId: ShelfId, fieldDef: ShelfFieldDef) {
-  if (fieldDef && (shelfId.channel === Channel.X || shelfId.channel === Channel.Y)) {
+  if (fieldDef && (shelfId.channel === X || shelfId.channel === Y)) {
     switch (fieldDef.type) {
       case ExpandedType.QUANTITATIVE:
         if (!isContinuous(fieldDef)) {
@@ -297,11 +297,11 @@ export function getFieldPropertyGroupIndex(shelfId: ShelfId, fieldDef: ShelfFiel
         return POSITION_FIELD_TEMPORAL_INDEX;
 
     }
-  } else if (shelfId.channel === Channel.COLOR) {
+  } else if (shelfId.channel === COLOR) {
     return COLOR_CHANNEL_FIELD_INDEX;
-  } else if (shelfId.channel === Channel.SIZE) {
+  } else if (shelfId.channel === SIZE) {
     return SIZE_CHANNEL_FIELD_INDEX;
-  } else if (shelfId.channel === Channel.SHAPE) {
+  } else if (shelfId.channel === SHAPE) {
     return SHAPE_CHANNEL_FIELD_INDEX;
   }
 }

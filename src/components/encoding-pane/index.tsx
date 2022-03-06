@@ -117,6 +117,9 @@ class EncodingPanelBase extends React.PureComponent<EncodingPanelProps, {}> {
         fieldDef={encoding[channel]}
         schema={schema}
         handleAction={handleAction}
+        // valueDef is type ShelfValueDef, but encoding[channel] is
+        // type SpecificEncoding = ShelfValueDef | ShelfFieldDef
+        // ShelfValueDef doesn't have value property.
         valueDef={encoding[channel]}
       />
     );

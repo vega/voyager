@@ -2,7 +2,7 @@ import {Schema} from 'compassql/build/src/schema';
 import {isWildcard} from 'compassql/build/src/wildcard';
 import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
-import {ConnectDropTarget, DropTarget, DropTargetCollector, DropTargetSpec} from 'react-dnd';
+import {ConnectDropTarget, DndComponentClass, DropTarget, DropTargetCollector, DropTargetSpec} from 'react-dnd';
 import * as TetherComponent from 'react-tether';
 import {contains} from 'vega-lite/build/src/util';
 import {ActionHandler} from '../../actions/index';
@@ -14,7 +14,7 @@ import {
 import {DraggableType, FieldParentType} from '../../constants';
 import {ShelfFieldDef, ShelfId} from '../../models';
 import {ShelfFunction} from '../../models/shelf';
-import {ShelfValueDef} from '../../models/shelf/spec';
+import {ShelfEncodingDef} from '../../models/shelf/spec';
 import {isWildcardChannelId} from '../../models/shelf/spec/encoding';
 import {DraggedFieldIdentifier, Field} from '../field/index';
 import * as styles from './encoding-shelf.scss';
@@ -38,7 +38,7 @@ export interface EncodingShelfPropsBase extends ActionHandler<SpecEncodingAction
 
   fieldDef: ShelfFieldDef;
 
-  valueDef: ShelfValueDef;
+  valueDef: ShelfEncodingDef;
 
   schema: Schema;
 }
@@ -282,8 +282,7 @@ const collect: DropTargetCollector = (connect, monitor): EncodingShelfDropTarget
   };
 };
 
-// HACK: do type casting to suppress compile error for: https://github.com/Microsoft/TypeScript/issues/13526
-export const EncodingShelf: () => React.PureComponent<EncodingShelfPropsBase, {}> =
+export const EncodingShelf: DndComponentClass<EncodingShelfPropsBase> =
   DropTarget(DraggableType.FIELD, encodingShelfTarget, collect)(
     CSSModules(EncodingShelfBase, styles)
-  ) as any;
+  );

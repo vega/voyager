@@ -3,7 +3,7 @@ import * as CopyToClipboard from 'react-copy-to-clipboard';
 import * as CSSModules from 'react-css-modules';
 import * as TetherComponent from 'react-tether';
 import {InlineData} from 'vega-lite/build/src/data';
-import {isDiscrete, isFieldDef} from 'vega-lite/build/src/fielddef';
+import {isDiscrete, isFieldDef} from 'vega-lite/build/src/channeldef';
 import {SortField, SortOrder} from 'vega-lite/build/src/sort';
 import {TopLevelFacetedUnitSpec} from 'vega-lite/build/src/spec';
 import {BOOKMARK_MODIFY_NOTE, BookmarkAction} from '../../actions/bookmark';

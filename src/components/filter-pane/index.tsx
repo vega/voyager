@@ -4,7 +4,7 @@ import {Schema} from 'compassql/build/src/schema';
 import {isWildcard} from 'compassql/build/src/wildcard';
 import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
-import {ConnectDropTarget, DropTarget, DropTargetCollector, DropTargetSpec} from 'react-dnd';
+import {ConnectDropTarget, DndComponentClass, DropTarget, DropTargetCollector, DropTargetSpec} from 'react-dnd';
 import {
   FieldOneOfPredicate,
   FieldRangePredicate,
@@ -237,7 +237,6 @@ const collect: DropTargetCollector = (connect, monitor): FilterPaneDropTargetPro
   };
 };
 
-// HACK: do type casting to suppress compile error for: https://github.com/Microsoft/TypeScript/issues/13526
-export const FilterPane: () => React.PureComponent<FilterPanePropsBase, {}> = DropTarget(
+export const FilterPane: DndComponentClass<FilterPanePropsBase> = DropTarget(
   DraggableType.FIELD, filterShelfTarget, collect
-)(CSSModules(FilterPaneBase, styles)) as any;
+)(CSSModules(FilterPaneBase, styles));

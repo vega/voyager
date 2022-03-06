@@ -14,7 +14,8 @@ import {Provider} from 'react-redux';
 import {Store} from 'redux';
 import {TopLevelSpec} from 'vega-lite';
 import {Data} from 'vega-lite/build/src/data';
-import {FacetedCompositeUnitSpec, isUnitSpec, TopLevel} from 'vega-lite/build/src/spec';
+import {isUnitSpec, TopLevel} from 'vega-lite/build/src/spec';
+import {FacetedUnitSpec} from 'vega-lite/build/src/spec/unit';
 import * as vlSchema from 'vega-lite/build/vega-lite-schema.json';
 import {isString} from 'vega-util';
 import { REDO, UNDO } from './actions/index';
@@ -134,7 +135,7 @@ export class Voyager {
     }
 
     // If it is unit, then we can cast to a top level unit spec
-    const validSpec: TopLevel<FacetedCompositeUnitSpec> = spec as TopLevel<FacetedCompositeUnitSpec>;
+    const validSpec: TopLevel<FacetedUnitSpec> = spec as TopLevel<FacetedUnitSpec>;
 
     this.data = validSpec.data;
     this.render(validSpec);
@@ -180,7 +181,7 @@ export class Voyager {
    *
    * @memberof Voyager
    */
-  public getSpec(includeData: boolean): FacetedCompositeUnitSpec {
+  public getSpec(includeData: boolean): FacetedUnitSpec {
     const spec = selectMainSpec(this.store.getState());
     if (includeData) {
       return {
@@ -241,7 +242,7 @@ export class Voyager {
     this.render();
   }
 
-  private render(spec?: TopLevel<FacetedCompositeUnitSpec>) {
+  private render(spec?: TopLevel<FacetedUnitSpec>) {
     const store = this.store;
     const root = this.container;
     ReactDOM.render(

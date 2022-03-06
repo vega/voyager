@@ -1,6 +1,6 @@
 import {isArray} from 'util';
 import {EncodingWithFacet} from 'vega-lite/build/src/encoding';
-import {FieldDef, isFieldDef} from 'vega-lite/build/src/fielddef';
+import {FieldDef, isFieldDef} from 'vega-lite/build/src/channeldef';
 import {
   Action,
   RESULT_RECEIVE,
