@@ -136,7 +136,7 @@ export function toFieldQueryFunctionMixins(fn: ShelfFunction | Wildcard<ShelfFun
   return {};
 }
 
-function excludeUndefined(fn: string) {
+function excludeUndefined(fn: any) {
   if (!isShelfFunction) {
     console.warn(`Invalid function ${fn} dropped`);
     return false;

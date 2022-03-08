@@ -5,7 +5,7 @@ import * as TetherComponent from 'react-tether';
 import {InlineData} from 'vega-lite/build/src/data';
 import {isDiscrete, isFieldDef} from 'vega-lite/build/src/channeldef';
 import {SortField, SortOrder} from 'vega-lite/build/src/sort';
-import {TopLevelFacetedUnitSpec} from 'vega-lite/build/src/spec';
+import {TopLevelUnitSpec} from 'vega-lite/build/src/spec/unit';
 import {BOOKMARK_MODIFY_NOTE, BookmarkAction} from '../../actions/bookmark';
 import {LogAction} from '../../actions/log';
 import {ActionHandler} from '../../actions/redux-action';
@@ -32,9 +32,9 @@ export interface PlotProps extends ActionHandler<
   showBookmarkButton?: boolean;
   showSpecifyButton?: boolean;
 
-  onSort?: (channel: 'x' | 'y', sort: SortField<string> | SortOrder) => void;
+  onSort?: (channel: 'x' | 'y', sort: SortField | SortOrder) => void;
 
-  spec: TopLevelFacetedUnitSpec;
+  spec: TopLevelUnitSpec;
   bookmark?: Bookmark;
 
   // specified when it's in the modal

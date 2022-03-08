@@ -2,7 +2,7 @@
 import {BoxPlotDef} from 'vega-lite/build/src/compositemark/boxplot';
 import {EncodingWithFacet} from 'vega-lite/build/src/encoding';
 import {MarkDef} from 'vega-lite/build/src/mark';
-import {FacetedCompositeUnitSpec, GenericUnitSpec, isUnitSpec} from 'vega-lite/build/src/spec';
+import {FacetedUnitSpec, GenericUnitSpec, isUnitSpec} from 'vega-lite/build/src/spec';
 import {GenericState, UndoableStateBase} from '../models/index';
 // tslint:enable:no-unused-variable
 
@@ -53,7 +53,7 @@ export const selectMainSpec = createSelector(
     isQuerySpecific: boolean,
     isQueryEmpty: boolean,
     mainPlots: ResultPlot[]
-  ): FacetedCompositeUnitSpec => {
+  ): FacetedUnitSpec => {
     if (!isQuerySpecific || !mainPlots || isQueryEmpty) {
       return undefined;
     }

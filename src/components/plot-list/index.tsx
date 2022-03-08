@@ -83,7 +83,7 @@ export class PlotListBase extends React.PureComponent<PlotListProps, any> {
     );
   }
 
-  private onPlotSort(index: number, channel: 'x' | 'y', value: SortOrder | SortField<string>) {
+  private onPlotSort(index: number, channel: 'x' | 'y', value: SortOrder | SortField) {
     const {handleAction, resultType} = this.props;
     const action: ResultModifyFieldProp<'sort'> = {
       type: RESULT_MODIFY_FIELD_PROP,

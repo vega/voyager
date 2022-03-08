@@ -8,9 +8,9 @@ import {ValueDef} from 'vega-lite/build/src/channeldef';
 import {Legend} from 'vega-lite/build/src/legend';
 import {Mark as VLMark} from 'vega-lite/build/src/mark';
 import {Scale} from 'vega-lite/build/src/scale';
-import {SortField, SortOrder} from 'vega-lite/build/src/sort';
-import {StackOffset} from 'vega-lite/build/src/stack';
+import {EncodingSortField, SortOrder} from 'vega-lite/build/src/sort';import {StackOffset} from 'vega-lite/build/src/stack';
 import {isBoolean} from 'vega-lite/build/src/util';
+import {FacetFieldDef} from 'vega-lite/build/src/spec/facet';
 import {fromFieldQueryFunctionMixins, ShelfFunction, toFieldQueryFunctionMixins} from './function';
 
 export * from './function';
@@ -49,8 +49,10 @@ export interface ShelfFieldDef {
   stack?: StackOffset;
   legend?: Legend;
 
-  sort?: SortOrder | SortField<string>;
+  sort?: SortOrder | EncodingSortField<string>;
   type?: ExpandedType;
+
+  // facet?: FacetFieldDef;
 
   /**
    * Description of a wildcard.
@@ -77,6 +79,8 @@ export type SpecificEncoding = {
   // TODO: tooltip?: ShelfFieldDef | ShelfValueDef
 } & {
   [P in typeof UNIT_CHANNELS[0]]?: ShelfFieldDef;
+} & {
+  facet?: FacetFieldDef<any>
 };
 
 export function fromEncodingQueries(encodings: EncodingQuery[]): {

@@ -14,8 +14,8 @@ import {Provider} from 'react-redux';
 import {Store} from 'redux';
 import {TopLevelSpec} from 'vega-lite';
 import {Data} from 'vega-lite/build/src/data';
-import {isUnitSpec, TopLevel} from 'vega-lite/build/src/spec';
-import {FacetedUnitSpec} from 'vega-lite/build/src/spec/unit';
+import {isUnitSpec} from 'vega-lite/build/src/spec';
+import {FacetedUnitSpec, TopLevelUnitSpec} from 'vega-lite/build/src/spec/unit';
 import * as vlSchema from 'vega-lite/build/vega-lite-schema.json';
 import {isString} from 'vega-util';
 import { REDO, UNDO } from './actions/index';
@@ -135,7 +135,7 @@ export class Voyager {
     }
 
     // If it is unit, then we can cast to a top level unit spec
-    const validSpec: TopLevel<FacetedUnitSpec> = spec as TopLevel<FacetedUnitSpec>;
+    const validSpec: TopLevelUnitSpec = spec as TopLevelUnitSpec;
 
     this.data = validSpec.data;
     this.render(validSpec);
@@ -242,7 +242,7 @@ export class Voyager {
     this.render();
   }
 
-  private render(spec?: TopLevel<FacetedUnitSpec>) {
+  private render(spec?: TopLevelUnitSpec) {
     const store = this.store;
     const root = this.container;
     ReactDOM.render(

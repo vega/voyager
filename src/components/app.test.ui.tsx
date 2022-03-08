@@ -7,7 +7,7 @@ import * as React from 'react';
 
 import {Provider} from 'react-redux';
 import {Data} from 'vega-lite/build/src/data';
-import {FacetedCompositeUnitSpec, TopLevel} from 'vega-lite/build/src/spec';
+import {TopLevelUnitSpec} from 'vega-lite/build/src/spec/unit';
 import {configureStore} from '../store';
 import {App} from './app';
 
@@ -98,7 +98,7 @@ describe('Voyager', () => {
         {date: "27-Apr-07", close: "99.92"},
       ];
       const data: Data = {values};
-      const spec: TopLevel<FacetedCompositeUnitSpec> = {
+      const spec: TopLevelUnitSpec = {
         "$schema": "https://vega.github.io/schema/vega-lite/v2.json",
         "data": {
           "values": [

@@ -73,10 +73,10 @@
     "vega": "4.4.0",
     "vega-datasets": "^2.0.0",
     "vega-expression": "^3.0.0",
-    "vega-lite": "3.3.0",
+    "vega-lite": "3.4.0",
     "vega-tooltip": "^0.4.2",
     "vega-typings": "0.7.1",
-    "vega-util": "1.10.0"
+    "vega-util": "1.17.0"
   },
   "devDependencies": {
     "@types/classnames": "^2.3.1",
