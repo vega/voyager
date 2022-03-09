@@ -7,14 +7,11 @@ export class Logger implements LoggerInterface{
   constructor(handleAction: (action: LogAction) => void) {
     this.handleAction = handleAction;
   }
-
-  public level(_: number) {
-    return this;
+  level(_: number): this;
+  level(): number;
+  level(_?: any): number | this {
+    throw new Error('Method not implemented.');
   }
-  public level(): number {
-    return 0;
-  }
-
 
   public error(...args: any[]) {
     this.handleAction({
