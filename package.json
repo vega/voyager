@@ -74,7 +74,7 @@
     "vega-datasets": "^2.0.0",
     "vega-expression": "^2.6.6",
     "vega-lite": "3.4.0",
-    "vega-tooltip": "0.7.0",
+    "vega-tooltip": "0.16.0",
     "vega-typings": "0.7.2",
     "vega-util": "1.17.0",
     "vega-functions": "5.1.1"

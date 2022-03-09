@@ -22,6 +22,6 @@
     "./node_modules/compassql/typings/json.d.ts",
     "./node_modules/vega-lite/typings/json.d.ts",
     "./node_modules/vega-lite/typings/vega.d.ts",
-    "./node_modules/typescript/lib/lib.es2015.iterable.d.ts"
+    "./node_modules/compassql/typings/vega.d.ts"
   ]
 }

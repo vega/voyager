@@ -4,7 +4,7 @@ import * as vega from 'vega';
 import * as vl from 'vega-lite';
 import {TopLevelSpec} from 'vega-lite';
 import {InlineData, isNamedData} from 'vega-lite/build/src/data';
-import * as vegaTooltip from 'vega-tooltip';
+import * as vegaTooltip from 'vega-tooltip/build';
 import {LoggerInterface} from 'vega-util';
 import {SPINNER_COLOR} from '../../constants';
 
@@ -146,7 +146,7 @@ export class VegaLite extends React.PureComponent<VegaLiteProps, VegaLiteState> 
         .initialize(this.refs[CHART_REF] as any)
         .renderer(this.props.renderer || 'canvas')
         .hover();
-      vegaTooltip.vega(this.view);
+      vegaTooltip.default(this.view);
       this.bindData();
     } catch (err) {
       logger.error(err);
