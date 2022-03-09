@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "outDir": "./build/",
-    "target": "es6",
+    "target": "es5",
     "module": "commonjs",
     "jsx": "react",
     "noImplicitAny": true,
@@ -9,7 +9,8 @@
     "declaration": true,
     "noErrorTruncation": true,
     "sourceMap": true,
-    "keyofStringsOnly": true
+    "keyofStringsOnly": true,
+    "allowSyntheticDefaultImports": true
   },
   "include": [
     "./node_modules/compassql/typings/*.d.ts",

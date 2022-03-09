@@ -138,15 +138,16 @@ export class VegaLite extends React.PureComponent<VegaLiteProps, VegaLiteState> 
     // };
     const {logger} = this.props;
     const vlSpec = this.props.spec;
+    var handler = new vegaTooltip.Handler();
     try {
       const spec = vl.compile(vlSpec, {logger}).spec;
       const runtime = vega.parse(spec, vlSpec.config);
       this.view = new vega.View(runtime)
+        .tooltip(handler.call)
         .logLevel(vega.Warn)
         .initialize(this.refs[CHART_REF] as any)
         .renderer(this.props.renderer || 'canvas')
         .hover();
-      vegaTooltip.default(this.view);
       this.bindData();
     } catch (err) {
       logger.error(err);
