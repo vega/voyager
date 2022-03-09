@@ -83,7 +83,6 @@
     "@types/classnames": "^2.3.1",
     "@types/d3-selection": "^2.0.0",
     "@types/enzyme": "^2.8.0",
-    "@types/es6-promise": "^0.0.32",
     "@types/fetch-mock": "^7.3.3",
     "@types/isomorphic-fetch": "^0.0.35",
     "@types/jest": "^18.1.1",
