@@ -5,15 +5,15 @@ import * as vl from 'vega-lite';
 import {TopLevelSpec} from 'vega-lite';
 import {InlineData, isNamedData} from 'vega-lite/build/src/data';
 import * as vegaTooltip from 'vega-tooltip';
+import {LoggerInterface} from 'vega-util';
 import {SPINNER_COLOR} from '../../constants';
-import {Logger} from '../util/util.logger';
 
 export interface VegaLiteProps {
   spec: TopLevelSpec;
 
   renderer?: 'svg' | 'canvas';
 
-  logger: Logger;
+  logger: LoggerInterface;
 
   data: InlineData;
 

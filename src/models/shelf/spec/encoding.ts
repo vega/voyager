@@ -10,9 +10,9 @@ import {Mark as VLMark} from 'vega-lite/build/src/mark';
 import {Scale} from 'vega-lite/build/src/scale';
 import {EncodingSortField, SortOrder} from 'vega-lite/build/src/sort';import {StackOffset} from 'vega-lite/build/src/stack';
 import {isBoolean} from 'vega-lite/build/src/util';
-import {FacetFieldDef} from 'vega-lite/build/src/spec/facet';
+import {FacetFieldDef, FacetMapping} from 'vega-lite/build/src/spec/facet';
+import {Encoding} from 'vega-lite/build/src/encoding';
 import {fromFieldQueryFunctionMixins, ShelfFunction, toFieldQueryFunctionMixins} from './function';
-
 export * from './function';
 
 /**
@@ -22,7 +22,7 @@ export * from './function';
 export type ShelfId = ShelfChannelId | ShelfWildcardChannelId;
 
 export interface ShelfChannelId {
-  channel: Channel;
+  channel: keyof Encoding<any> | keyof FacetMapping<any>;
 };
 
 export interface ShelfWildcardChannelId {
@@ -52,8 +52,6 @@ export interface ShelfFieldDef {
   sort?: SortOrder | EncodingSortField<string>;
   type?: ExpandedType;
 
-  // facet?: FacetFieldDef;
-
   /**
    * Description of a wildcard.
    * This maps directly to the generic "description" property of an EncodingQuery in CompassQL,
@@ -80,7 +78,7 @@ export type SpecificEncoding = {
 } & {
   [P in typeof UNIT_CHANNELS[0]]?: ShelfFieldDef;
 } & {
-  facet?: FacetFieldDef<any>
+  // facet?: FacetFieldDef<any>
 };
 
 export function fromEncodingQueries(encodings: EncodingQuery[]): {

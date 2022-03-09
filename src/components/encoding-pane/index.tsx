@@ -4,6 +4,8 @@ import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
 import {connect} from 'react-redux';
 import {Channel} from 'vega-lite/build/src/channel';
+import {FacetMapping} from 'vega-lite/build/src/spec/facet';
+import {Encoding} from 'vega-lite/build/src/encoding';
 import {FieldOneOfPredicate, FieldRangePredicate} from 'vega-lite/build/src/predicate';
 import {FilterAction} from '../../actions';
 import {ActionHandler} from '../../actions/index';
@@ -105,7 +107,7 @@ class EncodingPanelBase extends React.PureComponent<EncodingPanelProps, {}> {
   /**
    * Return encoding shelf for normal (non-wildcard channels).
    */
-  private encodingShelf(channel: Channel) {
+  private encodingShelf(channel: keyof Encoding<any> | keyof FacetMapping<any>) {
     // This one can't be wildcard, thus we use VL's Channel, not our ShelfChannel
 
     const {handleAction, spec, specPreview, schema} = this.props;

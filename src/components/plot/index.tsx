@@ -19,6 +19,7 @@ import {ShelfFilter, toTransforms} from '../../models/shelf/filter';
 import {Field} from '../field/index';
 import {Logger} from '../util/util.logger';
 import {VegaLite} from '../vega-lite/index';
+import {LoggerInterface} from 'vega-util';
 import {BookmarkButton} from './bookmarkbutton';
 import * as styles from './plot.scss';
 
@@ -54,7 +55,7 @@ export class PlotBase extends React.PureComponent<PlotProps, PlotState> {
   private hoverTimeoutId: number;
   private previewTimeoutId: number;
   private vegaLiteWrapper: HTMLElement;
-  private plotLogger: Logger;
+  private plotLogger: LoggerInterface;
 
   constructor(props: PlotProps) {
     super(props);
