@@ -64,7 +64,7 @@
     "redux": "^3.6.0",
     "redux-action-log": "^2.0.1",
     "redux-logger": "^3.0.6",
-    "redux-thunk": "2.2.0",
+    "redux-thunk": "^2.2.0",
     "redux-undo": "1.0.0-beta9-9-7",
     "reselect": "^2.5.4",
     "tether": "^2.0.0",
@@ -72,12 +72,8 @@
     "tslib": "^2.3.0",
     "vega": "5.2.0",
     "vega-datasets": "^2.0.0",
-    "vega-expression": "^2.6.6",
     "vega-lite": "3.4.0",
-    "vega-tooltip": "0.17.0",
-    "vega-typings": "0.7.2",
-    "vega-util": "1.17.0",
-    "vega-functions": "5.1.1"
+    "vega-tooltip": "0.17.0"
   },
   "devDependencies": {
     "@types/classnames": "^2.3.1",
@@ -85,9 +81,8 @@
     "@types/enzyme": "^2.8.0",
     "@types/fetch-mock": "^7.3.3",
     "@types/isomorphic-fetch": "^0.0.35",
-    "@types/jest": "^18.1.1",
+    "@types/jest": "^25.0.0",
     "@types/json-stable-stringify": "^1.0.32",
-    "@types/node": "~8.10.66",
     "@types/papaparse": "^5.2.5",
     "@types/react": "^15.7.2",
     "@types/react-css-modules": "^4.6.3",
@@ -102,6 +97,7 @@
     "@types/webpack": "^3.8.21",
     "@types/webpack-env": "^1.16.0",
     "autoprefixer": "^6.7.6",
+    "babel-jest": "^25.0.0",
     "case-sensitive-paths-webpack-plugin": "^2.4.0",
     "cross-env": "^5.0.1",
     "css-loader": "^3.6.0",
@@ -113,7 +109,7 @@
     "fs-extra": "^9.1.0",
     "gh-pages": "^3.2.3",
     "html-webpack-plugin": "4.0.0",
-    "jest": "^20",
+    "jest": "^25",
     "node-sass": "^4.14.1",
     "normalize-scss": "^7.0.1",
     "postcss-loader": "^2.1.6",
@@ -124,7 +120,7 @@
     "source-map-loader": "^1.1.3",
     "style-loader": "^2.0.0",
     "terser-webpack-plugin": "2.3.0",
-    "ts-jest": "^20",
+    "ts-jest": "^25",
     "ts-loader": "^4.5.0",
     "tslint": "^4.5.0",
     "tslint-config-standard": "^4.0.0",
@@ -139,11 +135,20 @@
   },
   "resolutions": {
     "@types/react": "^15.7.2",
-    "@types/node": "~8.10.64"
+    "@types/prettier": "2.2.3"
   },
   "jest": {
     "transform": {
-      ".(ts|tsx)": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+      ".(ts|tsx)": "ts-jest"
+    },
+    "transformIgnorePatterns": [
+      "<rootDir>/dist/",
+      "<rootDir>/node_modules/(?!vega-lite)",
+      "<rootDir>/build/"
+    ],
+    "moduleNameMapper": {
+      "vega-lite": "<rootDir>/node_modules/vega-lite/build/vega-lite.min.js",
+      "compassql": "<rootDir>/node_modules/compassql/build/compassql.min.js"
     },
     "testPathIgnorePatterns": [
       "<rootDir>/dist/",
@@ -157,7 +162,6 @@
       "js"
     ],
     "coverageDirectory": "./coverage/",
-    "collectCoverage": true,
-    "mapCoverage": true
+    "collectCoverage": true
   }
 }
