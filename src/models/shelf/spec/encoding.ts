@@ -10,7 +10,7 @@ import {Mark as VLMark} from 'vega-lite/build/src/mark';
 import {Scale} from 'vega-lite/build/src/scale';
 import {EncodingSortField, SortOrder} from 'vega-lite/build/src/sort';import {StackOffset} from 'vega-lite/build/src/stack';
 import {isBoolean} from 'vega-lite/build/src/util';
-import {FacetFieldDef, FacetMapping} from 'vega-lite/build/src/spec/facet';
+import {FacetMapping} from 'vega-lite/build/src/spec/facet';
 import {Encoding} from 'vega-lite/build/src/encoding';
 import {fromFieldQueryFunctionMixins, ShelfFunction, toFieldQueryFunctionMixins} from './function';
 export * from './function';

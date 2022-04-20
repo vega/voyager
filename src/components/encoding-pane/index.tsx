@@ -3,7 +3,6 @@ import {SHORT_WILDCARD} from 'compassql/build/src/wildcard';
 import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
 import {connect} from 'react-redux';
-import {Channel} from 'vega-lite/build/src/channel';
 import {FacetMapping} from 'vega-lite/build/src/spec/facet';
 import {Encoding} from 'vega-lite/build/src/encoding';
 import {FieldOneOfPredicate, FieldRangePredicate} from 'vega-lite/build/src/predicate';

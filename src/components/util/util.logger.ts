@@ -20,7 +20,6 @@ export class Logger implements LoggerInterface{
         errors: args
       }
     });
-    throw Error(...args);
     return this;
   }
 
