@@ -146,10 +146,6 @@
       "<rootDir>/node_modules/(?!vega-lite|compassql).+(js|jsx)$",
       "<rootDir>/build/"
     ],
-    "moduleNameMapper": {
-      "vega-lite": "<rootDir>/node_modules/vega-lite/build/vega-lite.min.js",
-      "compassql": "<rootDir>/node_modules/compassql/build/compassql.min.js"
-    },
     "testPathIgnorePatterns": [
       "<rootDir>/dist/",
       "<rootDir>/node_modules/",
