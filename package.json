@@ -143,7 +143,7 @@
     },
     "transformIgnorePatterns": [
       "<rootDir>/dist/",
-      "<rootDir>/node_modules/(?!vega-lite)",
+      "<rootDir>/node_modules/(?!vega-lite|compassql).+(js|jsx)$",
       "<rootDir>/build/"
     ],
     "moduleNameMapper": {

@@ -99,7 +99,7 @@ describe('Voyager', () => {
       ];
       const data: Data = {values};
       const spec: TopLevelUnitSpec = {
-        "$schema": "https://vega.github.io/schema/vega-lite/v2.json",
+        "$schema": "https://vega.github.io/schema/vega-lite/v3.json",
         "data": {
           "values": [
             {"date": "24-Apr-07", "close": "93.24"},
