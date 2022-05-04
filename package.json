@@ -131,7 +131,11 @@
     "webpack-cli": "^3.3.12",
     "webpack-dev-server": "^3.11.2",
     "webpack-manifest-plugin": "^2.2.0",
-    "webpack-notifier": "^1.13.0"
+    "webpack-notifier": "^1.13.0",
+    "@babel/preset-env": "^7.17.10",
+    "@babel/plugin-proposal-class-properties": "^7.16.7",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
+    "babel-plugin-dynamic-import-node": "^2.3.3"
   },
   "resolutions": {
     "@types/react": "^15.7.2",
@@ -139,10 +143,12 @@
   },
   "jest": {
     "transform": {
-      ".(ts|tsx)": "ts-jest"
+      "^.+\\.(ts|tsx)": "ts-jest",
+      "^.+\\.js$": "babel-jest"
     },
     "transformIgnorePatterns": [
       "<rootDir>/dist/",
+      "node_modules/(?!vega-lite|compassql)",
       "<rootDir>/node_modules/(?!vega-lite|compassql).+(js|jsx)$",
       "<rootDir>/build/"
     ],
