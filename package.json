@@ -131,11 +131,7 @@
     "webpack-cli": "^3.3.12",
     "webpack-dev-server": "^3.11.2",
     "webpack-manifest-plugin": "^2.2.0",
-    "webpack-notifier": "^1.13.0",
-    "@babel/preset-env": "^7.17.10",
-    "@babel/plugin-proposal-class-properties": "^7.16.7",
-    "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
-    "babel-plugin-dynamic-import-node": "^2.3.3"
+    "webpack-notifier": "^1.13.0"
   },
   "resolutions": {
     "@types/react": "^15.7.2",
