@@ -18,6 +18,7 @@ module.exports = function (api) {
         plugins: [
           '@babel/plugin-proposal-class-properties',
           'transform-es2015-modules-commonjs',
+          '@babel/plugin-transform-runtime'
           // 'babel-plugin-dynamic-import-node'
         ],
 

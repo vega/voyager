@@ -76,6 +76,8 @@
     "vega-tooltip": "0.17.0"
   },
   "devDependencies": {
+    "@babel/plugin-transform-runtime": "^7.18.2",
+    "@babel/preset-env": "^7.18.2",
     "@types/classnames": "^2.3.1",
     "@types/d3-selection": "^2.0.0",
     "@types/enzyme": "^2.8.0",
@@ -98,6 +100,7 @@
     "@types/webpack-env": "^1.16.0",
     "autoprefixer": "^6.7.6",
     "babel-jest": "^25.0.0",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
     "case-sensitive-paths-webpack-plugin": "^2.4.0",
     "cross-env": "^5.0.1",
     "css-loader": "^3.6.0",
