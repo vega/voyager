@@ -1,4 +1,4 @@
-const esModules = ['vega-lite', 'compassql'].join('|');
+// const esModules = ['vega-lite', 'compassql'].join('|');
 
 module.exports = function (api) {
 
@@ -19,7 +19,6 @@ module.exports = function (api) {
           '@babel/plugin-proposal-class-properties',
           'transform-es2015-modules-commonjs',
           '@babel/plugin-transform-runtime'
-          // 'babel-plugin-dynamic-import-node'
         ],
 
       },
@@ -27,10 +26,3 @@ module.exports = function (api) {
   };
 
 }
-
-
-// "transformIgnorePatterns": [
-//   `/node_modules/(?!${esModules})`,
-//   "<rootDir>/dist/",
-//   "<rootDir>/build/"
-// ]

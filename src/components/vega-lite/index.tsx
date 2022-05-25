@@ -138,7 +138,7 @@ export class VegaLite extends React.PureComponent<VegaLiteProps, VegaLiteState> 
     // };
     const {logger} = this.props;
     const vlSpec = this.props.spec;
-    var handler = new vegaTooltip.Handler();
+    const handler = new vegaTooltip.Handler();
     try {
       const spec = vl.compile(vlSpec, {logger}).spec;
       const runtime = vega.parse(spec, vlSpec.config);

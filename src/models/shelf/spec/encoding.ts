@@ -1,18 +1,28 @@
-import {EncodingQuery, isAutoCountQuery, isFieldQuery, ValueQuery} from 'compassql/build/src/query/encoding';
-import {FieldQuery} from 'compassql/build/src/query/encoding';
-import {ExpandedType} from 'compassql/build/src/query/expandedtype';
-import {isWildcard, SHORT_WILDCARD, Wildcard, WildcardProperty} from 'compassql/build/src/wildcard';
-import {Axis} from 'vega-lite/build/src/axis';
-import {Channel, NonPositionScaleChannel, PositionScaleChannel, UNIT_CHANNELS} from 'vega-lite/build/src/channel';
-import {ValueDef} from 'vega-lite/build/src/channeldef';
-import {Legend} from 'vega-lite/build/src/legend';
-import {Mark as VLMark} from 'vega-lite/build/src/mark';
-import {Scale} from 'vega-lite/build/src/scale';
-import {EncodingSortField, SortOrder} from 'vega-lite/build/src/sort';import {StackOffset} from 'vega-lite/build/src/stack';
-import {isBoolean} from 'vega-lite/build/src/util';
-import {FacetMapping} from 'vega-lite/build/src/spec/facet';
-import {Encoding} from 'vega-lite/build/src/encoding';
-import {fromFieldQueryFunctionMixins, ShelfFunction, toFieldQueryFunctionMixins} from './function';
+import {
+    EncodingQuery, FieldQuery, isAutoCountQuery, isFieldQuery, ValueQuery
+} from 'compassql/build/src/query/encoding';
+import { ExpandedType } from 'compassql/build/src/query/expandedtype';
+import {
+    isWildcard, SHORT_WILDCARD, Wildcard, WildcardProperty
+} from 'compassql/build/src/wildcard';
+import { Axis } from 'vega-lite/build/src/axis';
+import {
+    Channel, NonPositionScaleChannel, PositionScaleChannel, UNIT_CHANNELS
+} from 'vega-lite/build/src/channel';
+import { ValueDef } from 'vega-lite/build/src/channeldef';
+import { Encoding } from 'vega-lite/build/src/encoding';
+import { Legend } from 'vega-lite/build/src/legend';
+import { Mark as VLMark } from 'vega-lite/build/src/mark';
+import { Scale } from 'vega-lite/build/src/scale';
+import { EncodingSortField, SortOrder } from 'vega-lite/build/src/sort';
+import { FacetMapping } from 'vega-lite/build/src/spec/facet';
+import { StackOffset } from 'vega-lite/build/src/stack';
+import { isBoolean } from 'vega-lite/build/src/util';
+
+import {
+    fromFieldQueryFunctionMixins, ShelfFunction, toFieldQueryFunctionMixins
+} from './function';
+
 export * from './function';
 
 /**

@@ -1,5 +1,5 @@
-import {Schema, FieldSchema, TableSchema} from 'compassql/build/src/schema';
-import {InlineData} from 'vega-lite/build/src/data';
+import { FieldSchema, Schema, TableSchema } from 'compassql/build/src/schema';
+import { InlineData } from 'vega-lite/build/src/data';
 
 export interface DatasetWithoutSchema {
   isLoading: boolean;

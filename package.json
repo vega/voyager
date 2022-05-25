@@ -37,7 +37,7 @@
     "deploy": "npm run clean && npm run lint && npm run test && scripts/publish.sh && node scripts/deploy.js"
   },
   "dependencies": {
-    "ajv": "^5.2.2",
+    "ajv": "^6.0.0",
     "compassql": "^0.21.2",
     "font-awesome": "^4.7.0",
     "isomorphic-fetch": "^3.0.0",
@@ -101,6 +101,7 @@
     "autoprefixer": "^6.7.6",
     "babel-jest": "^25.0.0",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
+    "canvas": "^2.9.1",
     "case-sensitive-paths-webpack-plugin": "^2.4.0",
     "cross-env": "^5.0.1",
     "css-loader": "^3.6.0",

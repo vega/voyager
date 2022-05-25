@@ -6,7 +6,6 @@
 // of integration.
 
 import * as Ajv from 'ajv';
-import * as draft4Schemas from 'ajv/lib/refs/json-schema-draft-04.json';
 import 'font-awesome-sass-loader'; // TODO should this move to App?
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
@@ -116,11 +115,10 @@ export class Voyager {
   public setSpec(spec: Object) {
 
     const ajv = new Ajv({
-      validateSchema: true,
       allErrors: true,
-      extendRefs: 'fail'
+      schemaId: 'auto',
     });
-    ajv.addMetaSchema(draft4Schemas, 'http://json-schema.org/draft-04/schema#');
+    ajv.addFormat('color-hex', () => true);
 
     const validateVl = ajv.compile(vlSchema);
     const valid = validateVl(spec);

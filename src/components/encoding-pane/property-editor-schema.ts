@@ -1,11 +1,12 @@
-import {ExpandedType} from 'compassql/build/src/query/expandedtype';
-import {Axis} from 'vega-lite/build/src/axis';
-import {X, Y, COLOR, SIZE, SHAPE, Channel} from 'vega-lite/build/src/channel';
-import {Legend} from 'vega-lite/build/src/legend';
-import {Scale} from 'vega-lite/build/src/scale';
-import {contains} from 'vega-lite/build/src/util';
+import { ExpandedType } from 'compassql/build/src/query/expandedtype';
+import { Axis } from 'vega-lite/build/src/axis';
+import { Channel, COLOR, SHAPE, SIZE, X, Y } from 'vega-lite/build/src/channel';
+import { Legend } from 'vega-lite/build/src/legend';
+import { Scale } from 'vega-lite/build/src/scale';
+import { contains } from 'vega-lite/build/src/util';
 import * as vlSchema from 'vega-lite/build/vega-lite-schema.json';
-import {ShelfFieldDef, ShelfId} from '../../models/shelf/spec';
+
+import { ShelfFieldDef, ShelfId } from '../../models/shelf/spec';
 
 // ------------------------------------------------------------------------------
 // Schema Interfaces
