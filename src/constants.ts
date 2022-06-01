@@ -47,11 +47,6 @@ export const DEFAULT_DATASETS = [
   id: 'driving',
   group: 'sample'
 }, {
-  name: 'Iris',
-  url: 'data/iris.json',
-  id: 'iris',
-  group: 'sample'
-}, {
   name: 'Jobs',
   url: 'data/jobs.json',
   id: 'jobs',
@@ -67,19 +62,9 @@ export const DEFAULT_DATASETS = [
   id: 'movies',
   group: 'sample'
 }, {
-  name: 'Birdstrikes',
-  url: 'data/birdstrikes.json',
-  id: 'birdstrikes',
-  group: 'sample'
-}, {
   name: 'Burtin',
   url: 'data/burtin.json',
   id: 'burtin',
-  group: 'sample'
-}, {
-  name: 'Campaigns',
-  url: 'data/weball26.json',
-  id: 'weball26',
   group: 'sample'
 }].map(dataset => {
   return {

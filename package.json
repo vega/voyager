@@ -71,7 +71,7 @@
     "throttle-debounce": "^3.0.1",
     "tslib": "^2.3.0",
     "vega": "5.2.0",
-    "vega-datasets": "^2.0.0",
+    "vega-datasets": "^2.3.0",
     "vega-lite": "3.4.0",
     "vega-tooltip": "0.17.0"
   },

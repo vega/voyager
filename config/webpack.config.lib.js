@@ -6,11 +6,6 @@ const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 const TerserPlugin = require("terser-webpack-plugin");
 var WebpackNotifierPlugin = require('webpack-notifier');
 
-// const getClientEnvironment = require('./env');
-// Get environment variables to inject into our app.
-// var publicUrl = '';
-// const env = getClientEnvironment(publicUrl);
-
 module.exports = {
   entry: {
     bundle: path.resolve(__dirname, '../src/lib-voyager.tsx'),
