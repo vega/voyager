@@ -32,6 +32,19 @@ if (!checkRequiredFiles([paths.appHtml, paths.appIndexJs])) {
   process.exit(1);
 }
 
+// Copy the Dataset
+const https = require('https');
+const datasetUrl = 'https://raw.githubusercontent.com/vega/vega-datasets/bdcfced35954161f86ebc77e112329b61d963c4c/data/birdstrikes.json';
+
+https.get(datasetUrl,(res) => {
+  const datasetPath = 'node_modules/vega-datasets/data/birdstrikes.json';
+  const filePath = fs.createWriteStream(datasetPath);
+  res.pipe(filePath);
+  filePath.on('finish',() => {
+      filePath.close();
+  }).on('error', (e) => console.error("Failed to write stream for dataset download"));
+}).on('error', (e) => console.error("Failed to download dataset birdstrikes"));
+
 // First, read the current file sizes in build directory.
 // This lets us display how much they changed later.
 measureFileSizesBeforeBuild(paths.appBuild).then(previousFileSizes => {
