@@ -68,7 +68,7 @@ export const DEFAULT_DATASETS = [
   group: 'sample'
 }, {
   name: 'Birdstrikes',
-  url: 'data/birdstrikes.json',
+  url: 'data/birdstrikes.csv',
   id: 'birdstrikes',
   group: 'sample'
 }, {
