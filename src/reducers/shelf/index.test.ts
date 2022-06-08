@@ -106,7 +106,7 @@ describe('reducers/shelf', () => {
           },
           data: {
             format: {
-              parse: 'auto',
+              parse: null,
               type: 'json'
             },
             name: 'testName'
@@ -172,7 +172,7 @@ describe('reducers/shelf', () => {
               encoding: {},
               data: {
                 format: {
-                  parse: 'auto',
+                  parse: null,
                   type: 'json'
                 },
                 name: 'testName'
@@ -204,7 +204,7 @@ describe('reducers/shelf', () => {
               encoding: {},
               data: {
                 format: {
-                  parse: 'auto',
+                  parse: null,
                   type: 'json'
                 },
                 name: 'testName'
@@ -230,7 +230,7 @@ describe('reducers/shelf', () => {
               encoding: {},
               data: {
                 format: {
-                  parse: 'auto',
+                  parse: null,
                   type: 'json'
                 },
                 name: 'testName'

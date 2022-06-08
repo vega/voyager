@@ -2,24 +2,28 @@ import * as React from 'react';
 import * as CopyToClipboard from 'react-copy-to-clipboard';
 import * as CSSModules from 'react-css-modules';
 import * as TetherComponent from 'react-tether';
-import {InlineData} from 'vega-lite/build/src/data';
-import {isDiscrete, isFieldDef} from 'vega-lite/build/src/fielddef';
-import {SortField, SortOrder} from 'vega-lite/build/src/sort';
-import {TopLevelFacetedUnitSpec} from 'vega-lite/build/src/spec';
-import {BOOKMARK_MODIFY_NOTE, BookmarkAction} from '../../actions/bookmark';
-import {LogAction} from '../../actions/log';
-import {ActionHandler} from '../../actions/redux-action';
-import {ResultAction} from '../../actions/result';
-import {ShelfAction, SPEC_LOAD} from '../../actions/shelf';
-import {SHELF_PREVIEW_DISABLE, SHELF_PREVIEW_SPEC, ShelfPreviewAction} from '../../actions/shelf-preview';
-import {PLOT_HOVER_MIN_DURATION} from '../../constants';
-import {Bookmark} from '../../models/bookmark';
-import {PlotFieldInfo, ResultPlot} from '../../models/result';
-import {ShelfFilter, toTransforms} from '../../models/shelf/filter';
-import {Field} from '../field/index';
-import {Logger} from '../util/util.logger';
-import {VegaLite} from '../vega-lite/index';
-import {BookmarkButton} from './bookmarkbutton';
+import { isDiscrete, isFieldDef } from 'vega-lite/build/src/channeldef';
+import { InlineData } from 'vega-lite/build/src/data';
+import { SortField, SortOrder } from 'vega-lite/build/src/sort';
+import { TopLevelUnitSpec } from 'vega-lite/build/src/spec/unit';
+import { LoggerInterface } from 'vega-util';
+
+import { BOOKMARK_MODIFY_NOTE, BookmarkAction } from '../../actions/bookmark';
+import { LogAction } from '../../actions/log';
+import { ActionHandler } from '../../actions/redux-action';
+import { ResultAction } from '../../actions/result';
+import { ShelfAction, SPEC_LOAD } from '../../actions/shelf';
+import {
+    SHELF_PREVIEW_DISABLE, SHELF_PREVIEW_SPEC, ShelfPreviewAction
+} from '../../actions/shelf-preview';
+import { PLOT_HOVER_MIN_DURATION } from '../../constants';
+import { Bookmark } from '../../models/bookmark';
+import { PlotFieldInfo, ResultPlot } from '../../models/result';
+import { ShelfFilter, toTransforms } from '../../models/shelf/filter';
+import { Field } from '../field/index';
+import { Logger } from '../util/util.logger';
+import { VegaLite } from '../vega-lite/index';
+import { BookmarkButton } from './bookmarkbutton';
 import * as styles from './plot.scss';
 
 export interface PlotProps extends ActionHandler<
@@ -32,9 +36,9 @@ export interface PlotProps extends ActionHandler<
   showBookmarkButton?: boolean;
   showSpecifyButton?: boolean;
 
-  onSort?: (channel: 'x' | 'y', sort: SortField<string> | SortOrder) => void;
+  onSort?: (channel: 'x' | 'y', sort: SortField | SortOrder) => void;
 
-  spec: TopLevelFacetedUnitSpec;
+  spec: TopLevelUnitSpec;
   bookmark?: Bookmark;
 
   // specified when it's in the modal
@@ -54,7 +58,7 @@ export class PlotBase extends React.PureComponent<PlotProps, PlotState> {
   private hoverTimeoutId: number;
   private previewTimeoutId: number;
   private vegaLiteWrapper: HTMLElement;
-  private plotLogger: Logger;
+  private plotLogger: LoggerInterface;
 
   constructor(props: PlotProps) {
     super(props);

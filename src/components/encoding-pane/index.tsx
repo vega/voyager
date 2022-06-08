@@ -1,26 +1,27 @@
-import {Schema} from 'compassql/build/src/schema';
-import {SHORT_WILDCARD} from 'compassql/build/src/wildcard';
+import { Schema } from 'compassql/build/src/schema';
+import { SHORT_WILDCARD } from 'compassql/build/src/wildcard';
 import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
-import {connect} from 'react-redux';
-import {Channel} from 'vega-lite/build/src/channel';
-import {FieldOneOfPredicate, FieldRangePredicate} from 'vega-lite/build/src/predicate';
-import {FilterAction} from '../../actions';
-import {ActionHandler} from '../../actions/index';
-import {createDispatchHandler} from '../../actions/redux-action';
-import {ResultAsyncAction} from '../../actions/result';
-import {ShelfAction, SPEC_CLEAR} from '../../actions/shelf';
-import {ShelfUnitSpec, State} from '../../models';
-import {VoyagerConfig} from '../../models/config';
-import {ShelfFieldDef} from '../../models/shelf';
-import {selectConfig, selectDataset, selectShelfPreview} from '../../selectors';
-import {selectSchemaFieldDefs} from '../../selectors/index';
-import {selectFilters, selectShelfSpec} from '../../selectors/shelf';
-import {FilterPane} from '../filter-pane';
-import * as styles from './encoding-pane.scss';
-import {EncodingShelf} from './encoding-shelf';
-import {MarkPicker} from './mark-picker';
+import { connect } from 'react-redux';
+import { Encoding } from 'vega-lite/build/src/encoding';
+import { FieldOneOfPredicate, FieldRangePredicate } from 'vega-lite/build/src/predicate';
+import { FacetMapping } from 'vega-lite/build/src/spec/facet';
 
+import { FilterAction } from '../../actions';
+import { ActionHandler } from '../../actions/index';
+import { createDispatchHandler } from '../../actions/redux-action';
+import { ResultAsyncAction } from '../../actions/result';
+import { ShelfAction, SPEC_CLEAR } from '../../actions/shelf';
+import { ShelfUnitSpec, State } from '../../models';
+import { VoyagerConfig } from '../../models/config';
+import { ShelfFieldDef } from '../../models/shelf';
+import { selectConfig, selectDataset, selectShelfPreview } from '../../selectors';
+import { selectSchemaFieldDefs } from '../../selectors/index';
+import { selectFilters, selectShelfSpec } from '../../selectors/shelf';
+import { FilterPane } from '../filter-pane';
+import * as styles from './encoding-pane.scss';
+import { EncodingShelf } from './encoding-shelf';
+import { MarkPicker } from './mark-picker';
 
 interface EncodingPanelProps extends ActionHandler<ShelfAction | ResultAsyncAction | FilterAction> {
   spec: ShelfUnitSpec;
@@ -105,7 +106,7 @@ class EncodingPanelBase extends React.PureComponent<EncodingPanelProps, {}> {
   /**
    * Return encoding shelf for normal (non-wildcard channels).
    */
-  private encodingShelf(channel: Channel) {
+  private encodingShelf(channel: keyof Encoding<any> | keyof FacetMapping<any>) {
     // This one can't be wildcard, thus we use VL's Channel, not our ShelfChannel
 
     const {handleAction, spec, specPreview, schema} = this.props;
@@ -117,6 +118,9 @@ class EncodingPanelBase extends React.PureComponent<EncodingPanelProps, {}> {
         fieldDef={encoding[channel]}
         schema={schema}
         handleAction={handleAction}
+        // valueDef is type ShelfValueDef, but encoding[channel] is
+        // type SpecificEncoding = ShelfValueDef | ShelfFieldDef
+        // ShelfValueDef doesn't have value property.
         valueDef={encoding[channel]}
       />
     );

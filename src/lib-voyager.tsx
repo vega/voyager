@@ -6,7 +6,6 @@
 // of integration.
 
 import * as Ajv from 'ajv';
-import * as draft4Schemas from 'ajv/lib/refs/json-schema-draft-04.json';
 import 'font-awesome-sass-loader'; // TODO should this move to App?
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
@@ -14,7 +13,8 @@ import {Provider} from 'react-redux';
 import {Store} from 'redux';
 import {TopLevelSpec} from 'vega-lite';
 import {Data} from 'vega-lite/build/src/data';
-import {FacetedCompositeUnitSpec, isUnitSpec, TopLevel} from 'vega-lite/build/src/spec';
+import {isUnitSpec} from 'vega-lite/build/src/spec';
+import {FacetedUnitSpec, TopLevelUnitSpec} from 'vega-lite/build/src/spec/unit';
 import * as vlSchema from 'vega-lite/build/vega-lite-schema.json';
 import {isString} from 'vega-util';
 import { REDO, UNDO } from './actions/index';
@@ -115,11 +115,10 @@ export class Voyager {
   public setSpec(spec: Object) {
 
     const ajv = new Ajv({
-      validateSchema: true,
       allErrors: true,
-      extendRefs: 'fail'
+      schemaId: 'auto',
     });
-    ajv.addMetaSchema(draft4Schemas, 'http://json-schema.org/draft-04/schema#');
+    ajv.addFormat('color-hex', () => true);
 
     const validateVl = ajv.compile(vlSchema);
     const valid = validateVl(spec);
@@ -134,7 +133,7 @@ export class Voyager {
     }
 
     // If it is unit, then we can cast to a top level unit spec
-    const validSpec: TopLevel<FacetedCompositeUnitSpec> = spec as TopLevel<FacetedCompositeUnitSpec>;
+    const validSpec: TopLevelUnitSpec = spec as TopLevelUnitSpec;
 
     this.data = validSpec.data;
     this.render(validSpec);
@@ -180,7 +179,7 @@ export class Voyager {
    *
    * @memberof Voyager
    */
-  public getSpec(includeData: boolean): FacetedCompositeUnitSpec {
+  public getSpec(includeData: boolean): FacetedUnitSpec {
     const spec = selectMainSpec(this.store.getState());
     if (includeData) {
       return {
@@ -241,7 +240,7 @@ export class Voyager {
     this.render();
   }
 
-  private render(spec?: TopLevel<FacetedCompositeUnitSpec>) {
+  private render(spec?: TopLevelUnitSpec) {
     const store = this.store;
     const root = this.container;
     ReactDOM.render(

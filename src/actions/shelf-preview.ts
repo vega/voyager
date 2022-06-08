@@ -1,12 +1,12 @@
 import {Query} from 'compassql/build/src/query/query';
-import {TopLevelFacetedUnitSpec} from 'vega-lite/build/src/spec';
+import {TopLevelUnitSpec} from 'vega-lite/build/src/spec/unit';
 import {PlainReduxAction, ReduxAction} from './redux-action';
 
 export type ShelfPreviewAction = ShelfPreviewSpec | ShelfPreviewQuery | ShelfPreviewDisable;
 
 export const SHELF_PREVIEW_SPEC = 'SHELF_PREVIEW_SPEC';
 export type ShelfPreviewSpec = ReduxAction<typeof SHELF_PREVIEW_SPEC, {
-  spec: TopLevelFacetedUnitSpec
+  spec: TopLevelUnitSpec
 }>;
 
 export const SHELF_PREVIEW_QUERY = 'SHELF_PREVIEW_QUERY';

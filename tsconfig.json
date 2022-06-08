@@ -9,7 +9,8 @@
     "declaration": true,
     "noErrorTruncation": true,
     "sourceMap": true,
-    "keyofStringsOnly": true
+    "keyofStringsOnly": true,
+    "allowSyntheticDefaultImports": true
   },
   "include": [
     "./node_modules/compassql/typings/*.d.ts",
@@ -21,6 +22,7 @@
   "exclude": [
     "./node_modules/compassql/typings/json.d.ts",
     "./node_modules/vega-lite/typings/json.d.ts",
-    "./node_modules/vega-lite/typings/vega.d.ts"
+    "./node_modules/vega-lite/typings/vega.d.ts",
+    "./node_modules/compassql/typings/vega.d.ts"
   ]
 }

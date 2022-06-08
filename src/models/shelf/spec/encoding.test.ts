@@ -1,5 +1,5 @@
 import {AutoCountQuery, FieldQuery, ScaleQuery, ValueQuery} from 'compassql/build/src/query/encoding';
-import {ValueDef} from 'vega-lite/build/src/fielddef';
+import {ValueDef} from 'vega-lite/build/src/channeldef';
 import {
   fromEncodingQueries,
   fromEncodingQuery,

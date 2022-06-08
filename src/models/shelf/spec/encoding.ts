@@ -1,17 +1,27 @@
-import {EncodingQuery, isAutoCountQuery, isFieldQuery, ValueQuery} from 'compassql/build/src/query/encoding';
-import {FieldQuery} from 'compassql/build/src/query/encoding';
-import {ExpandedType} from 'compassql/build/src/query/expandedtype';
-import {isWildcard, SHORT_WILDCARD, Wildcard, WildcardProperty} from 'compassql/build/src/wildcard';
-import {Axis} from 'vega-lite/build/src/axis';
-import {Channel, NonPositionScaleChannel, PositionScaleChannel} from 'vega-lite/build/src/channel';
-import {ValueDef} from 'vega-lite/build/src/fielddef';
-import {Legend} from 'vega-lite/build/src/legend';
-import {Mark as VLMark} from 'vega-lite/build/src/mark';
-import {Scale} from 'vega-lite/build/src/scale';
-import {SortField, SortOrder} from 'vega-lite/build/src/sort';
-import {StackOffset} from 'vega-lite/build/src/stack';
-import {isBoolean} from 'vega-lite/build/src/util';
-import {fromFieldQueryFunctionMixins, ShelfFunction, toFieldQueryFunctionMixins} from './function';
+import {
+    EncodingQuery, FieldQuery, isAutoCountQuery, isFieldQuery, ValueQuery
+} from 'compassql/build/src/query/encoding';
+import { ExpandedType } from 'compassql/build/src/query/expandedtype';
+import {
+    isWildcard, SHORT_WILDCARD, Wildcard, WildcardProperty
+} from 'compassql/build/src/wildcard';
+import { Axis } from 'vega-lite/build/src/axis';
+import {
+    Channel, NonPositionScaleChannel, PositionScaleChannel, UNIT_CHANNELS
+} from 'vega-lite/build/src/channel';
+import { ValueDef } from 'vega-lite/build/src/channeldef';
+import { Encoding } from 'vega-lite/build/src/encoding';
+import { Legend } from 'vega-lite/build/src/legend';
+import { Mark as VLMark } from 'vega-lite/build/src/mark';
+import { Scale } from 'vega-lite/build/src/scale';
+import { EncodingSortField, SortOrder } from 'vega-lite/build/src/sort';
+import { FacetMapping } from 'vega-lite/build/src/spec/facet';
+import { StackOffset } from 'vega-lite/build/src/stack';
+import { isBoolean } from 'vega-lite/build/src/util';
+
+import {
+    fromFieldQueryFunctionMixins, ShelfFunction, toFieldQueryFunctionMixins
+} from './function';
 
 export * from './function';
 
@@ -22,7 +32,7 @@ export * from './function';
 export type ShelfId = ShelfChannelId | ShelfWildcardChannelId;
 
 export interface ShelfChannelId {
-  channel: Channel;
+  channel: keyof Encoding<any> | keyof FacetMapping<any>;
 };
 
 export interface ShelfWildcardChannelId {
@@ -49,7 +59,7 @@ export interface ShelfFieldDef {
   stack?: StackOffset;
   legend?: Legend;
 
-  sort?: SortOrder | SortField<string>;
+  sort?: SortOrder | EncodingSortField<string>;
   type?: ExpandedType;
 
   /**
@@ -67,13 +77,18 @@ export interface ShelfAnyEncodingDef extends ShelfFieldDef {
 export type SpecificEncoding = {
   [P in PositionScaleChannel]?: ShelfFieldDef;
 } & {
-  [P in NonPositionScaleChannel]?: ShelfEncodingDef
+  [P in NonPositionScaleChannel]?: ShelfEncodingDef;
 } & {
   text?: ShelfEncodingDef, detail?: ShelfFieldDef,
   order?: ShelfFieldDef,
   row?: ShelfFieldDef,
-  column?: ShelfFieldDef
+  column?: ShelfFieldDef,
+  value?: ShelfValueDef
   // TODO: tooltip?: ShelfFieldDef | ShelfValueDef
+} & {
+  [P in typeof UNIT_CHANNELS[0]]?: ShelfFieldDef;
+} & {
+  // facet?: FacetFieldDef<any>
 };
 
 export function fromEncodingQueries(encodings: EncodingQuery[]): {
@@ -138,9 +153,7 @@ export function fromFieldQuery(fieldQ: FieldQuery): ShelfFieldDef {
   return {
     ...(fn ? {fn} : {}),
     field,
-    // Need to cast as TS2.3 isn't smart about this.
-    // Upgrading to TS2.4 would solve this issue but creates other issues instead.
-    type: type as ExpandedType,
+    type,
     ...(sort ? {sort} : {}),
     ...(scale ? {scale: fromFieldQueryNestedProp(fieldQ, 'scale')} : {}),
     ...(axis ? {axis: fromFieldQueryNestedProp(fieldQ, 'axis')} : {}),
@@ -160,7 +173,8 @@ export function fromFieldQueryNestedProp<P extends 'scale' | 'axis' | 'legend'>(
   } else if (isBoolean(propQ)) {
     throw Error(`Voyager does not support boolean ${prop}`);
   } else {
-    Object.keys(propQ).forEach(nestedProp => {
+    // Cast to bypass typescript error
+    Object.keys(propQ as Object).forEach(nestedProp => {
       if (isWildcard(propQ[nestedProp])) {
         throw Error(`Voyager does not support wildcard ${prop} ${nestedProp}`);
       }

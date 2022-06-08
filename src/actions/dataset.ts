@@ -1,18 +1,20 @@
-import {ExpandedType} from 'compassql/build/src/query/expandedtype';
-import {Schema} from 'compassql/build/src/schema';
+import { ExpandedType } from 'compassql/build/src/query/expandedtype';
+import { Schema } from 'compassql/build/src/schema';
 import * as fetch from 'isomorphic-fetch';
-import {Dispatch} from 'redux';
-import {ThunkAction} from 'redux-thunk';
-import {ActionCreators} from 'redux-undo';
-import {Data, InlineData, isInlineData, isUrlData} from 'vega-lite/build/src/data';
-import {isArray} from 'vega-util';
-import {fetchCompassQLBuildSchema} from '../api/api';
-import {VoyagerConfig} from '../models/config';
-import {State} from '../models/index';
-import {selectConfig} from '../selectors';
-import {Action} from './index';
-import {ReduxAction} from './redux-action';
-import {RESET} from './reset';
+import * as Papa from 'papaparse';
+import { Dispatch } from 'redux';
+import { ThunkAction } from 'redux-thunk';
+import { ActionCreators } from 'redux-undo';
+import { Data, InlineData, isInlineData, isUrlData } from 'vega-lite/build/src/data';
+import { isArray } from 'vega-util';
+
+import { fetchCompassQLBuildSchema } from '../api/api';
+import { VoyagerConfig } from '../models/config';
+import { State } from '../models/index';
+import { selectConfig } from '../selectors';
+import { Action } from './index';
+import { ReduxAction } from './redux-action';
+import { RESET } from './reset';
 
 export const DATASET_SCHEMA_CHANGE_FIELD_TYPE = 'DATASET_SCHEMA_CHANGE_FIELD_TYPE';
 export type DatasetSchemaChangeFieldType = ReduxAction<typeof DATASET_SCHEMA_CHANGE_FIELD_TYPE, {
@@ -56,14 +58,41 @@ export function datasetLoad(name: string, data: Data): DatasetLoad {
       payload: {name}
     });
 
-    // Get the new dataset
     if (isUrlData(data)) {
-      return fetch(data.url)
-        .then(response => response.json())
-        .catch(errorCatch)
-        .then((values: any) => {
-          return buildSchemaAndDispatchDataReceive({values}, config, dispatch, name);
-        });
+      return fetch(data.url, {method: "HEAD"})
+      .then(response => response.headers.get("Content-Type"))
+      .then(response => {
+        const type = response.split(/\//)[1].split(';')[0].trim();
+        // CSV or TSV
+        if (type === 'csv' || type === 'tsv') {
+          return new Promise((resolve, reject) => {
+            Papa.parse(data.url, {
+              header: true,
+              download: true,
+              complete(results) {
+                resolve(results.data);
+              },
+              error(err) {
+                reject(err);
+              }
+            });
+          })
+          .catch(errorCatch)
+          .then((values: any) => {
+            buildSchemaAndDispatchDataReceive({values}, config, dispatch, name);
+          });
+        // JSON
+        } else if (type === 'json') {
+          return fetch(data.url)
+            .then(res => res.json())
+            .catch(errorCatch)
+            .then((values: any) => {
+              return buildSchemaAndDispatchDataReceive({values}, config, dispatch, name);
+            });
+        } else {
+          throw new Error('Unsupported file type');
+        }
+      });
     } else if (isInlineData(data)) {
       return buildSchemaAndDispatchDataReceive(data, config, dispatch, name);
     } else {

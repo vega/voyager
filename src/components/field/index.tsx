@@ -2,7 +2,7 @@ import {Schema} from 'compassql/build/src/schema';
 import {isWildcard} from 'compassql/build/src/wildcard';
 import * as React from 'react';
 import * as CSSModules from 'react-css-modules';
-import {DragElementWrapper, DragSource, DragSourceCollector, DragSourceSpec} from 'react-dnd';
+import {DndComponentClass, DragElementWrapper, DragSource, DragSourceCollector, DragSourceSpec} from 'react-dnd';
 import * as TetherComponent from 'react-tether';
 import {FieldOneOfPredicate, FieldRangePredicate} from 'vega-lite/build/src/predicate';
 import {DraggableType, FieldParentType} from '../../constants';
@@ -302,8 +302,7 @@ const collect: DragSourceCollector = (connect, monitor): FieldDragSourceProps =>
 };
 
 
-// HACK: do type casting to suppress compile error for: https://github.com/Microsoft/TypeScript/issues/13526
-export const Field: () => React.PureComponent<FieldPropsBase, {}> =
+export const Field: DndComponentClass<FieldPropsBase> =
   DragSource(DraggableType.FIELD, fieldSource, collect)(
     CSSModules(FieldBase, styles)
-  ) as any;
+  );

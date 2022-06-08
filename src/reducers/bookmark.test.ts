@@ -1,5 +1,5 @@
-import {Mark} from 'vega-lite/build/src/mark';
-import {Type} from 'vega-lite/build/src/type';
+import {POINT} from 'vega-lite/build/src/mark';
+import {QUANTITATIVE} from 'vega-lite/build/src/type';
 import {BOOKMARK_ADD_PLOT, BOOKMARK_CLEAR_ALL, BOOKMARK_MODIFY_NOTE, BOOKMARK_REMOVE_PLOT} from '../actions';
 import {Bookmark, BookmarkItem, DEFAULT_BOOKMARK} from '../models';
 import {ResultPlot} from '../models/result';
@@ -14,9 +14,9 @@ describe('reducers/bookmark', () => {
     fieldInfos: [],
     spec: {
       data: data,
-      mark: Mark.POINT,
+      mark: POINT,
       encoding: {
-        x: {field: 'A', type: Type.QUANTITATIVE}
+        x: {field: 'A', type: QUANTITATIVE}
       }
     }
   };

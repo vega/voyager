@@ -95,7 +95,7 @@ export class OneOfFilterShelfBase extends React.PureComponent<OneOfFilterShelfPr
 
   private onSelectOne(value: string | number | boolean | DateTime) {
     const {index} = this.props;
-    this.filterModifyOneOf(index, [value as any]);
+    this.filterModifyOneOf(index, [value as unknown]);
   }
 
   private onSelectAll() {

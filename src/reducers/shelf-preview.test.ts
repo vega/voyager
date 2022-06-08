@@ -15,7 +15,7 @@ describe('reducers/shelf/spec-preview', () => {
             },
             data: {
               format: {
-                parse: 'auto',
+                parse: null,
                 type: 'json'
               },
               name: 'testName'

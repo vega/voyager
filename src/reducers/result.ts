@@ -1,24 +1,17 @@
-import {isArray} from 'util';
-import {EncodingWithFacet} from 'vega-lite/build/src/encoding';
-import {FieldDef, isFieldDef} from 'vega-lite/build/src/fielddef';
+import { isArray } from 'util';
+import { FieldDef, isFieldDef } from 'vega-lite/build/src/channeldef';
+import { EncodingWithFacet } from 'vega-lite/build/src/encoding';
+
+import { Action, RESULT_RECEIVE, RESULT_REQUEST } from '../actions';
 import {
-  Action,
-  RESULT_RECEIVE,
-  RESULT_REQUEST,
-} from '../actions';
-import {
-  isResultAction,
-  RESULT_LIMIT_INCREASE,
-  RESULT_MODIFY_FIELD_PROP,
-  RESULT_MODIFY_NESTED_FIELD_PROP,
-  ResultAction,
-  ResultModifyAction
+    isResultAction, RESULT_LIMIT_INCREASE, RESULT_MODIFY_FIELD_PROP,
+    RESULT_MODIFY_NESTED_FIELD_PROP, ResultAction, ResultModifyAction
 } from '../actions/result';
-import {DEFAULT_RESULT, DEFAULT_RESULT_INDEX, Result, ResultIndex} from '../models';
-import {ResultType} from '../models/result';
-import {ResultPlot} from '../models/result/plot';
-import {modifyFieldProp, modifyNestedFieldProp} from './shelf/spec';
-import {modifyItemInArray} from './util';
+import { DEFAULT_RESULT, DEFAULT_RESULT_INDEX, Result, ResultIndex } from '../models';
+import { ResultType } from '../models/result';
+import { ResultPlot } from '../models/result/plot';
+import { modifyFieldProp, modifyNestedFieldProp } from './shelf/spec';
+import { modifyItemInArray } from './util';
 
 export const DEFAULT_LIMIT: {[K in ResultType]: number} = {
   main: 12,

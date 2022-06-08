@@ -92,7 +92,7 @@ describe('reducers/result', () => {
         },
         data: {
           format: {
-            parse: 'auto',
+            parse: null,
             type: 'json'
           },
           name: 'testName'
@@ -125,7 +125,7 @@ describe('reducers/result', () => {
         },
         data: {
           format: {
-            parse: 'auto',
+            parse: null,
             type: 'json'
           },
           name: 'testName'

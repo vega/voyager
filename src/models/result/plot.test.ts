@@ -1,5 +1,5 @@
-import {Channel} from 'vega-lite/build/src/channel';
-import {Mark} from 'vega-lite/build/src/mark';
+import {X} from 'vega-lite/build/src/channel';
+import {BAR} from 'vega-lite/build/src/mark';
 
 import {SpecQueryModel} from 'compassql/build/src/model';
 import {SpecQuery} from 'compassql/build/src/query/spec';
@@ -34,9 +34,9 @@ describe('models/plot', () => {
     it('converts SpecQueryGroup to ResultPlotWithKey[]', () => {
       const group = buildSpecQueryModelGroup([
         {
-          mark: Mark.BAR,
+          mark: BAR,
           encodings: [
-            {channel: Channel.X}
+            {channel: X}
           ]
         }
       ]);

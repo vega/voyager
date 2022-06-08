@@ -3,7 +3,7 @@ import * as CSSModules from 'react-css-modules';
 import {connect} from 'react-redux';
 import {InlineData} from 'vega-lite/build/src/data';
 import {SortField, SortOrder} from 'vega-lite/build/src/sort';
-import {TopLevelFacetedUnitSpec} from 'vega-lite/build/src/spec';
+import {TopLevelUnitSpec} from 'vega-lite/build/src/spec/unit';
 import {Action} from '../../actions/index';
 import {ActionHandler, createDispatchHandler} from '../../actions/redux-action';
 import {ShelfAction} from '../../actions/shelf';
@@ -31,7 +31,7 @@ import * as styles from './view-pane.scss';
 
 export interface ViewPaneProps extends ActionHandler<Action> {
   isQuerySpecific: boolean;
-  spec: TopLevelFacetedUnitSpec;
+  spec: TopLevelUnitSpec;
   result: Result;
   bookmark: Bookmark;
   autoAddCount: boolean;
@@ -100,7 +100,7 @@ class ViewPaneBase extends React.PureComponent<ViewPaneProps, {}> {
     }
   }
 
-  private onSort(channel: 'x' | 'y', value: SortOrder | SortField<string>) {
+  private onSort(channel: 'x' | 'y', value: SortOrder | SortField) {
     const {handleAction} = this.props;
     handleAction({
       type: SPEC_FIELD_PROP_CHANGE,
