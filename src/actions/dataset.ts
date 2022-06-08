@@ -62,7 +62,7 @@ export function datasetLoad(name: string, data: Data): DatasetLoad {
       return fetch(data.url, {method: "HEAD"})
       .then(response => response.headers.get("Content-Type"))
       .then(response => {
-        const type = (response.replace(/.+\/|;.+/g, ""));
+        const type = response.split(/\//)[1].split(';')[0].trim();
         // CSV or TSV
         if (type === 'csv' || type === 'tsv') {
           return new Promise((resolve, reject) => {
