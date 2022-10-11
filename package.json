@@ -38,7 +38,7 @@
   },
   "dependencies": {
     "ajv": "^5.2.2",
-    "compassql": "0.20.2",
+    "compassql": "0.20.4",
     "font-awesome": "^4.7.0",
     "isomorphic-fetch": "^3.0.0",
     "moment": "^2.29.1",

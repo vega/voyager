@@ -59,7 +59,10 @@ export interface PropertyEditorSchema {
 }
 
 // Currently supported customizble encoding channels that display caret in customizer UI
-export const CUSTOMIZABLE_ENCODING_CHANNELS = [Channel.X, Channel.Y, Channel.COLOR, Channel.SIZE, Channel.SHAPE];
+export const CUSTOMIZABLE_ENCODING_CHANNELS = [Channel.X, Channel.Y, Channel.COLOR, Channel.SIZE, Channel.SHAPE,
+  Channel.TEXT];
+
+export const CUSTOMIZABLE_VALUE_ENCODING_CHANNELS = [Channel.COLOR, Channel.SIZE, Channel.SHAPE, Channel.TEXT];
 
 // ------------------------------------------------------------------------------
 // Channel-Field Indexes for custom encoding
@@ -232,7 +235,28 @@ function getSupportedScaleTypes(channel: Channel, fieldDef: ShelfFieldDef): stri
   }
 }
 
-function generateSelectSchema(propertyKey: string, enumVals: string[], title: string) {
+export function generateColorPickerSchema(propertyKey: string, title: string) {
+  const schema: ObjectSchema = {
+    type: 'object',
+    properties: {
+      [propertyKey]: {
+        type: 'string',
+        title: title,
+        default: '#4c78a8'
+      }
+    }
+  };
+
+  const uiSchema: UISchema = {
+    [propertyKey]: {
+      'ui:widget': 'color'
+    }
+  };
+
+  return {schema, uiSchema};
+}
+
+export function generateSelectSchema(propertyKey: string, enumVals: string[], title: string) {
   const schema: ObjectSchema = {
     type: 'object',
     properties: {
@@ -255,8 +279,8 @@ function generateSelectSchema(propertyKey: string, enumVals: string[], title: st
   return {schema, uiSchema};
 }
 
-function generateTextBoxSchema(propKey: string, placeHolderText: string, title: string,
-                               primitiveType: 'string' | 'number') {
+export function generateTextBoxSchema(propKey: string, placeHolderText: string, title: string,
+                                      primitiveType: 'string' | 'number') {
   const schema: ObjectSchema = {
     type: 'object',
     properties: {
@@ -270,6 +294,25 @@ function generateTextBoxSchema(propKey: string, placeHolderText: string, title: 
     [propKey]: {
       'ui:emptyValue': '',
       'ui:placeholder': placeHolderText
+    }
+  };
+
+  return {schema, uiSchema};
+}
+
+export function generateSliderSchema(propKey: string, min: number, max: number, title: string) {
+  const schema: ObjectSchema = {
+    type: 'object',
+    properties: {
+      [propKey]: {
+        title: title,
+        type: 'number'
+      } as SchemaProperty
+    }
+  };
+  const uiSchema: UISchema = {
+    [propKey]: {
+      "ui:widget": "range"
     }
   };
 
@@ -306,7 +349,7 @@ export function getFieldPropertyGroupIndex(shelfId: ShelfId, fieldDef: ShelfFiel
   }
 }
 
-export function generateFormData(shelfId: ShelfId, fieldDef: ShelfFieldDef) {
+export function generateFieldDefFormData(shelfId: ShelfId, fieldDef: ShelfFieldDef) {
   const index = getFieldPropertyGroupIndex(shelfId, fieldDef);
   const formDataIndex = {};
   for (const key of Object.keys(index)) {

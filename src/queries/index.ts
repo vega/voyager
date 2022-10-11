@@ -3,6 +3,7 @@
  */
 
 import {getGroupByKey} from 'compassql/build/src/nest';
+import {isAutoCountQuery, isFieldQuery} from 'compassql/build/src/query/encoding';
 import {Query} from 'compassql/build/src/query/query';
 import {isAggregate, SpecQuery} from 'compassql/build/src/query/spec';
 import {contains} from 'compassql/build/src/util';
@@ -86,12 +87,14 @@ function getFeaturesForRelatedViewRules(spec: SpecQuery) {
   let hasOpenFacet = false;
 
   spec.encodings.forEach(encQ => {
-    if (encQ.channel === 'x' || encQ.channel === 'y') {
-      hasOpenPosition = true;
-    } else if (encQ.channel === 'row' || encQ.channel === 'column') {
-      hasOpenFacet = true;
-    } else if (contains(NONPOSITION_SCALE_CHANNELS, encQ.channel)) {
-      hasStyleChannel = true;
+    if (isFieldQuery(encQ) || isAutoCountQuery(encQ)) {
+      if (encQ.channel === 'x' || encQ.channel === 'y') {
+        hasOpenPosition = true;
+      } else if (encQ.channel === 'row' || encQ.channel === 'column') {
+        hasOpenFacet = true;
+      } else if (contains(NONPOSITION_SCALE_CHANNELS, encQ.channel)) {
+        hasStyleChannel = true;
+      }
     }
   });
 

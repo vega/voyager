@@ -4,6 +4,7 @@ import {FieldOneOfPredicate, FieldRangePredicate} from 'vega-lite/build/src/pred
 import {GenericState, State, UndoableStateBase} from '../models/index';
 // tslint:enable:no-unused-variable
 
+import {isAutoCountQuery, isFieldQuery} from 'compassql/build/src/query/encoding';
 import {Query} from 'compassql/build/src/query/query';
 import {SpecQuery} from 'compassql/build/src/query/spec';
 import {createSelector} from 'reselect';
@@ -64,6 +65,6 @@ export const selectIsQuerySpecific = createSelector(
 export const selectIsQueryEmpty = createSelector(
   selectQuerySpec,
   (spec: SpecQuery) => {
-    return spec.encodings.length === 0;
+    return spec.encodings.filter(encQ => isFieldQuery(encQ) || isAutoCountQuery(encQ)).length === 0;
   }
 );

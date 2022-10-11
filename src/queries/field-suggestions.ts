@@ -1,5 +1,5 @@
 
-import {FieldQuery} from 'compassql/build/src/query/encoding';
+import {FieldQuery, isAutoCountQuery, isFieldQuery} from 'compassql/build/src/query/encoding';
 import {Query} from 'compassql/build/src/query/query';
 import {SHORT_WILDCARD} from 'compassql/build/src/wildcard';
 import {ResultIndex} from '../models/result';
@@ -20,7 +20,7 @@ function makeFieldSuggestionQueryCreator(params: {
         spec: {
           ...query.spec,
           encodings: [
-            ...query.spec.encodings,
+            ...query.spec.encodings.filter(p => isFieldQuery(p) || isAutoCountQuery(p)),
             additionalFieldQuery
           ]
         },
