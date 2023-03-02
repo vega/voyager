@@ -70,7 +70,7 @@
     "tether": "^2.0.0",
     "throttle-debounce": "^3.0.1",
     "tslib": "^2.3.0",
-    "vega": "4.0.0",
+    "vega": "5.23.0",
     "vega-datasets": "^1.31.0",
     "vega-expression": "^2.3.1",
     "vega-lite": "2.4.0",
