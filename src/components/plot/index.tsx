@@ -1,5 +1,4 @@
 import * as React from 'react';
-import * as CopyToClipboard from 'react-copy-to-clipboard';
 import * as CSSModules from 'react-css-modules';
 import * as TetherComponent from 'react-tether';
 import {InlineData} from 'vega-lite/build/src/data';
@@ -55,6 +54,7 @@ export class PlotBase extends React.PureComponent<PlotProps, PlotState> {
   private previewTimeoutId: number;
   private vegaLiteWrapper: HTMLElement;
   private plotLogger: Logger;
+  private vegaSpec: any;
 
   constructor(props: PlotProps) {
     super(props);
@@ -136,7 +136,7 @@ export class PlotBase extends React.PureComponent<PlotProps, PlotState> {
           onMouseEnter={this.onMouseEnter}
           onMouseLeave={this.onMouseLeave}
         >
-          <VegaLite spec={spec} logger={this.plotLogger} data={data}/>
+          <VegaLite spec={spec} logger={this.plotLogger} data={data} specExport={this.setVegaSpec.bind(this)} />
         </div>
         {notesDiv}
       </div>
@@ -305,19 +305,62 @@ export class PlotBase extends React.PureComponent<PlotProps, PlotState> {
     };
   }
 
+  private setVegaSpec(spec: any) {
+    this.vegaSpec = spec;
+  }
+
+  private lagecyCopy(text: string) {
+    const textArea = document.createElement('textarea');
+    textArea.value = text;
+
+    // Avoid scrolling to bottom
+    textArea.style.top = '0';
+    textArea.style.left = '0';
+    textArea.style.position = 'fixed';
+
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+
+    try {
+      const successful = document.execCommand('copy');
+      if (successful) {
+        document.body.removeChild(textArea);
+        this.copied();
+        return;
+      }
+    } catch (e) {
+      // pass
+    }
+    const replacer = (/mac os x/i.test(navigator.userAgent) ? '⌘' : 'Ctrl') + '+C';
+    const prompt = 'Copy to clipboard: #{key}, Enter'.replace(/#{\s*key\s*}/g, replacer);
+    window.prompt(prompt, text);
+  }
+
+  private copySpecToClipboard() {
+    const spec = this.vegaSpec;
+    const {data} = this.props;
+    const fullSpec = {
+      ...spec,
+      data: spec.data.map((datum: {name: string}) => (datum.name === 'source' ? {...datum, ...data} : datum))
+    };
+    const text = JSON.stringify(fullSpec, null, 2);
+    if (!(navigator as any).clipboard) {
+      this.lagecyCopy(text);
+      return;
+    }
+    (navigator as any).clipboard
+      .writeText(text)
+      .then(() => {
+        this.copied();
+      })
+      .catch(() => {
+        this.lagecyCopy(text);
+      });
+  }
+
   private renderCopySpecButton() {
-    // TODO: spec would only contain NamedData, but not the actual data.
-    // Need to augment spec.data
-    // TODO instead of pre-generating a text for the copy button, which
-    // takes a lot of memory for each plot
-    // Can only generate the text only when the button is clicked?
-    return (
-      <CopyToClipboard
-        onCopy={this.copied.bind(this)}
-        text={JSON.stringify(this.specWithFilter, null, 2)}>
-        <i title='Copy' className='fa fa-clipboard' />
-      </CopyToClipboard>
-    );
+    return <i title="Copy" className="fa fa-clipboard" onClick={this.copySpecToClipboard.bind(this)} />;
   }
 
   private copied() {

@@ -18,6 +18,8 @@ export interface VegaLiteProps {
   data: InlineData;
 
   viewRunAfter?: (view: vega.View) => any;
+
+  specExport?: (spec: any) => void;
 }
 
 export interface VegaLiteState {
@@ -141,6 +143,9 @@ export class VegaLite extends React.PureComponent<VegaLiteProps, VegaLiteState> 
     try {
       const spec = vl.compile(vlSpec, {logger}).spec;
       const runtime = vega.parse(spec, vlSpec.config);
+      if (this.props.specExport) {
+        this.props.specExport(spec);
+      }
       this.view = new vega.View(runtime)
         .logLevel(vega.Warn)
         .initialize(this.refs[CHART_REF] as any)
